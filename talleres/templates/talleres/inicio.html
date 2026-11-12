@@ -1,45 +1,97 @@
 {% extends "base.html" %}
-{% block content %}
-<section class="mb-6">
-  <h1 class="text-2xl md:text-3xl font-extrabold">Encuentra un taller de confianza para tu moto</h1>
-  <p class="text-gray-600 mt-1">Talleres verificados en Medellín, con reseñas reales.</p>
-</section>
 
-<form method="get" class="bg-white rounded-xl shadow-sm p-4 grid gap-3 md:grid-cols-5 mb-6">
-  <input name="q" value="{{ filtros.q }}" placeholder="Buscar taller..." class="md:col-span-2 rounded-lg border border-gray-300 px-3 py-2">
-  <select name="barrio" class="rounded-lg border border-gray-300 px-3 py-2">
-    <option value="">Todos los barrios</option>
-    {% for b in barrios %}<option value="{{ b.id }}" {% if filtros.barrio == b.id|stringformat:"s" %}selected{% endif %}>{{ b }}</option>{% endfor %}
-  </select>
-  <select name="servicio" class="rounded-lg border border-gray-300 px-3 py-2">
-    <option value="">Todos los servicios</option>
-    {% for s in servicios %}<option value="{{ s.id }}" {% if filtros.servicio == s.id|stringformat:"s" %}selected{% endif %}>{{ s }}</option>{% endfor %}
-  </select>
-  <select name="marca" class="rounded-lg border border-gray-300 px-3 py-2">
-    <option value="">Todas las marcas</option>
-    {% for m in marcas %}<option value="{{ m.id }}" {% if filtros.marca == m.id|stringformat:"s" %}selected{% endif %}>{{ m }}</option>{% endfor %}
-  </select>
-  <button class="md:col-span-5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg py-2">Buscar</button>
+{% block hero %}
+<section class="hero relative overflow-hidden">
+  {% include "talleres/_paisaje.html" %}
+  <div class="contenido max-w-6xl mx-auto px-4 pt-14 pb-56 md:pt-24 md:pb-72">
+    <p class="etiqueta">Medellín · Valle de Aburrá</p>
+    <h1 class="titulo text-5xl sm:text-6xl md:text-7xl mt-4 max-w-2xl">Encuentra un taller <span class="text-lava">de confianza</span> para tu moto</h1>
+    <p class="mt-5 max-w-md text-lg text-suave">Talleres verificados en Medellín, con reseñas reales y cita por WhatsApp.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<form method="get" class="papel relative z-10 -mt-32 md:-mt-40 p-4 md:p-5 grid gap-3 md:grid-cols-5" role="search">
+  <label class="md:col-span-2">
+    <span class="sr-only">Buscar taller</span>
+    <input name="q" value="{{ filtros.q }}" placeholder="Buscar taller..." class="campo !mt-0">
+  </label>
+  <label>
+    <span class="sr-only">Barrio</span>
+    <select name="barrio" class="campo !mt-0">
+      <option value="">Todos los barrios</option>
+      {% for b in barrios %}<option value="{{ b.id }}" {% if filtros.barrio == b.id|stringformat:"s" %}selected{% endif %}>{{ b }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>
+    <span class="sr-only">Servicio</span>
+    <select name="servicio" class="campo !mt-0">
+      <option value="">Todos los servicios</option>
+      {% for s in servicios %}<option value="{{ s.id }}" {% if filtros.servicio == s.id|stringformat:"s" %}selected{% endif %}>{{ s }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>
+    <span class="sr-only">Marca</span>
+    <select name="marca" class="campo !mt-0">
+      <option value="">Todas las marcas</option>
+      {% for m in marcas %}<option value="{{ m.id }}" {% if filtros.marca == m.id|stringformat:"s" %}selected{% endif %}>{{ m }}</option>{% endfor %}
+    </select>
+  </label>
+  <button class="btn btn-lava md:col-span-5 py-3 text-sm">Buscar taller</button>
 </form>
 
-<div class="grid gap-4 md:grid-cols-2">
-  {% for t in talleres %}
-  <a href="{{ t.get_absolute_url }}" class="bg-white rounded-xl shadow-sm hover:shadow-md transition p-4 block {% if t.destacado %}ring-2 ring-orange-400{% endif %}">
-    <div class="flex items-start justify-between gap-2">
-      <h2 class="font-bold text-lg">{{ t.nombre }}</h2>
-      <div class="flex gap-1 shrink-0">
-        {% if t.destacado %}<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Destacado</span>{% endif %}
-        {% if t.verificado %}<span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">✔ Verificado</span>{% endif %}
+<section class="mt-14">
+  <div class="flex items-end justify-between gap-4 mb-6">
+    <h2 class="titulo text-3xl md:text-4xl"><span class="numero">01</span>Talleres</h2>
+    <p class="text-sm text-suave">{{ talleres|length }} resultado{{ talleres|length|pluralize }}</p>
+  </div>
+  <div class="separador mb-8"></div>
+
+  <div class="grid gap-6 md:grid-cols-2">
+    {% for t in talleres %}
+    <a href="{{ t.get_absolute_url }}" class="papel tarjeta relative block p-6 {% if t.destacado %}destacado{% endif %}">
+      <span class="numero-fantasma" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+      <div class="relative">
+        <div class="flex flex-wrap gap-2 min-h-[1.4rem]">
+          {% if t.destacado %}<span class="insignia insignia-lava">Destacado</span>{% endif %}
+          {% if t.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
+        </div>
+        <h3 class="titulo text-2xl md:text-[1.75rem] mt-3">{{ t.nombre }}</h3>
+        <p class="text-sm text-suave mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span class="inline-flex items-center gap-1.5">
+            <svg width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 0a5.5 5.5 0 0 0-5.5 5.5C.5 9.6 6 14 6 14s5.5-4.4 5.5-8.5A5.5 5.5 0 0 0 6 0Zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="#f2611d"/></svg>{{ t.barrio }}
+          </span>
+          {% if t.horario %}<span class="inline-flex items-center gap-1.5">
+            <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="none" stroke="#e3a72f" stroke-width="1.6"/><path d="M7 3.5V7l2.5 1.5" fill="none" stroke="#e3a72f" stroke-width="1.6" stroke-linecap="round"/></svg>{{ t.horario }}
+          </span>{% endif %}
+        </p>
+        {% with c=t.calificacion %}{% if c %}<p class="mt-2 text-sm"><span class="estrellas">★</span> <strong>{{ c|floatformat:1 }}</strong></p>{% endif %}{% endwith %}
+        <div class="flex flex-wrap gap-1.5 mt-4">
+          {% for s in t.servicios.all|slice:":4" %}<span class="chip">{{ s }}</span>{% endfor %}
+        </div>
+        <span class="ver titulo text-sm tracking-widest mt-5">Ver taller <span aria-hidden="true">→</span></span>
       </div>
+    </a>
+    {% empty %}
+    <div class="papel p-8 md:col-span-2 text-center">
+      <p class="titulo text-2xl">Sin resultados</p>
+      <p class="text-suave mt-2">No encontramos talleres con esos filtros.</p>
+      <a href="{% url 'talleres:inicio' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver todos</a>
     </div>
-    <p class="text-sm text-gray-600">{{ t.barrio }} · {{ t.horario }}</p>
-    {% with c=t.calificacion %}{% if c %}<p class="text-sm mt-1">⭐ {{ c|floatformat:1 }}</p>{% endif %}{% endwith %}
-    <div class="flex flex-wrap gap-1 mt-2">
-      {% for s in t.servicios.all|slice:":4" %}<span class="text-xs bg-gray-100 px-2 py-0.5 rounded">{{ s }}</span>{% endfor %}
+    {% endfor %}
+  </div>
+</section>
+
+<section class="mt-16 papel p-6 md:p-10 relative overflow-hidden">
+  <span class="numero-fantasma !text-[9rem] !bottom-[-2.5rem]" aria-hidden="true">02</span>
+  <div class="relative md:flex md:items-center md:justify-between gap-8">
+    <div>
+      <p class="etiqueta">¿Tienes un taller?</p>
+      <h2 class="titulo text-3xl md:text-4xl mt-3">Llega a más motociclistas <span class="text-lava">de tu zona</span></h2>
+      <p class="text-suave mt-3 max-w-lg">Registrarte es gratis. Revisamos cada taller antes de publicarlo.</p>
     </div>
-  </a>
-  {% empty %}
-  <p class="text-gray-600">No encontramos talleres con esos filtros.</p>
-  {% endfor %}
-</div>
+    <a href="{% url 'talleres:registro' %}" class="btn btn-lava px-7 py-3 text-sm mt-6 md:mt-0 shrink-0">Registra tu taller</a>
+  </div>
+</section>
 {% endblock %}

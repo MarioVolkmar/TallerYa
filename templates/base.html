@@ -1,26 +1,57 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}TallerYa · Talleres de motos en Medellín{% endblock %}</title>
+  <meta name="theme-color" content="#111517">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="{% static 'talleres/css/tallerya.css' %}">
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-  <header class="bg-gray-900 text-white">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-      <a href="{% url 'talleres:inicio' %}" class="text-xl font-extrabold">Taller<span class="text-orange-500">Ya</span></a>
-      <a href="{% url 'talleres:registro' %}" class="text-sm bg-orange-500 hover:bg-orange-600 px-3 py-1.5 rounded-lg font-semibold">Registra tu taller</a>
+<body class="min-h-screen flex flex-col antialiased">
+  <header class="sticky top-0 z-30 border-b border-white/5 bg-[#111517]/85 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+      <a href="{% url 'talleres:inicio' %}" class="flex items-center gap-2.5" aria-label="TallerYa, inicio">
+        <svg width="34" height="26" viewBox="0 0 34 26" aria-hidden="true">
+          <circle cx="24" cy="8" r="6" fill="#e3a72f"/>
+          <path d="M0 26 L10 10 L16 18 L22 12 L34 26Z" fill="#ede3cc"/>
+          <path d="M8 26 C12 21 18 22 15 26Z" fill="#f2611d"/>
+        </svg>
+        <span class="titulo text-2xl tracking-wide">Taller<span class="text-lava">Ya</span></span>
+      </a>
+      <a href="{% url 'talleres:registro' %}" class="btn btn-borde text-xs px-4 py-2">Registra tu taller</a>
     </div>
   </header>
 
-  <main class="flex-1 max-w-5xl w-full mx-auto px-4 py-6">
+  {% block hero %}{% endblock %}
+
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
     {% for m in messages %}
-      <div class="mb-4 rounded-lg bg-green-100 text-green-800 px-4 py-3">{{ m }}</div>
+      <div class="mensaje mt-6">{{ m }}</div>
     {% endfor %}
     {% block content %}{% endblock %}
   </main>
 
-  <footer class="text-center text-sm text-gray-500 py-6">TallerYa · Medellín</footer>
+  <footer class="relative mt-8">
+    <svg class="block w-full h-14 md:h-20" viewBox="0 0 1200 80" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 50 C150 20 260 46 380 30 S600 6 720 30 S960 56 1080 26 S1170 30 1200 34 V80 H0Z" fill="#1d2427"/>
+      <path d="M0 64 C180 44 300 66 460 52 S720 40 860 56 S1080 70 1200 52 V80 H0Z" fill="#0b0f10"/>
+    </svg>
+    <div class="bg-[#0b0f10]">
+      <div class="max-w-6xl mx-auto px-4 pb-10 pt-2 flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+        <div>
+          <p class="titulo text-xl">Taller<span class="text-lava">Ya</span></p>
+          <p class="text-sm text-suave">Talleres de motos de confianza en Medellín y el Valle de Aburrá.</p>
+        </div>
+        <nav class="flex gap-5 text-sm text-suave">
+          <a href="{% url 'talleres:inicio' %}" class="hover:text-[#f2611d]">Buscar talleres</a>
+          <a href="{% url 'talleres:registro' %}" class="hover:text-[#f2611d]">Registra tu taller</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

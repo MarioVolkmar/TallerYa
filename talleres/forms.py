@@ -2,14 +2,14 @@ from django import forms
 
 from .models import Resena, SolicitudCita, Taller
 
-INPUT = "w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-orange-500 focus:outline-none"
+INPUT = "campo"  # estilos en talleres/static/talleres/css/tallerya.css
 
 
 class EstiloMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for f in self.fields.values():
-            if not isinstance(f.widget, (forms.CheckboxSelectMultiple, forms.ClearableFileInput)):
+            if not isinstance(f.widget, forms.CheckboxSelectMultiple):
                 f.widget.attrs.setdefault("class", INPUT)
 
 
