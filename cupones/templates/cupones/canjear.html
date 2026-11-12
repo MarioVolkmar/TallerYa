@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Canjear cupón · TallerYa{% endblock %}
+
+{% block content %}
+<div class="max-w-xl mx-auto mt-10">
+  <p class="etiqueta">Para talleres aliados</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Canjear <span class="text-lava">cupón</span></h1>
+  <p class="text-suave mt-3">Escribe el código que te muestra el cliente y el PIN de tu taller.</p>
+
+  {% if resultado %}
+  <section class="papel exito p-6 mt-6">
+    <p class="titulo text-2xl">✔ Canje exitoso</p>
+    <p class="mt-2"><strong>{{ resultado.cupon.titulo }}</strong></p>
+    <p class="text-sm text-suave mt-1">Cliente: {{ resultado.motociclista.nombre }} · {{ resultado.motociclista.celular_oculto }} · Código {{ resultado.codigo }}</p>
+    {% if resultado.cupon.condiciones %}<p class="text-xs text-suave mt-3">Condiciones: {{ resultado.cupon.condiciones }}</p>{% endif %}
+  </section>
+  {% endif %}
+
+  <section class="papel p-6 md:p-8 mt-6">
+    <form method="post" class="space-y-4" autocomplete="off">
+      {% csrf_token %}
+      {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+      {% for field in form %}
+        <label class="campo-label">{{ field.label }}{{ field }}</label>
+        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      {% endfor %}
+      <button class="btn btn-lava w-full py-3 text-sm">Validar y canjear</button>
+    </form>
+    <p class="text-xs text-suave mt-5">¿No tienes tu PIN? Escríbenos y te lo enviamos.</p>
+  </section>
+</div>
+{% endblock %}

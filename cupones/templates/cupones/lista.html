@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Cupones · TallerYa{% endblock %}
+
+{% block hero %}
+<section class="hero relative overflow-hidden">
+  {% include "talleres/_paisaje.html" %}
+  <div class="contenido max-w-6xl mx-auto px-4 pt-12 pb-40 md:pt-20 md:pb-52">
+    <p class="etiqueta">Cupones TallerYa</p>
+    <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-4 max-w-2xl">Descuentos para <span class="text-lava">tu moto</span></h1>
+    <p class="mt-4 max-w-md text-lg text-suave">Obtén tu código con tu celular y muéstralo en el taller. Sin registros ni contraseñas.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="relative z-10 -mt-28 md:-mt-36">
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {% for cupon in cupones %}
+      {% include "cupones/_ticket.html" with con_boton=True %}
+    {% empty %}
+      <div class="papel p-8 md:col-span-2 lg:col-span-3 text-center">
+        <p class="titulo text-2xl">Pronto habrá cupones</p>
+        <p class="text-suave mt-2">Estamos preparando descuentos con los talleres aliados. Vuelve en unos días.</p>
+        <a href="{% url 'talleres:inicio' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver talleres</a>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<section class="mt-16">
+  <h2 class="titulo text-3xl md:text-4xl"><span class="numero">01</span>Cómo funciona</h2>
+  <div class="separador mt-4 mb-8"></div>
+  <ol class="grid gap-6 md:grid-cols-3">
+    <li class="papel p-6 relative overflow-hidden">
+      <span class="numero-fantasma" aria-hidden="true">01</span>
+      <p class="titulo text-xl">Elige un cupón</p>
+      <p class="text-suave text-sm mt-2">Deja tu nombre y celular y recibes un código único.</p>
+    </li>
+    <li class="papel p-6 relative overflow-hidden">
+      <span class="numero-fantasma" aria-hidden="true">02</span>
+      <p class="titulo text-xl">Muéstralo en el taller</p>
+      <p class="text-suave text-sm mt-2">El taller valida tu código y te aplica el descuento.</p>
+    </li>
+    <li class="papel p-6 relative overflow-hidden">
+      <span class="numero-fantasma" aria-hidden="true">03</span>
+      <p class="titulo text-xl">Invita y gana</p>
+      <p class="text-suave text-sm mt-2">Comparte tu enlace. Cuando un amigo use su primer cupón, te ganas un premio.</p>
+    </li>
+  </ol>
+</section>
+{% endblock %}

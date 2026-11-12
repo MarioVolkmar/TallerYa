@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import Resena, SolicitudCita, Taller
+from .utils import normalizar_celular
 
 INPUT = "campo"  # estilos en talleres/static/talleres/css/tallerya.css
 
@@ -49,9 +50,4 @@ class RegistroTallerForm(EstiloMixin, forms.ModelForm):
         }
 
     def clean_whatsapp(self):
-        num = "".join(c for c in self.cleaned_data["whatsapp"] if c.isdigit())
-        if len(num) == 10:
-            num = "57" + num
-        if len(num) != 12:
-            raise forms.ValidationError("Número no válido. Usa 10 dígitos, ej: 3001234567")
-        return num
+        return normalizar_celular(self.cleaned_data["whatsapp"])

@@ -12,7 +12,15 @@ class TallerAdmin(admin.ModelAdmin):
     list_editable = ("verificado", "activo", "destacado")
     search_fields = ("nombre", "responsable", "direccion")
     filter_horizontal = ("servicios", "marcas")
-    readonly_fields = ("slug",)
+    readonly_fields = ("slug", "pin_canje")
+    actions = ["regenerar_pin"]
+
+    @admin.action(description="Generar nuevo PIN de canje")
+    def regenerar_pin(self, request, queryset):
+        for taller in queryset:
+            taller.pin_canje = Taller.generar_pin()
+            taller.save(update_fields=["pin_canje"])
+        self.message_user(request, f"PIN regenerado para {queryset.count()} taller(es).")
 
 
 @admin.register(SolicitudCita)

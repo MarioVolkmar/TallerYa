@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}{{ cupon.titulo }} · TallerYa{% endblock %}
+
+{% block content %}
+<a href="{% url 'cupones:lista' %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Todos los cupones</a>
+<div class="grid gap-8 md:grid-cols-2 mt-6 items-start">
+  <div>
+    <p class="etiqueta">Tu cupón</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Obtén tu <span class="text-lava">código</span></h1>
+    <div class="mt-6">{% include "cupones/_ticket.html" %}</div>
+    {% if cupon.taller %}
+      <a href="{{ cupon.taller.get_absolute_url }}" class="inline-block mt-5 text-sm text-suave hover:text-[#f2611d]">Ver perfil de {{ cupon.taller }} →</a>
+    {% endif %}
+  </div>
+
+  <section class="papel p-6 md:p-8">
+    <h2 class="titulo text-2xl"><span class="numero">01</span>Tus datos</h2>
+    <p class="text-sm text-suave mt-2 mb-5">Si ya tienes este cupón, te mostramos el mismo código.</p>
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
+      {% for field in form %}
+        <label class="campo-label">{{ field.label }}{{ field }}</label>
+        {% if field.help_text %}<p class="text-xs text-suave -mt-2">{{ field.help_text }}</p>{% endif %}
+        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      {% endfor %}
+      <button class="btn btn-lava w-full py-3 text-sm">Obtener mi código</button>
+      <p class="text-xs text-suave">Solo usamos tu celular para identificar tus cupones. No te enviaremos publicidad.</p>
+    </form>
+  </section>
+</div>
+{% endblock %}

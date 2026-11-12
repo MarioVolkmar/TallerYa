@@ -207,3 +207,52 @@ input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
 @media (prefers-reduced-motion: reduce) {
   .tarjeta, .btn, .tarjeta .ver { transition: none; }
 }
+
+/* Cupón tipo boleta: línea de corte punteada con muescas a los lados */
+.ticket { position: relative; display: flex; flex-direction: column; }
+.ticket-corte { position: relative; border-top: 2px dashed var(--borde); margin: 0 22px; }
+.ticket-corte::before,
+.ticket-corte::after {
+  content: "";
+  position: absolute;
+  top: -13px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--carbon);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .04);
+}
+.ticket-corte::before { left: -35px; }
+.ticket-corte::after { right: -35px; }
+
+/* Código grande sobre papel crema */
+.codigo-papel {
+  background: var(--crema);
+  color: var(--carbon);
+  border-radius: 14px;
+  box-shadow: 5px 5px 0 #0b0e0f;
+  font-family: "Oswald", sans-serif;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.sello {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  border: 3px solid #c0391b;
+  color: #c0391b;
+  font-family: "Oswald", sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: .2em;
+  padding: .1rem .9rem;
+  border-radius: 8px;
+  background: rgba(237, 227, 204, .85);
+}
+
+.mensaje-error { border-left-color: #ff6b4a; }
+.exito { border: 1px solid rgba(31, 174, 91, .5); background: linear-gradient(180deg, rgba(31, 174, 91, .14), rgba(31, 174, 91, .04)); }

@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
+from cupones.models import Cupon
+
 from .forms import RegistroTallerForm, ResenaForm, SolicitudCitaForm
 from .models import Barrio, Marca, Servicio, Taller
 
@@ -49,6 +51,7 @@ def detalle(request, slug):
     return render(request, "talleres/detalle.html", {
         "taller": taller,
         "resenas": taller.resenas.filter(visible=True),
+        "cupones": Cupon.objects.disponibles().filter(Q(taller=taller) | Q(taller__isnull=True)),
         "cita_form": cita_form,
         "resena_form": resena_form,
     })

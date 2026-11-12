@@ -57,7 +57,17 @@
   </aside>
 </div>
 
-<div class="grid gap-6 md:grid-cols-2 mt-6">
+{% if cupones %}
+<section class="mt-10">
+  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">%</span>Cupones disponibles</h2>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {% for cupon in cupones %}{% include "cupones/_ticket.html" with con_boton=True %}{% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<div class="grid gap-6 md:grid-cols-2 mt-10">
   <section id="cita" class="papel p-6 md:p-7 scroll-mt-24">
     <h2 class="titulo text-2xl mb-4"><span class="numero">03</span>Pedir cita</h2>
     <form method="post" class="space-y-4">

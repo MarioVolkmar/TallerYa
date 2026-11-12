@@ -22,7 +22,10 @@
         </svg>
         <span class="titulo text-2xl tracking-wide">Taller<span class="text-lava">Ya</span></span>
       </a>
-      <a href="{% url 'talleres:registro' %}" class="btn btn-borde text-xs px-4 py-2">Registra tu taller</a>
+      <nav class="flex items-center gap-4 sm:gap-6">
+        <a href="{% url 'cupones:lista' %}" class="titulo text-sm tracking-widest hover:text-[#f2611d]">Cupones</a>
+        <a href="{% url 'talleres:registro' %}" class="btn btn-borde text-xs px-4 py-2">Registra<span class="hidden sm:inline">&nbsp;tu taller</span></a>
+      </nav>
     </div>
   </header>
 
@@ -30,7 +33,7 @@
 
   <main class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
     {% for m in messages %}
-      <div class="mensaje mt-6">{{ m }}</div>
+      <div class="mensaje mt-6 {% if m.tags == 'error' %}mensaje-error{% endif %}">{{ m }}</div>
     {% endfor %}
     {% block content %}{% endblock %}
   </main>
@@ -46,9 +49,11 @@
           <p class="titulo text-xl">Taller<span class="text-lava">Ya</span></p>
           <p class="text-sm text-suave">Talleres de motos de confianza en Medellín y el Valle de Aburrá.</p>
         </div>
-        <nav class="flex gap-5 text-sm text-suave">
+        <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-suave">
           <a href="{% url 'talleres:inicio' %}" class="hover:text-[#f2611d]">Buscar talleres</a>
+          <a href="{% url 'cupones:lista' %}" class="hover:text-[#f2611d]">Cupones</a>
           <a href="{% url 'talleres:registro' %}" class="hover:text-[#f2611d]">Registra tu taller</a>
+          <a href="{% url 'cupones:canjear' %}" class="hover:text-[#f2611d]">Canjear cupón (talleres)</a>
         </nav>
       </div>
     </div>

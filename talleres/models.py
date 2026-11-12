@@ -6,6 +6,8 @@ from django.db.models import Avg
 from django.urls import reverse
 from django.utils.text import slugify
 
+from .utils import codigo_aleatorio
+
 
 class Barrio(models.Model):
     nombre = models.CharField(max_length=80, unique=True)
@@ -53,6 +55,10 @@ class Taller(models.Model):
     verificado = models.BooleanField(default=False)
     activo = models.BooleanField(default=False, help_text="Visible en el directorio")
     destacado = models.BooleanField(default=False, help_text="Plan pro: aparece primero")
+    pin_canje = models.CharField(
+        "PIN de canje", max_length=6, unique=True, null=True, blank=True,
+        help_text="El taller lo usa para validar cupones en /canjear/. Compártelo solo con el taller.",
+    )
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -69,7 +75,16 @@ class Taller(models.Model):
             while Taller.objects.filter(slug=slug).exclude(pk=self.pk).exists():
                 slug, n = f"{base}-{n}", n + 1
             self.slug = slug
+        if not self.pin_canje:
+            self.pin_canje = self.generar_pin()
         super().save(*args, **kwargs)
+
+    @staticmethod
+    def generar_pin():
+        while True:
+            pin = codigo_aleatorio(6, "0123456789")
+            if not Taller.objects.filter(pin_canje=pin).exists():
+                return pin
 
     def get_absolute_url(self):
         return reverse("talleres:detalle", args=[self.slug])
