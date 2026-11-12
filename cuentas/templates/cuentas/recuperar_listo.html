@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Contraseña actualizada · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-12 papel p-8">
+  <h1 class="titulo text-3xl">¡Listo!</h1>
+  <p class="text-suave mt-3">Tu contraseña se actualizó. Ya puedes entrar con la nueva.</p>
+  <a href="{% url 'cuentas:entrar' %}" class="btn btn-lava text-xs px-5 py-2.5 mt-6">Entrar</a>
+</div>
+{% endblock %}

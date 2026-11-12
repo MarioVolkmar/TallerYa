@@ -13,6 +13,7 @@ class TallerAdmin(admin.ModelAdmin):
     search_fields = ("nombre", "responsable", "direccion")
     filter_horizontal = ("servicios", "marcas")
     readonly_fields = ("slug", "pin_canje")
+    raw_id_fields = ("usuario",)
     actions = ["regenerar_pin"]
 
     @admin.action(description="Generar nuevo PIN de canje")

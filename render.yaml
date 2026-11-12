@@ -1,0 +1,41 @@
+# Blueprint de Render: en el panel de Render elige "New > Blueprint" y conecta este repositorio.
+databases:
+  - name: tallerya-db
+    plan: free
+    databaseName: tallerya
+    user: tallerya
+
+services:
+  - type: web
+    name: tallerya
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn config.wsgi:application
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.1
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tallerya-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "0"
+      - key: WEB_CONCURRENCY
+        value: "2"
+      # Se piden al crear el Blueprint (no quedan en el repositorio):
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+      - key: TALLERYA_WHATSAPP
+        sync: false
+      - key: PLUS_NEQUI
+        sync: false
+      - key: PLUS_PRECIO_MENSUAL
+        value: "9900"

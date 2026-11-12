@@ -6,8 +6,8 @@ from .models import CodigoCupon, Cupon, Motociclista
 
 @admin.register(Cupon)
 class CuponAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "donde", "valido_hasta", "cupo", "emitidos", "canjeados", "activo", "publico", "premio_referido")
-    list_filter = ("activo", "publico", "premio_referido", "taller")
+    list_display = ("titulo", "donde", "valido_hasta", "cupo", "emitidos", "canjeados", "activo", "publico", "solo_plus", "regalo_mensual", "premio_referido")
+    list_filter = ("activo", "publico", "solo_plus", "regalo_mensual", "premio_referido", "taller")
     list_editable = ("activo",)
     search_fields = ("titulo", "taller__nombre")
     autocomplete_fields = ("taller",)
@@ -53,10 +53,10 @@ class ReferidoInline(admin.TabularInline):
 
 @admin.register(Motociclista)
 class MotociclistaAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "celular", "codigo_referido", "referido_por", "num_referidos", "creado")
-    search_fields = ("nombre", "celular", "codigo_referido")
+    list_display = ("nombre", "celular", "usuario", "codigo_referido", "referido_por", "num_referidos", "creado")
+    search_fields = ("nombre", "celular", "codigo_referido", "usuario__email")
     readonly_fields = ("codigo_referido", "creado")
-    raw_id_fields = ("referido_por",)
+    raw_id_fields = ("referido_por", "usuario")
     inlines = [ReferidoInline]
 
     def get_queryset(self, request):

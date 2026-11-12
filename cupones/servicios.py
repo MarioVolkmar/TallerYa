@@ -15,11 +15,38 @@ class ErrorCanje(Exception):
     pass
 
 
+class RequierePlus(CuponNoDisponible):
+    pass
+
+
 def normalizar_codigo(texto):
     limpio = "".join(c for c in texto.upper() if c.isalnum())
     if limpio.startswith("TY"):
         limpio = limpio[2:]
     return f"TY-{limpio}"
+
+
+@transaction.atomic
+def obtener_codigo_para(moto, cupon):
+    """Variante para usuarios con sesión iniciada: ya sabemos quién es el motociclista."""
+    return obtener_codigo(cupon, moto.nombre, moto.celular)
+
+
+@transaction.atomic
+def reclamar_regalo_mensual(moto):
+    """Un código del cupón de regalo por mes calendario para suscriptores Plus."""
+    if not moto.es_plus:
+        raise RequierePlus("El regalo mensual es para suscriptores de TallerYa Plus.")
+    regalo = Cupon.regalo_actual()
+    if not regalo or not regalo.puede_emitirse():
+        raise CuponNoDisponible("Este mes no hay regalo disponible. ¡Vuelve pronto!")
+    hoy = timezone.localdate()
+    ya = moto.codigos.filter(
+        origen=CodigoCupon.Origen.REGALO, creado__year=hoy.year, creado__month=hoy.month,
+    ).first()
+    if ya:
+        return ya, False
+    return CodigoCupon.objects.create(cupon=regalo, motociclista=moto, origen=CodigoCupon.Origen.REGALO), True
 
 
 @transaction.atomic
@@ -40,7 +67,9 @@ def obtener_codigo(cupon, nombre, celular, ref=None):
     existente = moto.codigos.filter(cupon=cupon, origen=CodigoCupon.Origen.OBTENIDO).first()
     if existente:
         return existente, False
-    if not cupon.publico or not cupon.puede_emitirse():
+    if cupon.solo_plus and not moto.es_plus:
+        raise RequierePlus("Este cupón es exclusivo para suscriptores de TallerYa Plus.")
+    if not cupon.publico or cupon.regalo_mensual or not cupon.puede_emitirse():
         raise CuponNoDisponible("Este cupón ya no está disponible.")
     return CodigoCupon.objects.create(cupon=cupon, motociclista=moto), True
 

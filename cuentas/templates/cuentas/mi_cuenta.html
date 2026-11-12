@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Mi cuenta · TallerYa{% endblock %}
+{% block content %}
+<div class="flex flex-wrap items-end justify-between gap-4 mt-10">
+  <div>
+    <p class="etiqueta">Mi cuenta</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Hola, <span class="text-lava">{{ user.first_name|default:user.username }}</span></h1>
+    <p class="text-suave mt-2">{{ user.email }}{% if moto %} · {{ moto.celular_oculto }}{% endif %}</p>
+  </div>
+  <form method="post" action="{% url 'cuentas:salir' %}">{% csrf_token %}<button class="btn btn-borde text-xs px-5 py-2.5">Cerrar sesión</button></form>
+</div>
+
+{% if taller %}
+<div class="mensaje mt-6">Esta cuenta está vinculada a <a href="{{ taller.get_absolute_url }}" class="underline">{{ taller }}</a>: tus respuestas en el foro salen con insignia de taller.</div>
+{% endif %}
+
+<div class="grid gap-6 lg:grid-cols-3 mt-8">
+  <div class="lg:col-span-2 space-y-6">
+    {% if moto %}
+    <section class="papel p-6 md:p-7">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="titulo text-2xl"><span class="numero">01</span>Mis cupones</h2>
+        <a href="{% url 'cupones:lista' %}" class="boton-texto">Ver más cupones</a>
+      </div>
+      {% if disponibles %}
+        <ul class="mt-4 divide-y divide-white/5">
+          {% for c in disponibles %}
+          <li class="py-3 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <p class="font-semibold truncate">{{ c.cupon.titulo }}</p>
+              <p class="text-xs text-suave">{% if c.cupon.taller %}{{ c.cupon.taller }}{% else %}Todos los talleres{% endif %}{% if c.origen != "obtenido" %} · {{ c.get_origen_display }}{% endif %}</p>
+            </div>
+            <a href="{{ c.get_absolute_url }}" class="titulo text-sm tracking-widest text-lava shrink-0">{{ c.codigo }} →</a>
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-suave text-sm mt-3">No tienes cupones disponibles. <a href="{% url 'cupones:lista' %}" class="boton-texto">Busca uno</a>.</p>
+      {% endif %}
+      {% if usados %}
+        <details class="mt-4">
+          <summary class="boton-texto cursor-pointer">Usados o vencidos ({{ usados|length }})</summary>
+          <ul class="mt-2 text-sm text-suave space-y-1">
+            {% for c in usados %}<li>{{ c.codigo }} · {{ c.cupon.titulo }} · {% if c.canjeado %}canjeado {{ c.canjeado_en|date:"j M Y"|lower }}{% else %}vencido{% endif %}</li>{% endfor %}
+          </ul>
+        </details>
+      {% endif %}
+    </section>
+    {% endif %}
+
+    <section class="papel p-6 md:p-7">
+      <div class="flex items-center justify-between gap-3">
+        <h2 class="titulo text-2xl"><span class="numero">02</span>Mis preguntas</h2>
+        <a href="{% url 'foro:preguntar' %}" class="boton-texto">Hacer una pregunta</a>
+      </div>
+      {% if preguntas %}
+        <ul class="mt-4 divide-y divide-white/5">
+          {% for p in preguntas %}<li class="py-3"><a href="{{ p.get_absolute_url }}" class="hover:text-[#f2611d]">{{ p.titulo }}</a> <span class="text-xs text-suave">· {{ p.creado|timesince }}</span></li>{% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-suave text-sm mt-3">Aún no has preguntado nada en el foro.</p>
+      {% endif %}
+    </section>
+  </div>
+
+  <aside class="space-y-6">
+    {% if moto %}
+    <section class="papel p-6 md:p-7 relative overflow-hidden">
+      <p class="etiqueta">TallerYa Plus</p>
+      {% if suscripcion %}
+        <p class="titulo text-2xl mt-3">Eres <span class="text-mostaza">Plus</span></p>
+        <p class="text-sm text-suave mt-1">Activo hasta el {{ suscripcion.vence|date:"j \d\e F \d\e Y"|lower }}.</p>
+        {% if regalo %}
+          <div class="separador my-5"></div>
+          <p class="font-semibold">Regalo del mes</p>
+          <p class="text-sm text-suave mt-1">{{ regalo.titulo }}</p>
+          <form method="post" action="{% url 'cuentas:reclamar_regalo' %}" class="mt-4">{% csrf_token %}
+            <button class="btn btn-lava w-full py-2.5 text-xs">Reclamar mi regalo</button>
+          </form>
+        {% endif %}
+      {% elif solicitud %}
+        <p class="titulo text-xl mt-3">Solicitud en revisión</p>
+        <p class="text-sm text-suave mt-1">Cuando confirmemos tu pago, activamos tu plan.</p>
+        <a href="{% url 'cuentas:plus' %}" class="btn btn-borde w-full py-2.5 text-xs mt-4">Ver instrucciones de pago</a>
+      {% else %}
+        <p class="titulo text-xl mt-3">Cupones exclusivos y un regalo cada mes</p>
+        <a href="{% url 'cuentas:plus' %}" class="btn btn-lava w-full py-2.5 text-xs mt-4">Conocer Plus</a>
+      {% endif %}
+    </section>
+
+    <section class="papel p-6 md:p-7 relative overflow-hidden">
+      <span class="numero-fantasma" aria-hidden="true">{{ num_referidos|stringformat:"02d" }}</span>
+      <p class="etiqueta">Invita y gana</p>
+      <p class="text-sm text-suave mt-3">Cuando un amigo nuevo use su primer cupón, te ganas un premio.</p>
+      <label class="campo-label mt-4">Tu enlace<input class="campo" value="{{ enlace_referido }}" readonly onclick="this.select()"></label>
+      <p class="text-xs text-suave mt-3">Amigos invitados: <strong class="text-[#ede3cc]">{{ num_referidos }}</strong></p>
+    </section>
+    {% else %}
+    <section class="papel p-6">
+      <p class="text-sm text-suave">Esta cuenta no tiene un celular de motociclista asociado, así que no puede tener cupones ni Plus.</p>
+    </section>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

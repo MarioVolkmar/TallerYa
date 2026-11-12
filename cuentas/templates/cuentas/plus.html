@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}TallerYa Plus{% endblock %}
+
+{% block hero %}
+<section class="hero relative overflow-hidden">
+  {% include "talleres/_paisaje.html" %}
+  <div class="contenido max-w-6xl mx-auto px-4 pt-12 pb-40 md:pt-20 md:pb-52">
+    <p class="etiqueta">Suscripción</p>
+    <h1 class="titulo text-5xl sm:text-6xl md:text-7xl mt-4">TallerYa <span class="text-mostaza">Plus</span></h1>
+    <p class="mt-4 max-w-md text-lg text-suave">Cupones exclusivos y un regalo para tu moto cada mes, por menos de lo que cuesta un lavado.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="relative z-10 -mt-28 md:-mt-36 grid gap-6 lg:grid-cols-5 items-start">
+  <section class="papel p-6 md:p-8 lg:col-span-3">
+    <div class="flex items-end gap-2">
+      <p class="titulo text-5xl md:text-6xl">${{ precio|intcomma }}</p>
+      <p class="text-suave mb-2">/ {{ dias }} días</p>
+    </div>
+    <ul class="mt-6 space-y-4">
+      <li class="flex gap-4"><span class="numero text-xl">01</span><div><p class="font-semibold">Cupones exclusivos</p><p class="text-sm text-suave">Descuentos que solo ven los suscriptores, marcados con la insignia Plus.</p></div></li>
+      <li class="flex gap-4"><span class="numero text-xl">02</span><div><p class="font-semibold">Un regalo cada mes</p><p class="text-sm text-suave">Reclámalo desde tu cuenta y úsalo en los talleres aliados.</p></div></li>
+      <li class="flex gap-4"><span class="numero text-xl">03</span><div><p class="font-semibold">Sin permanencia</p><p class="text-sm text-suave">Pagas mes a mes. Si no renuevas, simplemente vence.</p></div></li>
+    </ul>
+
+    {% if exclusivos %}
+      <div class="separador my-7"></div>
+      <p class="campo-label">Algunos cupones exclusivos de ahora</p>
+      <ul class="mt-2 space-y-1 text-sm">
+        {% for c in exclusivos %}<li><span class="insignia insignia-plus mr-2">Plus</span>{{ c.titulo }}{% if c.taller %} · <span class="text-suave">{{ c.taller }}</span>{% endif %}</li>{% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+
+  <aside class="papel p-6 md:p-8 lg:col-span-2">
+    {% if suscripcion %}
+      <p class="etiqueta">Tu plan</p>
+      <p class="titulo text-3xl mt-3">Ya eres <span class="text-mostaza">Plus</span></p>
+      <p class="text-suave mt-2">Activo hasta el {{ suscripcion.vence|date:"j \d\e F \d\e Y"|lower }}. Para renovar, haz el pago y envíanos el comprobante.</p>
+      <a href="{{ whatsapp_pago }}" target="_blank" rel="noopener" class="btn btn-whatsapp w-full py-3 text-xs mt-5">Enviar comprobante</a>
+      <a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-borde w-full py-3 text-xs mt-3">Ir a mi cuenta</a>
+    {% elif solicitud %}
+      <p class="etiqueta">Paso 2 de 2</p>
+      <p class="titulo text-2xl mt-3">Haz el pago</p>
+      <ol class="mt-4 space-y-3 text-sm text-suave list-decimal list-inside">
+        <li>Envía <strong class="text-[#ede3cc]">${{ precio|intcomma }}</strong> por Nequi al <strong class="text-[#ede3cc]">{{ nequi }}</strong>.</li>
+        <li>Mándanos el comprobante por WhatsApp.</li>
+        <li>Activamos tu plan en menos de 24 horas.</li>
+      </ol>
+      <a href="{{ whatsapp_pago }}" target="_blank" rel="noopener" class="btn btn-whatsapp w-full py-3 text-xs mt-6">Enviar comprobante</a>
+    {% elif user.is_authenticated %}
+      <p class="etiqueta">Paso 1 de 2</p>
+      <p class="titulo text-2xl mt-3">Solicita tu plan</p>
+      <p class="text-sm text-suave mt-2">Te mostramos cómo pagar y lo activamos apenas confirmemos el pago.</p>
+      <form method="post" action="{% url 'cuentas:solicitar_plus' %}" class="mt-5">{% csrf_token %}
+        <button class="btn btn-lava w-full py-3 text-sm">Quiero ser Plus</button>
+      </form>
+    {% else %}
+      <p class="titulo text-2xl">Empieza con tu cuenta</p>
+      <p class="text-sm text-suave mt-2">Plus va asociado a tu cuenta de TallerYa.</p>
+      <a href="{% url 'cuentas:registro' %}?next={{ request.path|urlencode }}" class="btn btn-lava w-full py-3 text-sm mt-5">Crear cuenta</a>
+      <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="btn btn-borde w-full py-3 text-sm mt-3">Ya tengo cuenta</a>
+    {% endif %}
+  </aside>
+</div>
+{% endblock %}

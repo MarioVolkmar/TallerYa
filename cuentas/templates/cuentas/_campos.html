@@ -1,0 +1,11 @@
+{# Renderiza los campos de un formulario con el estilo de TallerYa #}
+{% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+{% for field in form %}
+  {% if field.is_hidden %}{{ field }}{% else %}
+  <div>
+    <label class="campo-label">{{ field.label }}{{ field }}</label>
+    {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text|safe }}</p>{% endif %}
+    {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+  </div>
+  {% endif %}
+{% endfor %}

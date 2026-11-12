@@ -1,5 +1,6 @@
 from urllib.parse import quote
 
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Avg
@@ -55,6 +56,10 @@ class Taller(models.Model):
     verificado = models.BooleanField(default=False)
     activo = models.BooleanField(default=False, help_text="Visible en el directorio")
     destacado = models.BooleanField(default=False, help_text="Plan pro: aparece primero")
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="taller",
+        help_text="Cuenta del taller: sus respuestas en el foro salen con insignia de taller.",
+    )
     pin_canje = models.CharField(
         "PIN de canje", max_length=6, unique=True, null=True, blank=True,
         help_text="El taller lo usa para validar cupones en /canjear/. Compártelo solo con el taller.",

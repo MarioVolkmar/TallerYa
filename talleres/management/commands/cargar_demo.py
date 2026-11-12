@@ -4,7 +4,10 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
+from django.contrib.auth import get_user_model
+
 from cupones.models import Cupon
+from foro.models import Pregunta, Respuesta
 
 from talleres.models import Barrio, Marca, Resena, Servicio, Taller
 
@@ -52,6 +55,15 @@ class Command(BaseCommand):
             (None, "$20.000 de descuento en cualquier taller aliado",
              "Premio por invitar amigos. Servicios desde $60.000.", None, None, False, True),
         ]
+        plus = [
+            ("Electromotos Envigado", "25% en revisión técnico-mecánica", "Exclusivo para suscriptores Plus.", True, False),
+            (None, "Lavado y lubricación de cadena gratis", "Regalo mensual Plus en talleres aliados.", False, True),
+        ]
+        for taller, titulo, condiciones, solo_plus, regalo in plus:
+            Cupon.objects.get_or_create(titulo=titulo, defaults={
+                "taller": Taller.objects.filter(nombre=taller).first() if taller else None,
+                "condiciones": condiciones, "solo_plus": solo_plus, "regalo_mensual": regalo,
+            })
         for taller, titulo, condiciones, hasta, cupo, publico, premio in cupones:
             Cupon.objects.get_or_create(titulo=titulo, defaults={
                 "taller": Taller.objects.filter(nombre=taller).first() if taller else None,
@@ -59,7 +71,46 @@ class Command(BaseCommand):
                 "publico": publico, "premio_referido": premio,
             })
 
+        self.cargar_foro()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))
         self.stdout.write("PIN de canje por taller (solo para pruebas):")
         for nombre, pin in Taller.objects.values_list("nombre", "pin_canje"):
             self.stdout.write(f"  {nombre}: {pin}")
+
+    def cargar_foro(self):
+        """Usuarios demo sin contraseña utilizable: nadie puede iniciar sesión con ellos."""
+        User = get_user_model()
+
+        def usuario(email, nombre):
+            u, creado = User.objects.get_or_create(username=email, defaults={"email": email, "first_name": nombre})
+            if creado:
+                u.set_unusable_password()
+                u.save()
+            return u
+
+        andres = usuario("andres.demo@tallerya.local", "Andrés")
+        camila = usuario("camila.demo@tallerya.local", "Camila")
+        cuenta_taller = usuario("paisa.demo@tallerya.local", "MotoServicio El Paisa")
+        Taller.objects.filter(nombre="MotoServicio El Paisa", usuario__isnull=True).update(usuario=cuenta_taller)
+
+        if Pregunta.objects.exists():
+            return
+        yamaha = Marca.objects.filter(nombre="Yamaha").first()
+        akt = Marca.objects.filter(nombre="AKT").first()
+        p1 = Pregunta.objects.create(
+            autor=andres, marca=akt, titulo="¿Cada cuánto debo cambiar el aceite de una AKT NKD 125?",
+            cuerpo="La uso todos los días para trabajar, unos 40 km diarios por Medellín. "
+                   "En el manual dice una cosa y en el taller otra.",
+        )
+        r1 = Respuesta.objects.create(
+            pregunta=p1, autor=cuenta_taller,
+            cuerpo="Con ese uso diario y el tráfico de la ciudad, recomendamos cada 2.000 km con aceite mineral, "
+                   "o cada 3.000 km si usas semisintético. Revisa el nivel cada semana.",
+        )
+        Respuesta.objects.create(pregunta=p1, autor=camila, cuerpo="Yo la cambio cada 2.500 km y me ha ido bien.")
+        p1.mejor_respuesta = r1
+        p1.save(update_fields=["mejor_respuesta"])
+        Pregunta.objects.create(
+            autor=camila, marca=yamaha, titulo="La NMAX hace un chillido al frenar, ¿son las pastillas?",
+            cuerpo="Empezó hace una semana, sobre todo en las mañanas. Las pastillas tienen unos 8 meses.",
+        )

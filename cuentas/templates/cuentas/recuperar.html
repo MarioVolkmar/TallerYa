@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Recuperar contraseña · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-12">
+  <h1 class="titulo text-4xl mt-3">Recuperar <span class="text-lava">contraseña</span></h1>
+  <p class="text-suave mt-3">Escribe el correo de tu cuenta y te enviaremos un enlace para crear una nueva.</p>
+  <section class="papel p-6 md:p-8 mt-6">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% include "cuentas/_campos.html" %}
+      <button class="btn btn-lava w-full py-3 text-sm">Enviar enlace</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

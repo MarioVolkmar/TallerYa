@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}{{ pregunta.titulo }} · Foro TallerYa{% endblock %}
+{% block content %}
+<a href="{% url 'foro:lista' %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Volver al foro</a>
+
+<article class="papel p-6 md:p-8 mt-6">
+  {% if pregunta.marca %}<span class="chip">{{ pregunta.marca }}</span>{% endif %}
+  <h1 class="titulo text-3xl md:text-4xl mt-3">{{ pregunta.titulo }}</h1>
+  <p class="text-sm text-suave mt-3">{% include "foro/_autor.html" with autor=pregunta.autor %} · hace {{ pregunta.creado|timesince }}</p>
+  <div class="separador my-5"></div>
+  <p class="cuerpo-post">{{ pregunta.cuerpo }}</p>
+  {% if user.is_authenticated and not es_autor %}
+  <form method="post" action="{% url 'foro:reportar' 'pregunta' pregunta.pk %}" class="mt-5"
+        onsubmit="return confirm('¿Reportar esta pregunta como inapropiada?')">{% csrf_token %}
+    <button class="boton-texto">Reportar</button>
+  </form>
+  {% endif %}
+</article>
+
+<section class="mt-10">
+  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ respuestas|length|stringformat:"02d" }}</span>Respuesta{{ respuestas|length|pluralize }}</h2>
+  <div class="separador mt-4 mb-6"></div>
+
+  <div class="space-y-4">
+    {% for r in respuestas %}
+    <article id="r{{ r.pk }}" class="papel p-6 scroll-mt-24 {% if r.pk == pregunta.mejor_respuesta_id %}mejor{% endif %}">
+      {% if r.pk == pregunta.mejor_respuesta_id %}<p class="etiqueta mb-3">Mejor respuesta</p>{% endif %}
+      <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · hace {{ r.creado|timesince }}</p>
+      <p class="cuerpo-post mt-3">{{ r.cuerpo }}</p>
+      <div class="flex flex-wrap gap-5 mt-4">
+        {% if es_autor and r.autor != user %}
+        <form method="post" action="{% url 'foro:marcar_mejor' r.pk %}">{% csrf_token %}
+          <button class="boton-texto">{% if r.pk == pregunta.mejor_respuesta_id %}Quitar como mejor respuesta{% else %}Marcar como mejor respuesta{% endif %}</button>
+        </form>
+        {% endif %}
+        {% if user.is_authenticated and r.autor != user %}
+        <form method="post" action="{% url 'foro:reportar' 'respuesta' r.pk %}" onsubmit="return confirm('¿Reportar esta respuesta como inapropiada?')">{% csrf_token %}
+          <button class="boton-texto">Reportar</button>
+        </form>
+        {% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <p class="text-suave">Aún no hay respuestas. ¿Sabes algo de esto? ¡Ayuda!</p>
+    {% endfor %}
+  </div>
+
+  <div class="papel p-6 md:p-8 mt-8">
+    {% if user.is_authenticated %}
+      <h3 class="titulo text-xl mb-4">Responder</h3>
+      <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {% include "cuentas/_campos.html" %}
+        <button class="btn btn-lava py-3 px-8 text-sm">Publicar respuesta</button>
+      </form>
+    {% else %}
+      <p class="titulo text-xl">¿Sabes la respuesta?</p>
+      <p class="text-suave text-sm mt-1">Entra o crea tu cuenta para responder.</p>
+      <div class="flex flex-wrap gap-3 mt-4">
+        <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="btn btn-lava text-xs px-5 py-2.5">Entrar</a>
+        <a href="{% url 'cuentas:registro' %}?next={{ request.path|urlencode }}" class="btn btn-borde text-xs px-5 py-2.5">Crear cuenta</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

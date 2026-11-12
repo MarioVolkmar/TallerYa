@@ -14,8 +14,20 @@
   </div>
 
   <section class="papel p-6 md:p-8">
+    {% if moto and cupon.solo_plus and not moto.es_plus %}
+      <p class="etiqueta">Exclusivo Plus</p>
+      <h2 class="titulo text-2xl mt-3">Este cupón es para suscriptores</h2>
+      <p class="text-sm text-suave mt-2">Con TallerYa Plus obtienes este y otros cupones exclusivos, más un regalo cada mes.</p>
+      <a href="{% url 'cuentas:plus' %}" class="btn btn-lava w-full py-3 text-sm mt-6">Conocer Plus</a>
+    {% elif moto %}
+      <h2 class="titulo text-2xl"><span class="numero">01</span>Listo para ti</h2>
+      <p class="text-sm text-suave mt-2">Lo guardamos en tu cuenta ({{ moto.nombre }} · {{ moto.celular_oculto }}).</p>
+      <form method="post" class="mt-6">{% csrf_token %}
+        <button class="btn btn-lava w-full py-3 text-sm">Obtener mi código</button>
+      </form>
+    {% else %}
     <h2 class="titulo text-2xl"><span class="numero">01</span>Tus datos</h2>
-    <p class="text-sm text-suave mt-2 mb-5">Si ya tienes este cupón, te mostramos el mismo código.</p>
+    <p class="text-sm text-suave mt-2 mb-5">Si ya tienes este cupón, te mostramos el mismo código. ¿Tienes cuenta? <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="boton-texto">Entra</a>.</p>
     <form method="post" class="space-y-4">
       {% csrf_token %}
       {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
@@ -27,6 +39,7 @@
       <button class="btn btn-lava w-full py-3 text-sm">Obtener mi código</button>
       <p class="text-xs text-suave">Solo usamos tu celular para identificar tus cupones. No te enviaremos publicidad.</p>
     </form>
+    {% endif %}
   </section>
 </div>
 {% endblock %}

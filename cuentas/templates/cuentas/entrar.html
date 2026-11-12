@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Entrar · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-12">
+  <p class="etiqueta">Tu cuenta</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Entrar</h1>
+  <section class="papel p-6 md:p-8 mt-6">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% include "cuentas/_campos.html" %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <button class="btn btn-lava w-full py-3 text-sm">Entrar</button>
+    </form>
+    <div class="flex flex-wrap justify-between gap-3 mt-5 text-sm">
+      <a href="{% url 'cuentas:recuperar' %}" class="boton-texto">Olvidé mi contraseña</a>
+      <a href="{% url 'cuentas:registro' %}{% if next %}?next={{ next|urlencode }}{% endif %}" class="boton-texto">Crear cuenta</a>
+    </div>
+  </section>
+</div>
+{% endblock %}

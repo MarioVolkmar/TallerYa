@@ -1,0 +1,10 @@
+Hola{% if user.first_name %} {{ user.first_name }}{% endif %},
+
+Recibimos una solicitud para cambiar la contraseña de tu cuenta en TallerYa.
+Crea una nueva desde este enlace:
+
+{{ protocol }}://{{ domain }}{% url 'cuentas:recuperar_confirmar' uidb64=uid token=token %}
+
+Si no fuiste tú, ignora este correo: tu contraseña sigue igual.
+
+TallerYa · Talleres de motos de confianza en Medellín

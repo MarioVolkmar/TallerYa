@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import Count, F, Q
 from django.urls import reverse
@@ -12,6 +13,9 @@ class Motociclista(models.Model):
 
     nombre = models.CharField(max_length=120)
     celular = models.CharField(max_length=12, unique=True, help_text="Formato 57XXXXXXXXXX")
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="motociclista",
+    )
     codigo_referido = models.CharField(max_length=8, unique=True, editable=False)
     referido_por = models.ForeignKey(
         "self", on_delete=models.SET_NULL, null=True, blank=True, related_name="referidos",
@@ -40,6 +44,15 @@ class Motociclista(models.Model):
     def celular_oculto(self):
         return f"•••• {self.celular[-4:]}"
 
+    @property
+    def suscripcion_activa(self):
+        hoy = timezone.localdate()
+        return self.suscripciones.filter(estado="activa", vence__gte=hoy).order_by("-vence").first()
+
+    @property
+    def es_plus(self):
+        return self.suscripcion_activa is not None
+
 
 class CuponQuerySet(models.QuerySet):
     def vigentes(self):
@@ -47,10 +60,10 @@ class CuponQuerySet(models.QuerySet):
         return self.filter(activo=True).filter(Q(valido_hasta__isnull=True) | Q(valido_hasta__gte=hoy))
 
     def disponibles(self):
-        """Cupones que un motociclista puede obtener ahora mismo."""
+        """Cupones que se muestran en la lista (incluye los de Plus, que piden suscripción al obtenerlos)."""
         return (
             self.vigentes()
-            .filter(publico=True)
+            .filter(publico=True, regalo_mensual=False)
             .filter(Q(taller__isnull=True) | Q(taller__activo=True))
             .annotate(num_emitidos=Count("codigos"))
             .filter(Q(cupo__isnull=True) | Q(cupo__gt=F("num_emitidos")))
@@ -75,6 +88,13 @@ class Cupon(models.Model):
         "premio por referido", default=False,
         help_text="Se entrega a quien invita cuando su amigo canjea su primer cupón. Se usa el más reciente activo.",
     )
+    solo_plus = models.BooleanField(
+        "solo Plus", default=False, help_text="Solo lo pueden obtener los suscriptores de TallerYa Plus.",
+    )
+    regalo_mensual = models.BooleanField(
+        "regalo mensual Plus", default=False,
+        help_text="Cada suscriptor Plus puede reclamarlo una vez al mes desde su cuenta. Se usa el más reciente activo.",
+    )
     creado = models.DateTimeField(auto_now_add=True)
 
     objects = CuponQuerySet.as_manager()
@@ -98,6 +118,10 @@ class Cupon(models.Model):
         return self.vigente and (self.cupo is None or self.codigos.count() < self.cupo)
 
     @classmethod
+    def regalo_actual(cls):
+        return cls.objects.vigentes().filter(regalo_mensual=True).order_by("-creado").first()
+
+    @classmethod
     def premio_actual(cls):
         return cls.objects.vigentes().filter(premio_referido=True).order_by("-creado").first()
 
@@ -108,6 +132,7 @@ class CodigoCupon(models.Model):
     class Origen(models.TextChoices):
         OBTENIDO = "obtenido", "Obtenido por el motociclista"
         PREMIO = "premio", "Premio por referido"
+        REGALO = "regalo", "Regalo mensual Plus"
 
     cupon = models.ForeignKey(Cupon, on_delete=models.PROTECT, related_name="codigos")
     motociclista = models.ForeignKey(Motociclista, on_delete=models.CASCADE, related_name="codigos")

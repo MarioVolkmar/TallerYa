@@ -1,7 +1,10 @@
 {# Cupón tipo boleta. Variables: cupon, con_boton (opcional) #}
 <article class="papel ticket h-full">
   <div class="p-6 flex-1">
-    <p class="etiqueta">{% if cupon.taller %}{{ cupon.taller }}{% else %}Todos los talleres aliados{% endif %}</p>
+    <div class="flex items-start justify-between gap-3">
+      <p class="etiqueta">{% if cupon.taller %}{{ cupon.taller }}{% else %}Todos los talleres aliados{% endif %}</p>
+      {% if cupon.solo_plus %}<span class="insignia insignia-plus shrink-0">Plus</span>{% endif %}
+    </div>
     <h3 class="titulo text-2xl md:text-[1.7rem] mt-3">{{ cupon.titulo }}</h3>
     {% if cupon.taller %}<p class="text-sm text-suave mt-2">{{ cupon.taller.barrio }}{% if cupon.taller.horario %} · {{ cupon.taller.horario }}{% endif %}</p>{% endif %}
     {% if cupon.condiciones %}<p class="text-sm text-suave mt-3">{{ cupon.condiciones|linebreaksbr }}</p>{% endif %}

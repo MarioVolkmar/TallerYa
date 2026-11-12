@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Hacer una pregunta · TallerYa{% endblock %}
+{% block content %}
+<a href="{% url 'foro:lista' %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Volver al foro</a>
+<div class="grid gap-8 lg:grid-cols-3 mt-6 items-start">
+  <section class="papel p-6 md:p-8 lg:col-span-2">
+    <h1 class="titulo text-3xl md:text-4xl">Haz tu <span class="text-lava">pregunta</span></h1>
+    <form method="post" class="space-y-4 mt-6">
+      {% csrf_token %}
+      {% include "cuentas/_campos.html" %}
+      <button class="btn btn-lava w-full py-3 text-sm">Publicar pregunta</button>
+    </form>
+  </section>
+  <aside class="papel p-6">
+    <p class="etiqueta">Consejos</p>
+    <ul class="mt-4 space-y-3 text-sm text-suave">
+      <li><span class="text-lava">01</span> Di marca, modelo y año de tu moto.</li>
+      <li><span class="text-lava">02</span> Cuenta qué notas y desde cuándo.</li>
+      <li><span class="text-lava">03</span> Sé respetuoso: las publicaciones ofensivas se ocultan.</li>
+    </ul>
+  </aside>
+</div>
+{% endblock %}

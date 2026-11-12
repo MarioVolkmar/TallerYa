@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Revisa tu correo · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-12 papel p-8">
+  <h1 class="titulo text-3xl">Revisa tu correo</h1>
+  <p class="text-suave mt-3">Si el correo está registrado, te llegará un enlace para crear una nueva contraseña. Revisa también la carpeta de spam.</p>
+  <a href="{% url 'cuentas:entrar' %}" class="btn btn-borde text-xs px-5 py-2.5 mt-6">Volver a entrar</a>
+</div>
+{% endblock %}

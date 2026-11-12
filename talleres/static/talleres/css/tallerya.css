@@ -256,3 +256,64 @@ input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
 
 .mensaje-error { border-left-color: #ff6b4a; }
 .exito { border: 1px solid rgba(31, 174, 91, .5); background: linear-gradient(180deg, rgba(31, 174, 91, .14), rgba(31, 174, 91, .04)); }
+
+/* Navegación */
+.nav-link {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .85rem;
+  color: var(--crema);
+  padding: .25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color .15s ease, border-color .15s ease;
+}
+.nav-link:hover { color: var(--lava); }
+.nav-link.activo { border-bottom-color: var(--lava); }
+
+.menu-movil { position: relative; }
+.menu-movil > summary { list-style: none; }
+.menu-movil > summary::-webkit-details-marker { display: none; }
+.menu-movil[open] > summary { background: var(--crema); color: var(--carbon); }
+.menu-panel {
+  position: absolute;
+  right: 0;
+  top: calc(100% + .6rem);
+  width: 15rem;
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+}
+.menu-panel a {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .9rem;
+  padding: .75rem .9rem;
+  border-radius: 10px;
+}
+.menu-panel a:hover { background: rgba(255, 255, 255, .05); }
+
+/* Plus */
+.insignia-plus { background: linear-gradient(90deg, var(--mostaza), #f6cb63); color: #1c1305; }
+.ticket.bloqueado .ticket-cuerpo { opacity: .55; }
+
+/* Foro */
+.pregunta-fila { transition: background .15s ease; }
+.pregunta-fila:hover { background: rgba(255, 255, 255, .03); }
+.contador {
+  font-family: "Oswald", sans-serif;
+  min-width: 3.5rem;
+  text-align: center;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: .4rem .3rem;
+  line-height: 1.1;
+}
+.contador.con-respuesta { border-color: var(--mostaza); color: var(--mostaza); }
+.contador.resuelta { background: var(--mostaza); color: #1c1305; border-color: var(--mostaza); }
+.mejor { border: 1px solid var(--mostaza); box-shadow: var(--sombra-papel), 0 0 0 1px var(--mostaza); }
+.boton-texto { font-size: .8rem; color: var(--crema-2); text-decoration: underline; text-underline-offset: 3px; }
+.boton-texto:hover { color: var(--lava); }
+.cuerpo-post { white-space: pre-line; line-height: 1.65; }

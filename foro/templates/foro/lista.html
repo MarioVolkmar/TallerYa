@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Foro · TallerYa{% endblock %}
+
+{% block hero %}
+<section class="hero relative overflow-hidden">
+  {% include "talleres/_paisaje.html" %}
+  <div class="contenido max-w-6xl mx-auto px-4 pt-12 pb-40 md:pt-20 md:pb-52">
+    <p class="etiqueta">Foro de motociclistas</p>
+    <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-4 max-w-2xl">Pregunta a quienes <span class="text-lava">saben de motos</span></h1>
+    <p class="mt-4 max-w-md text-lg text-suave">Dudas de mantenimiento, ruidos raros, repuestos. Responden motociclistas y talleres de Medellín.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<div class="relative z-10 -mt-28 md:-mt-36">
+  <form method="get" class="papel p-4 md:p-5 grid gap-3 md:grid-cols-6" role="search">
+    <label class="md:col-span-3"><span class="sr-only">Buscar</span>
+      <input name="q" value="{{ q }}" placeholder="Buscar en el foro..." class="campo !mt-0">
+    </label>
+    <label class="md:col-span-2"><span class="sr-only">Marca</span>
+      <select name="marca" class="campo !mt-0">
+        <option value="">Todas las marcas</option>
+        {% for m in marcas %}<option value="{{ m.id }}" {% if marca == m.id|stringformat:"s" %}selected{% endif %}>{{ m }}</option>{% endfor %}
+      </select>
+    </label>
+    <button class="btn btn-borde py-2.5 text-xs">Buscar</button>
+  </form>
+
+  <div class="flex flex-wrap items-center justify-between gap-4 mt-10 mb-4">
+    <div class="flex gap-5 text-sm">
+      <a href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if marca %}marca={{ marca }}{% endif %}" class="nav-link {% if not filtro %}activo{% endif %}">Recientes</a>
+      <a href="?filtro=sin-respuesta{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca %}&marca={{ marca }}{% endif %}" class="nav-link {% if filtro == 'sin-respuesta' %}activo{% endif %}">Sin respuesta</a>
+    </div>
+    <a href="{% url 'foro:preguntar' %}" class="btn btn-lava text-xs px-5 py-2.5">Hacer una pregunta</a>
+  </div>
+
+  <section class="papel overflow-hidden">
+    {% for p in pagina %}
+      <a href="{{ p.get_absolute_url }}" class="pregunta-fila flex gap-4 p-5 border-b border-white/5 last:border-0">
+        <div class="contador shrink-0 {% if p.mejor_respuesta_id %}resuelta{% elif p.num_respuestas %}con-respuesta{% endif %}">
+          <span class="block text-xl font-bold">{{ p.num_respuestas }}</span>
+          <span class="block text-[.6rem] uppercase tracking-wider">{% if p.mejor_respuesta_id %}resuelta{% else %}resp.{% endif %}</span>
+        </div>
+        <div class="min-w-0">
+          <p class="font-semibold text-lg leading-snug">{{ p.titulo }}</p>
+          <p class="text-sm text-suave mt-1 line-clamp-2">{{ p.cuerpo|truncatechars:160 }}</p>
+          <p class="text-xs text-suave mt-2">
+            {% if p.marca %}<span class="chip mr-2">{{ p.marca }}</span>{% endif %}
+            {% if p.autor.taller %}{{ p.autor.taller }}{% else %}{{ p.autor.first_name|default:"Motociclista" }}{% endif %} · hace {{ p.creado|timesince }}
+          </p>
+        </div>
+      </a>
+    {% empty %}
+      <div class="p-10 text-center">
+        <p class="titulo text-2xl">{% if q or marca or filtro %}Sin resultados{% else %}Sé el primero en preguntar{% endif %}</p>
+        <p class="text-suave mt-2">{% if q or marca or filtro %}Prueba con otras palabras o quita los filtros.{% else %}El foro está nuevo. ¿Qué te gustaría saber de tu moto?{% endif %}</p>
+      </div>
+    {% endfor %}
+  </section>
+
+  {% if pagina.paginator.num_pages > 1 %}
+  <nav class="flex items-center justify-center gap-4 mt-6 text-sm" aria-label="Páginas">
+    {% if pagina.has_previous %}<a class="btn btn-borde text-xs px-4 py-2" href="?pagina={{ pagina.previous_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca %}&marca={{ marca }}{% endif %}{% if filtro %}&filtro={{ filtro }}{% endif %}">← Anterior</a>{% endif %}
+    <span class="text-suave">Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+    {% if pagina.has_next %}<a class="btn btn-borde text-xs px-4 py-2" href="?pagina={{ pagina.next_page_number }}{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca %}&marca={{ marca }}{% endif %}{% if filtro %}&filtro={{ filtro }}{% endif %}">Siguiente →</a>{% endif %}
+  </nav>
+  {% endif %}
+</div>
+{% endblock %}

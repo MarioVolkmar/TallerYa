@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Crear cuenta · TallerYa{% endblock %}
+{% block content %}
+<div class="grid gap-10 md:grid-cols-5 mt-12 items-start">
+  <div class="md:col-span-2">
+    <p class="etiqueta">Únete gratis</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Crea tu <span class="text-lava">cuenta</span></h1>
+    <ul class="mt-6 space-y-3 text-suave">
+      <li class="flex gap-3"><span class="text-lava">01</span>Todos tus cupones en un solo lugar.</li>
+      <li class="flex gap-3"><span class="text-lava">02</span>Pregunta y responde en el foro.</li>
+      <li class="flex gap-3"><span class="text-lava">03</span>Suscríbete a TallerYa Plus para cupones exclusivos.</li>
+    </ul>
+    <p class="text-sm text-suave mt-6">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}" class="boton-texto">Entra aquí</a></p>
+  </div>
+  <section class="papel p-6 md:p-8 md:col-span-3">
+    <form method="post" class="grid gap-4 sm:grid-cols-2">
+      {% csrf_token %}
+      {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm sm:col-span-2">{{ e }}</div>{% endfor %}
+      {% for field in form %}
+        <div class="{% if field.name == 'codigo_existente' or field.name == 'email' %}sm:col-span-2{% endif %}">
+          <label class="campo-label">{{ field.label }}{% if not field.field.required %} <span class="font-normal">(opcional)</span>{% endif %}{{ field }}</label>
+          {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text }}</p>{% endif %}
+          {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+      {% endfor %}
+      <button class="btn btn-lava sm:col-span-2 py-3 text-sm mt-2">Crear cuenta</button>
+    </form>
+  </section>
+</div>
+{% endblock %}
