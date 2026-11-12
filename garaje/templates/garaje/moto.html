@@ -29,6 +29,7 @@
       <div class="visor-controles">
         <div class="visor-modo" role="group" aria-label="Vista del modelo">
           <button type="button" data-modo="estado" aria-pressed="true">Estado</button>
+          <button type="button" data-modo="rayos" aria-pressed="false">Rayos X</button>
           <button type="button" data-modo="moto" aria-pressed="false">Moto</button>
         </div>
         <button type="button" class="btn btn-borde text-[.65rem] px-3 py-1.5" id="visor-centrar">Centrar</button>
@@ -68,6 +69,45 @@
     </section>
   </aside>
 </div>
+
+{% if datos_despiece.laminas %}
+<!-- Despiece interactivo -->
+<section id="despiece" class="mt-10 scroll-mt-24">
+  <div class="flex flex-wrap items-end justify-between gap-3">
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">00</span>Despiece de tu moto</h2>
+    <p class="text-xs text-suave">Catálogo de partes {{ despiece.linea.marca }} · versión {{ despiece.version }} ({{ despiece.anio }})</p>
+  </div>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="papel p-4 md:p-5">
+    <div class="laminas-tabs" id="laminas-tabs" role="tablist" aria-label="Sistemas de la moto"></div>
+    <div class="grid gap-5 lg:grid-cols-3 mt-4">
+      <div class="lg:col-span-2">
+        <div class="flex items-center justify-between gap-3 mb-2">
+          <p class="titulo text-lg" id="lamina-titulo"></p>
+          <button type="button" class="btn btn-borde text-[.65rem] px-3 py-1.5" id="lamina-ampliar" aria-pressed="false">Ampliar</button>
+        </div>
+        <div class="lamina-caja" id="lamina-caja">
+          <div class="lamina-imagen" id="lamina-imagen"><img id="lamina-img" alt=""></div>
+        </div>
+        <p class="text-xs text-suave mt-2">Toca un número para ver la pieza. Los puntos de color son piezas de mantenimiento.</p>
+      </div>
+      <aside>
+        <div class="parte-ficha" id="parte-ficha" aria-live="polite">
+          <p class="text-sm text-suave">Elige una pieza en el dibujo o en la lista.</p>
+        </div>
+        <p class="campo-label mt-5 mb-2">Piezas de mantenimiento</p>
+        <ul class="partes-lista" id="partes-mant"></ul>
+        <details class="mt-4">
+          <summary class="boton-texto cursor-pointer" id="partes-todas-resumen">Todas las piezas</summary>
+          <ul class="partes-lista mt-2" id="partes-todas"></ul>
+        </details>
+      </aside>
+    </div>
+  </div>
+</section>
+{{ datos_despiece|json_script:"datos-despiece" }}
+<script src="{% static 'garaje/js/despiece.js' %}" defer></script>
+{% endif %}
 
 <!-- Plan de mantenimiento -->
 <section id="plan" class="mt-10 scroll-mt-24">

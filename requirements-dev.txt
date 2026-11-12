@@ -1,0 +1,3 @@
+# Herramientas solo para desarrollo local (no se instalan en Render)
+-r requirements.txt
+pymupdf>=1.24

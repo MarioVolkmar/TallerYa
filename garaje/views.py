@@ -11,8 +11,8 @@ from cupones.models import Cupon
 from talleres.models import Taller
 
 from .forms import LecturaForm, MantenimientoForm, MotoForm
-from .models import LecturaKm, Moto
-from .plan import calcular_plan
+from .models import Despiece, LecturaKm, Moto
+from .plan import GRAVEDAD, calcular_plan
 
 MAX_MOTOS = 5
 
@@ -104,6 +104,7 @@ def detalle(request, pk):
             t.cupones_sugeridos = por_taller.get(t.pk, [])
             t.servicios_que_tocan = [s for s in t.servicios.all() if s.pk in servicios]
 
+    despiece = Despiece.para(moto)
     return render(request, "garaje/moto.html", {
         "moto": moto,
         "plan": plan,
@@ -114,7 +115,45 @@ def detalle(request, pk):
         "lecturas": moto.lecturas.all()[:8],
         "historial": moto.mantenimientos.select_related("tarea", "taller")[:15],
         "otras_motos": request.motociclista.motos.exclude(pk=moto.pk),
+        "despiece": despiece,
+        "datos_despiece": datos_despiece(despiece, plan) if despiece else None,
     })
+
+
+def datos_despiece(despiece, plan):
+    """Láminas con sus piezas marcadas y el estado de mantenimiento de cada una, para el visor."""
+    por_tarea = {t.tarea.pk: t for t in plan.tareas}
+    piezas = plan.piezas()
+    laminas = []
+    for lamina in despiece.laminas.prefetch_related("partes__tarea__servicio"):
+        partes, peor = [], None
+        for p in lamina.partes.all():
+            if not p.marcada:
+                continue
+            estado_tarea = por_tarea.get(p.tarea_id)
+            parte = {
+                "id": p.pk, "ref": p.ref, "codigo": p.codigo, "nombre": p.nombre, "descripcion": p.descripcion,
+                "cantidad": p.cantidad, "x": p.x, "y": p.y, "estado": None, "tarea": None,
+            }
+            if estado_tarea:
+                parte["estado"] = estado_tarea.estado
+                parte["tarea"] = {
+                    "nombre": estado_tarea.tarea.nombre, "etiqueta": estado_tarea.etiqueta,
+                    "detalle": estado_tarea.detalle,
+                    "servicio": estado_tarea.tarea.servicio_id,
+                }
+                if peor is None or GRAVEDAD[estado_tarea.estado] > GRAVEDAD[peor]:
+                    peor = estado_tarea.estado
+            partes.append(parte)
+        if not partes:
+            continue
+        laminas.append({
+            "id": lamina.pk, "figura": lamina.figura, "nombre": lamina.nombre, "pieza": lamina.pieza,
+            "imagen": lamina.imagen.url, "ancho": lamina.ancho, "alto": lamina.alto,
+            "estado": peor or piezas.get(lamina.pieza, {}).get("estado"), "partes": partes,
+        })
+    laminas.sort(key=lambda l: -GRAVEDAD.get(l["estado"] or "ok", 0))
+    return {"version": despiece.version, "anio": despiece.anio, "laminas": laminas}
 
 
 @con_motociclista

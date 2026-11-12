@@ -6,3 +6,6 @@ db.sqlite3
 media/
 staticfiles/
 .env
+
+# Planos de despiece (material de terceros): solo en local, nunca al repositorio
+despiece_local/

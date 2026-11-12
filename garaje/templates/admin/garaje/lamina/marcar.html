@@ -1,0 +1,120 @@
+{% extends "admin/change_form.html" %}
+{% block after_field_sets %}
+{{ block.super }}
+{% if original and partes_json %}
+<fieldset class="module aligned">
+  <h2>Marcar piezas en el dibujo</h2>
+  <div class="marcado">
+    <div>
+      <p class="help">1) Elige una parte de la lista. 2) Haz clic en el dibujo donde está su número. Se guarda solo y pasa a la siguiente sin marcar.</p>
+      <div class="marcado-zoom">
+        <label>Zoom <input type="range" id="zoom" min="100" max="260" value="140"></label>
+        <span id="estado-guardado" class="help"></span>
+      </div>
+      <div class="marcado-lienzo" id="lienzo">
+        <div class="marcado-imagen" id="imagen-caja">
+          <img src="{{ original.imagen.url }}" alt="FIG. {{ original.figura }}" id="dibujo" draggable="false">
+        </div>
+      </div>
+    </div>
+    <div class="marcado-lista">
+      <p><strong id="contador"></strong></p>
+      <ul id="lista-partes"></ul>
+      <button type="button" class="button" id="quitar" disabled>Quitar marca de la parte elegida</button>
+    </div>
+  </div>
+</fieldset>
+
+<style>
+  .marcado { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; padding: 12px; }
+  .marcado-zoom { display: flex; gap: 16px; align-items: center; margin: 6px 0 8px; }
+  .marcado-lienzo { overflow: auto; max-height: 75vh; border: 1px solid var(--hairline-color); background: #fff; }
+  .marcado-imagen { position: relative; width: 140%; cursor: crosshair; }
+  .marcado-imagen img { display: block; width: 100%; height: auto; user-select: none; }
+  .marca { position: absolute; transform: translate(-50%, -50%); min-width: 22px; height: 22px; padding: 0 4px;
+           border-radius: 11px; background: #f2611d; color: #fff; font: bold 11px/22px sans-serif; text-align: center;
+           border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.5); cursor: pointer; }
+  .marca.con-tarea { background: #2f7d4a; }
+  .marca.activa { background: #1f4fa8; transform: translate(-50%, -50%) scale(1.25); z-index: 2; }
+  .marcado-lista ul { list-style: none; margin: 0; padding: 0; max-height: 68vh; overflow: auto; border: 1px solid var(--hairline-color); }
+  .marcado-lista li { padding: 6px 8px; border-bottom: 1px solid var(--hairline-color); cursor: pointer; font-size: 12px; display: flex; gap: 8px; }
+  .marcado-lista li:hover { background: var(--darkened-bg); }
+  .marcado-lista li.activa { background: var(--selected-row); }
+  .marcado-lista li .ok { margin-left: auto; color: #2f7d4a; font-weight: bold; }
+  .marcado-lista li small { display: block; color: var(--body-quiet-color); }
+  @media (max-width: 1024px) { .marcado { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+(function () {
+  const partes = JSON.parse("{{ partes_json|escapejs }}");
+  const url = "{% url 'admin:garaje_lamina_marcar' original.pk %}";
+  const csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+  const caja = document.getElementById("imagen-caja");
+  const lista = document.getElementById("lista-partes");
+  const contador = document.getElementById("contador");
+  const estado = document.getElementById("estado-guardado");
+  const quitar = document.getElementById("quitar");
+  let activa = partes.find((p) => p.x === null) || partes[0];
+
+  function pintar() {
+    caja.querySelectorAll(".marca").forEach((m) => m.remove());
+    lista.innerHTML = "";
+    let marcadas = 0;
+    for (const p of partes) {
+      const li = document.createElement("li");
+      li.className = p === activa ? "activa" : "";
+      li.innerHTML = `<b>${p.ref}</b><span><span class="n"></span><small></small></span>${p.x !== null ? '<span class="ok">✓</span>' : ""}`;
+      li.querySelector(".n").textContent = p.nombre;
+      li.querySelector("small").textContent = p.codigo + (p.tarea ? " · " + p.tarea : "");
+      li.addEventListener("click", () => { activa = p; pintar(); });
+      lista.appendChild(li);
+      if (p.x === null) continue;
+      marcadas++;
+      const m = document.createElement("span");
+      m.className = "marca" + (p.tarea ? " con-tarea" : "") + (p === activa ? " activa" : "");
+      m.style.left = p.x * 100 + "%";
+      m.style.top = p.y * 100 + "%";
+      m.textContent = p.ref;
+      m.title = p.nombre;
+      m.addEventListener("click", (e) => { e.stopPropagation(); activa = p; pintar(); });
+      caja.appendChild(m);
+    }
+    contador.textContent = `${marcadas} de ${partes.length} marcadas`;
+    quitar.disabled = !activa || activa.x === null;
+    lista.querySelector(".activa")?.scrollIntoView({ block: "nearest" });
+  }
+
+  async function guardar(parte, cuerpo) {
+    estado.textContent = "Guardando…";
+    const r = await fetch(url, {
+      method: "POST", headers: { "Content-Type": "application/json", "X-CSRFToken": csrf },
+      body: JSON.stringify({ parte: parte.id, ...cuerpo }),
+    });
+    if (!r.ok) { estado.textContent = "No se pudo guardar"; return false; }
+    const datos = await r.json();
+    parte.x = datos.x; parte.y = datos.y;
+    estado.textContent = "Guardado";
+    return true;
+  }
+
+  caja.addEventListener("click", async (e) => {
+    if (!activa) return;
+    const r = caja.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    if (await guardar(activa, { x, y })) {
+      const i = partes.indexOf(activa);
+      activa = partes.slice(i + 1).find((p) => p.x === null) || partes.find((p) => p.x === null) || activa;
+      pintar();
+    }
+  });
+  quitar.addEventListener("click", async () => {
+    if (activa && await guardar(activa, { quitar: true })) pintar();
+  });
+  document.getElementById("zoom").addEventListener("input", (e) => { caja.style.width = e.target.value + "%"; });
+  pintar();
+})();
+</script>
+{% endif %}
+{% endblock %}

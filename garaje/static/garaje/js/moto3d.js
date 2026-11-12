@@ -98,21 +98,41 @@ function iniciar() {
     return datos.piezas[pieza]?.estado || null;
   }
 
+  const matBorde = new THREE.LineBasicMaterial({ color: 0x9fd3e6, transparent: true, opacity: 0.4 });
+  const invisible = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.02, depthWrite: false });
+
   function aplicarModo() {
-    moto.raiz.traverse((obj) => {
-      if (!obj.isMesh) return;
+    contenedor.classList.toggle("rayos", modo === "rayos");
+    const mallas = [];
+    moto.raiz.traverse((obj) => { if (obj.isMesh) mallas.push(obj); });
+    for (const obj of mallas) {
       obj.userData.original ??= obj.material;
       const pieza = piezaDe(obj);
       const estado = pieza && estadoDe(pieza);
+      const interno = Boolean(obj.userData.interno);
+      obj.visible = !interno || modo === "rayos";
+      if (obj.userData.borde) obj.userData.borde.visible = modo === "rayos" && !estado;
+
       if (modo === "moto") {
         obj.material = obj.userData.original;
+      } else if (modo === "estado") {
+        obj.material = estado ? matEstado[estado].clone() : ghost;
       } else if (estado) {
-        obj.material = matEstado[estado].clone();
+        // Rayos X: piezas internas sólidas; sus carcasas, translúcidas para ver adentro.
+        const m = matEstado[estado].clone();
+        if (!interno) Object.assign(m, { transparent: true, opacity: 0.28, depthWrite: false });
+        obj.material = m;
       } else {
-        obj.material = ghost;
+        if (!obj.userData.borde) {
+          const borde = new THREE.LineSegments(new THREE.EdgesGeometry(obj.geometry, 28), matBorde);
+          obj.add(borde);
+          obj.userData.borde = borde;
+        }
+        obj.userData.borde.visible = true;
+        obj.material = invisible;
       }
-      obj.castShadow = modo === "moto" || Boolean(estado);
-    });
+      obj.castShadow = modo === "moto" || (Boolean(estado) && obj.visible);
+    }
     resaltar(seleccionada);
   }
 
@@ -169,6 +189,14 @@ function iniciar() {
       document.querySelector(`.tarea[data-pieza="${pieza}"]`)?.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "center" });
     });
     ficha.appendChild(ir);
+    if (window.TallerYaDespiece?.tiene(pieza)) {
+      const ver = document.createElement("button");
+      ver.type = "button";
+      ver.className = "boton-texto mt-3 ml-4";
+      ver.textContent = "Ver despiece";
+      ver.addEventListener("click", () => window.TallerYaDespiece.mostrar(pieza));
+      ficha.appendChild(ver);
+    }
   }
 
   // ---------- Interacción ----------
@@ -277,6 +305,7 @@ function construirMoto(specs, colorPintura) {
     radiador: new THREE.MeshStandardMaterial({ color: 0x2a2f31, roughness: 0.6, metalness: 0.6 }),
     bateria: new THREE.MeshStandardMaterial({ color: 0x222628, roughness: 0.6 }),
     bujia: new THREE.MeshStandardMaterial({ color: 0xf1ede4, roughness: 0.3 }),
+    aceiteVisible: new THREE.MeshStandardMaterial({ color: 0xd99a1e, transparent: true, opacity: 0.8, roughness: 0.2 }),
   };
 
   // ----- Utilidades de geometría -----
@@ -339,6 +368,10 @@ function construirMoto(specs, colorPintura) {
     const m = malla(new THREE.SphereGeometry(1, 28, 18), mat, padre);
     m.scale.set(rx, ry, rz);
     m.position.copy(pos);
+    return m;
+  }
+  function interno(m) {
+    m.userData.interno = true; // solo se ve en modo Rayos X
     return m;
   }
   function resorte(a, b, radio, vueltas, mat, padre) {
@@ -406,9 +439,16 @@ function construirMoto(specs, colorPintura) {
       disco(radioDisco, 0.006, M.metal, V(x, R, zFreno), f, 40);
       disco(radioDisco * 0.45, 0.012, M.oscuro, V(x, R, zFreno), f, 20);
       const ang = idFreno === "freno_del" ? 2.3 : 1.2;
-      caja(0.07, 0.05, 0.04, M.rojo, V(x + Math.cos(ang) * radioDisco * 0.88, R + Math.sin(ang) * radioDisco * 0.88, zFreno + 0.01), f, ang);
+      const posCaliper = V(x + Math.cos(ang) * radioDisco * 0.88, R + Math.sin(ang) * radioDisco * 0.88, zFreno + 0.01);
+      caja(0.07, 0.05, 0.04, M.rojo, posCaliper, f, ang);
+      for (const dz of [-0.012, 0.014]) interno(caja(0.055, 0.035, 0.008, M.oscuro, posCaliper.clone().add(V(0, 0, dz)), f, ang));
     } else {
       disco(Math.min(rinR * 0.5, 0.085), 0.05, M.motor, V(x, R, zFreno - 0.01), f, 28);
+      for (const sentido of [1, -1]) {
+        const banda = interno(malla(new THREE.TorusGeometry(Math.min(rinR * 0.42, 0.072), 0.008, 6, 16, Math.PI * 0.8), M.oscuro, f));
+        banda.position.set(x, R, zFreno - 0.01);
+        banda.rotation.z = sentido > 0 ? 0.15 : Math.PI + 0.15;
+      }
       tubo(V(x, R + 0.04, zFreno + 0.02), V(x - 0.08, R + 0.08, zFreno + 0.02), 0.008, M.oscuro, f);
     }
     return centro;
@@ -501,6 +541,22 @@ function construirMoto(specs, colorPintura) {
     caja(0.12, 0.13, 0.08, M.bateria, V(P.x + 0.32, 0.46, 0), bateria);
     caja(0.03, 0.03, 0.06, M.rojo, V(P.x + 0.38, 0.53, 0.02), bateria);
     cilindro.userData.base = true;
+    // Rayos X: pistón, aceite, poleas y correa, elemento del filtro y celdas de la batería
+    interno(disco(0.045 * s, 0.05, M.cromo, V(E.x + 0.1 * s, E.y + 0.015), motor, 16)).rotation.set(0, 0, Math.PI / 2 - 0.12);
+    interno(caja(0.2 * s, 0.05 * s, 0.17, M.aceiteVisible, V(E.x - 0.03, E.y - 0.07 * s), aceite));
+    const zCvt = anchoR / 2 + 0.07;
+    const poleaA = V(P.x + 0.02, Rr * 0.95 + 0.01, zCvt);
+    const poleaB = V(xR + 0.02, Rr, zCvt);
+    interno(disco(0.065, 0.03, M.metal, poleaA, correa, 24));
+    interno(disco(0.085, 0.03, M.metal, poleaB, correa, 24));
+    const contornoCvt = cascoCirculos([[poleaA.x, poleaA.y, 0.058], [poleaB.x, poleaB.y, 0.078]]);
+    interno(malla(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(contornoCvt.map(([x, y]) => V(x, y, zCvt)), true), 90, 0.009, 6, true), M.caucho, correa));
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
+      interno(disco(0.011, 0.02, M.cromo, poleaA.clone().add(V(Math.cos(a) * 0.04, Math.sin(a) * 0.04, 0.01)), correa, 10));
+    }
+    for (let i = 0; i < 6; i++) interno(caja(0.012, 0.07, 0.1, M.bujia, V(xR + 0.27 + i * 0.024, Rr + 0.17, 0.13), filtro));
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) interno(caja(0.03, 0.09, 0.03, M.motor, V(P.x + 0.29 + i * 0.033, 0.46, -0.018 + j * 0.036), bateria));
   } else {
     const E = V(P.x + 0.2 * s + 0.04, P.y + 0.05);
     // Cárter (aceite)
@@ -532,6 +588,17 @@ function construirMoto(specs, colorPintura) {
     // Batería
     caja(0.11, 0.12, 0.09, M.bateria, V(P.x - 0.2, alturaAsiento - 0.2, 0), bateria);
     caja(0.025, 0.02, 0.025, M.rojo, V(P.x - 0.17, alturaAsiento - 0.135, 0.02), bateria);
+    // Rayos X: pistón y válvulas, aceite en el cárter, elemento del filtro y celdas de la batería
+    interno(disco(0.05 * s, 0.05 * s, M.cromo, V(0, alto * 0.55), cilindro, 18)).rotation.set(0, 0, 0);
+    interno(caja(0.012, alto * 0.5, 0.012, M.metal, V(0, alto * 0.25), cilindro));
+    for (const lado of [-1, 1]) {
+      interno(caja(0.006, 0.07 * s, 0.006, M.metal, V(lado * 0.025 * s, alto + 0.01, 0), cilindro));
+      interno(disco(0.016 * s, 0.006, M.metal, V(lado * 0.025 * s, alto - 0.025, 0), cilindro, 12)).rotation.set(0, 0, 0);
+    }
+    interno(disco(0.07 * s, 0.03, M.metal, V(E.x, E.y - 0.02, 0), motor, 20));
+    interno(caja(0.28 * s, 0.06 * s, 0.2 * s, M.aceiteVisible, V(E.x, E.y - 0.08 * s), aceite));
+    for (let i = 0; i < 6; i++) interno(caja(0.01, 0.09, 0.13, M.bujia, V(P.x - 0.1 + i * 0.024, alturaAsiento - 0.2, 0), filtro));
+    for (let i = 0; i < 3; i++) for (let j = 0; j < 2; j++) interno(caja(0.028, 0.09, 0.03, M.motor, V(P.x - 0.23 + i * 0.03, alturaAsiento - 0.2, -0.018 + j * 0.036), bateria));
     // Radiador
     if (liquida) {
       const rad = grupo("refrigeracion");

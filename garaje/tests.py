@@ -159,3 +159,90 @@ class GarajeTests(TestCase):
         self.assertContains(r, 'id="datos-moto"')
         self.assertContains(r, '"rin_delantero": 17')
         self.assertContains(r, "Llantas Ya")
+
+
+class DespieceTests(TestCase):
+    def setUp(self):
+        import tempfile
+        from django.core.files.base import ContentFile
+        from django.test import override_settings
+
+        self.tmp = tempfile.mkdtemp()
+        self.override = override_settings(MEDIA_ROOT=self.tmp)
+        self.override.enable()
+        self.nmax = LineaMoto.objects.get(nombre="NMAX 155")
+        from .models import Despiece, Lamina, ParteDespiece
+        self.d2024 = Despiece.objects.create(linea=self.nmax, version="BBE4", anio=2024)
+        self.d2020 = Despiece.objects.create(linea=self.nmax, version="BDG1", anio=2020)
+        self.lamina = Lamina(despiece=self.d2024, figura=22, titulo="FRONT BRAKE CALIPER",
+                             titulo_es="Freno delantero", pieza="freno_del", ancho=10, alto=10)
+        self.lamina.imagen.save("fig22.png", ContentFile(b"\x89PNG"), save=False)
+        self.lamina.save()
+        pastillas = TareaMantenimiento.objects.get(clave="pastillas-del")
+        self.parte = ParteDespiece.objects.create(lamina=self.lamina, ref=9, codigo="2DP-F5805-00",
+                                                  descripcion="BRAKE PAD KIT", tarea=pastillas, x=.6, y=.6)
+        ParteDespiece.objects.create(lamina=self.lamina, ref=2, codigo="90109-08232", descripcion="BOLT", x=.2, y=.7)
+        ParteDespiece.objects.create(lamina=self.lamina, ref=3, codigo="X", descripcion="CALIPER ASSY")  # sin marcar
+
+        self.usuario = User.objects.create_user("ana@x.com", "ana@x.com", "x")
+        perfil = Motociclista.objects.create(nombre="Ana", celular="573001112244", usuario=self.usuario)
+        self.moto = Moto.objects.create(motociclista=perfil, linea=self.nmax, modelo=2024, km_inicial=30000, km_actual=30000)
+
+    def tearDown(self):
+        self.override.disable()
+
+    def test_elige_el_catalogo_del_anio_mas_cercano(self):
+        from .models import Despiece
+        self.assertEqual(Despiece.para(self.moto), self.d2024)
+        self.moto.modelo = 2021
+        self.assertEqual(Despiece.para(self.moto), self.d2020)  # prefiere el de su año o anterior
+        self.moto.linea = LineaMoto.objects.get(nombre="NKD 125")
+        self.assertIsNone(Despiece.para(self.moto))
+
+    def test_datos_del_visor_solo_partes_marcadas_y_con_estado(self):
+        from .views import datos_despiece
+        datos = datos_despiece(self.d2024, calcular_plan(self.moto))
+        partes = datos["laminas"][0]["partes"]
+        self.assertEqual([p["ref"] for p in partes], [2, 9])
+        pastillas = next(p for p in partes if p["ref"] == 9)
+        self.assertEqual(pastillas["estado"], "desconocido")  # moto usada sin registro
+        self.assertEqual(datos["laminas"][0]["estado"], "desconocido")
+
+    def test_pagina_de_la_moto_muestra_el_despiece(self):
+        self.client.force_login(self.usuario)
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertContains(r, 'id="datos-despiece"')
+        self.assertContains(r, "2DP-F5805-00")
+
+    def test_marcar_desde_el_admin(self):
+        from django.urls import reverse as rev
+        admin = User.objects.create_superuser("admin", "admin@x.com", "x")
+        url = rev("admin:garaje_lamina_marcar", args=[self.lamina.pk])
+        self.client.force_login(self.usuario)  # no es staff
+        self.assertNotEqual(self.client.post(url, {}, content_type="application/json").status_code, 200)
+        self.client.force_login(admin)
+        r = self.client.post(url, {"parte": self.parte.pk, "x": 1.7, "y": 0.25}, content_type="application/json")
+        self.assertEqual(r.status_code, 200)
+        self.parte.refresh_from_db()
+        self.assertEqual((self.parte.x, self.parte.y), (1.0, 0.25))  # se limita a la imagen
+        self.client.post(url, {"parte": self.parte.pk, "quitar": True}, content_type="application/json")
+        self.parte.refresh_from_db()
+        self.assertIsNone(self.parte.x)
+        self.assertEqual(self.client.get(rev("admin:garaje_lamina_change", args=[self.lamina.pk])).status_code, 200)
+
+    def test_lectura_de_filas_del_catalogo(self):
+        from .management.commands.importar_despiece import _filas
+        palabras = [
+            (422, 65, 426, 74, "9", 0, 0, 0), (431, 65, 479, 74, "2DP�F5805�00", 0, 0, 1),
+            (503, 65, 521, 74, ".BRAKE", 0, 0, 2), (523, 65, 547, 74, "PAD", 0, 0, 3), (549, 65, 575, 74, "KIT", 0, 0, 4),
+            (666, 65, 670, 74, "1", 0, 0, 5),
+        ]
+        fila = _filas(palabras)[0]
+        self.assertEqual(fila, {"ref": 9, "codigo": "2DP-F5805-00", "descripcion": "BRAKE PAD KIT", "nivel": 1, "cantidad": 1})
+
+    def test_glosario(self):
+        from .despiece_glosario import traducir
+        self.assertEqual(traducir("BRAKE PAD KIT"), "Kit de pastillas de freno")
+        self.assertEqual(traducir("TIRE (110/70-13M/C 48P)"), "Llanta")
+        self.assertEqual(traducir("BOLT, FLANGE"), "Tornillo")
+        self.assertEqual(traducir("SOMETHING RARE"), "")

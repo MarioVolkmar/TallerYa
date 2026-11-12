@@ -221,3 +221,92 @@ class Mantenimiento(models.Model):
 
     def __str__(self):
         return f"{self.tarea} · {self.moto} · {self.km} km"
+
+
+# ---------------------------------------------------------------------------
+# Despiece: láminas del catálogo de partes de una versión de moto
+# ---------------------------------------------------------------------------
+class Despiece(models.Model):
+    """Catálogo de partes de una versión (ej: Yamaha NMAX BBE4 2024)."""
+
+    linea = models.ForeignKey(LineaMoto, on_delete=models.CASCADE, related_name="despieces")
+    version = models.CharField(max_length=20, help_text="Código de versión del catálogo. Ej: BBE4")
+    anio = models.PositiveSmallIntegerField("año")
+    fuente = models.URLField(blank=True, help_text="De dónde salió el catálogo")
+    activo = models.BooleanField(default=True)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["linea", "-anio"]
+        verbose_name_plural = "despieces"
+        constraints = [models.UniqueConstraint(fields=["linea", "version"], name="despiece_unico_por_version")]
+
+    def __str__(self):
+        return f"{self.linea} · {self.version} ({self.anio})"
+
+    @classmethod
+    def para(cls, moto):
+        """Elige el catálogo más cercano al año de la moto (prefiere el de su año o anterior)."""
+        if not moto.linea_id:
+            return None
+        opciones = list(cls.objects.filter(linea_id=moto.linea_id, activo=True))
+        if not opciones:
+            return None
+        return min(opciones, key=lambda d: (d.anio > moto.modelo, abs(d.anio - moto.modelo)))
+
+
+class Lamina(models.Model):
+    despiece = models.ForeignKey(Despiece, on_delete=models.CASCADE, related_name="laminas")
+    figura = models.PositiveSmallIntegerField(help_text="Número de figura en el catálogo")
+    titulo = models.CharField(max_length=120, help_text="Título original del catálogo")
+    titulo_es = models.CharField("título en español", max_length=120, blank=True)
+    pieza = models.CharField(max_length=20, choices=TareaMantenimiento.Pieza.choices,
+                             help_text="Pieza del modelo 3D y del plan a la que corresponde")
+    imagen = models.ImageField(upload_to="despiece/")
+    ancho = models.PositiveIntegerField(default=0)
+    alto = models.PositiveIntegerField(default=0)
+    orden = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ["despiece", "orden", "figura"]
+        verbose_name = "lámina de despiece"
+        verbose_name_plural = "láminas de despiece"
+        constraints = [models.UniqueConstraint(fields=["despiece", "figura"], name="lamina_unica_por_figura")]
+
+    def __str__(self):
+        return f"FIG. {self.figura} {self.titulo_es or self.titulo}"
+
+    @property
+    def nombre(self):
+        return self.titulo_es or self.titulo.capitalize()
+
+
+class ParteDespiece(models.Model):
+    lamina = models.ForeignKey(Lamina, on_delete=models.CASCADE, related_name="partes")
+    ref = models.PositiveSmallIntegerField("ref.", help_text="Número de la pieza en el dibujo")
+    codigo = models.CharField("código de repuesto", max_length=30)
+    descripcion = models.CharField(max_length=120, help_text="Descripción original del catálogo")
+    nombre_es = models.CharField("nombre en español", max_length=120, blank=True)
+    cantidad = models.PositiveSmallIntegerField(default=1)
+    nivel = models.PositiveSmallIntegerField(default=0, help_text="0 = pieza principal; 1+ = parte de un conjunto")
+    tarea = models.ForeignKey(TareaMantenimiento, on_delete=models.SET_NULL, null=True, blank=True,
+                              related_name="partes_despiece")
+    # Posición en el dibujo, relativa (0 a 1). Vacía hasta marcarla en el admin.
+    x = models.FloatField(null=True, blank=True)
+    y = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["lamina", "ref", "pk"]
+        verbose_name = "parte del despiece"
+        verbose_name_plural = "partes del despiece"
+
+    def __str__(self):
+        return f"{self.ref} · {self.codigo} · {self.nombre}"
+
+    @property
+    def nombre(self):
+        return self.nombre_es or self.descripcion.capitalize()
+
+    @property
+    def marcada(self):
+        return self.x is not None and self.y is not None
