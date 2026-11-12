@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="mb-6">
+  <h1 class="text-2xl md:text-3xl font-extrabold">Encuentra un taller de confianza para tu moto</h1>
+  <p class="text-gray-600 mt-1">Talleres verificados en Medellín, con reseñas reales.</p>
+</section>
+
+<form method="get" class="bg-white rounded-xl shadow-sm p-4 grid gap-3 md:grid-cols-5 mb-6">
+  <input name="q" value="{{ filtros.q }}" placeholder="Buscar taller..." class="md:col-span-2 rounded-lg border border-gray-300 px-3 py-2">
+  <select name="barrio" class="rounded-lg border border-gray-300 px-3 py-2">
+    <option value="">Todos los barrios</option>
+    {% for b in barrios %}<option value="{{ b.id }}" {% if filtros.barrio == b.id|stringformat:"s" %}selected{% endif %}>{{ b }}</option>{% endfor %}
+  </select>
+  <select name="servicio" class="rounded-lg border border-gray-300 px-3 py-2">
+    <option value="">Todos los servicios</option>
+    {% for s in servicios %}<option value="{{ s.id }}" {% if filtros.servicio == s.id|stringformat:"s" %}selected{% endif %}>{{ s }}</option>{% endfor %}
+  </select>
+  <select name="marca" class="rounded-lg border border-gray-300 px-3 py-2">
+    <option value="">Todas las marcas</option>
+    {% for m in marcas %}<option value="{{ m.id }}" {% if filtros.marca == m.id|stringformat:"s" %}selected{% endif %}>{{ m }}</option>{% endfor %}
+  </select>
+  <button class="md:col-span-5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg py-2">Buscar</button>
+</form>
+
+<div class="grid gap-4 md:grid-cols-2">
+  {% for t in talleres %}
+  <a href="{{ t.get_absolute_url }}" class="bg-white rounded-xl shadow-sm hover:shadow-md transition p-4 block {% if t.destacado %}ring-2 ring-orange-400{% endif %}">
+    <div class="flex items-start justify-between gap-2">
+      <h2 class="font-bold text-lg">{{ t.nombre }}</h2>
+      <div class="flex gap-1 shrink-0">
+        {% if t.destacado %}<span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">Destacado</span>{% endif %}
+        {% if t.verificado %}<span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">✔ Verificado</span>{% endif %}
+      </div>
+    </div>
+    <p class="text-sm text-gray-600">{{ t.barrio }} · {{ t.horario }}</p>
+    {% with c=t.calificacion %}{% if c %}<p class="text-sm mt-1">⭐ {{ c|floatformat:1 }}</p>{% endif %}{% endwith %}
+    <div class="flex flex-wrap gap-1 mt-2">
+      {% for s in t.servicios.all|slice:":4" %}<span class="text-xs bg-gray-100 px-2 py-0.5 rounded">{{ s }}</span>{% endfor %}
+    </div>
+  </a>
+  {% empty %}
+  <p class="text-gray-600">No encontramos talleres con esos filtros.</p>
+  {% endfor %}
+</div>
+{% endblock %}

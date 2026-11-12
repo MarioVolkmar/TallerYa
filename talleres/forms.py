@@ -1,0 +1,57 @@
+from django import forms
+
+from .models import Resena, SolicitudCita, Taller
+
+INPUT = "w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-orange-500 focus:outline-none"
+
+
+class EstiloMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for f in self.fields.values():
+            if not isinstance(f.widget, (forms.CheckboxSelectMultiple, forms.ClearableFileInput)):
+                f.widget.attrs.setdefault("class", INPUT)
+
+
+class SolicitudCitaForm(EstiloMixin, forms.ModelForm):
+    class Meta:
+        model = SolicitudCita
+        fields = ["nombre", "telefono", "moto", "servicio", "fecha_preferida", "detalle"]
+        widgets = {
+            "fecha_preferida": forms.DateInput(attrs={"type": "date"}),
+            "detalle": forms.Textarea(attrs={"rows": 3}),
+        }
+
+    def __init__(self, *args, taller=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if taller:
+            self.fields["servicio"].queryset = taller.servicios.all()
+
+
+class ResenaForm(EstiloMixin, forms.ModelForm):
+    estrellas = forms.TypedChoiceField(choices=[(i, "★" * i) for i in range(5, 0, -1)], coerce=int)
+
+    class Meta:
+        model = Resena
+        fields = ["nombre", "estrellas", "comentario"]
+        widgets = {"comentario": forms.Textarea(attrs={"rows": 3})}
+
+
+class RegistroTallerForm(EstiloMixin, forms.ModelForm):
+    class Meta:
+        model = Taller
+        fields = ["nombre", "responsable", "whatsapp", "direccion", "barrio", "horario",
+                  "descripcion", "servicios", "marcas", "foto"]
+        widgets = {
+            "servicios": forms.CheckboxSelectMultiple,
+            "marcas": forms.CheckboxSelectMultiple,
+            "descripcion": forms.Textarea(attrs={"rows": 3}),
+        }
+
+    def clean_whatsapp(self):
+        num = "".join(c for c in self.cleaned_data["whatsapp"] if c.isdigit())
+        if len(num) == 10:
+            num = "57" + num
+        if len(num) != 12:
+            raise forms.ValidationError("Número no válido. Usa 10 dígitos, ej: 3001234567")
+        return num

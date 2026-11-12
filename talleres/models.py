@@ -1,0 +1,125 @@
+from urllib.parse import quote
+
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from django.db.models import Avg
+from django.urls import reverse
+from django.utils.text import slugify
+
+
+class Barrio(models.Model):
+    nombre = models.CharField(max_length=80, unique=True)
+    ciudad = models.CharField(max_length=80, default="Medellín")
+
+    class Meta:
+        ordering = ["nombre"]
+
+    def __str__(self):
+        return self.nombre
+
+
+class Servicio(models.Model):
+    nombre = models.CharField(max_length=80, unique=True)
+
+    class Meta:
+        ordering = ["nombre"]
+
+    def __str__(self):
+        return self.nombre
+
+
+class Marca(models.Model):
+    nombre = models.CharField(max_length=60, unique=True)
+
+    class Meta:
+        ordering = ["nombre"]
+
+    def __str__(self):
+        return self.nombre
+
+
+class Taller(models.Model):
+    nombre = models.CharField(max_length=120)
+    slug = models.SlugField(max_length=140, unique=True, blank=True)
+    descripcion = models.TextField(blank=True)
+    responsable = models.CharField(max_length=120)
+    whatsapp = models.CharField(max_length=20, help_text="Con indicativo, solo números. Ej: 573001234567")
+    direccion = models.CharField(max_length=200)
+    barrio = models.ForeignKey(Barrio, on_delete=models.PROTECT, related_name="talleres")
+    horario = models.CharField(max_length=120, blank=True, help_text="Ej: Lun-Sáb 8am-6pm")
+    servicios = models.ManyToManyField(Servicio, related_name="talleres")
+    marcas = models.ManyToManyField(Marca, related_name="talleres", blank=True)
+    foto = models.ImageField(upload_to="talleres/", blank=True)
+    verificado = models.BooleanField(default=False)
+    activo = models.BooleanField(default=False, help_text="Visible en el directorio")
+    destacado = models.BooleanField(default=False, help_text="Plan pro: aparece primero")
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-destacado", "-verificado", "nombre"]
+        verbose_name_plural = "talleres"
+
+    def __str__(self):
+        return self.nombre
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base = slugify(self.nombre) or "taller"
+            slug, n = base, 2
+            while Taller.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug, n = f"{base}-{n}", n + 1
+            self.slug = slug
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("talleres:detalle", args=[self.slug])
+
+    @property
+    def calificacion(self):
+        return self.resenas.filter(visible=True).aggregate(p=Avg("estrellas"))["p"]
+
+    @property
+    def whatsapp_url(self):
+        return f"https://wa.me/{self.whatsapp}?text={quote(f'Hola {self.nombre}, te encontré en TallerYa.')}"
+
+
+class SolicitudCita(models.Model):
+    class Estado(models.TextChoices):
+        PENDIENTE = "pendiente", "Pendiente"
+        CONFIRMADA = "confirmada", "Confirmada"
+        ATENDIDA = "atendida", "Atendida"
+        CANCELADA = "cancelada", "Cancelada"
+
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="solicitudes")
+    nombre = models.CharField(max_length=120)
+    telefono = models.CharField(max_length=20)
+    moto = models.CharField(max_length=80, help_text="Marca y modelo. Ej: Yamaha NMAX")
+    servicio = models.ForeignKey(Servicio, on_delete=models.SET_NULL, null=True)
+    fecha_preferida = models.DateField()
+    detalle = models.TextField(blank=True)
+    estado = models.CharField(max_length=12, choices=Estado.choices, default=Estado.PENDIENTE)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-creado"]
+        verbose_name = "solicitud de cita"
+        verbose_name_plural = "solicitudes de cita"
+
+    def __str__(self):
+        return f"{self.nombre} → {self.taller} ({self.fecha_preferida})"
+
+
+class Resena(models.Model):
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="resenas")
+    nombre = models.CharField(max_length=80)
+    estrellas = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    comentario = models.TextField(max_length=600)
+    visible = models.BooleanField(default=True)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-creado"]
+        verbose_name = "reseña"
+
+    def __str__(self):
+        return f"{self.estrellas}★ {self.taller} - {self.nombre}"
