@@ -80,9 +80,10 @@ class Command(BaseCommand):
         if settings.DEBUG:
             self.cargar_garaje()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))
-        self.stdout.write("PIN de canje por taller (solo para pruebas):")
-        for nombre, pin in Taller.objects.values_list("nombre", "pin_canje"):
-            self.stdout.write(f"  {nombre}: {pin}")
+        if settings.DEBUG:  # en producción los PIN se consultan en el admin, no en los logs
+            self.stdout.write("PIN de canje por taller (solo para pruebas):")
+            for nombre, pin in Taller.objects.values_list("nombre", "pin_canje"):
+                self.stdout.write(f"  {nombre}: {pin}")
 
     def cargar_foro(self):
         """Usuarios demo sin contraseña utilizable: nadie puede iniciar sesión con ellos."""

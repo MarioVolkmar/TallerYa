@@ -215,7 +215,7 @@
 
     const inicial = lamina.partes.find((p) => p.id === parteId) ||
       mant.slice().sort((a, b) => peso(b.estado) - peso(a.estado))[0] || lamina.partes[0];
-    elegir(inicial);
+    elegir(inicial, false);
   }
 
   function aplicarFiltro() {
@@ -262,16 +262,27 @@
   buscar.addEventListener("input", pintarLista);
 
   // ---------------- Ficha de la pieza ----------------
+  let temporizadorNombre = null;
+  function mostrarNombreUnMomento(punto) {
+    // Muestra el nombre al elegir y lo oculta solo, para no tapar el dibujo.
+    escena.querySelectorAll(".nombre-visible").forEach((p) => p.classList.remove("nombre-visible"));
+    clearTimeout(temporizadorNombre);
+    if (!punto) return;
+    punto.classList.add("nombre-visible");
+    temporizadorNombre = setTimeout(() => punto.classList.remove("nombre-visible"), 1600);
+  }
+
   function marcarElegida() {
     if (!elegida) return;
     escena.querySelectorAll(".punto").forEach((p) => p.classList.toggle("elegido", p.dataset.id == elegida.id));
     lista.querySelectorAll(".parte-fila").forEach((f) => f.classList.toggle("elegida", f.dataset.id == elegida.id));
   }
 
-  function elegir(parte) {
+  function elegir(parte, conNombre = true) {
     if (!parte) return;
     elegida = parte;
     marcarElegida();
+    if (conNombre) mostrarNombreUnMomento(escena.querySelector(`.punto[data-id="${parte.id}"]`));
     ficha.innerHTML = "";
 
     const cabeza = el("div", "flex items-start justify-between gap-3");

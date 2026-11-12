@@ -454,7 +454,9 @@ input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
   white-space: nowrap; background: var(--carbon); color: var(--crema); font-size: .7rem; font-weight: 600;
   padding: .25rem .5rem; border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity .15s ease;
 }
-.punto:hover::after, .punto:focus-visible::after, .punto.elegido::after { opacity: 1; }
+/* El nombre solo aparece al pasar el mouse, con teclado o un momento al elegir la pieza (no tapa el dibujo) */
+@media (hover: hover) { .punto:hover::after { opacity: 1; } }
+.punto:focus-visible::after, .punto.nombre-visible::after { opacity: 1; }
 .punto:hover, .punto:focus-visible { z-index: 6; outline: none; }
 .punto-neutro { background: #2b3134; color: #fff; min-width: 1.35rem; height: 1.35rem; line-height: 1.35rem; font-size: .64rem; border-width: 1px; }
 .punto-ok { background: var(--ok); color: #06210f; }

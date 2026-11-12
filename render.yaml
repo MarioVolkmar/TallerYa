@@ -26,6 +26,8 @@ services:
         value: "0"
       - key: WEB_CONCURRENCY
         value: "2"
+      - key: CARGAR_DEMO
+        value: "1"
       # Se piden al crear el Blueprint (no quedan en el repositorio):
       - key: DJANGO_SUPERUSER_USERNAME
         sync: false
