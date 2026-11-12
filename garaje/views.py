@@ -85,7 +85,11 @@ def eliminar(request, pk):
 
 @con_motociclista
 def detalle(request, pk):
-    moto = _moto_de(request, pk)
+    moto = Moto.objects.select_related("linea", "linea__marca").filter(pk=pk, motociclista=request.motociclista).first()
+    if not moto:
+        # Puede ser de otra cuenta o haber sido eliminada; no decimos cuál para no revelar nada.
+        messages.info(request, "Esa moto no está en tu garaje. Revisa con qué cuenta entraste.")
+        return redirect(reverse("garaje:garaje") + "?lista=1")
     plan = calcular_plan(moto)
 
     # Talleres sugeridos para lo que toca ya o pronto, con sus cupones disponibles.
@@ -133,7 +137,7 @@ def datos_despiece(despiece, plan):
             estado_tarea = por_tarea.get(p.tarea_id)
             parte = {
                 "id": p.pk, "ref": p.ref, "codigo": p.codigo, "nombre": p.nombre, "descripcion": p.descripcion,
-                "cantidad": p.cantidad, "x": p.x, "y": p.y, "estado": None, "tarea": None,
+                "cantidad": p.cantidad, "x": p.x, "y": p.y, "estado": None, "tarea": None, "ayuda": p.ayuda,
             }
             if estado_tarea:
                 parte["estado"] = estado_tarea.estado
@@ -141,6 +145,7 @@ def datos_despiece(despiece, plan):
                     "nombre": estado_tarea.tarea.nombre, "etiqueta": estado_tarea.etiqueta,
                     "detalle": estado_tarea.detalle,
                     "servicio": estado_tarea.tarea.servicio_id,
+                    "porcentaje": estado_tarea.porcentaje if estado_tarea.progreso is not None else None,
                 }
                 if peor is None or GRAVEDAD[estado_tarea.estado] > GRAVEDAD[peor]:
                     peor = estado_tarea.estado
@@ -153,7 +158,7 @@ def datos_despiece(despiece, plan):
             "estado": peor or piezas.get(lamina.pieza, {}).get("estado"), "partes": partes,
         })
     laminas.sort(key=lambda l: -GRAVEDAD.get(l["estado"] or "ok", 0))
-    return {"version": despiece.version, "anio": despiece.anio, "laminas": laminas}
+    return {"version": despiece.version, "anio": despiece.anio, "moto": plan.moto.nombre_completo, "laminas": laminas}
 
 
 @con_motociclista

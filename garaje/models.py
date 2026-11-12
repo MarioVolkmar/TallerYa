@@ -287,6 +287,8 @@ class ParteDespiece(models.Model):
     codigo = models.CharField("código de repuesto", max_length=30)
     descripcion = models.CharField(max_length=120, help_text="Descripción original del catálogo")
     nombre_es = models.CharField("nombre en español", max_length=120, blank=True)
+    ayuda = models.CharField("explicación", max_length=240, blank=True,
+                             help_text="Qué es y cuándo revisarla, en palabras sencillas")
     cantidad = models.PositiveSmallIntegerField(default=1)
     nivel = models.PositiveSmallIntegerField(default=0, help_text="0 = pieza principal; 1+ = parte de un conjunto")
     tarea = models.ForeignKey(TareaMantenimiento, on_delete=models.SET_NULL, null=True, blank=True,

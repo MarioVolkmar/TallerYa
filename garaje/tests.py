@@ -57,7 +57,9 @@ class GarajeTests(TestCase):
         otro = User.objects.create_user("otro@x.com", "otro@x.com", "x")
         perfil = Motociclista.objects.create(nombre="Otro", celular="573009998877", usuario=otro)
         ajena = Moto.objects.create(motociclista=perfil, linea=self.nkd, modelo=2020, km_inicial=0, km_actual=0)
-        self.assertEqual(self.client.get(ajena.get_absolute_url()).status_code, 404)
+        r = self.client.get(ajena.get_absolute_url())
+        self.assertRedirects(r, reverse("garaje:garaje") + "?lista=1")
+        self.assertNotContains(self.client.get(r.url), "NKD 125 2020")
         self.assertEqual(self.client.post(reverse("garaje:registrar_km", args=[ajena.pk]), {"km": 10}).status_code, 404)
 
     def test_garaje_requiere_sesion(self):
@@ -241,8 +243,16 @@ class DespieceTests(TestCase):
         self.assertEqual(fila, {"ref": 9, "codigo": "2DP-F5805-00", "descripcion": "BRAKE PAD KIT", "nivel": 1, "cantidad": 1})
 
     def test_glosario(self):
-        from .despiece_glosario import traducir
-        self.assertEqual(traducir("BRAKE PAD KIT"), "Kit de pastillas de freno")
-        self.assertEqual(traducir("TIRE (110/70-13M/C 48P)"), "Llanta")
-        self.assertEqual(traducir("BOLT, FLANGE"), "Tornillo")
+        from .despiece_glosario import ayuda_para, traducir
+        self.assertEqual(traducir("BRAKE PAD KIT"), "Pastillas de freno (juego)")
+        self.assertEqual(traducir("TIRE (110/70-13M/C 48P)"), "Llanta 110/70-13")
+        self.assertEqual(traducir("DISK, BRAKE (RIGHT)"), "Disco de freno (lado derecho)")
+        self.assertEqual(traducir("FUSE (7.5A BL)"), "Fusible 7,5 A")
+        self.assertEqual(traducir("PLUG, SPARK (NGK CPR8EA)"), "Bujía NGK CPR8EA")
+        self.assertEqual(traducir("BOLT, FLANGE DEEP RECESS"), "Tornillo con arandela")
+        self.assertEqual(traducir("INNER TUBE COMP.1"), "Barra cromada de la suspensión")
+        self.assertEqual(traducir("BOLT 1"), "Tornillo")
         self.assertEqual(traducir("SOMETHING RARE"), "")
+        self.assertIn("disco", ayuda_para("BRAKE PAD KIT"))
+        self.assertTrue(ayuda_para("V-BELT"))
+        self.assertEqual(ayuda_para("BOLT"), "")

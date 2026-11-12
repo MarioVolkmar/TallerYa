@@ -4,6 +4,16 @@
 <div class="max-w-md mx-auto mt-12">
   <p class="etiqueta">Tu cuenta</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">Entrar</h1>
+  {% if user.is_authenticated %}
+  <div class="mensaje mt-6">
+    <p>Ya iniciaste sesión como <strong>{{ user.email|default:user.username }}</strong>.</p>
+    <p class="text-sm text-suave mt-1">Para entrar con otra cuenta, primero cierra esta sesión.</p>
+    <div class="flex flex-wrap gap-3 mt-3">
+      <form method="post" action="{% url 'cuentas:salir' %}">{% csrf_token %}<input type="hidden" name="next" value="{% url 'cuentas:entrar' %}"><button class="btn btn-lava text-xs px-4 py-2">Cerrar sesión</button></form>
+      <a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-borde text-xs px-4 py-2">Ir a mi cuenta</a>
+    </div>
+  </div>
+  {% else %}
   <section class="papel p-6 md:p-8 mt-6">
     <form method="post" class="space-y-4">
       {% csrf_token %}
@@ -16,5 +26,6 @@
       <a href="{% url 'cuentas:registro' %}{% if next %}?next={{ next|urlencode }}{% endif %}" class="boton-texto">Crear cuenta</a>
     </div>
   </section>
+  {% endif %}
 </div>
 {% endblock %}

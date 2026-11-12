@@ -14,7 +14,7 @@ from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
-from garaje.despiece_glosario import traducir
+from garaje.despiece_glosario import ayuda_para, traducir
 from garaje.models import Despiece, Lamina, LineaMoto, ParteDespiece, TareaMantenimiento
 
 # Columnas de la tabla (en puntos de la página A4 horizontal del catálogo).
@@ -116,7 +116,8 @@ class Command(BaseCommand):
                     clave = next((c for patron, c in item.get("reglas", {}).items() if patron in fila["descripcion"].upper()), None)
                     tarea = tareas.get(clave) if clave else None
                     enlazadas += bool(tarea)
-                    ParteDespiece.objects.create(lamina=lamina, nombre_es=traducir(fila["descripcion"]), tarea=tarea, **fila)
+                    ParteDespiece.objects.create(lamina=lamina, nombre_es=traducir(fila["descripcion"]),
+                                                 ayuda=ayuda_para(fila["descripcion"]), tarea=tarea, **fila)
                 self.stdout.write(self.style.SUCCESS(
                     f"FIG. {item['figura']:>2} {lamina.nombre}: {len(fig['filas'])} partes, {enlazadas} enlazadas al plan"))
         self.stdout.write(f"Listo: {despiece}. Marca las piezas en el admin → Láminas de despiece.")

@@ -140,3 +140,14 @@ class PlusTests(TestCase):
     def test_pagina_plus_muestra_precio(self):
         r = self.client.get(reverse("cuentas:plus"))
         self.assertContains(r, "9.900")
+
+
+class EntrarConSesionAbiertaTests(TestCase):
+    def test_avisa_que_ya_hay_sesion_y_permite_cerrarla(self):
+        u = User.objects.create_user("x@x.com", "x@x.com", CLAVE)
+        self.client.force_login(u)
+        r = self.client.get(reverse("cuentas:entrar"))
+        self.assertContains(r, "Ya iniciaste sesión como")
+        r = self.client.post(reverse("cuentas:salir"), {"next": reverse("cuentas:entrar")})
+        self.assertRedirects(r, reverse("cuentas:entrar"))
+        self.assertNotContains(self.client.get(reverse("cuentas:entrar")), "Ya iniciaste sesión como")

@@ -74,35 +74,59 @@
 <!-- Despiece interactivo -->
 <section id="despiece" class="mt-10 scroll-mt-24">
   <div class="flex flex-wrap items-end justify-between gap-3">
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">00</span>Despiece de tu moto</h2>
-    <p class="text-xs text-suave">Catálogo de partes {{ despiece.linea.marca }} · versión {{ despiece.version }} ({{ despiece.anio }})</p>
+    <div>
+      <h2 class="titulo text-2xl md:text-3xl"><span class="numero">00</span>Despiece de tu moto</h2>
+      <p class="text-sm text-suave mt-1">Las piezas de tu {{ despiece.linea }} con su código de repuesto original y su estado.</p>
+    </div>
+    <p class="text-xs text-suave">Catálogo {{ despiece.linea.marca }} · versión {{ despiece.version }} ({{ despiece.anio }})</p>
   </div>
   <div class="separador mt-4 mb-6"></div>
-  <div class="papel p-4 md:p-5">
-    <div class="laminas-tabs" id="laminas-tabs" role="tablist" aria-label="Sistemas de la moto"></div>
-    <div class="grid gap-5 lg:grid-cols-3 mt-4">
-      <div class="lg:col-span-2">
-        <div class="flex items-center justify-between gap-3 mb-2">
-          <p class="titulo text-lg" id="lamina-titulo"></p>
-          <button type="button" class="btn btn-borde text-[.65rem] px-3 py-1.5" id="lamina-ampliar" aria-pressed="false">Ampliar</button>
+
+  <div class="despiece">
+    <nav class="despiece-sistemas papel" aria-label="Sistemas de la moto">
+      <p class="campo-label px-2 pb-2 hidden lg:block">Sistemas</p>
+      <div class="sistemas-lista" id="sistemas" role="tablist"></div>
+    </nav>
+
+    <div class="despiece-visor papel">
+      <div class="visor-barra">
+        <div class="min-w-0">
+          <p class="titulo text-lg leading-tight" id="lamina-titulo"></p>
+          <p class="text-xs text-suave" id="lamina-resumen"></p>
         </div>
-        <div class="lamina-caja" id="lamina-caja">
-          <div class="lamina-imagen" id="lamina-imagen"><img id="lamina-img" alt=""></div>
+        <div class="flex items-center gap-2 shrink-0">
+          <div class="visor-modo" role="group" aria-label="Qué números mostrar">
+            <button type="button" data-filtro="mant" aria-pressed="true">Mantenimiento</button>
+            <button type="button" data-filtro="todas" aria-pressed="false">Todas</button>
+          </div>
         </div>
-        <p class="text-xs text-suave mt-2">Toca un número para ver la pieza. Los puntos de color son piezas de mantenimiento.</p>
       </div>
-      <aside>
-        <div class="parte-ficha" id="parte-ficha" aria-live="polite">
-          <p class="text-sm text-suave">Elige una pieza en el dibujo o en la lista.</p>
+      <div class="plano" id="plano" tabindex="0" aria-label="Dibujo del despiece. Usa los botones para acercar.">
+        <div class="plano-escena" id="plano-escena"><img id="plano-img" alt="" draggable="false"></div>
+        <div class="plano-zoom" role="group" aria-label="Zoom">
+          <button type="button" data-zoom="mas" aria-label="Acercar">+</button>
+          <button type="button" data-zoom="menos" aria-label="Alejar">−</button>
+          <button type="button" data-zoom="reset" aria-label="Ver dibujo completo">⤢</button>
         </div>
-        <p class="campo-label mt-5 mb-2">Piezas de mantenimiento</p>
-        <ul class="partes-lista" id="partes-mant"></ul>
-        <details class="mt-4">
-          <summary class="boton-texto cursor-pointer" id="partes-todas-resumen">Todas las piezas</summary>
-          <ul class="partes-lista mt-2" id="partes-todas"></ul>
-        </details>
-      </aside>
+        <p class="plano-ayuda">Arrastra para mover · rueda o pellizca para acercar</p>
+      </div>
+      <div class="leyenda pt-3">
+        <span style="--c: var(--vencido)">Toca ya</span>
+        <span style="--c: var(--pronto)">Pronto</span>
+        <span style="--c: var(--ok)">Al día</span>
+        <span style="--c: var(--desconocido)">Sin registro</span>
+        <span style="--c: #2b3134">Otras piezas</span>
+      </div>
     </div>
+
+    <aside class="despiece-panel">
+      <div class="parte-ficha papel" id="parte-ficha" aria-live="polite"></div>
+      <div class="papel p-4 mt-4">
+        <label class="sr-only" for="buscar-pieza">Buscar pieza</label>
+        <input type="search" id="buscar-pieza" class="campo !mt-0" placeholder="Buscar pieza en este sistema…" autocomplete="off">
+        <ul class="partes-lista mt-3" id="partes-lista"></ul>
+      </div>
+    </aside>
   </div>
 </section>
 {{ datos_despiece|json_script:"datos-despiece" }}

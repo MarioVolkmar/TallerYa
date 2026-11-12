@@ -9,7 +9,7 @@ app_name = "cuentas"
 urlpatterns = [
     path("cuenta/registro/", views.registro, name="registro"),
     path("cuenta/entrar/", auth_views.LoginView.as_view(
-        template_name="cuentas/entrar.html", authentication_form=EntrarForm, redirect_authenticated_user=True,
+        template_name="cuentas/entrar.html", authentication_form=EntrarForm,
     ), name="entrar"),
     path("cuenta/salir/", auth_views.LogoutView.as_view(), name="salir"),
     path("cuenta/", views.mi_cuenta, name="mi_cuenta"),
