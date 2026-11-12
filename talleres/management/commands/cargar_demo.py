@@ -4,6 +4,7 @@ from datetime import timedelta
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 
 from cupones.models import Cupon
@@ -22,6 +23,10 @@ DEMO = [
     ("Electromotos Envigado", "Envigado", [3, 7], [1, 5], False, False),
     ("Frenos y Más", "Itagüí", [2, 6], [0, 1, 7], True, False),
 ]
+
+
+# Clave de la cuenta demo del garaje. Solo se crea con DEBUG activo (desarrollo local).
+DEMO_CLAVE = "demo-garaje-2026"
 
 
 class Command(BaseCommand):
@@ -72,6 +77,8 @@ class Command(BaseCommand):
             })
 
         self.cargar_foro()
+        if settings.DEBUG:
+            self.cargar_garaje()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))
         self.stdout.write("PIN de canje por taller (solo para pruebas):")
         for nombre, pin in Taller.objects.values_list("nombre", "pin_canje"):
@@ -114,3 +121,34 @@ class Command(BaseCommand):
             autor=camila, marca=yamaha, titulo="La NMAX hace un chillido al frenar, ¿son las pastillas?",
             cuerpo="Empezó hace una semana, sobre todo en las mañanas. Las pastillas tienen unos 8 meses.",
         )
+
+    def cargar_garaje(self):
+        """Cuenta de motociclista demo con dos motos. Solo en desarrollo (DEBUG), nunca en producción."""
+        from cupones.models import Motociclista
+        from garaje.models import LecturaKm, LineaMoto, Mantenimiento, Moto, TareaMantenimiento
+
+        User = get_user_model()
+        email = "moto.demo@tallerya.local"
+        usuario, creado = User.objects.get_or_create(username=email, defaults={"email": email, "first_name": "Sofía"})
+        if creado:
+            usuario.set_password(DEMO_CLAVE)
+            usuario.save()
+        perfil, _ = Motociclista.objects.get_or_create(celular="573009990001", defaults={"nombre": "Sofía", "usuario": usuario})
+        if perfil.motos.exists():
+            return
+        hoy = timezone.localdate()
+
+        def moto(linea, color, anio, lecturas, hechos):
+            m = Moto.objects.create(motociclista=perfil, linea=LineaMoto.objects.get(nombre=linea), color=color,
+                                    modelo=anio, km_inicial=lecturas[0][1], km_actual=lecturas[-1][1])
+            for dias, km in lecturas:
+                LecturaKm.objects.create(moto=m, km=km, fecha=hoy - timedelta(days=dias))
+            for clave, km, dias in hechos:
+                Mantenimiento.objects.create(moto=m, tarea=TareaMantenimiento.objects.get(clave=clave), km=km,
+                                             fecha=hoy - timedelta(days=dias))
+
+        moto("NKD 125", "#c62828", 2022, [(60, 14200), (30, 15100), (0, 16050)],
+             [("aceite", 13700, 75), ("cadena-lubricar", 15400, 20), ("filtro-aire", 9000, 300),
+              ("bujia", 9000, 300), ("pastillas-del", 11000, 200), ("llanta-tras", 4000, 600)])
+        moto("NMAX 155", "#1f4fa8", 2024, [(45, 3100), (0, 4300)], [("aceite", 2000, 70)])
+        self.stdout.write(f"Cuenta demo del garaje: {email} (clave en DEMO_CLAVE de cargar_demo.py)")

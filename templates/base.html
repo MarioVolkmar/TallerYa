@@ -23,10 +23,11 @@
         <span class="titulo text-2xl tracking-wide">Taller<span class="text-lava">Ya</span></span>
       </a>
       {% url 'cupones:lista' as u_cupones %}{% url 'foro:lista' as u_foro %}{% url 'cuentas:plus' as u_plus %}
-      <nav class="hidden md:flex items-center gap-6" aria-label="Principal">
+      <nav class="hidden lg:flex items-center gap-6" aria-label="Principal">
         <a href="{{ u_cupones }}" class="nav-link {% if request.path|slice:':8' == '/cupones' %}activo{% endif %}">Cupones</a>
         <a href="{{ u_foro }}" class="nav-link {% if request.path|slice:':5' == '/foro' %}activo{% endif %}">Foro</a>
         <a href="{{ u_plus }}" class="nav-link {% if request.path|slice:':5' == '/plus' %}activo{% endif %}">Plus</a>
+        <a href="{% url 'garaje:garaje' %}" class="nav-link {% if request.path|slice:':7' == '/garaje' %}activo{% endif %}">Mi garaje</a>
         {% if user.is_authenticated %}
           <a href="{% url 'cuentas:mi_cuenta' %}" class="nav-link {% if request.path|slice:':7' == '/cuenta' %}activo{% endif %}">Mi cuenta</a>
         {% else %}
@@ -34,12 +35,13 @@
         {% endif %}
         <a href="{% url 'talleres:registro' %}" class="btn btn-borde text-xs px-4 py-2">Registra tu taller</a>
       </nav>
-      <details class="menu-movil md:hidden">
+      <details class="menu-movil lg:hidden">
         <summary class="btn btn-borde text-xs px-4 py-2" aria-label="Abrir menú">Menú</summary>
         <nav class="papel menu-panel" aria-label="Principal">
           <a href="{{ u_cupones }}">Cupones</a>
           <a href="{{ u_foro }}">Foro</a>
           <a href="{{ u_plus }}">TallerYa Plus</a>
+          <a href="{% url 'garaje:garaje' %}">Mi garaje</a>
           {% if user.is_authenticated %}
             <a href="{% url 'cuentas:mi_cuenta' %}">Mi cuenta</a>
           {% else %}

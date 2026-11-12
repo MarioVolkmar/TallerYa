@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static humanize %}
+{% block title %}{{ moto }} · Mi garaje · TallerYa{% endblock %}
+
+{% block content %}
+<div class="flex flex-wrap items-center justify-between gap-3 mt-8">
+  <a href="{% url 'garaje:garaje' %}?lista=1" class="text-sm text-suave hover:text-[#f2611d]">← Mi garaje</a>
+  <a href="{% url 'garaje:editar' moto.pk %}" class="boton-texto">Editar moto</a>
+</div>
+
+<div class="flex flex-wrap items-end justify-between gap-6 mt-4">
+  <div class="min-w-0">
+    <p class="etiqueta">{{ moto.linea.get_tipo_display|default:moto.get_tipo_otra_display }}{% if moto.linea %} · {{ moto.linea.cilindraje }} cc{% endif %}</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">{{ moto }}</h1>
+    {% if moto.apodo %}<p class="text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
+  </div>
+  <div class="text-right">
+    <p class="km-grande">{{ moto.km_actual|intcomma }} <span class="text-lg text-suave">km</span></p>
+    {% if plan.km_por_dia %}<p class="text-xs text-suave mt-1">Ruedas unos {{ plan.km_por_dia|floatformat:0 }} km al día</p>{% endif %}
+  </div>
+</div>
+
+<div class="grid gap-6 lg:grid-cols-3 mt-6">
+  <!-- Modelo 3D -->
+  <section class="papel p-3 lg:col-span-2" aria-label="Modelo 3D de tu moto">
+    <div class="visor" id="visor">
+      <noscript><div class="visor-aviso">Activa JavaScript para ver el modelo 3D de tu moto.</div></noscript>
+      <div class="visor-aviso" id="visor-cargando">Armando tu moto…</div>
+      <div class="visor-controles">
+        <div class="visor-modo" role="group" aria-label="Vista del modelo">
+          <button type="button" data-modo="estado" aria-pressed="true">Estado</button>
+          <button type="button" data-modo="moto" aria-pressed="false">Moto</button>
+        </div>
+        <button type="button" class="btn btn-borde text-[.65rem] px-3 py-1.5" id="visor-centrar">Centrar</button>
+      </div>
+      <p class="visor-ayuda" id="visor-ayuda">Arrastra para girar · toca una pieza</p>
+      <div class="visor-ficha" id="visor-ficha" hidden aria-live="polite"></div>
+    </div>
+    <div class="leyenda px-2 pt-3 pb-1">
+      <span style="--c: var(--ok)">Al día</span>
+      <span style="--c: var(--pronto)">Pronto</span>
+      <span style="--c: var(--vencido)">Toca ya</span>
+      <span style="--c: var(--desconocido)">Sin registro</span>
+    </div>
+  </section>
+
+  <!-- Kilometraje y resumen -->
+  <aside class="space-y-6">
+    <section class="papel p-6">
+      <h2 class="titulo text-xl">Actualizar kilometraje</h2>
+      <form method="post" action="{% url 'garaje:registrar_km' moto.pk %}" class="mt-4 flex gap-2 items-end">
+        {% csrf_token %}
+        <label class="campo-label flex-1">{{ lectura_form.km.label }}{{ lectura_form.km }}</label>
+        <button class="btn btn-lava px-4 py-3 text-xs shrink-0">Guardar</button>
+      </form>
+      <p class="text-xs text-suave mt-3">Actualízalo cada semana para que los avisos sean precisos.</p>
+    </section>
+
+    <section class="papel p-6">
+      <h2 class="titulo text-xl">Resumen</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li class="flex justify-between"><span>Toca ya</span><span class="estado {% if plan.urgentes %}estado-vencido{% else %}estado-desconocido{% endif %}">{{ plan.urgentes|length }}</span></li>
+        <li class="flex justify-between"><span>Pronto</span><span class="estado estado-pronto">{{ plan.pronto|length }}</span></li>
+        <li class="flex justify-between"><span>Al día</span><span class="estado estado-ok">{{ plan.al_dia|length }}</span></li>
+        <li class="flex justify-between"><span>Sin registro</span><span class="estado estado-desconocido">{{ plan.sin_registro|length }}</span></li>
+      </ul>
+      <p class="text-xs text-suave mt-4">Los intervalos son orientativos. Sigue también el manual de tu moto.</p>
+    </section>
+  </aside>
+</div>
+
+<!-- Plan de mantenimiento -->
+<section id="plan" class="mt-10 scroll-mt-24">
+  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">01</span>Plan de mantenimiento</h2>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="papel overflow-hidden">
+    {% for t in plan.tareas %}
+    <article class="tarea tarea-{{ t.estado }} p-5 border-b border-white/5 last:border-b-0" data-pieza="{{ t.tarea.pieza }}" id="tarea-{{ t.tarea.clave }}">
+      <div class="flex flex-wrap items-start justify-between gap-3">
+        <div class="min-w-0">
+          <p class="font-semibold">{{ t.tarea.nombre }}{% if t.tarea.hazlo_tu %} <span class="chip ml-1">Puedes hacerlo tú</span>{% endif %}</p>
+          <p class="text-sm text-suave mt-0.5">{{ t.detalle }}{% if t.fecha_estimada and t.estado != "vencido" %} Aprox. el {{ t.fecha_estimada|date:"j \d\e F"|lower }}.{% endif %}</p>
+          <p class="text-xs text-suave mt-1">
+            {% if t.ultimo_km is not None %}Último: {{ t.ultimo_km|intcomma }} km · {{ t.ultima_fecha|date:"j M Y"|lower }}{% elif t.supuesto %}Contamos desde que la moto era nueva.{% endif %}
+            {% if t.tarea.intervalo_km %} · Cada {{ t.tarea.intervalo_km|intcomma }} km{% endif %}{% if t.tarea.intervalo_dias %} · o {{ t.tarea.intervalo_dias }} días{% endif %}
+          </p>
+        </div>
+        <span class="estado estado-{{ t.estado }}">{{ t.etiqueta }}</span>
+      </div>
+      {% if t.progreso is not None %}
+        <div class="barra barra-{{ t.estado }} mt-3" role="progressbar" aria-valuenow="{{ t.porcentaje }}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia el próximo {{ t.tarea.nombre|lower }}"><span style="width: {{ t.porcentaje }}%"></span></div>
+      {% endif %}
+      <details class="mt-3">
+        <summary class="boton-texto cursor-pointer w-fit">{% if t.estado == "desconocido" %}Registrar cuándo se hizo{% else %}Ya lo hice{% endif %}</summary>
+        <form method="post" action="{% url 'garaje:registrar_mantenimiento' moto.pk %}" class="grid gap-3 sm:grid-cols-4 mt-3 items-end">
+          {% csrf_token %}
+          <input type="hidden" name="tarea" value="{{ t.tarea.pk }}">
+          <label class="campo-label">Kilometraje<input type="number" name="km" value="{{ moto.km_actual }}" min="0" max="{{ moto.km_actual }}" class="campo" inputmode="numeric" required></label>
+          <label class="campo-label">Fecha<input type="date" name="fecha" value="{% now 'Y-m-d' %}" max="{% now 'Y-m-d' %}" class="campo" required></label>
+          <label class="campo-label">Taller (opcional)
+            <select name="taller" class="campo"><option value="">—</option>{% for tl in talleres_activos %}<option value="{{ tl.pk }}">{{ tl.nombre }}</option>{% endfor %}</select>
+          </label>
+          <button class="btn btn-lava py-3 text-xs">Registrar</button>
+        </form>
+      </details>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% if talleres %}
+<section class="mt-10">
+  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">02</span>Talleres para lo que toca</h2>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="grid gap-6 md:grid-cols-3">
+    {% for t in talleres %}
+    <a href="{{ t.get_absolute_url }}" class="papel tarjeta block p-6">
+      <div class="flex flex-wrap gap-2 min-h-[1.4rem]">
+        {% if t.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
+        {% if t.cupones_sugeridos %}<span class="insignia insignia-lava">{{ t.cupones_sugeridos|length }} cupón{{ t.cupones_sugeridos|length|pluralize:"es" }}</span>{% endif %}
+      </div>
+      <h3 class="titulo text-xl mt-3">{{ t.nombre }}</h3>
+      <p class="text-sm text-suave mt-1">{{ t.barrio }}</p>
+      <div class="flex flex-wrap gap-1.5 mt-3">{% for s in t.servicios_que_tocan %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+      {% for c in t.cupones_sugeridos|slice:":1" %}<p class="text-sm text-lava mt-3">{{ c.titulo }}</p>{% endfor %}
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="mt-10 grid gap-6 md:grid-cols-2">
+  <div class="papel p-6">
+    <h2 class="titulo text-xl"><span class="numero">03</span>Historial</h2>
+    {% if historial %}
+      <ul class="mt-3 divide-y divide-white/5 text-sm">
+        {% for m in historial %}<li class="py-2.5 flex justify-between gap-3"><span>{{ m.tarea.nombre }}{% if m.taller %} <span class="text-suave">· {{ m.taller }}</span>{% endif %}</span><span class="text-suave shrink-0">{{ m.km|intcomma }} km · {{ m.fecha|date:"j M Y"|lower }}</span></li>{% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-sm text-suave mt-3">Aún no has registrado mantenimientos.</p>
+    {% endif %}
+  </div>
+  <div class="papel p-6">
+    <h2 class="titulo text-xl"><span class="numero">04</span>Kilometraje</h2>
+    <ul class="mt-3 divide-y divide-white/5 text-sm">
+      {% for l in lecturas %}<li class="py-2.5 flex justify-between"><span>{{ l.km|intcomma }} km</span><span class="text-suave">{{ l.fecha|date:"j M Y"|lower }}</span></li>{% endfor %}
+    </ul>
+  </div>
+</section>
+
+{{ datos_3d|json_script:"datos-moto" }}
+<script type="importmap">
+  {"imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }}
+</script>
+<script type="module" src="{% static 'garaje/js/moto3d.js' %}"></script>
+<script>
+  // Si la librería 3D no carga (sin internet o bloqueada), avisa en vez de quedarse "armando".
+  setTimeout(function () {
+    var aviso = document.getElementById("visor-cargando");
+    if (aviso && !window.__moto3dListo) aviso.textContent = "No pudimos cargar el modelo 3D. Revisa tu conexión; el plan sigue disponible abajo.";
+  }, 9000);
+</script>
+{% endblock %}

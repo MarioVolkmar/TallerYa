@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Mi garaje · TallerYa{% endblock %}
+{% block content %}
+<div class="flex flex-wrap items-end justify-between gap-4 mt-10">
+  <div>
+    <p class="etiqueta">Mantenimiento</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Mi <span class="text-lava">garaje</span></h1>
+    <p class="text-suave mt-2 max-w-lg">Registra tu moto y su kilometraje. Te avisamos qué le toca y cuándo.</p>
+  </div>
+  {% if puede_agregar %}<a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-3">Agregar moto</a>{% endif %}
+</div>
+
+<div class="grid gap-6 md:grid-cols-2 mt-8">
+  {% for moto, plan in planes %}
+  <a href="{{ moto.get_absolute_url }}" class="papel tarjeta relative block p-6">
+    <span class="numero-fantasma" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
+    <div class="relative">
+      <div class="flex items-start justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <span class="w-4 h-4 rounded-full shrink-0 border border-white/20" style="background: {{ moto.color }}"></span>
+          <h2 class="titulo text-2xl truncate">{{ moto }}</h2>
+        </div>
+        {% if plan.urgentes %}<span class="estado estado-vencido">{{ plan.urgentes|length }} por hacer</span>
+        {% elif plan.pronto %}<span class="estado estado-pronto">{{ plan.pronto|length }} pronto</span>
+        {% else %}<span class="estado estado-ok">Al día</span>{% endif %}
+      </div>
+      {% if moto.apodo %}<p class="text-sm text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
+      <p class="km-grande mt-5">{{ moto.km_actual }} <span class="text-lg text-suave">km</span></p>
+      <span class="ver titulo text-sm tracking-widest mt-5">Ver estado <span aria-hidden="true">→</span></span>
+    </div>
+  </a>
+  {% empty %}
+  <div class="papel p-10 md:col-span-2 text-center">
+    <p class="titulo text-2xl">Tu garaje está vacío</p>
+    <p class="text-suave mt-2">Agrega tu moto para ver su modelo 3D y su plan de mantenimiento.</p>
+    <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-6 py-3 mt-6">Agregar mi moto</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

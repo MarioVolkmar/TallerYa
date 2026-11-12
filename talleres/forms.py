@@ -10,7 +10,7 @@ class EstiloMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for f in self.fields.values():
-            if not isinstance(f.widget, forms.CheckboxSelectMultiple):
+            if not isinstance(f.widget, (forms.CheckboxSelectMultiple, forms.RadioSelect)):
                 f.widget.attrs.setdefault("class", INPUT)
 
 

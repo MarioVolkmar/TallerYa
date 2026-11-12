@@ -9,7 +9,7 @@ from .models import Barrio, Servicio, SolicitudCita, Taller
 class TalleresTests(TestCase):
     def setUp(self):
         self.barrio = Barrio.objects.create(nombre="Belén")
-        self.servicio = Servicio.objects.create(nombre="Frenos")
+        self.servicio = Servicio.objects.get_or_create(nombre="Frenos")[0]
         self.taller = Taller.objects.create(
             nombre="Taller Prueba", responsable="Ana", whatsapp="573001234567",
             direccion="Cra 1", barrio=self.barrio, activo=True,
@@ -24,7 +24,7 @@ class TalleresTests(TestCase):
         self.assertNotContains(r, "Oculto")
 
     def test_filtro_por_servicio(self):
-        otro = Servicio.objects.create(nombre="Llantas")
+        otro = Servicio.objects.get_or_create(nombre="Llantas")[0]
         r = self.client.get(reverse("talleres:inicio"), {"servicio": otro.id})
         self.assertNotContains(r, "Taller Prueba")
 

@@ -24,6 +24,17 @@ Directorio de talleres de motos en Medellín, con cupones, referidos, suscripci�
 - Foro: pregunta y responde cualquier usuario con cuenta. Hay mejor respuesta e insignia para las cuentas de taller (se vincula una cuenta al taller en el admin).
   - Con 3 reportes, una publicación se oculta hasta que la revises.
 
+**Mi garaje: mantenimiento y modelo 3D** (app `garaje`)
+- El motociclista agrega su moto: marca y línea del catálogo (o "otra"), modelo, color y kilometraje.
+- Cada línea tiene una ficha técnica que se edita en el admin: tipo, cilindraje, transmisión, refrigeración, frenos, suspensión y rines.
+  - La ficha define qué tareas aplican (cadena o correa CVT, pastillas o bandas, refrigerante, etc.).
+  - También define la forma del modelo 3D.
+- Cada actualización de kilometraje queda registrada. Cada tarea se marca "Al día", "Pronto" (80 %) o "Toca ya" según los km y el tiempo desde su último registro.
+  - Con una semana de lecturas se estima la fecha de cada cambio.
+- Se sugieren talleres que ofrecen el servicio que toca, con sus cupones.
+- El modelo 3D (Three.js) se arma con la ficha y el color de la moto. En modo "Estado" cada pieza se colorea y al tocarla muestra qué necesita.
+- El catálogo inicial (24 líneas) y el plan de mantenimiento (18 tareas) se cargan con una migración. Las fichas e intervalos son orientativos.
+
 ## Correr en local (Windows)
 ```bash
 python -m venv venv

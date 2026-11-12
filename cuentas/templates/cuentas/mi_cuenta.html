@@ -19,6 +19,33 @@
     {% if moto %}
     <section class="papel p-6 md:p-7">
       <div class="flex items-center justify-between gap-3">
+        <h2 class="titulo text-2xl"><span class="numero">00</span>Mi garaje</h2>
+        <a href="{% url 'garaje:agregar' %}" class="boton-texto">Agregar moto</a>
+      </div>
+      {% if motos %}
+        <ul class="mt-4 divide-y divide-white/5">
+          {% for m, plan in motos %}
+          <li class="py-3">
+            <a href="{{ m.get_absolute_url }}" class="flex items-center justify-between gap-3 group">
+              <span class="min-w-0">
+                <span class="font-semibold block truncate group-hover:text-[#f2611d]">{{ m }}</span>
+                <span class="text-xs text-suave">{{ m.km_actual }} km</span>
+              </span>
+              {% if plan.urgentes %}<span class="estado estado-vencido">{{ plan.urgentes|length }} por hacer</span>
+              {% elif plan.pronto %}<span class="estado estado-pronto">{{ plan.pronto|length }} pronto</span>
+              {% else %}<span class="estado estado-ok">Al día</span>{% endif %}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-suave text-sm mt-3">Agrega tu moto y te avisamos cuándo le toca aceite, cadena, frenos y más.</p>
+        <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-2.5 mt-4">Agregar mi moto</a>
+      {% endif %}
+    </section>
+
+    <section class="papel p-6 md:p-7">
+      <div class="flex items-center justify-between gap-3">
         <h2 class="titulo text-2xl"><span class="numero">01</span>Mis cupones</h2>
         <a href="{% url 'cupones:lista' %}" class="boton-texto">Ver más cupones</a>
       </div>

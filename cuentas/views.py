@@ -12,6 +12,7 @@ from django.views.decorators.http import require_POST
 
 from cupones.models import Cupon, Motociclista
 from cupones.servicios import CuponNoDisponible, reclamar_regalo_mensual
+from garaje.plan import calcular_plan
 
 from .forms import RegistroForm
 from .models import Suscripcion
@@ -61,6 +62,7 @@ def mi_cuenta(request):
             "regalo": Cupon.regalo_actual(),
             "enlace_referido": request.build_absolute_uri(reverse("cupones:referido", args=[moto.codigo_referido])),
             "num_referidos": moto.referidos.count(),
+            "motos": [(m, calcular_plan(m)) for m in moto.motos.select_related("linea", "linea__marca")],
         })
     if hasattr(request.user, "taller"):
         contexto["taller"] = request.user.taller

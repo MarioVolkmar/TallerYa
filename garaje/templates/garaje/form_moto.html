@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{% if nueva %}Agregar moto{% else %}Editar moto{% endif %} · TallerYa{% endblock %}
+{% block content %}
+<a href="{% if moto %}{{ moto.get_absolute_url }}{% else %}{% url 'garaje:garaje' %}?lista=1{% endif %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Volver</a>
+<div class="max-w-2xl mx-auto mt-4">
+  <p class="etiqueta">Mi garaje</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{% if nueva %}Agrega tu <span class="text-lava">moto</span>{% else %}Editar <span class="text-lava">{{ moto }}</span>{% endif %}</h1>
+
+  <section class="papel p-6 md:p-8 mt-6">
+    <form method="post" class="grid gap-5 sm:grid-cols-2" id="form-moto">
+      {% csrf_token %}
+      {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm sm:col-span-2">{{ e }}</div>{% endfor %}
+
+      <div class="sm:col-span-2">
+        <label class="campo-label">{{ form.linea_catalogo.label }}{{ form.linea_catalogo }}</label>
+        {% for e in form.linea_catalogo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+
+      <div class="sm:col-span-2 grid gap-5 sm:grid-cols-3" id="campos-otra">
+        <div>
+          <label class="campo-label">{{ form.marca_otra.label|capfirst }}{{ form.marca_otra }}</label>
+          {% for e in form.marca_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+        <div>
+          <label class="campo-label">{{ form.linea_otra.label|capfirst }}{{ form.linea_otra }}</label>
+          {% for e in form.linea_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+        <div>
+          <label class="campo-label">{{ form.tipo_otra.label|capfirst }}{{ form.tipo_otra }}</label>
+          {% for e in form.tipo_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+        <p class="text-xs text-suave sm:col-span-3 -mt-2">Con el tipo armamos un modelo 3D aproximado. Si nos escribes, agregamos tu línea al catálogo.</p>
+      </div>
+
+      <div>
+        <label class="campo-label">{{ form.modelo.label|capfirst }}{{ form.modelo }}</label>
+        {% for e in form.modelo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+      {% if form.km_actual %}
+      <div>
+        <label class="campo-label">{{ form.km_actual.label }}{{ form.km_actual }}</label>
+        {% for e in form.km_actual.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+      {% endif %}
+      <div>
+        <label class="campo-label">Apodo <span class="font-normal">(opcional)</span>{{ form.apodo }}</label>
+        {% for e in form.apodo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+
+      <fieldset class="sm:col-span-2">
+        <legend class="campo-label">Color</legend>
+        <div class="colores">
+          {% for opcion in form.color %}
+            <label title="{{ opcion.choice_label }}">{{ opcion.tag }}<span class="muestra" style="background: {{ opcion.data.value }}"></span><span class="sr-only">{{ opcion.choice_label }}</span></label>
+          {% endfor %}
+        </div>
+      </fieldset>
+
+      <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">{% if nueva %}Agregar al garaje{% else %}Guardar cambios{% endif %}</button>
+    </form>
+  </section>
+
+  {% if moto %}
+  <form method="post" action="{% url 'garaje:eliminar' moto.pk %}" class="mt-6 text-center"
+        onsubmit="return confirm('¿Eliminar {{ moto|escapejs }} y todo su historial? No se puede deshacer.')">
+    {% csrf_token %}<button class="boton-texto">Eliminar esta moto del garaje</button>
+  </form>
+  {% endif %}
+</div>
+
+<script>
+  // Muestra los campos de "otra moto" solo cuando se elige esa opción.
+  (function () {
+    var select = document.getElementById("id_linea_catalogo");
+    var otra = document.getElementById("campos-otra");
+    function actualizar() { otra.style.display = select.value === "otra" ? "" : "none"; }
+    select.addEventListener("change", actualizar);
+    actualizar();
+  })();
+</script>
+{% endblock %}

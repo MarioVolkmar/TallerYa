@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "cupones",
     "cuentas",
     "foro",
+    "garaje",
 ]
 
 MIDDLEWARE = [

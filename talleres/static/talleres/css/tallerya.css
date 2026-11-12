@@ -317,3 +317,75 @@ input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
 .boton-texto { font-size: .8rem; color: var(--crema-2); text-decoration: underline; text-underline-offset: 3px; }
 .boton-texto:hover { color: var(--lava); }
 .cuerpo-post { white-space: pre-line; line-height: 1.65; }
+
+/* Garaje: estados de mantenimiento */
+:root { --ok: #3fbf6b; --pronto: var(--mostaza); --vencido: #ff5a3c; --desconocido: #8a9096; }
+.estado {
+  font-family: "Oswald", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: .68rem;
+  padding: .2rem .6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  border: 1px solid currentColor;
+}
+.estado-ok { color: var(--ok); }
+.estado-pronto { color: var(--pronto); }
+.estado-vencido { color: #1a0a05; background: var(--vencido); border-color: var(--vencido); }
+.estado-desconocido { color: var(--desconocido); }
+
+.barra { height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .07); overflow: hidden; }
+.barra > span { display: block; height: 100%; border-radius: inherit; }
+.barra-ok > span { background: var(--ok); }
+.barra-pronto > span { background: var(--pronto); }
+.barra-vencido > span { background: var(--vencido); }
+
+.tarea { border-left: 3px solid var(--borde); }
+.tarea-ok { border-left-color: var(--ok); }
+.tarea-pronto { border-left-color: var(--pronto); }
+.tarea-vencido { border-left-color: var(--vencido); }
+.tarea.resaltada { background: rgba(242, 97, 29, .08); }
+
+.km-grande { font-family: "Oswald", sans-serif; font-weight: 700; font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1; }
+
+/* Muestras de color al elegir la moto */
+.colores { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .4rem; }
+.colores label { cursor: pointer; }
+.colores input { position: absolute; opacity: 0; pointer-events: none; }
+.colores .muestra {
+  display: block; width: 2.2rem; height: 2.2rem; border-radius: 50%;
+  border: 2px solid var(--borde); box-shadow: 2px 2px 0 #0b0e0f; transition: transform .15s ease;
+}
+.colores input:checked + .muestra { outline: 3px solid var(--lava); outline-offset: 2px; transform: scale(1.06); }
+.colores input:focus-visible + .muestra { outline: 3px solid var(--crema); outline-offset: 2px; }
+
+/* Visor 3D */
+.visor {
+  position: relative;
+  height: clamp(300px, 52vw, 470px);
+  border-radius: 14px;
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 20%, #24322f 0%, #151b1d 60%, #0f1314 100%);
+  touch-action: none;
+}
+.visor canvas { display: block; width: 100% !important; height: 100% !important; cursor: grab; }
+.visor canvas:active { cursor: grabbing; }
+.visor-aviso { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 1.5rem; color: var(--crema-2); font-size: .9rem; }
+.visor-controles { position: absolute; top: .75rem; left: .75rem; right: .75rem; display: flex; justify-content: space-between; gap: .5rem; pointer-events: none; }
+.visor-controles > * { pointer-events: auto; }
+.visor-modo { display: inline-flex; background: rgba(17, 21, 23, .8); border: 1px solid var(--borde); border-radius: 999px; padding: 3px; }
+.visor-modo button { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .7rem; padding: .35rem .8rem; border-radius: 999px; color: var(--crema-2); }
+.visor-modo button[aria-pressed="true"] { background: var(--crema); color: var(--carbon); }
+.visor-ayuda { position: absolute; bottom: .75rem; left: .75rem; font-size: .72rem; color: var(--crema-2); background: rgba(17, 21, 23, .7); padding: .25rem .6rem; border-radius: 999px; }
+.visor-ficha {
+  position: absolute; right: .75rem; bottom: .75rem; width: min(290px, calc(100% - 1.5rem));
+  background: rgba(22, 28, 30, .94); border: 1px solid var(--borde); border-radius: 14px;
+  padding: .9rem 1rem; box-shadow: 4px 4px 0 #0b0e0f; backdrop-filter: blur(6px);
+}
+.leyenda { display: flex; flex-wrap: wrap; gap: .9rem; font-size: .75rem; color: var(--crema-2); }
+.leyenda span::before { content: ""; display: inline-block; width: .65rem; height: .65rem; border-radius: 50%; margin-right: .35rem; vertical-align: -1px; background: var(--c); }
+@media (max-width: 640px) {
+  .visor-ficha { left: .75rem; right: .75rem; width: auto; max-height: 48%; overflow-y: auto; }
+  .visor-ayuda { display: none; }
+}
