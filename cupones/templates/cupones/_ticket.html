@@ -16,7 +16,7 @@
 
     <ul class="ticket-datos">
       {% if t %}
-      {% with nota=t.calificacion %}{% if nota %}
+      {% with nota=cupon.nota_del_taller %}{% if nota %}
       <li><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="#e3a72f"/></svg>
         <span><strong>{{ nota|floatformat:1 }}</strong> en reseñas</span></li>
       {% endif %}{% endwith %}

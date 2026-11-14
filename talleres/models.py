@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Avg
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.utils.text import slugify
 
 from .utils import codigo_aleatorio
@@ -94,8 +95,9 @@ class Taller(models.Model):
     def get_absolute_url(self):
         return reverse("talleres:detalle", args=[self.slug])
 
-    @property
+    @cached_property
     def calificacion(self):
+        """Nota media de las reseñas visibles (se calcula una vez por objeto)."""
         return self.resenas.filter(visible=True).aggregate(p=Avg("estrellas"))["p"]
 
     @property

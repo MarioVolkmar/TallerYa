@@ -73,7 +73,7 @@ def detalle(request, slug):
     for r in resenas:
         reparto[r.estrellas] += 1
     fotos = list(taller.fotos.all())
-    cupones = Cupon.objects.disponibles().filter(Q(taller=taller) | Q(taller__isnull=True))
+    cupones = Cupon.objects.disponibles().con_nota_taller().filter(Q(taller=taller) | Q(taller__isnull=True))
     # Numeración de las secciones según las que existan, para que siempre sea 01, 02, 03…
     nombres = ["sobre", "servicios"] + (["fotos"] if fotos else []) + (["cupones"] if cupones else []) + ["resenas"]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}

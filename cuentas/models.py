@@ -84,5 +84,10 @@ class Perfil(models.Model):
 
     @classmethod
     def de(cls, usuario):
-        perfil, _ = cls.objects.get_or_create(usuario=usuario)
-        return perfil
+        # Primero el perfil ya cargado en el usuario (lo reutiliza también la etiqueta del avatar)
+        try:
+            return usuario.perfil
+        except cls.DoesNotExist:
+            perfil, _ = cls.objects.get_or_create(usuario=usuario)
+            usuario.perfil = perfil
+            return perfil

@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.db import models
-from django.db.models import Count, F, Q
+from django.db.models import Avg, Count, F, OuterRef, Q, Subquery
 from django.urls import reverse
 from django.utils import timezone
 
-from talleres.models import Taller
+from talleres.models import Resena, Taller
 from talleres.utils import codigo_aleatorio
 
 
@@ -70,6 +70,12 @@ class CuponQuerySet(models.QuerySet):
             .select_related("taller", "taller__barrio")
         )
 
+    def con_nota_taller(self):
+        """Agrega la nota media del taller en la misma consulta (evita una consulta por cupón en las listas)."""
+        notas = (Resena.objects.filter(taller=OuterRef("taller"), visible=True)
+                 .order_by().values("taller").annotate(p=Avg("estrellas")).values("p"))
+        return self.annotate(nota_taller=Subquery(notas))
+
 
 class Cupon(models.Model):
     taller = models.ForeignKey(
@@ -114,13 +120,26 @@ class Cupon(models.Model):
     def vigente(self):
         return self.activo and (self.valido_hasta is None or self.valido_hasta >= timezone.localdate())
 
+    def _emitidos(self):
+        """Códigos entregados; usa el conteo ya anotado por disponibles() si existe."""
+        n = getattr(self, "num_emitidos", None)
+        return self.codigos.count() if n is None else n
+
     def puede_emitirse(self):
+        # Siempre cuenta en la base de datos: se usa justo antes de entregar un código.
         return self.vigente and (self.cupo is None or self.codigos.count() < self.cupo)
 
     @property
     def restantes(self):
         """Códigos que quedan por entregar (None si no tiene cupo)."""
-        return None if self.cupo is None else max(0, self.cupo - self.codigos.count())
+        return None if self.cupo is None else max(0, self.cupo - self._emitidos())
+
+    @property
+    def nota_del_taller(self):
+        """Nota media del taller del cupón; sin consulta extra si viene de con_nota_taller()."""
+        if hasattr(self, "nota_taller"):
+            return self.nota_taller
+        return self.taller.calificacion if self.taller_id else None
 
     @classmethod
     def regalo_actual(cls):

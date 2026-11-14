@@ -17,13 +17,13 @@ BLOQUEO_SEGUNDOS = 15 * 60
 
 def lista(request):
     return render(request, "cupones/lista.html", {
-        "cupones": Cupon.objects.disponibles(),
+        "cupones": Cupon.objects.disponibles().con_nota_taller(),
         "invitado": SESION_REF in request.session,
     })
 
 
 def obtener(request, pk):
-    cupon = get_object_or_404(Cupon.objects.disponibles(), pk=pk)
+    cupon = get_object_or_404(Cupon.objects.disponibles().con_nota_taller(), pk=pk)
     moto = getattr(request.user, "motociclista", None) if request.user.is_authenticated else None
 
     if cupon.solo_plus and not moto:
