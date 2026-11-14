@@ -8,30 +8,42 @@
     <p class="etiqueta">Foro de motociclistas</p>
     <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-4 max-w-2xl">Pregunta a quienes <span class="text-lava">saben de motos</span></h1>
     <p class="mt-4 max-w-md text-lg text-suave">Dudas de mantenimiento, ruidos raros, repuestos. Responden motociclistas y talleres de Medellín.</p>
+    <div class="flex flex-wrap gap-3 mt-6"><a href="{% url 'foro:rodadas' %}" class="btn btn-borde text-xs px-5 py-2.5">🏍 Rodadas y eventos</a></div>
   </div>
 </section>
 {% endblock %}
 
 {% block content %}
 <div class="relative z-10 -mt-28 md:-mt-36">
-  <form method="get" class="papel p-4 md:p-5 grid grid-cols-1 gap-3 md:grid-cols-6" role="search">
-    <label class="md:col-span-3"><span class="sr-only">Buscar</span>
-      <input name="q" value="{{ q }}" placeholder="Buscar en el foro..." class="campo !mt-0">
-    </label>
-    <label class="md:col-span-2"><span class="sr-only">Marca</span>
-      <select name="marca" class="campo !mt-0">
+  <form method="get" class="papel fo-buscador" role="search" id="fo-form">
+    {% if categoria %}<input type="hidden" name="categoria" value="{{ categoria }}">{% endif %}
+    {% if orden != "recientes" %}<input type="hidden" name="orden" value="{{ orden }}">{% endif %}
+    <label class="fo-q"><span class="sr-only">Buscar</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input name="q" value="{{ q }}" placeholder="Buscar en preguntas y respuestas…"></label>
+    <label><span class="sr-only">Marca</span>
+      <select name="marca" class="campo !mt-0" data-auto>
         <option value="">Todas las marcas</option>
         {% for m in marcas %}<option value="{{ m.id }}" {% if marca == m.id|stringformat:"s" %}selected{% endif %}>{{ m }}</option>{% endfor %}
-      </select>
-    </label>
-    <button class="btn btn-borde py-2.5 text-xs">Buscar</button>
+      </select></label>
+    <label><span class="sr-only">Línea</span>
+      <select name="linea" class="campo !mt-0" data-auto{% if not lineas %} disabled{% endif %}>
+        <option value="">{% if lineas %}Todas las líneas{% else %}Elige la marca primero{% endif %}</option>
+        {% for l in lineas %}<option value="{{ l.id }}" {% if linea == l.id|stringformat:"s" %}selected{% endif %}>{{ l.nombre }}</option>{% endfor %}
+      </select></label>
+    <button class="btn btn-lava py-2.5 px-6 text-xs">Buscar</button>
   </form>
 
-  <div class="flex flex-wrap items-center justify-between gap-4 mt-10 mb-4">
-    <div class="flex gap-5 text-sm">
-      <a href="?{% if q %}q={{ q|urlencode }}&{% endif %}{% if marca %}marca={{ marca }}{% endif %}" class="nav-link {% if not filtro %}activo{% endif %}">Recientes</a>
-      <a href="?filtro=sin-respuesta{% if q %}&q={{ q|urlencode }}{% endif %}{% if marca %}&marca={{ marca }}{% endif %}" class="nav-link {% if filtro == 'sin-respuesta' %}activo{% endif %}">Sin respuesta</a>
-    </div>
+  <nav class="fo-temas" aria-label="Temas">
+    <a href="?{{ qs_categoria }}"{% if not categoria %} class="activo"{% endif %}>Todos</a>
+    {% for clave, nombre in categorias %}<a href="?{{ qs_categoria }}{% if qs_categoria %}&amp;{% endif %}categoria={{ clave }}"{% if categoria == clave %} class="activo"{% endif %}>{{ nombre }}</a>{% endfor %}
+  </nav>
+
+  <div class="fo-barra">
+    <nav class="fo-orden" aria-label="Ordenar">
+      {% for clave, nombre in ordenes.items %}<a href="?{{ qs_orden }}{% if qs_orden %}&amp;{% endif %}orden={{ clave }}"{% if orden == clave %} class="activo"{% endif %}>{{ nombre }}</a>{% endfor %}
+      <a href="?{{ qs_orden }}{% if qs_orden %}&amp;{% endif %}filtro=sin-respuesta"{% if filtro == "sin-respuesta" %} class="activo"{% endif %}>Sin respuesta</a>
+    </nav>
     <a href="{% url 'foro:preguntar' %}" class="btn btn-lava text-xs px-5 py-2.5">Hacer una pregunta</a>
   </div>
 
@@ -45,8 +57,10 @@
         <div class="min-w-0">
           <p class="font-semibold text-lg leading-snug">{{ p.titulo }}</p>
           <p class="text-sm text-suave mt-1 line-clamp-2">{{ p.cuerpo|truncatechars:160 }}</p>
-          <p class="text-xs text-suave mt-2">
-            {% if p.marca %}<span class="chip mr-2">{{ p.marca }}</span>{% endif %}
+          <p class="text-xs text-suave mt-2 fo-meta">
+            <span class="fo-tema fo-tema-{{ p.categoria }}">{{ p.get_categoria_display }}</span>
+            {% if p.marca %}<span class="chip">{{ p.marca }}{% if p.linea %} {{ p.linea.nombre }}{% endif %}</span>{% endif %}
+            <span class="fo-cifra" title="Votos">▲ {{ p.num_votos }}</span><span class="fo-cifra" title="Vistas">👁 {{ p.vistas }}</span>
             {% if p.autor.taller %}{{ p.autor.taller }}{% else %}{{ p.autor.first_name|default:"Motociclista" }}{% endif %} · hace {{ p.creado|timesince }}
           </p>
         </div>
@@ -58,6 +72,13 @@
       </div>
     {% endfor %}
   </section>
+  {% if pagina.has_other_pages %}
+  <nav class="paginacion" aria-label="Páginas">
+    {% if pagina.has_previous %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ pagina.previous_page_number }}" rel="prev">← Anterior</a>{% endif %}
+    <span class="actual">{{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+    {% if pagina.has_next %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ pagina.next_page_number }}" rel="next">Siguiente →</a>{% endif %}
+  </nav>
+  {% endif %}
 
   {% if pagina.paginator.num_pages > 1 %}
   <nav class="flex items-center justify-center gap-4 mt-6 text-sm" aria-label="Páginas">
@@ -67,4 +88,13 @@
   </nav>
   {% endif %}
 </div>
+<script>
+  // Al cambiar la marca o la línea, se aplica solo (al cambiar la marca se limpia la línea)
+  (function () {
+    var form = document.getElementById("fo-form"); if (!form) return;
+    form.querySelectorAll("[data-auto]").forEach(function (c) {
+      c.addEventListener("change", function () { if (c.name === "marca") { var l = form.querySelector("[name=linea]"); if (l) l.value = ""; } form.submit(); });
+    });
+  })();
+</script>
 {% endblock %}

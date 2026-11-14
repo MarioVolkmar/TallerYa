@@ -31,7 +31,15 @@
       "reglas": {
         "TIRE": "llanta-tras",
         "BRAKE SHOE": "bandas-tras",
-        "SPROCKET, DRIVEN": "kit-arrastre"
+        "SPROCKET, DRIVEN": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "rueda_tambor"
     },
@@ -104,7 +112,15 @@
       "titulo_es": "Basculante y amortiguador",
       "pieza": "suspension_tras",
       "reglas": {
-        "SHOCK ABSORBER": "suspension-tras"
+        "SHOCK ABSORBER": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "amortiguadores"
     },
@@ -116,6 +132,37 @@
         "BATTERY": "bateria"
       },
       "diagrama": "electrico"
+    },
+    {
+      "figura": 2,
+      "titulo_es": "Pistón, biela y cigüeñal",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Árbol de levas y cadenilla",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": 7,
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": 8,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "clutch"
     }
   ]
 }

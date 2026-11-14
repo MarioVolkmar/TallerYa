@@ -2,7 +2,8 @@ from urllib.parse import quote
 
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import get_user_model, login
+from django.contrib.auth import get_user_model, login, update_session_auth_hash
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
@@ -25,8 +26,9 @@ from talleres.models import Taller
 
 from . import roles
 from .avatares import PREDISENADOS, html_avatar, svg_predisenado
-from . import google
-from .forms import AvatarForm, CelularForm, CuentaTallerForm, RegistroForm, foto_cuadrada
+from . import correos, google
+from .forms import (AvatarForm, CambiarContrasenaForm, CelularForm, CrearContrasenaForm, CuentaTallerForm, RegistroForm,
+                    foto_cuadrada)
 from .models import Perfil, Suscripcion
 
 User = get_user_model()
@@ -39,8 +41,6 @@ def registro(request):
     tipo = request.GET.get("tipo")
     if tipo == "taller":
         return _registro_taller(request)
-    if tipo != "motero" and request.method != "POST":
-        return render(request, "cuentas/registro_elegir.html")
     form = RegistroForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         d = form.cleaned_data
@@ -53,8 +53,10 @@ def registro(request):
                 moto.referido_por = Motociclista.objects.filter(codigo_referido=ref).first()
             moto.usuario = usuario
             moto.save()
-        login(request, usuario)
-        messages.success(request, f"¡Bienvenido a TallerYa, {d['nombre']}!")
+        login(request, usuario, backend="cuentas.backends.Backend")
+        Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
+        correos.enviar_verificacion(request, usuario)
+        messages.success(request, f"¡Bienvenido a TallerYa, {d['nombre']}! Te enviamos un enlace a {usuario.email} para confirmar tu correo.")
         siguiente = request.GET.get("next", "")
         if url_has_allowed_host_and_scheme(siguiente, {request.get_host()}, require_https=request.is_secure()):
             return redirect(siguiente)
@@ -78,10 +80,15 @@ def _registro_taller(request):
             taller.activo = False
             taller.save()
             negocio.save_m2m()
-        login(request, usuario)
-        messages.success(request, "¡Cuenta creada! Revisaremos tu taller y lo publicaremos pronto.")
+        login(request, usuario, backend="cuentas.backends.Backend")
+        Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
+        correos.enviar_verificacion(request, usuario)
+        messages.success(request, f"¡Cuenta creada! Revisaremos tu taller y lo publicaremos pronto. Confirma tu correo con el enlace que te enviamos a {usuario.email}.")
         return redirect("cuentas:mi_cuenta")
-    return render(request, "cuentas/registro_taller.html", {"cuenta": cuenta, "negocio": negocio})
+    return render(request, "cuentas/registro_taller.html", {
+        "cuenta": cuenta, "negocio": negocio,
+        "barrios_por_ciudad": RegistroTallerForm.barrios_por_ciudad(),  # la lista de barrios cambia con la ciudad
+    })
 
 
 def historial_servicios(moto_perfil, limite=200):
@@ -179,6 +186,8 @@ def mi_cuenta(request):
     if roles.rol_de(request.user) == roles.SIN_PERFIL:
         return redirect("cuentas:completar")
     moto = motociclista_de(request.user)
+    if hasattr(request.user, "taller") and not moto:  # el taller maneja todo (también su cuenta) desde el panel
+        return redirect("talleres:panel")
     contexto = {"moto": moto}
     if moto:
         codigos = moto.codigos.select_related("cupon", "cupon__taller", "canjeado_taller")
@@ -361,20 +370,40 @@ def google_volver(request):
         return redirect("cuentas:entrar")
 
     perfil = Perfil.objects.select_related("usuario").filter(google_sub=datos["sub"]).first()
+
+    # Con la sesión abierta: conectar Google a la cuenta actual (desde Mi cuenta)
+    if request.user.is_authenticated:
+        if perfil and perfil.usuario_id != request.user.pk:
+            messages.error(request, "Esa cuenta de Google ya está conectada a otra cuenta de TallerYa.")
+        else:
+            propio = Perfil.de(request.user)
+            propio.google_sub = datos["sub"]
+            propio.save(update_fields=["google_sub"])
+            messages.success(request, "Listo: ya puedes entrar con tu cuenta de Google.")
+        return redirect("cuentas:mi_cuenta")
+
     usuario = perfil.usuario if perfil else User.objects.filter(username=datos["email"]).first()
     nueva = usuario is None
     if nueva:
         usuario = User.objects.create_user(username=datos["email"], email=datos["email"], first_name=datos["nombre"])
-        usuario.set_unusable_password()  # entra con Google; puede crear una contraseña con "Olvidé mi contraseña"
+        usuario.set_unusable_password()  # entra con Google; puede crear una contraseña desde Mi cuenta
         usuario.save()
     if not usuario.is_active:
         messages.error(request, "Esta cuenta está desactivada.")
         return redirect("cuentas:entrar")
     perfil = Perfil.de(usuario)
-    if perfil.google_sub != datos["sub"]:
-        perfil.google_sub = datos["sub"]
-        perfil.save(update_fields=["google_sub"])
-    login(request, usuario, backend="django.contrib.auth.backends.ModelBackend")
+    if not nueva and not perfil.correo_verificado and usuario.has_usable_password():
+        # Alguien pudo crear la cuenta con este correo sin ser su dueño: su contraseña deja de servir.
+        usuario.set_unusable_password()
+        usuario.save(update_fields=["password"])
+        messages.info(request, "Como tu correo no estaba confirmado, por seguridad borramos la contraseña anterior. "
+                               "Entra con Google o crea una nueva desde Mi cuenta.")
+    perfil.google_sub = datos["sub"]
+    perfil.correo_verificado = True  # Google ya confirmó que el correo es suyo
+    if nueva:
+        perfil.terminos_aceptados = timezone.now()  # el botón avisa que al continuar acepta los términos
+    perfil.save(update_fields=["google_sub", "correo_verificado", "terminos_aceptados"])
+    login(request, usuario, backend="cuentas.backends.Backend")
 
     if roles.rol_de(usuario) == roles.SIN_PERFIL:
         messages.success(request, f"¡Hola, {usuario.first_name or 'bienvenido'}! Cuéntanos cómo vas a usar TallerYa.")
@@ -437,3 +466,72 @@ def calificar_taller(request, pk):
     messages.success(request, f"¡Gracias! Calificaste a {taller.nombre} con {estrellas} estrella{'s' if estrellas > 1 else ''}."
                      if creada else f"Actualizamos tu reseña de {taller.nombre}.")
     return redirect(reverse("cuentas:mi_cuenta") + "#actividad")
+
+
+# ---------------- Verificación de correo y contraseñas ----------------
+def _usuario_de_uid(uidb64):
+    from django.utils.encoding import force_str
+    from django.utils.http import urlsafe_base64_decode
+    try:
+        return User.objects.get(pk=force_str(urlsafe_base64_decode(uidb64)))
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        return None
+
+
+def verificar_correo(request, uidb64, token):
+    usuario = _usuario_de_uid(uidb64)
+    if usuario and correos.token_verificacion.check_token(usuario, token):
+        perfil = Perfil.de(usuario)
+        perfil.correo_verificado = True
+        perfil.save(update_fields=["correo_verificado"])
+        messages.success(request, "¡Correo confirmado! Tu cuenta quedó lista.")
+        return redirect("cuentas:mi_cuenta" if request.user.is_authenticated else "cuentas:entrar")
+    if usuario and Perfil.objects.filter(usuario=usuario, correo_verificado=True).exists():
+        messages.info(request, "Tu correo ya estaba confirmado.")
+        return redirect("cuentas:mi_cuenta" if request.user.is_authenticated else "cuentas:entrar")
+    return render(request, "cuentas/verificar_invalido.html", status=400)
+
+
+@login_required
+@require_POST
+def reenviar_verificacion(request):
+    ahora = timezone.now().timestamp()
+    if ahora - request.session.get("verificacion_enviada", 0) < 60:
+        messages.info(request, "Ya te enviamos el enlace hace un momento. Revisa tu correo (y la carpeta de spam).")
+    elif correos.enviar_verificacion(request, request.user):
+        request.session["verificacion_enviada"] = ahora
+        messages.success(request, f"Te enviamos un nuevo enlace a {request.user.email}.")
+    else:
+        messages.error(request, "No pudimos enviar el correo. Intenta de nuevo en unos minutos.")
+    destino = request.META.get("HTTP_REFERER", "")
+    if not url_has_allowed_host_and_scheme(destino, {request.get_host()}, require_https=request.is_secure()):
+        destino = reverse("cuentas:mi_cuenta")
+    return redirect(destino)
+
+
+@login_required
+def contrasena(request):
+    """Cambiar la contraseña (pide la actual) o crearla si la cuenta entró solo con Google."""
+    tiene = request.user.has_usable_password()
+    Formulario = CambiarContrasenaForm if tiene else CrearContrasenaForm
+    form = Formulario(request.user, request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        usuario = form.save()
+        update_session_auth_hash(request, usuario)  # no cierra la sesión actual
+        correos.avisar_contrasena_cambiada(request, usuario)
+        messages.success(request, "Contraseña actualizada." if tiene else "Listo: ya puedes entrar también con tu correo y contraseña.")
+        return redirect("cuentas:mi_cuenta")
+    return render(request, "cuentas/contrasena.html", {"form": form, "tiene": tiene})
+
+
+class RecuperarConfirmar(auth_views.PasswordResetConfirmView):
+    """Al crear la contraseña nueva desde el correo: el correo queda confirmado y se avisa del cambio."""
+    template_name = "cuentas/recuperar_nueva.html"
+
+    def form_valid(self, form):
+        respuesta = super().form_valid(form)
+        perfil = Perfil.de(form.user)
+        perfil.correo_verificado = True
+        perfil.save(update_fields=["correo_verificado"])
+        correos.avisar_contrasena_cambiada(self.request, form.user)
+        return respuesta

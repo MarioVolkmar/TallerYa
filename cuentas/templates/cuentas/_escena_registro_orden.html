@@ -1,0 +1,33 @@
+{% load static %}
+{# Escena de Crear motero: una orden de servicio de taller que se va llenando con lo que gana al crear la cuenta, y cae el sello. #}
+<link rel="stylesheet" href="{% static 'talleres/css/escenas-cuenta.css' %}">
+<aside class="entrar-escena escena-orden" aria-hidden="true">
+  <div class="entrar-escena-texto">
+    <p class="etiqueta">Únete gratis</p>
+    <p class="titulo text-3xl lg:text-4xl mt-3">Arma tu <span class="text-lava">garaje</span> en un minuto</p>
+  </div>
+  <div class="or-mesa">
+    <div class="or-hoja">
+      <span class="or-clip" aria-hidden="true"></span>
+      <div class="or-cabeza">
+        <p class="or-titulo">Orden de servicio</p>
+        <p class="or-numero">N.º 0001</p>
+      </div>
+      <dl class="or-datos">
+        <div><dt>Motero</dt><dd><span class="or-escrito or-e1">Tú</span></dd></div>
+        <div><dt>Moto</dt><dd><span class="or-escrito or-e2">La tuya</span></dd></div>
+      </dl>
+      <ul class="or-lista">
+        <li class="or-r1"><span class="or-caja"></span><span><strong>Avisos a tiempo</strong> aceite, SOAT y tecnomecánica</span></li>
+        <li class="or-r2"><span class="or-caja"></span><span><strong>Pico y placa</strong> te escribimos la tarde antes</span></li>
+        <li class="or-r3"><span class="or-caja"></span><span><strong>Cupones</strong> en talleres de confianza</span></li>
+        <li class="or-r4"><span class="or-caja"></span><span><strong>Plan de mantenimiento</strong> y despiece de tu moto</span></li>
+      </ul>
+      <div class="or-pie">
+        <span>Valor</span><span class="or-valor">$0 · gratis</span>
+      </div>
+      <span class="or-sello">Moto al día</span>
+    </div>
+    <span class="or-llave" aria-hidden="true"></span>
+  </div>
+</aside>

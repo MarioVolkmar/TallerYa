@@ -10,6 +10,8 @@ Formatos de catálogo (clave "formato" del mapa; por defecto "yamaha"):
 - auteco: catálogos de Auteco (Bajaj, KTM, TVS): "FIGURA Nº N: TÍTULO" y tabla
   FIG. Nº / REFERENCIA / DESCRIPCIÓN / CANT. en español; las columnas se leen del encabezado.
   La figura del mapa puede llevar letra ("12A"); en la base se guarda solo el número.
+- honda, hero, suzuki, fichas: ver garaje/despiece_lectores.py. En "fichas" el primer argumento es la
+  carpeta con fichas.json (diagramas bajados de tiendas en línea cuando no hay catálogo en PDF).
 
 Por cada figura del mapa guarda la imagen del dibujo y la tabla de partes (ref., código,
 descripción, cantidad) y enlaza con el plan de mantenimiento las partes que cumplen las reglas.
@@ -23,6 +25,9 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from garaje.despiece_glosario import ayuda_para, traducir
+from garaje.despiece_traductor import traducir_palabras
+from garaje.despiece_variantes import nombre_por_sistema
+from garaje.despiece_lectores import FORMATOS_EXTRA
 from garaje.models import Despiece, Lamina, LineaMoto, ParteDespiece, TareaMantenimiento
 
 # Columnas de la tabla Yamaha (en puntos de la página A4 horizontal del catálogo).
@@ -87,8 +92,8 @@ def _filas(palabras):
 
 # ---------------- Formato Auteco (Bajaj, KTM, TVS) ----------------
 
-RE_TITULO_PAGINA = re.compile(r"FIGURA\s*N\S{0,2}\s*(\d+[A-Z]?)", re.I)   # números de figura que aparecen en una página
-RE_FIGURA = re.compile(r"FIGURA\s*N\S{0,2}\s*(\d+[A-Z]?)\s*:\s*(.+?)(?:\s*\(\d\s*/\s*\d\s*\))?\s*$", re.I)
+RE_TITULO_PAGINA = re.compile(r"FIGURA\s*(?:N\S{0,2}\s*)?(\d+[A-Z]?)", re.I)   # números de figura que aparecen en una página
+RE_FIGURA = re.compile(r"FIGURA\s*(?:N\S{0,2}\s*)?(\d+[A-Z]?)\b\s*:?\s*(.+?)(?:\s*\(\d\s*/\s*\d\s*\))?\s*$", re.I)
 
 
 def leer_figuras_auteco(pdf):
@@ -154,14 +159,32 @@ def _filas_auteco(palabras, enc):
         else:
             continue
         codigo = resto[0][4]
-        descripcion, cantidad = [], 1
+        descripcion, cantidad, anio = [], 1, None
         for w in resto[1:]:
-            if w[0] >= x_cant and w[4].isdigit():
-                cantidad = int(w[4])
-                break
+            if re.fullmatch(r"(19|20)\d\d", w[4]):
+                anio = w[4]                                  # "x Hasta Modelo 2014": el año no es la cantidad
+                continue
+            if w[0] >= x_cant:
+                if re.fullmatch(r"\d{1,2}", w[4]):
+                    cantidad = int(w[4])
+                    break
+                continue                                     # columnas de variantes (guiones): no son descripción
             descripcion.append(w[4])
         descripcion = " ".join(descripcion).strip()
-        if not descripcion or not re.search(r"\d", codigo):
+        if not re.search(r"\d", codigo):
+            continue
+        modelo = re.search(r"(?i)\bx\s+(hasta|desde)\s+modelo\b", descripcion)
+        if modelo:
+            descripcion = (descripcion[:modelo.start()].strip() + f" ({modelo.group(1).lower()} modelo{' ' + anio if anio else ''})").strip()
+        if not re.search(r"[A-Za-zÁÉÍÓÚÑáéíóúñ]{2}", re.sub(r"\((hasta|desde) modelo[^)]*\)", "", descripcion)):
+            # Solo guiones o solo "(desde modelo 2015)": otra versión de la pieza anterior con la misma referencia
+            previa = next((f for f in reversed(filas) if f["ref"] == ref), None)
+            if not previa:
+                continue
+            base = re.sub(r"\s*\((hasta|desde) modelo[^)]*\)", "", previa["descripcion"]).strip()
+            descripcion = f"{base} {descripcion}".strip() if "modelo" in descripcion else base
+        descripcion = re.sub(r"(\s+-)+\s*$", "", descripcion).strip()
+        if not descripcion:
             continue
         ref_anterior = ref
         filas.append({"ref": ref, "codigo": codigo[:30], "descripcion": descripcion[:120], "nivel": 0,
@@ -169,36 +192,63 @@ def _filas_auteco(palabras, enc):
     return filas
 
 
-FORMATOS = {"yamaha": leer_figuras, "auteco": leer_figuras_auteco}
+FORMATOS = {"yamaha": leer_figuras, "auteco": leer_figuras_auteco, **FORMATOS_EXTRA}
 
 
 def _imagen(documento, fig, formato):
-    """Dibujo de la figura: en Yamaha la primera imagen de su página; en Auteco la más grande de sus
-    páginas (o de la anterior, cuando el dibujo va en una página aparte antes de la tabla)."""
+    """Dibujo de la figura. Yamaha: la imagen de su página. Auteco: se RENDERIZA la zona del dibujo (a la izquierda de
+    la tabla) tal como se ve impresa: extraer la imagen incrustada fallaba con algunas (salían dañadas, en mosaico) y
+    con los dibujos armados de muchas imágenes pequeñas. Si la página de la figura no tiene dibujo, se usa la anterior,
+    pero solo si esa página no es de otra figura."""
+    if "imagen" in fig:  # formatos de garaje/despiece_lectores.py: el lector sabe dónde está el dibujo
+        return fig["imagen"]()
     if formato == "yamaha":
         imagenes = documento[fig["pagina"]].get_images()
         return documento.extract_image(imagenes[0][0]) if imagenes else None
+    import pymupdf
     paginas = fig.get("paginas") or [fig["pagina"]]
-    grandes = [i for n in paginas for i in documento[n].get_images() if i[2] * i[3] > 100_000]
-    if grandes:
-        return documento.extract_image(max(grandes, key=lambda i: i[2] * i[3])[0])
-    # Dibujo armado con muchas imágenes pequeñas o en vector en su propia página: se renderiza esa página (abajo).
     propia = documento[paginas[0]]
+    zoom = pymupdf.Matrix(2, 2)
     if not (propia.get_images() or propia.get_drawings()):
-        # Sin nada en su página: el dibujo puede ir en la anterior, pero solo si esa página no es de otra figura
-        # (antes se tomaba sin mirar y la fig. 22 de la NS 200 quedaba con el dibujo de la 21).
         anterior = paginas[0] - 1
         titulos = lambda n: {m.group(1) for m in RE_TITULO_PAGINA.finditer(documento[n].get_text())}
-        if anterior >= 0 and titulos(anterior) <= titulos(paginas[0]):
-            imagenes = [i for i in documento[anterior].get_images() if i[2] * i[3] > 100_000]
-            if imagenes:
-                return documento.extract_image(max(imagenes, key=lambda i: i[2] * i[3])[0])
-    # Dibujo vectorial (sin imagen): se renderiza la parte izquierda de la página, a la izquierda de la tabla.
-    import pymupdf
-    pagina = documento[paginas[0]]
-    recorte = pymupdf.Rect(0, 0, fig["x_tabla"] - 6, pagina.rect.height)
-    pix = pagina.get_pixmap(matrix=pymupdf.Matrix(2, 2), clip=recorte)
+        if anterior >= 0 and titulos(anterior) <= titulos(paginas[0]) and documento[anterior].get_images():
+            pix = documento[anterior].get_pixmap(matrix=zoom)
+            return {"image": pix.tobytes("png"), "width": pix.width, "height": pix.height, "ext": "png"}
+    recorte = pymupdf.Rect(0, 0, fig["x_tabla"] - 6, propia.rect.height)
+    pix = propia.get_pixmap(matrix=zoom, clip=recorte)
     return {"image": pix.tobytes("png"), "width": pix.width, "height": pix.height, "ext": "png"}
+
+
+# Primeras palabras que delatan un herraje o accesorio del sistema: "Capuchón Bujía" no es la bujía ni "BAND, BATTERY" la
+# batería. Con ellas al principio, la regla solo enlaza si coincide desde el inicio de la descripción.
+HERRAJES_INICIO = set("""TORNILLO TORNILLOS TUERCA ARANDELA ARAND BUJE EJE PLATINA ESPARRAGO RETEN RETENEDOR CAUCHO ANTIVIBRANTE EMPAQUE
+CAPUCHON DUCTO SOPORTE PROTECTOR BASE ABRAZADERA CAJA LEVA PORTA PORTABANDAS PORTASPROCKET INDICADOR TORRE CORREA RESORTE
+VENTILADOR CONECTOR MANGUERA BANDEJA PLACA PLATO PIN BOLT NUT SCREW WASHER BAND HOLDER PLATE TRAY RUBBER HOSE COVER CASE
+BRACKET STAY SPACER COLLAR DAMPER SEAL GUIDE SPRING TUBE CLIP CLAMP RETAINER DRUM LEVER CAM INSULATOR TERMINAL""".split())
+
+
+def _sin_tildes(texto):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
+
+
+def tarea_para(reglas, descripcion, espanol=""):
+    """Clave de la tarea del plan para una fila del catálogo según las reglas del mapa ({patrón: clave}).
+
+    Un patrón enlaza si coincide desde el inicio de la descripción (sin tildes ni puntos iniciales) o si la descripción no
+    empieza por una palabra de herraje (ver HERRAJES_INICIO). Un valor null en las reglas es una exclusión explícita: la
+    primera coincidencia con null deja la fila sin tarea."""
+    textos = [re.sub(r"^[\s.]+", "", _sin_tildes(t).upper()) for t in (descripcion or "", espanol or "") if t]
+    for patron, clave in (reglas or {}).items():
+        p = _sin_tildes(patron).upper()
+        for texto in textos:
+            if p not in texto:
+                continue
+            primera = re.split(r"[\s,.(]+", texto, maxsplit=1)[0]
+            if texto.startswith(p) or primera not in HERRAJES_INICIO:
+                return clave
+    return None
 
 
 def _nombre_es(fila):
@@ -206,7 +256,9 @@ def _nombre_es(fila):
     if nombre:
         return nombre
     espanol = fila.get("espanol", "")
-    return espanol[:1].upper() + espanol[1:].lower() if espanol else ""
+    if espanol:
+        return espanol[:1].upper() + espanol[1:].lower()
+    return traducir_palabras(fila["descripcion"])
 
 
 class Command(BaseCommand):
@@ -217,8 +269,11 @@ class Command(BaseCommand):
         parser.add_argument("mapa")
         parser.add_argument("--reemplazar", action="store_true",
                             help="Borra y vuelve a crear las láminas (se pierden las marcas hechas)")
+        parser.add_argument("--reenlazar", action="store_true",
+                            help="En las láminas que ya existen: actualiza título, pieza y diagrama, y recalcula en cada parte la "
+                                 "tarea, el nombre en español y la ayuda, sin tocar las marcas (x, y)")
 
-    def handle(self, pdf, mapa, reemplazar, **opts):
+    def handle(self, pdf, mapa, reemplazar, reenlazar=False, **opts):
         try:
             import pymupdf
         except ImportError:
@@ -234,7 +289,7 @@ class Command(BaseCommand):
             raise CommandError(f"No existe la línea {conf['marca']} {conf['linea']} en el catálogo.")
         tareas = {t.clave: t for t in TareaMantenimiento.objects.all()}
 
-        documento = pymupdf.open(pdf)
+        documento = pdf if formato == "fichas" else pymupdf.open(pdf)  # fichas: carpeta con fichas.json
         figuras = FORMATOS[formato](documento)
 
         with transaction.atomic():
@@ -243,12 +298,15 @@ class Command(BaseCommand):
             )
             for orden, item in enumerate(conf["laminas"]):
                 clave_fig = str(item["figura"]).upper()
-                numero = int(re.match(r"\d+", clave_fig).group())
                 fig = figuras.get(clave_fig)
                 if not fig:
                     self.stderr.write(f"FIG. {clave_fig} no está en el PDF; se omite.")
                     continue
+                numero = fig.get("numero") or int(re.match(r"\d+", clave_fig).group())
                 existente = despiece.laminas.filter(figura=numero).first()
+                if existente and reenlazar and not reemplazar:
+                    self._reenlazar(existente, item, fig, tareas, clave_fig)
+                    continue
                 if existente and not reemplazar:
                     if existente.diagrama != item.get("diagrama", ""):
                         existente.diagrama = item.get("diagrama", "")
@@ -274,7 +332,7 @@ class Command(BaseCommand):
                 enlazadas = 0
                 for fila in fig["filas"]:
                     texto = f"{fila['descripcion']} {fila.get('espanol', '')}".upper()
-                    clave = next((c for patron, c in item.get("reglas", {}).items() if patron.upper() in texto), None)
+                    clave = tarea_para(item.get("reglas", {}), fila["descripcion"], fila.get("espanol", ""))
                     tarea = tareas.get(clave) if clave else None
                     enlazadas += bool(tarea)
                     datos = {k: v for k, v in fila.items() if k != "espanol"}
@@ -283,3 +341,23 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.SUCCESS(
                     f"FIG. {clave_fig:>3} {lamina.nombre}: {len(fig['filas'])} partes, {enlazadas} enlazadas al plan"))
         self.stdout.write(f"Listo: {despiece}. Marca las piezas en el admin > Láminas de despiece.")
+
+    def _reenlazar(self, lamina, item, fig, tareas, clave_fig):
+        """Refresca una lámina existente sin perder sus marcas: título, pieza, diagrama y, en cada parte, tarea, nombre y ayuda."""
+        lamina.titulo_es = item.get("titulo_es", lamina.titulo_es)
+        lamina.pieza = item.get("pieza", lamina.pieza)
+        lamina.diagrama = item.get("diagrama", lamina.diagrama)
+        lamina.save(update_fields=["titulo_es", "pieza", "diagrama"])
+        filas = {(str(f.get("ref")), f.get("codigo")): f for f in fig["filas"]}
+        cambios, enlazadas = [], 0
+        for parte in lamina.partes.all():
+            fila = filas.get((str(parte.ref), parte.codigo)) or {"descripcion": parte.descripcion}
+            clave = tarea_para(item.get("reglas", {}), parte.descripcion, fila.get("espanol", ""))
+            parte.tarea = tareas.get(clave) if clave else None
+            parte.nombre_es = (nombre_por_sistema(lamina.diagrama, parte.descripcion)
+                               or _nombre_es({**fila, "descripcion": parte.descripcion}))
+            parte.ayuda = ayuda_para(parte.descripcion)
+            enlazadas += bool(parte.tarea)
+            cambios.append(parte)
+        ParteDespiece.objects.bulk_update(cambios, ["tarea", "nombre_es", "ayuda"])
+        self.stdout.write(f"FIG. {clave_fig:>3} {lamina.nombre}: reenlazada ({len(cambios)} partes, {enlazadas} enlazadas al plan)")

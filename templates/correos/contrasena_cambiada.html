@@ -1,0 +1,10 @@
+{% extends "correos/base.html" %}
+{% block preheader %}Si fuiste tú, no tienes que hacer nada.{% endblock %}
+{% block etiqueta %}Aviso de seguridad{% endblock %}
+{% block titulo %}Tu contraseña <span style="color:#f2611d;">cambió</span>{% endblock %}
+{% block contenido %}
+<p style="margin:0 0 12px;">Hola{% if usuario.first_name %} <strong style="color:#ede3cc;">{{ usuario.first_name }}</strong>{% endif %},</p>
+<p style="margin:0;">La contraseña de tu cuenta <strong style="color:#ede3cc;">{{ usuario.email }}</strong> se cambió hace un momento. Si fuiste tú, no tienes que hacer nada.</p>
+<p style="margin:16px 0 0;"><strong style="color:#ff8a70;">¿No fuiste tú?</strong> Crea una contraseña nueva ahora mismo:</p>
+{% include "correos/_boton.html" with url=url texto="Proteger mi cuenta" %}
+{% endblock %}

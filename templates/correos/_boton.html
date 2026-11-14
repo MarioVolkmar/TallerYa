@@ -1,0 +1,8 @@
+{# Botón compatible con los clientes de correo. Uso: {% include "correos/_boton.html" with url=... texto="..." %} #}
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 22px;">
+  <tr><td style="background:#f2611d;border-radius:999px;box-shadow:0 6px 16px rgba(242,97,29,.35);">
+    <a href="{{ url }}" style="display:inline-block;padding:15px 32px;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#1a0d05;text-decoration:none;border-radius:999px;">{{ texto }}</a>
+  </td></tr>
+</table>
+<p style="margin:0 0 18px;font-size:12px;line-height:1.6;color:#8d9496;">¿El botón no funciona? Copia y pega este enlace en tu navegador:<br>
+  <a href="{{ url }}" style="color:#e3a72f;word-break:break-all;">{{ url }}</a></p>

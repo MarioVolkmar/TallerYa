@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Organizar una rodada · TallerYa{% endblock %}
+{% block content %}
+{% url 'foro:rodadas' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver a rodadas" clase="mt-8" %}
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-6 items-start">
+  <section class="papel p-6 md:p-8 lg:col-span-2">
+    <h1 class="titulo text-3xl md:text-4xl">Organiza una <span class="text-lava">rodada</span></h1>
+    <form method="post" class="space-y-4 mt-6">
+      {% csrf_token %}
+      {% include "cuentas/_campos.html" %}
+      <button class="btn btn-lava w-full py-3 text-sm">Publicar rodada</button>
+    </form>
+  </section>
+  <aside class="papel p-6">
+    <p class="etiqueta">Seguridad</p>
+    <ul class="mt-4 space-y-3 text-sm text-suave">
+      <li><span class="text-lava">01</span> Cita en un lugar público y conocido. Nunca pongas tu casa ni direcciones privadas.</li>
+      <li><span class="text-lava">02</span> Di el nivel con honestidad para que nadie se quede atrás.</li>
+      <li><span class="text-lava">03</span> Casco, papeles al día y tanque lleno.</li>
+    </ul>
+  </aside>
+</div>
+{% endblock %}

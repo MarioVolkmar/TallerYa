@@ -1,0 +1,8 @@
+{# Paginación sencilla que conserva los filtros de la dirección. Variable: pagina #}
+{% if pagina.has_other_pages %}
+<nav class="paginacion" aria-label="Páginas">
+  {% if pagina.has_previous %}<a href="?{% for k, v in request.GET.items %}{% if k != 'pagina' %}{{ k }}={{ v|urlencode }}&amp;{% endif %}{% endfor %}pagina={{ pagina.previous_page_number }}" rel="prev">← Anterior</a>{% endif %}
+  <span class="actual">{{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+  {% if pagina.has_next %}<a href="?{% for k, v in request.GET.items %}{% if k != 'pagina' %}{{ k }}={{ v|urlencode }}&amp;{% endif %}{% endfor %}pagina={{ pagina.next_page_number }}" rel="next">Siguiente →</a>{% endif %}
+</nav>
+{% endif %}

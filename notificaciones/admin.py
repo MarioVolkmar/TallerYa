@@ -1,3 +1,4 @@
+"""Admin de notificaciones del sitio."""
 from django.contrib import admin
 
 from .models import Notificacion

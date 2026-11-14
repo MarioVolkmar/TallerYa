@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Citas · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="mt-8 md:mt-10">
+  {% url 'talleres:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi taller" %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">Mis <span class="text-lava">citas</span></h1>
+  <div class="lt-barra">
+    <nav class="lt-filtros" aria-label="Estado">
+      {% for clave, nombre, n in filtros %}<a href="?estado={{ clave }}{% if q %}&amp;q={{ q|urlencode }}{% endif %}"{% if filtro == clave %} class="activo"{% endif %}>{{ nombre }} <span>{{ n }}</span></a>{% endfor %}
+    </nav>
+    <form method="get" class="lt-buscar" role="search"><input type="hidden" name="estado" value="{{ filtro }}">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input name="q" value="{{ q }}" placeholder="Buscar por nombre, moto o celular" aria-label="Buscar citas"></form>
+  </div>
+  <section class="papel pt-caja mt-4">
+    <ul class="pt-citas">
+      {% for c in pagina %}{% include "talleres/_cita_item.html" %}
+      {% empty %}<li class="pt-vacio"><p>No hay citas {% if q %}que coincidan con «{{ q }}»{% else %}en esta lista{% endif %}.</p></li>{% endfor %}
+    </ul>
+    {% include "talleres/_paginas.html" %}
+  </section>
+</div>
+{% include "talleres/_dialogo_reprogramar.html" %}
+{% include "talleres/_dialogo_cancelar.html" %}
+{% include "talleres/_dialogo_cita.html" %}
+{% endblock %}

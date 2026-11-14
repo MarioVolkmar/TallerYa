@@ -1,0 +1,155 @@
+{
+  "marca": "Suzuki",
+  "linea": "Gixxer 150",
+  "version": "GSX150L6 (P71, Suzuki India)",
+  "anio": 2015,
+  "formato": "suzuki",
+  "fuente": "https://suzukimotosmich.com/assets/images/content/products/gixxer-bitono/parts-GSX150DZA.pdf",
+  "laminas": [
+    {
+      "figura": "535A",
+      "titulo_es": "Caliper delantero y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "PAD SET": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": "537A",
+      "titulo_es": "Bomba de freno delantera",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": "550A",
+      "titulo_es": "Rueda trasera y corona (catálogo de la versión con tambor)",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE, REAR": "llanta-tras",
+        "SHOE, REAR BRAKE": null,
+        "SPROCKET, REAR": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "541A",
+      "titulo_es": "Basculante y cadena",
+      "pieza": "cadena",
+      "reglas": {
+        "CHAIN": "kit-arrastre"
+      },
+      "diagrama": ""
+    },
+    {
+      "figura": "206A",
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET, ENGINE": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "170A",
+      "titulo_es": "Bomba y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTER, ENGINE OIL": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "108A",
+      "titulo_es": "Cárter y tapón de drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "OIL DRAIN": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "155A",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTER ASSY": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "103A",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "SPARK PLUG (": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "126A",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, INTAKE": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "530A",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE, FRONT": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "521A",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SPRING": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "542A",
+      "titulo_es": "Amortiguador trasero",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "ABSORBER ASSY": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "310A",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY (": "bateria"
+      },
+      "diagrama": "electrico"
+    }
+  ]
+}

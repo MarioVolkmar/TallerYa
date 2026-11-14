@@ -1,0 +1,32 @@
+{# Una solicitud de cita con sus acciones (panel y página de citas). Variable: c #}
+<li class="pt-cita estado-{{ c.estado }} scroll-mt-24" id="cita-{{ c.pk }}" data-cita-detalle="{{ c.pk }}" title="Ver detalle">
+  <div class="pt-cita-fecha"><strong>{{ c.fecha_preferida|date:"j" }}</strong><span>{{ c.fecha_preferida|date:"M"|lower }}</span></div>
+  <div class="pt-cita-datos">
+    <p class="pt-cita-quien">{{ c.nombre }} <span>· {{ c.moto }}</span></p>
+    <p class="pt-cita-que">{% if c.servicio %}{{ c.servicio }}{% else %}Servicio por definir{% endif %}{% if c.vencida %} · <span class="pt-vencida">la fecha ya pasó</span>{% endif %}</p>
+    {% if c.detalle %}<p class="pt-cita-detalle">“{{ c.detalle }}”</p>{% endif %}
+    {% if c.estado == "reprogramada" %}<p class="pt-propuesta">Propusiste <strong>{{ c.fecha_propuesta|date:"l j M"|lower }}{% if c.hora_propuesta %} · {{ c.hora_propuesta|time:"g:i a" }}{% endif %}</strong>. Esperando que {{ c.nombre }} la acepte.</p>{% endif %}
+    {% if c.estado == "cancelada" and c.motivo_cancelacion %}<p class="pt-cita-detalle">Motivo: {{ c.motivo_cancelacion }}</p>{% endif %}
+    {% if c.propuesta_rechazada and c.estado == "pendiente" %}<p class="pt-rechazo">No pudo en la fecha que propusiste: escríbele para acordar otra.</p>{% endif %}
+  </div>
+  <div class="pt-cita-lado">
+    <span class="pt-chip chip-{{ c.estado }}">{{ c.get_estado_display }}</span>
+    <div class="pt-cita-botones">
+      {% if c.whatsapp_url %}<a href="{{ c.whatsapp_url }}" target="_blank" rel="noopener" class="pt-wa" title="Escribirle por WhatsApp" aria-label="Escribir a {{ c.nombre }} por WhatsApp"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></svg></a>{% endif %}
+      <form method="post" action="{% url 'talleres:cita_estado' c.pk %}" class="pt-cita-form">{% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        {% if c.estado == "pendiente" %}
+        <button name="estado" value="confirmada" class="pt-boton pt-boton-ok">Confirmar</button>
+        {% elif c.estado == "confirmada" %}
+        <button name="estado" value="atendida" class="pt-boton pt-boton-ok">Atendida</button>
+        {% endif %}
+        {% if c.estado == "pendiente" or c.estado == "confirmada" or c.estado == "reprogramada" %}
+        <button type="button" class="pt-boton pt-boton-mostaza" data-reprogramar="{% url 'talleres:cita_reprogramar' c.pk %}" data-nombre="{{ c.nombre }}" data-fecha="{{ c.fecha_propuesta|default:c.fecha_preferida|date:'Y-m-d' }}">{% if c.estado == "reprogramada" %}Cambiar propuesta{% else %}Reprogramar{% endif %}</button>
+        <button type="button" class="pt-boton" data-cancelar="{% url 'talleres:cita_estado' c.pk %}" data-nombre="{{ c.nombre }}" data-fecha="{{ c.fecha_preferida|date:'l j \d\e F'|lower }}" data-confirmada="{% if c.estado == 'confirmada' %}1{% endif %}">Cancelar</button>
+        {% else %}
+        <button name="estado" value="pendiente" class="pt-boton">Reabrir</button>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</li>
+{% include "talleres/_cita_detalle.html" %}

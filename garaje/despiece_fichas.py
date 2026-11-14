@@ -88,7 +88,7 @@ FICHAS = {
         "Engrasa su pivote cada 6 meses. Se cambia si está doblada o rota.",
         ["Manigueta dura o que no regresa", "Juego excesivo"], ["Después de una caída revisa que no esté doblada"], "facil"),
     "ROTOR, SENSOR": _f(
-        "Es el anillo dentado que lee el sensor del ABS para saber si la rueda se está bloqueando.",
+        "Es el disco agujereado (rueda fónica): gira con la rueda y el sensor cuenta sus huecos para saber la velocidad. Con esa señal funcionan el velocímetro y, si la moto tiene ABS, el ABS.",
         "Revísalo al limpiar la moto; no tiene cambio periódico.",
         ["Luz de ABS encendida en el tablero"], ["Mantenlo limpio de barro y piedritas", "No lo golpees al quitar la rueda"], "taller"),
 
@@ -366,7 +366,7 @@ CATEGORIAS = {
         ["Revisa que su empaque esté en buen estado"], "facil"),
     "general": _f(
         "Es una pieza del conjunto que ves en el dibujo.", "No tiene un cambio periódico definido: se revisa cuando se trabaja en esta parte de la moto.",
-        ["Ruidos, juego o fugas en esta zona"], ["Si notas algo raro en esta parte, menciónaselo al taller con el código de la pieza"], "taller"),
+        ["Ruidos, juego o fugas en esta zona"], ["Si notas algo raro en esta parte, coméntaselo al mecánico"], "taller"),
 }
 
 _CATEGORIA_POR_PALABRA = {
@@ -423,7 +423,7 @@ EXTRAS = {
         "Al llegar al metal, la pastilla raya el disco, el freno pierde fuerza y el arreglo pasa de unas pastillas a pastillas más disco.",
         ["Pide el juego para tu moto (delantero o trasero, no son iguales).",
          "Prefiere originales o marcas reconocidas; las muy baratas chillan y se gastan rápido.",
-         "Lleva el código de repuesto para no equivocarte."]),
+         "Lleva la pieza vieja de muestra para no equivocarte."]),
     "DISK, BRAKE": _x(
         ["Pasa la uña por la superficie: si se traba en surcos profundos, está muy gastado.",
          "Busca el grosor mínimo grabado en el disco (dice MIN TH) y pídele al taller que lo mida.",
@@ -590,7 +590,7 @@ EXTRAS_CATEGORIA = {
     "tornilleria": _x(
         ["Revisa que estén completos y apretados; en frenos y suspensión no los aprietes a ojo."],
         "Un tornillo flojo puede hacer vibrar o soltar una pieza; uno apretado de más puede dañar la rosca.",
-        ["Pide el tornillo por su código: largo, rosca y dureza deben ser iguales al original."]),
+        ["Lleva el tornillo viejo de muestra: largo, rosca y dureza deben ser iguales."]),
     "empaques": _x(
         ["Busca goteos o manchas de aceite, líquido o refrigerante alrededor de la unión."],
         "Un empaque vencido causa fugas que ensucian, bajan el nivel de aceite o refrigerante y pueden recalentar el motor.",
@@ -602,7 +602,7 @@ EXTRAS_CATEGORIA = {
     "bujes": _x(
         ["Mueve la pieza donde va: no debe tener juego ni hacer ruido."],
         "Un buje gastado deja juego y desgasta las piezas vecinas.",
-        ["Pide la medida exacta por el código."]),
+        ["Lleva la pieza vieja para comparar la medida."]),
     "resortes": _x(
         ["Compáralo con uno nuevo: si está más corto o deformado, perdió fuerza."],
         "Un resorte vencido hace que la pieza no regrese bien a su posición.",
@@ -618,7 +618,7 @@ EXTRAS_CATEGORIA = {
     "soportes": _x(
         ["Revisa que esté derecho y bien sujeto, sobre todo después de una caída."],
         "Un soporte doblado o roto deja la pieza floja y puede romperla.",
-        ["Pídelo por código: los soportes cambian entre versiones."]),
+        ["Di el modelo y año de tu moto: los soportes cambian entre versiones."]),
     "tapas": _x(
         ["Revisa que cierre bien y no tenga grietas."],
         "Una tapa rota deja entrar agua y polvo o permite fugas.",
@@ -626,7 +626,7 @@ EXTRAS_CATEGORIA = {
     "general": _x(
         ["Si notas ruidos, juego o fugas en esta zona, menciónaselo al taller."],
         "Las piezas de esta zona trabajan juntas: una dañada puede afectar a las demás.",
-        ["Lleva el código de repuesto: es la forma más segura de pedir la pieza correcta."]),
+        ["Lleva la pieza vieja y di el modelo y año de tu moto: así no te equivocas."]),
 }
 
 SISTEMAS = {
@@ -644,6 +644,14 @@ _EXTRAS = {_normalizar(k): v for k, v in EXTRAS.items()}
 
 def _categoria(clave):
     return _CATEGORIA_POR_PALABRA.get(re.split(r"[ ,]", clave, maxsplit=1)[0], "general")
+
+
+def tiene_guia_propia(descripcion):
+    """¿El catálogo de guías conoce esta pieza por su nombre (no solo por su categoría)?"""
+    clave = _normalizar(_ALIAS.get(_normalizar(descripcion)) or descripcion)
+    if clave in _FICHAS or any(clave.startswith(k) for k in _FICHAS):
+        return True
+    return clave in _QUE_HACE or any(clave.startswith(k + ",") or clave.startswith(k + " ") for k in _QUE_HACE)
 
 
 def ficha_completa(descripcion, pieza=""):

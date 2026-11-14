@@ -31,7 +31,7 @@
         "CAP, RESERVOIR": "liquido-frenos",
         "DIAPHRAGM, RESERVOIR": "liquido-frenos"
       },
-      "diagrama": "bomba_freno"
+      "diagrama": "bombas_abs"
     },
     {
       "figura": 12,
@@ -137,6 +137,40 @@
         "BATTERY": "bateria"
       },
       "diagrama": "electrico"
+    },
+    {
+      "figura": 2,
+      "titulo_es": "Pistón, biela y cigüeñal",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Árbol de levas y cadenilla",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": 9,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Transmisión final y piñonería",
+      "pieza": "correa",
+      "diagrama": "caja_secundaria"
+    },
+    {
+      "figura": 10,
+      "titulo_es": "Cárter y tapones del aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "BOLT, STRAIGHT SCREW": "aceite-caja",
+        "PLUG, OIL LEVEL": "aceite"
+      },
+      "diagrama": "carcasa"
     }
   ]
 }

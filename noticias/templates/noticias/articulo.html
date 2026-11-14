@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ a.titulo }} · TallerYa{% endblock %}
+{% block content %}
+{% url 'noticias:lista' as url_lista %}{% include "parciales/volver.html" with url=url_lista texto="Noticias moteras" clase="mt-8" %}
+<article class="articulo papel">
+  <span class="nota-categoria articulo-categoria nota-{{ a.categoria }}">{{ a.get_categoria_display }}</span>
+  <h1 class="titulo text-3xl md:text-5xl mt-3">{{ a.titulo }}</h1>
+  <p class="articulo-meta">{{ a.fecha|date:"j \d\e F \d\e Y" }} · {{ a.lectura_min }} min de lectura</p>
+  {% if a.imagen %}<img src="{{ a.imagen.url }}" alt="" class="articulo-imagen">{% endif %}
+  <p class="articulo-resumen">{{ a.resumen }}</p>
+  {% for p in a.parrafos %}<p class="articulo-parrafo">{{ p }}</p>{% endfor %}
+  {% if a.fuente %}<p class="articulo-fuente">Fuente: {% if a.fuente_url %}<a href="{{ a.fuente_url }}" target="_blank" rel="noopener">{{ a.fuente }}</a>{% else %}{{ a.fuente }}{% endif %}</p>{% endif %}
+</article>
+{% if otros %}
+<section class="mt-12">
+  <h2 class="titulo text-2xl md:text-3xl">Sigue leyendo</h2>
+  <div class="notas-rejilla mt-6">{% for a in otros %}{% include "noticias/_tarjeta.html" %}{% endfor %}</div>
+</section>
+{% endif %}
+{% endblock %}

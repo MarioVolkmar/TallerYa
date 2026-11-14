@@ -74,11 +74,24 @@ def obtener_codigo(cupon, nombre, celular, ref=None):
     return CodigoCupon.objects.create(cupon=cupon, motociclista=moto), True
 
 
+def buscar_codigo(codigo_texto):
+    """El código para la vista previa del canje (sin canjearlo). Lanza ErrorCanje si no existe."""
+    codigo = (CodigoCupon.objects.select_related("cupon", "cupon__taller", "motociclista", "canjeado_taller")
+              .filter(codigo=normalizar_codigo(codigo_texto)).first())
+    if not codigo:
+        raise ErrorCanje("Ese código no existe. Revisa que esté bien escrito.")
+    return codigo
+
+
 @transaction.atomic
-def canjear(codigo_texto, pin):
-    taller = Taller.objects.filter(pin_canje=pin.strip(), activo=True).first()
-    if not taller:
-        raise ErrorCanje("PIN incorrecto.")
+def canjear(codigo_texto, pin=None, taller=None):
+    """Canjea con el PIN del taller o, si el taller tiene la sesión abierta, con su cuenta (taller=...)."""
+    if taller is None:
+        taller = Taller.objects.filter(pin_canje=(pin or "").strip(), activo=True).first()
+        if not taller:
+            raise ErrorCanje("PIN incorrecto.")
+    elif not taller.activo:
+        raise ErrorCanje("Tu taller aún no está publicado: todavía no puede validar cupones.")
 
     codigo = (
         CodigoCupon.objects.select_for_update()
@@ -90,7 +103,7 @@ def canjear(codigo_texto, pin):
         raise ErrorCanje("Ese código no existe. Revisa que esté bien escrito.")
     if codigo.canjeado:
         fecha = timezone.localtime(codigo.canjeado_en).strftime("%d/%m/%Y %I:%M %p")
-        raise ErrorCanje(f"Este código ya fue canjeado el {fecha}.")
+        raise ErrorCanje(f"Este cupón ya se usó el {fecha}.")
     if not codigo.cupon.vigente:
         raise ErrorCanje("Este cupón ya venció o fue desactivado.")
     if not codigo.valido_en(taller):
@@ -118,3 +131,23 @@ def otorgar_premio_referido(moto):
     moto.premio_otorgado = True
     moto.save(update_fields=["premio_otorgado"])
     return codigo
+
+
+@transaction.atomic
+def emitir_por_logros(moto, cupon):
+    """Código de un cupón canjeable con puntos de insignias. Máximo uno por cupón y mes.
+
+    Los puntos los descuenta la app logros; aquí solo se valida el cupón y se crea el código.
+    """
+    cupon = Cupon.objects.select_for_update().get(pk=cupon.pk)
+    if not cupon.puntos_logros:
+        raise CuponNoDisponible("Este cupón no se canjea con puntos.")
+    if not cupon.puede_emitirse():
+        raise CuponNoDisponible("Este cupón ya no está disponible.")
+    if cupon.solo_plus and not moto.es_plus:
+        raise RequierePlus("Este cupón es exclusivo para suscriptores de TallerYa Plus.")
+    hoy = timezone.localdate()
+    if moto.codigos.filter(cupon=cupon, origen=CodigoCupon.Origen.LOGROS,
+                           creado__year=hoy.year, creado__month=hoy.month).exists():
+        raise CuponNoDisponible("Ya canjeaste este cupón este mes. Vuelve el próximo.")
+    return CodigoCupon.objects.create(cupon=cupon, motociclista=moto, origen=CodigoCupon.Origen.LOGROS)

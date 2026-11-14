@@ -1,3 +1,4 @@
+"""Rutas de notificaciones: lista, panel desplegable, abrir una y marcar todas como leídas."""
 from django.urls import path
 
 from . import views

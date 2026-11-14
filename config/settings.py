@@ -6,6 +6,14 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Variables locales desde .env (solo desarrollo; el archivo no va al repositorio). No pisa las que ya existan.
+if (_env := BASE_DIR / ".env").exists():
+    for _linea in _env.read_text(encoding="utf-8").splitlines():
+        _linea = _linea.strip()
+        if _linea and not _linea.startswith("#") and "=" in _linea:
+            _clave, _valor = _linea.split("=", 1)
+            os.environ.setdefault(_clave.strip(), _valor.strip().strip('"').strip("'"))
+
 
 def env_bool(nombre, defecto=False):
     return os.environ.get(nombre, "1" if defecto else "0").lower() in ("1", "true", "si", "yes")
@@ -42,6 +50,8 @@ INSTALLED_APPS = [
     "foro",
     "garaje",
     "notificaciones",
+    "noticias",
+    "logros",
 ]
 
 MIDDLEWARE = [
@@ -92,6 +102,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+# El primero precarga taller/perfiles con el usuario; el de Django queda para sesiones ya abiertas con él.
+AUTHENTICATION_BACKENDS = ["cuentas.backends.Backend", "django.contrib.auth.backends.ModelBackend"]
+
 LOGIN_URL = "cuentas:entrar"
 LOGIN_REDIRECT_URL = "talleres:inicio"
 LOGOUT_REDIRECT_URL = "talleres:inicio"
@@ -133,6 +146,8 @@ if os.environ.get("EMAIL_HOST"):
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "TallerYa <no-responder@tallerya.co>")
+# Dirección pública del sitio para los enlaces de correos enviados sin una visita (tareas programadas)
+SITIO_URL = os.environ.get("SITIO_URL", "")
 
 # Seguridad en producción
 if not DEBUG:
@@ -174,4 +189,37 @@ LEGAL = {
     "correo": os.environ.get("LEGAL_CORREO", ""),
     "ciudad": os.environ.get("LEGAL_CIUDAD", "Medellín, Antioquia, Colombia"),
     "actualizado": os.environ.get("LEGAL_ACTUALIZADO", "12 de noviembre de 2026"),
+}
+
+# WhatsApp (recordatorios de pico y placa). "consola" solo escribe en el log; "cloud" usa la API de Meta.
+WHATSAPP_BACKEND = os.environ.get("WHATSAPP_BACKEND", "consola")
+WHATSAPP_TOKEN = os.environ.get("WHATSAPP_TOKEN", "")
+WHATSAPP_PHONE_ID = os.environ.get("WHATSAPP_PHONE_ID", "")
+WHATSAPP_PLANTILLA_PICO_PLACA = os.environ.get("WHATSAPP_PLANTILLA_PICO_PLACA", "recordatorio_pico_placa")
+# Citas: propuesta de nueva fecha (motero, taller, fecha, hora, enlace) y cancelación (motero, taller, fecha, motivo)
+WHATSAPP_PLANTILLA_REPROGRAMAR = os.environ.get("WHATSAPP_PLANTILLA_REPROGRAMAR", "cita_reprogramada")
+WHATSAPP_PLANTILLA_CANCELAR = os.environ.get("WHATSAPP_PLANTILLA_CANCELAR", "cita_cancelada")
+
+# Noticiero motero: los titulares se refrescan solos (en segundo plano) cada pocas horas. Apagado en las pruebas.
+import sys  # noqa: E402
+NOTICIAS_AUTO = env_bool("NOTICIAS_AUTO", True) and sys.argv[1:2] != ["test"]
+
+# Cachés: la de siempre en memoria (límites de intentos, vistas del foro) y una en disco para el despiece,
+# que es caro de armar y sobrevive a reinicios del servidor. En las pruebas, todo en memoria.
+import tempfile  # noqa: E402
+# Con REDIS_URL (ej. Redis de Render) la caché "default" se comparte entre todos los procesos del servidor:
+# los límites de intentos y los contadores valen igual sin importar qué proceso atienda la visita.
+CACHES = {
+    "default": (
+        {"BACKEND": "django.core.cache.backends.redis.RedisCache", "LOCATION": os.environ["REDIS_URL"]}
+        if os.environ.get("REDIS_URL") and sys.argv[1:2] != ["test"] else
+        {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}
+    ),
+    "despiece": (
+        {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": "despiece"}
+        if sys.argv[1:2] == ["test"] else
+        {"BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+         "LOCATION": os.environ.get("DESPIECE_CACHE_DIR", os.path.join(tempfile.gettempdir(), "tallerya_despiece")),
+         "OPTIONS": {"MAX_ENTRIES": 300}}
+    ),
 }

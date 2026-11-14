@@ -1,6 +1,7 @@
 """Carga datos de ejemplo: python manage.py cargar_demo"""
 from datetime import timedelta
 
+from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
@@ -12,7 +13,10 @@ from foro.models import Pregunta, Respuesta
 
 from talleres.models import Barrio, Marca, Resena, Servicio, Taller
 
-BARRIOS = ["Belén", "Laureles", "Envigado", "Itagüí", "Robledo", "Buenos Aires", "Bello", "Centro"]
+# Clave usada en DEMO -> (barrio o zona, ciudad)
+BARRIOS = {"Belén": ("Belén", "Medellín"), "Laureles": ("Laureles", "Medellín"), "Envigado": ("Centro", "Envigado"),
+           "Itagüí": ("Centro", "Itagüí"), "Robledo": ("Robledo", "Medellín"), "Buenos Aires": ("Buenos Aires", "Medellín"),
+           "Bello": ("Centro", "Bello"), "Centro": ("Centro", "Medellín")}
 SERVICIOS = ["Mantenimiento general", "Cambio de aceite", "Frenos", "Sistema eléctrico",
              "Suspensión", "Latonería y pintura", "Llantas", "Revisión técnico-mecánica"]
 MARCAS = ["AKT", "Auteco Bajaj", "Honda", "Suzuki", "Yamaha", "TVS", "KTM", "Hero"]
@@ -22,6 +26,15 @@ DEMO = [
     ("Taller Rueda Libre", "Laureles", [0, 3, 4], [3, 2, 0], True, False),
     ("Electromotos Envigado", "Envigado", [3, 7], [1, 5], False, False),
     ("Frenos y Más", "Itagüí", [2, 6], [0, 1, 7], True, False),
+    # Más talleres de ejemplo (nombres inventados; el contacto es el mismo de prueba de los demás)
+    ("Taller La Curva", "Robledo", [0, 1, 4], [0, 2, 4], True, False),
+    ("Moto Spa Laureles", "Laureles", [1, 5, 6], [2, 3, 4], False, False),
+    ("Clínica de Motos Bello", "Bello", [0, 2, 3, 7], [0, 1, 5], True, True),
+    ("Garaje 70", "Laureles", [0, 4, 5], [6, 4, 2], True, False),
+    ("Doble Piñón Taller", "Buenos Aires", [0, 1, 2], [0, 1, 7], False, False),
+    ("Centro Moto Sur", "Itagüí", [1, 3, 6, 7], [1, 2, 4, 5], True, False),
+    ("La Bujía Eléctricos", "Centro", [3], [0, 1, 2, 3, 4], False, False),
+    ("Motorizados Belén", "Belén", [0, 1, 6], [0, 2, 4], True, False),
 ]
 
 
@@ -33,7 +46,7 @@ class Command(BaseCommand):
     help = "Carga barrios, servicios, marcas y talleres de ejemplo"
 
     def handle(self, *args, **opts):
-        barrios = {n: Barrio.objects.get_or_create(nombre=n)[0] for n in BARRIOS}
+        barrios = {k: Barrio.objects.get_or_create(nombre=n, ciudad=c)[0] for k, (n, c) in BARRIOS.items()}
         servicios = [Servicio.objects.get_or_create(nombre=n)[0] for n in SERVICIOS]
         marcas = [Marca.objects.get_or_create(nombre=n)[0] for n in MARCAS]
 
@@ -77,6 +90,7 @@ class Command(BaseCommand):
             })
 
         self.cargar_foro()
+        call_command("cargar_foro_demo")  # una pregunta de ejemplo por tema del foro (no borra nada)
         if settings.DEBUG:
             self.cargar_garaje()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))

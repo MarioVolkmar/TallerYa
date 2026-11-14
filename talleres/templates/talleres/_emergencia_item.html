@@ -1,0 +1,16 @@
+<li class="papel em-taller" data-lat="{{ t.latitud|default_if_none:''|stringformat:'s' }}" data-lng="{{ t.longitud|default_if_none:''|stringformat:'s' }}">
+  <div class="em-datos">
+    <a href="{{ t.get_absolute_url }}" class="em-nombre">{{ t.nombre }}</a>
+    <p class="text-sm text-suave">📍 {{ t.barrio }} <span class="em-distancia"></span></p>
+    <p class="em-insignias">
+      {% if t.abierto_24h %}<span class="insignia">24 h</span>{% endif %}
+      {% if t.grua %}<span class="insignia">Grúa</span>{% endif %}
+      {% if t.despinche_domicilio %}<span class="insignia">Despinche a domicilio</span>{% endif %}
+      {% if t.horario and not t.abierto_24h %}<span class="text-xs text-suave">🕒 {{ t.horario }}</span>{% endif %}
+    </p>
+  </div>
+  <div class="em-botones">
+    <a href="{% url 'talleres:ir_llamar' t.slug %}" rel="nofollow" class="btn btn-lava em-boton">📞 Llamar</a>
+    <a href="{% url 'talleres:ir_whatsapp' t.slug %}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp em-boton">WhatsApp</a>
+  </div>
+</li>

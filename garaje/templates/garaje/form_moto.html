@@ -91,6 +91,8 @@
           <p class="text-xs text-suave mt-1 sm:min-h-[2.6rem]">{{ doc.ayuda|default:"Obligatorio para circular." }}</p>
           <label class="campo-label mt-3">Vence el{{ doc.fecha }}</label>
           {% for e in doc.fecha.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          {% if doc.extra %}<label class="campo-label mt-3">{{ doc.extra.label|capfirst }} <span class="text-suave">(si nunca la ha hecho)</span>{{ doc.extra }}</label>
+          {% for e in doc.extra.errors %}<p class="error">{{ e }}</p>{% endfor %}{% endif %}
 
           <p class="campo-label mt-4">Foto o PDF</p>
           {% if doc.actual %}

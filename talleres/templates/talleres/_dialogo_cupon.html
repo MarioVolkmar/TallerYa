@@ -1,0 +1,48 @@
+<!-- Detalle del cupón: se abre al tocar el cupón (no sus botones) -->
+<dialog class="papel rp-dialogo cd-dialogo cu-dialogo" id="dialogo-cupon" aria-label="Detalle del cupón">
+  <button type="button" class="cajon-cerrar cd-cerrar" data-cerrar aria-label="Cerrar">×</button>
+  <div class="cu-contenido"></div>
+</dialog>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script>
+  (function () {
+    var dialogo = document.getElementById("dialogo-cupon"); if (!dialogo) return;
+    var cont = dialogo.querySelector(".cu-contenido");
+    function imprimir(caja) {
+      var v = window.open("", "_blank", "width=480,height=640"); if (!v) return;
+      var titulo = cont.querySelector(".cu-titulo").textContent, taller = cont.querySelector(".cu-taller").textContent;
+      v.document.write("<html><head><title>QR del cupón</title><style>body{font-family:Arial,sans-serif;text-align:center;padding:30px}"
+        + "svg{width:300px;height:300px}h1{font-size:22px;margin:16px 0 6px}p{color:#444;margin:4px 0}</style></head><body>"
+        + caja.innerHTML + "<h1></h1><p class='t'></p><p>Escanea y obtén tu cupón gratis en TallerYa</p></body></html>");
+      v.document.close();
+      v.document.querySelector("h1").textContent = titulo;
+      v.document.querySelector(".t").textContent = taller;
+      v.focus(); v.print();
+    }
+    document.querySelectorAll("[data-cupon-detalle]").forEach(function (fila) {
+      fila.classList.add("cd-tocable"); fila.setAttribute("tabindex", "0");
+      function abrir(e) {
+        if (e.target.closest("a, button, form")) return;
+        cont.innerHTML = "";
+        cont.appendChild(document.getElementById("cupon-detalle-" + fila.dataset.cuponDetalle).content.cloneNode(true));
+        var caja = cont.querySelector(".cu-qr");
+        if (caja && window.qrcode) {
+          var qr = qrcode(0, "M"); qr.addData(caja.dataset.qr); qr.make();
+          caja.innerHTML = qr.createSvgTag({ cellSize: 5, margin: 2, scalable: true });
+        }
+        var copiar = cont.querySelector("[data-copiar]");
+        copiar.addEventListener("click", function () {
+          var campo = cont.querySelector(".cu-enlace input"); campo.select();
+          if (navigator.clipboard) navigator.clipboard.writeText(campo.value);
+          copiar.textContent = "¡Copiado!"; setTimeout(function () { copiar.textContent = "Copiar"; }, 1600);
+        });
+        cont.querySelector("[data-imprimir]").addEventListener("click", function () { imprimir(caja); });
+        dialogo.showModal();
+      }
+      fila.addEventListener("click", abrir);
+      fila.addEventListener("keydown", function (e) { if (e.key === "Enter" && e.target === fila) abrir(e); });
+    });
+    dialogo.querySelector("[data-cerrar]").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); });
+  })();
+</script>

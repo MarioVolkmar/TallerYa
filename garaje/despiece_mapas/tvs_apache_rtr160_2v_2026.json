@@ -23,7 +23,15 @@
       "reglas": {
         "BANDAS FRENO": "bandas-tras",
         "LLANTA TRAS": "llanta-tras",
-        "SPROCKET": "kit-arrastre"
+        "SPROCKET": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "rueda_tambor"
     },
@@ -101,9 +109,61 @@
       "titulo_es": "Amortiguador",
       "pieza": "suspension_tras",
       "reglas": {
-        "AMORTIGUADOR": "suspension-tras"
+        "AMORTIGUADOR": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 2,
+      "titulo_es": "Cilindro, pistón y anillos",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 7,
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": 27,
+      "titulo_es": "Basculante (tijera)",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 23,
+      "titulo_es": "Sistema eléctrico",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERÍA": "bateria",
+        "BATERIA": "bateria"
+      },
+      "diagrama": "electrico"
     }
   ]
 }

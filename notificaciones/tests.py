@@ -83,7 +83,7 @@ class HistorialServiciosTests(TestCase):
         perfil = Motociclista.objects.create(nombre="H", celular="573009990000", usuario=usuario)
         moto = Moto.objects.create(motociclista=perfil, linea=LineaMoto.objects.get(nombre="NMAX 155"),
                                    modelo=2024, km_inicial=0, km_actual=3000)
-        barrio = Barrio.objects.first() or Barrio.objects.create(nombre="Belén")
+        barrio = Barrio.objects.first() or Barrio.objects.get_or_create(nombre="Belén")[0]
         taller = Taller.objects.create(nombre="Taller H", responsable="X", whatsapp="573001110000", direccion="Cra 1",
                                        barrio=barrio, activo=True)
         Mantenimiento.objects.create(moto=moto, tarea=TareaMantenimiento.objects.get(clave="aceite"), km=2500,

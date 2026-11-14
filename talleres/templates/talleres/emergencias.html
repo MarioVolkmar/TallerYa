@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Emergencias · Talleres abiertos ahora · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="em mt-6 md:mt-10">
+  <header class="em-cabeza">
+    <p class="etiqueta">Emergencias</p>
+    <h1 class="titulo text-3xl md:text-4xl mt-1">¿Te varaste? Talleres abiertos ahora</h1>
+    <p class="text-sm text-suave mt-1">{{ ahora|date:"l j \d\e F, g:i a" }}. Llama antes de ir para confirmar.</p>
+  </header>
+
+  <div class="em-ubicacion papel">
+    <button type="button" class="btn btn-lava em-cerca" id="em-cerca" hidden>📍 Ordenar por cercanía</button>
+    <p class="text-xs text-suave" id="em-estado">Usamos tu ubicación solo en tu teléfono para ordenar la lista; no la guardamos.</p>
+    <form method="get" class="em-barrio" id="em-barrio">
+      <label class="campo-label">O elige tu barrio
+        <select name="barrio" class="campo" onchange="this.form.submit()">
+          <option value="">Todos los barrios</option>
+          {% for b in barrios %}<option value="{{ b.pk }}"{% if barrio and barrio.pk == b.pk %} selected{% endif %}>{{ b }}</option>{% endfor %}
+        </select>
+      </label>
+      <noscript><button class="boton-seccion">Ver</button></noscript>
+    </form>
+  </div>
+
+  <section aria-labelledby="em-abiertos">
+    <h2 class="titulo text-xl em-titulo" id="em-abiertos"><span class="em-punto em-abierto"></span>Abiertos ahora ({{ abiertos|length }})</h2>
+    <ul class="em-lista" data-ordenable>
+      {% for t in abiertos %}{% include "talleres/_emergencia_item.html" %}
+      {% empty %}<li class="papel em-vacio">Ningún taller de emergencias está abierto en este momento. Prueba con los de abajo: algunos no han registrado su horario.</li>{% endfor %}
+    </ul>
+  </section>
+
+  {% if sin_horario %}
+  <section aria-labelledby="em-sin-horario">
+    <h2 class="titulo text-xl em-titulo" id="em-sin-horario"><span class="em-punto"></span>Sin horario registrado ({{ sin_horario|length }})</h2>
+    <ul class="em-lista" data-ordenable>{% for t in sin_horario %}{% include "talleres/_emergencia_item.html" %}{% endfor %}</ul>
+  </section>
+  {% endif %}
+
+  {% if cerrados %}
+  <details class="em-cerrados">
+    <summary class="titulo text-lg">Cerrados ahora ({{ cerrados|length }})</summary>
+    <ul class="em-lista" data-ordenable>{% for t in cerrados %}{% include "talleres/_emergencia_item.html" %}{% endfor %}</ul>
+  </details>
+  {% endif %}
+</div>
+<script>
+  (function () {
+    var boton = document.getElementById("em-cerca"), estado = document.getElementById("em-estado");
+    if (!navigator.geolocation) return;
+    boton.hidden = false;
+    function km(a, b, c, d) {
+      var r = Math.PI / 180, x = Math.sin((c - a) * r / 2), y = Math.sin((d - b) * r / 2);
+      return 12742 * Math.asin(Math.sqrt(x * x + Math.cos(a * r) * Math.cos(c * r) * y * y));
+    }
+    boton.addEventListener("click", function () {
+      estado.textContent = "Buscando tu ubicación…";
+      navigator.geolocation.getCurrentPosition(function (p) {
+        var lat = p.coords.latitude, lng = p.coords.longitude;  // se queda en el navegador
+        document.querySelectorAll("[data-ordenable]").forEach(function (lista) {
+          var items = Array.prototype.slice.call(lista.querySelectorAll("[data-lat]"));
+          items.forEach(function (li) {
+            li._km = li.dataset.lat ? km(lat, lng, parseFloat(li.dataset.lat), parseFloat(li.dataset.lng)) : Infinity;
+            var d = li.querySelector(".em-distancia");
+            if (d) d.textContent = isFinite(li._km) ? (li._km < 1 ? Math.round(li._km * 1000) + " m" : li._km.toFixed(1) + " km") : "";
+          });
+          items.sort(function (a, b) { return a._km - b._km; }).forEach(function (li) { lista.appendChild(li); });
+        });
+        estado.textContent = "Ordenados por cercanía. Los talleres sin ubicación van al final.";
+      }, function () {
+        estado.textContent = "Sin ubicación. Elige tu barrio para ver primero los más cercanos.";
+        document.querySelector("#em-barrio select").focus();
+      }, {timeout: 10000, maximumAge: 300000});
+    });
+  })();
+</script>
+{% endblock %}

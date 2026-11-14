@@ -1,0 +1,25 @@
+{# Contenido de la ventana de detalle de una cita (se copia a la ventana al tocar la cita). Variable: c #}
+<template id="cita-detalle-{{ c.pk }}">
+  <div class="cd-cabeza">
+    <div class="pt-cita-fecha cd-fecha"><strong>{{ c.fecha_preferida|date:"j" }}</strong><span>{{ c.fecha_preferida|date:"M"|lower }}</span></div>
+    <div class="min-w-0">
+      <p class="titulo text-2xl">{{ c.nombre }}</p>
+      <p class="cd-sub">{{ c.fecha_preferida|date:"l j \d\e F"|lower }}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %}</p>
+    </div>
+    <span class="pt-chip chip-{{ c.estado }}">{{ c.get_estado_display }}</span>
+  </div>
+  <dl class="cd-datos">
+    <div><dt>Moto</dt><dd>{{ c.moto }}</dd></div>
+    <div><dt>Servicio</dt><dd>{% if c.servicio %}{{ c.servicio }}{% else %}Por definir{% endif %}</dd></div>
+    <div><dt>Celular</dt><dd>{{ c.telefono }}</dd></div>
+    <div><dt>Solicitada</dt><dd>{{ c.creado|date:"j M Y, g:i a"|lower }}</dd></div>
+    {% if c.detalle %}<div class="cd-ancho"><dt>Lo que dijo el motero</dt><dd class="cd-cita">“{{ c.detalle }}”</dd></div>{% endif %}
+    {% if c.estado == "reprogramada" %}<div class="cd-ancho"><dt>Tu propuesta</dt><dd>{{ c.fecha_propuesta|date:"l j \d\e F"|lower }}{% if c.hora_propuesta %} · {{ c.hora_propuesta|time:"g:i a" }}{% endif %}{% if c.nota_taller %} — “{{ c.nota_taller }}”{% endif %}. Esperando que la acepte.</dd></div>{% endif %}
+    {% if c.propuesta_rechazada and c.estado == "pendiente" %}<div class="cd-ancho"><dt>Aviso</dt><dd class="pt-rechazo">No pudo en la fecha que le propusiste.</dd></div>{% endif %}
+    {% if c.motivo_cancelacion %}<div class="cd-ancho"><dt>Motivo de la cancelación</dt><dd>{{ c.motivo_cancelacion }}</dd></div>{% endif %}
+  </dl>
+  <div class="cd-acciones">
+    {% if c.whatsapp_url %}<a href="{{ c.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">Escribir por WhatsApp</a>{% endif %}
+    <a href="{% url 'talleres:citas_taller' %}?q={{ c.nombre|urlencode }}" class="btn btn-borde text-xs px-5 py-2.5">Ver en mis citas</a>
+  </div>
+</template>

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model, password_validation
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 
 from cupones.models import Motociclista
 from cupones.servicios import normalizar_codigo
@@ -14,16 +14,21 @@ class RegistroForm(EstiloMixin, forms.Form):
     nombre = forms.CharField(max_length=120, widget=forms.TextInput(attrs={"autocomplete": "given-name"}))
     email = forms.EmailField(label="Correo", widget=forms.EmailInput(attrs={"autocomplete": "email"}))
     celular = forms.CharField(
-        max_length=20, help_text="Si ya tienes cupones con este número, los verás en tu cuenta.",
+        max_length=20, help_text="Para tus cupones y los avisos de tu moto.",
         widget=forms.TextInput(attrs={"inputmode": "tel", "autocomplete": "tel", "placeholder": "300 123 4567"}),
     )
     codigo_existente = forms.CharField(
         label="Uno de tus códigos de cupón", required=False, max_length=12,
-        help_text="Solo si ya tienes cupones con este celular. Así comprobamos que el número es tuyo.",
+        help_text="Así comprobamos que el número es tuyo y pasamos tus cupones a la cuenta.",
         widget=forms.TextInput(attrs={"placeholder": "TY-XXXXXX", "autocomplete": "off"}),
     )
-    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    password1 = forms.CharField(label="Contraseña", help_text="Mínimo 8 caracteres y que no sea solo números.",
+                                widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
     password2 = forms.CharField(label="Repite la contraseña", widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    acepto = forms.BooleanField(
+        label="Acepto los términos y la política de privacidad",
+        error_messages={"required": "Para crear la cuenta debes aceptar los términos y la política de privacidad."},
+    )
 
     def clean_email(self):
         email = self.cleaned_data["email"].strip().lower()
@@ -67,8 +72,13 @@ class CuentaTallerForm(EstiloMixin, forms.Form):
     """Correo y contraseña de la cuenta del taller (los datos del negocio van en RegistroTallerForm)."""
 
     email = forms.EmailField(label="Correo de la cuenta", widget=forms.EmailInput(attrs={"autocomplete": "email"}))
-    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    password1 = forms.CharField(label="Contraseña", help_text="Mínimo 8 caracteres y que no sea solo números.",
+                                widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
     password2 = forms.CharField(label="Repite la contraseña", widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    acepto = forms.BooleanField(
+        label="Acepto los términos y la política de privacidad",
+        error_messages={"required": "Para crear la cuenta debes aceptar los términos y la política de privacidad."},
+    )
 
     def clean_email(self):
         email = self.cleaned_data["email"].strip().lower()
@@ -141,7 +151,7 @@ class CelularForm(EstiloMixin, forms.Form):
     """Completar el perfil de motero de una cuenta creada con Google: solo falta el celular."""
 
     celular = forms.CharField(
-        max_length=20, help_text="Si ya tienes cupones con este número, los verás en tu cuenta.",
+        max_length=20, help_text="Para tus cupones y los avisos de tu moto.",
         widget=forms.TextInput(attrs={"inputmode": "tel", "autocomplete": "tel", "placeholder": "300 123 4567"}),
     )
     codigo_existente = forms.CharField(
@@ -168,3 +178,19 @@ class CelularForm(EstiloMixin, forms.Form):
                                    "Este celular ya tiene cupones. Escribe uno de sus códigos para enlazarlos a tu cuenta.")
             self.motociclista_existente = moto
         return datos
+
+
+class RecuperarForm(EstiloMixin, PasswordResetForm):
+    """Como el de Django, pero también sirve a quien entró con Google y aún no tiene contraseña (así la crea)."""
+
+    def get_users(self, email):
+        User = get_user_model()
+        return (u for u in User._default_manager.filter(email__iexact=email, is_active=True))
+
+
+class CambiarContrasenaForm(EstiloMixin, PasswordChangeForm):
+    pass
+
+
+class CrearContrasenaForm(EstiloMixin, SetPasswordForm):
+    pass

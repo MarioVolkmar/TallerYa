@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Noticias moteras · TallerYa{% endblock %}
+{% block content %}
+<section class="mt-8 md:mt-12">
+  <p class="etiqueta">Actualidad, lanzamientos, tránsito y trámites</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Noticias <span class="text-lava">moteras</span></h1>
+  <p class="text-suave mt-2 max-w-xl">Lo último del mundo de las motos, reunido de medios colombianos e internacionales. Cada noticia abre en su fuente.</p>
+  <nav class="notas-filtros" aria-label="Categorías">
+    <a href="{% url 'noticias:lista' %}" class="{% if not categoria %}activo{% endif %}">Todo</a>
+    {% for clave, nombre in categorias %}<a href="?categoria={{ clave }}" class="{% if categoria == clave %}activo{% endif %}">{{ nombre }}</a>{% endfor %}
+  </nav>
+  <div class="notas-rejilla">
+    {% for a in pagina %}{% include "noticias/_tarjeta.html" %}
+    {% empty %}<p class="text-suave">Aún no hay noticias en esta categoría. Vuelve en un rato: se actualizan solas.</p>{% endfor %}
+  </div>
+  {% if pagina.has_other_pages %}
+  <nav class="paginacion" aria-label="Páginas">
+    {% if pagina.has_previous %}<a href="?{% if categoria %}categoria={{ categoria }}&amp;{% endif %}pagina={{ pagina.previous_page_number }}" rel="prev">← Más recientes</a>{% endif %}
+    <span class="actual">{{ pagina.number }}</span>
+    {% if pagina.has_next %}<a href="?{% if categoria %}categoria={{ categoria }}&amp;{% endif %}pagina={{ pagina.next_page_number }}" rel="next">Anteriores →</a>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}

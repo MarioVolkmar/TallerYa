@@ -1,0 +1,9 @@
+{# Casilla para aceptar términos y privacidad. Uso: {% include "cuentas/_terminos.html" with campo=form.acepto %} #}
+<div class="rc-terminos{% if campo.errors %} con-error{% endif %}">
+  <label class="rc-check">
+    <input type="checkbox" name="{{ campo.html_name }}" id="{{ campo.id_for_label }}"{% if campo.value %} checked{% endif %} required>
+    <span class="rc-check-caja" aria-hidden="true"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></span>
+    <span>Acepto los <a href="{% url 'talleres:legal' 'terminos' %}" target="_blank" rel="noopener">Términos y condiciones</a> y la <a href="{% url 'talleres:legal' 'privacidad' %}" target="_blank" rel="noopener">Política de privacidad</a>.</span>
+  </label>
+  {% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+</div>

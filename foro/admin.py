@@ -1,3 +1,4 @@
+"""Admin del foro: preguntas con sus respuestas, respuestas sueltas y reportes para moderar."""
 from django.contrib import admin
 from django.db.models import Count, Q
 
@@ -13,11 +14,11 @@ class RespuestaInline(admin.TabularInline):
 
 @admin.register(Pregunta)
 class PreguntaAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "autor", "marca", "num_respuestas", "reportes_pendientes", "visible", "creado")
-    list_filter = ("visible", "marca")
+    list_display = ("titulo", "categoria", "autor", "marca", "num_respuestas", "vistas", "reportes_pendientes", "visible", "creado")
+    list_filter = ("visible", "categoria", "marca")
     list_editable = ("visible",)
     search_fields = ("titulo", "cuerpo", "autor__email")
-    raw_id_fields = ("autor", "mejor_respuesta")
+    raw_id_fields = ("autor", "mejor_respuesta", "linea")
     inlines = [RespuestaInline]
 
     def get_queryset(self, request):
@@ -65,3 +66,23 @@ class ReporteAdmin(admin.ModelAdmin):
             r.objetivo.visible = True
             r.objetivo.save(update_fields=["visible"])
         queryset.update(revisado=True)
+
+
+from .models import Asistencia, Rodada  # noqa: E402
+
+
+class AsistenciaInline(admin.TabularInline):
+    model = Asistencia
+    raw_id_fields = ("usuario",)
+    extra = 0
+
+
+@admin.register(Rodada)
+class RodadaAdmin(admin.ModelAdmin):
+    """La moderación (ocultar, reportes) se hace sobre su pregunta del foro."""
+    list_display = ("__str__", "fecha_hora", "punto_encuentro", "nivel", "cupo", "organizador")
+    list_filter = ("nivel",)
+    search_fields = ("pregunta__titulo", "punto_encuentro", "destino")
+    raw_id_fields = ("pregunta", "organizador")
+    date_hierarchy = "fecha_hora"
+    inlines = [AsistenciaInline]

@@ -31,5 +31,9 @@ def contexto(request):
     from .google import configurado
     rol = rol_de(getattr(request, "user", None))
     from django.conf import settings
+    usuario = getattr(request, "user", None)
+    perfil = getattr(usuario, "perfil", None) if usuario is not None and usuario.is_authenticated else None
     return {"rol": rol, "rol_nombre": NOMBRES.get(rol, ""), "google_disponible": configurado(),
-            "contacto": getattr(settings, "CONTACTO", {})}
+            "contacto": getattr(settings, "CONTACTO", {}),
+            # Aviso para confirmar el correo (solo cuentas nuevas sin verificar)
+            "correo_pendiente": usuario.email if perfil and not perfil.correo_verificado else ""}

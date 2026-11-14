@@ -1,0 +1,7 @@
+{# Selector motero / taller del registro (activo = "motero" o "taller") #}
+<nav class="rc-tipo" aria-label="Tipo de cuenta">
+  <a href="{% url 'cuentas:registro' %}?tipo=motero{% if next %}&amp;next={{ next|urlencode }}{% endif %}"{% if activo == "motero" %} class="activo" aria-current="page"{% endif %}>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="16.5" r="3.5"/><circle cx="18.5" cy="16.5" r="3.5"/><path d="M5.5 16.5 9 9h5l4.5 7.5M12 9l2.5 7.5H9M14 6h3l1.5 3"/></svg>Soy motero</a>
+  <a href="{% url 'cuentas:registro' %}?tipo=taller"{% if activo == "taller" %} class="activo" aria-current="page"{% endif %}>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 12.6a6 6 0 0 1-7.7 1.6L6.6 21a2.1 2.1 0 0 1-3-3l6.8-6.7a6 6 0 0 1 1.6-7.7z"/></svg>Tengo un taller</a>
+</nav>

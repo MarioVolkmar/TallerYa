@@ -1,0 +1,144 @@
+{
+  "marca": "Honda",
+  "linea": "Dio 110",
+  "version": "SCV110F (18KZKCD5)",
+  "anio": 2019,
+  "fuente": "http://www.accesoparts.com.bo/Catalogos/DIO110_2019_ACTUAL.pdf",
+  "formato": "honda",
+  "laminas": [
+    {
+      "figura": "F-11",
+      "titulo_es": "Freno delantero de tambor",
+      "pieza": "freno_del",
+      "reglas": {
+        "SHOE SET, BRAKE": "bandas-del"
+      },
+      "diagrama": "freno_tambor"
+    },
+    {
+      "figura": "F-12",
+      "titulo_es": "Rueda trasera y freno de tambor",
+      "pieza": "freno_tras",
+      "reglas": {
+        "SHOE SET, BRAKE": "bandas-tras",
+        "TIRE(": "llanta-tras"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "E-13",
+      "titulo_es": "Polea conducida, correa y clutch",
+      "pieza": "correa",
+      "reglas": {
+        "BELT, DRIVE": "correa-cvt"
+      },
+      "diagrama": "cvt"
+    },
+    {
+      "figura": "E-12",
+      "titulo_es": "Polea motriz y rodillos",
+      "pieza": "correa",
+      "reglas": {
+        "ROLLER SET, WEIGHT": "correa-cvt"
+      },
+      "diagrama": "cvt"
+    },
+    {
+      "figura": "E-14",
+      "titulo_es": "Transmisión final (caja con aceite)",
+      "pieza": "correa",
+      "reglas": {},
+      "diagrama": "caja_secundaria"
+    },
+    {
+      "figura": "E-15",
+      "titulo_es": "Cárter izquierdo y malla de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "SCREEN, OIL FILTER": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "E-7",
+      "titulo_es": "Cárter derecho",
+      "pieza": "aceite",
+      "reglas": {
+        "DRAIN PLUG": "aceite",
+        "GAUGE, OIL LEVEL": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "F-23",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENT, AIR CLEANER": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "E-3",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "PLUG, SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "E-4",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, IN.": "valvulas",
+        "VALVE, EX.": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "F-10",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE(": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "F-9-10",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "CUSHION ASSY": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "F-19",
+      "titulo_es": "Amortiguador trasero",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "CUSHION ASSY": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "F-22",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "F-17",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "escape"
+    }
+  ]
+}

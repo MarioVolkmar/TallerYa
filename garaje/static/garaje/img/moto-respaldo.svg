@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" role="img" aria-label="Dibujo de una moto">
+  <!-- Imagen fija que reemplaza el modelo 3D en equipos sin gráficos 3D (WebGL). Dibujo propio de TallerYa. -->
+  <defs>
+    <linearGradient id="pintura" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff8a3d"/><stop offset="1" stop-color="#d9480f"/>
+    </linearGradient>
+    <radialGradient id="sombra" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="200" cy="198" rx="170" ry="14" fill="url(#sombra)"/>
+  <!-- llantas -->
+  <g fill="none" stroke="#c9c2b0" stroke-width="3">
+    <circle cx="92" cy="152" r="42" stroke="#2a3134" stroke-width="12"/>
+    <circle cx="308" cy="152" r="42" stroke="#2a3134" stroke-width="12"/>
+    <circle cx="92" cy="152" r="30"/><circle cx="308" cy="152" r="30"/>
+    <path d="M92 122v60M62 152h60M71 131l42 42M113 131l-42 42"/>
+    <path d="M308 122v60M278 152h60M287 131l42 42M329 131l-42 42"/>
+  </g>
+  <circle cx="92" cy="152" r="6" fill="#c9c2b0"/><circle cx="308" cy="152" r="6" fill="#c9c2b0"/>
+  <!-- basculante, chasis y suspensión -->
+  <path d="M92 152 L190 140" stroke="#3a4246" stroke-width="9" stroke-linecap="round"/>
+  <path d="M150 92 L196 142 L250 94" fill="none" stroke="#3a4246" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M308 152 L262 62" stroke="#b8bec2" stroke-width="7" stroke-linecap="round"/>
+  <path d="M128 96 L110 140" stroke="#c0392b" stroke-width="5" stroke-dasharray="4 3"/>
+  <!-- motor -->
+  <rect x="168" y="104" width="64" height="44" rx="8" fill="#5b6468" stroke="#8a9396" stroke-width="2"/>
+  <path d="M176 114h48M176 122h48M176 130h48" stroke="#8a9396" stroke-width="2"/>
+  <circle cx="186" cy="140" r="9" fill="#3a4246" stroke="#9aa3a6" stroke-width="2"/>
+  <!-- escape -->
+  <path d="M230 140 C 210 168, 150 168, 110 160" fill="none" stroke="#d6d1c4" stroke-width="7" stroke-linecap="round"/>
+  <!-- tanque, asiento y colín -->
+  <path d="M196 92 C 205 70, 250 64, 262 76 L 252 98 C 230 102, 210 102, 196 98 Z" fill="url(#pintura)"/>
+  <path d="M206 78 C 222 72, 240 71, 250 74" stroke="#ffd2b0" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M110 92 C 130 84, 175 84, 200 90 L 198 99 C 170 98, 135 99, 112 101 Z" fill="#3b2a1d"/>
+  <path d="M96 96 L 116 90 L 118 102 L 98 104 Z" fill="url(#pintura)"/>
+  <rect x="88" y="94" width="10" height="6" rx="2" fill="#ff3b2f"/>
+  <!-- manubrio y faro -->
+  <path d="M262 62 L 250 50 M 250 50 h -18" stroke="#2a3134" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="276" cy="78" r="13" fill="#2a3134"/>
+  <circle cx="278" cy="78" r="9" fill="#ffe7a6"/>
+  <!-- guardabarros delantero -->
+  <path d="M276 116 A 44 44 0 0 1 340 120" fill="none" stroke="#2a3134" stroke-width="6" stroke-linecap="round"/>
+</svg>

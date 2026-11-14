@@ -8,6 +8,10 @@ import re
 
 # Clave: descripción del catálogo normalizada (ver _normalizar). Valor: nombre en español.
 _NOMBRES = {
+    "SWINGARM SUB ASSY., RR": "Basculante (tijera)",
+    "OUTER COMP.CLUTCH": "Canasta del clutch",
+    "RACK,CLUTCH RELEASE": "Cremallera del levantador del clutch",
+    "RACK, CLUTCH RELEASE": "Cremallera del levantador del clutch",
     # Frenos
     "BRAKE PAD KIT": "Pastillas de freno (juego)",
     "DISK, BRAKE": "Disco de freno",
@@ -286,7 +290,9 @@ def traducir(descripcion):
     nombre = _INDICE.get(clave)
     if not nombre:
         # Coincidencia más larga por el inicio (ej: "SCREW, PAN HEAD WITH WASHER" → la más específica)
-        candidatos = [k for k in _INDICE if clave.startswith(k + ",") or clave.startswith(k + " ")]
+        # Solo claves específicas (con coma): "CAM" (rampa del variador) no vale para "CAM, FR. BRAKE" (leva del freno);
+        # sin coincidencia exacta ni específica, decide la traducción por palabras
+        candidatos = [k for k in _INDICE if "," in k and (clave.startswith(k + ",") or clave.startswith(k + " "))]
         if candidatos:
             nombre = _INDICE[max(candidatos, key=len)]
     if not nombre:

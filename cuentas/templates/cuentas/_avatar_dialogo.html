@@ -1,0 +1,115 @@
+{% load avatares %}{% comment %}Ventana para cambiar el avatar. Necesita: perfil, avatares y un botón con id="abrir-avatar" que contenga {% avatar user 64 %}.{% endcomment %}
+<!-- Avatar: inicial, prediseñado o foto -->
+<dialog class="papel avatar-dialogo" id="avatar" aria-labelledby="avatar-titulo">
+  <div class="avatar-dialogo-cabeza">
+    <div><p class="cajon-titulo" id="avatar-titulo">Tu avatar</p><p class="cajon-sub">Sube una foto o elige uno de los nuestros</p></div>
+    <button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button>
+  </div>
+  <form method="post" action="{% url 'cuentas:avatar' %}" enctype="multipart/form-data" class="avatar-editor-cuerpo">
+    {% csrf_token %}
+    <div class="avatar-opciones" role="radiogroup" aria-label="Avatar">
+      <label class="avatar-opcion" title="Mi inicial">
+        <input type="radio" name="eleccion" value="" {% if not perfil.avatar_foto and not perfil.avatar_predisenado %}checked{% endif %}>
+        <span class="avatar avatar-inicial" style="width:52px;height:52px;font-size:23px">{{ user.first_name|default:user.email|first|upper }}</span>
+      </label>
+      {% for clave, nombre, dibujo in avatares %}
+      <label class="avatar-opcion" title="{{ nombre }}">
+        <input type="radio" name="eleccion" value="{{ clave }}" {% if not perfil.avatar_foto and perfil.avatar_predisenado == clave %}checked{% endif %}>
+        {{ dibujo }}
+      </label>
+      {% endfor %}
+      {% if perfil.avatar_foto %}
+      <label class="avatar-opcion" title="Mi foto">
+        <input type="radio" name="eleccion" value="foto" checked>
+        <img src="{{ perfil.avatar_foto.url }}" width="52" height="52" class="avatar" alt="Mi foto">
+      </label>
+      {% endif %}
+    </div>
+    <label class="doc-subir mt-4">
+      <input type="file" name="foto" accept="image/jpeg,image/png,image/webp" id="avatar-foto">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+      <span class="doc-subir-texto" data-vacio="{% if perfil.avatar_foto %}Cambiar mi foto{% else %}Subir una foto{% endif %}">{% if perfil.avatar_foto %}Cambiar mi foto{% else %}Subir una foto{% endif %}</span>
+    </label>
+    <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP · hasta 4 MB</p>
+    <button class="btn btn-lava text-xs px-6 py-3 mt-4">Guardar avatar</button>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var input = document.getElementById("avatar-foto");
+    if (!input) return;
+    input.addEventListener("change", function () {
+      var texto = input.parentElement.querySelector(".doc-subir-texto");
+      texto.textContent = input.files.length ? input.files[0].name : texto.dataset.vacio;
+      input.parentElement.classList.toggle("con-archivo", input.files.length > 0);
+    });
+    var dialogo = document.getElementById("avatar");
+    document.getElementById("abrir-avatar").addEventListener("click", function () { dialogo.showModal(); });
+    dialogo.querySelector("[data-cerrar]").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); }); // clic fuera
+    if (location.hash === "#avatar") dialogo.showModal();
+
+    // Guardar sin recargar: se cambia el avatar en el encabezado y en el navbar, y la ventana se cierra.
+    var form = dialogo.querySelector("form");
+    var boton = form.querySelector("button.btn");
+    var aviso = document.createElement("p");
+    aviso.className = "error";
+    aviso.hidden = true;
+    boton.before(aviso);
+    function cookie(nombre) {
+      var m = document.cookie.match(new RegExp("(?:^|; )" + nombre + "=([^;]*)"));
+      return m ? decodeURIComponent(m[1]) : "";
+    }
+    function reemplazar(viejo, html) {
+      if (!viejo) return;
+      var plantilla = document.createElement("template");
+      plantilla.innerHTML = html.trim();
+      viejo.replaceWith(plantilla.content.firstChild);
+    }
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      boton.disabled = true;
+      aviso.hidden = true;
+      fetch(form.action, { method: "POST", body: new FormData(form),
+                           headers: { "X-Requested-With": "fetch", "X-CSRFToken": cookie("csrftoken") } })
+        .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+        .then(function (res) {
+          if (!res.ok || !res.d.ok) throw new Error(res.d.error || "No pudimos cambiar tu avatar.");
+          reemplazar(document.querySelector("#abrir-avatar .avatar"), res.d.grande);
+          reemplazar(document.querySelector(".nav-cuenta .avatar"), res.d.chico);
+          if (res.d.foto) {
+            // Deja "Mi foto" como opción elegida (o la actualiza si ya existía).
+            var opcion = form.querySelector('input[value="foto"]');
+            if (!opcion) {
+              var label = document.createElement("label");
+              label.className = "avatar-opcion";
+              label.title = "Mi foto";
+              label.innerHTML = '<input type="radio" name="eleccion" value="foto"><img width="52" height="52" class="avatar" alt="Mi foto">';
+              form.querySelector(".avatar-opciones").appendChild(label);
+              opcion = label.querySelector("input");
+            }
+            opcion.nextElementSibling.src = res.d.foto;
+            opcion.checked = true;
+          } else {
+            var vieja = form.querySelector('input[value="foto"]');
+            if (vieja) vieja.closest("label").remove();
+          }
+          input.value = "";
+          input.dispatchEvent(new Event("change"));
+          dialogo.close();
+          avisoFlotante(res.d.mensaje);
+        })
+        .catch(function (err) { aviso.textContent = err.message; aviso.hidden = false; })
+        .finally(function () { boton.disabled = false; });
+    });
+    function avisoFlotante(texto) {
+      var t = document.createElement("div");
+      t.className = "aviso-flotante";
+      t.setAttribute("role", "status");
+      t.textContent = "✓ " + texto;
+      document.body.appendChild(t);
+      setTimeout(function () { t.classList.add("saliendo"); }, 2200);
+      setTimeout(function () { t.remove(); }, 2700);
+    }
+  })();
+</script>

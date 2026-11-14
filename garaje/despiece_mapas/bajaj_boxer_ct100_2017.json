@@ -23,7 +23,15 @@
         "BANDAS FRENO": "bandas-tras",
         "KIT SPROCKET": "kit-arrastre",
         "CADENA": "kit-arrastre",
-        "SPROCKET TRASERO": "kit-arrastre"
+        "SPROCKET TRASERO": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "rueda_tambor"
     },
@@ -60,7 +68,8 @@
       "titulo_es": "Filtro de aire",
       "pieza": "filtro_aire",
       "reglas": {
-        "ELEMENTO FILTRO AIRE": "filtro-aire"
+        "ELEMENTO FILTRO AIRE": "filtro-aire",
+        "ELEMENTO FILTRANTE": "filtro-aire"
       },
       "diagrama": "admision"
     },
@@ -88,7 +97,12 @@
       "pieza": "llanta_del",
       "reglas": {
         "DELANTERA": "llanta-del",
-        "TRASERA": "llanta-tras"
+        "TRASERA": "llanta-tras",
+        "NEUMÁTICO": null,
+        "LLANTA IRC 275": "llanta-del",
+        "LLANTA QUEEN 275": "llanta-del",
+        "LLANTA IRC 300": "llanta-tras",
+        "LLANTA QUEEN 300": "llanta-tras"
       },
       "diagrama": "rueda"
     },
@@ -107,9 +121,55 @@
       "titulo_es": "Brazo oscilante y amortiguadores",
       "pieza": "suspension_tras",
       "reglas": {
-        "AMORTIGUADOR": "suspension-tras"
+        "AMORTIGUADOR": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 1,
+      "titulo_es": "Culata",
+      "pieza": "motor",
+      "diagrama": "culata"
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Cilindro, pistón y anillos",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Árbol de levas y cadenilla",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": 16,
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": 19,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "escape"
+    },
+    {
+      "figura": 14,
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "clutch"
     }
   ]
 }

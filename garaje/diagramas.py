@@ -125,38 +125,134 @@ def _freno_disco():
 # ---------------------------------------------------------------------------
 # 2. Bomba de freno, depósito y mangueras
 # ---------------------------------------------------------------------------
-def _bomba_freno():
-    tubo = curva((-30, -40, 0), (-40, -170, 40), (110, -230, 170))
+def _bomba_mano(lado=1, sufijo="", con_linea=True):
+    """Bomba de freno de manubrio. lado=1: derecha (freno delantero); lado=-1: izquierda (freno trasero de las scooter),
+    con la manigueta hacia afuera. El sufijo distingue los puestos de la segunda bomba ("_trasera")."""
+    s = lado
+    tubo = curva((-30 * s, -40, 0), (-40 * s, -170, 40), (110 * s, -230, 170))
+    manigueta = [(-30, -10), (10, -12), (60, -16), (110, -12), (140, -4), (144, 6), (112, 0), (60, -4), (10, 2), (-30, 14)]
     piezas = [
         # Cuerpo de la bomba: cilindro con su tapa del extremo, el soporte del espejo, la salida de la manguera
         # (abajo) y el pivote de la manigueta al final
-        P("bomba", cilindro((10, 0, 0), X, 16, 104, lado="#d5d9da", cara="#eceeef")
-          + cilindro((64, 0, 0), X, 13, 6, cara="#e3e6e7") + cilindro((-46, 0, 0), X, 19, 8, lado="#d5d9da")
-          + cilindro((-30, -18, 0), Y, 11, 14, lado="#d5d9da") + cilindro((-56, 24, -8), Y, 8, 14, ri=3.5, lado="#d5d9da")
-          + cilindro((62, 0, 34), Y, 10, 36, ri=3.5, lado="#d5d9da") + caja((40, 0, 22), (40, 18, 24)), (0, 0, 0), (-80, 60)),
+        P("bomba" + sufijo, cilindro((10 * s, 0, 0), X, 16, 104, lado="#d5d9da", cara="#eceeef")
+          + cilindro((64 * s, 0, 0), X, 13, 6, cara="#e3e6e7") + cilindro((-46 * s, 0, 0), X, 19, 8, lado="#d5d9da")
+          + cilindro((-30 * s, -18, 0), Y, 11, 14, lado="#d5d9da") + cilindro((-56 * s, 24, -8), Y, 8, 14, ri=3.5, lado="#d5d9da")
+          + cilindro((62 * s, 0, 34), Y, 10, 36, ri=3.5, lado="#d5d9da") + caja((40 * s, 0, 22), (40, 18, 24)), (0, 0, 0), (-80 * s, 60)),
         # Depósito integrado, con su visor del nivel del líquido
-        P("deposito", prisma((4, 52, 0), Y, redondeado(74, 52, 15), 34, lado="#d5d9da", cara="#eceeef")
-          + cilindro((4, 48, 27), Z, 9, 2, cara="#cfe6f1", lado="#9fbfcc"), (4, 52, 0), (-85, -10)),
-        P("diafragma", prisma((4, 88, 0), Y, redondeado(66, 46, 13), 6, hueco=redondeado(40, 22, 8), lado=CAUCHO, cara=CAUCHO_CARA),
-          (4, 88, 0), (-85, -25)),
-        P("tapa", prisma((4, 112, 0), Y, redondeado(78, 56, 16), 6, lado=LADO_MEDIO, cara="#f4f5f5")
-          + prisma((4, 112, 0), Y, redondeado(54, 32, 10), 1, lado=LADO_MEDIO, cara="#e8eaeb"), (4, 112, 0), (-80, -45)),
-        P(None, perno((-22, 150, -14), MENOS_Y, 16, 5) + perno((22, 150, 14), MENOS_Y, 16, 5), (0, 150, 0), (70, -40), herraje="h_tornillo"),
-        # Manigueta: brazo curvo con su punta redondeada y la ruedita de ajuste junto al pivote
-        P("manigueta", prisma((92, -4, 70), Y, [(-30, -10), (10, -12), (60, -16), (110, -12), (140, -4), (144, 6), (112, 0),
-                                                (60, -4), (10, 2), (-30, 14)], 8, lado=LADO_MEDIO, cara="#f1f3f4")
-          + cilindro((62, -4, 52), Y, 9, 10, lado=OSCURO, cara=LADO_MEDIO), (140, -4, 70), (70, 50)),
-        P("abrazadera", prisma((-75, 0, 0), X, redondeado(34, 44, 7), 20, hueco=iso._circ2d(15, 24)), (-75, 0, 0), (-70, 55)),
-        P("interruptor", caja((48, -30, -20), (22, 12, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)), (48, -30, -20), (70, -10)),
-        P("kit_reparacion", cilindro((175, 0, 0), X, 10, 34) + oring((205, 0, 0), X, 10) + resorte((235, 0, 0), X, 7, 36, 6),
-          (205, 0, 0), (60, -50)),
-        P("banjo", perno((-30, -10, 0), MENOS_Y, 26, 9) + arandela((-30, -24, 0), Y, 11), (-30, -10, 0), (-75, 20)),
-        P("manguera", manguera(tubo), tubo[8], (-80, 40)),
-        P("soporte_manguera", caja((60, -205, 110), (18, 12, 18)), (60, -205, 110), (65, 30)),
+        P("deposito" + sufijo, prisma((4 * s, 52, 0), Y, redondeado(74, 52, 15), 34, lado="#d5d9da", cara="#eceeef")
+          + cilindro((4 * s, 48, 27), Z, 9, 2, cara="#cfe6f1", lado="#9fbfcc"), (4 * s, 52, 0), (-85 * s, -10)),
+        P("diafragma" + sufijo, prisma((4 * s, 88, 0), Y, redondeado(66, 46, 13), 6, hueco=redondeado(40, 22, 8), lado=CAUCHO, cara=CAUCHO_CARA),
+          (4 * s, 88, 0), (-85 * s, -25)),
+        P("tapa" + sufijo, prisma((4 * s, 112, 0), Y, redondeado(78, 56, 16), 6, lado=LADO_MEDIO, cara="#f4f5f5")
+          + prisma((4 * s, 112, 0), Y, redondeado(54, 32, 10), 1, lado=LADO_MEDIO, cara="#e8eaeb"), (4 * s, 112, 0), (-80 * s, -45)),
+        P(None, perno((-22 * s, 150, -14), MENOS_Y, 16, 5) + perno((22 * s, 150, 14), MENOS_Y, 16, 5), (0, 150, 0), (70 * s, -40), herraje="h_tornillo"),
+        # Manigueta: brazo curvo con su punta redondeada y la ruedita de ajuste junto al pivote (hacia afuera del manubrio)
+        P("manigueta" + sufijo, prisma((92 * s, -4, 70), Y, [(u * s, v) for u, v in manigueta], 8, lado=LADO_MEDIO, cara="#f1f3f4")
+          + cilindro((62 * s, -4, 52), Y, 9, 10, lado=OSCURO, cara=LADO_MEDIO), (140 * s, -4, 70), (70 * s, 50)),
+        P("abrazadera" + sufijo, prisma((-75 * s, 0, 0), X, redondeado(34, 44, 7), 20, hueco=iso._circ2d(15, 24)), (-75 * s, 0, 0), (-70 * s, 55)),
+        P("interruptor" + sufijo, caja((48 * s, -30, -20), (22, 12, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)), (48 * s, -30, -20), (70 * s, -10)),
+        P("kit_reparacion" + sufijo, cilindro((175 * s, 0, 0), X, 10, 34) + oring((205 * s, 0, 0), X, 10) + resorte((235 * s, 0, 0), X, 7, 36, 6),
+          (205 * s, 0, 0), (60 * s, -50)),
+        P("banjo" + sufijo, perno((-30 * s, -10, 0), MENOS_Y, 26, 9) + arandela((-30 * s, -24, 0), Y, 11), (-30 * s, -10, 0), (-75 * s, 20)),
+    ]
+    if con_linea:
+        piezas += [
+            P("manguera" + sufijo, manguera(tubo), tubo[8], (-80 * s, 40)),
+            P("soporte_manguera" + sufijo, caja((60 * s, -205, 110), (18, 12, 18)), (60 * s, -205, 110), (65 * s, 30)),
+        ]
+    return piezas
+
+
+def _bomba_freno():
+    piezas = _bomba_mano(1) + [
         P("unidad_abs", caja((230, -230, 60), (80, 56, 70), colores=(LADO_MEDIO, BLANCO, LADO_CLARO))
           + cilindro((215, -195, 50), Y, 7, 12) + cilindro((245, -195, 70), Y, 7, 12), (230, -230, 60), (70, 40)),
     ]
     lineas = [linea((-120, 0, 0), (260, 0, 0)), linea((0, 20, 0), (0, 170, 0)), linea((-30, -50, 0), (-30, 30, 0))]
+    return piezas, lineas
+
+
+# ---------------------------------------------------------------------------
+# 2b. Dos bombas de mano con ABS (scooter: freno trasero también de manigueta). Derecha = delantero, izquierda = trasero.
+#     Las mangueras de cada bomba bajan a la unidad ABS y de ella salen los tubos hacia cada caliper.
+# ---------------------------------------------------------------------------
+def _bombas_abs():
+    D, I = 230, -230                                       # bomba derecha (delantero) e izquierda (trasero)
+    derecha = [_mover(q, (D, 0, 0)) for q in _bomba_mano(1, con_linea=False)]
+    izquierda = [_mover(q, (I, 0, 0)) for q in _bomba_mano(-1, "_trasera", con_linea=False)]
+    abs_c = (0, -300, 40)
+    m1 = curva((D - 30, -40, 0), (D - 20, -200, 20), (abs_c[0] + 30, abs_c[1] + 40, abs_c[2]))
+    m2 = curva((I + 30, -40, 0), (I + 20, -200, 20), (abs_c[0] - 30, abs_c[1] + 40, abs_c[2]))
+    t1 = curva((abs_c[0] + 30, abs_c[1] - 30, abs_c[2]), (160, -420, 120), (300, -470, 200))
+    t2 = curva((abs_c[0] - 30, abs_c[1] - 30, abs_c[2]), (-160, -420, 120), (-300, -470, 200))
+    piezas = derecha + izquierda + [
+        P("manguera", manguera(m1), m1[8], (70, 30), orden=2),
+        P("manguera_trasera", manguera(m2), m2[8], (-70, 30), orden=2),
+        P("unidad_abs", caja(abs_c, (90, 60, 74), colores=(LADO_MEDIO, BLANCO, LADO_CLARO))
+          + caja((abs_c[0], abs_c[1] + 14, abs_c[2] - 50), (60, 34, 26), colores=(OSCURO, LADO_MEDIO, OSCURO))      # motor y conector
+          + [f for dx in (-30, -10, 10, 30) for f in cilindro((abs_c[0] + dx, abs_c[1] + 34, abs_c[2] + 10), Y, 6, 8)],
+          (abs_c[0], abs_c[1] + 30, abs_c[2]), (70, 50), orden=3),
+        P("tubos", manguera(t1, 5, "#c9ced0") + manguera(t2, 5, "#c9ced0"), t1[10], (70, 40), orden=2),
+        P("guia_manguera", caja(m1[10], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)) + caja(m2[10], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + caja(t1[8], (14, 10, 14), colores=(OSCURO, LADO_MEDIO, OSCURO)), m1[10], (60, -30), orden=3),
+        P("soporte_abs", prisma((abs_c[0], abs_c[1] - 52, abs_c[2]), Y, redondeado(130, 70, 10), 4, lado=LADO_MEDIO, cara="#e9ecec"),
+          (abs_c[0] + 50, abs_c[1] - 52, abs_c[2]), (70, 30), orden=1),
+    ]
+    lineas = [linea((I - 140, 0, 0), (D + 140, 0, 0))]
+    return piezas, lineas
+
+
+# ---------------------------------------------------------------------------
+# 2c. Bomba trasera de pie: cilindro atornillado al chasis, varilla con horquilla hacia el pedal y depósito aparte
+#     unido por una manguera corta (no es una bomba de manubrio).
+# ---------------------------------------------------------------------------
+def _bomba_pie():
+    gris, claro = "#d5d9da", "#eceeef"
+    deposito = (-110, 120, 0)
+    mdep = curva((deposito[0], deposito[1] - 40, 0), (-80, 40, 0), (-18, 30, 0))
+    return [
+        P("bomba", cilindro((0, 0, 0), Y, 15, 96, lado=gris, cara=claro)
+          + prisma((0, 20, 0), Z, redondeado(70, 22, 8), 18, lado=gris, cara=claro)                          # brida de montaje
+          + cilindro((-26, 20, 10), Z, 5, 1, cara=HUECO, grosor=1) + cilindro((26, 20, 10), Z, 5, 1, cara=HUECO, grosor=1)
+          + cilindro((-14, 30, 0), X, 6, 16, lado=gris, cara=claro), (0, 0, 0), (-80, 60)),                    # entrada del depósito
+        P("varilla", cilindro((0, -80, 0), Y, 4, 70) + tuerca((0, -62, 0), Y, 6)
+          + caja((0, -122, 0), (16, 22, 14), colores=(LADO_MEDIO, "#eef0f0", LADO_CLARO))
+          + cilindro((0, -126, 0), Z, 3.5, 22), (0, -122, 0), (-70, 40)),
+        P("guardapolvo", cilindro((0, -56, 0), Y, 9, 20, r2=5, lado=CAUCHO, cara=CAUCHO_CARA), (0, -56, 0), (70, 20)),
+        P("deposito", prisma(deposito, Y, redondeado(46, 34, 10), 58, lado="#e6e9ea", cara="#f4f6f6")
+          + [polilinea([(deposito[0] - 23.5, deposito[1] + k, deposito[2] + 8), (deposito[0] - 23.5, deposito[1] + k, deposito[2] - 8)], 1, "#8f9597")
+             for k in (-12, 10)], (deposito[0], deposito[1], deposito[2]), (-85, -10)),
+        P("diafragma", prisma((deposito[0], deposito[1] + 40, 0), Y, redondeado(42, 30, 9), 5, lado=CAUCHO, cara=CAUCHO_CARA),
+          (deposito[0], deposito[1] + 40, 0), (-85, -25)),
+        P("tapa", cilindro((deposito[0], deposito[1] + 58, 0), Y, 22, 10, lado=LADO_MEDIO, cara="#f4f5f5"), (deposito[0], deposito[1] + 58, 0), (-80, -45)),
+        P("manguera_deposito", manguera(mdep, 6), mdep[8], (-70, 10)),
+        P("kit_reparacion", cilindro((90, 20, 0), Y, 10, 30) + oring((90, 44, 0), Y, 10) + resorte((90, 74, 0), Y, 7, 36, 6), (90, 44, 0), (60, -50)),
+        P("banjo", perno((0, 70, 0), MENOS_Y, 26, 9) + arandela((0, 56, 0), Y, 11), (0, 70, 0), (70, -20)),
+        P("interruptor", cilindro((60, -40, 30), Y, 6, 30, lado=OSCURO, cara=LADO_MEDIO) + resorte((60, -70, 30), Y, 4, 26, 6), (60, -40, 30), (70, 10)),
+    ]
+
+
+def _freno_trasero():
+    """Freno trasero de disco completo: bomba de pie con su depósito, manguera, caliper y pedal."""
+    CALIPER = (260, -330, -40)
+    caliper = [_mover(q, CALIPER) for q in _freno_disco()[0] if q.puesto != "disco" and q.padre != "disco"]
+    entrada = tuple(a + b for a, b in zip(CALIPER, (20, 46, -6)))
+    tubo = curva((0, 82, 0), (120, 160, 40), (entrada[0] - 60, entrada[1] + 160, entrada[2] + 40)) \
+        + curva((entrada[0] - 60, entrada[1] + 160, entrada[2] + 40), (entrada[0] - 10, entrada[1] + 60, entrada[2] + 10), entrada)[1:]
+    pedal = [(-12, -14), (150, -26), (176, -20), (180, -6), (160, 4), (20, 18), (-10, 16), (-24, 0)]
+    piezas = _bomba_pie() + caliper + [
+        P("manguera", manguera(tubo, 8), tubo[12], (80, 30), orden=2),
+        P("guia_manguera", caja(tubo[10], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + caja(tubo[22], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)), tubo[22], (60, -30), orden=3),
+        P("soporte_deposito", prisma((-110, 60, -20), Z, [(-14, 40), (14, 40), (18, -30), (6, -60), (-10, -60), (-18, -30)], 6,
+                                     hueco=iso._circ2d(5, 12), lado=LADO_MEDIO), (-110, 40, -20), (-70, -20), orden=1),
+        # Pedal: su brazo corto sube a la horquilla de la varilla de la bomba
+        P("pedal", prisma((-150, -200, 60), Z, pedal, 12, hueco=iso._circ2d(9, 20), lado=LADO_MEDIO, cara="#f1f3f4")
+          + cilindro((-150 + 172, -200 - 13, 60 + 14), Z, 11, 26, cara=CAUCHO_CARA, lado=CAUCHO)
+          + resorte((-150 + 40, -200 + 30, 70), Y, 6, 46, 7) + cilindro((-150, -200, 40), Z, 8, 46), (-90, -210, 66), (-60, 50), orden=1),
+    ]
+    lineas = [("bomba", linea((0, -140, 0), (0, 160, 0))),
+              ("pastillas", linea((CALIPER[0] + 70, CALIPER[1] - 36, CALIPER[2] + 25), (CALIPER[0] + 70, CALIPER[1] - 122, CALIPER[2] + 25)))]
     return piezas, lineas
 
 
@@ -174,7 +270,7 @@ def _cvt():
         P(None, tuerca((-55, 130, 0), X, 11) + tuerca((440, -130, 0), X, 12), (-55, 130, 0), (-60, -50), herraje="h_tuerca"),
         P("polea_fija", cilindro((0, 130, 0), X, 80, 26, r2=26) + puntos_en_cara((0, 130, 0), X, 2, 55, 12, 4, color=LADO_MEDIO)
           # Aletas de ventilación curvas en la cara de la polea
-          + [polilinea([(13.6, 130 + r * math.sin(t + 0.5 * (r - 30) / 45), r * math.cos(t + 0.5 * (r - 30) / 45)) for r in range(30, 76, 5)], 1.6)
+          + [polilinea([(13.6, 130 + r * math.sin(t + 0.5 * (r - 30) / 45), r * math.cos(t + 0.5 * (r - 30) / 45)) for r in range(30, 76, 5)], 2.6, "#7d8487")
              for t in (i * 2 * math.pi / 12 for i in range(12))],
           (0, 130, 0), (-80, -70)),
         P("polea_movil", cilindro((70, 130, 0), X, 24, 28, r2=74), (70, 130, 0), (-20, -95)),
@@ -207,22 +303,60 @@ def _cvt():
 # ---------------------------------------------------------------------------
 # 4. Bomba de aceite y drenaje
 # ---------------------------------------------------------------------------
+def _rotor_interior(r, lobulos=4):
+    """Rotor interior de la bomba trocoidal: estrella de lóbulos redondeados."""
+    return [((r + 5 * math.cos(lobulos * t)) * math.cos(t), (r + 5 * math.cos(lobulos * t)) * math.sin(t))
+            for t in [i * 2 * math.pi / 64 for i in range(64)]]
+
+
 def _aceite():
-    carter = [(-90, 36), (-66, 72), (12, 78), (84, 54), (102, 6), (84, -42), (36, -60), (-36, -60), (-84, -30)]
+    """Como en los planos: la mitad del cárter de referencia; la bomba (con su piñón) montada en la cara del cárter,
+    y abajo, en el sumidero, la malla con su resorte, el O-ring y el tapón de drenaje. El filtro de papel y su tapa solo
+    aparecen en las motos que lo tienen (no todas: las scooter y muchas 125 solo llevan malla)."""
+    al_cara, al_lado = "#f4f2ec", "#dcd7cb"
+    xd, zd = -60, 14                               # eje del drenaje, bajo el sumidero del cárter
+    # Bomba trocoidal explotada a lo largo de X, saliendo de la cara del cárter: cuerpo, rotores, tapa y piñón
+    by, bz = -30, -70
+    cuerpo = cilindro((14, by, bz), X, 34, 22, lado=al_lado, cara=al_cara) + cilindro((26, by, bz), X, 25, 1, cara=HUECO, grosor=1)
+    for k in range(3):
+        a = k * 2 * math.pi / 3 + 0.5
+        cuerpo += cilindro((14, by + 40 * math.sin(a), bz + 40 * math.cos(a)), X, 7, 22, ri=3, lado=al_lado, cara=al_cara)
+    exterior = prisma((44, by, bz), X, iso._circ2d(25, 48), 9, hueco=_rotor_interior(16, 5), lado=LADO_MEDIO, cara="#e9ecec")
+    interior = prisma((62, by, bz), X, _rotor_interior(12, 4), 9, hueco=iso._circ2d(4, 16), lado=LADO_MEDIO, cara="#f3f3ef")
+    tapa = prisma((82, by, bz), X, iso._circ2d(34, 48), 6, lado=al_lado, cara=al_cara)
+    pinon = (cilindro((100, by, bz), X, 5, 50) + prisma((112, by, bz), X, engranaje(36, 34, 3.5), 7, hueco=iso._circ2d(9, 16),
+                                                        cara="#f6f6f4", lado=LADO_MEDIO)
+             + [f for k in range(4) for f in cilindro((116, by + 16 * math.sin(k * 1.571), bz + 16 * math.cos(k * 1.571)), X, 3, 1, cara=HUECO, grosor=1)])
+    # Filtro de papel (cartucho plisado) y su tapa: solo si la lámina los trae
+    pliegues = [polilinea([(60, 70 + 24 * math.sin(t), 150 + 24 * math.cos(t)), (100, 70 + 24 * math.sin(t), 150 + 24 * math.cos(t))], 1)
+                for t in [i * math.pi / 9 for i in range(18)]]
+    filtro = cilindro((80, 70, 150), X, 24, 40, ri=8, cara="#f7efd6", lado="#e2d5ad") + pliegues
+    tapa_filtro = (cilindro((140, 70, 150), X, 32, 14, lado=al_lado, cara=al_cara)
+                   + [f for k in range(3) for f in cilindro((148, 70 + 27 * math.sin(k * 2.094), 150 + 27 * math.cos(k * 2.094)), X, 5, 4, ri=2, lado=LADO_MEDIO)])
+    # Malla (cedazo): marco con la tela metálica, que entra en el sumidero
+    malla = (cilindro((xd, -150, zd), Y, 16, 4, cara="#d9dcdc", lado=LADO_MEDIO) + cilindro((xd, -186, zd), Y, 16, 4, cara="#d9dcdc", lado=LADO_MEDIO)
+             + cilindro((xd, -168, zd), Y, 15, 32, ri=10, cara="#eef0ef", lado="#cfd5d7")
+             + [polilinea([(xd + 15.3 * math.cos(t), -152, zd + 15.3 * math.sin(t)), (xd + 15.3 * math.cos(t + .5), -184, zd + 15.3 * math.sin(t + .5))], .8, "#9aa2a5")
+                for t in [i * math.pi / 10 for i in range(-3, 13)]])
+    # Tapón de drenaje: tapa ancha con pestaña y estrías (scooter) sobre su rosca
+    tapon = (cilindro((xd, -282, zd), Y, 26, 12, lado=LADO_MEDIO, cara="#eef0f0")
+             + [polilinea([(xd + 26.3 * math.cos(t), -276, zd + 26.3 * math.sin(t)), (xd + 26.3 * math.cos(t), -288, zd + 26.3 * math.sin(t))], 1, "#9aa2a5")
+                for t in [i * math.pi / 8 for i in range(-3, 9)]]
+             + cilindro((xd, -272, zd), Y, 29, 4, lado=LADO_MEDIO, cara="#e6e9e9")
+             + cilindro((xd, -256, zd), Y, 20, 26, ri=8, lado=LADO_MEDIO, cara="#eef0f0") + iso.roscas((xd, -256, zd), Y, 20, 24, 4))
     piezas = [
-        P("carter", prisma((0, 60, 0), Z, carter, 44, lado="#e9e4d8", cara="#f7f4ec")
-          + cilindro((40, 60, 23), Z, 22, 3, ri=9), (-40, 90, 20), (-70, -70)),
-        P("bomba", prisma((150, 80, 100), Z, engranaje(46, 30), 10, hueco=iso._circ2d(12, 20)) + cilindro((150, 80, 100), Z, 16, 12),
-          (150, 80, 100), (65, -55)),
-        P(None, perno((200, 60, 140), (0, 0, -1), 22, 6) + perno((180, 30, 140), (0, 0, -1), 22, 6), (190, 45, 140), (70, 20), herraje="h_tornillo"),
-        P("malla", cilindro((-20, -60, 30), Y, 15, 34, ri=9, cara="#f4f1e8") + puntos_en_cara((-20, -60, 30), Y, 34, 12, 8, 2.2),
-          (-20, -60, 30), (-75, 0)),
-        P("resorte", resorte((-20, -108, 30), Y, 11, 40, 6), (-20, -108, 30), (-75, 0)),
-        P("oring", oring((-20, -142, 30), Y, 20), (-20, -142, 30), (-75, 10)),
-        P("tapon", cilindro((-20, -165, 30), Y, 24, 12) + prisma((-20, -180, 30), Y, hexagono(17), 14, lado=LADO_MEDIO),
-          (-20, -170, 30), (-75, 20)),
+        P("carter", _media_carcasa(-60), (-60, 128, 30), (-70, -70)),
+        P("bomba", cuerpo + exterior + interior + tapa, (44, by + 25, bz), (65, -55)),
+        P("pinon_bomba", pinon, (112, by + 36, bz), (65, -40)),
+        P(None, perno((140, by + 16, bz), X, 26, 5) + perno((140, by - 16, bz), X, 26, 5), (150, by + 16, bz), (70, 20), herraje="h_tornillo"),
+        P("filtro", filtro, (80, 94, 150), (-70, -50)),
+        P("tapa_filtro", tapa_filtro, (140, 102, 150), (-70, -20)),
+        P("malla", malla, (xd, -168, zd), (-75, 0)),
+        P("resorte", resorte((xd, -212, zd), Y, 11, 40, 6), (xd, -212, zd), (-75, 0)),
+        P("oring", oring((xd, -240, zd), Y, 22), (xd, -240, zd), (-75, 10)),
+        P("tapon", tapon, (xd, -282, zd), (-75, 20)),
     ]
-    lineas = [linea((-20, 10, 30), (-20, -200, 30)), linea((150, 80, 40), (150, 80, 150))]
+    lineas = [linea((xd, -124, zd), (xd, -300, zd)), linea((-40, by, bz), (160, by, bz))]
     return piezas, lineas
 
 
@@ -254,59 +388,201 @@ def _admision():
 # ---------------------------------------------------------------------------
 # 6. Cilindro, culata y bujía
 # ---------------------------------------------------------------------------
-def _culata():
-    aletas_culata = [f for k in range(4) for f in caja((0, 150 + k * 9, 0), (140, 2.5, 108), colores=(LADO_CLARO, BLANCO, LADO_CLARO), grosor=1.3)]
-    aletas_cil = [f for k in range(5) for f in caja((0, 45 + k * 12, 0), (136, 3, 104), colores=(LADO_CLARO, BLANCO, LADO_CLARO), grosor=1.3)]
-    bujia = (cilindro((140, 210, -40), Y, 4, 18) + prisma((140, 228, -40), Y, hexagono(10), 10, lado=LADO_MEDIO)
-             + cilindro((140, 250, -40), Y, 8, 34, cara="#fbfaf6", lado="#f1eee6") + cilindro((140, 272, -40), Y, 3, 10))
+# Colores por material, para que cada pieza se distinga de la de al lado
+_ALUMINIO = ("#f4f2ec", "#dcd7cb")       # culata y tapa (cara, lado)
+_HIERRO = ("#e3e7e8", "#bfc6c9")         # cilindro
+_EMPAQUE_METAL = ("#c9a27a", "#a77f58")  # empaque de culata (lámina metálica cobriza)
+_EMPAQUE_PAPEL = ("#eadcb4", "#cdbb8c")  # empaque de la base del cilindro
+_ESQUINAS = [(48, 36), (-48, 36), (48, -36), (-48, -36)]   # espárragos (x, z)
+
+
+def _huecos_esparragos(y, r=4.5):
+    return [f for x, z in _ESQUINAS for f in cilindro((x, y, z), Y, r, 1, cara=HUECO, lado=HUECO, grosor=1)]
+
+
+def _empaque_plano(y, colores, agujero=40, ancho=132, fondo=102):
+    cara, lado = colores
+    return (prisma((0, y, 0), Y, redondeado(ancho, fondo, 14), 2.5, hueco=iso._circ2d(agujero, 36), lado=lado, cara=cara, grosor=1.6)
+            + _huecos_esparragos(y + 1.6))
+
+
+def _aletas(y0, n, paso, ancho, fondo, colores):
+    cara, lado = colores
+    return [f for k in range(n) for f in prisma((0, y0 + k * paso, 0), Y, redondeado(ancho, fondo, 16), 3.2, lado=lado, cara=cara, grosor=1.2)]
+
+
+def _perfil(texto):
+    """'l1c2d59v4b1' → refrigeración líquida, 2 cilindros, 59 mm de diámetro, 4 válvulas (DOHC), 1 bujía por cilindro."""
+    p = {"l": 0, "c": 1, "d": 57, "v": 2, "b": 1, "m": 0, "h": 0, "e": 0, "s": 0, "i": 0, "u": 0}
+    for letra, numero in re.findall(r"([lcdvbmhesiu])(\d+)", texto or ""):
+        p[letra] = int(numero)
+    p["c"] = max(1, min(p["c"], 4))
+    return p
+
+
+def _bloque_motor(p):
+    """Medidas del bloque según el perfil: radio del cilindro, centros de los cilindros, ancho y fondo."""
+    r = max(30.0, min(46.0, p["d"] * 0.7))
+    paso = 2 * r + 30
+    xs = [(i - (p["c"] - 1) / 2) * paso for i in range(p["c"])]
+    ancho = p["c"] * (2 * r + 30) + 16
+    fondo = 2 * r + 28
+    esquinas = sorted({(round(xc + sx * (r + 9)), round(sz * (r - 2))) for xc in xs for sx in (-1, 1) for sz in (-1, 1)})
+    return r, xs, ancho, fondo, esquinas
+
+
+def _aletas_bloque(y0, n, paso, ancho, fondo, colores):
+    cara, lado = colores
+    return [f for k in range(n) for f in prisma((0, y0 + k * paso, 0), Y, redondeado(ancho, fondo, 16), 3.2, lado=lado, cara=cara, grosor=1.2)]
+
+
+def _plancha_empaque(y, ancho, fondo, r, xs, esquinas, colores):
+    """Empaque plano: lámina del tamaño del bloque con el hueco de cada cilindro y de cada espárrago."""
+    cara, lado = colores
+    f = prisma((0, y, 0), Y, redondeado(ancho, fondo, 14), 2.5, lado=lado, cara=cara, grosor=1.6)
+    for xc in xs:
+        f += cilindro((xc, y + 1.4, 0), Y, r + 2, .6, cara=HUECO, lado=HUECO, grosor=1)
+    for x, z in esquinas:
+        f += cilindro((x, y + 1.4, z), Y, 4.5, .6, cara=HUECO, lado=HUECO, grosor=1)
+    return f
+
+
+def _bloque_cilindro(y, alto, p, r, xs, ancho, fondo):
+    """Cilindro(s): con aletas si es de aire; liso, con la camisa de agua y la entrada del refrigerante si es líquido."""
+    fe_cara, fe_lado = _HIERRO
+    f = caja((-ancho / 2 - 8, y, -fondo * .22), (22, alto, 22), colores=(fe_lado, fe_cara, fe_lado))        # túnel de la cadenilla
+    if p["l"]:
+        f += prisma((0, y, 0), Y, redondeado(ancho - 6, fondo - 4, 18), alto, lado=fe_lado, cara=fe_cara)
+        f += [polilinea([(x, y + alto / 2 + .5, z) for x, z in _contorno_camisa(ancho - 26, fondo - 22)], 1.3, "#9aa3a7")]
+        f += cilindro((xs[-1], y - alto * .2, fondo / 2 + 10), Z, 9, 22, ri=5, lado=fe_lado, cara=fe_cara)  # entrada del refrigerante
+    else:
+        f += _aletas_bloque(y - alto / 2 + 8, int(alto // 13), 13, ancho + 14, fondo + 12, _HIERRO)
+    for xc in xs:
+        f += cilindro((xc, y, 0), Y, r + 4, alto, ri=r - 3, cara=fe_cara, lado=fe_lado)
+    return f
+
+
+def _contorno_camisa(ancho, fondo):
+    puntos = redondeado(ancho, fondo, 16)
+    return [(u, v) for u, v in puntos] + [puntos[0]]
+
+
+def _culata(perfil=None):
+    p = _perfil(perfil)
+    r, xs, ancho, fondo, esquinas = _bloque_motor(p)
+    al_cara, al_lado = _ALUMINIO
+    dohc = bool(p.get("h"))
+    # Tapa de válvulas: con dos "lomos" de árboles de levas si es DOHC; con nervios y tapones de calibración si es SOHC
+    tapa = prisma((0, 372, 0), Y, redondeado(ancho - 14, fondo - 10, 26), 26, lado=al_lado, cara=al_cara)
+    if dohc:
+        for z in (-fondo * .22, fondo * .22):
+            tapa += cilindro((0, 388, z), X, 13, ancho - 46, lado=al_lado, cara=al_cara)
+    else:
+        tapa += [polilinea([(x, 385.5, -fondo * .3), (x, 385.5, fondo * .3)], 1.6, "#c9c3b4") for x in
+                 [xs[0] - r * .7 + k * r * .47 for k in range(int(len(xs) * 4))]]
+        for xc in xs:
+            tapa += cilindro((xc - r * .9, 392, fondo * .2), Y, 10, 10, lado=LADO_MEDIO, cara="#e9e6de")
+            tapa += cilindro((xc + r * .9, 392, fondo * .2), Y, 10, 10, lado=LADO_MEDIO, cara="#e9e6de")
+    # Culata: bloque con aletas (aire) o liso con la salida del refrigerante (líquido); puertos por cilindro
+    culata = caja((-ancho / 2 - 8, 262, -fondo * .22), (24, 60, 20), colores=(al_lado, al_cara, al_lado))
+    culata += prisma((0, 262, 0), Y, redondeado(ancho, fondo, 14), 60, lado=al_lado, cara=al_cara)
+    if p["l"]:
+        culata += cilindro((xs[-1] + r * .4, 292, -fondo / 2 - 12), Z, 10, 26, ri=6, lado=al_lado, cara=al_cara)   # salida del agua
+        culata += caja((xs[-1] + r * .4, 292, -fondo / 2 + 4), (30, 22, 14), colores=(al_lado, al_cara, al_lado))
+    else:
+        culata += _aletas_bloque(236, 4, 13, ancho + 14, fondo + 12, _ALUMINIO)
+    for xc in xs:
+        culata += cilindro((xc, 294, 0), Y, 12, 4, cara=HUECO, lado=al_lado)                                       # bujía
+        culata += cilindro((xc, 250, fondo / 2 + 14), Z, r * .45, 28, ri=r * .3, lado=al_lado, cara=al_cara)      # escape
+        if p["c"] == 1:
+            culata += cilindro((-ancho / 2 - 22, 262, fondo * .1), X, r * .4, 28, ri=r * .28, lado=al_lado, cara=al_cara)
+        else:
+            culata += cilindro((xc, 268, -fondo / 2 - 14), Z, r * .4, 28, ri=r * .28, lado=al_lado, cara=al_cara)
+    # Bujías: una por cilindro (o tres en las de triple chispa), dibujadas aparte, a la derecha
+    def una_bujia(x, z, escala=1.0):
+        return (cilindro((x, 352, z), Y, 4 * escala, 18) + prisma((x, 370, z), Y, hexagono(10 * escala), 10, lado=LADO_MEDIO)
+                + cilindro((x, 392, z), Y, 8 * escala, 34, cara="#fbfaf6", lado="#f1eee6") + cilindro((x, 414, z), Y, 3, 10))
+    bujias, x0 = [], ancho / 2 + 60
+    for k in range(p["c"] * p["b"]):
+        bujias += una_bujia(x0 + k * 30, -20, 1.0 if k % max(1, p["b"]) == 0 else .8)
     piezas = [
-        P("tapa_valvulas", caja((0, 290, 0), (122, 34, 92)) + cilindro((0, 309, 0), Y, 20, 4), (0, 290, 0), (-90, -40)),
-        P("empaque_tapa", caja((0, 255, 0), (120, 4, 90), colores=(CAUCHO, CAUCHO_CARA, CAUCHO), grosor=1.5), (40, 255, 30), (-90, 10)),
-        P("culata", caja((0, 175, 0), (132, 64, 102)) + aletas_culata, (0, 175, 0), (-90, 30)),
-        P("bujia", bujia, (140, 245, -40), (70, -40)),
-        P("empaque_culata", prisma((0, 118, 0), Y, redondeado(128, 98, 10), 2, hueco=iso._circ2d(40, 32), lado="#c9cfd1"), (40, 118, 30), (-90, 20)),
-        P("cilindro", caja((0, 72, 0), (122, 74, 96)) + aletas_cil + cilindro((0, 72, 0), Y, 40, 76, ri=36), (0, 72, 0), (-95, 40)),
-        P("empaque_cilindro", prisma((0, 22, 0), Y, redondeado(118, 92, 10), 2, hueco=iso._circ2d(42, 32), lado="#c9cfd1"), (40, 22, 30), (-90, 30)),
-        P("esparragos", cilindro((-150, 150, 40), Y, 4, 230) + cilindro((-150, 150, -40), Y, 4, 230), (-150, 220, 0), (-60, -50)),
-        P(None, perno((150, 140, 60), MENOS_Y, 34, 7) + perno((170, 140, 20), MENOS_Y, 34, 7), (160, 140, 40), (70, 30), herraje="h_tornillo"),
-        P("guias", cilindro((150, 40, 60), Y, 6, 14, ri=3) + cilindro((175, 40, 30), Y, 6, 14, ri=3), (160, 40, 45), (70, 40)),
+        P("tapa_valvulas", tapa, (0, 385, 0), (-90, -40), orden=6),
+        P("empaque_tapa", prisma((0, 334, 0), Y, redondeado(ancho - 14, fondo - 10, 26), 3, hueco=redondeado(ancho - 28, fondo - 24, 20),
+                                 lado=CAUCHO, cara=CAUCHO_CARA, grosor=1.5), (ancho / 2 - 14, 334, 30), (-90, 0), orden=5),
+        P("bujia", bujias, (x0, 392, -20), (70, -40), orden=7),
+        P("culata", culata, (0, 262, 0), (-95, 20), orden=4),
+        P("empaque_culata", _plancha_empaque(196, ancho, fondo, r, xs, esquinas, _EMPAQUE_METAL), (ancho / 2 - 14, 197, 30), (-90, 20), orden=3),
+        P("cilindro", _bloque_cilindro(70, 108, p, r, xs, ancho, fondo), (0, 70, 0), (-95, 30), orden=2),
+        P("empaque_cilindro", _plancha_empaque(-20, ancho, fondo, r + 2, xs, esquinas, _EMPAQUE_PAPEL), (ancho / 2 - 14, -19, 30), (-90, 30), orden=1),
+        P("guias", [f for x, z in esquinas[:2] for f in cilindro((x, 166, z), Y, 6, 16, ri=3, cara="#e9ecec")], (esquinas[0][0], 166, esquinas[0][1]),
+          (70, 20), orden=3),
+        P("esparragos", [f for x, z in ((ancho / 2 + 30, -60), (ancho / 2 + 46, -40)) for f in cilindro((x, 150, z), Y, 4, 150)
+                         + roscas_simple((x, 222, z))], (ancho / 2 + 38, 190, -50), (70, 10), orden=0),
+        P(None, perno((ancho / 2 + 40, -40, 70), MENOS_Y, 34, 7) + perno((ancho / 2 + 66, -40, 40), MENOS_Y, 34, 7),
+          (ancho / 2 + 53, -40, 55), (70, 30), herraje="h_tornillo"),
+        P("anillos", [f for xc in xs for f in _anillos((xc, -66, 0), r * .93)], (xs[0] + r, -57, 0), (70, 10), orden=1),
+        P("piston", [f for xc in xs for f in _piston((xc, -120, 0), r * .9)], (xs[0], -110, 0), (-90, 40), orden=1),
+        P("pasador", [f for xc in xs for f in cilindro((xc, -124, 100), Z, 9, 64, ri=5, cara="#e9ecec")], (xs[0], -124, 120), (70, 30), orden=2),
+        P("seguros_piston", [f for xc in xs for f in oring((xc, -124, 148), Z, 9, 2) + oring((xc, -124, 56), Z, 9, 2)],
+          (xs[0], -124, 148), (70, 40), orden=2),
     ]
-    lineas = [linea((0, -10, 0), (0, 330, 0)), linea((140, 190, -40), (140, 290, -40))]
+    lineas = [linea((xc, -150, 0), (xc, 420, 0)) for xc in xs]
     return piezas, lineas
+
+
+def roscas_simple(c):
+    """Cuatro líneas de rosca en la punta de un espárrago."""
+    x, y, z = c
+    return [polilinea([(x - 4, y - k * 4, z), (x + 4, y - k * 4 - 2, z)], 1) for k in range(4)]
+
 
 
 # ---------------------------------------------------------------------------
 # 7. Válvulas y balancines
 # ---------------------------------------------------------------------------
-def _valvulas():
-    def pila(x):
+def _valvulas(perfil=None):
+    """Válvulas, resortes, cuñas y sellos, con los balancines y el árbol de levas. Con cuatro válvulas por cilindro van dos
+    de admisión y dos de escape, y cada balancín termina en horquilla para empujar las dos (como en la Pulsar NS 200)."""
+    p = _perfil(perfil)
+    cuatro = p["v"] >= 4
+    zs = (-24, 24) if cuatro else (0,)
+
+    def pila(x, z):
         return {
-            "valvula": cilindro((x, 40, 0), Y, 3, 130) + cilindro((x, -28, 0), Y, 20, 8, r2=4),
-            "sello": cilindro((x, 112, 0), Y, 6, 11, cara=CAUCHO_CARA, lado=CAUCHO),
-            "base": arandela((x, 128, 0), Y, 17, 2.5),
-            "resorte": resorte((x, 168, 0), Y, 15, 62, 7),
-            "platillo": cilindro((x, 210, 0), Y, 10, 6, r2=16, ri=4),
-            "cunas": caja((x - 4, 226, 0), (5, 12, 7)) + caja((x + 4, 226, 0), (5, 12, 7)),
+            "valvula": cilindro((x, 40, z), Y, 3, 130) + cilindro((x, -28, z), Y, 20 if not cuatro else 16, 8, r2=4),
+            "sello": cilindro((x, 112, z), Y, 6, 11, cara=CAUCHO_CARA, lado=CAUCHO),
+            "base": arandela((x, 128, z), Y, 15, 2.5),
+            "resorte": resorte((x, 168, z), Y, 13 if cuatro else 15, 62, 7),
+            "platillo": cilindro((x, 210, z), Y, 9, 6, r2=14, ri=4),
+            "cunas": caja((x - 4, 226, z), (5, 12, 7)) + caja((x + 4, 226, z), (5, 12, 7)),
         }
-    a, e = pila(0), pila(170)
+    adm = [pila(0, z) for z in zs]
+    esc = [pila(170, z) for z in zs]
+    junta = lambda clave: [f for q in adm + esc for f in q[clave]]
     balancin = [(-60, 6), (-50, 16), (40, 12), (66, 4), (66, -6), (40, -12), (-50, -14), (-62, -4)]
     levas = [(math.cos(t) * (14 + 7 * max(0, math.cos(t)) ** 3), math.sin(t) * (14 + 7 * max(0, math.cos(t)) ** 3))
              for t in [i * 2 * math.pi / 32 for i in range(32)]]
+    brazos = prisma((85, 285, 0), Z, balancin, 16, hueco=iso._circ2d(8, 16))
+    if cuatro:                                            # horquilla: una punta sobre cada válvula
+        brazos += caja((22, 274, 0), (14, 10, 64), colores=(LADO_MEDIO, BLANCO, LADO_CLARO))
+        brazos += caja((148, 274, 0), (14, 10, 64), colores=(LADO_MEDIO, BLANCO, LADO_CLARO))
+    calibra = [f for z in zs for f in perno((150, 312, z), MENOS_Y, 22, 6) + tuerca((150, 300, z), Y, 7)]
     piezas = [
-        P("valvula_admision", a["valvula"], (0, -10, 0), (-80, 40)),
-        P("valvula_escape", e["valvula"], (170, -10, 0), (70, 40)),
-        P("sello", a["sello"] + e["sello"], (0, 112, 0), (-80, 10)),
-        P("base_resorte", a["base"] + e["base"], (0, 128, 0), (-80, 25)),
-        P("resortes", a["resorte"] + e["resorte"], (0, 168, 0), (-85, 0)),
-        P("platillo", a["platillo"] + e["platillo"], (0, 210, 0), (-80, -10)),
-        P("cunas", a["cunas"] + e["cunas"], (0, 226, 0), (-80, -30)),
-        P("balancin", prisma((85, 285, 0), Z, balancin, 16, hueco=iso._circ2d(8, 16)), (60, 285, 0), (-60, -60)),
+        P("valvula_admision", [f for q in adm for f in q["valvula"]], (0, -10, zs[0]), (-80, 40)),
+        P("valvula_escape", [f for q in esc for f in q["valvula"]], (170, -10, zs[-1]), (70, 40)),
+        P("sello", junta("sello"), (0, 112, zs[0]), (-80, 10)),
+        P("base_resorte", junta("base"), (0, 128, zs[0]), (-80, 25)),
+        P("resortes", junta("resorte"), (0, 168, zs[0]), (-85, 0)),
+        P("platillo", junta("platillo"), (0, 210, zs[0]), (-80, -10)),
+        P("cunas", junta("cunas"), (0, 226, zs[0]), (-80, -30)),
+        P("balancin", brazos, (60, 285, 0), (-60, -60)),
         P("eje_balancin", cilindro((85, 285, -70), Z, 6, 80), (85, 285, -100), (60, -50)),
-        P("tornillo_calibracion", perno((150, 312, 0), MENOS_Y, 22, 6) + tuerca((150, 300, 0), Y, 7), (150, 312, 0), (65, -45)),
+        P("tornillo_calibracion", calibra, (150, 312, zs[-1]), (65, -45)),
         P("arbol_levas", cilindro((85, 350, 40), Z, 8, 150) + prisma((85, 350, 10), Z, levas, 12) + prisma((85, 350, 50), Z, levas, 12),
           (85, 350, 90), (-70, -50)),
     ]
-    lineas = [linea((0, -50, 0), (0, 250, 0)), linea((170, -50, 0), (170, 250, 0)), linea((85, 285, -130), (85, 285, 70))]
+    lineas = [linea((0, -50, z), (0, 250, z)) for z in zs] + [linea((170, -50, z), (170, 250, z)) for z in zs] \
+        + [linea((85, 285, -130), (85, 285, 70))]
     return piezas, lineas
 
 
@@ -314,32 +590,51 @@ def _valvulas():
 # 8. Radiador y refrigeración
 # ---------------------------------------------------------------------------
 def _radiador():
+    """Refrigeración líquida como en los planos: radiador con su tapa, ventilador detrás, rejilla adelante; manguera de
+    arriba (termostato → radiador), de abajo (radiador → tubo en T → bomba de agua) y el depósito de expansión con la suya."""
     panal = [polilinea([(9.5, -70, z), (9.5, 70, z)], 1.0, "#7f878a") for z in range(-56, 60, 7)]
     aspas = [(math.cos(t) * (50 if i % 2 == 0 else 20), math.sin(t) * (50 if i % 2 == 0 else 20))
              for i, t in enumerate(i * 2 * math.pi / 18 for i in range(18))]
-    tubo = curva((0, -90, -40), (40, -170, 20), (140, -190, 90))
+    superior = curva((0, 70, -60), (60, 120, -150), (150, 60, -200))                # del termostato (motor) al radiador
+    inferior = curva((0, -70, 60), (40, -150, 40), (110, -190, -60))                 # del radiador al tubo en T
+    hacia_bomba = curva((110, -190, -60), (160, -220, -120), (210, -200, -170))      # del tubo en T a la bomba de agua
+    deposito = (40, -60, 170)
+    al_deposito = curva((0, 105, 30), (30, 60, 140), (deposito[0], deposito[1] + 50, deposito[2]))
     piezas = [
-        P("radiador", caja((0, 0, 0), (18, 150, 130)) + panal, (0, 40, 40), (-90, -40)),
-        P("tapa", cilindro((0, 100, 45), Y, 13, 10) + cilindro((0, 108, 45), Y, 16, 4), (0, 104, 45), (-70, -50)),
+        P("radiador", caja((0, 0, 0), (18, 150, 130)) + panal + cilindro((0, 70, -60), Z, 9, 20) + cilindro((0, -70, 60), Z, 9, 20),
+          (0, 40, 40), (-90, -40)),
+        P("tapa", cilindro((0, 100, 30), Y, 13, 10) + cilindro((0, 108, 30), Y, 16, 4), (0, 104, 30), (-70, -50)),
         P("rejilla", prisma((90, 0, 0), X, redondeado(150, 170, 24), 6, lado=OSCURO, cara="#c3c9cb")
           + [polilinea([(93.5, y, -60), (93.5, y - 12, 60)], 2.2, "#7f878a") for y in range(-70, 75, 16)], (90, 40, -40), (70, -50)),
         P("carcasa_ventilador", cilindro((-70, 0, 0), X, 66, 24, ri=58, lado=LADO_MEDIO), (-70, 50, 30), (-80, -30)),
         P("ventilador", prisma((-115, 0, 0), X, aspas, 10, hueco=iso._circ2d(8, 16)), (-115, 0, 0), (-80, 40)),
-        P("termostato", caja((80, -150, -90), (30, 26, 26)) + cilindro((80, -137, -90), Y, 8, 4), (80, -150, -90), (60, -30)),
-        P("manguera", manguera(tubo, 12), tubo[8], (60, 40)),
-        P("drenaje", perno((0, -110, 60), Y, 18, 7), (0, -110, 60), (-70, 30)),
-        P("abrazaderas", arandela((40, -170, 25), Z, 16, 3) + arandela((120, -188, 80), Z, 16, 3), (40, -170, 25), (-60, 50)),
-        P("empaques", oring((-30, 100, 45), Y, 12) + oring((-30, -110, 60), Y, 9), (-30, 100, 45), (-70, 30)),
+        P("termostato", caja((160, 60, -210), (30, 26, 26)) + cilindro((160, 73, -210), Y, 8, 4), (160, 60, -210), (60, -30)),
+        P("manguera", manguera(superior, 12), superior[8], (60, -40)),
+        P("manguera_inferior", manguera(inferior, 12) + manguera(hacia_bomba, 12), inferior[8], (60, 40)),
+        P("tubo_t", cilindro((110, -190, -60), X, 9, 30) + cilindro((110, -200, -60), Y, 7, 20), (110, -190, -60), (60, 50)),
+        P("deposito", prisma(deposito, Y, redondeado(60, 40, 10), 90, lado="#d9dedf", cara="#eef1f1")
+          + [polilinea([(deposito[0] - 30.5, deposito[1] + k, deposito[2] + 12), (deposito[0] - 30.5, deposito[1] + k, deposito[2] - 12)], 1.2, "#7f878a")
+             for k in (-20, 20)], (deposito[0], deposito[1], deposito[2]), (70, 30)),
+        P("tapa_deposito", cilindro((deposito[0], deposito[1] + 54, deposito[2]), Y, 14, 10, lado=LADO_MEDIO, cara="#f4f5f5"),
+          (deposito[0], deposito[1] + 56, deposito[2]), (70, -20)),
+        P("manguera_deposito", manguera(al_deposito, 6), al_deposito[8], (60, -20)),
+        P("drenaje", perno((0, -110, 30), Y, 18, 7), (0, -110, 30), (-70, 30)),
+        P("abrazaderas", arandela(superior[2], Z, 14, 3) + arandela(inferior[2], Z, 14, 3) + arandela(hacia_bomba[-3], Z, 14, 3),
+          inferior[2], (-60, 50)),
+        P("empaques", oring((-30, 100, 30), Y, 12) + oring((-30, -110, 30), Y, 9), (-30, 100, 30), (-70, 30)),
         P(None, perno((140, 60, 0), (-1, 0, 0), 30, 6) + perno((140, -60, 0), (-1, 0, 0), 30, 6), (140, 60, 0), (70, 20), herraje="h_tornillo"),
     ]
-    lineas = [linea((-150, 0, 0), (130, 0, 0)), linea((0, 90, 45), (0, 130, 45))]
+    lineas = [linea((-150, 0, 0), (130, 0, 0))]
     return piezas, lineas
 
 
 # ---------------------------------------------------------------------------
 # 9. Rueda
 # ---------------------------------------------------------------------------
-def _rueda():
+def _rueda(disco_derecha=False, x_tuerca=225):
+    """Rueda. La delantera lleva el disco a la izquierda (-X). La trasera, como en la moto y en los planos: disco y sensor a
+    la derecha (+X) y el arrastre a la izquierda; el eje entra por el lado de la cadena y la tuerca queda al otro lado."""
+    xd, xr, xb, xh = (260, 225, 248, 110) if disco_derecha else (-345, -90, -333, -110)
     rin = cilindro((0, 0, 0), X, 108, 44, ri=24, cara="#f3f4f4", lado=LADO_MEDIO)
     a, u, v = iso.base(X)
     frente = (22, 0, 0)
@@ -362,23 +657,23 @@ def _rueda():
         P("buje", cilindro((-200, 0, 0), X, 13, 44, ri=8), (-200, 0, 0), (-50, 60)),
         P("retenedores", retenedor((-165, 0, 0), X, 25) + retenedor((165, 0, 0), X, 25), (-165, 0, 0), (-60, -65)),
         P("rodamientos", rodamiento((-140, 0, 0), X, 23, 10) + rodamiento((140, 0, 0), X, 23, 10), (-140, 0, 0), (-50, 70)),
-        P("sensor_abs", cilindro((-90, 0, 0), X, 58, 3, ri=42) + puntos_en_cara((-90, 0, 0), X, 3, 50, 28, 2.6), (-90, -40, 40), (-70, 60)),
-        # Sensor de velocidad (o ABS) con su cable: va frente al anillo del encoder
-        P("sensor_cable", caja((-96, 78, 52), (16, 26, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
-          + manguera([(-96, 92, 52), (-96, 130, 60), (-90, 170, 90), (-70, 200, 130)], 5, "#3c4447"),
-          (-96, 84, 52), (-55, -60), orden=2),
+        P("sensor_abs", cilindro((xr, 0, 0), X, 58, 3, ri=42) + puntos_en_cara((xr, 0, 0), X, 3, 50, 28, 2.6), (xr, -40, 40), (-70, 60)),
+        # Sensor de velocidad (o ABS) con su cable: va frente al disco agujereado (rueda fónica)
+        P("sensor_cable", caja((xr - 6, 78, 52), (16, 26, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + manguera([(xr - 6, 92, 52), (xr - 6, 130, 60), (xr, 170, 90), (xr + 20, 200, 130)], 5, "#3c4447"),
+          (xr - 6, 84, 52), (-55, -60), orden=2),
         # Kit de reparación de la maza (rodamientos, retenes y espaciador), dentro de su recuadro como en el plano
         P("kit", rodamiento((-150, -230, 160), X, 20, 10) + retenedor((-122, -230, 160), X, 21) + cilindro((-80, -230, 160), X, 9, 46, ri=5)
           + retenedor((-38, -230, 160), X, 21) + rodamiento((-10, -230, 160), X, 20, 10),
           (20, -200, 160), (60, 40), orden=3),
         # Disco de freno al lado izquierdo de la maza (solo aparece en las láminas que lo traen)
-        P("disco", _disco_petalo((-345, 0, 0), 92, 5), (-345, 70, 40), (-60, -70), orden=0),
-        P(None, perno((-333, 18, 18), X, 12, 5) + perno((-333, -18, -18), X, 12, 5), (-333, 18, 18), padre="disco", orden=1, herraje="h_tornillo"),
-        P(None, perno((-110, 30, 30), X, 14, 5) + perno((-110, -30, -30), X, 14, 5), (-110, 30, 30), (-60, -45), herraje="h_tornillo"),
-        P(None, arandela((195, 0, 0), X, 13, 3), (195, 0, 0), (60, -55), herraje="h_arandela"),
-        P(None, tuerca((225, 0, 0), X, 13), (225, 0, 0), (60, 45), herraje="h_tuerca"),
+        P("disco", _disco_petalo((xd, 0, 0), 92, 5), (xd, 70, 40), (-60, -70), orden=0),
+        P(None, perno((xb, 18, 18), X, 12, 5) + perno((xb, -18, -18), X, 12, 5), (xb, 18, 18), padre="disco", orden=1, herraje="h_tornillo"),
+        P(None, perno((xh, 30, 30), X, 14, 5) + perno((xh, -30, -30), X, 14, 5), (xh, 30, 30), (-60, -45), herraje="h_tornillo"),
+        P(None, arandela((x_tuerca - 30, 0, 0), X, 13, 3), (x_tuerca - 30, 0, 0), (60, -55), herraje="h_arandela"),
+        P(None, tuerca((x_tuerca, 0, 0), X, 13), (x_tuerca, 0, 0), (60, 45), herraje="h_tuerca"),
     ]
-    lineas = [linea((-430, 0, 0), (260, 0, 0))]
+    lineas = [linea((-430, 0, 0), (x_tuerca + 35, 0, 0))]
     return piezas, lineas
 
 
@@ -415,38 +710,127 @@ def _suspension_delantera():
         P("eje_direccion", cilindro((-30, 340, -180), Y, 11, 160), (-30, 340, -180), (-70, -20)),
         P("rodamientos_direccion", rodamiento((-30, 440, -180), Y, 22, 9), (-30, 440, -180), (-70, -30)),
         P("tazas", cilindro((-30, 462, -180), Y, 25, 5, ri=13), (-30, 462, -180), (60, -40)),
+        # Puente superior (tijera de arriba): aprieta la parte alta de las barras y la tuerca de la dirección
+        P("tijera_superior", prisma((-30, 520, -180), Y, tijera, 16, lado=LADO_MEDIO, cara="#f4f5f5")
+          + cilindro((-150, 520, -180), Y, 22, 17, ri=14, lado=LADO_MEDIO, cara="#f4f5f5")
+          + cilindro((90, 520, -180), Y, 22, 17, ri=14, lado=LADO_MEDIO, cara="#f4f5f5")
+          + cilindro((-30, 520, -180), Y, 13, 17.5, ri=8), (-110, 520, -180), (-70, -40)),
+        # Bujes de deslizamiento de la barra (guía y del tubo) y el soporte de la farola en la barra
+        P("bujes", cilindro((90, 172, 0), Y, 16, 6, ri=14, lado="#b98a52", cara="#dcb27c")
+          + cilindro((90, 190, 0), Y, 16, 6, ri=14, lado="#b98a52", cara="#dcb27c"), (106, 181, 0), (70, 0)),
+        P("soporte_farola", cilindro((90, 320, 0), Y, 20, 26, ri=15, lado=LADO_MEDIO, cara="#eef1f2")
+          + caja((90, 320, 42), (14, 18, 50), colores=(LADO_MEDIO, "#eef1f2", LADO_CLARO))
+          + cilindro((90, 320, 70), X, 8, 22, ri=3.5, cara=CAUCHO_CARA, lado=CAUCHO), (90, 320, 60), (70, -20)),
         P(None, perno((60, 420, -140), MENOS_Y, 30, 7) + perno((90, 420, -100), MENOS_Y, 30, 7), (75, 420, -120), (65, -30), herraje="h_tornillo"),
     ]
-    lineas = [linea((90, -150, 0), (90, 390, 0)), linea((180, -60, 0), (180, 310, 0)), linea((-30, 230, -180), (-30, 490, -180))]
+    lineas = [linea((90, -150, 0), (90, 390, 0)), linea((180, -60, 0), (180, 310, 0)), linea((-30, 230, -180), (-30, 550, -180))]
     return piezas, lineas
 
 
 # ---------------------------------------------------------------------------
 # 11. Basculante y amortiguadores
 # ---------------------------------------------------------------------------
-def _amortiguadores():
-    def amortiguador(x, z):
-        return (cilindro((x, 230, z), Z, 11, 22, ri=5) + cilindro((x, 195, z), Y, 15, 48, lado=OSCURO, cara=LADO_MEDIO)
-                + cilindro((x, 120, z), Y, 7, 110, lado="#f4f6f6") + resorte((x, 125, z), Y, 22, 120, 9)
-                + cilindro((x, 55, z), Y, 13, 26, lado=OSCURO, cara=LADO_MEDIO) + cilindro((x, 32, z), Z, 11, 22, ri=5))
-    brazo = [(-230, -20), (-210, -46), (60, -70), (170, -60), (220, -20), (220, 30), (170, 60), (60, 50), (-210, 26), (-232, 10)]
+def _amortiguador(base, cima):
+    """Amortiguador de resorte entre dos puntos (base abajo, cima arriba): ojo, cuerpo, vástago, resorte, ojo."""
+    (x0, y0, z0), (x1, y1, z1) = base, cima
+    eje = (x1 - x0, y1 - y0, z1 - z0)
+    largo = math.sqrt(sum(c * c for c in eje))
+    u = tuple(c / largo for c in eje)
+    p = lambda t: (x0 + u[0] * t, y0 + u[1] * t, z0 + u[2] * t)
+    return (cilindro(base, X, 11, 22, ri=5) + cilindro(p(largo * .22), u, 14, largo * .3, lado=OSCURO, cara=LADO_MEDIO)
+            + cilindro(p(largo * .55), u, 7, largo * .45, lado="#f4f6f6") + resorte(p(largo * .5), u, 22, largo * .62, 9)
+            + cilindro(p(largo * .86), u, 16, largo * .14, lado=OSCURO, cara=LADO_MEDIO) + cilindro(cima, X, 11, 22, ri=5))
+
+
+def _templador(x, y, z_punta, lado=1, largo_ranura=60):
+    """Templador de la cadena en la punta del brazo (eje del brazo = Z, hacia atrás = -Z), despiezado hacia atrás:
+    taco en la ranura (con el agujero del eje), tornillo coaxial, platina de la punta y contratuerca afuera; marcas de
+    alineación grabadas en la cara exterior del brazo junto a la ranura, con el índice en el taco."""
+    gris = (LADO_MEDIO, "#eef1f2", LADO_CLARO)
+    cara = x + lado * 10
+    taco = caja((x, y, z_punta + 18), (16, 22, 22), colores=gris) + cilindro((x, y, z_punta + 18), X, 6.5, 17, cara=HUECO, grosor=1)
+    platina = prisma((x, y, z_punta - 30), Z, redondeado(20, 26, 4), 5, lado=LADO_MEDIO, cara="#e3e6e7") + cilindro((x, y, z_punta - 27), Z, 3.5, 1, cara=HUECO, grosor=1)
+    tornillo = perno((x, y, z_punta - 46), (0, 0, 1), 46, 6)
+    contratuerca = prisma((x, y, z_punta - 52), Z, hexagono(9), 6, lado=LADO_MEDIO)
+    marcas = [polilinea([(cara, y + 9, z_punta + 4 + k * 9), (cara, y + 16, z_punta + 4 + k * 9)], 1.4, "#5b6266") for k in range(5)]
+    indice = [polilinea([(x + lado * 8.6, y + 11, z_punta + 18), (x + lado * 8.6, y + 17, z_punta + 18)], 2, ROJO)]
+    return taco + tornillo + platina + contratuerca + marcas + indice
+
+
+def _suspension_scooter(mono):
+    """Scooter: el motor y la transmisión forman el brazo que sube y baja (conjunto oscilante). El brazo trasero, a la derecha,
+    sostiene la otra punta del eje de la rueda. Los amortiguadores van del chasis a ese conjunto: uno a la izquierda (mono)
+    o uno a cada lado. Sin templadores ni piezas de cadena."""
+    y, zt = -140, -200
+    gris = (LADO_MEDIO, "#eef1f2", LADO_CLARO)
+    transmision = (prisma((-95, y + 10, -20), X, [(-190, 30), (-150, 60), (150, 50), (200, 10), (200, -40), (-170, -50)], 40, lado="#e6e0d2", cara="#f6f3eb")
+                   + cilindro((-95, y + 10, zt), X, 30, 44, ri=12, lado="#e6e0d2", cara="#f6f3eb"))
+    brazo = (prisma((95, y, -60), X, [(-150, 18), (150, 14), (160, -10), (-150, -18)], 22, lado=gris[0], cara=gris[1])
+             + cilindro((95, y, zt), X, 22, 26, ri=10, lado=gris[0], cara=gris[1]) + cilindro((95, y, 90), X, 14, 26, ri=7, lado=gris[0], cara=gris[1]))
+    if mono:
+        amort = _amortiguador((-95, y + 40, zt + 30), (-95, 170, zt + 70))
+    else:
+        amort = _amortiguador((-95, y + 40, zt + 30), (-95, 170, zt + 70)) + _amortiguador((95, y + 22, zt + 30), (95, 170, zt + 70))
     piezas = [
-        P("amortiguador", amortiguador(-90, 0) + amortiguador(60, -120), (-90, 140, 0), (-80, -40)),
-        P("basculante", prisma((40, -140, 0), Z, brazo, 52, hueco=iso._circ2d(26, 24), lado=LADO_CLARO)
-          # Panel rebajado (sección de caja), ranura del eje trasero y tensor de cadena con su tornillo
-          + prisma((-92, -140, 26.5), Z, redondeado(150, 50, 22), 1.2, lado=LADO_MEDIO, cara="#e8ecee", grosor=1.2)
-          + prisma((172, -140, 26.5), Z, estadio(70, 18), 1.4, lado=OSCURO, cara=HUECO, grosor=1.4)
-          + caja((232, -140, 0), (16, 26, 44), colores=(LADO_MEDIO, BLANCO, LADO_CLARO))
-          + perno((250, -140, 0), (-1, 0, 0), 40, 7)
-          + cilindro((-180, -138, 0), Z, 16, 60, ri=8), (120, -140, 0), (60, 60)),
-        P("bujes", cilindro((-180, -138, 70), Z, 12, 18, cara=CAUCHO_CARA, lado=CAUCHO)
-          + cilindro((-180, -138, 100), Z, 12, 18, cara=CAUCHO_CARA, lado=CAUCHO), (-180, -138, 85), (-70, 40)),
-        P(None, perno((-90, 230, -60), Z, 60, 8) + perno((-180, -138, -80), Z, 150, 9), (-90, 230, -60), (-70, -40), herraje="h_tornillo"),
-        P(None, arandela((-90, 230, 40), Z, 10, 2.5) + arandela((-180, -138, 130), Z, 13, 2.5), (-90, 230, 40), (60, -40), herraje="h_arandela"),
-        P(None, tuerca((-90, 230, 60), Z, 9) + tuerca((-180, -138, 150), Z, 11), (-180, -138, 150), (-60, 40), herraje="h_tuerca"),
-        P("retenedor", retenedor((130, -140, 60), Z, 27, 7), (130, -140, 60), (60, 40)),
+        P("carcasa_transmision", transmision, (-95, y + 40, 60), (-70, -40), orden=0),
+        P("amortiguador", amort, (-95, 40, zt + 50), (-80, -40), orden=1),
+        P("basculante", brazo, (95, y + 14, -60), (60, 60), orden=1),
+        P("bujes", cilindro((95, y, 90), X, 9, 30, cara=CAUCHO_CARA, lado=CAUCHO), (95, y, 90), (60, -40), orden=2),
+        P(None, perno((-95, 170, zt + 70), X, 50, 8), (-95, 170, zt + 70), (-70, -40), herraje="h_tornillo"),
+        P(None, tuerca((125, y, zt), X, 11), (125, y, zt), (60, 40), herraje="h_tuerca"),
     ]
-    lineas = [linea((-90, 230, -100), (-90, 230, 90)), linea((-180, -138, -100), (-180, -138, 180))]
+    return piezas, [linea((-160, y + 10, zt), (160, y, zt))]
+
+
+def _amortiguadores(perfil=None):
+    """Basculante de dos brazos (pivote adelante, ranuras del eje atrás con sus templadores, travesaño) y la suspensión
+    trasera según la moto: un monoamortiguador central sobre el travesaño o dos amortiguadores en las puntas de los brazos."""
+    p = _perfil(perfil)
+    mono = bool(p.get("m", 0))
+    if p.get("s"):
+        return _suspension_scooter(mono)
+    y, zp, zt = -140, 200, -200                    # altura del basculante, pivote (adelante) y puntas (atrás)
+    gris = (LADO_MEDIO, "#eef1f2", LADO_CLARO)
+    brazos = []
+    for x in (-95, 95):
+        brazos += caja((x, y, (zp + zt) / 2 + 10), (18, 34, zp - zt - 40), colores=gris)                     # brazo (sección de caja)
+        brazos += prisma((x, y, zt + 4), X, estadio(60, 34), 18, lado=LADO_MEDIO, cara="#eef1f2")             # punta con la ranura
+        brazos += prisma((x + (10 if x > 0 else -10), y, zt + 4), X, estadio(44, 10), 1.2, lado=OSCURO, cara=HUECO, grosor=1.2)
+    brazos += caja((0, y + 4, 70), (172, 30, 34), colores=gris)                                              # travesaño
+    brazos += cilindro((0, y, zp), X, 18, 210, lado=LADO_MEDIO, cara="#eef1f2")                              # tubo del pivote
+    if mono:
+        brazos += prisma((0, y + 30, 70), X, [(-18, -12), (18, -12), (10, 20), (-10, 20)], 26, lado=LADO_MEDIO, cara="#eef1f2")
+        amort = _amortiguador((0, y + 52, 70), (0, 150, 175))
+        ancla_amort = (0, 60, 130)
+    else:
+        amort = _amortiguador((-95, y + 28, zt + 30), (-95, 160, zt + 60)) + _amortiguador((95, y + 28, zt + 30), (95, 160, zt + 60))
+        ancla_amort = (-95, 40, zt + 45)
+    templador = [f for x in (-95, 95) for f in _templador(x, y, zt - 6, 1 if x > 0 else -1)]
+    piezas = [
+        P("amortiguador", amort, ancla_amort, (-80, -40), orden=0),
+        P("basculante", brazos, (95, y + 17, -40), (60, 60), orden=1),
+        P("bujes", cilindro((-125, y, zp), X, 14, 18, cara=CAUCHO_CARA, lado=CAUCHO) + cilindro((125, y, zp), X, 14, 18, cara=CAUCHO_CARA, lado=CAUCHO),
+          (125, y, zp), (60, -40), orden=2),
+        P("retenedor", retenedor((-150, y, zp), X, 18, 6) + retenedor((150, y, zp), X, 18, 6), (150, y, zp), (60, 40), orden=2),
+        P("tapones", cilindro((-175, y, zp), X, 19, 6, lado=OSCURO, cara=LADO_MEDIO) + cilindro((175, y, zp), X, 19, 6, lado=OSCURO, cara=LADO_MEDIO),
+          (-175, y, zp), (-60, -40), orden=3),
+        P("eje_basculante", cilindro((-30, y, zp), X, 7, 420) + prisma((-245, y, zp), X, hexagono(12), 10, lado=LADO_MEDIO),
+          (-230, y, zp), (-60, -50), orden=3),
+        P("tensores", templador, (95, y, zt - 40), (60, 40), orden=2),
+        P("deslizador", prisma((-108, y + 22, zp - 70), X, [(-60, -6), (60, -6), (66, 6), (-66, 6)], 10, lado=OSCURO, cara="#4a5357"),
+          (-108, y + 26, zp - 70), (-60, -50), orden=2),
+        P("protector_cadena", prisma((-120, y + 44, 0), X, [(-150, 0), (130, 0), (120, 18), (-140, 18)], 4, lado="#3c4448", cara="#59636a"),
+          (-122, y + 54, 0), (-70, -30), orden=2),
+        # Cadena: corre por fuera del brazo izquierdo, del piñón de salida (adelante) a la corona (atrás)
+        P("cadena", manguera([(-140, y + 30, zp + 40), (-140, y + 20, zt - 10), (-140, y - 40, zt - 30), (-140, y - 50, zp + 10), (-140, y + 30, zp + 40)],
+                              6, "#7a8488"), (-140, y + 20, zt + 60), (-70, 40), orden=3),
+        # Barra de torque del freno de tambor: une el plato del freno con el brazo para que no gire al frenar
+        P("barra_torque", caja((112, y - 30, -60), (8, 10, 240), colores=(LADO_MEDIO, "#eef1f2", LADO_CLARO))
+          + cilindro((112, y - 30, 58), X, 7, 10, ri=3) + cilindro((112, y - 30, -178), X, 7, 10, ri=3), (112, y - 30, -60), (60, 50), orden=3),
+        P(None, perno((0, 160, 205), X, 60, 8), (0, 160, 205), (-70, -40), herraje="h_tornillo"),
+        P(None, tuerca((235, y, zp), X, 11), (235, y, zp), (60, 40), herraje="h_tuerca"),
+    ]
+    lineas = [linea((-260, y, zp), (260, y, zp))]
     return piezas, lineas
 
 
@@ -562,30 +946,45 @@ def _encendido():
 # 16. Caja de cambios y piñón de salida
 # ---------------------------------------------------------------------------
 def _transmision():
-    yp, ys = 95, -70                               # eje principal (arriba) y eje de salida (abajo)
-    radios_p, radios_s = [24, 30, 36, 42, 48], [66, 60, 54, 48, 42]
+    """Caja de cambios: eje principal (arriba) y eje de salida (abajo) con sus pares de piñones, que engranan: la distancia
+    entre ejes es la suma de los radios de cada par. Las horquillas salen del tambor selector (detrás de los ejes) y
+    abrazan la ranura del piñón que mueven. Cada eje apoya en dos rodamientos; el de salida lleva retén y el piñón de cadena."""
+    radios_p, radios_s = [24, 30, 36, 42, 48], [66, 60, 54, 48, 42]          # cada par suma 90
+    yp, ys = 45, -45                                                           # ejes a 90 de distancia
+    xs = [-110 + i * 58 for i in range(5)]
 
     def engrane(x, y, r):
         return prisma((x, y, 0), X, engranaje(r, max(12, int(r * .62))), 13, hueco=iso._circ2d(9), cara="#f6f6f4", lado=LADO_MEDIO)
-    horquilla = [(-26, -6), (-26, 34), (-16, 34), (-16, 6), (16, 6), (16, 34), (26, 34), (26, -6), (6, -6), (6, -40), (-6, -40), (-6, -6)]
+    zt = 120                                                                   # tambor selector, detrás de los ejes
+    tambor = cilindro((20, 0, zt), X, 17, 260) + [f for x in (xs[1], xs[2], xs[3]) for f in cilindro((x, 0, zt), X, 18, 4, cara=HUECO)]
+
+    def horquilla(x, y):
+        """Brazo del tambor al eje (en el plano y-z), con la pata en U que abraza la ranura del piñón y el pin en el tambor."""
+        u0, v0, u1, v1 = 0.0, y, -zt + 17, 0.0                                  # (u, v) = (-z, y) con eje X
+        largo = math.hypot(u1 - u0, v1 - v0)
+        nu, nv = -(v1 - v0) / largo * 5, (u1 - u0) / largo * 5
+        brazo = [(u0 + nu, v0 + nv), (u1 + nu, v1 + nv), (u1 - nu, v1 - nv), (u0 - nu, v0 - nv)]
+        pata = [(math.cos(t) * 30, y + math.sin(t) * 30) for t in [math.pi * .5 + i * math.pi / 10 for i in range(11)]] + \
+               [(math.cos(t) * 22, y + math.sin(t) * 22) for t in [math.pi * 1.5 - i * math.pi / 10 for i in range(11)]]
+        return (prisma((x, 0, 0), X, brazo, 6, lado=LADO_MEDIO, cara="#f1f1ee") + prisma((x, 0, 0), X, pata, 6, lado=LADO_MEDIO, cara="#f1f1ee")
+                + cilindro((x, v1 * .2, zt - 16), Z, 4, 10))
     cadena = _yz(ys, 0, 44, math.pi, 2 * math.pi, 12, x=330)
     cadena = [(330, cadena[-1][1], -230)] + cadena[::-1] + [(330, cadena[0][1], -230)]
     piezas = [
         P("eje_principal", cilindro((40, yp, 0), X, 8, 430), (-170, yp, 0), (-60, -55), orden=0),
-        P("engranajes", [f for i, r in enumerate(radios_p) for f in engrane(-110 + i * 58, yp, r)], (-110 + 2 * 58, yp + 36, 0), (-20, -95), orden=1),
+        P("engranajes", [f for i, r in enumerate(radios_p) for f in engrane(xs[i], yp, r)], (xs[2], yp + radios_p[2], 0), (-20, -95), orden=1),
         P("eje_salida", cilindro((50, ys, 0), X, 9, 470), (-180, ys, 0), (-65, 55), orden=0),
-        P("engranajes_salida", [f for i, r in enumerate(radios_s) for f in engrane(-110 + i * 58, ys, r)], (-110 + 3 * 58, ys - 50, 0), (40, 95), orden=1),
-        P("horquillas", [f for k in range(3) for f in prisma((-80 + k * 100, yp + 125, 0), X, horquilla, 6, lado=LADO_MEDIO, cara="#f1f1ee")],
-          (20, yp + 150, 0), (-60, -50), orden=2),
-        P("tambor_selector", cilindro((20, yp + 200, 0), X, 17, 230)
-          + [f for k in range(3) for f in cilindro((-60 + k * 80, yp + 200, 0), X, 18, 4, cara=HUECO)], (130, yp + 200, 0), (60, -50), orden=1),
-        P("rodamientos", rodamiento((-200, yp, 0), X, 17, 10) + rodamiento((-215, ys, 0), X, 19, 10), (-200, yp, 0), (-60, 45), orden=2),
+        P("engranajes_salida", [f for i, r in enumerate(radios_s) for f in engrane(xs[i], ys, r)], (xs[3], ys - radios_s[3], 0), (40, 95), orden=1),
+        P("horquillas", horquilla(xs[2], yp) + horquilla(xs[1], ys) + horquilla(xs[3], ys), (xs[2], yp / 2, zt / 2), (-60, -50), orden=2),
+        P("tambor_selector", tambor, (150, 0, zt), (60, -50), orden=1),
+        P("rodamientos", rodamiento((-200, yp, 0), X, 17, 10) + rodamiento((-215, ys, 0), X, 19, 10)
+          + rodamiento((250, yp, 0), X, 17, 10) + rodamiento((265, ys, 0), X, 19, 10), (-200, yp, 0), (-60, 45), orden=2),
         P("reten", retenedor((285, ys, 0), X, 17), (285, ys, 0), (60, -55), orden=2),
         P("pinon", prisma((330, ys, 0), X, engranaje(38, 14, 7), 9, hueco=iso._circ2d(10), cara="#f6f6f4", lado=LADO_MEDIO),
           (330, ys + 38, 0), (70, -40), orden=3),
         P("cadena", manguera(cadena, 8, "#7a8488"), cadena[-1], (60, 40), orden=2),
     ]
-    lineas = [linea((-260, yp, 0), (300, yp, 0)), linea((-260, ys, 0), (380, ys, 0)), linea((-140, yp + 200, 0), (180, yp + 200, 0))]
+    lineas = [linea((-260, yp, 0), (300, yp, 0)), linea((-260, ys, 0), (380, ys, 0)), linea((-140, 0, zt), (180, 0, zt))]
     return piezas, lineas
 
 
@@ -640,7 +1039,7 @@ def _carcasa():
           + prisma((84, 10, 20), X, _TAPA_CLUTCH, 2, hueco=[(u * .9, v * .9) for u, v in _TAPA_CLUTCH], lado="#8d9391", cara="#a9aeac"),
           (-92, 110, -40), (-30, -85), orden=1),
         P("carcasa_der", _media_carcasa(0), (0, 128, -30), (40, -95), orden=2),
-        P("rodamientos", rodamiento((-118, 8, 0), X, 30, 14) + rodamiento((-122, -40, -92), X, 18, 10), (-118, 8, 0), (-70, 50), orden=1),
+        P("rodamientos", rodamiento((-118, 8, 0), X, 30, 14) + rodamiento((-122, -40, -92), X, 18, 10) + rodamiento((-122, -84, -62), X, 14, 9), (-118, 8, 0), (-70, 50), orden=1),
         P("reten", retenedor((-230, 8, 0), X, 24), (-230, 8, 0), (-60, 40), orden=1),
         P("swiche", cilindro((-220, -80, 60), X, 9, 20, lado=OSCURO, cara=LADO_MEDIO) + cilindro((-235, -80, 60), X, 3, 14),
           (-225, -80, 60), (-60, 55), orden=1),
@@ -667,24 +1066,23 @@ def _carcasa():
 # 18. Rueda trasera con arrastre (corona, porta sprocket, cauchos, disco, tensores)
 # ---------------------------------------------------------------------------
 def _arrastre_trasero():
-    """Corona, porta sprocket con sus cauchos y cadena, al lado izquierdo de la rueda trasera (eje X)."""
-    cadena = _yz(0, 0, 106, 0.2, math.pi - 0.2, 14, x=345)
-    cadena = [(345, cadena[0][1], 330)] + cadena + [(345, cadena[-1][1], 330)]
+    """Corona, porta corona con sus cauchos y cadena, al lado izquierdo de la rueda trasera (-X), como en la moto."""
+    cadena = _yz(0, 0, 106, 0.2, math.pi - 0.2, 14, x=-345)
+    cadena = [(-345, cadena[0][1], 330)] + cadena + [(-345, cadena[-1][1], 330)]
     return [
-        P("cauchos", [f for k in range(4) for f in caja((270, math.sin(k * 1.57 + .8) * 46, math.cos(k * 1.57 + .8) * 46), (16, 20, 20),
-                                                         colores=(CAUCHO, CAUCHO_CARA, CAUCHO))], (270, -40, 40), (40, 70), orden=2),
-        P("porta_sprocket", cilindro((305, 0, 0), X, 70, 26, ri=18, cara=LADO_CLARO, lado=LADO_MEDIO), (305, 55, -40), (40, -80), orden=3),
-        P("corona", prisma((345, 0, 0), X, engranaje(104, 42, 9), 6, hueco=iso._circ2d(24), cara="#f6f6f4", lado=LADO_MEDIO)
-          + puntos_en_cara((345, 0, 0), X, 6, 48, 4, 6), (345, 90, -40), (60, -60), orden=4),
-        P("cadena", manguera(cadena, 8, "#7a8488"), cadena[-1], (50, 40), orden=5),
+        P("cauchos", [f for k in range(4) for f in caja((-90, math.sin(k * 1.57 + .8) * 46, math.cos(k * 1.57 + .8) * 46), (16, 20, 20),
+                                                         colores=(CAUCHO, CAUCHO_CARA, CAUCHO))], (-90, -40, 40), (-40, 70), orden=2),
+        P("porta_sprocket", cilindro((-250, 0, 0), X, 70, 26, ri=18, cara=LADO_CLARO, lado=LADO_MEDIO), (-250, 55, -40), (-40, -80), orden=1),
+        P("corona", prisma((-290, 0, 0), X, engranaje(104, 42, 9), 6, hueco=iso._circ2d(24), cara="#f6f6f4", lado=LADO_MEDIO)
+          + puntos_en_cara((-290, 0, 0), X, 6, 48, 4, 6), (-290, 90, -40), (-60, -60), orden=0),
+        P("cadena", manguera([(-290, y, z) for _, y, z in cadena], 8, "#7a8488"), (-290, cadena[-1][1], 330), (-50, 40), orden=0),
     ]
 
 
 def _rueda_trasera():
-    piezas, _ = _rueda()
+    piezas, _ = _rueda(disco_derecha=True, x_tuerca=330)
     piezas += [
-        P("tensores", caja((-450, 0, 0), (14, 26, 70), colores=(LADO_MEDIO, BLANCO, LADO_CLARO)) + perno((-450, 0, 40), Z, 46, 6),
-          (-450, 0, 30), (-50, 60), orden=0),
+        P("tensores", _templador(-430, 0, -18, -1) + _templador(360, 0, -18, 1), (-430, 0, -50), (-50, 60), orden=0),
     ] + _arrastre_trasero()
     lineas = [linea((-480, 0, 0), (380, 0, 0))]
     return piezas, lineas
@@ -693,28 +1091,36 @@ def _rueda_trasera():
 # ---------------------------------------------------------------------------
 # 19. Rueda trasera con freno de tambor y arrastre
 # ---------------------------------------------------------------------------
-def _rueda_tambor():
+def _rueda_tambor(perfil=None):
+    """Rueda trasera con freno de tambor. En moto de cadena, con su kit de arrastre a la izquierda; en scooter, la rueda va
+    montada directo en el eje de salida de la transmisión final (sin corona, porta corona, cadena ni templadores)."""
+    scooter = bool(_perfil(perfil).get("s"))
     def zapata(lado, x, r=64, ri=50):
         arco = [(math.cos(t) * r, math.sin(t) * r * lado) for t in [i * 0.15 + 0.25 for i in range(19)]]
         return (prisma((x, 0, 0), X, arco + [(math.cos(t) * ri, math.sin(t) * ri * lado) for t in [i * 0.15 + 0.25 for i in range(18, -1, -1)]],
                        12, lado=LADO_MEDIO, cara="#f4f1e8")
                 + prisma((x + 7, 0, 0), X, arco + [(math.cos(t) * (r - 6), math.sin(t) * (r - 6) * lado)
                                                    for t in [i * 0.15 + 0.25 for i in range(18, -1, -1)]], 2, lado=OSCURO, cara=FRICCION))
-    piezas = [q for q in _rueda()[0] if q.puesto not in ("sensor_abs", "sensor_cable", "disco") and q.padre != "disco"]
+    piezas = [q for q in _rueda(disco_derecha=True, x_tuerca=440)[0] if q.puesto not in ("sensor_abs", "sensor_cable", "disco") and q.padre != "disco"]
     piezas += [
-        P("campana", cilindro((-250, 0, 0), X, 80, 30, ri=70, cara="#f3f4f4", lado=LADO_MEDIO), (-250, 72, 40), (-50, -80), orden=0),
-        P("bandas", zapata(1, -305) + zapata(-1, -305), (-305, 0, 62), (-40, -80), orden=1),
-        P("resortes", resorte((-300, 0, 48), Y, 5, 34, 6) + resorte((-300, 0, -48), Y, 5, 34, 6), (-300, 20, 48), (40, -70), orden=2),
-        P("leva", cilindro((-330, 0, 64), X, 9, 50), (-330, 0, 64), (-60, -40), orden=2),
-        P("plato", cilindro((-365, 0, 0), X, 76, 8, ri=12, cara="#f6f6f4", lado=LADO_MEDIO), (-365, -55, -50), (-50, 70), orden=1),
-        P("palanca", prisma((-385, 22, 64), X, [(-8, -9), (8, -9), (9, 80), (-9, 80)], 8, lado=OSCURO, cara=LADO_MEDIO),
-          (-385, 95, 64), (-50, -50), orden=3),
-        P("indicador", prisma((-392, 0, 64), X, [(0, -14), (16, -3), (16, 3), (0, 14)], 3, lado="#c9a227", cara="#f0cd7c"),
-          (-392, -12, 70), (-60, 30), orden=3),
-        P("tensores", caja((-520, 0, 0), (14, 26, 70), colores=(LADO_MEDIO, BLANCO, LADO_CLARO)) + perno((-520, 0, 40), Z, 46, 6),
-          (-520, 0, 30), (-50, 60), orden=0),
+        # Freno de tambor al lado derecho (como en la moto): campana en la maza, bandas, leva, plato y palanca
+        P("campana", cilindro((110, 0, 0), X, 80, 30, ri=70, cara="#f3f4f4", lado=LADO_MEDIO), (110, 72, 40), (50, -80), orden=2),
+        P("bandas", zapata(1, 230) + zapata(-1, 230), (230, 0, 62), (40, -80), orden=3),
+        P("resortes", resorte((236, 0, 48), Y, 5, 34, 6) + resorte((236, 0, -48), Y, 5, 34, 6), (236, 20, 48), (40, -70), orden=4),
+        P("leva", cilindro((265, 0, 64), X, 9, 50), (265, 0, 64), (60, -40), orden=4),
+        P("plato", cilindro((310, 0, 0), X, 76, 8, ri=12, cara="#f6f6f4", lado=LADO_MEDIO), (310, -55, -50), (50, 70), orden=5),
+        P("palanca", prisma((335, 22, 64), X, [(-8, -9), (8, -9), (9, 80), (-9, 80)], 8, lado=OSCURO, cara=LADO_MEDIO),
+          (335, 95, 64), (50, -50), orden=6),
+        P("indicador", prisma((343, 0, 64), X, [(0, -14), (16, -3), (16, 3), (0, 14)], 3, lado="#c9a227", cara="#f0cd7c"),
+          (343, -12, 70), (60, 30), orden=6),
+        P("tensores", _templador(-430, 0, -18, -1) + _templador(470, 0, -18, 1), (-430, 0, -50), (-50, 60), orden=0),
     ] + _arrastre_trasero()
-    return piezas, [linea((-550, 0, 0), (380, 0, 0))]
+    if scooter:
+        piezas = [q for q in piezas if q.puesto not in ("tensores", "corona", "porta_sprocket", "cadena", "cauchos", "eje")]
+        # El eje de salida de la transmisión final entra por la izquierda y la rueda se aprieta con su tuerca
+        estrias = [polilinea([(x, 11 * math.sin(t), 11 * math.cos(t)) for x in (-150, -110)], 1.1) for t in [i * math.pi / 6 for i in range(12)]]
+        piezas.append(P("eje", cilindro((-200, 0, 0), X, 11, 200, lado=LADO_MEDIO, cara="#eef0f0") + estrias, (-260, 0, 0), (-60, -60), orden=0))
+    return piezas, [linea((-550, 0, 0), (480, 0, 0))]
 
 
 # ---------------------------------------------------------------------------
@@ -766,8 +1172,8 @@ def _circlip(c, r):
 
 
 HERRAJES = [  # (puesto, nombre en la franja, palabras clave en español e inglés, sin tildes)
-    ("h_arandela", "Arandelas", ["ARANDELA", "ARAND", "WASHER", "PLATINA", "PLACA", "PLATE"]),
-    ("h_tornillo", "Tornillos", ["TORNILLO", "PERNO", "ESPARRAGO", "REMACHE", "BOLT", "SCREW", "STUD", "RIVET"]),
+    ("h_arandela", "Arandelas y platinas", ["ARANDELA", "ARAND", "WASHER", "PLATINA", "PLACA", "PLATE"]),
+    ("h_tornillo", "Tornillos", ["TORNILLO", "TORN", "PERNO", "ESPARRAGO", "REMACHE", "BOLT", "SCREW", "STUD", "RIVET"]),
     ("h_tuerca", "Tuercas", ["CONTRATUERCA", "TUERCA", "NUT"]),
     ("h_seguro", "Seguros", ["ANILLO", "PIN SEGURO", "PIN DE SEGURIDAD", "PIN SEGURIDAD", "SEGURO", "CIRCLIP", "SNAP"]),
     ("h_pin", "Pines", ["PIN", "PASADOR", "CHAVETA", "GUIA DE CENTRADO", "ESPIGA", "DOWEL", "COTTER", "KEY"]),
@@ -777,14 +1183,15 @@ HERRAJES = [  # (puesto, nombre en la franja, palabras clave en español e ingl�
     ("h_rodamiento", "Rodamientos", ["RODAMIENTO", "BALINERA", "COJINETE", "RODILLO", "BEARING"]),
     ("h_caucho", "Cauchos", ["CAUCHO", "ANTIVIBRANTE", "AMORTIGUADOR", "DAMPER", "GROMMET", "CUSHION", "RUBBER", "STOPPER", "BUMP", "ABSORBER"]),
     ("h_resorte", "Resortes", ["RESORTE", "SPRING"]),
-    ("h_tapa", "Tapas y tapones", ["TAPA", "TAPON", "CUBIERTA", "CAP", "COVER", "PLUG"]),
-    ("h_manguera", "Mangueras y tubos", ["MANGUERA", "TUBO", "CONDUCTO", "DUCTO", "HOSE", "PIPE", "TUBE"]),
+    ("h_tapa", "Tapas y tapones", ["TAPA", "TAPON", "CUBIERTA", "CARCAZA", "CAP", "COVER", "PLUG", "KNOB"]),
+    ("h_manguera", "Mangueras y tubos", ["MANGUERA", "TUBO", "CONDUCTO", "DUCTO", "MULTIPLE", "CONECTOR", "BOQUILLA",
+                                         "INYECTOR", "HOSE", "PIPE", "TUBE", "JOINT"]),
     ("h_cable", "Cables", ["CABLE", "ARNES", "LEAD", "WIRE"]),
     ("h_electrico", "Eléctricos", ["SWICHE", "SWITCH", "SENSOR", "INTERRUPTOR", "PITO", "HORN", "BOBINA", "RELE", "RELAY",
                                    "DIODO", "DIODE", "FLASHER", "UNIDAD", "COIL", "ECU", "CONTROL UNIT", "BUZZER", "ARRANQUE", "SW"]),
     ("h_soporte", "Soportes", ["SOPORTE", "BRACKET", "BRKT", "STAY", "HOLDER", "GUIA", "GUIDE", "SOSTEN"]),
     ("h_etiqueta", "Calcomanías", ["CALCOMANIA", "ETIQUETA", "EMBLEMA", "LABEL", "EMBLEM", "STICKER", "GRAPHIC"]),
-    ("h_eje", "Ejes", ["EJE", "VARILLA", "SHAFT", "ROD", "AXLE"]),
+    ("h_eje", "Ejes", ["EJE", "VARILLA", "SHAFT", "ROD", "AXLE", "BALANCEADOR", "BALANCER"]),
     ("h_valvula", "Válvulas", ["VALVULA", "VALVE"]),
     ("h_engranaje", "Piñones y levas", ["PINON", "ENGRANAJE", "LEVA", "LEVAS", "ARBOL", "CADENILLA", "GEAR", "CAM", "CLUTCH",
                                         "MANZANA", "PORTADISCOS", "PRESIONAD", "BALANCIN"]),
@@ -797,9 +1204,48 @@ _HERRAJES_RE = [(puesto, re.compile(r"\b(" + "|".join(re.escape(p) for p in pala
 
 
 # Piezas que se dibujan junto a otra aunque la lámina no les dé número (el sensor sin su anillo del encoder no se entiende)
-ACOMPANANTES = {"sensor_cable": ("sensor_abs",)}
+ACOMPANANTES = {"sensor_cable": ("sensor_abs",), "tijera": ("eje_direccion",)}
 # Dónde va un subconjunto al elegirlo (el kit de la maza: en los rodamientos, los retenes y el buje)
 DESTINO_SUBCONJUNTO = {"kit": ("rodamientos", "retenedores", "buje")}
+
+# Inferencia mecánica: dónde va normalmente cada tipo de pieza pequeña en cada sistema, cuando el catálogo no lo dice
+# (p. ej. en las válvulas, la platina y las arandelas van en los ejes de los balancines, no en la válvula).
+INFERENCIA = {
+    "valvulas": {"h_arandela": "eje_balancin", "h_tornillo": "eje_balancin", "h_pin": "eje_balancin", "h_seguro": "cunas",
+                 "h_resorte": "resortes", "h_empaque": "sello", "h_tuerca": "tornillo_calibracion"},
+    "culata": {"h_tornillo": "culata", "h_arandela": "culata", "h_tuerca": "esparragos", "h_empaque": "empaque_culata",
+               "h_pin": "guias", "h_seguro": "culata"},
+    "freno_disco": {"h_tornillo": "caliper", "h_arandela": "caliper", "h_pin": "pasador", "h_seguro": "pasador",
+                    "h_tuerca": "caliper", "h_buje": "caliper"},
+    "bomba_freno": {"h_tornillo": "abrazadera", "h_arandela": "banjo", "h_seguro": "manigueta", "h_tuerca": "manigueta",
+                    "h_buje": "manigueta", "h_pin": "manigueta"},
+    "freno_completo": {"h_tornillo": "caliper", "h_arandela": "banjo", "h_seguro": "pedal", "h_tuerca": "pedal",
+                       "h_buje": "pedal", "h_pin": "pedal"},
+    "freno_trasero": {"h_tornillo": "bomba", "h_arandela": "banjo", "h_seguro": "varilla", "h_tuerca": "varilla",
+                      "h_buje": "pedal", "h_pin": "varilla"},
+    "bombas_abs": {"h_tornillo": "abrazadera", "h_arandela": "banjo", "h_tuerca": "manigueta", "h_seguro": "manigueta",
+                   "h_buje": "manigueta", "h_pin": "manigueta"},
+    "rueda": {"h_tornillo": "disco", "h_arandela": "eje", "h_tuerca": "eje", "h_seguro": "rodamientos", "h_buje": "buje"},
+    "rueda_trasera": {"h_tornillo": "porta_sprocket", "h_arandela": "eje", "h_tuerca": "corona", "h_seguro": "rodamientos",
+                      "h_buje": "buje"},
+    "rueda_tambor": {"h_tornillo": "porta_sprocket", "h_arandela": "eje", "h_tuerca": "corona", "h_seguro": "rodamientos",
+                     "h_buje": "buje", "h_pin": "palanca"},
+    "suspension_delantera": {"h_tornillo": "tijera", "h_arandela": "tapon", "h_seguro": "retenedor", "h_tuerca": "eje_direccion",
+                             "h_buje": "botella", "h_pin": "tijera", "h_caucho": "tijera", "h_soporte": "tijera"},
+    "amortiguadores": {"h_tornillo": "amortiguador", "h_tuerca": "amortiguador", "h_arandela": "amortiguador",
+                       "h_buje": "bujes", "h_pin": "basculante"},
+    "transmision": {"h_arandela": "engranajes", "h_seguro": "engranajes", "h_buje": "eje_salida", "h_tornillo": "pinon",
+                    "h_tuerca": "pinon"},
+    "carcasa": {"h_tornillo": "carcasa_der", "h_pin": "carcasa_der", "h_arandela": "carcasa_der", "h_tuerca": "carcasa_der",
+                "h_seguro": "rodamientos"},
+    "aceite": {"h_tornillo": "bomba", "h_arandela": "tapon", "h_pin": "bomba"},
+    "admision": {"h_tornillo": "caja", "h_arandela": "caja", "h_abrazadera": "ducto", "h_caucho": "caja"},
+    "radiador": {"h_tornillo": "radiador", "h_arandela": "radiador", "h_caucho": "radiador", "h_buje": "radiador"},
+    "electrico": {"h_tornillo": "bateria", "h_tuerca": "bateria", "h_arandela": "bateria", "h_caucho": "bateria"},
+    "encendido": {"h_tornillo": "estator", "h_arandela": "estator", "h_tuerca": "regulador", "h_buje": "cdi", "h_caucho": "cdi"},
+    "cvt": {"h_arandela": "polea_fija", "h_tornillo": "campana", "h_seguro": "clutch"},
+    "freno_tambor": {"h_tuerca": "palanca", "h_tornillo": "palanca", "h_arandela": "leva", "h_seguro": "leva"},
+}
 
 DESTINO_POR_TIPO = {
     "h_rodamiento": ["rodamientos", "rodamientos_direccion", "porta_sprocket"],
@@ -904,6 +1350,402 @@ def _columnas(grupos):
     return columnas, filas
 
 
+# ---------------------------------------------------------------------------
+# 21. Caja secundaria de las automáticas (transmisión final, la que lleva su propio aceite)
+# ---------------------------------------------------------------------------
+# Reductor de dos etapas (sin marchas). Vista lateral: y arriba, z hacia adelante; los ejes van a lo largo de X.
+#   1.ª etapa: piñón primario (16 d., en el eje que sale del clutch) → engranaje grande (56 d.) del eje intermedio
+#   2.ª etapa: piñón del eje intermedio (12 d., hecho en el mismo eje) → engranaje (35 d.) del eje de salida (rueda)
+# Las distancias entre ejes salen de los radios, para que los dientes engranen.
+_M = 2.5                                              # módulo del dibujo: radio = dientes × módulo / 2
+_R16, _R56, _R12, _R35 = 16 * _M / 2, 56 * _M / 2, 12 * _M / 2, 35 * _M / 2
+_YI = 20                                              # el intermedio un poco más alto; el primario de nuevo más abajo
+_ZI = math.sqrt((_R12 + _R35) ** 2 - _YI ** 2)
+_YP = _YI - 15
+_ZP = _ZI + math.sqrt((_R16 + _R56) ** 2 - (_YP - _YI) ** 2)
+_EJES_CAJA = {"primario": (_YP, _ZP), "intermedio": (_YI, _ZI), "salida": (0, 0)}
+# Tapa de la caja: contorno que abraza los tres ejes (u, v) = (-z, y) con eje X
+_CAJA_PERFIL = [(30, 60), (-60, 66), (-140, 62), (-200, 50), (-228, 14), (-210, -26), (-140, -40), (-40, -56), (40, -60),
+                (78, -30), (80, 20), (64, 52)]
+
+
+def _caja_secundaria():
+    al_cara, al_lado = "#f4f2ec", "#dcd7cb"
+    (yp, zp), (yi, zi), (ys, zs) = _EJES_CAJA["primario"], _EJES_CAJA["intermedio"], _EJES_CAJA["salida"]
+
+    def rueda(x, y, z, r, dientes, largo=10, hueco=8):
+        return prisma((x, y, z), X, engranaje(r, dientes, 3.2), largo, hueco=iso._circ2d(hueco), cara="#f6f6f4", lado=LADO_MEDIO)
+    estrias = [polilinea([(x, ys + 11 * math.sin(t), zs + 11 * math.cos(t)) for x in (-190, -150)], 1.1)
+               for t in [i * math.pi / 6 for i in range(12)]]
+    # Carcasa (lado del motor) con los alojamientos de los rodamientos, tornillos del borde y los tapones del aceite
+    carcasa = prisma((-90, 0, 0), X, _CAJA_PERFIL, 26, lado=al_lado, cara=al_cara)
+    for (u, v) in _CAJA_PERFIL[::2]:
+        carcasa += cilindro((-76, v * .88, -u * .88), X, 5, 3, ri=2, lado=LADO_MEDIO, cara="#e9e4d8", grosor=1.2)
+    piezas = [
+        P("carcasa_caja", carcasa, (-90, 70, 60), (-70, -70), orden=0),
+        P("empaque", prisma((-72, 0, 0), X, _CAJA_PERFIL, 2, hueco=[(u * .93, v * .93) for u, v in _CAJA_PERFIL],
+                            lado="#8d9391", cara="#a9aeac"), (-72, 62, 100), (-40, -80), orden=1),
+        # Eje de salida: atraviesa la carcasa hacia la rueda trasera (estrías) y lleva el engranaje de 35 dientes
+        P("eje_salida", cilindro((-60, ys, zs), X, 11, 250) + estrias, (-175, ys, zs), (-70, 40), orden=2),
+        P("engranaje_salida", rueda(0, ys, zs, _R35, 35), (0, ys - _R35, zs), (40, 80), orden=4),
+        P("seguro", arandela((10, ys, zs), X, 13, 1.5, color="#dfe3e4", lado=LADO_MEDIO), (10, ys + 13, zs), (60, 60), orden=5),
+        # Eje intermedio: piñón de 12 dientes hecho en el eje (2.ª etapa) y engranaje grande de 56 (1.ª etapa)
+        P("eje_intermedio", cilindro((10, yi, zi), X, 8, 120) + prisma((0, yi, zi), X, engranaje(_R12, 12, 3.2), 22,
+                                                                      cara="#eeeeea", lado=LADO_MEDIO),
+          (-40, yi, zi), (-60, -40), orden=3),
+        P("engranaje_intermedio", rueda(36, yi, zi, _R56, 56), (36, yi + _R56, zi), (40, -90), orden=5),
+        # Eje primario: sale del clutch (por la tapa, lado derecho) con el piñón de 16 dientes
+        P("eje_primario", cilindro((70, yp, zp), X, 8, 150) + estrias_primario(yp, zp), (130, yp, zp), (60, -60), orden=4),
+        P("pinon_primario", rueda(36, yp, zp, _R16, 16, 12, 6), (36, yp + _R16, zp), (-20, -90), orden=6),
+        # Rodamientos: cada eje apoya en la carcasa (atrás) y en la tapa (adelante, del lado del clutch)
+        P("rodamientos", rodamiento((-66, ys, zs), X, 20, 12) + rodamiento((-66, yi, zi), X, 15, 10) + rodamiento((-66, yp, zp), X, 14, 10)
+          + rodamiento((80, yi, zi), X, 15, 10) + rodamiento((80, ys, zs), X, 18, 10) + rodamiento((80, yp, zp), X, 14, 10),
+          (80, yi, zi), (70, 30), orden=6),
+        # Retenes: donde un eje sale de la caja (al clutch y a la rueda), para que no se escape el aceite
+        P("retenes", retenedor((-110, ys, zs), X, 17) + retenedor((112, yp, zp), X, 13), (-110, ys, zs), (-60, 60), orden=6),
+        P("tapon_llenado", prisma((-80, 56, 20), X, hexagono(11), 8, lado=LADO_MEDIO) + cilindro((-88, 56, 20), X, 9, 10),
+          (-80, 56, 20), (-50, -60), orden=7),
+        P("tapon_drenaje", prisma((-80, -50, 60), X, hexagono(9), 8, lado=LADO_MEDIO) + arandela((-86, -50, 60), X, 8, 2),
+          (-80, -50, 60), (-60, 50), orden=7),
+    ]
+    lineas = [linea((-200, ys, zs), (130, ys, zs)), linea((-100, yi, zi), (120, yi, zi)), linea((-100, yp, zp), (170, yp, zp))]
+    return piezas, lineas
+
+
+def _clutch():
+    """Clutch (embrague multidisco en baño de aceite), despiezado a lo largo del eje principal, del motor hacia afuera:
+    arandela de empuje, canasta con el engranaje primario remachado, buje, centro estriado con su tuerca, discos
+    alternados (fricción con orejas afuera / separadores de acero con dientes adentro), plato de presión, resortes con
+    sus tornillos y el levantador (rodamiento de empuje y varilla)."""
+    def con_orejas(r, r_oreja, orejas=8, ancho=.22):
+        pts = []
+        for i in range(orejas * 12):
+            t = i * 2 * math.pi / (orejas * 12)
+            fase = (t * orejas / (2 * math.pi)) % 1
+            pts.append((math.cos(t) * (r_oreja if fase < ancho else r), math.sin(t) * (r_oreja if fase < ancho else r)))
+        return pts
+
+    # Canasta: copa abierta hacia afuera con ranuras (donde entran las orejas de los discos) y el engranaje primario detrás
+    canasta = prisma((-118, 0, 0), X, engranaje(65, 72, 3.5), 8, hueco=iso._circ2d(18), cara="#f6f6f4", lado=LADO_MEDIO)
+    canasta += cilindro((-96, 0, 0), X, 60, 36, ri=55, cara="#eceae4", lado="#d8d4ca")
+    for k in range(8):                                                                    # ranuras de la canasta
+        t = k * 2 * math.pi / 8
+        canasta.append(polilinea([(x, 60.5 * math.sin(t), 60.5 * math.cos(t)) for x in (-112, -80)], 2.2, "#9a9f9f"))
+    for k in range(6):                                                                    # amortiguadores (cauchos)
+        t = k * 2 * math.pi / 6 + .3
+        canasta += cilindro((-112.5, 36 * math.sin(t), 36 * math.cos(t)), X, 5, 3, cara=CAUCHO_CARA, lado=CAUCHO, grosor=1)
+    centro = prisma((-10, 0, 0), X, engranaje(45, 24, 3), 30, hueco=iso._circ2d(13), cara="#f3f3f0", lado=LADO_MEDIO)
+    for k in range(4):                                                                    # torres de los resortes
+        t = k * math.pi / 2 + math.pi / 4
+        centro += cilindro((8, 28 * math.sin(t), 28 * math.cos(t)), X, 6, 6, ri=2.5, cara="#e9e9e5", lado=LADO_MEDIO, grosor=1)
+    friccion, separadores = [], []
+    for i in range(9):
+        x = 45 + i * 13
+        if i % 2 == 0:
+            friccion += prisma((x, 0, 0), X, con_orejas(52, 58), 3, hueco=iso._circ2d(44), cara=FRICCION, lado="#b39c7f")
+        else:
+            separadores += prisma((x, 0, 0), X, iso._circ2d(50, 48), 2, hueco=engranaje(45, 24, 3), cara="#e7ebec", lado="#c3c9cb")
+    plato = cilindro((180, 0, 0), X, 50, 8, ri=10, cara="#f1f1ee", lado=LADO_MEDIO)
+    for k in range(4):
+        t = k * math.pi / 2 + math.pi / 4
+        plato += cilindro((185, 28 * math.sin(t), 28 * math.cos(t)), X, 7, 3, ri=3, cara=HUECO, lado=LADO_MEDIO, grosor=1)
+    resortes, pernos = [], []
+    for k in range(4):
+        t = k * math.pi / 2 + math.pi / 4
+        y, z = 28 * math.sin(t), 28 * math.cos(t)
+        resortes += resorte((215, y, z), X, 6, 26, vueltas=6, grosor_alambre=2.2)
+        pernos += cilindro((248, y, z), X, 3, 14) + prisma((257, y, z), X, hexagono(5.5), 4, lado=LADO_MEDIO) \
+            + arandela((254, y, z), X, 6.5, 1.2)
+    piezas = [
+        P("arandela_empuje", arandela((-165, 0, 0), X, 24, 2.5, lado=LADO_MEDIO), (-165, 24, 0), (-50, -70), orden=0),
+        P("canasta", canasta, (-96, 60, 0), (-60, -90), orden=1),
+        P("buje", cilindro((-55, 0, 0), X, 17, 22, ri=12, cara="#eeeae2", lado="#d6d0c4"), (-55, 17, 0), (-30, -80), orden=2),
+        P("centro", centro, (-10, 45, 0), (-20, -100), orden=3),
+        P("tuerca_centro", prisma((24, 0, 0), X, hexagono(15), 7, hueco=iso._circ2d(8), lado=LADO_MEDIO)
+          + arandela((16, 0, 0), X, 16, 1.8), (24, 0, 15), (10, -110), orden=4),
+        P("discos_friccion", friccion, (45, -58, 0), (-10, 90), orden=5),
+        P("separadores", separadores, (58, 50, 0), (20, -110), orden=5),
+        P("plato_presion", plato, (180, -50, 0), (40, 90), orden=6),
+        P("resortes", resortes, (215, 28, 28), (40, -100), orden=7),
+        P("tornillos_resorte", pernos, (256, -28, -28), (60, 80), orden=8),
+        P("levantador", rodamiento((280, 0, 0), X, 11, 8) + cilindro((335, 0, 0), X, 3, 100), (320, 0, 3), (40, -60), orden=9),
+    ]
+    lineas = [linea((-185, 0, 0), (395, 0, 0))]
+    return piezas, lineas
+
+
+def estrias_primario(y, z):
+    """Estrías del eje primario, donde encaja el clutch."""
+    return [polilinea([(x, y + 8.4 * math.sin(t), z + 8.4 * math.cos(t)) for x in (120, 145)], 1)
+            for t in [i * math.pi / 5 for i in range(10)]]
+
+
+# ---------------------------------------------------------------------------
+# 22. Cilindro y pistón (la "cabeza de fuerza"), biela y cigüeñal
+# ---------------------------------------------------------------------------
+def _biela(c, largo=120, r_pie=14, r_cabeza=28):
+    x, y, z = c
+    arriba = [(math.cos(t) * r_pie, largo / 2 + math.sin(t) * r_pie) for t in [i * math.pi / 12 for i in range(13)]]
+    abajo = [(math.cos(t) * r_cabeza, -largo / 2 + math.sin(t) * r_cabeza) for t in [math.pi + i * math.pi / 12 for i in range(13)]]
+    cuerpo = prisma(c, Z, arriba + abajo, 12, lado=LADO_MEDIO, cara="#efefeb")
+    return (cuerpo + cilindro((x, y + largo / 2, z), Z, r_pie * .6, 13, cara=HUECO, grosor=1)
+            + cilindro((x, y - largo / 2, z), Z, r_cabeza * .62, 13, cara=HUECO, grosor=1))
+
+
+def _piston(c, r=36, alto=46):
+    """Pistón: corona con dos rebajes de válvula, tres ranuras de anillos, alojamiento del pasador y falda recortada."""
+    x, y, z = c
+    f = cilindro((x, y - 6, z), Y, r, alto - 12, cara="#eeeeea", lado="#cfd3d4")                 # falda
+    f += cilindro((x, y + alto / 2 - 9, z), Y, r, 18, cara="#f4f4f1", lado="#d9dcdc")           # zona de anillos
+    for k in range(3):                                                                         # ranuras
+        f.append(polilinea([(x + r * 1.01 * math.cos(t), y + alto / 2 - 4 - k * 5.5, z + r * 1.01 * math.sin(t))
+                            for t in [i * math.pi / 16 for i in range(-5, 14)]], 1.4, "#7d8588"))
+    f += cilindro((x - 11, y + alto / 2 + .6, z + 9), Y, 9, 1, cara="#dcdedd", lado="#cfd3d4", grosor=1)      # rebajes de válvula
+    f += cilindro((x + 11, y + alto / 2 + .6, z - 9), Y, 10, 1, cara="#dcdedd", lado="#cfd3d4", grosor=1)
+    f += cilindro((x, y - 4, z + r - 1), Z, 9, 4, ri=5, cara="#e6e8e8", lado="#cfd3d4")                       # alojamiento del pasador
+    f += cilindro((x + r - 1, y - 14, z), X, 10, 2, cara="#e3e6e6", lado="#cfd3d4", grosor=1)                 # recorte de la falda
+    return f
+
+
+def _anillos(c, r=37):
+    """Tres anillos abiertos (compresión, segundo y raspador de aceite), separados para verlos."""
+    x, y, z = c
+    f = []
+    for k, (grosor, color) in enumerate(((1.6, "#9aa2a5"), (1.6, "#8a9295"), (3.2, "#b4babd"))):
+        abierto = [(math.cos(t) * r, math.sin(t) * r) for t in [0.18 + i * (2 * math.pi - 0.36) / 40 for i in range(41)]]
+        perfil = abierto + [(px * .9, py * .9) for px, py in abierto[::-1]]
+        f += prisma((x, y + k * 9, z), Y, perfil, grosor, lado=color, cara="#dfe3e4", grosor=1.2)
+    return f
+
+
+def _cilindro_piston(perfil=None):
+    p = _perfil(perfil)
+    r, xs, ancho, fondo, esquinas = _bloque_motor(p)
+    piezas = [
+        P("empaque_culata", _plancha_empaque(318, ancho, fondo, r, xs, esquinas, _EMPAQUE_METAL), (ancho / 2 - 14, 319, 30), (-90, -20), orden=0),
+        P("cilindro", _bloque_cilindro(255, 86, p, r, xs, ancho, fondo), (0, 255, 0), (-95, -20), orden=1),
+        P("guias", [f for x, z in esquinas[:2] for f in cilindro((x, 205, z), Y, 5, 14, ri=2.5)], (esquinas[0][0], 205, esquinas[0][1]), (70, -20), orden=2),
+        P("empaque_cilindro", _plancha_empaque(196, ancho, fondo, r + 2, xs, esquinas, _EMPAQUE_PAPEL), (ancho / 2 - 14, 196, 30), (-90, 10), orden=2),
+        P("anillos", [f for xc in xs for f in _anillos((xc, 160, 0), r * .93)], (xs[0] + r, 169, 0), (70, -30), orden=3),
+        P("piston", [f for xc in xs for f in _piston((xc, 120, 0), r * .9)], (xs[0], 130, 0), (-90, 20), orden=4),
+        P("pasador", [f for xc in xs for f in cilindro((xc, 112, 100), Z, 9, 64, ri=5)], (xs[0], 112, 120), (70, 20), orden=5),
+        P("seguros_piston", [f for xc in xs for f in oring((xc, 112, 148), Z, 9, 2) + oring((xc, 112, 56), Z, 9, 2)], (xs[0], 112, 148), (70, 40), orden=6),
+        P("biela", [f for xc in xs for f in _biela((xc, -10, 0))], (xs[0], -10, 0), (-90, 30), orden=3),
+        P("ciguenal", [f for xc in xs for f in cilindro((xc - 30, -80, 0), X, 62, 16, lado=LADO_MEDIO, cara="#ecece8")
+                       + cilindro((xc + 30, -80, 0), X, 62, 16, lado=LADO_MEDIO, cara="#ecece8") + cilindro((xc, -80, 0), X, 12, 46)]
+          + cilindro((xs[0] - r - 70, -80, 0), X, 14, 90) + cilindro((xs[-1] + r + 70, -80, 0), X, 12, 90),
+          (xs[0] - r - 100, -80, 0), (-80, 40), orden=2),
+        P("rodamientos_ciguenal", rodamiento((xs[0] - r - 40, -80, 0), X, 26, 14) + rodamiento((xs[-1] + r + 40, -80, 0), X, 26, 14),
+          (xs[-1] + r + 40, -80, 0), (70, 50), orden=3),
+    ]
+    lineas = [linea((xc, -20, 0), (xc, 340, 0)) for xc in xs] + [linea((xs[0] - r - 130, -80, 0), (xs[-1] + r + 130, -80, 0))]
+    return piezas, lineas
+
+
+# ---------------------------------------------------------------------------
+# 23. Árbol de levas, cadenilla y balancines (distribución)
+# ---------------------------------------------------------------------------
+def _distribucion(perfil=None):
+    """SOHC: un árbol de levas y balancines. DOHC (cuatro válvulas, dos árboles): admisión y escape, cada uno con su piñón,
+    y taqués (vasos) debajo de las levas en lugar de balancines."""
+    p = _perfil(perfil)
+    dohc = bool(p.get("h"))
+    levas = [(math.cos(t) * (16 + 10 * max(0, math.cos(t)) ** 3), math.sin(t) * (16 + 10 * max(0, math.cos(t)) ** 3))
+             for t in [i * 2 * math.pi / 36 for i in range(36)]]
+    guia = [(-6, -100), (6, -100), (10, 0), (8, 200), (-4, 214), (-10, 200), (-8, 0)]
+    ejes = [(-48,), (48,)] if dohc else [(0,)]
+    arbol, pinones, rodam = [], [], []
+    for (x,) in ejes:
+        arbol += cilindro((x, 260, -10), Z, 10, 200)
+        if dohc:                                                       # dos lóbulos por cilindro en cada árbol
+            for k in range(p["c"]):
+                arbol += prisma((x, 260, -40 - k * 70), Z, levas, 14) + prisma((x, 260, -k * 70), Z, levas, 14)
+        else:
+            arbol += prisma((x, 260, -40), Z, levas, 16) + prisma((x, 260, 20), Z, levas, 16)
+        pinones += prisma((x, 260, 122), Z, engranaje(40 if dohc else 48, 30 if dohc else 34, 5), 8, hueco=iso._circ2d(12),
+                          cara="#f6f6f4", lado=LADO_MEDIO) + perno((x + 12, 260, 140), (0, 0, -1), 20, 6)
+        rodam += rodamiento((x, 260, -100), Z, 20, 12) + rodamiento((x, 260, 80), Z, 20, 12)
+    # Cadenilla: abraza los piñones de levas arriba y el del cigüeñal abajo
+    rp = 40 if dohc else 50
+    if dohc:
+        arriba = [(48 + math.cos(t) * rp, 260 + math.sin(t) * rp) for t in [i * math.pi / 14 for i in range(8)]] \
+            + [(-48 + math.cos(t) * rp, 260 + math.sin(t) * rp) for t in [math.pi / 2 + i * math.pi / 14 for i in range(8)]]
+    else:
+        arriba = [(math.cos(t) * rp, 260 + math.sin(t) * rp) for t in [i * math.pi / 14 for i in range(15)]]
+    abajo = [(math.cos(t) * 22, -120 + math.sin(t) * 22) for t in [math.pi + i * math.pi / 10 for i in range(11)]]
+    cadena = [(x, y, 130) for x, y in arriba + abajo + arriba[:1]]
+    ancho_guia = 48 + rp if dohc else 62
+    piezas = [
+        P("arbol_levas", arbol, (ejes[0][0], 260, -110), (-70, -50), orden=1),
+        P("rodamientos", rodam, (ejes[-1][0], 260, 80), (60, -70), orden=2),
+        P("pinon_levas", pinones, (ejes[-1][0], 260 + rp, 122), (70, -40), orden=3),
+        P("cadenilla", manguera(cadena, 6, "#7a8488"), cadena[len(arriba) + 2], (70, 20), orden=4),
+        P("pinon_ciguenal", prisma((0, -120, 122), Z, engranaje(20, 14, 4), 8, hueco=iso._circ2d(8), cara="#f6f6f4", lado=LADO_MEDIO),
+          (0, -120, 122), (60, 40), orden=3),
+        P("guia_cadenilla", prisma((-ancho_guia, 80, 150), Z, guia, 10, lado="#3c4448", cara="#59636a"), (-ancho_guia, 80, 150), (-70, 20), orden=5),
+        P("guia_tensor", prisma((ancho_guia, 80, 150), Z, [(-x, y) for x, y in guia], 10, lado="#3c4448", cara="#59636a"),
+          (ancho_guia, 120, 150), (70, -10), orden=5),
+        P("tensor", caja((ancho_guia + 78, 60, 150), (46, 24, 24)) + cilindro((ancho_guia + 43, 60, 150), X, 6, 34)
+          + perno((ancho_guia + 108, 60, 150), X, 14, 7), (ancho_guia + 88, 60, 150), (70, 20), orden=6),
+    ]
+    if dohc:
+        # Taqués (vasos) debajo de cada leva, con su laina de calibración
+        vasos = [f for (x,) in ejes for k in range(p["c"]) for z in (-40 - k * 70, 0 - k * 70)
+                 for f in cilindro((x, 222, z), Y, 13, 18, cara="#eef0f0", lado="#c3c9cc") + cilindro((x, 232, z), Y, 9, 2, cara="#d0d5d7")]
+        piezas += [P("balancin", vasos, (ejes[0][0], 232, -40), (-60, -50), orden=3),
+                   P("tornillo_calibracion", [f for (x,) in ejes for f in cilindro((x, 238, -40), Y, 9, 1.5, cara="#c9ced0")],
+                     (ejes[-1][0], 240, -40), (70, -30), orden=5)]
+    else:
+        balancin = [(-58, 6), (-48, 16), (40, 12), (64, 4), (64, -6), (40, -12), (-48, -14), (-60, -4)]
+        espejo = [(-x, y) for x, y in balancin[::-1]]
+        piezas += [
+            P("balancin", prisma((-70, 340, -40), Z, balancin, 14, hueco=iso._circ2d(7, 16)) + prisma((70, 340, 20), Z, espejo, 14, hueco=iso._circ2d(7, 16)),
+              (-70, 352, -40), (-60, -50), orden=3),
+            P("eje_balancin", cilindro((-70, 340, -40), Z, 6, 120) + cilindro((70, 340, 20), Z, 6, 120), (70, 340, 80), (60, -50), orden=4),
+            P("tornillo_calibracion", perno((-128, 370, -40), MENOS_Y, 24, 6) + tuerca((-128, 356, -40), Y, 7)
+              + perno((128, 370, 20), MENOS_Y, 24, 6) + tuerca((128, 356, 20), Y, 7), (128, 372, 20), (70, -30), orden=5),
+        ]
+    lineas = [linea((x, 260, -150), (x, 260, 160)) for (x,) in ejes]
+    return piezas, lineas
+
+
+# ---------------------------------------------------------------------------
+# 24. Carburador
+# ---------------------------------------------------------------------------
+def _carburador():
+    caucho = dict(lado=CAUCHO, cara=CAUCHO_CARA)
+    piezas = [
+        P("ducto", cilindro((-150, 0, 0), X, 30, 50, r2=26, ri=20, **caucho), (-150, 0, 0), (-60, -60), orden=0),
+        P("cuerpo", caja((0, 0, 0), (90, 76, 76)) + cilindro((0, 0, 0), X, 28, 140, ri=22) + cilindro((0, 52, 0), Y, 28, 30),
+          (40, 20, 0), (-70, -70), orden=1),
+        P("cortina", cilindro((0, 130, 0), Y, 20, 46, cara="#f3f3ef"), (0, 130, 0), (-70, -20), orden=2),
+        P("aguja", cilindro((0, 190, 0), Y, 2, 70) + cilindro((0, 226, 0), Y, 5, 4), (0, 200, 0), (60, -20), orden=3),
+        P("resorte", resorte((0, 270, 0), Y, 14, 52, 7), (0, 270, 0), (60, -10), orden=4),
+        P("tapa", cilindro((0, 320, 0), Y, 30, 14) + cilindro((0, 340, 0), Y, 7, 24), (0, 320, 0), (-70, -30), orden=5),
+        P("chicles", cilindro((0, -60, 18), Y, 4, 22) + prisma((0, -74, 18), Y, hexagono(6), 6, lado=LADO_MEDIO)
+          + cilindro((0, -60, -18), Y, 3, 18), (0, -60, 18), (70, 10), orden=2),
+        P("flotador", cilindro((-24, -110, 0), Z, 13, 46, cara="#f7f2df", lado="#e5dcc0") + cilindro((24, -110, 0), Z, 13, 46, cara="#f7f2df", lado="#e5dcc0")
+          + caja((0, -100, -26), (60, 3, 10)), (24, -110, 0), (70, 20), orden=3),
+        P("aguja_flotador", cilindro((0, -88, 40), Y, 3, 16, r2=1), (0, -88, 40), (-60, 30), orden=3),
+        P("empaque", oring((0, -140, 0), Y, 40, 3), (40, -140, 0), (-70, 30), orden=4),
+        P("taza", cilindro((0, -180, 0), Y, 44, 64, r2=40) + prisma((0, -218, 0), Y, hexagono(8), 8, lado=LADO_MEDIO), (0, -180, 0), (-70, 40), orden=5),
+        P("tornillo_mezcla", perno((110, -20, 50), X, 26, 5) + resorte((95, -20, 50), X, 6, 16, 5), (115, -20, 50), (70, 30), orden=3),
+        P("cebador", cilindro((0, 40, -70), Z, 9, 40) + caja((0, 40, -100), (30, 10, 6)), (0, 40, -100), (-60, -40), orden=2),
+        P("manguera", manguera(curva((40, -40, -50), (90, -100, -90), (60, -200, -110)), 6), (60, -200, -110), (60, 50), orden=1),
+    ]
+    lineas = [linea((0, -230, 0), (0, 360, 0)), linea((-200, 0, 0), (100, 0, 0))]
+    return piezas, lineas
+
+
+# ---------------------------------------------------------------------------
+# 25. Cuerpo de aceleración e inyección
+# ---------------------------------------------------------------------------
+def _inyeccion():
+    caucho = dict(lado=CAUCHO, cara=CAUCHO_CARA)
+    tubo = curva((-70, 160, 0), (60, 220, -60), (200, 60, -40))
+    piezas = [
+        P("multiple", cilindro((-110, 0, 0), X, 30, 50, r2=26, ri=20, **caucho), (-110, 0, 0), (-60, -60), orden=0),
+        P("cuerpo", caja((0, 0, 0), (80, 84, 84)) + cilindro((0, 0, 0), X, 30, 110, ri=24) + cilindro((56, 0, 0), X, 22, 2, cara="#d8dcdd", grosor=1),
+          (20, 42, 0), (-60, -80), orden=1),
+        P("polea", cilindro((0, 0, 64), Z, 24, 8) + caja((0, 26, 72), (6, 16, 6)), (0, 0, 68), (60, 40), orden=2),
+        P("sensor_tps", caja((0, 0, -60), (34, 34, 14), colores=(OSCURO, LADO_MEDIO, OSCURO)), (0, 0, -66), (-60, 40), orden=2),
+        P("motor_ralenti", caja((10, 64, -24), (28, 24, 28), colores=(OSCURO, LADO_MEDIO, OSCURO)), (10, 64, -24), (60, -50), orden=2),
+        P("inyector", cilindro((-70, 110, 0), Y, 8, 54, lado=OSCURO, cara=LADO_MEDIO) + cilindro((-70, 76, 0), Y, 3, 14), (-70, 110, 0), (-60, -50), orden=3),
+        P("empaque", oring((-70, 70, 0), Y, 6, 2) + oring((-110, 0, 0), X, 22, 2), (-70, 70, 0), (-70, 20), orden=2),
+        P("riel", cilindro((-70, 160, 0), Y, 11, 26), (-70, 160, 0), (-60, -30), orden=4),
+        P("sensor", caja((-40, 20, 60), (18, 22, 18), colores=(OSCURO, LADO_MEDIO, OSCURO)) + cilindro((-40, 0, 60), Y, 5, 12), (-40, 20, 60), (-60, 40), orden=2),
+        P("manguera", manguera(tubo, 7), tubo[8], (60, -40), orden=1),
+        P("bomba_gasolina", cilindro((200, -20, -40), Y, 26, 120, cara="#e9ecec") + cilindro((200, 46, -40), Y, 44, 8)
+          + cilindro((200, 58, -40), Y, 9, 16, lado=OSCURO), (200, 0, -40), (70, 30), orden=2),
+    ]
+    lineas = [linea((-150, 0, 0), (80, 0, 0)), linea((-70, 60, 0), (-70, 180, 0))]
+    return piezas, lineas
+
+
+# ---------------------------------------------------------------------------
+# 26. Escape: tubo (codo), silenciador (exosto) y protector
+# ---------------------------------------------------------------------------
+def _escape(perfil=None):
+    """Escape: tubo (codo) desde la culata, empaques, catalizador y silenciador. Lateral (exosto largo al lado de la rueda)
+    o bajo el motor (caja debajo del cárter, como en Pulsar NS/RS 200 y KTM 200), según la moto."""
+    p = _perfil(perfil)
+    piezas, lineas = _escape_bajo() if p.get("e") else _escape_lateral()
+    if perfil and not p.get("i"):
+        piezas = [q for q in piezas if q.puesto != "sensor_oxigeno"]            # sin inyección no hay sensor de oxígeno
+    if p.get("u"):
+        # Tubo y silenciador soldados, una sola pieza: no hay empaque de unión ni abrazadera; el tubo pasa a ser del silenciador
+        sil = next(q for q in piezas if q.puesto == "silenciador")
+        for q in [q for q in piezas if q.puesto in ("tubo", "catalizador")]:
+            sil.agregar(*q.formas)
+        if not p.get("e"):                                                        # tramo soldado entre el codo y el silenciador
+            sil.agregar(*cilindro((0, -40, 52), Z, 31, 76, r2=30, cara="#e3e6e7", lado="#b9bfc2"))
+        piezas = [q for q in piezas if q.puesto not in ("tubo", "catalizador", "empaque_silenciador", "abrazadera")]
+    return piezas, lineas
+
+
+def _escape_lateral():
+    metal, metal_lado = "#e3e6e7", "#b9bfc2"
+    cobre = ("#d2a273", "#a97d55")
+    grafito = ("#6b7377", "#4a5154")
+    tubo = curva((0, 160, 250), (0, -40, 260), (0, -40, 70), 22)
+    ranuras = [f for k in range(4) for f in caja((63, -20, -150 + k * 42), (2, 34, 10), colores=(OSCURO, OSCURO, OSCURO), grosor=1)]
+    piezas = [
+        P("empaque", cilindro((0, 196, 250), Y, 18, 5, ri=11, cara=cobre[0], lado=cobre[1]), (18, 196, 250), (-70, -30), orden=0),
+        P("brida", prisma((0, 176, 250), Y, estadio(92, 30), 6, hueco=iso._circ2d(16), lado=LADO_MEDIO, cara="#eef0f0")
+          + cilindro((36, 179.5, 250), Y, 5, 1, cara=HUECO, grosor=1) + cilindro((-36, 179.5, 250), Y, 5, 1, cara=HUECO, grosor=1)
+          + cilindro((0, 166, 250), Y, 15, 14, lado=metal_lado, cara=metal), (40, 176, 250), (60, -40), orden=1),
+        P("sensor_oxigeno", cilindro((34, 110, 252), X, 7, 30, lado=OSCURO, cara=LADO_MEDIO) + prisma((52, 110, 252), X, hexagono(9), 6, lado=LADO_MEDIO)
+          + manguera(curva((66, 110, 252), (110, 130, 252), (120, 180, 230)), 4, OSCURO), (56, 110, 252), (60, -10), orden=2),
+        P("tubo", manguera(tubo, 26, "#d4d8da"), tubo[8], (-70, 20), orden=1),
+        P("catalizador", cilindro((0, -40, 120), Z, 32, 70, r2=30, cara="#dfe2e3", lado=metal_lado), (0, -8, 120), (-70, 40), orden=2),
+        P("empaque_silenciador", cilindro((0, -40, 58), Z, 27, 7, ri=19, cara=grafito[0], lado=grafito[1]), (0, -14, 58), (60, 60), orden=3),
+        P("abrazadera", cilindro((0, -40, 36), Z, 33, 14, ri=29, lado=LADO_MEDIO, cara="#dfe3e4")
+          + perno((0, -4, 36), X, 26, 5), (0, -6, 36), (60, 50), orden=4),
+        P("valvula_ais", caja((-70, 200, 230), (34, 26, 26), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + manguera(curva((-70, 187, 230), (-40, 160, 250), (-12, 150, 250)), 5), (-70, 200, 230), (-70, -40), orden=2),
+        P("silenciador", cilindro((0, -40, 4), Z, 52, 30, r2=30, cara=metal, lado=metal_lado)                     # cono de entrada
+          + cilindro((0, -40, -130), Z, 52, 240, cara=metal, lado=metal_lado)
+          + [polilinea([(0, 12, -10), (0, 12, -250)], 1.2, "#aeb4b7")]                                              # costura
+          + cilindro((0, -40, -254), Z, 48, 10, cara="#d7dbdc", lado=metal_lado)                                     # tapa final
+          + cilindro((0, -40, -272), Z, 20, 30, ri=15, lado=LADO_MEDIO, cara="#c9ced0"),                            # punta
+          (0, 12, -100), (-70, -50), orden=5),
+        P("protector", prisma((60, -20, -110), X, redondeado(230, 70, 30), 4, lado="#3c4448", cara="#59636a") + ranuras,
+          (62, -20, -110), (70, -40), orden=6),
+        P("soporte", caja((0, 34, -170), (14, 50, 40), colores=(LADO_MEDIO, "#eef0f0", LADO_CLARO))
+          + cilindro((0, 64, -170), X, 13, 18, ri=6, lado=CAUCHO, cara=CAUCHO_CARA), (0, 64, -170), (-60, -50), orden=6),
+    ]
+    lineas = [linea((0, 160, 250), (0, 240, 250)), linea((0, -40, -300), (0, -40, 80))]
+    return piezas, lineas
+
+
+def _escape_bajo():
+    """Escape bajo el motor: el tubo baja de la culata y entra por delante a una caja silenciadora debajo del cárter."""
+    metal, metal_lado = "#e3e6e7", "#b9bfc2"
+    cobre = ("#d2a273", "#a97d55")
+    tubo = curva((0, 160, 250), (0, -60, 260), (0, -110, 120), 20)
+    caja_silenciador = (prisma((0, -150, -60), Y, redondeado(150, 230, 40), 110, lado=metal_lado, cara=metal)
+                        + prisma((0, -94, -60), Y, redondeado(120, 200, 34), 1.5, lado="#c4c9cb", cara="#dde1e2", grosor=1.2)
+                        + cilindro((50, -150, -190), Z, 18, 30, ri=13, lado=LADO_MEDIO, cara="#c9ced0"))                       # salida
+    piezas = [
+        P("empaque", cilindro((0, 196, 250), Y, 18, 5, ri=11, cara=cobre[0], lado=cobre[1]), (18, 196, 250), (-70, -30), orden=0),
+        P("brida", prisma((0, 176, 250), Y, estadio(92, 30), 6, hueco=iso._circ2d(16), lado=LADO_MEDIO, cara="#eef0f0")
+          + cilindro((0, 166, 250), Y, 15, 14, lado=metal_lado, cara=metal), (40, 176, 250), (60, -40), orden=1),
+        P("sensor_oxigeno", cilindro((34, 100, 252), X, 7, 30, lado=OSCURO, cara=LADO_MEDIO) + prisma((52, 100, 252), X, hexagono(9), 6, lado=LADO_MEDIO),
+          (56, 100, 252), (60, -10), orden=2),
+        P("tubo", manguera(tubo, 26, "#d4d8da"), tubo[8], (-70, 20), orden=1),
+        P("catalizador", cilindro((0, -112, 140), Z, 30, 50, r2=28, cara="#dfe2e3", lado=metal_lado), (0, -82, 140), (-70, 40), orden=2),
+        P("empaque_silenciador", cilindro((0, -112, 98), Z, 27, 7, ri=19, cara="#6b7377", lado="#4a5154"), (0, -86, 98), (60, 60), orden=3),
+        P("abrazadera", cilindro((0, -112, 80), Z, 33, 14, ri=29, lado=LADO_MEDIO, cara="#dfe3e4"), (0, -80, 80), (60, 50), orden=4),
+        P("silenciador", caja_silenciador, (0, -95, -60), (-70, -50), orden=5),
+        P("protector", prisma((80, -150, -40), X, redondeado(170, 90, 24), 4, lado="#3c4448", cara="#59636a"), (82, -150, -40), (70, -40), orden=6),
+        P("soporte", caja((0, -80, -150), (60, 16, 20), colores=(LADO_MEDIO, "#eef0f0", LADO_CLARO))
+          + cilindro((-26, -66, -150), Y, 10, 14, ri=4, lado=CAUCHO, cara=CAUCHO_CARA) + cilindro((26, -66, -150), Y, 10, 14, ri=4, lado=CAUCHO, cara=CAUCHO_CARA),
+          (26, -60, -150), (-60, -50), orden=6),
+    ]
+    lineas = [linea((0, 160, 250), (0, 230, 250))]
+    return piezas, lineas
+
+
 DIAGRAMAS = {
     "freno_disco": ("Freno de disco", _freno_disco),
     "bomba_freno": ("Bomba de freno y líquido", _bomba_freno),
@@ -924,7 +1766,55 @@ DIAGRAMAS = {
     "rueda_trasera": ("Rueda trasera y arrastre", _rueda_trasera),
     "rueda_tambor": ("Rueda trasera, freno de tambor y arrastre", _rueda_tambor),
     "freno_completo": ("Freno: bomba, manguera y caliper", _freno_completo),
+    "freno_trasero": ("Freno trasero: bomba de pie, manguera y caliper", _freno_trasero),
+    "bombas_abs": ("Bombas de freno, mangueras y ABS", _bombas_abs),
+    "caja_secundaria": ("Transmisión final y piñonería", _caja_secundaria),
+    "clutch": ("Clutch", _clutch),
+    "cilindro_piston": ("Cilindro y pistón", _cilindro_piston),
+    "distribucion": ("Árbol de levas, cadenilla y balancines", _distribucion),
+    "carburador": ("Carburador", _carburador),
+    "inyeccion": ("Cuerpo de aceleración e inyección", _inyeccion),
+    "escape": ("Escape y silenciador", _escape),
 }
+
+# Dibujos que cambian según el motor de cada moto. Su clave puede llevar el perfil: "culata__l1c2d59v4b1".
+PERFILABLES = {"culata", "cilindro_piston", "distribucion", "amortiguadores", "valvulas", "escape", "rueda_tambor"}
+
+
+def _base(clave):
+    return clave.split("__", 1)[0]
+
+
+def _construir(clave):
+    base, _, perfil = clave.partition("__")
+    funcion = DIAGRAMAS[base][1]
+    return funcion(perfil) if base in PERFILABLES and perfil else funcion()
+
+
+def nombre_dibujo(clave):
+    """Nombre del dibujo; en scooter (s1) la rueda trasera no lleva arrastre y la suspensión no tiene basculante de cadena."""
+    base, _, perfil = clave.partition("__")
+    p = _perfil(perfil) if perfil else {}
+    if p.get("s") and base == "rueda_tambor":
+        return "Rueda trasera y freno de tambor"
+    if p.get("s") and base == "amortiguadores":
+        return "Amortiguador trasero" if p.get("m") else "Amortiguadores traseros"
+    return DIAGRAMAS[base][0]
+
+
+def clave_dibujo(diagrama, perfil):
+    """Clave del dibujo para una moto: con su perfil si el dibujo depende del motor."""
+    return f"{diagrama}__{perfil}" if diagrama in PERFILABLES and perfil else diagrama
+
+
+def perfil_motor(liquida, cilindros, cilindraje, dohc, bujias_por_cilindro, mono=False, valvulas=None, escape_bajo=False,
+                 scooter=False, inyeccion=False):
+    """Perfil en texto: diámetro estimado del cilindro (carrera ≈ diámetro) a partir del cilindraje por cilindro."""
+    por_cilindro = max(49, cilindraje) / max(1, cilindros)
+    diametro = round((4 * por_cilindro * 1000 / 3.1416) ** (1 / 3))
+    valvulas = valvulas or (4 if dohc else 2)
+    return f"l{int(bool(liquida))}c{cilindros}d{diametro}v{valvulas}b{bujias_por_cilindro}m{int(bool(mono))}h{int(bool(dohc))}e{int(bool(escape_bajo))}s{int(bool(scooter))}i{int(bool(inyeccion))}"
+
 
 # Reglas: palabra clave del catálogo (en inglés) → puesto. Gana la primera que coincida.
 REGLAS = {
@@ -1033,7 +1923,8 @@ REGLAS_ES = {
                   ("BOBINA ALTA", "bobina"), ("ESTATOR", "estator"), ("PLATO", "estator"), ("BOBINA", "estator"),
                   ("VOLANTE", "magneto"), ("MAGNETO", "magneto"), ("C.D.I", "cdi"), ("CDI", "cdi"), ("ECU", "cdi"),
                   ("REGULADOR", "regulador"), ("CABLE", "cables")],
-    "transmision": [("ANILLO", None), ("ARANDELA", None), ("BUJE", None), ("PIN ", None), ("PINON SALIDA", "pinon"),
+    "transmision": [("EJE PINON SALIDA", "eje_salida"), ("EJE PIÑON SALIDA", "eje_salida"), ("EJE SALIDA", "eje_salida"),
+                    ("EJE CLUTCH", "eje_principal"), ("ANILLO", None), ("ARANDELA", None), ("BUJE", None), ("PIN ", None), ("PINON SALIDA", "pinon"),
                     ("PINON DE SALIDA", "pinon"), ("PINON DELANTERO", "pinon"), ("KIT REPARACION EJE SALIDA", "eje_salida"),
                     ("KIT SPROCKET", "cadena"), ("SPROCKET", "pinon"), ("EJE DE SALIDA", "eje_salida"), ("EJE SALIDA", "eje_salida"),
                     ("EJE SECUNDARIO", "eje_salida"), ("CONTRAEJE", "eje_salida"), ("EJE CLUTCH", "eje_principal"),
@@ -1191,6 +2082,210 @@ for _clave, _reglas in {
 }.items():
     REGLAS[_clave] = _reglas + REGLAS[_clave]
 
+# Sistemas agregados después (caja secundaria, cilindro y pistón, distribución, carburador, inyección y escape)
+REGLAS.update({
+    "caja_secundaria": [("MAIN AXLE", "eje_intermedio"), ("AXLE, DRIVE", "eje_salida"), ("DRIVE AXLE", "eje_salida"),
+                        ("PRIMARY DRIVE", "pinon_primario"), ("PRIMARY", "eje_primario"), ("1ST WHEEL", "engranaje_salida"),
+                        ("WHEEL", "engranaje_salida"), ("GEAR", "engranaje_intermedio"), ("CIRCLIP", "seguro"),
+                        ("BEARING", "rodamientos"), ("OIL SEAL", "retenes"), ("DRAIN", "tapon_drenaje"),
+                        ("FILLER", "tapon_llenado"), ("GASKET", "empaque"), ("CASE", "carcasa_caja"), ("COVER", "carcasa_caja")],
+    "cilindro_piston": [("PISTON RING", "anillos"), ("RING SET", "anillos"), ("PIN, PISTON", "pasador"), ("PISTON PIN", "pasador"),
+                        ("CLIP", "seguros_piston"), ("CIRCLIP", "seguros_piston"), ("PISTON", "piston"),
+                        ("CONNECTING ROD", "biela"), ("ROD, CONNECTING", "biela"), ("CRANKSHAFT", "ciguenal"), ("CRANK", "ciguenal"),
+                        ("BEARING", "rodamientos_ciguenal"), ("GASKET, CYLINDER HEAD", "empaque_culata"),
+                        ("GASKET, CYLINDER", "empaque_cilindro"), ("GASKET", "empaque_cilindro"), ("DOWEL", "guias"),
+                        ("CYLINDER", "cilindro")],
+    "distribucion": [("TENSIONER", "tensor"), ("GUIDE, TENSION", "guia_tensor"), ("GUIDE, STOPPER 2", "guia_tensor"),
+                     ("GUIDE 2", "guia_tensor"), ("GUIDE, STOPPER", "guia_cadenilla"), ("GUIDE", "guia_cadenilla"),
+                     ("SPROCKET, DRIVE", "pinon_ciguenal"), ("SPROCKET", "pinon_levas"), ("DECOMPRESSION ASSY", "pinon_levas"),
+                     ("BEARING", "rodamientos"), ("SHAFT, ROCKER", "eje_balancin"), ("ROCKER", "balancin"), ("LIFTER", "balancin"),
+                     ("ADJUST", "tornillo_calibracion"), ("CHAIN", "cadenilla"), ("DECOMPRESS", "arbol_levas"),
+                     ("CAMSHAFT", "arbol_levas")],
+    "carburador": [("NOZZLE", "chicles"), ("DIAPHRAGM", "cortina"), ("CARBURETOR ASSY", "cuerpo"), ("FLOAT CHAMBER", "taza"), ("BOWL", "taza"), ("NEEDLE VALVE", "aguja_flotador"),
+                   ("FLOAT", "flotador"), ("NEEDLE", "aguja"), ("JET", "chicles"), ("THROTTLE VALVE", "cortina"),
+                   ("PISTON", "cortina"), ("SCREW, PILOT", "tornillo_mezcla"), ("SCREW, THROTTLE STOP", "tornillo_mezcla"),
+                   ("SCREW, AIR", "tornillo_mezcla"), ("STARTER", "cebador"), ("CHOKE", "cebador"), ("SPRING", "resorte"),
+                   ("CAP", "tapa"), ("TOP", "tapa"), ("GASKET", "empaque"), ("O-RING", "empaque"), ("JOINT", "ducto"),
+                   ("MANIFOLD", "ducto"), ("HOSE", "manguera"), ("CARBURETOR", "cuerpo")],
+    "inyeccion": [("THROTTLE BODY", "cuerpo"), ("THROTTLE POSITION", "sensor_tps"), ("TPS", "sensor_tps"), ("ISC", "motor_ralenti"),
+                  ("IDLE", "motor_ralenti"), ("INJECTOR", "inyector"), ("FUEL PUMP", "bomba_gasolina"), ("DELIVERY", "riel"),
+                  ("SENSOR", "sensor"), ("HOSE", "manguera"), ("JOINT", "multiple"), ("MANIFOLD", "multiple"),
+                  ("O-RING", "empaque"), ("GASKET", "empaque"), ("PULLEY", "polea")],
+    "escape": [("GASKET, MUFFLER", "empaque_silenciador"), ("GASKET, SILENCER", "empaque_silenciador"),
+               ("GASKET", "empaque"), ("PROTECTOR", "protector"), ("COVER", "protector"), ("SHIELD", "protector"), ("MUFFLER", "silenciador"),
+               ("SILENCER", "silenciador"), ("EXHAUST PIPE", "tubo"), ("PIPE", "tubo"), ("GASKET", "empaque"),
+               ("FLANGE", "brida"), ("SENSOR", "sensor_oxigeno"), ("CATALY", "catalizador"), ("BRACKET", "soporte"),
+               ("STAY", "soporte"), ("CLAMP", "abrazadera"), ("BAND", "abrazadera")],
+})
+# Caliper (Honda, Suzuki): juego de pastillas, sellos del pistón, guardapolvos y pines de las pastillas. Van primero
+# porque "SEAL SET, PISTON" no es el pistón y "PAD SET" son las pastillas. Solo los puestos que tiene cada dibujo.
+# Puestos de cada dibujo escritos a mano: sacarlos dibujando costaba medio segundo en cada arranque del servidor.
+# PuestosFijosTests comprueba que sigan iguales a los del dibujo.
+PUESTOS_FIJOS = {
+    "freno_disco": {"caliper", "disco", "empaques", "guardapolvo", "lamina", "pasador", "pastillas", "piston", "purgador",
+                    "resorte_pastillas", "soporte"},
+    "freno_completo": {"abrazadera", "banjo", "bomba", "caliper", "deposito", "diafragma", "empaques", "guardapolvo",
+                       "guia_manguera", "interruptor", "kit_reparacion", "lamina", "manguera", "manigueta", "pasador",
+                       "pastillas", "pedal", "piston", "purgador", "resorte_pastillas", "soporte", "soporte_deposito", "tapa"},
+    "freno_trasero": {"banjo", "bomba", "caliper", "deposito", "diafragma", "empaques", "guardapolvo", "guia_manguera",
+                      "interruptor", "kit_reparacion", "lamina", "manguera", "manguera_deposito", "pasador", "pastillas",
+                      "pedal", "piston", "purgador", "resorte_pastillas", "soporte", "soporte_deposito", "tapa", "varilla"},
+    "bombas_abs": {"abrazadera", "abrazadera_trasera", "banjo", "banjo_trasera", "bomba", "bomba_trasera", "deposito",
+                   "deposito_trasera", "diafragma", "diafragma_trasera", "guia_manguera", "interruptor",
+                   "interruptor_trasera", "kit_reparacion", "kit_reparacion_trasera", "manguera", "manguera_trasera",
+                   "manigueta", "manigueta_trasera", "soporte_abs", "tapa", "tapa_trasera", "tubos", "unidad_abs"},
+}
+for _clave in ("freno_disco", "freno_completo"):
+    _puestos = PUESTOS_FIJOS[_clave]
+    REGLAS[_clave] = [(t, p) for t, p in [
+        ("PAD SET", "pastillas"), ("SHOE(PAD)", "pastillas"), ("PAD, BRAKE", "pastillas"), ("BRAKE PAD", "pastillas"),
+        ("SEAL SET", "empaques"), ("SEAL, PISTON", "empaques"), ("PISTON SEAL", "empaques"), ("SEAL, DUST", "guardapolvo"),
+        ("DUST SEAL", "guardapolvo"), ("DUST COVER", "guardapolvo"), ("BOOT", "guardapolvo"), ("INSULATOR", "piston"),
+        ("PLUG, PIN", "pasador"), ("PIN, HANGER", "pasador"), ("HANGER PIN", "pasador"), ("PIN, PAD", "pasador"),
+        ("STOPPER", "lamina"), ("SHIM", "lamina")] if p in _puestos] + REGLAS[_clave]
+_PIE_EN = [("RESERVOIR HOSE", "manguera_deposito"), ("HOSE, RESERVOIR", "manguera_deposito"), ("RESERVOIR", "deposito"),
+           ("TANK", "deposito"), ("PUSH ROD", "varilla"), ("ROD", "varilla"), ("JOINT", "varilla"), ("CLEVIS", "varilla"),
+           ("BOOT", "guardapolvo"), ("SWITCH", "interruptor")]
+_PIE_ES = [("MANGUERA TANQUE", "manguera_deposito"), ("MANGUERA DEPOSITO", "manguera_deposito"), ("TANQUE", "deposito"),
+           ("DEPOSITO", "deposito"), ("VARILLA", "varilla"), ("HORQUILLA", "varilla"), ("YUGO", "varilla"),
+           ("GUARDAPOLVO VARILLA", "guardapolvo"), ("SWICHE", "interruptor"), ("INTERRUPTOR", "interruptor")]
+_p_tras = PUESTOS_FIJOS["freno_trasero"]
+REGLAS["freno_trasero"] = _PIE_EN + [(t, p) for t, p in REGLAS["freno_completo"] if p in _p_tras]
+REGLAS_ES["freno_trasero"] = _PIE_ES + [(t, p) for t, p in REGLAS_ES["freno_completo"] if p in _p_tras]
+_p_abs = PUESTOS_FIJOS["bombas_abs"]
+REGLAS["bombas_abs"] = [("HYDRAULIC UNIT", "unidad_abs"), ("HYDRAULIC", "unidad_abs"), ("ABS", "unidad_abs"), ("PIPE", "tubos"),
+                        ("BRAKE PIPE", "tubos"), ("HOLDER, BRAKE HOSE", "guia_manguera"), ("CLAMP", "guia_manguera"),
+                        ("STAY", "soporte_abs"), ("BRACKET, HYDRAULIC", "soporte_abs")] \
+    + [(t, p) for t, p in REGLAS["bomba_freno"] if p in _p_abs]
+REGLAS_ES["bombas_abs"] = [("ABS", "unidad_abs"), ("MODULADOR", "unidad_abs"), ("TUBO", "tubos")] \
+    + [(t, p) for t, p in REGLAS_ES["bomba_freno"] if p in _p_abs]
+REGLAS["amortiguadores"] = [("SEAL", "retenedor"), ("CAP", "tapones"), ("SHAFT, PIVOT", "eje_basculante"), ("PIVOT SHAFT", "eje_basculante"),
+                            ("ADJUSTER", "tensores"), ("PULLER", "tensores"), ("CHAIN CASE", "protector_cadena"), ("CASE, CHAIN", "protector_cadena"),
+                            ("COVER, CHAIN", "protector_cadena"), ("GUIDE, CHAIN", "deslizador"), ("SUPPORT, CHAIN", "deslizador"), ("SLIDER", "deslizador"),
+                            ("BUSH", "bujes"), ("COLLAR", "bujes"), ("BEARING", "bujes"), ("CUSHION", "amortiguador"), ("SHOCK", "amortiguador"),
+                            ("ARM", "basculante")] + REGLAS["amortiguadores"]
+REGLAS_ES["amortiguadores"] = [("RETEN", "retenedor"), ("TAPON", "tapones"), ("PASADOR BRAZO", "eje_basculante"), ("EJE BRAZO", "eje_basculante"),
+                               ("EJE BASCULANTE", "eje_basculante"), ("TENSOR CADENA", "tensores"), ("TEMPLADOR", "tensores"),
+                               ("PROTECTOR CADENA", "protector_cadena"), ("GUARDACADENA", "protector_cadena"), ("GUIA CADENA", "deslizador"),
+                               ("DESLIZADOR", "deslizador"), ("PATIN", "deslizador"), ("BUJE", "bujes"), ("RODAMIENTO", "bujes"),
+                               ("AMORTIGUADOR", "amortiguador"), ("BRAZO", "basculante"), ("BASCULANTE", "basculante")] + REGLAS_ES["amortiguadores"]
+# Suspensión delantera: puente superior, espiga (eje de dirección con la tijera de abajo), bujes de la barra,
+# tapón de la barra y soporte de la farola, antes que las reglas generales
+REGLAS["suspension_delantera"] = [("HANDLE CROWN", "tijera_superior"), ("CROWN, HANDLE", "tijera_superior"), ("BRACKET, UPPER", "tijera_superior"),
+                                  ("UNDER BRACKET", "eje_direccion"), ("BRACKET, UNDER", "eje_direccion"), ("STEERING STEM", "eje_direccion"),
+                                  ("SLIDE METAL", "bujes"), ("METAL, SLIDE", "bujes"), ("GUIDE BUSH", "bujes"), ("BUSH", "bujes"),
+                                  ("CAP BOLT", "tapon"), ("BOLT, CAP", "tapon"), ("HEADLIGHT", "soporte_farola"), ("HEADLAMP", "soporte_farola")] \
+    + REGLAS["suspension_delantera"]
+REGLAS_ES["suspension_delantera"] = [("CABEZA ESPIGA", "tijera_superior"), ("TIJERA SUPERIOR", "tijera_superior"), ("PUENTE SUPERIOR", "tijera_superior"),
+                                     ("ESPIGA", "tijera"), ("TIJERA INFERIOR", "tijera"), ("SOPORTE FAROLA", "soporte_farola"),
+                                     ("CILINDRO", "cilindro_amortiguador"), ("BUJE GUIA", "bujes"), ("BUJE TUBO", "bujes"),
+                                     ("TORNILLO TUBO", "tapon"), ("TAPON", "tapon")] + REGLAS_ES["suspension_delantera"]
+REGLAS["radiador"] = [("CAP, RESERVOIR", "tapa_deposito"), ("RESERVOIR CAP", "tapa_deposito"), ("HOSE, RESERVOIR", "manguera_deposito"),
+                      ("RESERVOIR HOSE", "manguera_deposito"), ("OVERFLOW", "manguera_deposito"), ("BREATHER", "manguera_deposito"),
+                      ("RESERVOIR", "deposito"), ("TANK", "deposito"), ("JOINT", "tubo_t"), ("HOSE 2", "manguera_inferior"),
+                      ("PIPE 2", "manguera_inferior"), ("PIPE 3", "manguera_inferior"), ("CAP, RADIATOR", "tapa")] + REGLAS["radiador"]
+REGLAS_ES["radiador"] = [("TAPA TANQUE", "tapa_deposito"), ("TAPA DEPOSITO", "tapa_deposito"), ("MANGUERA TANQUE", "manguera_deposito"),
+                         ("MANGUERA DEPOSITO", "manguera_deposito"), ("TANQUE", "deposito"), ("DEPOSITO", "deposito"), ("RESERVA", "deposito"),
+                         ("TUBO T-BOMBA", "manguera_inferior"), ("RADIADOR-TUBO T", "manguera_inferior"), ("INFERIOR", "manguera_inferior"),
+                         ("BOMBA", "manguera_inferior"), ("TUBO T", "tubo_t"), ("TERMOSTATO-RADIADOR", "manguera"), ("SUPERIOR", "manguera"),
+                         ("TAPA RADIADOR", "tapa")] + REGLAS_ES["radiador"]
+REGLAS["culata"] = [("PISTON RING", "anillos"), ("RING SET", "anillos"), ("PIN, PISTON", "pasador"), ("PISTON PIN", "pasador"),
+                    ("CLIP, PISTON", "seguros_piston"), ("PISTON", "piston")] + REGLAS["culata"]
+REGLAS_ES["culata"] = [("KIT ANILLOS", "anillos"), ("ANILLOS", "anillos"), ("PIN PISTON", "pasador"), ("PASADOR", "pasador"),
+                       ("SEGURO PIN", "seguros_piston"), ("KIT PISTON", "piston"), ("PISTON", "piston")] + REGLAS_ES["culata"]
+REGLAS["aceite"] = [("COVER, OIL ELEMENT", "tapa_filtro"), ("CAP, OIL FILTER", "tapa_filtro"), ("COVER, STRAINER", "malla"),
+                    ("ELEMENT", "filtro"), ("OIL CLEANER", "filtro"), ("FILTER, ENGINE OIL", "filtro"), ("FILTER, ROTARY", "filtro"),
+                    ("ROTOR, OIL FILTER", "filtro"), ("GEAR", "pinon_bomba"), ("SCREEN", "malla")] + REGLAS["aceite"]
+REGLAS_ES["aceite"] = [("CUBIERTA FILTRO", "tapa_filtro"), ("TAPA FILTRO", "tapa_filtro"), ("KIT FILTRO", "filtro"),
+                       ("FILTRO", "filtro"), ("PIÑON BOMBA", "pinon_bomba"), ("PINON BOMBA", "pinon_bomba")] + REGLAS_ES["aceite"]
+REGLAS_ES.update({
+    "caja_secundaria": [("EJE PRIMARIO", "eje_primario"), ("EJE INTERMEDIO", "eje_intermedio"), ("EJE PRINCIPAL", "eje_intermedio"),
+                        ("EJE SALIDA", "eje_salida"), ("EJE TRASERO", "eje_salida"), ("PIÑON PRIMARIO", "pinon_primario"),
+                        ("PINON PRIMARIO", "pinon_primario"), ("ENGRANAJE", "engranaje_intermedio"), ("PIÑON", "engranaje_salida"),
+                        ("PINON", "engranaje_salida"), ("SEGURO", "seguro"), ("RODAMIENTO", "rodamientos"), ("BALINERA", "rodamientos"),
+                        ("RETEN", "retenes"), ("DRENAJE", "tapon_drenaje"), ("LLENADO", "tapon_llenado"), ("EMPAQUE", "empaque"),
+                        ("CARCASA", "carcasa_caja"), ("TAPA", "carcasa_caja")],
+    "cilindro_piston": [("ANILLO", "anillos"), ("PASADOR", "pasador"), ("PIN PISTON", "pasador"), ("SEGURO", "seguros_piston"),
+                        ("PISTON", "piston"), ("BIELA", "biela"), ("CIGUENAL", "ciguenal"), ("EMPAQUE CULATA", "empaque_culata"),
+                        ("EMPAQUE", "empaque_cilindro"), ("GUIA", "guias"), ("BUJE GUIA", "guias"), ("RODAMIENTO", "rodamientos_ciguenal"),
+                        ("BALINERA", "rodamientos_ciguenal"), ("CILINDRO", "cilindro")],
+    "distribucion": [("EJE BALANCIN", "eje_balancin"), ("EJE DEL BALANCIN", "eje_balancin"), ("BALANCIN", "balancin"),
+                     ("GUIA TENSOR", "guia_tensor"), ("PATIN TENSOR", "guia_tensor"), ("LADO TENSOR", "guia_tensor"),
+                     ("TENSOR", "tensor"), ("GUIA", "guia_cadenilla"), ("PATIN", "guia_cadenilla"),
+                     ("PIÑON CIGUEÑAL", "pinon_ciguenal"), ("PINON CIGUENAL", "pinon_ciguenal"), ("SPROCKET", "pinon_levas"),
+                     ("PIÑON", "pinon_levas"), ("PINON", "pinon_levas"), ("RODAMIENTO", "rodamientos"), ("BALINERA", "rodamientos"),
+                     ("BUJE EJE LEVAS", "rodamientos"), ("CADENILLA", "cadenilla"), ("CADENA", "cadenilla"), ("GUIA", "guia_cadenilla"),
+                     ("PATIN", "guia_cadenilla"), ("CALIBRA", "tornillo_calibracion"), ("DESCOMPRES", "arbol_levas"),
+                     ("EJE DE LEVAS", "arbol_levas"), ("EJE LEVAS", "arbol_levas"), ("ARBOL DE LEVAS", "arbol_levas"),
+                     ("LEVAS", "arbol_levas")],
+    "carburador": [("BOQUEREL", "chicles"), ("DIFUSOR", "chicles"), ("PULVERIZADOR", "chicles"), ("DIAFRAGMA", "cortina"),
+                   ("AGUJA FLOTADOR", "aguja_flotador"), ("PUNZON", "aguja_flotador"), ("FLOTADOR", "flotador"), ("AGUJA", "aguja"),
+                   ("CHICLER", "chicles"), ("CHICLE", "chicles"), ("SURTIDOR", "chicles"), ("TAZA", "taza"), ("CUBA", "taza"),
+                   ("CORTINA", "cortina"), ("PISTON", "cortina"), ("TORNILLO MEZCLA", "tornillo_mezcla"), ("TORNILLO AIRE", "tornillo_mezcla"),
+                   ("TORNILLO RALENTI", "tornillo_mezcla"), ("TORNILLO ALTA", "tornillo_mezcla"), ("CEBADOR", "cebador"),
+                   ("CHOKE", "cebador"), ("CHOQUE", "cebador"), ("RESORTE", "resorte"), ("TAPA", "tapa"), ("EMPAQUE", "empaque"),
+                   ("ORING", "empaque"), ("O-RING", "empaque"), ("MULTIPLE", "ducto"), ("ACOPLE", "ducto"), ("BOQUILLA", "ducto"),
+                   ("CONECTOR", "ducto"), ("MANGUERA", "manguera"), ("CARBURADOR", "cuerpo")],
+    "inyeccion": [("AJUSTE RPM", "motor_ralenti"), ("E.C.U", "sensor"), ("ECU", "sensor"), ("CUERPO", "cuerpo"), ("MARIPOSA", "cuerpo"), ("TPS", "sensor_tps"), ("SENSOR POSICION", "sensor_tps"),
+                  ("SENSOR ACELERADOR", "sensor_tps"), ("RALENTI", "motor_ralenti"), ("ISC", "motor_ralenti"), ("IAC", "motor_ralenti"),
+                  ("INYECTOR", "inyector"), ("BOMBA", "bomba_gasolina"), ("RIEL", "riel"), ("SENSOR", "sensor"),
+                  ("MANGUERA", "manguera"), ("MULTIPLE", "multiple"), ("BOQUILLA", "multiple"), ("ACOPLE", "multiple"),
+                  ("CONECTOR", "multiple"), ("EMPAQUE", "empaque"), ("ORING", "empaque"), ("O-RING", "empaque"), ("POLEA", "polea")],
+    "escape": [("BUJE", "soporte"), ("CAUCHO", "soporte"), ("ANTIVIBRANTE", "soporte"), ("EMPAQUE SILENCIADOR", "empaque_silenciador"), ("EMPAQUE MOFLE", "empaque_silenciador"),
+               ("EMPAQUE EXOSTO", "empaque_silenciador"), ("EMPAQUE", "empaque"), ("ANILLO", "empaque"),
+               ("PROTECTOR", "protector"), ("CUBIERTA", "protector"), ("GUARDA", "protector"), ("SILENCIADOR", "silenciador"),
+               ("EXOSTO", "silenciador"), ("MOFLE", "silenciador"), ("TUBO", "tubo"), ("CODO", "tubo"), ("COLECTOR", "tubo"),
+               ("EMPAQUE", "empaque"), ("ANILLO", "empaque"), ("BRIDA", "brida"), ("PLATINA", "brida"), ("SENSOR", "sensor_oxigeno"),
+               ("SONDA", "sensor_oxigeno"), ("CATALIZ", "catalizador"), ("SOPORTE", "soporte"), ("ABRAZADERA", "abrazadera")],
+})
+
+
+# Requerimiento 9: nombres de escape y basculante de AKT, Honda, Hero y Suzuki (al final: van antes que las demás)
+REGLAS["amortiguadores"] = [("CASE, DRIVE CHAIN", "protector_cadena"), ("CASE, UPPER", "protector_cadena"), ("CASE, UNDER", "protector_cadena"),
+                            ("CASE,CHAIN", "protector_cadena"), ("CASE, CHAIN", "protector_cadena"), ("ROLLER, CHAIN", "deslizador"),
+                            ("SLIDER CHAIN", "deslizador"), ("JOINT, RJ", "cadena"), ("CHAIN", "cadena")] + REGLAS["amortiguadores"]
+REGLAS_ES["amortiguadores"] = [("KIT BUJ", "bujes"), ("EJE TIJERA", "eje_basculante"), ("TIJERA", "basculante"), ("TORQUE", "barra_torque"),
+                               ("KIT ARRAST", "cadena"), ("CADENA", "cadena")] + REGLAS_ES["amortiguadores"]
+REGLAS["escape"] = [("AIR INDUCTION", "valvula_ais"), ("SEAT", "empaque")] + REGLAS.get("escape", [])
+REGLAS_ES["escape"] = [("QUILLA", "protector")] + REGLAS_ES.get("escape", [])
+REGLAS["escape"] = [("COVER, EXH", "protector"), ("PROTECTOR", "protector"), ("PACKING, PROTECTOR", "protector"), ("RUBBER, PROTECTOR", "protector"),
+                    ("COVER, MUFFLER TAIL", "silenciador"), ("COLLAR COMP., EX", "brida"), ("JOINT, EX", "brida"), ("GASKET, EX", "empaque"),
+                    ("RUBBER, MUFFLER", "soporte"), ("PIPE, EXHAUST", "tubo"), ("PIPE, EX", "tubo")] + REGLAS["escape"]
+REGLAS_ES["escape"] = [("CURVA MOFLE", "tubo"), ("CURVA", "tubo"), ("PUNTERA", "silenciador"), ("MEDIA LUNA", "brida"),
+                       ("ARAND ACOPLE", "brida"), ("ACOPLE", "brida"), ("SOPORTE MOFLE", "soporte"), ("EMPAQ", "empaque"),
+                       ("MOFLE", "silenciador")] + REGLAS_ES["escape"]
+REGLAS["amortiguadores"] = [("SHAFT, RR SWGARM PIVOT", "eje_basculante"), ("SHAFT,RR SWGARM PIVOT", "eje_basculante"), ("BOLT, PIVOT", "eje_basculante"),
+                            ("SHAFT, PIVOT", "eje_basculante"), ("PIVOT", "bujes"), ("BUFFER,CHAIN", "deslizador"), ("BUFFER, CHAIN", "deslizador"),
+                            ("SLIDER, CHAIN", "deslizador"), ("SWINGINGARM", "basculante"), ("SWING ARM", "basculante"), ("FORK, REAR", "basculante"),
+                            ("ARM, REAR", "basculante"), ("DUST", "tapones")] + REGLAS["amortiguadores"]
+
+
+# Clutch: la canasta trae remachado el engranaje primario; el embrague del arranque (starter clutch) NO va aquí
+REGLAS["clutch"] = [("GUIDE, CLUTCH OUTER", "buje"), ("OUTER", "canasta"), ("PLATE,CLUTCH DRIVEN", "separadores"),
+                    ("PLATE, CLUTCH DRIVEN", "separadores"), ("PLATE,CLUTCH DRIVE", "discos_friccion"), ("PLATE, CLUTCH DRIVE", "discos_friccion"),
+                    ("RELEASE", "levantador"), ("PUSH LEVER", "levantador"), ("PLATE, PUSH", "levantador"), ("PRIMARY DRIVEN", "canasta"), ("HOUSING", "canasta"), ("GEAR, PRIMARY", "canasta"), ("DAMPER", "canasta"),
+                    ("PLATE, FRICTION", "discos_friccion"), ("FRICTION", "discos_friccion"), ("PLATE, CLUTCH", "separadores"),
+                    ("CLUTCH PLATE", "separadores"), ("BOSS", "centro"), ("CENTER", "centro"), ("HUB", "centro"),
+                    ("PLATE, PRESSURE", "plato_presion"), ("PRESSURE", "plato_presion"), ("LIFTER", "plato_presion"),
+                    ("SPRING", "resortes"), ("ROD, PUSH", "levantador"), ("PUSH ROD", "levantador"), ("ROD", "levantador"),
+                    ("PUSH PIECE", "levantador"), ("BALL", "levantador"), ("BEARING", "levantador"),
+                    ("SPACER", "buje"), ("BUSH", "buje"), ("COLLAR", "buje"), ("THRUST", "arandela_empuje"),
+                    ("NUT", "tuerca_centro"), ("WASHER", "arandela_empuje"), ("BOLT", "tornillos_resorte")]
+REGLAS_ES["clutch"] = [("CORONA INTERNA", "centro"), ("PIÑON CORONA", "canasta"), ("PINON CORONA", "canasta"), ("KIT CORONA", "canasta"),
+                       ("CORONA", "canasta"), ("DISCO DE CLUTCH INTERNO", "separadores"), ("DISCO DE CLUTCH", "discos_friccion"),
+                       ("METALICO", "separadores"), ("SEPARAD", "separadores"), ("PORTA RESORTE", "plato_presion"), ("PRENS", "plato_presion"),
+                       ("PRESIONADOR", "plato_presion"), ("EMPUJADOR", "levantador"), ("IMPULSOR", "levantador"), ("LEVA INTERNA", "levantador"),
+                       ("PORTABALINERA", "levantador"), ("PORTADISCOS", "centro"), ("MANZA", "centro"), ("MANZAN", "centro"), ("MANZ", "centro"), ("PRENSA", "plato_presion"), ("PRENSCLUSLICGR", "plato_presion"), ("ESPACIADOR", "buje"),
+                       ("CAMPANA", "canasta"), ("CANASTA", "canasta"), ("CARCASA CLUTCH", "canasta"), ("ENGRANAJE PRIMARIO", "canasta"),
+                       ("ENGRANAJE CONDUCIDO", "canasta"), ("DISCO DE FRICCION", "discos_friccion"), ("DISCO FRICCION", "discos_friccion"),
+                       ("DISCOS CLUTCH", "discos_friccion"), ("DISCO CLUTCH", "discos_friccion"), ("FRICCION", "discos_friccion"),
+                       ("SEPARADOR", "separadores"), ("DISCO METALICO", "separadores"), ("DISCO LISO", "separadores"),
+                       ("PLATO PRESION", "plato_presion"), ("PLATO DE PRESION", "plato_presion"), ("PLATO", "plato_presion"),
+                       ("LEVANTADOR", "levantador"), ("CENTRO", "centro"), ("MANZANA", "centro"), ("RESORTE", "resortes"),
+                       ("VARILLA", "levantador"), ("BALINERA", "levantador"), ("RODAMIENTO", "levantador"), ("BOLA", "levantador"),
+                       ("BUJE", "buje"), ("ARANDELA EMPUJE", "arandela_empuje"), ("TUERCA", "tuerca_centro"),
+                       ("ARANDELA", "arandela_empuje"), ("TORNILLO", "tornillos_resorte")]
+
 
 def _sin_tildes(texto):
     return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
@@ -1235,7 +2330,31 @@ def puesto_en_dibujo(clave, descripcion):
 # Así todas las láminas muestran sus piezas pequeñas abajo y el dibujo queda limpio para las piezas grandes.
 SIEMPRE_EN_FRANJA = {"h_tornillo", "h_tuerca", "h_arandela", "h_seguro", "h_pin"}
 # Excepción: piezas pequeñas que el dibujo muestra con su propio lugar (los pines de las pastillas, el purgador...).
-CON_LUGAR_PROPIO = {"pasador", "purgador", "banjo", "esparragos", "tornillo_calibracion", "cunas", "guias", "empate"}
+CON_LUGAR_PROPIO = {"tijera_superior", "eje_direccion", "eje_basculante", "tapon", "pasador", "purgador", "banjo", "esparragos", "tornillo_calibracion", "cunas", "guias", "empate",
+                    "seguros_piston", "seguro", "tornillo_mezcla", "chicles", "aguja_flotador", "anillos"}
+
+
+# La rueda trasera y el kit de arrastre vienen en la misma lámina del catálogo; el visor los muestra por separado
+CON_ARRASTRE = {"rueda_trasera", "rueda_tambor"}
+ARRASTRE = {"corona", "cadena", "porta_sprocket", "cauchos", "tensores", "pinon"}
+_PALABRAS_ARRASTRE = re.compile(r"\b(SPROCKET|CORONA|CADENA|CHAIN|PI[NÑ]ON|TENSOR|TEMPLADOR|CAUCHO|DAMPER|EMPATE|JOINT)")
+_PALABRAS_RUEDA = re.compile(r"(BANDA|LEVA|FRENO|BRAKE|DISCO|DISC|CAMPANA|SENSOR|EJE RUEDA|AXLE|RIN\b|RIM\b|LLANTA|TIRE)")
+
+
+def es_arrastre(clave, descripcion):
+    """¿La pieza es del kit de arrastre (corona, cadena, porta sprocket, cauchos, tensores) y no de la rueda?"""
+    kit = puestos_kit(clave, descripcion)
+    if kit:
+        return any(k in ARRASTRE for k in kit)
+    texto = _sin_tildes((descripcion or "").upper())
+    if _PALABRAS_ARRASTRE.search(texto):
+        return True
+    if _PALABRAS_RUEDA.search(texto):
+        return False
+    puesto = puesto_para(clave, descripcion)
+    if puesto.startswith("h_"):
+        puesto = INFERENCIA.get(clave, {}).get(puesto, puesto)
+    return puesto in ARRASTRE
 
 
 def puesto_para(clave, descripcion):
@@ -1247,8 +2366,14 @@ def puesto_para(clave, descripcion):
     return propio or herraje
 
 
+# Clutch: los discos ("PLATE"), su tuerca, su arandela y los tornillos de los resortes tienen lugar en el dibujo
+CON_LUGAR_PROPIO |= {"discos_friccion", "separadores", "plato_presion", "tornillos_resorte", "tuerca_centro", "arandela_empuje", "levantador"}
+
 # Piezas que no todas las motos tienen: si la lámina no las trae, no se dibujan (las demás quedan tenues, como contexto)
-OPCIONALES = {"pedal", "kit", "sensor_cable", "sensor_abs", "unidad_abs", "soporte_deposito", "guia_manguera", "manigueta"}
+OPCIONALES = {"barra_torque", "cadena", "valvula_ais", "soporte_farola", "pedal", "kit", "unidad_abs", "soporte_abs", "tubos", "sensor_cable", "sensor_abs", "unidad_abs", "soporte_deposito", "guia_manguera", "manigueta",
+              "filtro", "tapa_filtro",
+              "ciguenal", "rodamientos_ciguenal", "biela", "piston", "anillos", "pasador", "seguros_piston", "empaque_culata", "bomba_gasolina", "catalizador", "sensor_oxigeno",
+              }
 
 
 def _queda(pieza, usadas):
@@ -1260,6 +2385,17 @@ def _queda(pieza, usadas):
     return pieza.padre is None or pieza.padre in usadas
 
 
+def _letra_rotulo(texto):
+    """Tamaño de letra del rótulo: más pequeño cuanto más largo es el nombre (sistema · moto)."""
+    n = len(texto)
+    return 17 if n <= 34 else 15 if n <= 44 else 13 if n <= 56 else 12
+
+
+def _texto_rotulo(texto, maximo=74):
+    texto = texto.upper()
+    return texto if len(texto) <= maximo else texto[:maximo - 1].rstrip(" ·") + "…"
+
+
 @lru_cache(maxsize=512)
 def dibujar_lamina(clave, grupos=None, usadas=None, titulo=None):
     """Dibujo de una lámina con su franja de tornillería.
@@ -1268,7 +2404,8 @@ def dibujar_lamina(clave, grupos=None, usadas=None, titulo=None):
     Devuelve dict con svg, puestos (punto de la etiqueta de cada pieza del dibujo), anclas (punto de la pieza),
     casillas ({grupo: [(x, y), ...]} un lugar por número en la franja) y alto (fin del área del dibujo). Todo en 0..1.
     """
-    nombre, funcion = DIAGRAMAS[clave]
+    nombre = nombre_dibujo(clave)
+    funcion = lambda: _construir(clave)
     if grupos is None:
         grupos = tuple((g, 1) for g in _ORDEN_HERRAJES)
     cuerpo_f, casillas = "", {}
@@ -1334,8 +2471,8 @@ def dibujar_lamina(clave, grupos=None, usadas=None, titulo=None):
         # Rótulo de la lámina, como en los planos técnicos: sistema a la izquierda y sello de TallerYa a la derecha
         f'<rect x="30" y="952" width="{LADO - 60}" height="30" rx="8" fill="#f3eee2" stroke="#e4dccb" stroke-width="1.2"/>'
         f'<circle cx="48" cy="967" r="5" fill="#f26522"/>'
-        f'<text x="62" y="973" font-family="Oswald, Barlow, Arial, sans-serif" font-size="17" font-weight="700" letter-spacing="1.5"'
-        f' fill="#2b3134">{escape((titulo or nombre).upper()[:70])}</text>'
+        f'<text x="62" y="972" font-family="Oswald, Barlow, Arial, sans-serif" font-size="{_letra_rotulo(titulo or nombre)}"'
+        f' font-weight="700" letter-spacing="1" fill="#2b3134">{escape(_texto_rotulo(titulo or nombre))}</text>'
         f'<text x="{LADO - 46}" y="973" text-anchor="end" font-family="Oswald, Barlow, Arial, sans-serif" font-size="14"'
         f' font-weight="600" letter-spacing="2" fill="#a39b88">DIBUJO TALLER<tspan fill="#f26522">YA</tspan></text></svg>'
     )
@@ -1394,7 +2531,7 @@ def dibujar_pieza(clave, puesto):
     if puesto in _FIGURAS_HERRAJES:
         formas = [_FIGURAS_HERRAJES[puesto]((0, 0, 0))]
     else:
-        formas = [q.formas for q in DIAGRAMAS[clave][1]()[0] if q.puesto == puesto or (q.puesto is None and q.padre == puesto)]
+        formas = [q.formas for q in _construir(clave)[0] if q.puesto == puesto or (q.puesto is None and q.padre == puesto)]
     # Algunos puestos son solo un ancla para el número (sin formas propias): no hay nada que mostrar
     formas = [f for f in formas if any(a for forma in f for a in forma.anillos)]
     if not formas:
@@ -1411,9 +2548,88 @@ def dibujar_pieza(clave, puesto):
             f'{cuerpo}</svg>')
 
 
+# ---------------------------------------------------------------------------
+# Kits: un repuesto que trae varias piezas del dibujo ("Kit resorte y arandela válvulas" = resortes, asientos, platillos
+# y cuñas). (palabras, puestos que trae, débil): una palabra débil (el nombre del sistema: "válvulas") solo cuenta si
+# ninguna otra dijo qué trae el kit. Puestos vacíos = no es un kit de piezas dibujadas (arandelas de ajuste).
+# ---------------------------------------------------------------------------
+_KIT_ARRASTRE = [(("AJUSTE", "REPARACION"), (), False), (("SPROCKET", "CORONA", "PINON"), ("corona", "pinon"), False),
+                 (("CADENA",), ("cadena",), False), (("CAUCHO",), ("cauchos",), False),
+                 (("BALINERA", "RODAMIENTO"), ("rodamientos",), False), (("RETEN",), ("retenedores", "reten"), False)]
+KITS = {
+    "valvulas": [(("AJUSTE",), (), False),
+                 (("REPARACION",), ("valvula_admision", "valvula_escape", "sello", "resortes", "base_resorte", "platillo", "cunas"), False),
+                 (("RESORTE",), ("resortes", "base_resorte", "platillo", "cunas"), False),
+                 (("ARANDELA",), ("base_resorte", "platillo"), False), (("CUNA", "SEGURO"), ("cunas",), False),
+                 (("RETEN", "SELLO", "GORRO"), ("sello",), False), (("VALVULA",), ("valvula_admision", "valvula_escape"), True)],
+    "rueda_trasera": _KIT_ARRASTRE, "rueda_tambor": _KIT_ARRASTRE, "transmision": _KIT_ARRASTRE,
+    "culata": [(("PISTON",), ("piston", "anillos", "pasador", "seguros_piston"), False), (("ANILLO", "RING"), ("anillos",), False)],
+    "distribucion": [(("GUIA", "GUIAS", "GUIDE"), ("guia_cadenilla", "guia_tensor"), False)],
+    "cilindro_piston": [(("PISTON",), ("piston", "anillos", "pasador", "seguros_piston"), False), (("ANILLO", "RING"), ("anillos",), False)],
+    "suspension_delantera": [(("CUNA",), ("rodamientos_direccion", "tazas"), False), (("RETEN",), ("retenedor", "guardapolvo"), False)],
+    "freno_disco": [(("PAD", "PASTILLA"), ("pastillas", "resorte_pastillas"), False), (("GUARDAPOLVO",), ("guardapolvo",), False),
+                    (("SEAL", "RETEN", "EMPAQUE"), ("empaques",), False), (("PISTON",), ("piston",), False),
+                    (("BLEED", "PURGA"), ("purgador",), False)],
+    "freno_completo": [(("PAD", "PASTILLA"), ("pastillas",), False), (("GUARDAPOLVO",), ("guardapolvo",), False),
+                       (("RETEN", "SEAL"), ("empaques",), False), (("PISTON",), ("piston", "embolo"), False)],
+}
+# Lo que se ve tenue junto al kit, para entender dónde va (los resortes y las cuñas van en la válvula)
+KIT_CONTEXTO = {"valvulas": ("valvula_admision", "valvula_escape")}
+
+
+def puestos_kit(clave, descripcion):
+    """('valvulas', 'Kit Resorte y Arandela Válvulas') → ('base_resorte', 'cunas', 'platillo', 'resortes'); None si no es kit."""
+    texto = _sin_tildes((descripcion or "").upper())
+    reglas = KITS.get(_base(clave))
+    if not reglas or not re.search(r"\bKIT\b", texto):
+        return None
+    existentes = dibujar_lamina(clave, ())["puestos"]
+    fuertes, debiles, vacio = set(), set(), False
+    for palabras, puestos, debil in reglas:
+        if any(_palabra(p, texto) for p in palabras):
+            if not puestos:
+                vacio = True
+            (debiles if debil else fuertes).update(p for p in puestos if p in existentes)
+    elegidos = fuertes or debiles
+    if vacio or not elegidos or (len(elegidos) == 1 and clave not in KIT_CONTEXTO):
+        return None                          # una sola pieza: basta su propio dibujo
+    return tuple(sorted(elegidos))
+
+
+def clave_kit(clave, puestos):
+    """Puestos del kit → texto para la dirección del dibujo: 'cunas-platillo-resortes--valvula_admision-valvula_escape'."""
+    contexto = [p for p in KIT_CONTEXTO.get(_base(clave), ()) if p not in puestos]
+    return "-".join(puestos) + ("--" + "-".join(contexto) if contexto else "")
+
+
+def dibujar_kit(clave, texto):
+    """Las piezas de un kit en su lugar del conjunto (lo de contexto, tenue), con el mismo encuadre de la guía."""
+    propios, _, contexto = texto.partition("--")
+    propios, contexto = set(propios.split("-")), set(filter(None, contexto.split("-")))
+    piezas = []
+    for q in _construir(clave)[0]:
+        dueno = q.puesto or q.padre
+        if dueno in propios or dueno in contexto:
+            formas = [f for f in q.formas if f.anillos]
+            if formas:
+                sola = Pieza(None, None)            # sin puesto: sin números ni líneas guía
+                sola.agregar(*formas)
+                sola.contexto = dueno not in propios
+                piezas.append(sola)
+    if not any(not getattr(p, "contexto", False) for p in piezas):
+        return None
+    lado = 600
+    cuerpo, _ = iso.componer(piezas, [], lado, margen=110, transparencia=False)
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {lado} {lado}" width="{lado}" height="{lado}">'
+            '<defs><pattern id="cuadricula" width="30" height="30" patternUnits="userSpaceOnUse">'
+            '<path d="M30 0H0V30" fill="none" stroke="#ece6d8" stroke-width="1"/></pattern></defs>'
+            f'<rect width="{lado}" height="{lado}" fill="#fdfcf8"/><rect width="{lado}" height="{lado}" fill="url(#cuadricula)"/>'
+            f'{cuerpo}</svg>')
+
+
 def version_pieza(clave, puesto):
     """Huella del dibujo de una pieza sola (la guía): cambia la dirección cuando cambia el dibujo, así no se ve la vieja."""
-    svg = dibujar_pieza(clave, puesto)
+    svg = dibujar_kit(clave, puesto) if "-" in puesto else dibujar_pieza(clave, puesto)
     return hashlib.sha1(svg.encode()).hexdigest()[:10] if svg else ""
 
 

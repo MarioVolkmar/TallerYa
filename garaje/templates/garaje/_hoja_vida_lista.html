@@ -1,0 +1,32 @@
+{% load humanize %}
+{# Línea de tiempo de servicios (necesita registros; propia=True muestra costo y botón de borrar) #}
+<ol class="hv-lista">
+  {% for r in registros %}
+  <li class="hv-item{% if r.verificado %} hv-verificado{% endif %}">
+    <div class="hv-cabeza">
+      <span class="hv-fecha">{{ r.fecha|date:"j M Y" }}</span>
+      <span class="hv-km">{{ r.km|intcomma }} km</span>
+    </div>
+    <p class="hv-servicios">{{ r.servicios }}</p>
+    {% if r.verificado and r.taller %}
+    <p class="hv-sello"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Hecho en {{ r.taller.nombre }} · verificado</p>
+    {% else %}
+    <p class="hv-propio">{% if r.donde %}{{ r.donde }} · {% endif %}registrado por el dueño</p>
+    {% endif %}
+    {% if propia %}
+    <div class="hv-pie">
+      {% if r.costo %}<span class="hv-costo">${{ r.costo|intcomma }}</span>{% endif %}
+      {% if r.notas %}<span class="hv-notas">{{ r.notas }}</span>{% endif %}
+      {% if not r.verificado %}
+      <form method="post" class="ml-auto" data-confirmar="¿Eliminar este registro?">{% csrf_token %}
+        <input type="hidden" name="accion" value="eliminar"><input type="hidden" name="registro" value="{{ r.pk }}">
+        <button class="hv-borrar">Eliminar</button>
+      </form>
+      {% endif %}
+    </div>
+    {% elif r.notas %}<p class="hv-notas">{{ r.notas }}</p>{% endif %}
+  </li>
+  {% empty %}
+  <li class="hv-vacio">Aún no hay servicios registrados.</li>
+  {% endfor %}
+</ol>

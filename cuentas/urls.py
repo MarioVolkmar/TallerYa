@@ -2,7 +2,7 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
 from . import views
-from .forms import EntrarForm
+from .forms import EntrarForm, RecuperarForm
 
 app_name = "cuentas"
 
@@ -18,6 +18,9 @@ urlpatterns = [
     path("cuenta/google/", views.google_entrar, name="google"),
     path("cuenta/google/volver/", views.google_volver, name="google_volver"),
     path("cuenta/completar/", views.completar_perfil, name="completar"),
+    path("cuenta/verificar/<uidb64>/<token>/", views.verificar_correo, name="verificar"),
+    path("cuenta/verificar/reenviar/", views.reenviar_verificacion, name="reenviar_verificacion"),
+    path("cuenta/contrasena/", views.contrasena, name="contrasena"),
     path("cuenta/administracion/", views.administracion, name="administracion"),
     path("cuenta/administracion/taller/<int:pk>/aprobar/", views.aprobar_taller, name="aprobar_taller"),
     path("cuenta/regalo/", views.reclamar_regalo, name="reclamar_regalo"),
@@ -27,15 +30,16 @@ urlpatterns = [
     # Recuperar contraseña por correo
     path("cuenta/recuperar/", auth_views.PasswordResetView.as_view(
         template_name="cuentas/recuperar.html",
-        email_template_name="cuentas/correo_recuperar.txt",
+        form_class=RecuperarForm,
+        email_template_name="correos/recuperar.txt",
+        html_email_template_name="correos/recuperar.html",
         subject_template_name="cuentas/asunto_recuperar.txt",
         success_url=reverse_lazy("cuentas:recuperar_enviado"),
     ), name="recuperar"),
     path("cuenta/recuperar/enviado/", auth_views.PasswordResetDoneView.as_view(
         template_name="cuentas/recuperar_enviado.html",
     ), name="recuperar_enviado"),
-    path("cuenta/recuperar/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(
-        template_name="cuentas/recuperar_nueva.html",
+    path("cuenta/recuperar/<uidb64>/<token>/", views.RecuperarConfirmar.as_view(
         success_url=reverse_lazy("cuentas:recuperar_listo"),
     ), name="recuperar_confirmar"),
     path("cuenta/recuperar/listo/", auth_views.PasswordResetCompleteView.as_view(

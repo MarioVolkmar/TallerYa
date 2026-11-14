@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Hoja de vida · {{ moto.nombre_completo }} · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10">
+  <p class="etiqueta">Hoja de vida en TallerYa</p>
+  <div class="flex flex-wrap items-center gap-3 mt-3">
+    <h1 class="titulo text-3xl md:text-5xl">{{ moto.nombre_completo }}</h1>
+    <span class="placa-moto" title="Placa parcialmente oculta">{{ placa }}</span>
+  </div>
+  <p class="hv-resumen mt-4"><span><strong>{{ resumen.total }}</strong> servicio{{ resumen.total|pluralize }}</span><span><strong>{{ resumen.verificados }}</strong> verificado{{ resumen.verificados|pluralize }} por talleres</span></p>
+  {% if resumen.talleres %}<p class="hv-sello mt-3">Hecho en {{ resumen.talleres|join:", " }}</p>{% endif %}
+  <div class="mt-6">{% include "garaje/_hoja_vida_lista.html" %}</div>
+  <div class="papel p-5 mt-8 hv-compartida">
+    <div class="hv-qr hv-qr-chico">{{ qr }}</div>
+    <p class="text-sm text-suave">Los servicios <strong>verificados</strong> los registró el taller con un código de un solo uso que le dio el dueño. Los demás los anotó el dueño. TallerYa no muestra datos personales.</p>
+  </div>
+</div>
+{% endblock %}

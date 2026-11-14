@@ -1,0 +1,31 @@
+{# Contenido de la ventana de detalle de un cupón del taller. Variables: cu (con entregados y canjeados), taller #}
+<template id="cupon-detalle-{{ cu.pk }}">
+  <div class="cu-cabeza">
+    <p class="cu-taller">{{ taller.nombre }}</p>
+    <p class="titulo text-3xl cu-titulo">{{ cu.titulo }}</p>
+    <p class="pt-cupon-meta">{% if not cu.activo %}<span class="pt-chip chip-atendida">Pausado</span>{% elif not cu.vigente %}<span class="pt-chip chip-cancelada">Vencido</span>{% else %}<span class="pt-chip chip-confirmada">Activo</span>{% endif %}
+      {% if cu.valido_hasta %}Válido hasta el {{ cu.valido_hasta|date:"j \d\e F"|lower }}{% else %}Sin fecha de vencimiento{% endif %}</p>
+    {% if cu.condiciones %}<p class="cu-condiciones">{{ cu.condiciones }}</p>{% endif %}
+  </div>
+  <div class="cu-cuerpo">
+    <div class="cu-qr-caja">
+      <div class="cu-qr" data-qr="{{ request.scheme }}://{{ request.get_host }}{{ cu.get_absolute_url }}" role="img" aria-label="QR para obtener el cupón"></div>
+      <p>Imprime este QR para tu mostrador: los moteros lo escanean y se llevan el cupón gratis.</p>
+      <div class="cu-enlace"><input type="text" readonly value="{{ request.scheme }}://{{ request.get_host }}{{ cu.get_absolute_url }}" aria-label="Enlace del cupón"><button type="button" class="pt-boton" data-copiar>Copiar</button></div>
+    </div>
+    <div class="cu-numeros">
+      <div><strong>{{ cu.entregados }}</strong><span>entregados</span></div>
+      <div><strong>{{ cu.canjeados }}</strong><span>usados</span></div>
+      <div><strong>{% if cu.cupo %}{{ cu.restantes }}{% else %}∞{% endif %}</strong><span>disponibles</span></div>
+    </div>
+    <p class="cu-sub">Últimos códigos entregados</p>
+    <ul class="cu-codigos">
+      {% for cod in cu.codigos.all|slice:":6" %}<li><code>{{ cod.codigo }}</code><span>{{ cod.motociclista.nombre }}</span>{% if cod.canjeado_en %}<em class="usado">Usado {{ cod.canjeado_en|date:"j M"|lower }}</em>{% else %}<em>Sin usar</em>{% endif %}</li>
+      {% empty %}<li class="cu-vacio">Aún nadie lo ha obtenido. Comparte el QR o el enlace.</li>{% endfor %}
+    </ul>
+  </div>
+  <div class="cu-acciones">
+    <a href="{% url 'talleres:cupon_editar' cu.pk %}" class="btn btn-borde text-xs px-5 py-2.5">Editar cupón</a>
+    <button type="button" class="btn btn-lava text-xs px-5 py-2.5" data-imprimir>Imprimir QR</button>
+  </div>
+</template>

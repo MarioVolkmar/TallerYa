@@ -4,7 +4,7 @@ from django.db.models import Avg, Count, F, OuterRef, Q, Subquery
 from django.urls import reverse
 from django.utils import timezone
 
-from talleres.models import Resena, Taller
+from talleres.models import Taller
 from talleres.utils import codigo_aleatorio
 
 
@@ -72,6 +72,8 @@ class CuponQuerySet(models.QuerySet):
 
     def con_nota_taller(self):
         """Agrega la nota media del taller en la misma consulta (evita una consulta por cupón en las listas)."""
+        from talleres.models import Resena
+
         notas = (Resena.objects.filter(taller=OuterRef("taller"), visible=True)
                  .order_by().values("taller").annotate(p=Avg("estrellas")).values("p"))
         return self.annotate(nota_taller=Subquery(notas))
@@ -100,6 +102,10 @@ class Cupon(models.Model):
     regalo_mensual = models.BooleanField(
         "regalo mensual Plus", default=False,
         help_text="Cada suscriptor Plus puede reclamarlo una vez al mes desde su cuenta. Se usa el más reciente activo.",
+    )
+    puntos_logros = models.PositiveIntegerField(
+        "puntos de insignias", null=True, blank=True,
+        help_text="Si tiene valor, se puede canjear con ese número de puntos de insignias (app logros). Vacío = no.",
     )
     creado = models.DateTimeField(auto_now_add=True)
 
@@ -157,6 +163,7 @@ class CodigoCupon(models.Model):
         OBTENIDO = "obtenido", "Obtenido por el motociclista"
         PREMIO = "premio", "Premio por referido"
         REGALO = "regalo", "Regalo mensual Plus"
+        LOGROS = "logros", "Canje con puntos de insignias"
 
     cupon = models.ForeignKey(Cupon, on_delete=models.PROTECT, related_name="codigos")
     motociclista = models.ForeignKey(Motociclista, on_delete=models.CASCADE, related_name="codigos")

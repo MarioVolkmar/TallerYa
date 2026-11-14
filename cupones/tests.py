@@ -13,7 +13,7 @@ from .models import CodigoCupon, Cupon, Motociclista
 class CuponesTests(TestCase):
     def setUp(self):
         cache.clear()
-        barrio = Barrio.objects.create(nombre="Belén")
+        barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
         self.taller = Taller.objects.create(nombre="Taller A", responsable="Ana", whatsapp="573001234567",
                                             direccion="Cra 1", barrio=barrio, activo=True)
         self.otro = Taller.objects.create(nombre="Taller B", responsable="Beto", whatsapp="573007654321",
@@ -76,11 +76,11 @@ class CuponesTests(TestCase):
         self.obtener()
         codigo = CodigoCupon.objects.get()
         r = self.canjear(codigo.codigo.lower().replace("-", ""))  # tolera minúsculas y sin guion
-        self.assertContains(r, "Canje exitoso")
+        self.assertContains(r, "Cupón validado")
         codigo.refresh_from_db()
         self.assertTrue(codigo.canjeado)
         self.assertEqual(codigo.canjeado_taller, self.taller)
-        self.assertContains(self.canjear(codigo.codigo), "ya fue canjeado")
+        self.assertContains(self.canjear(codigo.codigo), "ya se usó")
 
     def test_canje_con_pin_incorrecto_o_de_otro_taller(self):
         self.obtener()
@@ -94,7 +94,7 @@ class CuponesTests(TestCase):
         general = Cupon.objects.create(titulo="Lavado gratis")
         self.obtener(cupon=general)
         codigo = CodigoCupon.objects.get()
-        self.assertContains(self.canjear(codigo.codigo, pin=self.otro.pin_canje), "Canje exitoso")
+        self.assertContains(self.canjear(codigo.codigo, pin=self.otro.pin_canje), "Cupón validado")
 
     def test_bloqueo_tras_intentos_fallidos(self):
         self.obtener()
@@ -145,3 +145,34 @@ class CuponesTests(TestCase):
         self.assertContains(r, codigo.codigo)
         self.assertContains(r, reverse("cupones:referido", args=[codigo.motociclista.codigo_referido]))
         self.assertNotContains(r, "3001112233")  # el celular se muestra oculto
+
+
+class CanjeConQRTests(TestCase):
+    def setUp(self):
+        from django.contrib.auth import get_user_model
+        from talleres.models import Barrio, Taller
+        barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
+        self.duenio = get_user_model().objects.create_user("qr@t.co", "qr@t.co", "x")
+        self.taller = Taller.objects.create(nombre="QR Taller", responsable="A", whatsapp="573001112233", direccion="X",
+                                            barrio=barrio, activo=True, usuario=self.duenio)
+        cupon = Cupon.objects.create(taller=self.taller, titulo="10% en frenos")
+        moto = Motociclista.objects.create(nombre="Pedro", celular="573009998877")
+        self.codigo = CodigoCupon.objects.create(cupon=cupon, motociclista=moto)
+
+    def test_el_cupon_trae_qr_con_la_direccion_de_canje(self):
+        r = self.client.get(self.codigo.get_absolute_url())
+        self.assertContains(r, f"/canjear/?codigo={self.codigo.codigo}")
+
+    def test_taller_con_sesion_ve_vista_previa_y_canjea_sin_pin(self):
+        self.client.force_login(self.duenio)
+        r = self.client.get(reverse("cupones:canjear"), {"codigo": self.codigo.codigo})
+        self.assertContains(r, "Cupón vigente")
+        r = self.client.post(reverse("cupones:canjear"), {"codigo": self.codigo.codigo})
+        self.assertContains(r, "Cupón validado")
+        self.codigo.refresh_from_db()
+        self.assertEqual(self.codigo.canjeado_taller, self.taller)
+
+    def test_sin_sesion_sigue_pidiendo_pin(self):
+        r = self.client.post(reverse("cupones:canjear"), {"codigo": self.codigo.codigo})
+        self.assertContains(r, "PIN de tu taller")
+

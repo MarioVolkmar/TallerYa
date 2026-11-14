@@ -4,11 +4,12 @@
 {% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
 
 <article class="papel p-6 md:p-8 mt-6">
-  {% if pregunta.marca %}<span class="chip">{{ pregunta.marca }}</span>{% endif %}
+  <p class="fo-meta"><span class="fo-tema fo-tema-{{ pregunta.categoria }}">{{ pregunta.get_categoria_display }}</span>{% if pregunta.marca %}<span class="chip">{{ pregunta.marca }}{% if pregunta.linea %} {{ pregunta.linea.nombre }}{% endif %}</span>{% endif %}<span class="fo-cifra">👁 {{ pregunta.vistas }} vista{{ pregunta.vistas|pluralize }}</span></p>
   <h1 class="titulo text-3xl md:text-4xl mt-3">{{ pregunta.titulo }}</h1>
   <p class="text-sm text-suave mt-3">{% include "foro/_autor.html" with autor=pregunta.autor %} · hace {{ pregunta.creado|timesince }}</p>
   <div class="separador my-5"></div>
   <p class="cuerpo-post">{{ pregunta.cuerpo }}</p>
+  {% include "foro/_votar.html" with tipo="pregunta" pk=pregunta.pk votos=votos_pregunta mio=voto_pregunta_mio propio=es_autor %}
   {% if user.is_authenticated and not es_autor %}
   <form method="post" action="{% url 'foro:reportar' 'pregunta' pregunta.pk %}" class="mt-5"
         onsubmit="return confirm('¿Reportar esta pregunta como inapropiada?')">{% csrf_token %}
@@ -24,13 +25,14 @@
   <div class="space-y-4">
     {% for r in respuestas %}
     <article id="r{{ r.pk }}" class="papel p-6 scroll-mt-24 {% if r.pk == pregunta.mejor_respuesta_id %}mejor{% endif %}">
-      {% if r.pk == pregunta.mejor_respuesta_id %}<p class="etiqueta mb-3">Mejor respuesta</p>{% endif %}
+      {% if r.pk == pregunta.mejor_respuesta_id %}<p class="fo-solucion">✓ Solución aceptada por quien preguntó</p>{% endif %}
       <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · hace {{ r.creado|timesince }}</p>
       <p class="cuerpo-post mt-3">{{ r.cuerpo }}</p>
+      {% if r.autor == user %}{% include "foro/_votar.html" with tipo="respuesta" pk=r.pk votos=r.num_votos mio=r.vote_mio propio=True %}{% else %}{% include "foro/_votar.html" with tipo="respuesta" pk=r.pk votos=r.num_votos mio=r.vote_mio propio=False %}{% endif %}
       <div class="flex flex-wrap gap-5 mt-4">
         {% if es_autor and r.autor != user %}
         <form method="post" action="{% url 'foro:marcar_mejor' r.pk %}">{% csrf_token %}
-          <button class="boton-texto">{% if r.pk == pregunta.mejor_respuesta_id %}Quitar como mejor respuesta{% else %}Marcar como mejor respuesta{% endif %}</button>
+          <button class="boton-texto">{% if r.pk == pregunta.mejor_respuesta_id %}Quitar como solución{% else %}Marcar como solución{% endif %}</button>
         </form>
         {% endif %}
         {% if user.is_authenticated and r.autor != user %}
@@ -63,4 +65,17 @@
     {% endif %}
   </div>
 </section>
+<script>
+  // Votar sin recargar
+  document.addEventListener("submit", async function (e) {
+    var form = e.target.closest(".fo-votar-form"); if (!form) return;
+    e.preventDefault();
+    try {
+      var r = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { "X-Requested-With": "fetch" } });
+      if (!r.ok) throw 0;
+      var d = await r.json(), b = form.querySelector("button");
+      b.classList.toggle("activo", d.votado); b.querySelector("[data-votos]").textContent = d.votos;
+    } catch (_) { form.submit(); }
+  });
+</script>
 {% endblock %}

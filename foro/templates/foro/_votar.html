@@ -1,0 +1,8 @@
+{# Botón "me sirvió". Variables: tipo, pk, votos, mio, propio #}
+{% if user.is_authenticated and not propio %}
+<form method="post" action="{% url 'foro:votar' tipo pk %}" class="fo-votar-form">{% csrf_token %}
+  <button class="fo-votar{% if mio %} activo{% endif %}" title="Me sirvió"><span aria-hidden="true">▲</span> Me sirvió · <span data-votos>{{ votos }}</span></button>
+</form>
+{% else %}
+<span class="fo-votar fo-votar-solo" title="Votos"><span aria-hidden="true">▲</span> <span>{{ votos }}</span> me sirvió</span>
+{% endif %}

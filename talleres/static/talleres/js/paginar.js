@@ -37,7 +37,8 @@
     e.info.textContent = "Mostrando " + vistos + " de " + total;
     var faltan = total - vistos;
     e.mas.hidden = faltan <= 0;
-    e.mas.textContent = "Ver " + Math.min(faltan, e.tam) + " más";
+    e.mas.innerHTML = "Ver " + Math.min(faltan, e.tam) + " más" +
+      '<span class="paginar-cuenta" aria-hidden="true">' + vistos + "/" + total + "</span>";
     e.menos.hidden = faltan > 0 || total <= e.tam;
   }
 

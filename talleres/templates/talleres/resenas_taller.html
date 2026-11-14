@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Reseñas · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="mt-8 md:mt-10">
+  {% url 'talleres:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi taller" %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">Mis <span class="text-lava">reseñas</span></h1>
+  <div class="lr">
+    <aside class="papel pt-caja lr-resumen">
+      {% if nota.n %}{% include "talleres/_calificacion.html" %}
+      <ul class="lr-reparto">
+        {% for e, n, pct in reparto %}<li><a href="?estrellas={{ e }}{% if filtro == 'sin_responder' %}&amp;ver=sin_responder{% endif %}"{% if estrellas == e|stringformat:"s" %} class="activo"{% endif %}><span>{{ e }} ★</span><span class="lr-barra"><span style="width: {{ pct }}%"></span></span><small>{{ n }}</small></a></li>{% endfor %}
+      </ul>
+      {% if estrellas %}<a href="?{% if filtro == 'sin_responder' %}ver=sin_responder{% endif %}" class="pt-enlace">Quitar filtro de estrellas</a>{% endif %}
+      {% else %}<p class="pt-vacio-chico">Aún no tienes reseñas.</p>{% endif %}
+    </aside>
+    <section class="papel pt-caja">
+      <nav class="lt-filtros mb-4" aria-label="Qué reseñas ver">
+        <a href="?ver=todas{% if estrellas %}&amp;estrellas={{ estrellas }}{% endif %}"{% if filtro != "sin_responder" %} class="activo"{% endif %}>Todas <span>{{ nota.n }}</span></a>
+        <a href="?ver=sin_responder{% if estrellas %}&amp;estrellas={{ estrellas }}{% endif %}"{% if filtro == "sin_responder" %} class="activo"{% endif %}>Sin responder <span>{{ sin_responder }}</span></a>
+      </nav>
+      <ul class="pt-resenas">
+        {% for r in pagina %}{% include "talleres/_resena_item.html" %}
+        {% empty %}<li class="pt-vacio-chico">No hay reseñas en esta lista.</li>{% endfor %}
+      </ul>
+      {% include "talleres/_paginas.html" %}
+    </section>
+  </div>
+</div>
+{% endblock %}

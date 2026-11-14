@@ -1,10 +1,12 @@
 from django.utils import timezone
 """Crear notificaciones sin repetirlas, y generar las que dependen del estado de las motos."""
 import hashlib
+import logging
 import time
 
 from .models import Notificacion
 
+logger = logging.getLogger(__name__)
 CADA_SEGUNDOS = 10 * 60  # cada cuánto se revisan las motos de una persona mientras navega
 
 
@@ -35,7 +37,7 @@ def generar_para(usuario):
     hoy = timezone.localdate()
     for moto in perfil.motos.select_related("linea", "linea__marca"):
         plan = calcular_plan(moto)
-        ajustes = {a.tarea_id: a for a in moto.ajustes.all()}
+        ajustes = {a.tarea_id: a for a in moto.ajustes.select_related("tarea")}
         for estado, titulo in (("vencido", "Toca ya"), ("pronto", "Se acerca")):
             # Lo que la persona pospuso no vuelve a avisar hasta la fecha elegida.
             tareas = [t for t in plan.tareas if t.estado == estado and not (t.tarea.pk in ajustes and ajustes[t.tarea.pk].pospuesta)]
@@ -57,18 +59,14 @@ def generar_para(usuario):
                           f"Lo pediste para hoy · {moto}", f"{moto.get_absolute_url()}#plan", Notificacion.Tipo.MANTENIMIENTO)
                 a.recordado = True
                 a.save(update_fields=["recordado"])
-        for doc in moto.documentos():
-            if doc["estado"] == "vencido":
-                titulo = f"Tu {doc['nombre']} está vencido"
-            elif doc["estado"] == "pronto":
-                cuando = "hoy" if doc["dias"] == 0 else f"en {doc['dias']} días"
-                titulo = f"Tu {doc['nombre']} vence {cuando}"
-            else:
-                continue
-            notificar(
-                usuario, f"doc:{moto.pk}:{doc['clave']}:{doc['estado']}:{doc['vence']}", titulo,
-                f"{moto} · vence el {doc['vence']:%d/%m/%Y}", moto.get_absolute_url(), Notificacion.Tipo.DOCUMENTO,
-            )
+        from garaje.pico_placa import aviso_pendiente
+        if pyp := aviso_pendiente(moto):
+            clave, titulo, texto = pyp
+            notificar(usuario, clave, titulo, texto, f"{moto.get_absolute_url()}#pico-placa", Notificacion.Tipo.GENERAL)
+        # SOAT y técnico-mecánica: 30, 15 y 3 días antes y al vencer (mismas claves que el comando avisar_vencimientos).
+        from garaje.avisos import avisos_documentos
+        for a in avisos_documentos(moto, hoy):
+            notificar(usuario, a["clave"], a["titulo"], a["texto"], a["url"], Notificacion.Tipo.DOCUMENTO)
 
 
 def generar_si_toca(request):
@@ -79,8 +77,8 @@ def generar_si_toca(request):
     request.session["notif_revisadas"] = ahora
     try:
         generar_para(request.user)
-    except Exception:  # un aviso nunca debe romper la página
-        pass
+    except Exception:  # un aviso nunca debe romper la página, pero queda en el log para corregirlo
+        logger.exception("No se pudieron generar las notificaciones de %s", request.user.pk)
 
 
 def contexto(request):

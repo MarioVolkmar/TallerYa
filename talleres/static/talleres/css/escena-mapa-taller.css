@@ -1,0 +1,37 @@
+/* Animación "pin en el mapa" del registro de taller (ciclo de 8 s) */
+.rtm { position: relative; margin-top: 1.4rem; height: 15.5rem; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .07); background: #172023; }
+.rtm-mapa { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.rtm-ruta { fill: none; stroke: #e3a72f; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 3 4; opacity: .9;
+  stroke-dashoffset: 0; animation: rtm-ruta 8s ease-in-out infinite; }
+.rtm-ruta2 { animation-name: rtm-ruta2; }
+.rtm-ruta3 { animation-name: rtm-ruta3; }
+.rtm-moto { animation: rtm-moto 8s linear infinite; }
+.rtm-pin { transform-box: fill-box; transform-origin: 50% 100%; animation: rtm-pin 8s cubic-bezier(.3, 1.4, .5, 1) infinite; }
+.rtm-onda circle { transform-box: fill-box; transform-origin: center; animation: rtm-onda 2s ease-out infinite; }
+.rtm-onda { animation: rtm-aparece 8s linear infinite; }
+.rtm-ciudad { position: absolute; top: .7rem; left: .7rem; font-size: .62rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  padding: .28rem .6rem; border-radius: 999px; background: rgba(17, 22, 24, .85); color: var(--crema-2); }
+.rtm-tarjeta { position: absolute; left: .7rem; right: .7rem; bottom: .7rem; display: flex; align-items: center; gap: .6rem; padding: .55rem .7rem; border-radius: 12px;
+  background: rgba(29, 36, 39, .94); border: 1px solid rgba(255, 255, 255, .1); animation: rtm-tarjeta 8s ease infinite; }
+.rtm-logo { width: 2rem; height: 2rem; flex-shrink: 0; display: grid; place-items: center; border-radius: 9px; background: #f2611d; color: #1a0d05;
+  font-family: "Oswald", sans-serif; font-weight: 700; font-size: .8rem; }
+.rtm-texto strong { display: block; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .04em; font-size: .9rem; color: var(--crema); line-height: 1.1; }
+.rtm-texto small { display: block; font-size: .7rem; color: #8d9496; }
+.rtm-llegaron { position: absolute; top: .7rem; right: .7rem; display: inline-flex; align-items: center; gap: .3rem; font-size: .68rem; font-weight: 700;
+  padding: .3rem .6rem; border-radius: 999px; background: #86dba6; color: #0d2a19; animation: rtm-llegaron 8s ease infinite; }
+
+/* 0–12 %: cae el pin · 15–22 %: tarjeta · 30–70 %: rutas y motos · 72 %: aviso · 92–100 %: todo se desvanece para reiniciar */
+@keyframes rtm-pin { 0%, 2% { transform: translateY(-160px); opacity: 0; } 4% { opacity: 1; } 12% { transform: translateY(0); } 92% { transform: translateY(0); opacity: 1; } 100% { opacity: 0; } }
+@keyframes rtm-onda { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes rtm-aparece { 0%, 12% { opacity: 0; } 14%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes rtm-tarjeta { 0%, 14% { transform: translateY(130%); opacity: 0; } 22%, 92% { transform: none; opacity: 1; } 100% { transform: translateY(20%); opacity: 0; } }
+@keyframes rtm-ruta { 0%, 28% { stroke-dashoffset: 100; opacity: 0; } 30% { opacity: .9; } 62%, 92% { stroke-dashoffset: 0; opacity: .9; } 100% { opacity: 0; } }
+@keyframes rtm-ruta2 { 0%, 34% { stroke-dashoffset: 100; opacity: 0; } 36% { opacity: .9; } 66%, 92% { stroke-dashoffset: 0; opacity: .9; } 100% { opacity: 0; } }
+@keyframes rtm-ruta3 { 0%, 40% { stroke-dashoffset: 100; opacity: 0; } 42% { opacity: .9; } 70%, 92% { stroke-dashoffset: 0; opacity: .9; } 100% { opacity: 0; } }
+@keyframes rtm-moto { 0%, 28% { opacity: 0; } 31%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes rtm-llegaron { 0%, 70% { transform: scale(.6); opacity: 0; } 74%, 92% { transform: none; opacity: 1; } 100% { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rtm *, .rtm-tarjeta, .rtm-llegaron { animation: none !important; }
+  .rtm-moto { display: none; }
+}

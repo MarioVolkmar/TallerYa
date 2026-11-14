@@ -1,0 +1,69 @@
+{% load static %}
+{# Escena de Entrar: mapa del Valle de Aburrá. Aparecen talleres por barrio y se traza la ruta desde "tú" hasta uno con cupón. #}
+<link rel="stylesheet" href="{% static 'talleres/css/escenas-cuenta.css' %}">
+<aside class="entrar-escena escena-mapa" aria-hidden="true">
+  <div class="entrar-escena-texto">
+    <p class="etiqueta">Bienvenido de vuelta</p>
+    <p class="titulo text-3xl lg:text-4xl mt-3">Tus talleres de <span class="text-lava">confianza</span>, a la vuelta</p>
+  </div>
+  <svg class="mp-escena" viewBox="0 0 480 420">
+    <defs>
+      <radialGradient id="mp-borde" cx="50%" cy="50%" r="55%"><stop offset=".6" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+      <mask id="mp-fundido"><rect width="480" height="420" fill="url(#mp-borde)"/></mask>
+      <filter id="mp-sombra" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity=".55"/></filter>
+    </defs>
+    <!-- Valle: montañas a los lados y la ciudad en el medio -->
+    <g mask="url(#mp-fundido)">
+    <path d="M0 0 L120 0 C96 80 108 170 70 260 C50 320 60 380 40 420 L0 420Z" fill="#141c1e"/>
+    <path d="M480 0 L372 0 C392 90 370 180 410 270 C430 330 418 380 440 420 L480 420Z" fill="#141c1e"/>
+    <g fill="none" stroke="#1f292c" stroke-width="1.2">
+      <path d="M20 40 C60 80 40 160 30 240"/><path d="M60 20 C90 90 70 190 50 300"/>
+      <path d="M440 50 C410 120 430 200 445 280"/><path d="M410 20 C390 100 400 200 420 320"/>
+    </g>
+    <!-- Avenidas -->
+    <g stroke="#34413f" stroke-width="5" stroke-linecap="round" fill="none">
+      <path d="M150 30 C170 140 190 260 210 410"/>
+      <path d="M330 20 C318 140 300 260 296 410"/>
+      <path d="M90 150 C200 160 300 150 400 140"/>
+      <path d="M80 290 C190 300 300 300 420 286"/>
+    </g>
+    <!-- Río Medellín -->
+    <path d="M196 0 C230 70 250 120 236 190 C222 260 262 320 280 420" fill="none" stroke="#1d5a72" stroke-width="10" stroke-linecap="round"/>
+    <path d="M196 0 C230 70 250 120 236 190 C222 260 262 320 280 420" fill="none" stroke="#3b8fb0" stroke-width="2" stroke-dasharray="6 10" class="mp-agua"/>
+    <!-- Barrios -->
+    <g font-family="Oswald, sans-serif" font-size="11" letter-spacing="1.5" fill="#6f7f84" text-anchor="middle">
+      <text x="250" y="34">BELLO</text><text x="130" y="128">ROBLEDO</text><text x="160" y="196">LAURELES</text>
+      <text x="330" y="196">CENTRO</text><text x="150" y="268">BELÉN</text><text x="352" y="262">EL POBLADO</text>
+      <text x="230" y="392">ENVIGADO</text><text x="392" y="350">LAS PALMAS</text>
+    </g>
+    </g>
+    <!-- Ruta desde "tú" hasta el taller elegido -->
+    <path class="mp-ruta" d="M150 222 C170 226 196 230 212 238 C232 248 250 246 272 236 C292 228 300 232 312 240" fill="none" stroke="#e8a93a" stroke-width="3.5" stroke-linecap="round" stroke-dasharray="7 7"/>
+    <!-- Tú -->
+    <g class="mp-tu"><circle cx="150" cy="222" r="16" fill="#3d7bf2" opacity=".25" class="mp-onda"/><circle cx="150" cy="222" r="7" fill="#3d7bf2" stroke="#efe6d2" stroke-width="2.5"/></g>
+    <!-- Talleres: aparecen uno por uno -->
+    <g class="mp-pines" filter="url(#mp-sombra)">
+      <g class="mp-pin mp-p1"><path d="M246 76 c-9 0 -15 7 -15 15 c0 11 15 25 15 25 s15 -14 15 -25 c0 -8 -6 -15 -15 -15z" fill="#f26522"/><circle cx="246" cy="91" r="5" fill="#14191b"/></g>
+      <g class="mp-pin mp-p2"><path d="M118 150 c-9 0 -15 7 -15 15 c0 11 15 25 15 25 s15 -14 15 -25 c0 -8 -6 -15 -15 -15z" fill="#f26522"/><circle cx="118" cy="165" r="5" fill="#14191b"/></g>
+      <g class="mp-pin mp-p3"><path d="M210 290 c-9 0 -15 7 -15 15 c0 11 15 25 15 25 s15 -14 15 -25 c0 -8 -6 -15 -15 -15z" fill="#f26522"/><circle cx="210" cy="305" r="5" fill="#14191b"/></g>
+      <g class="mp-pin mp-p4"><path d="M360 300 c-9 0 -15 7 -15 15 c0 11 15 25 15 25 s15 -14 15 -25 c0 -8 -6 -15 -15 -15z" fill="#f26522"/><circle cx="360" cy="315" r="5" fill="#14191b"/></g>
+      <g class="mp-pin mp-elegido"><path d="M312 206 c-11 0 -18 8 -18 18 c0 13 18 30 18 30 s18 -17 18 -30 c0 -10 -7 -18 -18 -18z" fill="#e8a93a"/><path d="M306 223 l4 4 8 -9" stroke="#14191b" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
+    </g>
+    <!-- Tarjeta del taller -->
+    <g class="mp-tarjeta" filter="url(#mp-sombra)">
+      <rect x="276" y="104" width="172" height="78" rx="10" fill="#efe6d2"/>
+      <path d="M306 182 l8 10 8 -10z" fill="#efe6d2"/>
+      <text x="290" y="128" font-family="Oswald, sans-serif" font-weight="700" font-size="14" fill="#14191b">Taller del barrio</text>
+      <text x="290" y="146" font-size="12" fill="#e3a72f" letter-spacing="1">★★★★★</text>
+      <text x="364" y="146" font-family="Archivo, sans-serif" font-size="10" fill="#5c584e">4,9 · 128 reseñas</text>
+      <rect x="290" y="155" width="96" height="18" rx="4" fill="#f26522"/>
+      <text x="338" y="168" text-anchor="middle" font-family="Oswald, sans-serif" font-weight="700" font-size="10" letter-spacing="1" fill="#14191b">CUPÓN 15 %</text>
+      <text x="394" y="168" font-family="Archivo, sans-serif" font-size="10" fill="#2f9a55">● abierto</text>
+    </g>
+  </svg>
+  <ul class="entrar-ventajas mp-ventajas">
+    <li><strong>Tu garaje</strong><small>Tus motos y su plan al día</small></li>
+    <li><strong>Cupones</strong><small>Los que ya reclamaste</small></li>
+    <li><strong>Talleres</strong><small>Tus favoritos y tus citas</small></li>
+  </ul>
+</aside>

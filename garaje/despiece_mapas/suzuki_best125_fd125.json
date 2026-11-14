@@ -1,0 +1,171 @@
+{
+  "marca": "Suzuki",
+  "linea": "Best 125",
+  "version": "FD125XSU / FD125XDU (Suzuki Malasia, 2005)",
+  "anio": 2005,
+  "formato": "suzuki",
+  "fuente": "https://suzuki.com.my/_files/ugd/c6216c_e9f7708a03184dfa9de76a12ffd2e8a5.pdf",
+  "laminas": [
+    {
+      "figura": "39",
+      "titulo_es": "Caliper delantero y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "PAD SET": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": "40",
+      "titulo_es": "Bomba de freno delantera",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP": "liquido-frenos",
+        "DIAPHRAGM": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": "44",
+      "titulo_es": "Rueda trasera, freno de tambor y corona",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras",
+        "SHOE, BRAKE": "bandas-tras",
+        "SPROCKET": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "13",
+      "titulo_es": "Transmisión, piñón y cadena",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET, ENGINE": "kit-arrastre",
+        "CHAIN ASSY, DRIVE": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "11",
+      "titulo_es": "Bomba y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTER, ENGINE OIL": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "3",
+      "titulo_es": "Cárter y tapón de drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "PLUG, OIL DRAIN": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "9",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTER COMP, AIR CLEANER": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "1",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "SPARK PLUG": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "6",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, INTAKE": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "35",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE, FRONT": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "32",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SPRING": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "42",
+      "titulo_es": "Guardacadena y amortiguadores",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "ABSORBER ASSY": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "19",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY (": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": 10,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "escape"
+    },
+    {
+      "figura": 41,
+      "titulo_es": "Basculante (tijera)",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    }
+  ]
+}

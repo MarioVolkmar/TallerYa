@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="supported-color-schemes" content="dark">
+  <title>{% block asunto %}{{ asunto|default:"TallerYa" }}{% endblock %}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+</head>
+<body style="margin:0;padding:0;background:#0f1315;-webkit-text-size-adjust:100%;">
+  <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#0f1315;">{% block preheader %}{% endblock %}</div>
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0f1315;">
+    <tr><td align="center" style="padding:32px 12px 24px;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+        <tr><td style="padding:0 6px 18px;">
+          <a href="{% if sitio %}{{ sitio }}{% else %}{{ protocol }}://{{ domain }}{% endif %}" style="text-decoration:none;font-family:Oswald,Impact,'Arial Narrow Bold','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:30px;letter-spacing:1px;color:#ede3cc;">TALLER<span style="color:#f2611d;">YA</span></a>
+        </td></tr>
+        <tr><td style="background:#1d2427;border-radius:20px;border-top:4px solid #f2611d;padding:34px 30px 30px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#c9bfa7;">
+          <p style="margin:0 0 8px;font-size:11px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;color:#e3a72f;">{% block etiqueta %}{% endblock %}</p>
+          <h1 style="margin:0 0 18px;font-family:Oswald,Impact,'Arial Narrow Bold','Arial Narrow',Arial,sans-serif;font-weight:700;font-size:32px;line-height:1.1;text-transform:uppercase;color:#ede3cc;">{% block titulo %}{% endblock %}</h1>
+          {% block contenido %}{% endblock %}
+        </td></tr>
+        <tr><td style="padding:22px 12px 0;text-align:center;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#7d8285;">
+          {% block pie %}Recibes este correo porque tienes una cuenta en TallerYa.{% endblock %}<br>
+          <a href="{% if sitio %}{{ sitio }}{% else %}{{ protocol }}://{{ domain }}{% endif %}" style="color:#9ba2a4;">TallerYa</a> · Talleres de motos de confianza en Medellín
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

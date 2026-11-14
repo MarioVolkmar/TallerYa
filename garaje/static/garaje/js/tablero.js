@@ -66,6 +66,16 @@
     t.querySelector(".tacometro-dato").textContent = a.dato;
     t.querySelector(".tacometro-detalle").textContent = a.detalle;
   }
+  function actualizarLiquidos(lista) {
+    (lista || []).forEach((l) => {
+      const li = document.querySelector(`.liquido[data-clave="${l.clave}"]`);
+      if (!li) return;
+      li.className = `liquido liquido-${l.estado}`;
+      li.querySelector(".liquido-dato").textContent = l.dato;
+      li.querySelector(".liquido-detalle").textContent = l.detalle;
+      li.querySelector(".liquido-barra i").style.width = `${l.pct}%`;
+    });
+  }
   function actualizarLeyenda(conteos) {
     Object.entries(conteos || {}).forEach(([estado, n]) => {
       const li = document.querySelector(`.leyenda-3d-lista [data-grupo="${estado}"]`);
@@ -101,8 +111,14 @@
       campo.min = actual;
       boton.disabled = true;
       const porDia = document.getElementById("km-por-dia");
-      if (porDia && datos.km_por_dia) porDia.textContent = `≈ ${datos.km_por_dia} km al día`;
+      if (porDia && datos.km_por_dia) {
+        porDia.classList.remove("vacio");
+        porDia.classList.toggle("estimado", !!datos.ritmo_estimado);
+        document.getElementById("km-dia-valor").textContent = datos.ritmo_estimado
+          ? `≈ ${datos.km_por_dia} km/día · estimado` : `${datos.km_por_dia} km/día`;
+      }
       actualizarAceite(datos.aceite);
+      actualizarLiquidos(datos.liquidos);
       actualizarLeyenda(datos.conteos);
       decir(datos.mensaje, "listo");
       if (datos.cambiaron && datos.cambiaron.length) {

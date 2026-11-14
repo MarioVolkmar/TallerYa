@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Talleres de motos en Medellín · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<section class="directorio mt-8 md:mt-12">
+  <header class="dir-cabeza">
+    <div>
+      <p class="etiqueta">Directorio · Medellín y Valle de Aburrá</p>
+      <h1 class="titulo text-4xl md:text-5xl mt-3">Talleres de <span class="text-lava">confianza</span></h1>
+      <p class="text-suave mt-2 max-w-xl">Compara reseñas, servicios y precios, guarda tus favoritos y pide tu cita por WhatsApp.</p>
+    </div>
+    <div class="dir-stats">
+      <div class="dir-stat dir-stat-lava"><strong>{{ stats.total }}</strong><span>Talleres</span></div>
+      <div class="dir-stat dir-stat-verde"><strong>{{ stats.verificados }}</strong><span>Verificados</span></div>
+      <div class="dir-stat dir-stat-mostaza"><strong>{{ stats.cupones }}</strong><span>Con cupón</span></div>
+    </div>
+  </header>
+
+  <form method="get" class="dir-form" role="search" id="dir-form">
+    {% if orden != "recomendados" %}<input type="hidden" name="orden" value="{{ orden }}">{% endif %}
+    <div class="bb">
+      <label class="bb-campo bb-q"><span class="sr-only">Qué necesitas</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input name="q" value="{{ filtros.q }}" placeholder="Frenos, aceite, nombre del taller…" autocomplete="off"></label>
+      <label class="bb-campo bb-barrio"><span class="sr-only">Barrio</span><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+        <select name="barrio" data-auto><option value="">Todos los barrios</option>{% for b in barrios %}<option value="{{ b.id }}"{% if filtros.barrio == b.id|stringformat:"s" %} selected{% endif %}>{{ b }}</option>{% endfor %}</select><svg class="bb-flecha" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></label>
+      <button class="btn btn-lava bb-boton"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Buscar</span></button>
+    </div>
+
+    <div class="dir-cuerpo">
+      <details class="dir-filtros" open>
+        <summary class="dir-filtros-titulo">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          Filtros{% if filtros_activos %}<span class="dir-filtros-n">{{ filtros_activos|length }}</span>{% endif %}
+          <svg class="dir-filtros-flecha" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="dir-filtros-cuerpo">
+          <div class="dir-grupo dir-grupo-primero">
+            {% if user.is_authenticated %}<label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.4C1.5 7.9 3.6 4.5 7 4.5c2 0 3.6 1.1 5 2.9 1.4-1.8 3-2.9 5-2.9 3.4 0 5.5 3.4 4.3 6.6-1.8 4.8-9.3 9.4-9.3 9.4Z"/></svg>Mis favoritos</span>
+              <input type="checkbox" name="favoritos" value="1" data-auto {% if filtros.favoritos %}checked{% endif %}></label>{% endif %}
+            <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/></svg>Solo verificados</span>
+              <input type="checkbox" name="verificados" value="1" data-auto {% if filtros.verificados %}checked{% endif %}></label>
+            <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a2.5 2.5 0 0 0 0-5Z"/><path d="M14 5v14" stroke-dasharray="2 2.5"/></svg>Con cupón disponible</span>
+              <input type="checkbox" name="cupon" value="1" data-auto {% if filtros.cupon %}checked{% endif %}></label>
+          </div>
+          <fieldset class="dir-grupo">
+            <legend class="dir-grupo-titulo">Servicio</legend>
+            <div class="dir-chips">
+              <label class="dir-chip"><input type="radio" name="servicio" value="" data-auto {% if not filtros.servicio %}checked{% endif %}><span>Todos</span></label>
+              {% for x in servicios %}<label class="dir-chip"><input type="radio" name="servicio" value="{{ x.id }}" data-auto {% if filtros.servicio == x.id|stringformat:"s" %}checked{% endif %}><span>{{ x }}</span></label>{% endfor %}
+            </div>
+          </fieldset>
+          <fieldset class="dir-grupo">
+            <legend class="dir-grupo-titulo">Marca de tu moto</legend>
+            <div class="dir-chips">
+              <label class="dir-chip"><input type="radio" name="marca" value="" data-auto {% if not filtros.marca %}checked{% endif %}><span>Todas</span></label>
+              {% for x in marcas %}<label class="dir-chip"><input type="radio" name="marca" value="{{ x.id }}" data-auto {% if filtros.marca == x.id|stringformat:"s" %}checked{% endif %}><span>{{ x }}</span></label>{% endfor %}
+            </div>
+          </fieldset>
+          {% if filtros_activos %}<a href="{% url 'talleres:directorio' %}" class="dir-limpiar">Limpiar todos los filtros</a>{% endif %}
+        </div>
+      </details>
+
+      <div class="dir-resultados">
+        <div class="dir-barra">
+          <p class="dir-mostrando">{% if pagina.paginator.count %}Mostrando <strong>{{ pagina.start_index }}–{{ pagina.end_index }}</strong> de <strong>{{ pagina.paginator.count }}</strong> taller{{ pagina.paginator.count|pluralize:"es" }}{% else %}Sin resultados{% endif %}</p>
+          <nav class="dir-orden" aria-label="Ordenar talleres">
+            {% for clave, nombre in ordenes.items %}<a href="?{{ qs_orden }}{% if qs_orden %}&amp;{% endif %}orden={{ clave }}"{% if orden == clave %} class="activo" aria-current="true"{% endif %}>{{ nombre }}</a>{% endfor %}
+          </nav>
+        </div>
+        {% if filtros_activos %}
+        <div class="dir-activos">
+          {% for a in filtros_activos %}<a href="{{ a.quitar }}" class="dir-activo" title="Quitar filtro">{{ a.nombre }}<span aria-hidden="true">×</span></a>{% endfor %}
+        </div>
+        {% endif %}
+        {% for r in referencia %}
+        <p class="dir-nota tf-mediana" data-mediana><strong>{{ r.servicio }}{% if r.cilindraje %} · {{ r.cilindraje }}{% endif %} en Medellín:</strong>
+          {{ r.desde_txt }} a {{ r.hasta_txt }} <small>(mediana de lo que publican {{ r.talleres }} talleres; referencia, no oferta)</small></p>
+        {% endfor %}
+        {% if orden == "precio" %}<p class="dir-nota">El rango de precios lo indica cada taller; los que aún no lo han indicado salen al final.</p>{% endif %}
+
+        {% if pagina.object_list %}
+        <div class="tc-rejilla">
+          {% for t in pagina %}{% include "talleres/_tarjeta_taller.html" %}{% endfor %}
+        </div>
+        {% else %}
+        <div class="papel dir-vacio">
+          <p class="titulo text-2xl">{% if filtros.favoritos %}Aún no tienes favoritos{% else %}Sin resultados{% endif %}</p>
+          <p class="text-suave mt-2">{% if filtros.favoritos %}Toca el corazón de un taller para guardarlo aquí.{% else %}No encontramos talleres con esos filtros. Prueba quitando alguno.{% endif %}</p>
+          <a href="{% url 'talleres:directorio' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver todos</a>
+        </div>
+        {% endif %}
+
+        {% if pagina.has_other_pages %}
+        <nav class="paginacion" aria-label="Páginas">
+          {% if pagina.has_previous %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ pagina.previous_page_number }}" rel="prev" class="pag-paso">← Anterior</a>{% else %}<span class="pag-paso deshabilitado">← Anterior</span>{% endif %}
+          {% for n in rango %}{% if n == pagina.number %}<span class="actual" aria-current="page">{{ n }}</span>{% elif n == pagina.paginator.ELLIPSIS %}<span class="pag-puntos">…</span>{% else %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ n }}">{{ n }}</a>{% endif %}{% endfor %}
+          {% if pagina.has_next %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ pagina.next_page_number }}" rel="next" class="pag-paso">Siguiente →</a>{% else %}<span class="pag-paso deshabilitado">Siguiente →</span>{% endif %}
+        </nav>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+</section>
+<script src="{% static 'talleres/js/favoritos.js' %}" defer></script>
+<script>
+  // Los filtros se aplican solos al cambiarlos; en celular el panel arranca cerrado.
+  (function () {
+    var form = document.getElementById("dir-form");
+    form.querySelectorAll("[data-auto]").forEach(function (c) { c.addEventListener("change", function () { form.submit(); }); });
+    var panel = form.querySelector(".dir-filtros");
+    if (window.matchMedia("(max-width: 899px)").matches && !{{ filtros_activos|length }}) panel.open = false;
+  })();
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+Hola{% if usuario.first_name %} {{ usuario.first_name }}{% endif %},
+
+Gracias por crear tu cuenta en TallerYa. Confirma tu correo ({{ usuario.email }}) desde este enlace:
+
+{{ url }}
+
+El enlace vence en 3 días. Si no creaste una cuenta en TallerYa, ignora este correo.
+
+TallerYa · Talleres de motos de confianza en Medellín

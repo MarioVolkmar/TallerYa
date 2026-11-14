@@ -1,0 +1,119 @@
+{
+  "marca": "AKT",
+  "linea": "Dynamic Pro 125",
+  "version": "AK 125SC PRO CBS (2020)",
+  "anio": 2020,
+  "formato": "akt",
+  "fuente": "https://aktmotos.com/catalogos/AK%20125SC%20PRO%20CBS%202020%20CATALOGO%20DE%20PARTES.pdf",
+  "laminas": [
+    {
+      "figura": "F-4",
+      "titulo_es": "Freno delantero (bomba y caliper)",
+      "pieza": "freno_del",
+      "reglas": {
+        "Pastillas": "pastillas-del",
+        "DEPOS LIQUIDO": "liquido-frenos"
+      },
+      "diagrama": "freno_completo"
+    },
+    {
+      "figura": "F-10",
+      "titulo_es": "Rueda trasera y bandas",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "Bandas": "bandas-tras",
+        "Llanta": "llanta-tras"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "E-4",
+      "titulo_es": "Clutch automático y correa",
+      "pieza": "correa",
+      "reglas": {
+        "Correa": "correa-cvt"
+      },
+      "diagrama": "cvt"
+    },
+    {
+      "figura": "E-7",
+      "titulo_es": "Transmisión final",
+      "pieza": "correa",
+      "reglas": {},
+      "diagrama": "caja_secundaria"
+    },
+    {
+      "figura": "E-5",
+      "titulo_es": "Volante y drenaje de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "Drenaje": "aceite",
+        "TAPON VISOR": "aceite",
+        "TAPÓN VISOR": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "E-1",
+      "titulo_es": "Cilindro, culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "Bujia": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "E-2",
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "Válvula": "valvulas",
+        "Valvula": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "F-9",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "Llanta": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "F-18",
+      "titulo_es": "Amortiguador trasero",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "Amortiguador": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "F-15",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "Filtro Aire": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "F-14",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "Bateria": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "F-16",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "escape"
+    }
+  ]
+}

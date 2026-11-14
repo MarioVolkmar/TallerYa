@@ -1,3 +1,4 @@
+"""Utilidades compartidas: normalizar celulares colombianos y generar códigos aleatorios."""
 import secrets
 
 from django.core.exceptions import ValidationError
@@ -18,3 +19,8 @@ def normalizar_celular(valor):
 
 def codigo_aleatorio(largo, alfabeto=ALFABETO_CODIGOS):
     return "".join(secrets.choice(alfabeto) for _ in range(largo))
+
+
+def pesos(valor):
+    """80000 → "$80.000" (formato colombiano)."""
+    return "$" + f"{int(valor):,}".replace(",", ".")

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{% if tiene %}Cambiar{% else %}Crear{% endif %} contraseña · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-12">
+  {% url 'cuentas:mi_cuenta' as url_cuenta %}{% include "parciales/volver.html" with url=url_cuenta texto="Mi cuenta" %}
+  <h1 class="titulo text-4xl mt-4">{% if tiene %}Cambiar{% else %}Crear{% endif %} <span class="text-lava">contraseña</span></h1>
+  <p class="text-suave mt-3">{% if tiene %}Escribe tu contraseña actual y la nueva. Te avisaremos por correo del cambio.{% else %}Entraste con Google. Crea una contraseña si también quieres entrar con tu correo.{% endif %}</p>
+  <section class="papel p-6 md:p-8 mt-6">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% include "cuentas/_campos.html" %}
+      <button class="btn btn-lava w-full py-3 text-sm">Guardar contraseña</button>
+    </form>
+    {% if tiene %}<p class="text-xs text-suave mt-4">¿No recuerdas la actual? <a href="{% url 'cuentas:recuperar' %}" class="underline">Recupérala por correo</a>.</p>{% endif %}
+  </section>
+</div>
+{% endblock %}

@@ -18,7 +18,7 @@ CLAVE = "Moto-segura-2026"
 
 def datos_registro(**extra):
     datos = {"nombre": "Laura", "email": "Laura@Correo.com", "celular": "300 555 1234",
-             "password1": CLAVE, "password2": CLAVE}
+             "password1": CLAVE, "password2": CLAVE, "acepto": "on"}
     datos.update(extra)
     return datos
 
@@ -67,9 +67,11 @@ class RegistroYSesionTests(TestCase):
     def test_recuperar_contrasena_envia_correo(self):
         self.client.post(reverse("cuentas:registro"), datos_registro())
         self.client.logout()
+        mail.outbox.clear()
         self.client.post(reverse("cuentas:recuperar"), {"email": "laura@correo.com"})
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("/cuenta/recuperar/", mail.outbox[0].body)
+        self.assertIn("Crear contraseña nueva", mail.outbox[0].alternatives[0][0])  # versión HTML
 
     def test_cupon_con_celular_de_cuenta_pide_iniciar_sesion(self):
         self.client.post(reverse("cuentas:registro"), datos_registro())
@@ -85,7 +87,7 @@ class PlusTests(TestCase):
         cache.clear()
         self.client.post(reverse("cuentas:registro"), datos_registro())
         self.moto = Motociclista.objects.get()
-        barrio = Barrio.objects.create(nombre="Belén")
+        barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
         self.taller = Taller.objects.create(nombre="Taller A", responsable="Ana", whatsapp="573001234567",
                                             direccion="Cra 1", barrio=barrio, activo=True)
         self.exclusivo = Cupon.objects.create(taller=self.taller, titulo="25% exclusivo", solo_plus=True)
@@ -156,7 +158,7 @@ class EntrarConSesionAbiertaTests(TestCase):
 class RolesTests(TestCase):
     def setUp(self):
         from talleres.models import Barrio, Taller
-        self.barrio = Barrio.objects.first() or Barrio.objects.create(nombre="Laureles")
+        self.barrio = Barrio.objects.first() or Barrio.objects.get_or_create(nombre="Laureles")[0]
         self.motero = User.objects.create_user("m@x.com", "m@x.com", "x", first_name="Mara")
         Motociclista.objects.create(nombre="Mara", celular="573005550000", usuario=self.motero)
         self.cuenta_taller = User.objects.create_user("t@x.com", "t@x.com", "x", first_name="Tomás")
@@ -174,7 +176,7 @@ class RolesTests(TestCase):
         self.client.force_login(self.cuenta_taller)
         r = self.client.get(reverse("talleres:inicio"))
         self.assertContains(r, 'nav-cuenta-nombre">Taller Prueba<')  # el taller ve su nombre en la cápsula
-        self.assertContains(r, "Canjear cupón")
+        self.assertContains(r, "Validar cupón")
         self.assertNotContains(r, ">Crear cuenta<")
         self.client.force_login(self.admin)
         self.assertContains(self.client.get(reverse("talleres:inicio")), "Administración")
@@ -338,6 +340,26 @@ class GoogleTests(TestCase):
         self.assertContains(r, f'href="{url_google}')
 
 
+class GoogleSeguridadTests(GoogleTests):
+    def test_cuenta_sin_confirmar_pierde_la_contrasena_al_entrar_con_google(self):
+        from .models import Perfil
+        intruso = User.objects.create_user("nuevo@gmail.com", "nuevo@gmail.com", "Clave-del-intruso-1")
+        Perfil.objects.create(usuario=intruso, correo_verificado=False)
+        self.ida_y_vuelta()
+        intruso.refresh_from_db()
+        self.assertFalse(intruso.has_usable_password())
+        self.assertTrue(Perfil.objects.get(usuario=intruso).correo_verificado)
+
+    def test_conectar_google_desde_mi_cuenta(self):
+        from .models import Perfil
+        usuario = User.objects.create_user("otro@correo.com", "otro@correo.com", "Clave-segura-2026")
+        self.client.force_login(usuario)
+        r = self.ida_y_vuelta()
+        self.assertRedirects(r, reverse("cuentas:mi_cuenta"), fetch_redirect_response=False)
+        self.assertEqual(Perfil.objects.get(usuario=usuario).google_sub, "1234567890")
+        self.assertTrue(usuario.has_usable_password())
+
+
 class ActividadConTalleresTests(TestCase):
     def test_agrupa_por_taller_y_deja_fuera_lo_hecho_por_uno_mismo(self):
         from datetime import date
@@ -357,7 +379,7 @@ class CalificarTallerTests(TestCase):
     def setUp(self):
         self.usuario = get_user_model().objects.create_user("cal@x.com", "cal@x.com", "x", first_name="Cami")
         self.client.force_login(self.usuario)
-        barrio = Barrio.objects.create(nombre="Centro")
+        barrio = Barrio.objects.get_or_create(nombre="Centro", ciudad="Medellín")[0]
         self.taller = Taller.objects.create(nombre="Taller C", responsable="Ana", whatsapp="573001234567",
                                             direccion="Calle 1", barrio=barrio, activo=True)
 
@@ -374,3 +396,59 @@ class CalificarTallerTests(TestCase):
         from talleres.models import Resena
         self.client.post(reverse("cuentas:calificar_taller", args=[self.taller.pk]), {"estrellas": "9"})
         self.assertFalse(Resena.objects.exists())
+
+
+class CorreosYContrasenaTests(TestCase):
+    def test_registro_envia_verificacion_y_el_enlace_confirma(self):
+        import re
+        from .models import Perfil
+        self.client.post(reverse("cuentas:registro"), datos_registro())
+        usuario = User.objects.get(username="laura@correo.com")
+        self.assertFalse(Perfil.objects.get(usuario=usuario).correo_verificado)
+        self.assertEqual(len(mail.outbox), 1)
+        correo = mail.outbox[0]
+        self.assertIn("Confirmar mi correo", correo.alternatives[0][0])
+        self.assertContains(self.client.get(reverse("cuentas:mi_cuenta")), "Confirma tu correo")
+        enlace = re.search(r"https?://[^/]+(/cuenta/verificar/[^\s]+)", correo.body).group(1)
+        self.assertRedirects(self.client.get(enlace), reverse("cuentas:mi_cuenta"), fetch_redirect_response=False)
+        self.assertTrue(Perfil.objects.get(usuario=usuario).correo_verificado)
+        self.assertEqual(self.client.get(enlace).status_code, 302)  # ya confirmado: no falla
+        self.assertNotContains(self.client.get(reverse("cuentas:mi_cuenta")), "Confirma tu correo:")
+
+    def test_enlace_falso_no_verifica(self):
+        r = self.client.get(reverse("cuentas:verificar", args=["MQ", "token-falso"]))
+        self.assertEqual(r.status_code, 400)
+
+    def test_cambiar_contrasena_avisa_por_correo(self):
+        usuario = User.objects.create_user("c@x.com", "c@x.com", "Vieja-clave-2026")
+        self.client.force_login(usuario)
+        r = self.client.post(reverse("cuentas:contrasena"), {
+            "old_password": "Vieja-clave-2026", "new_password1": "Nueva-clave-2026!", "new_password2": "Nueva-clave-2026!"})
+        self.assertRedirects(r, reverse("cuentas:mi_cuenta"), fetch_redirect_response=False)
+        usuario.refresh_from_db()
+        self.assertTrue(usuario.check_password("Nueva-clave-2026!"))
+        self.assertEqual(mail.outbox[-1].subject, "Tu contraseña de TallerYa cambió")
+
+    def test_cuenta_de_google_puede_crear_contrasena_por_correo(self):
+        usuario = User.objects.create_user("g@x.com", "g@x.com")
+        usuario.set_unusable_password()
+        usuario.save()
+        self.client.post(reverse("cuentas:recuperar"), {"email": "g@x.com"})
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("crear una contraseña", mail.outbox[0].alternatives[0][0])
+
+
+class TerminosTests(TestCase):
+    def test_sin_aceptar_terminos_no_crea_la_cuenta(self):
+        datos = datos_registro()
+        datos.pop("acepto")
+        r = self.client.post(reverse("cuentas:registro") + "?tipo=motero", datos)
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "debes aceptar los términos")
+        self.assertFalse(User.objects.filter(username="laura@correo.com").exists())
+
+    def test_guarda_cuando_acepto(self):
+        from .models import Perfil
+        self.client.post(reverse("cuentas:registro"), datos_registro())
+        self.assertIsNotNone(Perfil.objects.get(usuario__username="laura@correo.com").terminos_aceptados)
+

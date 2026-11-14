@@ -1,32 +1,109 @@
 {% extends "base.html" %}
-{% block title %}Canjear cupón · TallerYa{% endblock %}
+{% block title %}Validar cupón · TallerYa{% endblock %}
 
 {% block content %}
-<div class="max-w-xl mx-auto mt-10">
+<div class="cj max-w-xl mx-auto mt-10">
   <p class="etiqueta">Para talleres aliados</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">Canjear <span class="text-lava">cupón</span></h1>
-  <p class="text-suave mt-3">Escribe el código que te muestra el cliente y el PIN de tu taller.</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Validar <span class="text-lava">cupón</span></h1>
+  <p class="text-suave mt-3">Escanea el QR que te muestra el motero para validar su cupón{% if not taller %} y confirma con el PIN de tu taller{% endif %}.</p>
 
   {% if resultado %}
   <section class="papel exito p-6 mt-6">
-    <p class="titulo text-2xl">✔ Canje exitoso</p>
+    <p class="titulo text-2xl">✔ Cupón validado</p>
+    <p class="text-sm text-suave mt-1">Aplica el descuento al motero: el cupón ya quedó marcado como usado.</p>
     <p class="mt-2"><strong>{{ resultado.cupon.titulo }}</strong></p>
     <p class="text-sm text-suave mt-1">Cliente: {{ resultado.motociclista.nombre }} · {{ resultado.motociclista.celular_oculto }} · Código {{ resultado.codigo }}</p>
     {% if resultado.cupon.condiciones %}<p class="text-xs text-suave mt-3">Condiciones: {{ resultado.cupon.condiciones }}</p>{% endif %}
   </section>
   {% endif %}
 
+  {% if vista %}
+  <section class="papel cj-vista mt-6">
+    <p class="cj-vista-etiqueta">Cupón escaneado</p>
+    <p class="titulo text-2xl mt-1">{{ vista.cupon.titulo }}</p>
+    <p class="text-sm text-suave mt-1">{{ vista.motociclista.nombre }} · {{ vista.motociclista.celular_oculto }} · {{ vista.codigo }}</p>
+    {% if vista.canjeado %}<p class="cj-aviso cj-aviso-malo">Este cupón ya se usó el {{ vista.canjeado_en|date:"j M Y, g:i a"|lower }}{% if vista.canjeado_taller %} en {{ vista.canjeado_taller }}{% endif %}.</p>
+    {% elif not vista.cupon.vigente %}<p class="cj-aviso cj-aviso-malo">Este cupón ya venció o fue desactivado.</p>
+    {% elif vista.otro_taller %}<p class="cj-aviso cj-aviso-malo">Este cupón es de otro taller ({{ vista.cupon.taller }}).</p>
+    {% else %}<p class="cj-aviso cj-aviso-bien">Cupón vigente: puedes validarlo{% if vista.cupon.valido_hasta %} · vence el {{ vista.cupon.valido_hasta|date:"j M Y"|lower }}{% endif %}.</p>
+      {% if vista.cupon.condiciones %}<p class="text-xs text-suave mt-2">Condiciones: {{ vista.cupon.condiciones }}</p>{% endif %}
+    {% endif %}
+  </section>
+  {% endif %}
+
   <section class="papel p-6 md:p-8 mt-6">
-    <form method="post" class="space-y-4" autocomplete="off">
+    <button type="button" class="btn btn-lava w-full py-3.5 text-sm cj-escanear" id="cj-escanear"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="3" height="3"/><rect x="13" y="8" width="3" height="3"/><rect x="8" y="13" width="3" height="3"/><path d="M13 13h3v3"/></svg>Escanear QR del cupón</button>
+    <div class="cj-camara" id="cj-camara" hidden>
+      <video id="cj-video" playsinline muted></video>
+      <span class="cj-marco" aria-hidden="true"></span>
+      <p class="cj-camara-texto" id="cj-camara-texto">Apunta al QR del cupón</p>
+      <button type="button" class="cj-cerrar" id="cj-cerrar" aria-label="Cerrar cámara">×</button>
+    </div>
+    <p class="cj-camara-error" id="cj-camara-error" hidden></p>
+    <div class="separador-o"><span>o escribe el código</span></div>
+    <form method="post" class="space-y-4" autocomplete="off" id="cj-form" action="{% url 'cupones:canjear' %}">
       {% csrf_token %}
       {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
-      {% for field in form %}
-        <label class="campo-label">{{ field.label }}{{ field }}</label>
-        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      {% endfor %}
-      <button class="btn btn-lava w-full py-3 text-sm">Validar y canjear</button>
+      <label class="campo-label">{{ form.codigo.label }}{{ form.codigo }}</label>
+      {% for e in form.codigo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      {% if taller %}
+      {% else %}
+      <label class="campo-label">{{ form.pin.label }}{{ form.pin }}</label>
+      {% for e in form.pin.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      {% endif %}
+      <button class="btn {% if vista and not vista.canjeado and vista.cupon.vigente and not vista.otro_taller %}btn-lava{% else %}btn-borde{% endif %} w-full py-3 text-sm">{% if vista %}Validar este cupón{% else %}Validar cupón{% endif %}</button>
     </form>
-    <p class="text-xs text-suave mt-5">¿No tienes tu PIN? Escríbenos y te lo enviamos.</p>
+    {% if not taller %}<p class="text-xs text-suave mt-5">¿No tienes tu PIN? Entra con la cuenta del taller o escríbenos y te lo enviamos.</p>{% endif %}
   </section>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" defer></script>
+<script>
+  // Escáner: usa la cámara trasera. Lee el QR con BarcodeDetector (si el navegador lo trae) o con jsQR.
+  (function () {
+    var boton = document.getElementById("cj-escanear"), caja = document.getElementById("cj-camara"), video = document.getElementById("cj-video");
+    var error = document.getElementById("cj-camara-error"), texto = document.getElementById("cj-camara-texto"), flujo = null, activo = false;
+    var lienzo = document.createElement("canvas"), ctx = lienzo.getContext("2d", { willReadFrequently: true });
+    var detector = ("BarcodeDetector" in window) ? new BarcodeDetector({ formats: ["qr_code"] }) : null;
+
+    function codigoDe(valor) {  // el QR trae la dirección de canje (…/canjear/?codigo=TY-XXXXXX) o el código solo
+      try { var u = new URL(valor); if (u.searchParams.get("codigo")) return u.searchParams.get("codigo"); } catch (e) {}
+      var m = /TY-?[A-Z0-9]{6}/i.exec(valor); return m ? m[0] : null;
+    }
+    function cerrar() { activo = false; caja.hidden = true; boton.hidden = false; if (flujo) flujo.getTracks().forEach(function (t) { t.stop(); }); flujo = null; }
+    function encontrado(valor) {
+      var codigo = codigoDe(valor); if (!codigo) { texto.textContent = "Ese QR no es un cupón de TallerYa"; return false; }
+      texto.textContent = "¡Listo! " + codigo; if (navigator.vibrate) navigator.vibrate(80);
+      cerrar(); window.location.href = "{% url 'cupones:canjear' %}?codigo=" + encodeURIComponent(codigo);
+      return true;
+    }
+    async function leer() {
+      if (!activo) return;
+      if (video.readyState >= 2) {
+        try {
+          if (detector) {
+            var r = await detector.detect(video); if (r.length && encontrado(r[0].rawValue)) return;
+          } else if (window.jsQR) {
+            lienzo.width = video.videoWidth; lienzo.height = video.videoHeight; ctx.drawImage(video, 0, 0);
+            var img = ctx.getImageData(0, 0, lienzo.width, lienzo.height), q = jsQR(img.data, img.width, img.height);
+            if (q && encontrado(q.data)) return;
+          }
+        } catch (e) {}
+      }
+      requestAnimationFrame(leer);
+    }
+    boton.addEventListener("click", async function () {
+      error.hidden = true;
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { error.textContent = "Este navegador no permite usar la cámara. Escribe el código o abre el QR con la cámara del celular."; error.hidden = false; return; }
+      try {
+        flujo = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        video.srcObject = flujo; await video.play();
+        caja.hidden = false; boton.hidden = true; activo = true; texto.textContent = "Apunta al QR del cupón"; leer();
+      } catch (e) {
+        error.textContent = "No pudimos abrir la cámara. Revisa el permiso del navegador o escribe el código."; error.hidden = false;
+      }
+    });
+    document.getElementById("cj-cerrar").addEventListener("click", cerrar);
+    window.addEventListener("pagehide", cerrar);
+  })();
+</script>
 {% endblock %}

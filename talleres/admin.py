@@ -1,8 +1,13 @@
 from django.contrib import admin
 
-from .models import Barrio, FotoTaller, Marca, Resena, Servicio, SolicitudCita, Taller
+from .models import Barrio, FotoTaller, HorarioTaller, Marca, Resena, Servicio, SolicitudCita, Taller
 
 admin.site.register([Barrio, Servicio, Marca])
+
+
+class HorarioTallerInline(admin.TabularInline):
+    model = HorarioTaller
+    extra = 0
 
 
 class FotoTallerInline(admin.TabularInline):
@@ -13,8 +18,8 @@ class FotoTallerInline(admin.TabularInline):
 
 @admin.register(Taller)
 class TallerAdmin(admin.ModelAdmin):
-    inlines = [FotoTallerInline]
-    list_display = ("nombre", "barrio", "verificado", "activo", "destacado", "creado")
+    inlines = [HorarioTallerInline, FotoTallerInline]
+    list_display = ("nombre", "barrio", "nivel_precio", "verificado", "activo", "destacado", "creado")
     list_filter = ("verificado", "activo", "destacado", "barrio")
     list_editable = ("verificado", "activo", "destacado")
     search_fields = ("nombre", "responsable", "direccion")
@@ -33,7 +38,8 @@ class TallerAdmin(admin.ModelAdmin):
 
 @admin.register(SolicitudCita)
 class SolicitudCitaAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "taller", "moto", "fecha_preferida", "estado", "creado")
+    list_display = ("nombre", "taller", "moto", "fecha_preferida", "hora", "estado", "creado")
+    raw_id_fields = ("usuario",)
     list_filter = ("estado", "taller")
     list_editable = ("estado",)
 
@@ -43,3 +49,14 @@ class ResenaAdmin(admin.ModelAdmin):
     list_display = ("taller", "nombre", "estrellas", "visible", "creado")
     list_filter = ("visible", "estrellas")
     list_editable = ("visible",)
+
+
+from .models import EventoDiario  # noqa: E402
+
+
+@admin.register(EventoDiario)
+class EventoDiarioAdmin(admin.ModelAdmin):
+    list_display = ("taller", "fecha", "tipo", "cantidad")
+    list_filter = ("tipo",)
+    date_hierarchy = "fecha"
+    raw_id_fields = ("taller",)

@@ -62,6 +62,7 @@ class PlanMoto:
     moto: object
     tareas: list = field(default_factory=list)
     km_por_dia: float | None = None
+    ritmo_estimado: bool = False
 
     def por_estado(self, estado):
         return [t for t in self.tareas if t.estado == estado]
@@ -100,27 +101,74 @@ class PlanMoto:
         return resultado
 
 
-def km_por_dia(moto):
-    """Ritmo de uso según las lecturas (necesita al menos una semana de historial)."""
+RITMO_MIN, RITMO_MAX = 0.5, 400  # km/día creíbles; fuera de eso el dato no sirve para estimar
+
+
+def _ritmo_lecturas(moto):
+    """Pendiente (recta de mejor ajuste) de las lecturas, sin contar correcciones del odómetro.
+
+    Un salto imposible (más de RITMO_MAX por día, o grande el mismo día) es una corrección, no kilómetros rodados.
+    Exige al menos una semana entre la primera y la última lectura."""
     lecturas = list(moto.lecturas.order_by("fecha", "creado").values_list("fecha", "km"))
     if len(lecturas) < 2:
         return None
-    (f0, k0), (f1, k1) = lecturas[0], lecturas[-1]
-    dias = (f1 - f0).days
-    if dias < 7 or k1 <= k0:
+    rodado = {lecturas[0][0]: 0}
+    acumulado = 0
+    for (f0, k0), (f1, k1) in zip(lecturas, lecturas[1:]):
+        subida = k1 - k0
+        if 0 < subida <= RITMO_MAX * max(1, (f1 - f0).days):
+            acumulado += subida
+        rodado[f1] = acumulado
+    fechas = sorted(rodado)
+    if len(fechas) < 2 or (fechas[-1] - fechas[0]).days < 7:
         return None
-    return (k1 - k0) / dias
+    xs = [(f - fechas[0]).days for f in fechas]
+    ys = [rodado[f] for f in fechas]
+    mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+    pendiente = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / sum((x - mx) ** 2 for x in xs)
+    return pendiente if RITMO_MIN <= pendiente <= RITMO_MAX else None
+
+
+def _ritmo_estimado(moto, hoy):
+    """Sin historial suficiente: desde que se registró en TallerYa, o si no, por el año del modelo."""
+    if moto.creado and moto.km_actual > moto.km_inicial:
+        dias = (hoy - timezone.localdate(moto.creado)).days
+        if dias >= 14:
+            ritmo = (moto.km_actual - moto.km_inicial) / dias
+            if RITMO_MIN <= ritmo <= RITMO_MAX:
+                return ritmo
+    if moto.km_actual and moto.modelo:
+        # Se supone que la moto salió a mitad del año anterior a su modelo (las de modelo X se venden desde mediados de X-1).
+        dias = (hoy - date(moto.modelo - 1, 7, 1)).days
+        if dias >= 90:
+            ritmo = moto.km_actual / dias
+            if RITMO_MIN <= ritmo <= RITMO_MAX:
+                return ritmo
+    return None
+
+
+def ritmo_km(moto, hoy=None):
+    """(km por día, estimado). estimado=True cuando no sale de las lecturas sino de una aproximación."""
+    if (ritmo := _ritmo_lecturas(moto)) is not None:
+        return ritmo, False
+    ritmo = _ritmo_estimado(moto, hoy or timezone.localdate())
+    return ritmo, ritmo is not None
+
+
+def km_por_dia(moto):
+    """Ritmo de uso (de las lecturas o estimado)."""
+    return ritmo_km(moto)[0]
 
 
 def calcular_plan(moto, hoy=None):
     hoy = hoy or timezone.localdate()
     specs = moto.specs()
-    ritmo = km_por_dia(moto)
+    ritmo, estimado = ritmo_km(moto, hoy)
     ultimos = {}
     for m in moto.mantenimientos.order_by("fecha", "km"):
         ultimos[m.tarea_id] = m  # se queda con el más reciente
 
-    plan = PlanMoto(moto=moto, km_por_dia=ritmo)
+    plan = PlanMoto(moto=moto, km_por_dia=ritmo, ritmo_estimado=estimado)
     for tarea in TareaMantenimiento.objects.filter(activo=True).select_related("servicio"):
         if not tarea.aplica_a(specs):
             continue

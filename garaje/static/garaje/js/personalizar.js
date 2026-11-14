@@ -15,6 +15,49 @@
   let guardado = null;
   let sel = -1;          // calca que se está editando
   let colocando = null;  // diseño esperando el toque sobre la moto
+  let imagenPendiente = ""; // imagen propia elegida, esperando el toque sobre la moto
+  const MAX_IMAGEN = 190000; // caracteres del data URL (~140 KB): el servidor rechaza más
+  const ICONO_SUBIR = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 32"><g fill="none" stroke="#f2611d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="20" y="4" width="24" height="24" rx="4"/><path d="M32 22V11M27 15l5-5 5 5"/></g></svg>');
+  const miniaturaDe = (c) => (c.diseno === "imagen" ? c.imagen : window.TallerYa3D.miniatura(c.diseno, c.color, c.texto));
+  // Reduce la imagen a 256 px como máximo (PNG para conservar la transparencia; JPEG si así queda muy pesada)
+  function reducirImagen(archivo) {
+    return new Promise((resolver, fallar) => {
+      const img = new Image();
+      img.onload = () => {
+        const k = Math.min(1, 256 / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.max(1, Math.round(img.width * k));
+        c.height = Math.max(1, Math.round(img.height * k));
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(img.src);
+        let url = c.toDataURL("image/png");
+        if (url.length > MAX_IMAGEN) url = c.toDataURL("image/jpeg", 0.85);
+        if (url.length > MAX_IMAGEN) url = c.toDataURL("image/jpeg", 0.6);
+        if (url.length > MAX_IMAGEN) fallar(new Error("La imagen es muy pesada. Prueba con otra más sencilla."));
+        else resolver(url);
+      };
+      img.onerror = () => fallar(new Error("No pudimos leer esa imagen. Usa un PNG o JPG."));
+      img.src = URL.createObjectURL(archivo);
+    });
+  }
+  const selectorImagen = Object.assign(document.createElement("input"), { type: "file", accept: "image/png,image/jpeg,image/webp", hidden: true });
+  document.body.appendChild(selectorImagen);
+  selectorImagen.addEventListener("change", async () => {
+    const archivo = selectorImagen.files[0];
+    selectorImagen.value = "";
+    if (!archivo) return;
+    try {
+      imagenPendiente = await reducirImagen(archivo);
+    } catch (e) {
+      $("p-estado").textContent = e.message;
+      return;
+    }
+    colocando = "imagen";
+    window.TallerYa3D.verMoto();
+    window.TallerYa3D.colocar("imagen");
+    $("visor-colocar").hidden = false;
+    pintarCatalogo();
+  });
 
   const copiar = (o) => JSON.parse(JSON.stringify(o));
   function el(etiqueta, clase, texto) {
@@ -58,11 +101,12 @@
     $("p-guardar").disabled = !cambios;
     $("p-deshacer").disabled = !cambios;
     $("p-atras").disabled = historial.length === 0;
+    document.querySelectorAll("#personalizar [data-quitar]").forEach((b) => { b.hidden = !cfg.estilo?.[b.dataset.quitar]; });
   }
 
   // ---------- Pestañas ----------
   function pestana(cual) {
-    ["pintura", "calcas"].forEach((n) => {
+    ["pintura", "estilo", "calcas"].forEach((n) => {
       $(`tab-${n}`).setAttribute("aria-selected", String(n === cual));
       $(`panel-${n}`).hidden = n !== cual;
     });
@@ -72,6 +116,7 @@
   const enCalcas = () => !$("panel-calcas").hidden;
   $("tab-pintura").addEventListener("click", () => pestana("pintura"));
   $("tab-calcas").addEventListener("click", () => pestana("calcas"));
+  $("tab-estilo").addEventListener("click", () => pestana("estilo"));
 
   // ---------- Colores: muestras con un botón arcoíris al final que abre un selector propio ----------
   function hsvAHex({ h, s, v }) {
@@ -208,11 +253,145 @@
     return { pintar, cerrar() { panel.hidden = true; arcoiris?.setAttribute("aria-expanded", "false"); } };
   }
 
-  const filaPintura = filaDeColor($("p-color"), datos.colores, () => cfg.color, (c) => { cfg.color = c; });
+  const filaPintura = filaDeColor($("p-color"), datos.colores, () => cfg.color, (c) => { cfg.color = c; refrescarAcabados(); });
   const filaRines = filaDeColor($("p-secundario"), datos.secundarios, () => cfg.color_secundario, (c) => { cfg.color_secundario = c; });
+  // ---------- Estilo: acabado, segundo tono, chasis, asiento, rines y accesorios ----------
+  const ACABADOS = [["brillante", "Brillante"], ["mate", "Mate"], ["satinado", "Satinado"], ["metalizado", "Metalizado"], ["perlado", "Perlado"]];
+  const NOMBRE_RIN = { radios: "Radios", aleacion: "Aleación", estrella: "Deportivo" };
+  const RINES = [["fabrica", "De fábrica"], ["radios", "Radios"], ["aleacion", "Aleación"], ["estrella", "Deportivo"]];
+  const ACCESORIOS = { baul: "Baúl", cubremanos: "Cubremanos", parabrisas: "Parabrisas alto", exploradoras: "Exploradoras", sliders: "Sliders",
+    escape: "Escape deportivo", protector: "Protector de motor", led: "Luz LED" };
+  const ESPEJOS = [["fabrica", "De fábrica"], ["redondos", "Redondos"], ["puntas", "En la punta"]];
+  const COLORES_LED = [["#22d3ee", "Cian"], ["#a855f7", "Morado"], ["#ef4444", "Rojo"], ["#22c55e", "Verde"], ["#3b82f6", "Azul"],
+    ["#f59e0b", "Ámbar"], ["#f4f4f2", "Blanco"]];
+  // Íconos de línea (24×24) para las tarjetas
+  const svg = (trazos) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${trazos}</svg>`;
+  const rayos = (n, curvo) => Array.from({ length: n }, (_, k) => {
+    const a = (k / n) * Math.PI * 2, x = 12 + Math.cos(a) * 8.2, y = 12 + Math.sin(a) * 8.2;
+    if (!curvo) return `<path d="M12 12L${x.toFixed(1)} ${y.toFixed(1)}"/>`;
+    const b = a + 0.5, cx = 12 + Math.cos(b) * 5, cy = 12 + Math.sin(b) * 5;
+    return `<path d="M${(12 + Math.cos(a) * 2.6).toFixed(1)} ${(12 + Math.sin(a) * 2.6).toFixed(1)}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}"/>`;
+  }).join("");
+  const ICONO_RIN = {
+    radios: svg(`<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="1.6"/>${rayos(16, false).replaceAll("<path", '<path stroke-width=".8"')}`),
+    aleacion: svg(`<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="2.6"/>${rayos(5, true).replaceAll("<path", '<path stroke-width="2.4"')}`),
+    estrella: svg(`<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="2.2"/>${rayos(7, false).replaceAll("<path", '<path stroke-width="2.2"')}`),
+  };
+  const ICONO_ACCESORIO = {
+    baul: svg('<rect x="4" y="7" width="16" height="12" rx="3"/><path d="M4 12h16M10 15h4"/>'),
+    cubremanos: svg('<path d="M4 15c0-5 4-8 9-8h3a4 4 0 0 1 0 8H8"/><path d="M8 11h7"/>'),
+    parabrisas: svg('<path d="M7 20 5 6c3-2 11-2 14 0l-2 14"/><path d="M8 9c2.5-.8 5.5-.8 8 0"/>'),
+    exploradoras: svg('<circle cx="7" cy="13" r="3.2"/><circle cx="17" cy="13" r="3.2"/><path d="M7 6v2M17 6v2M3.5 9.5l1.4 1M20.5 9.5l-1.4 1"/>'),
+    sliders: svg('<path d="M3 12h7"/><rect x="10" y="7" width="6" height="10" rx="2"/><path d="M16 9.5h3a2.5 2.5 0 0 1 0 5h-3"/>'),
+    escape: svg('<path d="M3 16h5l3-3"/><path d="m10 14 8-6 3 3-8 6z"/><path d="M19.5 9.5l1.5-1.5"/>'),
+    protector: svg('<path d="M3 9h18l-2 6H5z"/><path d="M7 12h10"/><circle cx="12" cy="6" r="2"/>'),
+    led: svg('<path d="M3 15h18"/><path d="M6 19l1-2M12 20v-2M18 19l-1-2"/><path d="M5 11a7 7 0 0 1 14 0"/>'),
+  };
+  const COLORES_CHASIS = [["#23282b", "Negro"], ["#b8bec2", "Plata"], ["#f4f4f2", "Blanco"], ["#c62828", "Rojo"], ["#f2611d", "Naranja"],
+    ["#e3a72f", "Dorado"], ["#1f4fa8", "Azul"], ["#2f6b3a", "Verde"]];
+  const COLORES_ASIENTO = [["#161819", "Negro"], ["#4a4f52", "Gris"], ["#5a3b24", "Café"], ["#b59a74", "Beige"], ["#7a1f1a", "Vino"],
+    ["#1d2f55", "Azul"], ["#c62828", "Rojo"]];
+  const estilo = () => (cfg.estilo ??= {});
+  const filaTono = filaDeColor($("p-color2"), datos.colores, () => estilo().color2 || cfg.color, (c) => { estilo().color2 = c; });
+  const filaChasis = filaDeColor($("p-chasis"), COLORES_CHASIS, () => estilo().chasis || "#23282b", (c) => { estilo().chasis = c; });
+  const filaAsiento = filaDeColor($("p-asiento"), COLORES_ASIENTO, () => estilo().asiento || "#161819", (c) => { estilo().asiento = c; });
+  const filaLed = filaDeColor($("p-led"), COLORES_LED, () => estilo().led || "#22d3ee", (c) => { estilo().led = c; });
+  // Íconos de los retrovisores (vistos de frente, con el manubrio)
+  const ICONO_ESPEJOS = {
+    // Vistos desde el puesto del conductor: manubrio con sus puños y la luna de cada espejo rellena
+    fabrica: svg('<path d="M5 18h14"/><path d="M3 18h2M19 18h2" stroke-width="3"/><path d="M8 18 6 11M16 18l2-7"/>'
+      + '<path d="M2.5 9.2c0-1.6 1.6-2.7 3.5-2.7s3.5 1.1 3.5 2.4-1.6 2.3-3.5 2.3-3.5-.6-3.5-2z" fill="currentColor" fill-opacity=".3"/>'
+      + '<path d="M21.5 9.2c0-1.6-1.6-2.7-3.5-2.7s-3.5 1.1-3.5 2.4 1.6 2.3 3.5 2.3 3.5-.6 3.5-2z" fill="currentColor" fill-opacity=".3"/>'),
+    redondos: svg('<path d="M5 19h14"/><path d="M3 19h2M19 19h2" stroke-width="3"/><path d="M7.5 19V9.5M16.5 19V9.5"/>'
+      + '<circle cx="7.5" cy="6.5" r="3" fill="currentColor" fill-opacity=".3"/><circle cx="16.5" cy="6.5" r="3" fill="currentColor" fill-opacity=".3"/>'),
+    puntas: svg('<path d="M6 10h12"/><path d="M4 10h2M18 10h2" stroke-width="3"/><path d="M3.5 10.5v2M20.5 10.5v2"/>'
+      + '<rect x="1" y="12.5" width="5" height="6.5" rx="2.4" fill="currentColor" fill-opacity=".3"/>'
+      + '<rect x="18" y="12.5" width="5" height="6.5" rx="2.4" fill="currentColor" fill-opacity=".3"/>'),
+  };
+
+  document.querySelectorAll("#personalizar [data-quitar]").forEach((b) => b.addEventListener("click", () => {
+    guardarPaso();
+    delete estilo()[b.dataset.quitar];
+    pintarColores();
+    aplicar();
+  }));
+  // Dos tonos: al prenderlo propone un color que contraste (negro o blanco) y muestra la paleta
+  $("p-dos-tonos").addEventListener("change", (e) => {
+    guardarPaso();
+    if (e.target.checked) estilo().color2 = claridad(cfg.color) > 0.5 ? "#14181a" : "#f4f4f2";
+    else delete estilo().color2;
+    pintarColores();
+    aplicar();
+  });
+  $("p-mas-colores").addEventListener("click", () => {
+    const abrir = $("p-caja-zonas").hidden;
+    $("p-caja-zonas").hidden = !abrir;
+    $("p-mas-colores").setAttribute("aria-expanded", String(abrir));
+  });
+
+  // Tarjetas: [valor, nombre, contenido visual (HTML), detalle opcional]
+  function tarjetas(contenedor, opciones, activo, alElegir, multiple = false) {
+    contenedor.replaceChildren(...opciones.map(([valor, nombre, visual, detalle]) => {
+      const b = el("button", "tarjeta-opcion");
+      b.type = "button";
+      b.dataset.valor = valor;
+      if (multiple) b.setAttribute("aria-pressed", String(activo(valor)));
+      else { b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(activo(valor))); }
+      b.innerHTML = `<span class="tarjeta-visual">${visual}</span><span class="tarjeta-nombre"></span>${detalle ? '<span class="tarjeta-detalle"></span>' : ""}`
+        + (multiple ? '<span class="tarjeta-marca" aria-hidden="true"></span>' : "");
+      b.querySelector(".tarjeta-nombre").textContent = nombre;
+      if (detalle) b.querySelector(".tarjeta-detalle").textContent = detalle;
+      b.addEventListener("click", () => { guardarPaso(); alElegir(valor); pintarEstilo(); aplicar(); });
+      return b;
+    }));
+  }
+  // Esfera de muestra de cada acabado, dibujada por el visor 3D con el material real
+  const vistaAcabado = (acabado, color) => window.TallerYa3D?.vistaAcabado?.(acabado, color) || "";
+  let refrescoAcabados = 0;
+  function refrescarAcabados() {
+    // Al arrastrar el selector de color llegan muchos cambios seguidos: se redibuja una vez por cuadro
+    cancelAnimationFrame(refrescoAcabados);
+    refrescoAcabados = requestAnimationFrame(() => {
+      document.querySelectorAll("#p-acabado img[data-acabado]").forEach((img) => { img.src = vistaAcabado(img.dataset.acabado, cfg.color); });
+    });
+  }
+  function pintarEstilo() {
+    const op = window.TallerYa3D?.opciones?.() || { accesorios: Object.keys(ACCESORIOS), rinFabrica: "aleacion" };
+    const fondo = cfg.color;
+    tarjetas($("p-acabado"), ACABADOS.map(([v, n]) => [v, n, `<img class="muestra-acabado" alt="" data-acabado="${v}" src="${vistaAcabado(v, fondo)}">`]),
+      (v) => (estilo().acabado || "brillante") === v,
+      (v) => { if (v === "brillante") delete estilo().acabado; else estilo().acabado = v; });
+    tarjetas($("p-rin"), RINES.map(([v, n]) => [v, n, ICONO_RIN[v === "fabrica" ? op.rinFabrica : v],
+      v === "fabrica" ? NOMBRE_RIN[op.rinFabrica] : ""]),
+      (v) => (estilo().rin || "fabrica") === v,
+      (v) => { if (v === "fabrica") delete estilo().rin; else estilo().rin = v; });
+    tarjetas($("p-accesorios"), op.accesorios.map((id) => [id, ACCESORIOS[id] || id, ICONO_ACCESORIO[id] || ""]),
+      (v) => (estilo().accesorios || []).includes(v),
+      (v) => {
+        const lista = new Set(estilo().accesorios || []);
+        if (lista.has(v)) lista.delete(v); else lista.add(v);
+        if (lista.size) estilo().accesorios = [...lista].sort(); else delete estilo().accesorios;
+      }, true);
+    tarjetas($("p-espejos"), ESPEJOS.map(([v, n]) => [v, n, ICONO_ESPEJOS[v]]),
+      (v) => (estilo().espejos || "fabrica") === v,
+      (v) => { if (v === "fabrica") delete estilo().espejos; else estilo().espejos = v; });
+    // El color del LED solo aparece con la luz LED puesta
+    $("p-caja-led").hidden = !(estilo().accesorios || []).includes("led");
+    const dos = Boolean(estilo().color2);
+    $("p-dos-tonos").checked = dos;
+    $("p-caja-tono").hidden = !dos;
+    // Si ya tiene chasis o asiento propios, el desplegable arranca abierto
+    if (estilo().chasis || estilo().asiento) { $("p-caja-zonas").hidden = false; $("p-mas-colores").setAttribute("aria-expanded", "true"); }
+  }
+
   function pintarColores() {
     filaPintura.pintar();
     filaRines.pintar();
+    filaTono.pintar();
+    filaChasis.pintar();
+    filaAsiento.pintar();
+    filaLed.pintar();
+    pintarEstilo();
   }
 
   // ---------- Calcas: catálogo y colocación con un toque ----------
@@ -228,7 +407,7 @@
       const b = el("button", "calca-opcion");
       b.type = "button";
       const img = el("img");
-      img.src = window.TallerYa3D.miniatura(clave, "#f2611d", "");
+      img.src = clave === "imagen" ? ICONO_SUBIR : window.TallerYa3D.miniatura(clave, "#f2611d", "");
       img.alt = "";
       b.append(img, el("span", "", nombre.replace(" de carreras", "")));
       b.setAttribute("aria-pressed", String(colocando === clave));
@@ -236,6 +415,8 @@
       if (lleno) b.title = "Llegaste al máximo de 4 calcas";
       b.addEventListener("click", () => {
         if (cfg.calcas.length >= MAX_CALCAS) return;
+        // Imagen propia: primero se elige el archivo; al cargar queda lista para tocar la moto
+        if (clave === "imagen" && colocando !== "imagen") { selectorImagen.click(); return; }
         colocando = colocando === clave ? null : clave;
         window.TallerYa3D.verMoto();
         window.TallerYa3D.colocar(colocando);
@@ -269,7 +450,7 @@
       b.setAttribute("role", "option");
       b.setAttribute("aria-selected", String(i === sel));
       const img = el("img");
-      img.src = window.TallerYa3D.miniatura(c.diseno, c.color, c.texto);
+      img.src = miniaturaDe(c);
       img.alt = "";
       b.append(img, el("span", "", datos.disenos[c.diseno].replace(" de carreras", "")));
       b.addEventListener("click", () => elegir(i));
@@ -285,7 +466,7 @@
   function refrescarMiniatura() {
     const ficha = $("p-puestas").children[sel];
     const c = actual();
-    if (ficha && c) ficha.querySelector("img").src = window.TallerYa3D.miniatura(c.diseno, c.color, c.texto);
+    if (ficha && c) ficha.querySelector("img").src = miniaturaDe(c);
   }
   function pintarEditor() {
     const c = actual();
@@ -344,7 +525,9 @@
         cfg.calcas.push({
           diseno, color: claridad(cfg.color) > 0.55 ? "#14181a" : "#ffffff", tamano: 1, giro: 0,
           ambos: lateral, texto: "", punto: sitio.punto, normal: sitio.normal,
+          ...(diseno === "imagen" ? { imagen: imagenPendiente } : {}),
         });
+        imagenPendiente = "";
         colocando = null;
         $("visor-colocar").hidden = true;
         sel = cfg.calcas.length - 1;

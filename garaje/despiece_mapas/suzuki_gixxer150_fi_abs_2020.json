@@ -1,0 +1,248 @@
+{
+  "marca": "Suzuki",
+  "linea": "Gixxer 150",
+  "version": "GSX150FRLAM0 (FI ABS, 2020)",
+  "anio": 2020,
+  "fuente": "Catálogo Suzuki GIXXER SF FI · P74 · GSX150FRLAM0 (2020-1); misma mecánica que la Gixxer 150 FI ABS (se usan solo las figuras mecánicas)",
+  "formato": "suzuki",
+  "laminas": [
+    {
+      "figura": 52,
+      "titulo_es": "Caliper delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "PAD SET": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 54,
+      "titulo_es": "Bomba de freno delantera",
+      "pieza": "freno_del",
+      "reglas": {
+        "PLATE,DIAPHRAGM": null,
+        "DIAPHRAGM": "liquido-frenos",
+        "CAP": "liquido-frenos"
+      },
+      "diagrama": "bombas_abs"
+    },
+    {
+      "figura": 51,
+      "titulo_es": "Unidad ABS",
+      "pieza": "freno_del",
+      "reglas": {},
+      "diagrama": "bombas_abs"
+    },
+    {
+      "figura": 58,
+      "titulo_es": "Caliper trasero",
+      "pieza": "freno_tras",
+      "reglas": {
+        "PAD SET": "pastillas-tras"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 59,
+      "titulo_es": "Bomba de freno trasera",
+      "pieza": "freno_tras",
+      "reglas": {
+        "PLATE,DIAPHRAGM": null,
+        "HOSE,RR RESERVOIR": null,
+        "TANK ASSY": "liquido-frenos",
+        "DIAPHRAGM": "liquido-frenos"
+      },
+      "diagrama": "freno_trasero"
+    },
+    {
+      "figura": 57,
+      "titulo_es": "Rueda trasera",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "SPROCKET,REAR": "kit-arrastre",
+        "TIRE": "llanta-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "rueda_trasera"
+    },
+    {
+      "figura": 50,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 56,
+      "titulo_es": "Guardacadena y amortiguador trasero",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "CASE": null,
+        "ABSORBER ASSY": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 55,
+      "titulo_es": "Basculante",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 17,
+      "titulo_es": "Caja de cambios y piñón de salida",
+      "pieza": "motor",
+      "reglas": {
+        "SPROCKET,ENGINE": "kit-arrastre",
+        "CHAIN ASSY": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 14,
+      "titulo_es": "Bomba y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTER,ENGINE OIL": "aceite",
+        "STRAINER": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Cárter",
+      "pieza": "aceite",
+      "reglas": {
+        "GASKET,OIL DRAIN": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 5,
+      "titulo_es": "Tapas del cárter",
+      "pieza": "aceite",
+      "reglas": {
+        "PLUG,OIL FILLER": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 12,
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "CUSHION": null,
+        "FILTER ASSY": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 2,
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "PLUG,SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Cilindro",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 9,
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE,INTAKE": "valvulas",
+        "VALVE,EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 10,
+      "titulo_es": "Cadenilla y tensor",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": 11,
+      "titulo_es": "Cuerpo de aceleración e inyección",
+      "pieza": "filtro_aire",
+      "reglas": {},
+      "diagrama": "inyeccion"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "escape"
+    },
+    {
+      "figura": 48,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {},
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 22,
+      "titulo_es": "Encendido y sistema eléctrico",
+      "pieza": "bateria",
+      "reglas": {
+        "CAP,SPARK PLUG": null,
+        "SEAL,SPARK PLUG": null,
+        "BATTERY": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": 21,
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY ASSY": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": 16,
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "clutch"
+    }
+  ]
+}

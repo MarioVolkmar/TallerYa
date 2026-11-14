@@ -9,7 +9,10 @@
     <h1 class="titulo text-4xl md:text-5xl mt-3">Obtén tu <span class="text-lava">código</span></h1>
     <div class="mt-6">{% include "cupones/_ticket.html" %}</div>
     {% if cupon.taller %}
-      <a href="{{ cupon.taller.get_absolute_url }}" class="inline-block mt-5 text-sm text-suave hover:text-[#f2611d]">Ver perfil de {{ cupon.taller }} →</a>
+      <a href="{{ cupon.taller.get_absolute_url }}" class="ob-taller">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 4.5 4h15L21 9.5"/><path d="M3 9.5a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/><path d="M5 12v8h14v-8"/></svg>
+        <span><small>Conoce el taller</small><strong>{{ cupon.taller }}</strong></span><span class="ob-flecha" aria-hidden="true">→</span>
+      </a>
     {% endif %}
   </div>
 
@@ -27,17 +30,19 @@
       </form>
     {% else %}
     <h2 class="titulo text-2xl"><span class="numero">01</span>Tus datos</h2>
-    <p class="text-sm text-suave mt-2 mb-5">Si ya tienes este cupón, te mostramos el mismo código. ¿Tienes cuenta? <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="boton-texto">Entra</a>.</p>
-    <form method="post" class="space-y-4">
+    <p class="ob-intro">Gratis y en un minuto. Si ya lo pediste con tu celular, te mostramos el mismo código.</p>
+    <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="ob-cuenta">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      <span>¿Ya tienes cuenta? <strong>Entra</strong> y lo guardamos en tu cuenta.</span><span class="ob-flecha" aria-hidden="true">→</span>
+    </a>
+    <form method="post" class="ob-form" novalidate>
       {% csrf_token %}
       {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
-      {% for field in form %}
-        <label class="campo-label">{{ field.label }}{{ field }}</label>
-        {% if field.help_text %}<p class="text-xs text-suave -mt-2">{{ field.help_text }}</p>{% endif %}
-        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      {% endfor %}
-      <button class="btn btn-lava w-full py-3 text-sm">Obtener mi código</button>
-      <p class="text-xs text-suave">Solo usamos tu celular para identificar tus cupones. No te enviaremos publicidad.</p>
+      {% include "cuentas/_campo_registro.html" with campo=form.nombre %}
+      {% include "cuentas/_campo_registro.html" with campo=form.celular pista="Así identificamos tus cupones" %}
+      {% for field in form %}{% if field.name != "nombre" and field.name != "celular" %}{% include "cuentas/_campo_registro.html" with campo=field icono="ninguno" %}{% endif %}{% endfor %}
+      <button class="btn btn-lava w-full py-3.5 text-sm">Obtener mi código</button>
+      <p class="ob-privacidad"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Tu celular solo sirve para tus cupones. Cero publicidad.</p>
     </form>
     {% endif %}
   </section>

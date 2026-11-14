@@ -5,6 +5,6 @@ Crea una nueva desde este enlace:
 
 {{ protocol }}://{{ domain }}{% url 'cuentas:recuperar_confirmar' uidb64=uid token=token %}
 
-Si no fuiste tú, ignora este correo: tu contraseña sigue igual.
+El enlace sirve una sola vez y vence en 3 días. Si no fuiste tú, ignora este correo: tu contraseña sigue igual.
 
 TallerYa · Talleres de motos de confianza en Medellín

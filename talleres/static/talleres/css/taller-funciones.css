@@ -1,0 +1,48 @@
+/* Funciones del taller: estadísticas, agenda, precios y emergencias (se carga solo en esas páginas) */
+.tf { display: grid; gap: 1rem; }
+.tf-cifras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+@media (min-width: 768px) { .tf-cifras { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tf-cifra small b { font-weight: 800; }
+.tf-sube { color: #6fcf8e; }
+.tf-baja { color: #f08a6c; }
+.tf-leyenda { font-size: .75rem; color: #8d9496; display: flex; gap: .4rem; align-items: center; }
+.tf-leyenda i { display: inline-block; width: .7rem; height: .7rem; border-radius: 3px; }
+.tf-v { background: var(--mostaza, #e8b84a); }
+.tf-c { background: #25d366; }
+.tf-barras { display: grid; grid-template-columns: repeat(30, minmax(0, 1fr)); gap: 2px; align-items: end; height: 140px; margin-top: .8rem; }
+.tf-barras span { display: flex; flex-direction: column-reverse; height: 100%; justify-content: flex-start; }
+.tf-barras i { display: block; width: 100%; border-radius: 2px 2px 0 0; min-height: 0; }
+.tf-plus ul { margin-top: .6rem; display: grid; gap: .35rem; font-size: .9rem; }
+.tf-plus li::before { content: "★ "; color: var(--mostaza, #e8b84a); }
+.tf-check { display: flex; gap: .7rem; align-items: flex-start; cursor: pointer; }
+.tf-check input { width: 1.2rem; height: 1.2rem; margin-top: .2rem; accent-color: var(--lava, #e4572e); }
+.tf-horario { display: grid; gap: .6rem; }
+.tf-dia { display: grid; gap: .4rem; padding: .6rem 0; border-top: 1px solid rgba(255, 255, 255, .06); }
+@media (min-width: 640px) { .tf-dia { grid-template-columns: 7rem 1fr 1fr; align-items: center; } }
+.tf-turno { display: flex; gap: .4rem; align-items: center; }
+.tf-turno .campo { min-width: 0; }
+.tf-precio-fila { display: grid; gap: .5rem; padding: .8rem 0; border-top: 1px solid rgba(255, 255, 255, .06); }
+@media (min-width: 640px) { .tf-precio-fila { grid-template-columns: 2fr 1.4fr 1fr 1fr auto; align-items: end; } }
+.tf-borrar { font-size: .8rem; display: flex; gap: .3rem; align-items: center; padding-bottom: .7rem; }
+.tf-precios table { width: 100%; margin-top: .6rem; border-collapse: collapse; font-size: .92rem; }
+.tf-precios th { text-align: left; font-weight: 600; padding: .45rem 0; }
+.tf-precios td { text-align: right; white-space: nowrap; font-weight: 700; padding: .45rem 0 .45rem .8rem; }
+.tf-precios tr + tr { border-top: 1px solid rgba(127, 127, 127, .18); }
+.tf-mediana small { opacity: .8; }
+/* /emergencias: móvil primero, botones grandes */
+.em { display: grid; gap: 1rem; max-width: 46rem; margin-inline: auto; }
+.em-ubicacion { display: grid; gap: .6rem; padding: 1rem; }
+.em-cerca { width: 100%; min-height: 3.2rem; font-size: 1rem; }
+.em-titulo { display: flex; align-items: center; gap: .5rem; margin: .4rem 0 .6rem; }
+.em-punto { width: .7rem; height: .7rem; border-radius: 50%; background: #8d9496; }
+.em-abierto { background: #3ecf6e; box-shadow: 0 0 0 4px rgba(62, 207, 110, .2); }
+.em-lista { display: grid; gap: .7rem; }
+.em-taller { display: grid; gap: .8rem; padding: 1rem; }
+.em-nombre { font-weight: 800; font-size: 1.15rem; }
+.em-distancia:not(:empty)::before { content: "· "; }
+.em-insignias { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; margin-top: .35rem; }
+.em-botones { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.em-boton { min-height: 3.4rem; font-size: 1.05rem; justify-content: center; }
+.em-vacio { padding: 1rem; font-size: .92rem; }
+.em-cerrados summary { cursor: pointer; padding: .6rem 0; }
+@media (min-width: 768px) { .em-taller { grid-template-columns: 1fr 18rem; align-items: center; } }

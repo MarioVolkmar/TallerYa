@@ -8,7 +8,8 @@ from django.urls import reverse
 
 from .forms import CanjeForm, ObtenerCuponForm
 from .models import CodigoCupon, Cupon, Motociclista
-from .servicios import CuponNoDisponible, ErrorCanje, RequierePlus, canjear, obtener_codigo, obtener_codigo_para
+from .servicios import (CuponNoDisponible, ErrorCanje, RequierePlus, buscar_codigo, canjear, obtener_codigo,
+                        obtener_codigo_para)
 
 SESION_REF = "ref"
 MAX_INTENTOS_CANJE = 8
@@ -65,6 +66,7 @@ def mi_cupon(request, codigo):
     texto = f"Te regalo cupones para el taller de tu moto en TallerYa: {enlace}"
     return render(request, "cupones/mi_cupon.html", {
         "codigo": codigo,
+        "url_canje": request.build_absolute_uri(reverse("cupones:canjear")) + "?codigo=" + codigo.codigo,
         "moto": moto,
         "enlace_referido": enlace,
         "whatsapp_compartir": f"https://wa.me/?text={quote(texto)}",
@@ -86,21 +88,36 @@ def _ip(request):
 
 
 def canjear_cupon(request):
-    form = CanjeForm(request.POST or None)
+    """Canje de cupones. Con la sesión del taller abierta no pide PIN. Al escanear el QR llega ?codigo=... y se
+    muestra una vista previa del cupón antes de canjearlo."""
+    taller = getattr(request.user, "taller", None) if request.user.is_authenticated else None
+    if taller and not taller.activo:
+        taller = None
+    inicial = {"codigo": request.GET.get("codigo", "")}
+    form = CanjeForm(request.POST or None, initial=inicial)
     clave = f"canje-intentos:{_ip(request)}"
     bloqueado = cache.get(clave, 0) >= MAX_INTENTOS_CANJE
-    resultado = None
+    resultado, vista = None, None
 
     if request.method == "POST" and bloqueado:
         form.is_valid()
         form.add_error(None, "Demasiados intentos fallidos. Espera 15 minutos e inténtalo de nuevo.")
     elif request.method == "POST" and form.is_valid():
-        try:
-            resultado = canjear(form.cleaned_data["codigo"], form.cleaned_data["pin"])
-        except ErrorCanje as e:
-            cache.set(clave, cache.get(clave, 0) + 1, BLOQUEO_SEGUNDOS)
-            form.add_error(None, str(e))
+        if not taller and not form.cleaned_data.get("pin"):
+            form.add_error("pin", "Escribe el PIN de tu taller (o entra con la cuenta del taller).")
         else:
-            form = CanjeForm()
+            try:
+                resultado = canjear(form.cleaned_data["codigo"], form.cleaned_data.get("pin"), taller=taller)
+            except ErrorCanje as e:
+                cache.set(clave, cache.get(clave, 0) + 1, BLOQUEO_SEGUNDOS)
+                form.add_error(None, str(e))
+            else:
+                form = CanjeForm()
+    elif request.method == "GET" and inicial["codigo"]:
+        try:
+            vista = buscar_codigo(inicial["codigo"])
+            vista.otro_taller = bool(taller and not vista.valido_en(taller))
+        except ErrorCanje as e:
+            form.add_error(None, str(e))
 
-    return render(request, "cupones/canjear.html", {"form": form, "resultado": resultado})
+    return render(request, "cupones/canjear.html", {"form": form, "resultado": resultado, "vista": vista, "taller": taller})

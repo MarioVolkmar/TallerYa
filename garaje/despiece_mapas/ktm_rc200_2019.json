@@ -23,7 +23,7 @@
       "reglas": {
         "PASTAS FRENO": "pastillas-tras"
       },
-      "diagrama": "freno_completo"
+      "diagrama": "freno_trasero"
     },
     {
       "figura": 33,
@@ -32,7 +32,15 @@
       "reglas": {
         "LLANTA": "llanta-tras",
         "SPROCKET": "kit-arrastre",
-        "CADENA 520": "kit-arrastre"
+        "CADENA 520": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "rueda_trasera"
     },
@@ -107,7 +115,15 @@
       "titulo_es": "Amortiguador",
       "pieza": "suspension_tras",
       "reglas": {
-        "AMORTIGUADOR": "suspension-tras"
+        "AMORTIGUADOR": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
       },
       "diagrama": "amortiguadores"
     },
@@ -129,6 +145,59 @@
         "RETÉN": "suspension-del"
       },
       "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 14,
+      "titulo_es": "Culata",
+      "pieza": "motor",
+      "diagrama": "culata"
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Cilindro, pistón y anillos",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Árbol de levas y cadenilla",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": 18,
+      "titulo_es": "Cuerpo de aceleración e inyección",
+      "pieza": "motor",
+      "diagrama": "inyeccion"
+    },
+    {
+      "figura": 25,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": 24,
+      "titulo_es": "Basculante (tijera)",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "clutch"
     }
   ]
 }

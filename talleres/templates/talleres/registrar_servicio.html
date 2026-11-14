@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Registrar servicio · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="pt mt-8 md:mt-10 tf">
+  {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
+  <section class="papel pt-caja">
+    <p class="etiqueta">Hoja de vida verificada</p>
+    <h1 class="titulo text-3xl mt-1">Registrar un servicio</h1>
+    <p class="text-sm text-suave mt-2">Pídele al motero el código de su moto (o escanea su QR). El servicio queda en la hoja de vida con el sello de {{ taller.nombre }}.</p>
+    {% if form %}
+    <form method="post" class="space-y-4 mt-4">
+      {% csrf_token %}
+      {% if moto %}<p class="text-sm"><strong>Moto:</strong> {{ moto }}</p>{% endif %}
+      {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {% for field in form %}
+        <div><label class="campo-label">{{ field.label }}{{ field }}</label>{% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+        {% endfor %}
+      </div>
+      <button class="btn btn-lava text-xs px-6 py-3">Registrar y verificar</button>
+    </form>
+    {% else %}
+    <p class="text-sm mt-4"><span class="insignia">Muy pronto</span> Estamos terminando esta función.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

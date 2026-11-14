@@ -1,3 +1,4 @@
+"""Modelo de notificación dentro del sitio: título, texto, enlace, tipo y si ya se leyó."""
 from django.conf import settings
 from django.db import models
 

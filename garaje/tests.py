@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -162,7 +162,7 @@ class GarajeTests(TestCase):
     # --- Página ---
 
     def test_detalle_incluye_datos_3d_y_talleres_sugeridos(self):
-        barrio = Barrio.objects.create(nombre="Belén")
+        barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
         taller = Taller.objects.create(nombre="Llantas Ya", responsable="X", whatsapp="573001234567",
                                        direccion="X", barrio=barrio, activo=True)
         taller.servicios.add(Servicio.objects.get(nombre="Llantas"))
@@ -173,6 +173,11 @@ class GarajeTests(TestCase):
         self.assertContains(r, 'id="datos-moto"')
         self.assertContains(r, '"rin_delantero": 17')
         self.assertContains(r, "Llantas Ya")
+        # Al tocar la llanta en el 3D se ofrece el taller recomendado y el directorio filtrado por su servicio
+        llanta = r.context["datos_3d"]["piezas"]["llanta_tras"]["acciones"]
+        self.assertEqual(llanta["taller"]["nombre"], "Llantas Ya")
+        self.assertIn("wa.me/573001234567", llanta["taller"]["whatsapp"])
+        self.assertIn(f"?servicio={Servicio.objects.get(nombre='Llantas').pk}", llanta["talleres"])
 
 
 class DespieceTests(TestCase):
@@ -226,7 +231,9 @@ class DespieceTests(TestCase):
     def test_pagina_de_la_moto_muestra_el_despiece(self):
         self.client.force_login(self.usuario)
         r = self.client.get(self.moto.get_absolute_url())
-        self.assertContains(r, 'id="datos-despiece"')
+        self.assertContains(r, 'data-datos="/garaje/%d/despiece.json"' % self.moto.pk)
+        self.assertNotContains(r, 'id="datos-despiece"')  # las láminas ya no van incrustadas
+        r = self.client.get(reverse("garaje:despiece_json", args=[self.moto.pk]))
         self.assertContains(r, "2DP-F5805-00")
 
     def test_marcar_desde_el_admin(self):
@@ -474,6 +481,43 @@ class DiagramasPropiosTests(TestCase):
         self.assertContains(r, "Otras piezas")
         self.assertNotContains(r, "Arandelas")
 
+    def test_kit_muestra_sus_piezas_y_la_valvula_tenue(self):
+        from . import diagramas
+        kit = diagramas.puestos_kit("valvulas", "Kit Resorte y Arandela Válvulas")
+        self.assertEqual(kit, ("base_resorte", "cunas", "platillo", "resortes"))
+        self.assertIsNone(diagramas.puestos_kit("valvulas", "Kit Arandelas de Ajuste"))      # lainas: no son esas piezas
+        self.assertIsNone(diagramas.puestos_kit("valvulas", "Resorte válvula"))              # no es kit
+        texto = diagramas.clave_kit("valvulas", kit)
+        self.assertIn("--valvula_admision", texto)
+        r = self.client.get(f"/garaje/diagrama/valvulas/{texto}.svg")
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, 'opacity="0.42"')                                              # la válvula, de referencia
+        self.assertEqual(self.client.get("/garaje/diagrama/valvulas/nada-raro.svg").status_code, 404)
+
+    def test_kit_de_arrastre_se_separa_de_la_rueda(self):
+        from . import diagramas
+        for texto in ("Sprocket Trasero 44 Dientes", "Cadena 428 X 120L", "Caucho Porta Sprocket", "Empate Cadena",
+                      "Kit Sprocket y Cadena"):
+            self.assertTrue(diagramas.es_arrastre("rueda_tambor", texto), texto)
+        for texto in ("Eje Rueda Trasera", "Bandas Freno Trasero", "Leva Portabandas Freno", "Tornillo Disco Freno Trasero",
+                      "Rodamiento Bolas 6302C3"):
+            self.assertFalse(diagramas.es_arrastre("rueda_trasera", texto), texto)
+
+    def test_sistemas_nuevos_ubican_sus_piezas(self):
+        from . import diagramas
+        casos = {"caja_secundaria": [("MAIN AXLE COMP.", "eje_intermedio"), ("AXLE, DRIVE", "eje_salida"),
+                                     ("GEAR, PRIMARY DRIVE", "pinon_primario"), ("OIL SEAL", "retenes")],
+                 "cilindro_piston": [("PISTON RING SET", "anillos"), ("PISTON", "piston"), ("Biela", "biela"),
+                                     ("Cilindro", "cilindro")],
+                 "distribucion": [("CAMSHAFT", "arbol_levas"), ("Eje de levas", "arbol_levas"), ("Cadenilla distribución", "cadenilla"),
+                                  ("Balancín", "balancin")],
+                 "carburador": [("Boquerel altas #105", "chicles"), ("Flotador", "flotador")],
+                 "inyeccion": [("THROTTLE BODY ASSY", "cuerpo"), ("Inyector", "inyector")],
+                 "escape": [("MUFFLER ASSY", "silenciador"), ("Protector silenciador", "protector")]}
+        for clave, reglas in casos.items():
+            for texto, puesto in reglas:
+                self.assertEqual(diagramas.puesto_en_dibujo(clave, texto), puesto, f"{clave}: {texto}")
+
 
 class GuiaCompletaTests(TestCase):
     def test_guia_completa_trae_revision_consecuencias_compra_y_contexto(self):
@@ -530,6 +574,41 @@ class PersonalizacionTests(TestCase):
         self.assertEqual((numero["tamano"], numero["posicion"]), (1.6, -1.0))  # se limitan a rangos válidos
         self.assertEqual(len(numero["texto"]), 14)
         self.assertEqual(self.moto.calcas[1]["texto"], "")
+
+    def test_guarda_estilo_limpio(self):
+        r = self.enviar({"color": "#112233", "color_secundario": "#c0c4c8", "calcas": [], "estilo": {
+            "acabado": "mate", "color2": "#FFFFFF", "chasis": "", "rin": "estrella",
+            "accesorios": ["sliders", "baul", "baul"]}})
+        self.assertEqual(r.status_code, 200)
+        self.moto.refresh_from_db()
+        # Lo vacío o de fábrica no se guarda; colores en minúscula; accesorios sin repetir y ordenados
+        self.assertEqual(self.moto.estilo, {"acabado": "mate", "color2": "#ffffff", "rin": "estrella",
+                                            "accesorios": ["baul", "sliders"]})
+        self.assertContains(self.client.get(self.moto.get_absolute_url()), '"acabado": "mate"')
+
+    def test_calca_con_imagen_propia(self):
+        import base64
+        png = "data:image/png;base64," + base64.b64encode(b"\x89PNG\r\n\x1a\n" + b"0" * 40).decode()
+        r = self.enviar({"calcas": [{"diseno": "imagen", "zona": "lateral", "color": "#ffffff", "imagen": png}]})
+        self.assertEqual(r.status_code, 200)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.calcas[0]["imagen"], png)
+        # Sin imagen, con algo que no es imagen o demasiado pesada: se rechaza
+        falso = "data:image/png;base64," + base64.b64encode(b"<script>alert(1)</script>").decode()
+        for imagen in (None, "javascript:alert(1)", falso, "data:image/png;base64," + "A" * 200_001):
+            calca = {"diseno": "imagen", "zona": "lateral", "color": "#ffffff", "imagen": imagen}
+            self.assertEqual(self.enviar({"calcas": [calca]}).status_code, 400)
+
+    def test_guarda_piezas_de_cambio(self):
+        r = self.enviar({"estilo": {"espejos": "puntas", "led": "#FF00AA", "accesorios": ["led", "escape", "protector"]}})
+        self.assertEqual(r.status_code, 200)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.estilo, {"led": "#ff00aa", "espejos": "puntas", "accesorios": ["escape", "led", "protector"]})
+
+    def test_rechaza_estilo_invalido(self):
+        for estilo in ({"acabado": "neon"}, {"rin": "madera"}, {"accesorios": ["cohete"]}, {"chasis": "azul"}, ["mate"],
+                       {"espejos": "gigantes"}, {"led": "rosa"}):
+            self.assertEqual(self.enviar({"estilo": estilo}).status_code, 400, estilo)
 
     def test_rechaza_datos_invalidos(self):
         self.assertEqual(self.enviar({"color": "rojo"}).status_code, 400)
@@ -894,3 +973,135 @@ class PlacaTests(TestCase):
                                                          "color": "#1f4fa8", "placa": "AB1"})
         self.assertContains(r, "Revisa la placa")
         self.assertFalse(Moto.objects.exists())
+
+
+class LectoresDespieceTests(TestCase):
+    """Tablas de partes de los formatos de garaje/despiece_lectores.py."""
+
+    def test_suzuki_referencia_con_sufijo_descripcion_partida_y_palabras_cortas(self):
+        from garaje.despiece_lectores import _filas
+        filas = _filas([" 1-1 ", "12200-34J02-0A0", "CRANKSHAFT ASSY", "  1",
+                        " 2-1 ", "12661-34J00-0A0", "GEAR,CRANK BALANCER DRIVE (NT:", "  1", "44)",
+                        "31   ", "01500-0610A-000", "BOLT", "  2",
+                        "5   ", "12345-AB1-000", ".PAD SET", "  1"])
+        self.assertEqual([(f["ref"], f["descripcion"], f["cantidad"], f["nivel"]) for f in filas], [
+            (1, "CRANKSHAFT ASSY", 1, 0),
+            (2, "GEAR,CRANK BALANCER DRIVE (NT:44)", 1, 0),
+            (31, "BOLT", 2, 0),          # "BOLT" es una descripción, no un código de modelo
+            (5, "PAD SET", 1, 1),        # el punto inicial es el nivel dentro del conjunto
+        ])
+
+    def test_honda_referencia_pegada_y_variantes(self):
+        from garaje.despiece_lectores import _decodificar, _filas
+        self.assertEqual(_decodificar("\uf041\uf042"), "AB")
+        filas = _filas(["1 11100-KWP-900", "CRANKCASE COMP., R. •••••••••  1   -   1",
+                        "11100-KWP-D01", " ••••••••••••••••  -   1   -",
+                        "20 16163-KCS-920", "GASKET, FLOAT CHAMBER ······· 2 2 2"])
+        self.assertEqual([(f["ref"], f["codigo"], f["descripcion"], f["cantidad"]) for f in filas], [
+            (1, "11100-KWP-900", "CRANKCASE COMP., R.", 1),
+            (1, "11100-KWP-D01", "CRANKCASE COMP., R.", 1),
+            (20, "16163-KCS-920", "GASKET, FLOAT CHAMBER", 2),
+        ])
+
+    def test_suzuki_y_hero_referencia_en_linea_aparte(self):
+        from garaje.despiece_lectores import _filas
+        filas = _filas(["1", "11171-34J00-000", "COVER, CYLINDER HEAD", "  1",
+                        "2", "09106-07011-000", "BOLT (7X37)", "  2"])
+        self.assertEqual([(f["ref"], f["descripcion"], f["cantidad"]) for f in filas],
+                         [(1, "COVER, CYLINDER HEAD", 1), (2, "BOLT (7X37)", 2)])
+
+
+class PicoPlacaTests(TestCase):
+    def setUp(self):
+        from .models import ReglaPicoPlaca
+        ReglaPicoPlaca.objects.all().delete()
+        ReglaPicoPlaca.objects.create(vigente_desde=date(2026, 8, 3), lunes="5,8", martes="1,4", miercoles="0,2",
+                                      jueves="3,6", viernes="7,9")
+
+    def test_festivos_y_restriccion(self):
+        from .pico_placa import es_festivo, tiene_pico_placa
+        self.assertTrue(es_festivo(date(2026, 4, 3)))    # viernes santo
+        self.assertTrue(es_festivo(date(2026, 11, 16)))  # 11 de noviembre corrido al lunes
+        moto = Moto(placa="ABC51D")
+        self.assertFalse(tiene_pico_placa(moto, date(2026, 11, 16))[0])  # lunes festivo
+        self.assertTrue(tiene_pico_placa(moto, date(2026, 11, 23))[0])   # lunes, primer dígito 5
+        self.assertFalse(tiene_pico_placa(moto, date(2026, 11, 24))[0])  # martes
+        self.assertFalse(tiene_pico_placa(Moto(placa=""), date(2026, 11, 23))[0])
+
+
+
+class RitmoKmTests(TestCase):
+    def setUp(self):
+        from cupones.models import Motociclista
+        self.dueno = Motociclista.objects.create(nombre="R", celular="573009998877")
+
+    def _moto(self, **kw):
+        datos = dict(motociclista=self.dueno, modelo=2022, km_inicial=10000, km_actual=10000)
+        datos.update(kw)
+        return Moto.objects.create(**datos)
+
+    def test_un_salto_el_mismo_dia_no_lo_descuadra(self):
+        from .plan import ritmo_km
+        moto = self._moto()
+        hoy = timezone.localdate()
+        for dias, km in ((60, 10000), (40, 10600), (20, 11200), (0, 11800)):
+            LecturaKm.objects.create(moto=moto, km=km, fecha=hoy - timedelta(days=dias))
+        LecturaKm.objects.create(moto=moto, km=11500, fecha=hoy)  # lectura más baja el mismo día: no resta
+        LecturaKm.objects.create(moto=moto, km=17800, fecha=hoy + timedelta(days=1))  # corrección del odómetro: no cuenta
+        ritmo, estimado = ritmo_km(moto)
+        self.assertFalse(estimado)
+        self.assertAlmostEqual(ritmo, 30, delta=1.5)
+
+    def test_sin_historial_se_estima_por_el_modelo(self):
+        from .plan import ritmo_km
+        moto = self._moto(km_actual=20000)
+        LecturaKm.objects.create(moto=moto, km=20000, fecha=timezone.localdate())
+        ritmo, estimado = ritmo_km(moto, hoy=date(2026, 7, 1))
+        self.assertTrue(estimado)
+        self.assertAlmostEqual(ritmo, 20000 / (date(2026, 7, 1) - date(2021, 7, 1)).days)
+
+
+class SistemasDespieceTests(TestCase):
+    """Una sola lista de sistemas por tipo de transmisión; la clasificación vive en el servidor."""
+
+    def test_listas_por_transmision(self):
+        from types import SimpleNamespace
+        from .despiece_sistemas import sistemas_de
+        cadena = sistemas_de(SimpleNamespace(transmision="cadena", refrigeracion="aire"))
+        cvt = sistemas_de(SimpleNamespace(transmision="cvt", refrigeracion="liquido"))
+        self.assertIn("Caja de cambios y clutch", cadena)
+        self.assertIn("Kit de arrastre", cadena)
+        self.assertNotIn("Refrigeración", cadena)
+        self.assertNotIn("Kit de arrastre", cvt)
+        self.assertEqual(cvt[4:6], ["Transmisión CVT", "Transmisión final"])
+        self.assertIn("Refrigeración", cvt)
+
+    def test_clasificacion(self):
+        from .despiece_sistemas import sistema_de
+        self.assertEqual(sistema_de("carcasa", "aceite", "Cubierta del clutch"), ("Lubricación", ""))
+        self.assertEqual(sistema_de("transmision", "motor", "Caja de cambios"), ("Caja de cambios y clutch", "Caja de cambios"))
+        self.assertEqual(sistema_de("clutch", "motor", "Clutch"), ("Caja de cambios y clutch", "Clutch"))
+        self.assertEqual(sistema_de("cvt", "correa", "Variador"), ("Transmisión CVT", ""))
+        self.assertEqual(sistema_de("caja_secundaria", "aceite_caja", "Caja"), ("Transmisión final", ""))
+        self.assertEqual(sistema_de("carcasa", "motor", "Embrague del arranque"), ("Eléctrico", "Arranque"))
+        self.assertEqual(sistema_de("rueda_trasera", "cadena", "Kit de arrastre", "5-arrastre"), ("Kit de arrastre", ""))
+
+    def test_clutch_dibujo_y_reglas(self):
+        from .diagramas import DIAGRAMAS, puesto_para
+        piezas, _ = DIAGRAMAS["clutch"][1]()
+        puestos = [p.puesto for p in piezas]
+        self.assertLess(puestos.index("canasta"), puestos.index("centro"))
+        self.assertLess(puestos.index("centro"), puestos.index("discos_friccion"))
+        self.assertLess(puestos.index("separadores"), puestos.index("plato_presion"))
+        self.assertLess(puestos.index("plato_presion"), puestos.index("resortes"))
+        for texto, puesto in [("PLATE, FRICTION", "discos_friccion"), ("PLATE, CLUTCH", "separadores"), ("GEAR ASSY, PRIMARY DRIVEN", "canasta"),
+                              ("DISCO FRICCION", "discos_friccion"), ("PLATO PRESION", "plato_presion"), ("CAMPANA CLUTCH", "canasta")]:
+            self.assertEqual(puesto_para("clutch", texto), puesto, texto)
+
+
+class PuestosFijosTests(TestCase):
+    def test_puestos_escritos_a_mano_coinciden_con_el_dibujo(self):
+        from . import diagramas
+        for clave, fijos in diagramas.PUESTOS_FIJOS.items():
+            dibujados = {q.puesto for q in diagramas.DIAGRAMAS[clave][1]()[0] if q.puesto}
+            self.assertEqual(fijos, dibujados, clave)

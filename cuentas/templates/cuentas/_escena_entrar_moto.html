@@ -1,0 +1,15 @@
+{# Escena anterior de la carta izquierda (la moto de la portada). Se sigue viendo con ?escena=moto #}
+  <!-- Escena del taller (la misma de la portada), solo en pantallas medianas y grandes -->
+  <aside class="entrar-escena portada-garaje" aria-hidden="true">
+    <div class="entrar-escena-texto">
+      <p class="etiqueta">Bienvenido de vuelta</p>
+      <p class="titulo text-3xl lg:text-4xl mt-3">Tu moto te <span class="text-lava">espera</span> en el taller</p>
+    </div>
+    {% include "talleres/_portada_moto.html" with estilo="garaje" animacion="quemada" %}
+    <ul class="entrar-placas">
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">TALLERES</span></li>
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">MI GARAJE</span></li>
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">CUPONES</span></li>
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">FORO</span></li>
+    </ul>
+  </aside>

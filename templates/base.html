@@ -27,17 +27,20 @@
       {% url 'cupones:lista' as u_cupones %}{% url 'foro:lista' as u_foro %}{% url 'cuentas:plus' as u_plus %}
       <div class="flex items-center gap-3 lg:gap-6">
       <nav class="hidden lg:flex items-center gap-6" aria-label="Principal">
-        <a href="{% url 'talleres:inicio' %}" class="nav-link {% if request.path == '/' or request.path|slice:':8' == '/taller/' %}activo{% endif %}">Talleres</a>
+        <a href="{% url 'talleres:directorio' %}" class="nav-link {% if request.path|slice:':9' == '/talleres' or request.path|slice:':8' == '/taller/' %}activo{% endif %}">Talleres</a>
         <a href="{{ u_cupones }}" class="nav-link {% if request.path|slice:':8' == '/cupones' %}activo{% endif %}">Cupones</a>
         <a href="{{ u_foro }}" class="nav-link {% if request.path|slice:':5' == '/foro' %}activo{% endif %}">Foro</a>
+        {% if rol != "taller" %}<a href="{% url 'garaje:diagnostico' %}" class="nav-link {% if request.path|slice:':12' == '/diagnostico' %}activo{% endif %}" title="¿Qué le pasa a tu moto?">Diagnóstico</a>{% endif %}
+        {# Enlaces según el rol: motero (garaje), taller (canjear cupones) y administrador (gestión) #}
+        {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}" class="nav-link {% if request.path|slice:':7' == '/garaje' %}activo{% endif %}">Mi garaje</a>{% endif %}
+        {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}" class="nav-link {% if request.path|slice:':8' == '/canjear' %}activo{% endif %}">Validar cupón</a>{% endif %}
+        {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}" class="nav-link {% if request.path|slice:':20' == '/cuenta/administraci' %}activo{% endif %}">Administración</a>{% endif %}
+        {# Plus va con la cuenta, no entre las secciones: separador y luego Plus, Entrar/Crear cuenta o el avatar #}
+        <span class="nav-separador" aria-hidden="true"></span>
         <a href="{{ u_plus }}" class="nav-plus {% if request.path|slice:':5' == '/plus' %}activo{% endif %}">
           <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="currentColor"/></svg>
           Plus
         </a>
-        {# Enlaces según el rol: motero (garaje), taller (canjear cupones) y administrador (gestión) #}
-        {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}" class="nav-link {% if request.path|slice:':7' == '/garaje' %}activo{% endif %}">Mi garaje</a>{% endif %}
-        {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}" class="nav-link {% if request.path|slice:':8' == '/canjear' %}activo{% endif %}">Canjear cupón</a>{% endif %}
-        {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}" class="nav-link {% if request.path|slice:':20' == '/cuenta/administraci' %}activo{% endif %}">Administración</a>{% endif %}
         {% if not user.is_authenticated %}
           <a href="{% url 'cuentas:entrar' %}" class="nav-link">Entrar</a>
           <a href="{% url 'cuentas:registro' %}" class="btn btn-borde text-xs px-4 py-2">Crear cuenta</a>
@@ -46,7 +49,7 @@
       {% if user.is_authenticated %}
       <!-- Cápsula de la cuenta: "Mi cuenta" (en el borde) con la campanita de notificaciones a su lado -->
       <div class="cuenta-grupo">
-        <a href="{% url 'cuentas:mi_cuenta' %}" class="nav-cuenta hidden lg:inline-flex {% if request.path == '/cuenta/' %}activo{% endif %}">
+        <a href="{% if rol == "taller" %}{% url 'talleres:panel' %}{% else %}{% url 'cuentas:mi_cuenta' %}{% endif %}" class="nav-cuenta hidden lg:inline-flex {% if request.path == '/cuenta/' or request.path == '/mi-taller/' %}activo{% endif %}">
           {% avatar user 28 %}
           <span class="nav-cuenta-nombre">{% if rol == "taller" %}{{ user.taller.nombre }}{% else %}{{ user.first_name|default:"Mi cuenta" }}{% endif %}</span>
         </a>
@@ -70,15 +73,19 @@
       <details class="menu-movil lg:hidden">
         <summary class="btn btn-borde text-xs px-4 py-2" aria-label="Abrir menú">Menú</summary>
         <nav class="papel menu-panel" aria-label="Principal">
-          <a href="{% url 'talleres:inicio' %}">Talleres</a>
+          {% if rol != "taller" %}<a href="{% url 'talleres:emergencias' %}" class="menu-emergencia"><span class="ib-emergencia-punto" aria-hidden="true"></span>¿Te varaste? Emergencias</a>{% endif %}
+          <a href="{% url 'talleres:directorio' %}">Talleres</a>
           <a href="{{ u_cupones }}">Cupones</a>
           <a href="{{ u_foro }}">Foro</a>
+          <a href="{% url 'foro:rodadas' %}" class="menu-sub">Rodadas</a>
+          {% if rol != "taller" %}<a href="{% url 'garaje:diagnostico' %}">¿Qué le pasa a tu moto?</a>{% endif %}
           <a href="{{ u_plus }}" class="menu-plus"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="currentColor"/></svg>Plus</a>
           {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}">Mi garaje</a>{% endif %}
-          {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}">Canjear cupón</a>{% endif %}
+          {% if user.is_authenticated and rol != "taller" %}<a href="{% url 'logros:mis_insignias' %}">Mis insignias</a>{% endif %}
+          {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}">Validar cupón</a>{% endif %}
           {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}">Administración</a>{% endif %}
           {% if user.is_authenticated %}
-            <a href="{% url 'cuentas:mi_cuenta' %}" class="menu-cuenta">{% avatar user 28 %}<span class="nav-cuenta-nombre">{% if rol == "taller" %}{{ user.taller.nombre }}{% else %}{{ user.first_name|default:"Mi cuenta" }}{% endif %}</span></a>
+            <a href="{% if rol == "taller" %}{% url 'talleres:panel' %}{% else %}{% url 'cuentas:mi_cuenta' %}{% endif %}" class="menu-cuenta">{% avatar user 28 %}<span class="nav-cuenta-nombre">{% if rol == "taller" %}{{ user.taller.nombre }}{% else %}{{ user.first_name|default:"Mi cuenta" }}{% endif %}</span></a>
           {% else %}
             <a href="{% url 'cuentas:entrar' %}">Entrar</a>
             <a href="{% url 'cuentas:registro' %}" class="text-lava">Crear cuenta</a>
@@ -92,6 +99,13 @@
   {% block hero %}{% endblock %}
 
   <main class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
+    {% if correo_pendiente %}
+    <div class="aviso-correo mt-6" role="status">
+      <span class="aviso-correo-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+      <p>Confirma tu correo: te enviamos un enlace a <strong>{{ correo_pendiente }}</strong>.</p>
+      <form method="post" action="{% url 'cuentas:reenviar_verificacion' %}">{% csrf_token %}<button class="aviso-correo-boton">Reenviar enlace</button></form>
+    </div>
+    {% endif %}
     {% for m in messages %}
       <div class="mensaje mt-6 {% if m.tags == 'error' %}mensaje-error{% endif %}">{{ m }}</div>
     {% endfor %}
@@ -116,9 +130,11 @@
             <p class="pie-titulo">Explorar</p>
             <ul class="pie-lista">
               <li><a href="{% url 'cuentas:plus' %}" class="pie-plus">PLUS <span aria-hidden="true">★</span></a></li>
-              <li><a href="{% url 'talleres:inicio' %}">Talleres</a></li>
+              <li><a href="{% url 'talleres:directorio' %}">Talleres</a></li>
+              <li><a href="{% url 'talleres:emergencias' %}">Emergencias</a></li>
               <li><a href="{% url 'cupones:lista' %}">Cupones</a></li>
               <li><a href="{% url 'foro:lista' %}">Foro</a></li>
+              <li><a href="{% url 'foro:rodadas' %}">Rodadas</a></li>
               <li><a href="{% url 'garaje:garaje' %}">Mi garaje</a></li>
             </ul>
           </nav>
@@ -127,7 +143,7 @@
             <p class="pie-titulo">Para talleres</p>
             <ul class="pie-lista">
               {% if not user.is_authenticated %}<li><a href="{% url 'talleres:registro' %}">Registra tu taller</a></li>{% endif %}
-              <li><a href="{% url 'cupones:canjear' %}">Canjear un cupón</a></li>
+              <li><a href="{% url 'cupones:canjear' %}">Validar un cupón</a></li>
               {% if not user.is_authenticated %}<li><a href="{% url 'cuentas:entrar' %}">Entrar como taller</a></li>{% endif %}
             </ul>
           </nav>

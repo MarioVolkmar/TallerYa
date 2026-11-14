@@ -1,0 +1,119 @@
+/* Escenas de la carta izquierda en Entrar (llave, tablero y mapa) y Crear motero (orden de servicio).
+   Archivo aparte para poder volver a la escena anterior (la moto) sin tocar tallerya.css: ver cuentas/entrar.html y cuentas/registro.html. */
+
+/* Fondo común: pared del taller con luz cálida arriba */
+.escena-llave, .escena-orden {
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 38%, rgba(242, 101, 34, .10), transparent 70%),
+    repeating-linear-gradient(180deg, rgba(255, 255, 255, .018) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, #151c1e, #0d1214);
+}
+.ll-escena, .or-mesa { position: relative; z-index: 2; }
+
+/* ---------- Entrar: llave y tablero ---------- */
+@media (min-width: 768px) {
+  .ll-escena { width: 108%; margin: 1.2rem -4% 0; flex: 1; max-height: 24rem; }
+  .ll-ventajas li { padding: .7rem .8rem; }
+}
+.ll-halo { opacity: 0; animation: ll-halo 7s ease-in-out infinite; }
+.ll-t { fill: #2a3235; animation: ll-testigo 7s steps(1) infinite; }
+.ll-testigos text { fill: #14191b; }
+.ll-t1 { --encendido: #3fbf6b; animation-name: ll-neutro; }
+.ll-t2 { --encendido: #e3a72f; }
+.ll-t3 { --encendido: #3d7bf2; }
+.ll-t4 { --encendido: #f2a33a; animation-name: ll-direccional; }
+.ll-gasolina { stroke-dasharray: 90; stroke-dashoffset: 90; animation: ll-gasolina 7s ease-out infinite; }
+.ll-odometro { opacity: .25; animation: ll-odometro 7s ease-out infinite; }
+.ll-llavero { transform-box: fill-box; transform-origin: 20% 0; animation: ll-mecer 7s ease-in-out infinite; }
+
+/* La llave gira a los 1,4 s (20 % del ciclo): ahí se enciende todo */
+@keyframes ll-halo { 0%, 19% { opacity: 0; } 26% { opacity: 1; } 40%, 88% { opacity: .55; } 95%, 100% { opacity: 0; } }
+/* Prueba de bombillos: todos prenden un momento y se apagan (menos neutro) */
+@keyframes ll-testigo { 0% { fill: #2a3235; } 20% { fill: var(--encendido); } 34% { fill: #2a3235; } }
+@keyframes ll-neutro { 0% { fill: #2a3235; } 20% { fill: var(--encendido); } 92% { fill: #2a3235; } }
+@keyframes ll-direccional {
+  0% { fill: #2a3235; } 20% { fill: var(--encendido); } 34% { fill: #2a3235; }
+  60% { fill: var(--encendido); } 64% { fill: #2a3235; } 68% { fill: var(--encendido); } 72% { fill: #2a3235; } 76% { fill: var(--encendido); } 80% { fill: #2a3235; }
+}
+@keyframes ll-gasolina { 0%, 22% { stroke-dashoffset: 90; } 40%, 90% { stroke-dashoffset: 0; } 96%, 100% { stroke-dashoffset: 90; } }
+@keyframes ll-odometro { 0%, 20% { opacity: .25; } 28%, 90% { opacity: 1; } 96%, 100% { opacity: .25; } }
+@keyframes ll-mecer { 0%, 18% { transform: rotate(0); } 24% { transform: rotate(16deg); } 30% { transform: rotate(-9deg); } 36% { transform: rotate(5deg); } 42%, 100% { transform: rotate(0); } }
+
+/* Reducir movimiento: tablero encendido y quieto */
+.ll-escena.quieta * { animation: none !important; }
+.ll-escena.quieta .ll-halo { opacity: .55; }
+.ll-escena.quieta .ll-t1 { fill: #3fbf6b; }
+.ll-escena.quieta .ll-gasolina { stroke-dashoffset: 0; }
+.ll-escena.quieta .ll-odometro { opacity: 1; }
+
+/* ---------- Crear motero: orden de servicio ---------- */
+.or-mesa { display: flex; justify-content: center; align-items: flex-start; padding: 2.4rem 0 .5rem; }
+.or-hoja {
+  position: relative; width: min(100%, 21rem); padding: 2.1rem 1.5rem 1.4rem; border-radius: 6px; color: #2c3436;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 27px, rgba(44, 52, 54, .08) 27px 28px),
+    linear-gradient(180deg, #f3ecd9, #e7ddc4);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .5), 0 2px 0 rgba(255, 255, 255, .4) inset;
+  transform: rotate(-2.5deg); animation: or-llega .9s cubic-bezier(.2, .8, .2, 1) both;
+}
+.or-clip { position: absolute; top: -.85rem; left: 50%; width: 4.2rem; height: 1.6rem; margin-left: -2.1rem; border-radius: 6px;
+  background: linear-gradient(180deg, #d9d1bd, #8a8475); box-shadow: 0 3px 6px rgba(0, 0, 0, .35); }
+.or-clip::after { content: ""; position: absolute; inset: .45rem 1.2rem; border-radius: 4px; background: #5c584e; }
+.or-cabeza { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid #2c3436; padding-bottom: .4rem; }
+.or-titulo { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; font-size: 1rem; }
+.or-numero { font-family: ui-monospace, monospace; font-size: .75rem; color: #b8461a; }
+.or-datos { display: grid; grid-template-columns: 1fr 1fr; gap: .2rem 1rem; margin: .8rem 0 .6rem; font-size: .78rem; }
+.or-datos dt { font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; color: #7d786a; }
+.or-datos dd { border-bottom: 1px dashed #a39b85; min-height: 1.3rem; }
+.or-escrito { display: inline-block; font-family: "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive; color: #1f4fa8; font-size: .95rem;
+  white-space: nowrap; overflow: hidden; width: 0; animation: or-escribir .7s steps(8) both; }
+.or-e1 { animation-delay: .9s; }
+.or-e2 { animation-delay: 1.5s; }
+.or-lista { display: grid; gap: .55rem; margin-top: .4rem; font-size: .8rem; line-height: 1.3; }
+.or-lista li { display: flex; gap: .6rem; align-items: flex-start; }
+.or-lista strong { display: block; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .05em; font-size: .82rem; color: #14191b; }
+.or-caja { position: relative; flex: none; width: 1.05rem; height: 1.05rem; margin-top: .1rem; border: 2px solid #2c3436; border-radius: 3px; }
+.or-caja::after { content: ""; position: absolute; left: .22rem; top: -.15rem; width: .38rem; height: .7rem; border: solid #2f9a55;
+  border-width: 0 .2rem .2rem 0; transform: rotate(40deg) scale(0); transform-origin: bottom right; animation: or-chulo .35s cubic-bezier(.3, 1.6, .5, 1) both; }
+.or-r1 .or-caja::after { animation-delay: 2.3s; }
+.or-r2 .or-caja::after { animation-delay: 2.8s; }
+.or-r3 .or-caja::after { animation-delay: 3.3s; }
+.or-r4 .or-caja::after { animation-delay: 3.8s; }
+.or-pie { display: flex; justify-content: space-between; margin-top: 1rem; padding-top: .5rem; border-top: 1px solid #a39b85;
+  font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: #7d786a; }
+.or-valor { font-family: ui-monospace, monospace; color: #14191b; font-weight: 700; letter-spacing: 0; }
+.or-sello { position: absolute; right: 1rem; bottom: 2.6rem; padding: .3rem .7rem; border: 3px solid #e2501c; border-radius: 6px;
+  font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .14em; font-weight: 700; font-size: 1.05rem; color: #e2501c;
+  opacity: 0; transform: rotate(-14deg) scale(2.2); mix-blend-mode: multiply; animation: or-sellar .45s cubic-bezier(.3, 1.4, .5, 1) 4.5s both; }
+.or-llave { position: absolute; right: 8%; bottom: 6%; width: 3.6rem; height: 1rem; border-radius: 3px; transform: rotate(-28deg);
+  background: linear-gradient(90deg, #d9d1bd 0 70%, transparent 70%), radial-gradient(circle at 85% 50%, #e8a93a 0 .5rem, transparent .55rem);
+  opacity: .85; }
+@keyframes or-llega { from { opacity: 0; transform: translateY(1.5rem) rotate(4deg); } to { opacity: 1; transform: rotate(-2.5deg); } }
+@keyframes or-escribir { to { width: 6rem; } }
+@keyframes or-chulo { to { transform: rotate(40deg) scale(1); } }
+@keyframes or-sellar { to { opacity: .9; transform: rotate(-14deg) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .or-hoja, .or-escrito, .or-caja::after, .or-sello { animation-duration: .01s !important; animation-delay: 0s !important; }
+}
+
+/* ---------- Entrar: mapa del Valle de Aburrá (ciclo de 8 s) ---------- */
+.escena-mapa { background: linear-gradient(180deg, #151c1e, #0d1214); }
+.mp-escena { position: relative; z-index: 2; width: 112%; margin: 1rem -6% 0; flex: 1; max-height: 26rem; }
+.mp-agua { animation: mp-agua 3s linear infinite; }
+.mp-onda { transform-box: fill-box; transform-origin: center; animation: mp-onda 2s ease-out infinite; }
+.mp-pin { transform-box: fill-box; transform-origin: 50% 100%; opacity: 0; animation: mp-pin 8s cubic-bezier(.3, 1.5, .5, 1) infinite; }
+.mp-p1 { animation-delay: .3s; } .mp-p2 { animation-delay: .6s; } .mp-p3 { animation-delay: .9s; } .mp-p4 { animation-delay: 1.2s; }
+.mp-elegido { animation-name: mp-elegido; }
+.mp-ruta { stroke-dashoffset: 240; stroke-dasharray: 240; animation: mp-ruta 8s ease-in-out infinite; }
+.mp-tarjeta { transform-box: fill-box; transform-origin: 20% 100%; opacity: 0; animation: mp-tarjeta 8s cubic-bezier(.3, 1.3, .5, 1) infinite; }
+@keyframes mp-agua { to { stroke-dashoffset: -32; } }
+@keyframes mp-onda { from { transform: scale(.5); opacity: .5; } to { transform: scale(2.2); opacity: 0; } }
+@keyframes mp-pin { 0% { opacity: 0; transform: translateY(-18px) scale(.6); } 6%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; transform: none; } }
+@keyframes mp-elegido { 0%, 30% { opacity: 0; transform: translateY(-18px) scale(.6); } 36% { opacity: 1; transform: scale(1.15); } 40%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+@keyframes mp-ruta { 0%, 22% { stroke-dashoffset: 240; stroke-dasharray: 240; } 36% { stroke-dashoffset: 0; stroke-dasharray: 240; } 37%, 90% { stroke-dashoffset: 0; stroke-dasharray: 7 7; } 96%, 100% { stroke-dashoffset: 0; stroke-dasharray: 7 7; opacity: 0; } }
+@keyframes mp-tarjeta { 0%, 40% { opacity: 0; transform: translateY(10px) scale(.85); } 46%, 90% { opacity: 1; transform: none; } 96%, 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .mp-escena * { animation: none !important; }
+  .mp-pin, .mp-tarjeta { opacity: 1; }
+  .mp-ruta { stroke-dashoffset: 0; stroke-dasharray: 7 7; }
+}

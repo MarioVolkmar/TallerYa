@@ -1,0 +1,5 @@
+<div class="flex flex-wrap items-center gap-3">
+  {% for it in items %}<span class="chip" title="{{ it.insignia.descripcion }}">{{ it.insignia.emoji }} {{ it.insignia.nombre }}{% if it.veces > 1 %} ×{{ it.veces }}{% endif %}</span>
+  {% empty %}<span class="text-sm text-suave">Aún sin insignias.</span>{% endfor %}
+  {% if enlace %}<a href="{% url 'logros:mis_insignias' %}" class="boton-texto">Ver insignias y puntos →</a>{% endif %}
+</div>

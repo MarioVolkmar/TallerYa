@@ -1,0 +1,40 @@
+{# Noticiero motero del inicio. Variables: noticias, numero ("02") #}
+{% if noticias %}
+<section class="mt-16">
+  <div class="flex items-end justify-between gap-4 mb-6">
+    <h2 class="titulo text-3xl md:text-4xl"><span class="numero">{{ numero|default:"02" }}</span>Noticias moteras</h2>
+    <a href="{% url 'noticias:lista' %}" class="inicio-ver-todos">Ver todas <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="separador mb-8"></div>
+  <div class="noticiero">
+    {% with a=noticias.0 %}
+    <a href="{{ a.enlace }}" class="nt-destacada nota-{{ a.categoria }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %}>
+      <div class="nt-portada">
+        {% if a.imagen %}<img src="{{ a.imagen.url }}" alt="" loading="lazy">{% else %}<span class="nt-icono" aria-hidden="true">{% include "noticias/_icono.html" %}</span>{% endif %}
+        <span class="nota-categoria">{{ a.get_categoria_display }}</span>
+        <span class="nt-ultima"><span class="nt-punto" aria-hidden="true"></span>Lo último</span>
+      </div>
+      <div class="nt-cuerpo">
+        <h3 class="nt-titulo">{{ a.titulo }}</h3>
+        <p class="nt-resumen">{{ a.resumen }}</p>
+        <p class="nota-pie"><strong>{{ a.fuente|default:"TallerYa" }}</strong> · {{ a.hace }}{% if a.internacional %} · Internacional{% endif %}{% if a.externo %}<span class="nota-salir">Leer en la fuente ↗</span>{% endif %}</p>
+      </div>
+    </a>
+    {% endwith %}
+    <ol class="nt-lista">
+      {% for a in noticias|slice:"1:" %}
+      <li>
+        <a href="{{ a.enlace }}" class="nt-fila nota-{{ a.categoria }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %}>
+          <span class="nt-fila-icono" aria-hidden="true">{% include "noticias/_icono_chico.html" %}</span>
+          <span class="min-w-0">
+            <span class="nt-fila-cat">{{ a.get_categoria_display }}{% if a.internacional %} · Internacional{% endif %}</span>
+            <span class="nt-fila-titulo">{{ a.titulo }}</span>
+            <span class="nt-fila-pie">{{ a.fuente|default:"TallerYa" }} · {{ a.hace }}{% if a.externo %} ↗{% endif %}</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+{% endif %}

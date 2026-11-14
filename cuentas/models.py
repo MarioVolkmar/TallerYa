@@ -73,6 +73,8 @@ class Perfil(models.Model):
     avatar_predisenado = models.CharField("avatar prediseñado", max_length=20, blank=True)
     google_sub = models.CharField("ID de Google", max_length=64, unique=True, null=True, blank=True, editable=False,
                                   help_text="Identificador de la cuenta de Google vinculada (no es el correo)")
+    terminos_aceptados = models.DateTimeField("aceptó términos y privacidad", null=True, blank=True)
+    correo_verificado = models.BooleanField(default=False, help_text="Abrió el enlace de verificación, entró con Google o recuperó su contraseña")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:

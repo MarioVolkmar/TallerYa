@@ -1,0 +1,32 @@
+<!-- Reprogramar: el taller propone otra fecha; el motero la acepta o la rechaza en un enlace -->
+<dialog class="papel rp-dialogo" id="dialogo-reprogramar" aria-labelledby="rp-titulo">
+  <form method="post" class="rp-form">
+    {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+    <div class="rp-cabeza"><p class="titulo text-2xl" id="rp-titulo">Reprogramar cita</p><button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
+    <p class="rp-sub">Propón otra fecha y hora a <strong data-rp-nombre></strong>. Le enviaremos la propuesta por WhatsApp y en TallerYa; la cita queda <strong>en espera hasta que la acepte</strong>.</p>
+    <div class="rp-campos">
+      <label class="campo-label">Nueva fecha<input type="date" name="fecha" class="campo" required min="{{ hoy|date:'Y-m-d' }}"></label>
+      <label class="campo-label">Hora
+        <select name="hora" class="campo" required><option value="" disabled selected>Elige la hora</option>{% for h in horas %}<option value="{{ h }}">{{ h }}</option>{% endfor %}</select></label>
+      <label class="campo-label rp-ancho">Nota para el motero <span class="rc-opcional">(opcional)</span>
+        <input type="text" name="nota" class="campo" maxlength="200" placeholder="Nos llegó el repuesto el viernes"></label>
+    </div>
+    <button class="btn btn-lava w-full py-3 text-sm">Enviar propuesta al motero</button>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var dialogo = document.getElementById("dialogo-reprogramar"); if (!dialogo) return;
+    var form = dialogo.querySelector("form");
+    document.querySelectorAll("[data-reprogramar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        form.action = b.dataset.reprogramar;
+        dialogo.querySelector("[data-rp-nombre]").textContent = b.dataset.nombre;
+        var fecha = form.querySelector('[name=fecha]'); fecha.value = b.dataset.fecha >= fecha.min ? b.dataset.fecha : fecha.min;
+        dialogo.showModal();
+      });
+    });
+    dialogo.querySelector("[data-cerrar]").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); });
+  })();
+</script>

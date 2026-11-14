@@ -1,10 +1,12 @@
+"""Vistas del foro: lista con filtros, publicar preguntas y respuestas, mejor respuesta, reportes y votos."""
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -14,7 +16,7 @@ from notificaciones.servicios import notificar
 from talleres.models import Marca
 
 from .forms import PreguntaForm, RespuestaForm
-from .models import REPORTES_PARA_OCULTAR, Pregunta, Reporte, Respuesta
+from .models import Categoria, Voto, REPORTES_PARA_OCULTAR, Pregunta, Reporte, Respuesta
 
 MAX_PUBLICACIONES_POR_HORA = 10
 
@@ -29,26 +31,50 @@ def _puede_publicar(usuario):
     return True
 
 
+ORDENES = {"recientes": "Recientes", "votados": "Más votados", "respuestas": "Más respuestas", "vistas": "Más vistos"}
+
+
 def lista(request):
+    """Temas del foro: buscador, tema (categoría), marca y línea, sin respuesta, orden y páginas de 15."""
     preguntas = (
         Pregunta.objects.filter(visible=True)
-        .select_related("autor", "marca", "autor__taller")
-        .annotate(num_respuestas=Count("respuestas", filter=Q(respuestas__visible=True)))
-        .order_by("-creado")
+        .select_related("autor", "marca", "linea", "autor__taller")
+        .annotate(num_respuestas=Count("respuestas", filter=Q(respuestas__visible=True), distinct=True),
+                  num_votos=Count("votos", distinct=True))
     )
-    q = request.GET.get("q", "").strip()
+    f = request.GET
+    q = f.get("q", "").strip()
     if q:
-        preguntas = preguntas.filter(Q(titulo__icontains=q) | Q(cuerpo__icontains=q))
-    marca = request.GET.get("marca", "")
+        preguntas = preguntas.filter(Q(titulo__icontains=q) | Q(cuerpo__icontains=q) | Q(respuestas__cuerpo__icontains=q)).distinct()
+    categoria = f.get("categoria", "")
+    if categoria in Categoria.values:
+        preguntas = preguntas.filter(categoria=categoria)
+    marca = f.get("marca", "")
     if marca.isdigit():
         preguntas = preguntas.filter(marca_id=marca)
-    if request.GET.get("filtro") == "sin-respuesta":
+    linea = f.get("linea", "")
+    if linea.isdigit():
+        preguntas = preguntas.filter(linea_id=linea)
+    if f.get("filtro") == "sin-respuesta":
         preguntas = preguntas.filter(num_respuestas=0)
+    orden = f.get("orden") if f.get("orden") in ORDENES else "recientes"
+    preguntas = preguntas.order_by({"recientes": "-creado", "votados": "-num_votos", "respuestas": "-num_respuestas",
+                                    "vistas": "-vistas"}[orden], "-creado")
 
-    pagina = Paginator(preguntas, 15).get_page(request.GET.get("pagina"))
+    sin_pagina = f.copy()
+    sin_pagina.pop("pagina", None)
+    sin_orden = sin_pagina.copy()
+    sin_orden.pop("orden", None)
+    sin_categoria = sin_pagina.copy()
+    sin_categoria.pop("categoria", None)
+    from garaje.models import LineaMoto
     return render(request, "foro/lista.html", {
-        "pagina": pagina, "marcas": Marca.objects.all(), "q": q, "marca": marca,
-        "filtro": request.GET.get("filtro", ""),
+        "pagina": Paginator(preguntas, 15).get_page(f.get("pagina")),
+        "marcas": Marca.objects.all(), "q": q, "marca": marca, "linea": linea, "categoria": categoria,
+        "lineas": LineaMoto.objects.filter(marca_id=marca).order_by("nombre") if marca.isdigit() else [],
+        "categorias": Categoria.choices, "orden": orden, "ordenes": ORDENES,
+        "filtro": f.get("filtro", ""),
+        "qs_orden": sin_orden.urlencode(), "qs_categoria": sin_categoria.urlencode(), "qs_pagina": sin_pagina.urlencode(),
     })
 
 
@@ -68,9 +94,12 @@ def preguntar(request):
 
 
 def pregunta(request, pk, slug=None):
-    pregunta = get_object_or_404(Pregunta.objects.select_related("autor", "marca", "autor__taller"), pk=pk, visible=True)
+    pregunta = get_object_or_404(Pregunta.objects.select_related("autor", "marca", "linea", "autor__taller", "rodada"), pk=pk, visible=True)
+    if getattr(pregunta, "rodada", None):  # las rodadas se ven (y se comentan) en su propia página
+        return redirect(pregunta.rodada)
     if slug != pregunta.slug:
         return redirect(pregunta, permanent=True)
+    _contar_vista(request, pregunta)
 
     form = RespuestaForm(request.POST or None)
     if request.method == "POST":
@@ -91,11 +120,21 @@ def pregunta(request, pk, slug=None):
                 messages.success(request, "¡Gracias por responder!")
                 return redirect(respuesta)
 
-    respuestas = list(pregunta.respuestas.filter(visible=True).select_related("autor", "autor__taller"))
-    # La mejor respuesta va primero
-    respuestas.sort(key=lambda r: r.pk != pregunta.mejor_respuesta_id)
+    respuestas = list(pregunta.respuestas.filter(visible=True).select_related("autor", "autor__taller")
+                      .annotate(num_votos=Count("votos")))
+    # La mejor respuesta va primero; luego las más votadas
+    respuestas.sort(key=lambda r: (r.pk != pregunta.mejor_respuesta_id, -r.num_votos, r.creado))
+    mis_votos = set()
+    if request.user.is_authenticated:
+        mis_votos = {("r", v) for v in Voto.objects.filter(usuario=request.user, respuesta__pregunta=pregunta).values_list("respuesta_id", flat=True)}
+        if Voto.objects.filter(usuario=request.user, pregunta=pregunta).exists():
+            mis_votos.add(("p", pregunta.pk))
+    for r in respuestas:
+        r.vote_mio = ("r", r.pk) in mis_votos
     return render(request, "foro/pregunta.html", {
         "pregunta": pregunta,
+        "votos_pregunta": pregunta.votos.count(),
+        "voto_pregunta_mio": ("p", pregunta.pk) in mis_votos,
         "respuestas": respuestas,
         "form": form,
         "es_autor": request.user == pregunta.autor,
@@ -139,4 +178,33 @@ def reportar(request, tipo, pk):
         messages.success(request, "Gracias. La publicación quedó oculta mientras la revisamos.")
         return redirect("foro:lista" if tipo == "pregunta" else objeto.pregunta)
     messages.success(request, "Gracias por avisar. Revisaremos la publicación.")
+    return redirect(objeto)
+
+
+def _contar_vista(request, pregunta):
+    """Suma una vista por sesión (recargar la página no infla el contador)."""
+    vistas = request.session.get("foro-vistas", [])
+    if pregunta.pk in vistas:
+        return
+    Pregunta.objects.filter(pk=pregunta.pk).update(vistas=F("vistas") + 1)
+    pregunta.vistas += 1
+    request.session["foro-vistas"] = (vistas + [pregunta.pk])[-200:]
+
+
+@login_required
+@require_POST
+def votar(request, tipo, pk):
+    """Voto "me sirvió" (se quita si se vuelve a tocar). No se vota lo propio."""
+    modelo = {"pregunta": Pregunta, "respuesta": Respuesta}.get(tipo)
+    if not modelo:
+        return redirect("foro:lista")
+    objeto = get_object_or_404(modelo, pk=pk, visible=True)
+    if objeto.autor_id == request.user.pk:
+        messages.info(request, "No puedes votar tu propia publicación.")
+        return redirect(objeto)
+    voto, creado = Voto.objects.get_or_create(usuario=request.user, **{tipo: objeto})
+    if not creado:
+        voto.delete()
+    if request.headers.get("X-Requested-With") == "fetch":
+        return JsonResponse({"votado": creado, "votos": objeto.votos.count()})
     return redirect(objeto)

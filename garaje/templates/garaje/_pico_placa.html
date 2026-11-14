@@ -1,0 +1,48 @@
+{# Tarjeta de pico y placa de la moto (necesita pyp = pico_placa.resumen(moto)) #}
+<section class="papel p-6 pyp" id="pico-placa">
+  <div class="flex items-baseline justify-between gap-2">
+    <h2 class="titulo text-xl">Pico y placa</h2>
+    {% if pyp.regla %}<span class="pyp-ciudad">{{ pyp.regla.ciudad }}</span>{% endif %}
+  </div>
+  {% if not pyp.placa %}
+  <div class="pyp-sin-placa">
+    <div class="pyp-placa-muestra" aria-hidden="true"><span>ABC</span><span>12D</span><small>MEDELLÍN</small></div>
+    <p class="pyp-sin-titulo">¿Qué días no puedes rodar?</p>
+    <p class="pyp-vacio">Agrega la placa y te mostramos tu día de pico y placa, con aviso la tarde anterior.</p>
+    <ol class="pyp-semana pyp-semana-muestra" aria-hidden="true">
+      {% for d in "LMMJV" %}<li><span class="pyp-dia">{% cycle "Lun" "Mar" "Mié" "Jue" "Vie" %}</span><span class="pyp-digitos">?</span></li>{% endfor %}
+    </ol>
+    <a href="{% url 'garaje:editar' moto.pk %}" class="btn btn-lava text-xs px-6 py-3 pyp-agregar">Agregar placa</a>
+  </div>
+  {% elif not pyp.digito %}
+  <p class="pyp-vacio">{% if pyp.regla %}No encontramos números en la placa {{ pyp.placa }}. Revísala en los datos de la moto.{% else %}Aún no tenemos cargada la rotación vigente para tu ciudad.{% endif %}</p>
+  {% else %}
+  <div class="pyp-estado {% if pyp.hoy %}pyp-hoy{% else %}pyp-libre{% endif %}">
+    <span class="pyp-icono" aria-hidden="true">{% if pyp.hoy %}<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="m6 6 12 12"/></svg>{% else %}<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>{% endif %}</span>
+    <div class="min-w-0">
+      <p class="pyp-titulo">{% if pyp.hoy %}Hoy tienes pico y placa{% elif pyp.fin_de_semana %}Fin de semana libre{% elif pyp.festivo_hoy %}Hoy es festivo: puedes rodar{% else %}Hoy puedes rodar{% endif %}</p>
+      <p class="pyp-sub">{% if pyp.hoy %}{{ pyp.regla.horario }}{% elif pyp.proximo %}Próximo: {% if pyp.es_manana %}mañana{% else %}{{ pyp.proximo_dia }} {{ pyp.proximo.day }}{% endif %}{% endif %}</p>
+    </div>
+  </div>
+  <ol class="pyp-semana" aria-label="Rotación de esta semana">
+    {% for d in pyp.semana %}
+    <li class="{% if d.mio %}mio{% endif %}{% if d.hoy %} hoy{% endif %}{% if d.festivo %} festivo{% endif %}{% if d.pasado %} pasado{% endif %}"{% if d.festivo %} title="Festivo: no aplica"{% endif %}>
+      <span class="pyp-dia">{{ d.dia }} {{ d.fecha.day }}</span>
+      <span class="pyp-digitos">{% if d.festivo %}Festivo{% else %}{{ d.digitos }}{% endif %}</span>
+    </li>
+    {% endfor %}
+  </ol>
+  <p class="pyp-nota"><strong class="pyp-placa">{{ pyp.placa }}</strong><span>Dígito <strong>{{ pyp.digito }}</strong></span><span>{{ pyp.dias_mios|join:" y "|capfirst }}</span><span>{{ pyp.regla.horario }}</span></p>
+  <form method="post" action="{% url 'garaje:pico_placa' moto.pk %}" class="pyp-avisos" id="pyp-avisos">
+    {% csrf_token %}
+    <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Avisarme en TallerYa</span>
+      <input type="checkbox" name="aviso" value="1" {% if moto.aviso_pico_placa %}checked{% endif %}></label>
+    <label class="dir-switch"><span class="dir-switch-texto pyp-wa"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></svg>Recordarme por WhatsApp</span>
+      <input type="checkbox" name="whatsapp" value="1" {% if moto.pico_placa_whatsapp %}checked{% endif %}></label>
+    <p class="pyp-wa-nota">Te escribimos la tarde anterior al número de tu cuenta.</p>
+    <noscript><button class="btn btn-borde text-xs px-4 py-2">Guardar</button></noscript>
+  </form>
+  {% if pyp.regla.fuente %}<p class="pyp-fuente">Rotación vigente desde el {{ pyp.regla.vigente_desde|date:"j \d\e F"|lower }}{% if pyp.regla.vigente_hasta %} hasta el {{ pyp.regla.vigente_hasta|date:"j \d\e F"|lower }}{% if pyp.regla.fin_por_verificar %} (por verificar){% endif %}{% endif %} · Fuente: {% if pyp.regla.fuente_url %}<a href="{{ pyp.regla.fuente_url }}" target="_blank" rel="noopener">{{ pyp.regla.fuente }}</a>{% else %}{{ pyp.regla.fuente }}{% endif %}</p>{% endif %}
+  <script>document.querySelectorAll("#pyp-avisos input[type=checkbox]").forEach(function (c) { c.addEventListener("change", function () { c.form.submit(); }); });</script>
+  {% endif %}
+</section>

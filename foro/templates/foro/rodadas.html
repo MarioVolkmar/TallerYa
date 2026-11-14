@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Rodadas y eventos · TallerYa{% endblock %}
+{% block content %}
+{% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
+<div class="flex flex-wrap items-end justify-between gap-4 mt-6">
+  <div>
+    <p class="etiqueta">Foro · Rutas y paseos</p>
+    <h1 class="titulo text-3xl md:text-4xl mt-2">Rodadas y <span class="text-lava">eventos</span></h1>
+    <p class="text-suave mt-2 max-w-xl">Salidas en grupo desde puntos de encuentro públicos de Medellín y el Valle de Aburrá.</p>
+  </div>
+  <a href="{% url 'foro:rodada_crear' %}" class="btn btn-lava text-xs px-5 py-2.5">Organizar una rodada</a>
+</div>
+<nav class="flex flex-wrap gap-5 mt-6" aria-label="Ver rodadas">
+  <a href="{% url 'foro:rodadas' %}" class="boton-texto {% if not pasadas %}text-lava font-semibold{% endif %}">Próximas</a>
+  <a href="{% url 'foro:rodadas' %}?ver=pasadas" class="boton-texto {% if pasadas %}text-lava font-semibold{% endif %}">Archivo (pasadas)</a>
+</nav>
+<div class="separador mt-3 mb-6"></div>
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  {% for r in pagina %}
+  <a href="{{ r.get_absolute_url }}" class="papel p-6 block">
+    <p class="fo-meta"><span class="chip">{{ r.fecha_hora|date:"D j M · g:i a" }}</span><span class="chip">{{ r.get_nivel_display }}</span></p>
+    <h2 class="titulo text-xl mt-3">{{ r.titulo }}</h2>
+    <p class="text-sm text-suave mt-2">📍 {{ r.punto_encuentro }} → {{ r.destino }}</p>
+    <p class="text-sm mt-2"><strong>{{ r.num_asistentes }}</strong> va{{ r.num_asistentes|pluralize:"n" }}{% if r.cupo %} · {{ r.cupo }} cupos{% endif %}</p>
+  </a>
+  {% empty %}
+  <p class="text-suave">{% if pasadas %}Todavía no hay rodadas en el archivo.{% else %}No hay rodadas próximas. ¡Organiza la primera!{% endif %}</p>
+  {% endfor %}
+</div>
+{% if pagina.has_other_pages %}
+<nav class="paginacion" aria-label="Páginas">
+  {% if pagina.has_previous %}<a href="?{% if pasadas %}ver=pasadas&amp;{% endif %}pagina={{ pagina.previous_page_number }}" rel="prev">← Anterior</a>{% endif %}
+  <span class="actual">{{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+  {% if pagina.has_next %}<a href="?{% if pasadas %}ver=pasadas&amp;{% endif %}pagina={{ pagina.next_page_number }}" rel="next">Siguiente →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

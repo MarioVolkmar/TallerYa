@@ -1,3 +1,4 @@
+"""Filtros de plantilla del garaje (por ahora, leer un diccionario por clave)."""
 from django import template
 
 register = template.Library()

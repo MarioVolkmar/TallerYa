@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Enlace vencido · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-12">
+  <h1 class="titulo text-4xl">Enlace <span class="text-lava">vencido</span></h1>
+  <section class="papel p-6 md:p-8 mt-6">
+    <p class="text-suave">Este enlace de confirmación ya no sirve: venció o ya se usó.</p>
+    {% if user.is_authenticated %}
+    <form method="post" action="{% url 'cuentas:reenviar_verificacion' %}" class="mt-5">{% csrf_token %}
+      <button class="btn btn-lava text-xs px-6 py-3">Enviarme uno nuevo</button>
+    </form>
+    {% else %}
+    <a href="{% url 'cuentas:entrar' %}" class="btn btn-lava text-xs px-6 py-3 mt-5">Entrar para pedir otro</a>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

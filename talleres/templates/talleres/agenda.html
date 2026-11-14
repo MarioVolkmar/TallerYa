@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Agenda y horario · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="pt mt-8 md:mt-10 tf">
+  {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
+  <form method="post" class="papel pt-caja space-y-5">
+    {% csrf_token %}
+    <div>
+      <p class="etiqueta">Agenda</p>
+      <h1 class="titulo text-3xl mt-1">Agenda, horario y emergencias</h1>
+      <p class="text-sm text-suave mt-2">Con las reservas por franjas, el motero elige un horario libre y tú solo confirmas. El horario también sirve para mostrar si estás abierto ahora.</p>
+    </div>
+    {% for e in errores %}<p class="error">{{ e }}</p>{% endfor %}
+    {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
+    <label class="tf-check">{{ form.agenda_activa }} <span><strong>Recibir reservas por franjas</strong><br><small class="text-suave">Si lo apagas, los moteros te piden cita con una fecha y tú acuerdas la hora.</small></span></label>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <label class="campo-label">{{ form.duracion_franja.label }}{{ form.duracion_franja }}</label>
+      <label class="campo-label">{{ form.cupo_franja.label }}{{ form.cupo_franja }}{% for e in form.cupo_franja.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+    </div>
+    <fieldset class="tf-horario">
+      <legend class="titulo text-xl">Horario de atención</legend>
+      <p class="text-sm text-suave">Deja vacío el día que no abres. Si cierras al mediodía, usa el segundo turno.</p>
+      {% for d in dias %}
+      <div class="tf-dia">
+        <strong>{{ d.nombre }}</strong>
+        {% for n, abre, cierra in d.turnos %}
+        <span class="tf-turno">
+          <input type="time" name="d{{ d.dia }}_{{ n }}_abre" value="{{ abre }}" class="campo" aria-label="{{ d.nombre }}, turno {{ n }}: abre">
+          <span aria-hidden="true">a</span>
+          <input type="time" name="d{{ d.dia }}_{{ n }}_cierra" value="{{ cierra }}" class="campo" aria-label="{{ d.nombre }}, turno {{ n }}: cierra">
+        </span>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </fieldset>
+    <fieldset class="tf-horario" id="emergencias">
+      <legend class="titulo text-xl">Emergencias</legend>
+      <p class="text-sm text-suave">Si atiendes emergencias, sales en <a href="{% url 'talleres:emergencias' %}" class="underline">/emergencias</a> cuando estés abierto según tu horario.</p>
+      <label class="tf-check">{{ form.atiende_emergencias }} <span>{{ form.atiende_emergencias.label|capfirst }}</span></label>
+      <label class="tf-check">{{ form.abierto_24h }} <span>{{ form.abierto_24h.label|capfirst }}</span></label>
+      <label class="tf-check">{{ form.grua }} <span>{{ form.grua.label|capfirst }}</span></label>
+      <label class="tf-check">{{ form.despinche_domicilio }} <span>{{ form.despinche_domicilio.label|capfirst }}</span></label>
+      {{ form.latitud }}{{ form.longitud }}
+      <p class="text-sm"><button type="button" class="boton-seccion" id="tomar-ubicacion">📍 Usar la ubicación actual del taller</button>
+        <span class="text-suave" id="ubicacion-estado">{% if form.instance.latitud %}Ubicación guardada.{% else %}Sin ubicación: te ordenamos por barrio.{% endif %}</span></p>
+      <p class="text-xs text-suave">Tómala estando en el local. Sirve para mostrarte a los moteros más cercanos.</p>
+    </fieldset>
+    <button class="btn btn-lava text-xs px-6 py-3">Guardar</button>
+  </form>
+</div>
+<script>
+  (function () {
+    var boton = document.getElementById("tomar-ubicacion"), estado = document.getElementById("ubicacion-estado");
+    if (!boton || !navigator.geolocation) { if (boton) boton.hidden = true; return; }
+    boton.addEventListener("click", function () {
+      estado.textContent = "Buscando…";
+      navigator.geolocation.getCurrentPosition(function (p) {
+        document.getElementById("id_latitud").value = p.coords.latitude.toFixed(6);
+        document.getElementById("id_longitud").value = p.coords.longitude.toFixed(6);
+        estado.textContent = "Listo. Guarda para aplicarla.";
+      }, function () { estado.textContent = "No pudimos tomar la ubicación."; }, {enableHighAccuracy: true, timeout: 10000});
+    });
+  })();
+</script>
+{% endblock %}

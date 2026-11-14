@@ -45,13 +45,14 @@ class MotoForm(EstiloMixin, forms.ModelForm):
     class Meta:
         model = Moto
         fields = ["marca_otra", "linea_otra", "tipo_otra", "modelo", "color", "apodo", "placa",
-                  "soat_vence", "soat_archivo", "tecno_vence", "tecno_archivo"]
+                  "soat_vence", "soat_archivo", "tecno_vence", "tecno_archivo", "matricula"]
         widgets = {
             "modelo": forms.NumberInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 2021"}),
             "placa": forms.TextInput(attrs={"placeholder": "Ej: ABC12D", "autocomplete": "off", "maxlength": 8,
                                             "data-validar-placa": "1", "class": "campo uppercase"}),
             "soat_vence": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
             "tecno_vence": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
+            "matricula": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
             "soat_archivo": forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp,application/pdf"}),
             "tecno_archivo": forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp,application/pdf"}),
         }
@@ -106,6 +107,12 @@ class MotoForm(EstiloMixin, forms.ModelForm):
             "min": ANIO_MINIMO, "max": timezone.localdate().year + 1, "maxlength": 4,
             "data-validar-anio": "1", "autocomplete": "off",
         })
+
+    def clean_matricula(self):
+        fecha = self.cleaned_data.get("matricula")
+        if fecha and fecha > timezone.localdate():
+            raise forms.ValidationError("La fecha de matrícula no puede ser futura.")
+        return fecha
 
     def clean_placa(self):
         # Solo letras y números, en mayúsculas (se aceptan otros formatos: motocarros, placas antiguas).
@@ -167,6 +174,11 @@ class MantenimientoForm(EstiloMixin, forms.ModelForm):
                    "km": forms.NumberInput(attrs={"inputmode": "numeric"})}
 
     OTRO = "otro"  # valor del menú para "Otro taller (fuera de TallerYa)"
+
+    def __init__(self, *args, **kwargs):
+        from django.utils import timezone
+        super().__init__(*args, **kwargs)
+        self.fields["fecha"].widget.attrs["max"] = timezone.localdate().isoformat()  # no se registra algo que aún no pasó
 
     def __init__(self, data=None, *args, moto=None, **kwargs):
         if data is not None and data.get("taller") == self.OTRO:

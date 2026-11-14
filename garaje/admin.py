@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import path
 
 from .models import (Despiece, Lamina, LecturaKm, LineaMoto, Mantenimiento, Moto, ParteDespiece,
-                     SolicitudSoat, TareaMantenimiento)
+                     ReglaPicoPlaca, SolicitudSoat, TareaMantenimiento)
 
 
 @admin.register(LineaMoto)
@@ -152,3 +152,38 @@ class SolicitudSoatAdmin(admin.ModelAdmin):
     def datos_moto(self, obj):
         m = obj.moto
         return f"{m.nombre_completo} · {m.specs().get('cilindraje', '?')} cc · dueño: {m.motociclista}"
+
+
+@admin.register(ReglaPicoPlaca)
+class ReglaPicoPlacaAdmin(admin.ModelAdmin):
+    list_display = ("ciudad", "vigente_desde", "vigente_hasta", "lunes", "martes", "miercoles", "jueves", "viernes", "horario")
+
+
+from .models import CodigoServicio, EnlaceHojaVida, Gasto, RegistroServicio  # noqa: E402
+
+
+@admin.register(RegistroServicio)
+class RegistroServicioAdmin(admin.ModelAdmin):
+    list_display = ("moto", "fecha", "km", "servicios", "taller", "verificado", "costo")
+    list_filter = ("verificado",)
+    readonly_fields = ("verificado",)
+    raw_id_fields = ("moto", "taller")
+
+
+@admin.register(CodigoServicio)
+class CodigoServicioAdmin(admin.ModelAdmin):
+    list_display = ("codigo", "moto", "vence", "usado")
+    raw_id_fields = ("moto",)
+
+
+@admin.register(EnlaceHojaVida)
+class EnlaceHojaVidaAdmin(admin.ModelAdmin):
+    list_display = ("moto", "creado", "revocado")
+    raw_id_fields = ("moto",)
+
+
+@admin.register(Gasto)
+class GastoAdmin(admin.ModelAdmin):
+    list_display = ("moto", "fecha", "tipo", "valor", "galones", "km", "tanque_lleno")
+    list_filter = ("tipo",)
+    raw_id_fields = ("moto",)

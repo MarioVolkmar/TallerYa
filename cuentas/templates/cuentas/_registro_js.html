@@ -1,0 +1,42 @@
+<script>
+  // Ver u ocultar la contraseña
+  document.querySelectorAll("[data-ver-clave]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var campo = b.parentElement.querySelector("input");
+      var ver = campo.type === "password";
+      campo.type = ver ? "text" : "password";
+      b.classList.toggle("activo", ver);
+      b.setAttribute("aria-label", ver ? "Ocultar contraseña" : "Mostrar contraseña");
+    });
+  });
+  // Contraseña: si no cumple, avisa en rojo debajo al salir del campo o al enviar (el servidor también lo valida)
+  (function () {
+    var clave = document.getElementById("id_password1"); if (!clave) return;
+    var caja = clave.closest(".rc-campo");
+    function problemas(v) {
+      var falta = [];
+      if (v.length < 8) falta.push("al menos 8 caracteres");
+      if (/^\d+$/.test(v)) falta.push("letras, no solo números");
+      return falta;
+    }
+    function revisar() {
+      var aviso = caja.querySelector(".error-clave"), falta = problemas(clave.value);
+      if (!clave.value || !falta.length) { if (aviso) aviso.remove(); caja.classList.toggle("con-error", !!caja.querySelector(".error")); return true; }
+      if (!aviso) { aviso = document.createElement("p"); aviso.className = "error error-clave"; caja.appendChild(aviso); }
+      aviso.textContent = "La contraseña debe tener " + falta.join(" y ") + ".";
+      caja.classList.add("con-error");
+      return false;
+    }
+    clave.addEventListener("blur", revisar);
+    clave.addEventListener("input", function () { if (caja.querySelector(".error-clave")) revisar(); });
+    clave.form.addEventListener("submit", function (e) { if (clave.value && !revisar()) { e.preventDefault(); clave.focus(); } });
+  })();
+  // Nombre del archivo elegido en la foto
+  document.querySelectorAll("[data-foto]").forEach(function (caja) {
+    var campo = caja.querySelector("input[type=file]"), nombre = caja.querySelector("[data-foto-nombre]");
+    campo.addEventListener("change", function () {
+      nombre.textContent = campo.files.length ? campo.files[0].name : "";
+      caja.classList.toggle("con-archivo", !!campo.files.length);
+    });
+  });
+</script>

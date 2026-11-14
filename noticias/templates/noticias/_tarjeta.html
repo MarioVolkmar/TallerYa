@@ -1,0 +1,13 @@
+{# Tarjeta de una noticia (lista). Las importadas abren su fuente en otra pestaña #}
+<a href="{{ a.enlace }}" class="nota nota-{{ a.categoria }}"{% if a.externo %} target="_blank" rel="noopener"{% endif %}>
+  <div class="nota-portada">
+    {% if a.imagen %}<img src="{{ a.imagen.url }}" alt="" loading="lazy">{% else %}<span class="nota-icono" aria-hidden="true">{% include "noticias/_icono.html" %}</span>{% endif %}
+    <span class="nota-categoria">{{ a.get_categoria_display }}</span>
+    {% if a.internacional %}<span class="nota-mundo">Internacional</span>{% endif %}
+  </div>
+  <div class="nota-cuerpo">
+    <h3 class="nota-titulo">{{ a.titulo }}</h3>
+    <p class="nota-resumen">{{ a.resumen }}</p>
+    <p class="nota-pie"><strong>{{ a.fuente|default:"TallerYa" }}</strong> · {{ a.hace }}{% if a.externo %}<span class="nota-salir" aria-label="Abre en la fuente">↗</span>{% endif %}</p>
+  </div>
+</a>

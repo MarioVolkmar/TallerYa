@@ -1,0 +1,40 @@
+/* Animación "chat de WhatsApp" del registro de taller (ciclo de 9 s) */
+.rtc { margin-top: 1.4rem; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255, 255, 255, .07); background: #0b141a; }
+.rtc-cabeza { display: flex; align-items: center; gap: .6rem; padding: .65rem .8rem; background: #1f2c34; }
+.rtc-avatar { width: 2.1rem; height: 2.1rem; flex-shrink: 0; display: grid; place-items: center; border-radius: 999px; background: #f2611d; color: #1a0d05;
+  font-family: "Oswald", sans-serif; font-weight: 700; font-size: .78rem; }
+.rtc-quien { flex: 1; min-width: 0; }
+.rtc-quien strong { display: block; font-size: .88rem; color: #e9edef; line-height: 1.2; }
+.rtc-estado { position: relative; display: block; height: 1rem; font-size: .7rem; }
+.rtc-estado span { position: absolute; left: 0; top: 0; }
+.rtc-escribiendo { color: #25d366; animation: rtc-escribe 9s infinite; }
+.rtc-linea { color: #8696a0; animation: rtc-enlinea 9s infinite; }
+.rtc-wa { color: #25d366; }
+.rtc-chat { display: flex; flex-direction: column; gap: .45rem; min-height: 15rem; padding: .8rem .75rem 1rem;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, .025) 0 1px, transparent 1.5px) 0 0 / 14px 14px, #0b141a; }
+.rtc-msg { position: relative; max-width: 82%; margin: 0; padding: .45rem .6rem 1.05rem; border-radius: 10px; font-size: .8rem; line-height: 1.4; color: #e9edef; opacity: 0; }
+.rtc-msg time { position: absolute; right: .5rem; bottom: .25rem; font-size: .58rem; color: rgba(233, 237, 239, .55); }
+.rtc-entra { align-self: flex-start; background: #1f2c34; border-top-left-radius: 2px; }
+.rtc-sale { align-self: flex-end; background: #005c4b; border-top-right-radius: 2px; }
+.rtc-sale time { color: #53bdeb; }
+.rtc-m1 { animation: rtc-m1 9s ease infinite; }
+.rtc-m2 { animation: rtc-m2 9s ease infinite; }
+.rtc-m3 { animation: rtc-m3 9s ease infinite; }
+.rtc-cita { align-self: center; display: flex; align-items: center; gap: .55rem; margin-top: .35rem; padding: .55rem .8rem; border-radius: 12px;
+  background: #2b2116; border: 1px solid #e3a72f; color: #e3a72f; opacity: 0; animation: rtc-cita 9s cubic-bezier(.3, 1.4, .5, 1) infinite; }
+.rtc-cita strong { display: block; font-size: .78rem; color: #ede3cc; }
+.rtc-cita span { font-size: .7rem; color: #c9bfa7; line-height: 1.35; }
+
+/* 8 %: llega el mensaje del motero · 16–30 %: el taller escribe · 30 %: responde · 48 %: confirma · 62 %: cita · 94–100 %: se reinicia */
+@keyframes rtc-m1 { 0%, 6% { opacity: 0; transform: translateY(10px) scale(.96); } 10%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes rtc-m2 { 0%, 30% { opacity: 0; transform: translateY(10px) scale(.96); } 34%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes rtc-m3 { 0%, 46% { opacity: 0; transform: translateY(10px) scale(.96); } 50%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes rtc-cita { 0%, 60% { opacity: 0; transform: scale(.7); } 66%, 94% { opacity: 1; transform: none; } 100% { opacity: 0; } }
+@keyframes rtc-escribe { 0%, 15% { opacity: 0; } 17%, 30% { opacity: 1; } 32%, 100% { opacity: 0; } }
+@keyframes rtc-enlinea { 0%, 15% { opacity: 1; } 17%, 30% { opacity: 0; } 32%, 100% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rtc-msg, .rtc-cita { animation: none; opacity: 1; }
+  .rtc-escribiendo { display: none; }
+  .rtc-linea { animation: none; }
+}

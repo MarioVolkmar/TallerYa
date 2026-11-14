@@ -1,0 +1,11 @@
+{% extends "correos/base.html" %}
+{% block preheader %}Crea una contraseña nueva para tu cuenta.{% endblock %}
+{% block etiqueta %}Tu cuenta{% endblock %}
+{% block titulo %}Crea una contraseña <span style="color:#f2611d;">nueva</span>{% endblock %}
+{% block contenido %}
+{% url 'cuentas:recuperar_confirmar' uidb64=uid token=token as ruta %}
+<p style="margin:0 0 12px;">Hola{% if user.first_name %} <strong style="color:#ede3cc;">{{ user.first_name }}</strong>{% endif %},</p>
+<p style="margin:0;">Recibimos una solicitud para {% if user.has_usable_password %}cambiar la contraseña{% else %}crear una contraseña{% endif %} de tu cuenta <strong style="color:#ede3cc;">{{ user.email }}</strong>.</p>
+{% include "correos/_boton.html" with url=protocol|add:"://"|add:domain|add:ruta texto="Crear contraseña nueva" %}
+<p style="margin:0;padding:14px 16px;border-radius:12px;background:#151b1d;font-size:13px;line-height:1.55;color:#9ba2a4;">El enlace sirve una sola vez y vence en 3 días. Si no fuiste tú, ignora este correo: tu contraseña sigue igual.</p>
+{% endblock %}

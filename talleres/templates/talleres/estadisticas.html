@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Estadísticas · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="pt mt-8 md:mt-10 tf">
+  {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
+  <section class="papel pt-caja">
+    <p class="etiqueta">Panel del taller</p>
+    <h1 class="titulo text-3xl md:text-4xl mt-1">Cómo te fue este mes</h1>
+    <p class="text-sm text-suave mt-2">Del {{ periodo.0|date:"j M" }} al {{ periodo.1|date:"j M" }}, comparado con el {{ periodo_ant.0|date:"j M" }}–{{ periodo_ant.1|date:"j M" }}.
+      Contamos personas reales: sin bots ni tus propias visitas, y sin guardar datos de nadie.</p>
+  </section>
+
+  <section class="tf-cifras" aria-label="Cifras del mes">
+    {% for c in cifras %}
+    <div class="pt-cifra tf-cifra" id="cifra-{{ c.clave }}">
+      <span>{{ c.nombre }}</span>
+      <strong>{% if c.decimal %}{% if c.actual %}{{ c.actual|floatformat:1 }}{% else %}—{% endif %}{% else %}{{ c.actual }}{% endif %}</strong>
+      <small>
+        {% if c.decimal %}
+          {% if c.diferencia is not None %}<b class="{% if c.diferencia >= 0 %}tf-sube{% else %}tf-baja{% endif %}">{% if c.diferencia > 0 %}+{% endif %}{{ c.diferencia }}</b> · {% endif %}antes {% if c.anterior %}{{ c.anterior|floatformat:1 }}{% else %}—{% endif %}
+        {% elif c.variacion == "nuevo" %}<b class="tf-sube">nuevo</b> · antes 0
+        {% elif c.variacion is not None %}<b class="{% if c.variacion >= 0 %}tf-sube{% else %}tf-baja{% endif %}">{% if c.variacion > 0 %}+{% endif %}{{ c.variacion }}%</b> · antes {{ c.anterior }}
+        {% else %}antes {{ c.anterior }}{% endif %}
+      </small>
+    </div>
+    {% endfor %}
+  </section>
+
+  <section class="papel pt-caja">
+    <header class="pt-caja-cabeza"><h2 class="titulo text-xl">Últimos 30 días</h2>
+      <p class="tf-leyenda"><i class="tf-v"></i>Visitas <i class="tf-c"></i>WhatsApp y llamadas</p></header>
+    <div class="tf-barras" role="img" aria-label="Visitas y contactos por día en los últimos 30 días">
+      {% for d in serie %}<span title="{{ d.fecha|date:'j M' }}: {{ d.visitas }} visitas, {{ d.contactos }} contactos"><i class="tf-c" style="height: {{ d.alto_c }}%"></i><i class="tf-v" style="height: {{ d.alto_v }}%"></i></span>{% endfor %}
+    </div>
+  </section>
+
+  <section class="papel pt-caja">
+    <h2 class="titulo text-xl">Servicios verificados</h2>
+    <p class="text-sm text-suave mt-1">Registra el trabajo que le hiciste a una moto y queda en su hoja de vida con el sello de tu taller.</p>
+    {% if url_servicio_verificado %}
+      <a href="{{ url_servicio_verificado }}" class="btn btn-lava text-xs px-5 py-2.5 mt-3">Registrar un servicio</a>
+    {% else %}
+      <p class="text-sm mt-3"><span class="insignia">Muy pronto</span></p>
+    {% endif %}
+  </section>
+
+  <section class="papel pt-caja tf-plus">
+    <h2 class="titulo text-xl">Plus taller <span class="insignia">Próximamente</span></h2>
+    <p class="text-sm text-suave mt-1">Lo de arriba es gratis. Más adelante habrá un plan para talleres con:</p>
+    <ul>{% for clave, nombre in plus %}<li data-plus="{{ clave }}">{{ nombre }}</li>{% endfor %}</ul>
+  </section>
+</div>
+{% endblock %}

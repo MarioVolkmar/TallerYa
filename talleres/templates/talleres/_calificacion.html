@@ -1,0 +1,8 @@
+{# Insignia de calificación: promedio, estrellas y número de reseñas. Variable: nota (prom, n, pct) #}
+<div class="calif" title="{{ nota.prom|floatformat:1 }} de 5 con {{ nota.n }} reseña{{ nota.n|pluralize }}">
+  <strong class="calif-nota">{{ nota.prom|floatformat:1 }}</strong>
+  <span class="calif-datos">
+    <span class="tc-estrellas calif-estrellas" aria-hidden="true"><span style="width: {{ nota.pct }}%">★★★★★</span>★★★★★</span>
+    <small>{{ nota.n }} reseña{{ nota.n|pluralize }}</small>
+  </span>
+</div>

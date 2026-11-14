@@ -22,7 +22,10 @@
     <!-- El tiquete con el código -->
     <div class="tiquete{% if codigo.canjeado or not codigo.cupon.vigente %} apagado{% endif %} mt-6">
       <div class="tiquete-cuerpo">
-        <p class="tiquete-etiqueta">Muestra este código en el taller</p>
+        <p class="tiquete-etiqueta">{% if not codigo.canjeado and codigo.cupon.vigente %}Muestra este QR en el taller{% else %}Tu código{% endif %}</p>
+        {% if not codigo.canjeado and codigo.cupon.vigente %}
+        <div class="tiquete-qr" id="qr-cupon" data-qr="{{ url_canje }}" role="img" aria-label="Código QR del cupón {{ codigo.codigo }}"></div>
+        {% endif %}
         <p class="tiquete-codigo" id="codigo-cupon">{{ codigo.codigo }}</p>
         <p class="tiquete-taller">{% if codigo.cupon.taller %}{{ codigo.cupon.taller }}{% else %}Todos los talleres aliados{% endif %}</p>
       </div>
@@ -106,7 +109,14 @@
     {% endif %}
   </aside>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script>
+  // QR del cupón: lleva a la página de canje con el código; si no carga la librería queda el código escrito.
+  (function () {
+    var caja = document.getElementById("qr-cupon"); if (!caja || !window.qrcode) return;
+    var qr = qrcode(0, "M"); qr.addData(caja.dataset.qr); qr.make();
+    caja.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true });
+  })();
   (function () {
     var boton = document.getElementById("copiar-codigo");
     if (!boton) return;

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Hoja de vida · {{ moto }} · TallerYa{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
+  <p class="etiqueta">Historial</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Hoja de <span class="text-lava">vida</span></h1>
+  <p class="text-suave mt-2">Lo que le has hecho a tu {{ moto }}. Lo que registra un taller con tu código queda <strong>verificado</strong>.</p>
+  <p class="hv-resumen mt-4"><span><strong>{{ resumen.total }}</strong> servicio{{ resumen.total|pluralize }}</span><span><strong>{{ resumen.verificados }}</strong> verificado{{ resumen.verificados|pluralize }}</span></p>
+
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-6">
+    <section class="papel p-5" id="codigo">
+      <h2 class="titulo text-lg">Código para el taller</h2>
+      {% if codigo %}
+      <p class="hv-codigo" aria-label="Código {{ codigo.codigo }}">{{ codigo.codigo }}</p>
+      <div class="hv-qr">{{ qr_codigo }}</div>
+      <p class="text-xs text-suave mt-2">Muéstralo en el taller. Sirve una sola vez y vence a las {{ codigo.vence|time:"g:i a" }}.</p>
+      {% else %}
+      <p class="text-sm text-suave mt-2">Cuando te hagan un servicio, muéstrale al taller este código (o su QR) para que lo registre como verificado. Vence en {{ minutos_codigo }} minutos y nadie puede buscar tu moto por la placa.</p>
+      {% endif %}
+      <form method="post" class="mt-3">{% csrf_token %}<input type="hidden" name="accion" value="codigo">
+        <button class="btn {% if codigo %}btn-borde{% else %}btn-lava{% endif %} text-xs px-5 py-3">{% if codigo %}Generar otro{% else %}Generar código{% endif %}</button></form>
+    </section>
+
+    <section class="papel p-5" id="compartir">
+      <h2 class="titulo text-lg">Compartir</h2>
+      {% if enlace %}
+      <p class="text-sm text-suave mt-2">Cualquiera con este enlace ve los servicios, sin tu nombre y con la placa oculta.</p>
+      <input class="campo mt-3 hv-url" value="{{ url_enlace }}" readonly aria-label="Enlace para compartir">
+      <div class="hv-qr">{{ qr_enlace }}</div>
+      <div class="flex flex-wrap gap-2 mt-3">
+        <button type="button" class="btn btn-lava text-xs px-5 py-3" data-copiar="{{ url_enlace }}">Copiar enlace</button>
+        <form method="post">{% csrf_token %}<input type="hidden" name="accion" value="revocar"><button class="btn btn-borde text-xs px-5 py-3">Desactivar enlace</button></form>
+      </div>
+      {% else %}
+      <p class="text-sm text-suave mt-2">Útil para vender la moto: un enlace con su historial, sin tu nombre y con la placa oculta. Lo puedes desactivar cuando quieras.</p>
+      <form method="post" class="mt-3">{% csrf_token %}<input type="hidden" name="accion" value="compartir"><button class="btn btn-lava text-xs px-5 py-3">Crear enlace</button></form>
+      {% endif %}
+    </section>
+  </div>
+
+  <section class="papel p-5 mt-6" id="agregar">
+    <h2 class="titulo text-lg">Agregar un servicio</h2>
+    <form method="post" class="grid grid-cols-1 gap-3 sm:grid-cols-2 mt-3" novalidate>{% csrf_token %}
+      <input type="hidden" name="accion" value="agregar">
+      {% for campo in form %}
+      <label class="campo-label{% if campo.name == 'servicios' or campo.name == 'notas' %} sm:col-span-2{% endif %}">{{ campo.label|capfirst }}{{ campo }}
+        {% for e in campo.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+      {% endfor %}
+      <div class="sm:col-span-2"><button class="btn btn-lava text-xs px-6 py-3">Guardar</button></div>
+    </form>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="titulo text-xl">Servicios</h2>
+    <div class="mt-3">{% include "garaje/_hoja_vida_lista.html" with propia=True %}</div>
+  </section>
+</div>
+<script>
+  document.querySelectorAll("[data-copiar]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copiar).then(function () { b.textContent = "¡Copiado!"; });
+    });
+  });
+  document.querySelectorAll(".hv-url").forEach(function (c) { c.addEventListener("focus", function () { c.select(); }); });
+  document.querySelectorAll("form[data-confirmar]").forEach(function (f) {
+    f.addEventListener("submit", function (e) { if (!confirm(f.dataset.confirmar)) e.preventDefault(); });
+  });
+</script>
+{% endblock %}

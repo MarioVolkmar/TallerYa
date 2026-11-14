@@ -1,0 +1,164 @@
+{
+  "marca": "Suzuki",
+  "linea": "GN 125",
+  "version": "GN125 (diagramas Suzuki 1991, referencia)",
+  "anio": 1991,
+  "formato": "fichas",
+  "carpeta": "manual_despiece/suzuki-gn-125/fichas",
+  "fuente": "https://shop.suncitymotorcycles.com.au/partFinder/fiche/suzuki/1991/gn125",
+  "laminas": [
+    {
+      "figura": "front-caliper-see-note",
+      "titulo_es": "Caliper delantero y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "PAD SET": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": "front-master-cylinder",
+      "titulo_es": "Bomba de freno delantera",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": "rear-brake",
+      "titulo_es": "Freno trasero de tambor",
+      "pieza": "freno_tras",
+      "reglas": {
+        "SHOE": "bandas-tras"
+      },
+      "diagrama": "freno_tambor"
+    },
+    {
+      "figura": "rear-wheel",
+      "titulo_es": "Rueda trasera y corona",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras",
+        "SPROCKET": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "rear-swinging-arm",
+      "titulo_es": "Basculante",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "CHAIN": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "transmission",
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET,ENGINE": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "oil-pump",
+      "titulo_es": "Bomba, filtro de aceite y drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTER,ENGINE OIL": "aceite",
+        "OIL DRAIN": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "air-cleaner",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTER": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "cylinder-head",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "SPARK PLUG": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "cam-shaft-valve",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE,INTAKE": "valvulas",
+        "VALVE,EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "front-wheel",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "front-fork",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SPRING": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "rear-shock-absober",
+      "titulo_es": "Amortiguadores traseros",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "ABSORBER": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "battery",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY": "bateria"
+      },
+      "diagrama": "electrico"
+    }
+  ]
+}

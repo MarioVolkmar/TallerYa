@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Tu cita en {{ cita.taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-10">
+  <p class="etiqueta">Tu cita</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{{ cita.taller.nombre }}</h1>
+  <p class="text-suave mt-2">{{ cita.taller.direccion }}, {{ cita.taller.barrio }}</p>
+  <section class="papel cp mt-6">
+    <p class="cp-quien">{{ cita.nombre }} · {{ cita.moto }}{% if cita.servicio %} · {{ cita.servicio }}{% endif %}</p>
+    {% if pendiente %}
+    <p class="cp-etiqueta">El taller te propone una nueva fecha</p>
+    <div class="cp-fechas">
+      <div class="cp-antes"><small>Pediste</small><strong>{{ cita.fecha_preferida|date:"l j \d\e F"|lower }}</strong></div>
+      <span class="cp-flecha" aria-hidden="true">→</span>
+      <div class="cp-nueva"><small>Nueva fecha</small><strong>{{ cita.fecha_propuesta|date:"l j \d\e F"|lower }}</strong>{% if hora_propuesta %}<em>{{ hora_propuesta }}</em>{% endif %}</div>
+    </div>
+    {% if cita.nota_taller %}<p class="cp-nota">“{{ cita.nota_taller }}”</p>{% endif %}
+    <form method="post" class="cp-botones">{% csrf_token %}
+      <button name="accion" value="aceptar" class="btn btn-lava py-3 text-sm">Aceptar nueva fecha</button>
+      <button name="accion" value="rechazar" class="btn btn-borde py-3 text-sm">No me sirve</button>
+    </form>
+    {% elif cita.estado == "confirmada" %}
+    <p class="cp-estado cp-ok">✓ Cita confirmada para el {{ cita.fecha_preferida|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% endif %}.</p>
+    {% elif cita.estado == "cancelada" %}
+    <p class="cp-estado cp-malo">Esta cita fue cancelada.</p>
+    {% else %}
+    <p class="cp-estado">{% if cita.propuesta_rechazada %}Le avisamos al taller que la fecha propuesta no te sirve. Te escribirán para acordar otra.{% else %}Tu solicitud está {{ cita.get_estado_display|lower }}.{% endif %}</p>
+    {% endif %}
+    <a href="{{ cita.taller.whatsapp_url }}" target="_blank" rel="noopener" class="cp-wa">Escribir al taller por WhatsApp</a>
+  </section>
+</div>
+{% endblock %}

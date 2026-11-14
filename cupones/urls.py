@@ -1,3 +1,4 @@
+"""Rutas de cupones: lista, obtener un código, ver mi cupón, enlace de referido y canje del taller con PIN."""
 from django.urls import path
 
 from . import views

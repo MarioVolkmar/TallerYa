@@ -1,3 +1,4 @@
+"""Vistas de notificaciones: lista, panel en JSON, abrir (marca como leída y redirige) y marcar todas."""
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render

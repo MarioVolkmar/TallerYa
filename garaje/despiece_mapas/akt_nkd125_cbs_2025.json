@@ -1,0 +1,167 @@
+{
+  "marca": "AKT",
+  "linea": "NKD 125",
+  "version": "NKD 125 CBS (2025)",
+  "anio": 2025,
+  "formato": "akt",
+  "fuente": "https://aktmotos.com/catalogos/NKD125CBS%20-2025.pdf",
+  "laminas": [
+    {
+      "figura": "F-5",
+      "titulo_es": "Freno delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "Pastillas": "pastillas-del",
+        "Liquido": "liquido-frenos"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": "F-8",
+      "titulo_es": "Rueda trasera, bandas y arrastre",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "Bandas": "bandas-tras",
+        "Llanta": "llanta-tras",
+        "Kit Arrastre": "kit-arrastre",
+        "Cadena 4": "kit-arrastre",
+        "Sprocket": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "F-14",
+      "titulo_es": "Tijera, cadena y amortiguador",
+      "pieza": "cadena",
+      "reglas": {
+        "Kit Arrastre": "kit-arrastre",
+        "Cadena 4": "kit-arrastre",
+        "Sprocket": "kit-arrastre",
+        "Amortiguador": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar",
+        "TEMPLADOR": "cadena-lubricar",
+        "ADJUSTER, CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar",
+        "PULLER, CHAIN": "cadena-lubricar",
+        "PULLER,CHAIN": "cadena-lubricar",
+        "BOLT, CHAIN ADJUST": "cadena-lubricar",
+        "NUT, CHAIN ADJUST": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "E-1",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "Bujia": "bujia",
+        "Bujía": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "E-2",
+      "titulo_es": "Balancines y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "Valvula": "valvulas",
+        "Válvula": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "E-5",
+      "titulo_es": "Bomba de aceite y filtro centrífugo",
+      "pieza": "aceite",
+      "reglas": {
+        "Filtro Centrifugo": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "E-7",
+      "titulo_es": "Carcasa derecha y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "Filtro Aceite": "aceite",
+        "Tapón Filtro Aceite": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "E-6",
+      "titulo_es": "Tapa del volante y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "Piñon Salida": "kit-arrastre",
+        "Piñón Salida": "kit-arrastre"
+      },
+      "diagrama": "encendido"
+    },
+    {
+      "figura": "E-9",
+      "titulo_es": "Caja de cambios",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "F-10",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "Filtro Aire": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "F-6",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "Llanta": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "F-7",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "Suspension": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "F-16",
+      "titulo_es": "Sistema eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "Bateria": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "F-11",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "escape"
+    },
+    {
+      "figura": "E-4",
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "reglas": {},
+      "diagrama": "clutch"
+    }
+  ]
+}

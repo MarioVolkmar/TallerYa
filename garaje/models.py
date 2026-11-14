@@ -1,3 +1,4 @@
+import secrets
 from pathlib import Path
 from uuid import uuid4
 
@@ -95,8 +96,11 @@ HEX = RegexValidator(r"^#[0-9a-fA-F]{6}$", "Color inválido (usa formato #RRGGBB
 # Diseños de calcas disponibles (se dibujan en el navegador, no son imágenes de terceros)
 DISENOS_CALCA = {
     "franjas": "Franjas de carreras", "llamas": "Llamas", "rayo": "Rayo", "cuadros": "Cuadros",
-    "numero": "Número de carreras", "texto": "Texto propio", "tallerya": "Logo TallerYa",
+    "numero": "Número de carreras", "texto": "Texto propio", "tallerya": "Logo TallerYa", "imagen": "Subir imagen",
 }
+# Calca con imagen propia: data URL PNG/JPEG/WebP ya reducido en el navegador (≤256 px). Tope en caracteres.
+MAX_IMAGEN_CALCA = 200_000
+PREFIJOS_IMAGEN_CALCA = ("data:image/png;base64,", "data:image/jpeg;base64,", "data:image/webp;base64,")
 ZONAS_CALCA = {"lateral": "Laterales", "frontal": "Frontal", "tanque": "Tanque", "cola": "Cola"}
 MAX_CALCAS = 4
 
@@ -106,6 +110,12 @@ COLORES = [
 ]
 # Más tonos para personalizar el modelo 3D (no aparecen en el formulario de registro).
 COLORES_EXTRA = [("#c0c4c8", "Plata"), ("#5b3a8c", "Morado"), ("#e86fa6", "Rosa"), ("#1f9aa0", "Turquesa")]
+# Opciones de estilo del modelo 3D (el navegador muestra solo las que le quedan a cada tipo de moto)
+ACABADOS_3D = ("brillante", "mate", "satinado", "metalizado", "perlado")
+RINES_3D = ("fabrica", "radios", "aleacion", "estrella")
+ACCESORIOS_3D = ("baul", "cubremanos", "parabrisas", "exploradoras", "sliders", "escape", "protector", "led")
+ESPEJOS_3D = ("fabrica", "redondos", "puntas")
+
 COLORES_SECUNDARIOS = [
     ("#1c2022", "Negro"), ("#c0c4c8", "Plata"), ("#c9a227", "Dorado"), ("#c62828", "Rojo"),
     ("#1f4fa8", "Azul"), ("#f2f2ee", "Blanco"),
@@ -140,6 +150,14 @@ DOCUMENTOS = {"soat": "SOAT", "tecno": "Técnico-mecánica"}
 DIAS_AVISO_DOCUMENTO = 30
 
 
+def sumar_anios(fecha, anios):
+    """Misma fecha N años después (el 29 de febrero pasa al 28 si el año no es bisiesto)."""
+    try:
+        return fecha.replace(year=fecha.year + anios)
+    except ValueError:
+        return fecha.replace(year=fecha.year + anios, day=28)
+
+
 class Moto(models.Model):
     motociclista = models.ForeignKey(Motociclista, on_delete=models.CASCADE, related_name="motos")
     linea = models.ForeignKey(LineaMoto, on_delete=models.PROTECT, null=True, blank=True, related_name="motos")
@@ -152,6 +170,8 @@ class Moto(models.Model):
     color = models.CharField(max_length=7, default="#c62828", validators=[HEX])
     color_secundario = models.CharField("color de rines y detalles", max_length=7, default="#1c2022", validators=[HEX])
     calcas = models.JSONField(default=list, blank=True, help_text="Calcas del modelo 3D: diseño, zona, color, tamaño y texto")
+    estilo = models.JSONField(default=dict, blank=True,
+                              help_text="Estilo del modelo 3D: acabado, segundo tono, colores de chasis y asiento, rin y accesorios")
     apodo = models.CharField(max_length=40, blank=True, help_text="Opcional. Ej: La Negra")
     placa = models.CharField(max_length=8, blank=True, help_text="Opcional y privada. Ej: ABC12D")
     # Documentos (opcionales): fecha de vencimiento y una foto o PDF, solo visibles para el dueño.
@@ -160,8 +180,15 @@ class Moto(models.Model):
     tecno_vence = models.DateField("vencimiento de la técnico-mecánica", null=True, blank=True)
     tecno_archivo = models.FileField("foto o PDF de la técnico-mecánica", storage=almacen_privado,
                                      upload_to=ruta_documento, blank=True)
+    matricula = models.DateField("fecha de matrícula", null=True, blank=True,
+                                 help_text="Sirve para calcular la primera técnico-mecánica (a los 2 años)")
     km_inicial = models.PositiveIntegerField("kilometraje al registrarla")
     km_actual = models.PositiveIntegerField()
+    # Pico y placa (solo si tiene placa)
+    aviso_pico_placa = models.BooleanField("avisarme del pico y placa en TallerYa", default=True)
+    pico_placa_whatsapp = models.BooleanField("recordarme el pico y placa por WhatsApp", default=False)
+    pico_placa_enviado = models.DateField(null=True, blank=True, editable=False,
+                                          help_text="Último día por el que se envió el recordatorio por WhatsApp")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -198,6 +225,12 @@ class Moto(models.Model):
         lista = []
         for clave, nombre in DOCUMENTOS.items():
             vence = getattr(self, f"{clave}_vence")
+            estimado = False
+            if clave == "tecno" and not vence and self.matricula:
+                # Sin fecha de la última revisión: la primera va a los 2 años de la matrícula (Ley 769 de 2002, art. 52).
+                primera = sumar_anios(self.matricula, 2)
+                if primera >= hoy:
+                    vence, estimado = primera, True
             dias = (vence - hoy).days if vence else None
             if dias is None:
                 estado = "desconocido"
@@ -208,7 +241,10 @@ class Moto(models.Model):
             else:
                 estado = "ok"
             lista.append({"clave": clave, "nombre": nombre, "vence": vence, "dias": dias, "estado": estado,
+                          "estimado": estimado,
                           "dias_abs": abs(dias) if dias is not None else None,
+                          # Vigencia que le queda sobre un año (para la barra)
+                          "pct": max(0, min(100, round(dias * 100 / 365))) if dias is not None else 0,
                           "archivo": bool(getattr(self, f"{clave}_archivo"))})
         return lista
 
@@ -228,6 +264,55 @@ class Moto(models.Model):
         if faltan:
             return {"estado": "desconocido", "texto": f"Agrega la fecha {' y '.join(faltan)}"}
         return None
+
+    @staticmethod
+    def limpiar_estilo(estilo):
+        """Valida el estilo del modelo 3D que llega del navegador. Devuelve el dict limpio o lanza ValueError."""
+        if not isinstance(estilo, dict):
+            raise ValueError("Estilo inválido.")
+        limpio = {}
+        acabado = estilo.get("acabado") or "brillante"
+        if acabado not in ACABADOS_3D:
+            raise ValueError("Acabado inválido.")
+        if acabado != "brillante":
+            limpio["acabado"] = acabado
+        for campo in ("color2", "chasis", "asiento", "led"):
+            valor = estilo.get(campo) or ""
+            if valor:
+                HEX(str(valor))
+                limpio[campo] = str(valor).lower()
+        espejos = estilo.get("espejos") or "fabrica"
+        if espejos not in ESPEJOS_3D:
+            raise ValueError("Retrovisores inválidos.")
+        if espejos != "fabrica":
+            limpio["espejos"] = espejos
+        rin = estilo.get("rin") or "fabrica"
+        if rin not in RINES_3D:
+            raise ValueError("Rin inválido.")
+        if rin != "fabrica":
+            limpio["rin"] = rin
+        accesorios = estilo.get("accesorios") or []
+        if not isinstance(accesorios, list) or any(a not in ACCESORIOS_3D for a in accesorios):
+            raise ValueError("Accesorio inválido.")
+        if accesorios:
+            limpio["accesorios"] = sorted(set(accesorios))
+        return limpio
+
+    @staticmethod
+    def limpiar_imagen_calca(imagen):
+        """Valida la imagen propia de una calca: data URL de imagen, base64 válido y liviano."""
+        import base64
+        import binascii
+        if not isinstance(imagen, str) or len(imagen) > MAX_IMAGEN_CALCA or not imagen.startswith(PREFIJOS_IMAGEN_CALCA):
+            raise ValueError("La imagen de la calca no es válida o es muy pesada.")
+        try:
+            datos = base64.b64decode(imagen.split(",", 1)[1], validate=True)
+        except (binascii.Error, ValueError):
+            raise ValueError("La imagen de la calca no es válida.")
+        # Firma del archivo: PNG, JPEG o WebP de verdad (no otra cosa con el prefijo cambiado)
+        if not (datos.startswith(b"\x89PNG") or datos.startswith(b"\xff\xd8") or (datos[:4] == b"RIFF" and datos[8:12] == b"WEBP")):
+            raise ValueError("La imagen de la calca no es válida.")
+        return imagen
 
     @staticmethod
     def limpiar_calcas(calcas):
@@ -265,6 +350,8 @@ class Moto(models.Model):
             texto = "".join(ch for ch in str(c.get("texto", ""))[:14] if ch.isprintable())
             limpia = {"diseno": c["diseno"], "color": color, "tamano": round(tamano, 2), "texto": texto,
                       "giro": round(giro, 1), "ambos": bool(c.get("ambos", False))}
+            if c["diseno"] == "imagen":
+                limpia["imagen"] = Moto.limpiar_imagen_calca(c.get("imagen"))
             if con_punto:
                 limpia["punto"] = vector(c["punto"], 3)
                 normal = vector(c.get("normal"), 1.01)
@@ -539,3 +626,142 @@ def borrar_documentos(sender, instance, **kwargs):
         archivo = getattr(instance, campo)
         if archivo:
             archivo.delete(save=False)
+
+
+class ReglaPicoPlaca(models.Model):
+    """Rotación de pico y placa para motos. Se carga desde el admin con cada decreto (cambia cada semestre)."""
+
+    class Digito(models.TextChoices):
+        PRIMERO = "primero", "Primer número de la placa"
+        ULTIMO = "ultimo", "Último número de la placa"
+
+    ciudad = models.CharField(max_length=60, default="Medellín")
+    vigente_desde = models.DateField()
+    vigente_hasta = models.DateField(null=True, blank=True, help_text="Vacío: rige hasta que empiece la siguiente rotación")
+    digito = models.CharField("número que cuenta", max_length=8, choices=Digito.choices, default=Digito.PRIMERO)
+    lunes = models.CharField(max_length=20, blank=True, help_text="Dígitos separados por coma. Ej: 5,8")
+    martes = models.CharField(max_length=20, blank=True)
+    miercoles = models.CharField("miércoles", max_length=20, blank=True)
+    jueves = models.CharField(max_length=20, blank=True)
+    viernes = models.CharField(max_length=20, blank=True)
+    fin_por_verificar = models.BooleanField("fecha de fin por verificar", default=False,
+                                            help_text="La fecha de fin viene de la prensa, no del decreto")
+    horario = models.CharField(max_length=80, default="5:00 a. m. a 8:00 p. m.")
+    fuente = models.CharField(max_length=120, blank=True)
+    fuente_url = models.URLField(blank=True)
+
+    class Meta:
+        ordering = ["-vigente_desde"]
+        verbose_name = "regla de pico y placa"
+        verbose_name_plural = "reglas de pico y placa"
+
+    def __str__(self):
+        return f"{self.ciudad} desde {self.vigente_desde:%d/%m/%Y}"
+
+    DIAS = ("lunes", "martes", "miercoles", "jueves", "viernes")
+
+    def digitos(self, dia_semana):
+        """Dígitos restringidos para un día (0 = lunes). Fines de semana: ninguno."""
+        if dia_semana > 4:
+            return []
+        return [d.strip() for d in getattr(self, self.DIAS[dia_semana]).split(",") if d.strip()]
+
+
+# ---------------------------------------------------------------------------
+# Hoja de vida: servicios de la moto (los del taller, verificados con un código que muestra el dueño)
+# ---------------------------------------------------------------------------
+class RegistroServicio(models.Model):
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="hoja_vida")
+    fecha = models.DateField(default=timezone.localdate)
+    km = models.PositiveIntegerField("kilometraje")
+    servicios = models.CharField("qué se le hizo", max_length=300)
+    notas = models.CharField(max_length=300, blank=True)
+    costo = models.PositiveIntegerField("costo (COP)", null=True, blank=True)
+    taller = models.ForeignKey(Taller, on_delete=models.SET_NULL, null=True, blank=True, related_name="servicios_registrados")
+    taller_otro = models.CharField("otro taller", max_length=80, blank=True)
+    # Solo lo marca el sistema cuando lo registra un taller con el código del dueño.
+    verificado = models.BooleanField(default=False, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-fecha", "-km", "-creado"]
+        verbose_name = "registro de servicio"
+        verbose_name_plural = "hoja de vida (servicios)"
+
+    def __str__(self):
+        return f"{self.moto} · {self.fecha:%d/%m/%Y} · {self.servicios[:40]}"
+
+    @property
+    def donde(self):
+        return str(self.taller) if self.taller else self.taller_otro
+
+
+class CodigoServicio(models.Model):
+    """Código corto de un solo uso que el dueño le muestra al taller para que registre un servicio verificado."""
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="codigos_servicio")
+    codigo = models.CharField(max_length=8, unique=True)
+    vence = models.DateTimeField()
+    usado = models.DateTimeField(null=True, blank=True)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "código de servicio"
+        verbose_name_plural = "códigos de servicio"
+
+    def __str__(self):
+        return f"{self.codigo} · {self.moto}"
+
+    @property
+    def vigente(self):
+        return self.usado is None and self.vence > timezone.now()
+
+
+def token_enlace():
+    return secrets.token_urlsafe(24)
+
+
+class EnlaceHojaVida(models.Model):
+    """Enlace público (sin nombre, placa enmascarada) para mostrar la hoja de vida, p. ej. al vender la moto."""
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="enlaces_hoja_vida")
+    token = models.CharField(max_length=40, unique=True, default=token_enlace, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+    revocado = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = "enlace de hoja de vida"
+        verbose_name_plural = "enlaces de hoja de vida"
+
+    def __str__(self):
+        return f"Hoja de vida de {self.moto}{' (revocado)' if self.revocado else ''}"
+
+    def get_absolute_url(self):
+        return reverse("garaje:hoja_vida_publica", args=[self.token])
+
+
+# ---------------------------------------------------------------------------
+# Gastos y consumo (los servicios con costo de la hoja de vida se suman aparte, sin duplicarlos)
+# ---------------------------------------------------------------------------
+class Gasto(models.Model):
+    class Tipo(models.TextChoices):
+        TANQUEO = "tanqueo", "Tanqueo"
+        SERVICIO = "servicio", "Servicio"
+        REPUESTO = "repuesto", "Repuesto"
+        SOAT = "soat", "SOAT"
+        TECNO = "tecno", "Técnico-mecánica"
+        OTRO = "otro", "Otro"
+
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="gastos")
+    fecha = models.DateField(default=timezone.localdate)
+    tipo = models.CharField(max_length=10, choices=Tipo.choices, default=Tipo.TANQUEO)
+    valor = models.PositiveIntegerField("valor (COP)")
+    galones = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    km = models.PositiveIntegerField("kilometraje", null=True, blank=True)
+    tanque_lleno = models.BooleanField("tanque lleno", default=False)
+    notas = models.CharField(max_length=120, blank=True)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-fecha", "-creado"]
+
+    def __str__(self):
+        return f"{self.get_tipo_display()} · {self.moto} · ${self.valor}"

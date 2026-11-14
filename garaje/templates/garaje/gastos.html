@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Gastos · {{ moto }} · TallerYa{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
+  <p class="etiqueta">Bolsillo</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Gastos y <span class="text-lava">consumo</span></h1>
+  <p class="text-suave mt-2">Tanqueos, repuestos y papeles de tu {{ moto }}. Los servicios con costo de la <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="underline">hoja de vida</a> ya cuentan aquí.</p>
+
+  <ul class="gs-cifras mt-6">
+    <li><span>Este mes ({{ mes_nombre }})</span><strong>${{ mes_total|intcomma }}</strong></li>
+    <li><span>Rendimiento</span><strong>{% if consumo.promedio %}{{ consumo.promedio }} <small>km/gal</small>{% else %}—{% endif %}</strong>
+      <em>{% if consumo.ultimo %}Último tanque: {{ consumo.ultimo }} km/gal{% else %}Registra dos tanqueos llenos con km y galones{% endif %}</em></li>
+    <li><span>Costo por km</span><strong>{% if costo_km %}${{ costo_km|intcomma }}{% else %}—{% endif %}</strong>
+      <em>{% if combustible_km %}Gasolina: ${{ combustible_km|intcomma }}/km{% elif km_recorridos %}En {{ km_recorridos|intcomma }} km{% else %}Falta saber cuántos km llevas{% endif %}</em></li>
+    <li><span>Total registrado</span><strong>${{ total|intcomma }}</strong></li>
+  </ul>
+
+  {% if total %}
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-6">
+    <section class="papel p-5">
+      <h2 class="titulo text-lg">Últimos 6 meses</h2>
+      <svg class="gs-barras" viewBox="0 0 300 135" role="img" aria-label="Gasto por mes">
+        <line x1="0" y1="110.5" x2="300" y2="110.5" class="gs-eje"/>
+        {% for s in serie %}
+        <g{% if forloop.last %} class="gs-actual"{% endif %}>
+          <rect x="{{ s.x }}" y="{{ s.y }}" width="30" height="{{ s.alto }}" rx="3"><title>{{ s.etiqueta }}: ${{ s.total|intcomma }}</title></rect>
+          {% if s.total %}<text x="{{ s.x|add:15 }}" y="{{ s.y|add:-4 }}" class="gs-valor">{{ s.corto }}</text>{% endif %}
+          <text x="{{ s.x|add:15 }}" y="127" class="gs-mes">{{ s.etiqueta }}</text>
+        </g>
+        {% endfor %}
+      </svg>
+    </section>
+    <section class="papel p-5">
+      <h2 class="titulo text-lg">En qué se va</h2>
+      <ul class="gs-tipos mt-3">
+        {% for t in tipos %}
+        <li class="gs-tipo-{{ t.clave }}"><span class="gs-tipo-nombre">{{ t.nombre }}</span><span class="gs-tipo-valor">${{ t.total|intcomma }} · {{ t.pct }} %</span>
+          <span class="gs-tipo-barra" aria-hidden="true"><i style="width: {{ t.pct }}%"></i></span></li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+  {% endif %}
+
+  <section class="papel p-5 mt-6" id="agregar">
+    <h2 class="titulo text-lg">Registrar un gasto</h2>
+    <form method="post" class="grid grid-cols-1 gap-3 sm:grid-cols-2 mt-3" id="form-gasto" novalidate>{% csrf_token %}
+      {% for campo in form %}
+      {% if campo.name == "tanque_lleno" %}
+      <label class="dir-switch sm:col-span-2" data-solo-tanqueo><span class="dir-switch-texto">Llené el tanque</span>{{ campo }}</label>
+      {% else %}
+      <label class="campo-label{% if campo.name == 'notas' %} sm:col-span-2{% endif %}"{% if campo.name == "galones" %} data-solo-tanqueo{% endif %}>{{ campo.label|capfirst }}{{ campo }}
+        {% if campo.help_text %}<span class="text-xs text-suave">{{ campo.help_text }}</span>{% endif %}
+        {% for e in campo.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+      {% endif %}
+      {% endfor %}
+      <div class="sm:col-span-2"><button class="btn btn-lava text-xs px-6 py-3">Guardar</button></div>
+    </form>
+  </section>
+
+  <section class="mt-8">
+    <h2 class="titulo text-xl">Movimientos</h2>
+    <ul class="gs-lista mt-3">
+      {% for m in movimientos %}
+      <li>
+        <span class="gs-punto gs-tipo-{{ m.tipo }}" aria-hidden="true"></span>
+        <span class="min-w-0"><strong>{{ m.tipo_nombre }}</strong>{% if m.descripcion %} · {{ m.descripcion }}{% endif %}
+          <small>{{ m.fecha|date:"j M Y" }}{% if m.km %} · {{ m.km|intcomma }} km{% endif %}{% if not m.gasto %} · de la hoja de vida{% endif %}</small></span>
+        <span class="gs-monto">${{ m.valor|intcomma }}</span>
+        {% if m.gasto %}<form method="post" data-confirmar="¿Eliminar este gasto?">{% csrf_token %}<input type="hidden" name="accion" value="eliminar"><input type="hidden" name="gasto" value="{{ m.gasto.pk }}"><button class="gs-borrar" aria-label="Eliminar">×</button></form>{% endif %}
+      </li>
+      {% empty %}
+      <li class="hv-vacio">Aún no hay gastos. Empieza por tu próximo tanqueo.</li>
+      {% endfor %}
+    </ul>
+  </section>
+</div>
+<script>
+  (function () {
+    var tipo = document.querySelector("#form-gasto [name=tipo]");
+    function mostrar() { document.querySelectorAll("[data-solo-tanqueo]").forEach(function (e) { e.hidden = tipo.value !== "tanqueo"; }); }
+    if (tipo) { tipo.addEventListener("change", mostrar); mostrar(); }
+    document.querySelectorAll("form[data-confirmar]").forEach(function (f) {
+      f.addEventListener("submit", function (e) { if (!confirm(f.dataset.confirmar)) e.preventDefault(); });
+    });
+  })();
+</script>
+{% endblock %}

@@ -1,3 +1,4 @@
+"""Admin de cupones: cupones con su uso, códigos entregados y motociclistas con sus referidos."""
 from django.contrib import admin
 from django.db.models import Count, Q
 
@@ -6,7 +7,7 @@ from .models import CodigoCupon, Cupon, Motociclista
 
 @admin.register(Cupon)
 class CuponAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "donde", "valido_hasta", "cupo", "emitidos", "canjeados", "activo", "publico", "solo_plus", "regalo_mensual", "premio_referido")
+    list_display = ("titulo", "donde", "valido_hasta", "cupo", "emitidos", "canjeados", "activo", "publico", "solo_plus", "regalo_mensual", "premio_referido", "puntos_logros")
     list_filter = ("activo", "publico", "solo_plus", "regalo_mensual", "premio_referido", "taller")
     list_editable = ("activo",)
     search_fields = ("titulo", "taller__nombre")

@@ -1,3 +1,4 @@
+"""Admin de cuentas: suscripciones Plus (activar o renovar a mano tras el pago por Nequi) y perfiles."""
 from django.conf import settings
 from django.contrib import admin
 

@@ -1,30 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Crear cuenta · TallerYa{% endblock %}
 {% block content %}
-<div class="grid grid-cols-1 gap-10 md:grid-cols-5 mt-12 items-start">
-  <div class="md:col-span-2">
-    <p class="etiqueta">Únete gratis</p>
-    <h1 class="titulo text-4xl md:text-5xl mt-3">Crea tu <span class="text-lava">cuenta</span></h1>
-    <ul class="mt-6 space-y-3 text-suave">
-      <li class="flex gap-3"><span class="text-lava">01</span>Todos tus cupones en un solo lugar.</li>
-      <li class="flex gap-3"><span class="text-lava">02</span>Pregunta y responde en el foro.</li>
-      <li class="flex gap-3"><span class="text-lava">03</span>Suscríbete a TallerYa Plus para cupones exclusivos.</li>
-    </ul>
-    <p class="text-sm text-suave mt-6">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}" class="boton-texto">Entra aquí</a></p>
-  </div>
-  <section class="papel p-6 md:p-8 md:col-span-3">
-    <form method="post" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+<div class="entrar registro mt-8 md:mt-12">
+  {% comment %}Carta izquierda: escena nueva. Para volver a la moto de antes, cambiar "_escena_registro_orden" por "_escena_registro_moto" (o verla sin cambiar nada con ?escena=moto en la dirección).{% endcomment %}
+  {% if request.GET.escena == "moto" %}{% include "cuentas/_escena_registro_moto.html" %}{% else %}{% include "cuentas/_escena_registro_orden.html" %}{% endif %}
+
+  <section class="entrar-caja papel">
+    {% include "cuentas/_registro_tipo.html" with activo="motero" %}
+    <h1 class="titulo text-4xl md:text-5xl mt-6">Crea tu <span class="text-lava">cuenta</span></h1>
+    <p class="text-suave mt-2">Tu garaje, tus cupones y los avisos de tu moto, gratis.</p>
+    <div class="mt-6">{% include "cuentas/_boton_google.html" %}</div>
+    {% if google_disponible %}<p class="rc-google-nota">Al continuar con Google aceptas los <a href="{% url 'talleres:legal' 'terminos' %}" target="_blank" rel="noopener">Términos</a> y la <a href="{% url 'talleres:legal' 'privacidad' %}" target="_blank" rel="noopener">Política de privacidad</a>.</p>{% endif %}
+    <form method="post" class="rc-form" novalidate>
       {% csrf_token %}
-      {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm sm:col-span-2">{{ e }}</div>{% endfor %}
-      {% for field in form %}
-        <div class="{% if field.name == 'codigo_existente' or field.name == 'email' %}sm:col-span-2{% endif %}">
-          <label class="campo-label">{{ field.label }}{% if not field.field.required %} <span class="font-normal">(opcional)</span>{% endif %}{{ field }}</label>
-          {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text }}</p>{% endif %}
-          {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
-        </div>
-      {% endfor %}
-      <button class="btn btn-lava sm:col-span-2 py-3 text-sm mt-2">Crear cuenta</button>
+      {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+      <div class="rc-rejilla">
+        {% include "cuentas/_campo_registro.html" with campo=form.nombre clase="rc-ancho" %}
+        {% include "cuentas/_campo_registro.html" with campo=form.celular clase="rc-ancho" pista="Para tus cupones y avisos" %}
+        {% include "cuentas/_campo_registro.html" with campo=form.email clase="rc-ancho" %}
+        {% include "cuentas/_campo_registro.html" with campo=form.password1 sin_ayuda=True %}
+        {% include "cuentas/_campo_registro.html" with campo=form.password2 %}
+      </div>
+      <details class="rc-cupones"{% if form.codigo_existente.value or form.codigo_existente.errors %} open{% endif %}>
+        <summary><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a2.5 2.5 0 0 0 0-5Z"/></svg>¿Ya tienes cupones con este celular?</summary>
+        {% include "cuentas/_campo_registro.html" with campo=form.codigo_existente pista="Así enlazamos tus cupones" %}
+      </details>
+      {% include "cuentas/_terminos.html" with campo=form.acepto %}
+      <button class="btn btn-lava w-full py-3.5 text-sm">Crear cuenta</button>
     </form>
+    <p class="entrar-registro">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Entra aquí</a></p>
   </section>
 </div>
+{% include "cuentas/_registro_js.html" %}
 {% endblock %}

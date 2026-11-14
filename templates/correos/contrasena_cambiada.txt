@@ -1,0 +1,7 @@
+Hola{% if usuario.first_name %} {{ usuario.first_name }}{% endif %},
+
+La contraseña de tu cuenta en TallerYa ({{ usuario.email }}) se cambió hace un momento. Si fuiste tú, no tienes que hacer nada.
+
+¿No fuiste tú? Crea una contraseña nueva ahora mismo: {{ url }}
+
+TallerYa · Talleres de motos de confianza en Medellín
