@@ -2,53 +2,91 @@
 {% block title %}Tu cupón {{ codigo.codigo }} · TallerYa{% endblock %}
 
 {% block content %}
-<div class="grid gap-8 lg:grid-cols-5 mt-10 items-start">
+{% if user.is_authenticated %}{% url 'cuentas:mi_cuenta' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi cuenta" clase="mt-8" %}
+{% else %}{% url 'cupones:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Cupones" clase="mt-8" %}{% endif %}
+
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-5 mt-4 items-start">
   <section class="lg:col-span-3">
     <p class="etiqueta">{% if codigo.origen == "premio" %}Premio por invitar{% elif codigo.origen == "regalo" %}Regalo mensual Plus{% else %}Tu cupón{% endif %}</p>
     <h1 class="titulo text-4xl md:text-5xl mt-3">{{ codigo.cupon.titulo }}</h1>
-    <p class="text-suave mt-2">Para {{ moto.nombre }} · {{ moto.celular_oculto }}</p>
 
-    <div class="codigo-papel mt-6 px-6 py-8">
-      <p class="text-xs tracking-[.3em] opacity-70">MUESTRA ESTE CÓDIGO EN EL TALLER</p>
-      <p class="text-4xl sm:text-5xl md:text-6xl mt-3 select-all">{{ codigo.codigo }}</p>
-      {% if codigo.canjeado %}<span class="sello">CANJEADO</span>{% endif %}
+    <!-- Para quién es, estado y vigencia -->
+    <div class="cupon-meta">
+      <span title="Titular del cupón"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>{{ moto.nombre }}</span>
+      <span title="Celular del titular"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>{{ moto.celular_oculto }}</span>
+      {% if codigo.canjeado %}<span class="cupon-estado cupon-estado-usado">Canjeado</span>
+      {% elif not codigo.cupon.vigente %}<span class="cupon-estado cupon-estado-vencido">Vencido</span>
+      {% else %}<span class="cupon-estado cupon-estado-vigente">Vigente{% if codigo.cupon.valido_hasta %} · hasta el {{ codigo.cupon.valido_hasta|date:"j M Y" }}{% endif %}</span>{% endif %}
     </div>
 
+    <!-- El tiquete con el código -->
+    <div class="tiquete{% if codigo.canjeado or not codigo.cupon.vigente %} apagado{% endif %} mt-6">
+      <div class="tiquete-cuerpo">
+        <p class="tiquete-etiqueta">Muestra este código en el taller</p>
+        <p class="tiquete-codigo" id="codigo-cupon">{{ codigo.codigo }}</p>
+        <p class="tiquete-taller">{% if codigo.cupon.taller %}{{ codigo.cupon.taller }}{% else %}Todos los talleres aliados{% endif %}</p>
+      </div>
+      <div class="tiquete-talon">
+        {% if not codigo.canjeado and codigo.cupon.vigente %}
+        <button type="button" class="tiquete-copiar" id="copiar-codigo">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          <span>Copiar</span>
+        </button>
+        {% else %}
+        <span class="tiquete-sello">{% if codigo.canjeado %}Usado{% else %}Vencido{% endif %}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Dónde usarlo / estado -->
     <div class="papel p-6 mt-6">
       {% if codigo.canjeado %}
         <p class="titulo text-xl">Ya usaste este cupón</p>
-        <p class="text-suave text-sm mt-1">Canjeado el {{ codigo.canjeado_en|date:"j \d\e F, g:i a"|lower }}{% if codigo.canjeado_taller %} en {{ codigo.canjeado_taller }}{% endif %}.</p>
+        <p class="text-suave text-sm mt-1">Canjeado el {{ codigo.canjeado_en|date:"j \d\e F, g:i a"|lower }}{% if codigo.canjeado_taller %} en <a href="{{ codigo.canjeado_taller.get_absolute_url }}" class="servicio-taller">{{ codigo.canjeado_taller }}</a>{% endif %}.</p>
       {% elif not codigo.cupon.vigente %}
         <p class="titulo text-xl">Este cupón ya venció</p>
-        <p class="text-suave text-sm mt-1">Mira los cupones vigentes en la lista.</p>
+        <p class="text-suave text-sm mt-1">Busca otro entre los cupones vigentes.</p>
+        <a href="{% url 'cupones:lista' %}" class="boton-seccion mt-4">Ver cupones</a>
       {% else %}
         <p class="titulo text-xl">¿Dónde lo uso?</p>
         {% if codigo.cupon.taller %}
-          <p class="text-suave text-sm mt-1">En <a href="{{ codigo.cupon.taller.get_absolute_url }}" class="underline hover:text-[#f2611d]">{{ codigo.cupon.taller }}</a>, {{ codigo.cupon.taller.direccion }}, {{ codigo.cupon.taller.barrio }}.</p>
-          <a href="{{ codigo.cupon.taller.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5 mt-4">Escribir al taller</a>
+          <div class="cupon-lugar">
+            <a href="{{ codigo.cupon.taller.get_absolute_url }}" class="servicio-taller">{{ codigo.cupon.taller }}</a>
+            <span class="cupon-direccion"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>{{ codigo.cupon.taller.direccion }}, {{ codigo.cupon.taller.barrio }}</span>
+          </div>
+          {% include "parciales/mapa_taller.html" with taller=codigo.cupon.taller %}
+          <div class="flex flex-wrap gap-2 mt-4">
+            <a href="{{ codigo.cupon.taller.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">Escribir al taller</a>
+            <a href="{{ codigo.cupon.taller.get_absolute_url }}" class="boton-seccion">Ver taller</a>
+          </div>
         {% else %}
           <p class="text-suave text-sm mt-1">En cualquier taller aliado de TallerYa.</p>
-          <a href="{% url 'talleres:inicio' %}" class="btn btn-borde text-xs px-5 py-2.5 mt-4">Ver talleres</a>
+          <a href="{% url 'talleres:inicio' %}" class="boton-seccion mt-4">Ver talleres</a>
         {% endif %}
-        {% if codigo.cupon.valido_hasta %}<p class="text-xs text-suave mt-4">Válido hasta el {{ codigo.cupon.valido_hasta|date:"j \d\e F \d\e Y"|lower }}.</p>{% endif %}
       {% endif %}
-      {% if codigo.cupon.condiciones %}<p class="text-xs text-suave mt-3">Condiciones: {{ codigo.cupon.condiciones }}</p>{% endif %}
+
+      {% if codigo.cupon.valido_hasta or codigo.cupon.condiciones %}
+      <ul class="cupon-datos">
+        {% if codigo.cupon.valido_hasta %}
+        <li><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          <span><strong>Válido hasta</strong> el {{ codigo.cupon.valido_hasta|date:"j \d\e F \d\e Y"|lower }}</span></li>
+        {% endif %}
+        {% if codigo.cupon.condiciones %}
+        <li><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+          <span><strong>Condiciones:</strong> {{ codigo.cupon.condiciones }}</span></li>
+        {% endif %}
+      </ul>
+      {% endif %}
     </div>
-    <p class="text-xs text-suave mt-4">Guarda esta página (o toma captura) para tener tu código a la mano.</p>
+
+    {% if not codigo.canjeado and codigo.cupon.vigente %}
+    <p class="cupon-consejo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+      Guarda esta página o toma un pantallazo para tener tu código a la mano. También lo encuentras en «Mi cuenta».</p>
+    {% endif %}
   </section>
 
   <aside class="lg:col-span-2 space-y-6">
-    <section class="papel p-6 md:p-7 relative overflow-hidden">
-      <span class="numero-fantasma" aria-hidden="true">{{ num_referidos|stringformat:"02d" }}</span>
-      <p class="etiqueta">Invita y gana</p>
-      <h2 class="titulo text-2xl mt-3">Comparte con tus amigos</h2>
-      <p class="text-sm text-suave mt-2">Cuando un amigo nuevo use su primer cupón, te ganas un cupón de premio.</p>
-      <label class="campo-label mt-5">Tu enlace
-        <input class="campo select-all" value="{{ enlace_referido }}" readonly onclick="this.select()">
-      </label>
-      <a href="{{ whatsapp_compartir }}" target="_blank" rel="noopener" class="btn btn-whatsapp w-full py-3 text-xs mt-4">Compartir por WhatsApp</a>
-      <p class="text-xs text-suave mt-4">Amigos invitados: <strong class="text-[#ede3cc]">{{ num_referidos }}</strong></p>
-    </section>
+    {% include "parciales/invita.html" %}
 
     {% if premios %}
     <section class="papel p-6 md:p-7">
@@ -68,4 +106,19 @@
     {% endif %}
   </aside>
 </div>
+<script>
+  (function () {
+    var boton = document.getElementById("copiar-codigo");
+    if (!boton) return;
+    boton.addEventListener("click", function () {
+      var codigo = document.getElementById("codigo-cupon").textContent.trim();
+      var texto = boton.querySelector("span");
+      function listo() {
+        texto.textContent = "¡Copiado!"; boton.classList.add("copiado");
+        setTimeout(function () { texto.textContent = "Copiar"; boton.classList.remove("copiado"); }, 1800);
+      }
+      if (navigator.clipboard) navigator.clipboard.writeText(codigo).then(listo);
+    });
+  })();
+</script>
 {% endblock %}

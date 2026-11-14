@@ -1,0 +1,102 @@
+{% load humanize %}{# Una tarea de la agenda. Al tocarla se despliega su "ficha de acción": por qué importa, qué necesitas y cómo resolverlo. #}
+<article class="tarea tarea-{{ t.estado }}{% if proximo %} tarea-proximo{% endif %}" data-pieza="{{ t.tarea.pieza }}" data-tarea-id="{{ t.tarea.pk }}" id="tarea-{{ t.tarea.clave }}">
+  <button type="button" class="tarea-cabeza" aria-expanded="false" aria-controls="tarea-mas-{{ t.tarea.pk }}">
+    <span class="punto-mini punto-{{ t.estado }}" aria-hidden="true"></span>
+    <span class="min-w-0 flex-1">
+      <span class="tarea-nombre">{{ t.tarea.nombre }}</span>
+      <span class="tarea-detalle">
+        {% if t.ajuste.pospuesta %}Pospuesto hasta el {{ t.ajuste.pospuesto_hasta|date:"j \d\e F"|lower }}. {% endif %}{{ t.detalle }}{% if t.fecha_estimada and t.estado != "vencido" %} Aprox. el {{ t.fecha_estimada|date:"j \d\e F"|lower }}.{% endif %}
+      </span>
+    </span>
+    {% if t.ajuste.recordatorio_pendiente %}<span class="tarea-aviso" title="Te lo recordamos el {{ t.ajuste.recordar_el|date:'j M' }}">🔔 {{ t.ajuste.recordar_el|date:"j M"|lower }}</span>{% endif %}
+    <i class="tarea-flecha" aria-hidden="true"></i>
+  </button>
+
+  <div class="tarea-mas" id="tarea-mas-{{ t.tarea.pk }}" hidden>
+    {% if t.progreso is not None %}
+    <div class="barra barra-{{ t.estado }}" role="progressbar" aria-valuenow="{{ t.porcentaje }}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia el próximo {{ t.tarea.nombre|lower }}"><span style="width: {{ t.porcentaje }}%"></span></div>
+    {% endif %}
+    <p class="tarea-meta">
+      {% if t.ultimo_km is not None %}Último: {{ t.ultimo_km|intcomma }} km · {{ t.ultima_fecha|date:"j M Y"|lower }}{% elif t.supuesto %}Contamos desde que la moto era nueva.{% else %}Sin registros todavía.{% endif %}
+      {% if t.tarea.intervalo_km %} · Cada {{ t.tarea.intervalo_km|intcomma }} km{% endif %}{% if t.tarea.intervalo_dias %} · o {{ t.tarea.intervalo_dias }} días{% endif %}
+    </p>
+
+    <div class="accion-grid">
+      {% if t.por_que %}
+      <section class="accion-bloque">
+        <h4 class="accion-titulo">Por qué importa</h4>
+        <p class="accion-texto">{{ t.por_que }}</p>
+      </section>
+      {% endif %}
+      {% if t.repuestos %}
+      <section class="accion-bloque">
+        <h4 class="accion-titulo">Qué necesitas</h4>
+        <ul class="accion-repuestos">
+          {% for r in t.repuestos|slice:":4" %}
+          <li>
+            <span class="min-w-0 flex-1"><span class="block font-semibold">{{ r.nombre }}{% if r.cantidad > 1 %} <span class="text-suave font-normal">×{{ r.cantidad }}</span>{% endif %}</span><code>{{ r.codigo }}</code></span>
+            <button type="button" class="accion-copiar" data-copiar="{{ r.codigo }}">Copiar</button>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+    </div>
+
+    <h4 class="accion-titulo mt-4">Cómo resolverlo</h4>
+    <div class="accion-caminos">
+      {% if t.tarea.hazlo_tu %}
+      <div class="camino">
+        <p class="camino-nombre">🔧 Hazlo tú</p>
+        <p class="camino-texto">Es un mantenimiento sencillo que puedes hacer en casa con herramientas básicas.{% if t.repuestos %} Lleva el código del repuesto al almacén para no equivocarte.{% endif %}</p>
+      </div>
+      {% endif %}
+      {% if t.taller_sugerido %}
+      <div class="camino camino-taller">
+        <p class="camino-nombre">🏍️ En taller <a href="{{ t.taller_sugerido.taller.get_absolute_url }}" class="servicio-taller">{{ t.taller_sugerido.taller.nombre }}</a></p>
+        <p class="camino-texto">{{ t.taller_sugerido.taller.barrio }}{% if t.taller_sugerido.taller.horario %} · {{ t.taller_sugerido.taller.horario }}{% endif %}</p>
+        {% if t.taller_sugerido.cupon %}<p class="camino-cupon">🎟️ {{ t.taller_sugerido.cupon.titulo }}</p>{% endif %}
+        <div class="flex flex-wrap gap-2 mt-2">
+          <a href="{{ t.taller_sugerido.whatsapp }}" target="_blank" rel="noopener" class="tarea-accion tarea-accion-wa">Pedir cita por WhatsApp</a>
+          <a href="{% url 'talleres:inicio' %}?servicio={{ t.tarea.servicio_id }}" class="tarea-accion">Otros talleres</a>
+        </div>
+      </div>
+      {% elif not t.tarea.hazlo_tu %}
+      <div class="camino"><p class="camino-texto">Aún no hay talleres en TallerYa que ofrezcan este servicio.</p></div>
+      {% endif %}
+    </div>
+
+    <div class="tarea-acciones">
+      <button type="button" class="tarea-accion tarea-accion-principal" data-registrar="{{ t.tarea.pk }}">{% if t.estado == "desconocido" %}Registrar cuándo se hizo{% else %}Ya lo hice{% endif %}</button>
+      {% if t.estado == "vencido" or t.estado == "pronto" %}
+      <details class="tarea-pop">
+        <summary class="tarea-accion">Posponer <i class="pop-flecha" aria-hidden="true"></i></summary>
+        <form method="post" action="{% url 'garaje:ajustar_tarea' moto.pk %}" class="tarea-pop-panel">
+          {% csrf_token %}<input type="hidden" name="tarea" value="{{ t.tarea.pk }}"><input type="hidden" name="accion" value="posponer">
+          <p class="tarea-pop-titulo">¿Por cuánto tiempo?</p>
+          <button name="dias" value="7">1 semana</button>
+          <button name="dias" value="14">2 semanas</button>
+          <button name="dias" value="30">1 mes</button>
+        </form>
+      </details>
+      {% endif %}
+      <details class="tarea-pop">
+        <summary class="tarea-accion">🔔 Recordármelo <i class="pop-flecha" aria-hidden="true"></i></summary>
+        <form method="post" action="{% url 'garaje:ajustar_tarea' moto.pk %}" class="tarea-pop-panel tarea-pop-fecha">
+          {% csrf_token %}<input type="hidden" name="tarea" value="{{ t.tarea.pk }}"><input type="hidden" name="accion" value="recordar">
+          <label class="campo-label">¿Qué día te avisamos?
+            <input type="date" name="fecha" class="campo" min="{% now 'Y-m-d' %}" value="{% if t.ajuste.recordar_el %}{{ t.ajuste.recordar_el|date:'Y-m-d' }}{% else %}{{ t.fecha_calendario|date:'Y-m-d' }}{% endif %}" required>
+          </label>
+          <p class="text-xs text-suave">Te llegará una notificación en TallerYa ese día.</p>
+          <button class="btn btn-lava text-xs py-2.5 w-full">Guardar recordatorio</button>
+        </form>
+      </details>
+      {% if t.ajuste %}
+      <form method="post" action="{% url 'garaje:ajustar_tarea' moto.pk %}" class="tarea-mini-form">
+        {% csrf_token %}<input type="hidden" name="tarea" value="{{ t.tarea.pk }}"><input type="hidden" name="accion" value="quitar">
+        <button class="tarea-accion tarea-accion-suave">Quitar {% if t.ajuste.pospuesta %}aplazamiento{% else %}recordatorio{% endif %}</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</article>

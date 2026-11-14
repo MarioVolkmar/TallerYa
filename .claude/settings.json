@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./venv/**)",
+      "Read(./staticfiles/**)",
+      "Read(./db.sqlite3)",
+      "Read(./privado/**)",
+      "Read(./manual_despiece/**/*.pdf)",
+      "Read(./despiece_local/**/*.pdf)",
+      "Read(./**/__pycache__/**)"
+    ]
+  }
+}

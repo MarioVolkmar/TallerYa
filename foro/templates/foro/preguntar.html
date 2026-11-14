@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Hacer una pregunta · TallerYa{% endblock %}
 {% block content %}
-<a href="{% url 'foro:lista' %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Volver al foro</a>
-<div class="grid gap-8 lg:grid-cols-3 mt-6 items-start">
+{% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-6 items-start">
   <section class="papel p-6 md:p-8 lg:col-span-2">
     <h1 class="titulo text-3xl md:text-4xl">Haz tu <span class="text-lava">pregunta</span></h1>
     <form method="post" class="space-y-4 mt-6">

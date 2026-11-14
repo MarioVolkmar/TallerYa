@@ -1,0 +1,180 @@
+{% load humanize %}
+<!-- Agenda de mantenimiento: qué le toca a la moto y cuándo, y lo que ya se le hizo -->
+<section id="plan" class="mt-10 scroll-mt-24" data-plegable>
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="plan-cuerpo"><span class="numero">01</span>Agenda de mantenimiento<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
+    <div class="flex flex-wrap items-center gap-2">
+      <button type="button" class="boton-seccion" data-registrar="">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        Registrar mantenimiento
+      </button>
+      <a href="{% url 'garaje:poner_al_dia' moto.pk %}" class="boton-seccion" title="Por si hiciste varios mantenimientos y no los registraste en su momento">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3 6 1 1 2-2M3 12l1 1 2-2M3 18l1 1 2-2"/></svg>
+        Actualizar mantenimientos
+      </a>
+    </div>
+  </div>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="seccion-cuerpo space-y-6" id="plan-cuerpo">
+
+  {% if agenda.visita %}
+  <!-- Una sola visita resuelve varias cosas de las que tocan -->
+  <div class="papel agenda-visita">
+    <span class="agenda-visita-icono" aria-hidden="true">💡</span>
+    <div class="min-w-0 flex-1">
+      <p class="agenda-visita-titulo">Resuelve {{ agenda.visita.tareas|length }} cosas en una sola visita</p>
+      <p class="agenda-visita-texto"><a href="{{ agenda.visita.taller.get_absolute_url }}" class="servicio-taller">{{ agenda.visita.taller.nombre }}</a> ({{ agenda.visita.taller.barrio }}) hace {% for t in agenda.visita.tareas %}{% if not forloop.first %}{% if forloop.last %} y {% else %}, {% endif %}{% endif %}{{ t.tarea.nombre|lower }}{% endfor %}.{% if agenda.visita.cupon %} Tiene cupón: {{ agenda.visita.cupon.titulo|lower }}.{% endif %}</p>
+    </div>
+    <a href="{{ agenda.visita.whatsapp }}" target="_blank" rel="noopener" class="btn btn-lava text-xs px-4 py-2.5 shrink-0">Pedir cita</a>
+  </div>
+  {% endif %}
+
+  {% if plan.sin_registro %}
+  <a href="{% url 'garaje:poner_al_dia' moto.pk %}?solo=pendientes" class="al-dia-aviso">
+    <span class="al-dia-aviso-icono" aria-hidden="true">?</span>
+    <span class="min-w-0"><strong>{{ plan.sin_registro|length }} sistema{{ plan.sin_registro|length|pluralize }} sin registro.</strong> Cuéntanos cuándo les hiciste mantenimiento para afinar las recomendaciones.</span>
+    <span class="boton-seccion shrink-0">Ponle al día</span>
+  </a>
+  {% endif %}
+
+  <!-- Grupos (todos plegables) -->
+  <div class="space-y-4">
+  {% if agenda.atencion %}
+  <details class="agenda-grupo scroll-mt-24 agenda-grupo-atencion" open>
+    <summary class="agenda-titulo"><span class="punto-mini punto-vencido" aria-hidden="true"></span>Requiere atención <em>{{ agenda.atencion|length }}</em><i class="agenda-flecha" aria-hidden="true"></i></summary>
+    <div class="papel overflow-hidden agenda-lista mt-3">
+      {% for t in agenda.atencion %}{% include "garaje/_tarea.html" %}{% endfor %}
+    </div>
+  </details>
+  {% endif %}
+  {% if agenda.proximos %}
+  <details class="agenda-grupo scroll-mt-24 agenda-grupo-proximos">
+    <summary class="agenda-titulo"><span class="punto-mini punto-pronto" aria-hidden="true"></span>Próximos a realizar <em>{{ agenda.proximos|length }}</em><i class="agenda-flecha" aria-hidden="true"></i></summary>
+    <div class="papel overflow-hidden agenda-lista mt-3">
+      {% for t in agenda.proximos %}{% include "garaje/_tarea.html" with proximo=True %}{% endfor %}
+    </div>
+  </details>
+  {% endif %}
+  {% if agenda.sin_registro %}
+  <details class="agenda-grupo scroll-mt-24 agenda-grupo-sin_registro">
+    <summary class="agenda-titulo"><span class="punto-mini punto-desconocido" aria-hidden="true"></span>Sin registro <em>{{ agenda.sin_registro|length }}</em><i class="agenda-flecha" aria-hidden="true"></i></summary>
+    <div class="papel overflow-hidden agenda-lista mt-3">
+      {% for t in agenda.sin_registro %}{% include "garaje/_tarea.html" %}{% endfor %}
+    </div>
+  </details>
+  {% endif %}
+  {% if agenda.al_dia %}
+  <details class="agenda-grupo scroll-mt-24 agenda-grupo-al_dia">
+    <summary class="agenda-titulo"><span class="punto-mini punto-ok" aria-hidden="true"></span>Al día <em>{{ agenda.al_dia|length }}</em><i class="agenda-flecha" aria-hidden="true"></i></summary>
+    <div class="papel overflow-hidden agenda-lista mt-3">
+      {% for t in agenda.al_dia %}{% include "garaje/_tarea.html" %}{% endfor %}
+    </div>
+  </details>
+  {% endif %}
+  </div>
+
+  </div>
+</section>
+
+<!-- Ventana única para registrar un mantenimiento -->
+<dialog id="dialogo-registrar" class="dialogo-eliminar dialogo-registrar">
+  <form method="post" action="{% url 'garaje:registrar_mantenimiento' moto.pk %}" class="space-y-4">
+    {% csrf_token %}
+    <div class="flex items-start justify-between gap-3">
+      <p class="titulo text-2xl">Registrar <span class="text-lava">mantenimiento</span></p>
+      <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <label class="campo-label">¿Qué le hiciste?
+      <select name="tarea" class="campo" required id="registrar-tarea">
+        <option value="">Elige el mantenimiento</option>
+        {% if agenda.atencion %}<optgroup label="Requiere atención">{% for t in agenda.atencion %}<option value="{{ t.tarea.pk }}">{{ t.tarea.nombre }}</option>{% endfor %}</optgroup>{% endif %}
+        {% if agenda.proximos %}<optgroup label="Próximos a realizar">{% for t in agenda.proximos %}<option value="{{ t.tarea.pk }}">{{ t.tarea.nombre }}</option>{% endfor %}</optgroup>{% endif %}
+        {% if agenda.sin_registro %}<optgroup label="Sin registro">{% for t in agenda.sin_registro %}<option value="{{ t.tarea.pk }}">{{ t.tarea.nombre }}</option>{% endfor %}</optgroup>{% endif %}
+        {% if agenda.al_dia %}<optgroup label="Al día">{% for t in agenda.al_dia %}<option value="{{ t.tarea.pk }}">{{ t.tarea.nombre }}</option>{% endfor %}</optgroup>{% endif %}
+      </select>
+    </label>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <label class="campo-label">Kilometraje<input type="number" name="km" value="{{ moto.km_actual }}" min="0" max="{{ moto.km_actual }}" class="campo" inputmode="numeric" required></label>
+      <label class="campo-label">Fecha<input type="date" name="fecha" value="{% now 'Y-m-d' %}" max="{% now 'Y-m-d' %}" class="campo" required></label>
+    </div>
+    <label class="campo-label">Taller (opcional)
+      <select name="taller" class="campo selector-taller"><option value="">Lo hice yo / sin taller</option>{% for tl in talleres_activos %}<option value="{{ tl.pk }}">{{ tl.nombre }}</option>{% endfor %}<option value="otro">Otro taller (fuera de TallerYa)</option></select>
+    </label>
+    <label class="campo-label taller-otro" hidden>Nombre del taller (opcional)
+      <input type="text" name="taller_otro" maxlength="80" class="campo" placeholder="Ej: Motos El Paisa"></label>
+    <a href="{% url 'garaje:poner_al_dia' moto.pk %}" class="registrar-varios">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3 6 1 1 2-2M3 12l1 1 2-2M3 18l1 1 2-2"/></svg>
+      <span><strong>¿Hiciste varios?</strong> Actualiza tus mantenimientos de una vez</span>
+      <span aria-hidden="true">→</span>
+    </a>
+    <div class="flex flex-wrap justify-end gap-3 pt-1">
+      <button type="button" class="boton-seccion" data-cerrar>Cancelar</button>
+      <button class="btn btn-lava text-xs px-6 py-3">Registrar</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var dialogo = document.getElementById("dialogo-registrar");
+    var select = document.getElementById("registrar-tarea");
+    // Muestra una tarea del plan aunque esté dentro de un grupo plegado (desde el 3D, el despiece o la línea de tiempo).
+    function abrirTarea(el, abrir) {
+      var b = el.querySelector(".tarea-cabeza"), mas = el.querySelector(".tarea-mas");
+      var estado = abrir === undefined ? b.getAttribute("aria-expanded") !== "true" : abrir;
+      b.setAttribute("aria-expanded", String(estado));
+      mas.hidden = !estado;
+      el.classList.toggle("abierta", estado);
+    }
+    function mostrar(el) {
+      if (!el) return;
+      var grupo = el.closest("details");
+      if (grupo) grupo.open = true;
+      abrirTarea(el, true);
+      window.TallerYaSecciones && window.TallerYaSecciones.abrir("plan");
+      document.querySelectorAll(".tarea.resaltada").forEach(function (t) { t.classList.remove("resaltada"); });
+      el.classList.add("resaltada");
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    function registrar(id) {
+      select.value = id || "";
+      dialogo.showModal();
+      (id ? dialogo.querySelector('[name="km"]') : select).focus();
+    }
+    window.TallerYaPlan = {
+      mostrar: function (piezaOElemento) {
+        mostrar(typeof piezaOElemento === "string" ? document.querySelector('.tarea[data-pieza="' + piezaOElemento + '"]') : piezaOElemento);
+      },
+      registrar: registrar,
+    };
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-registrar]");
+      if (b) { registrar(b.dataset.registrar); return; }
+      if (e.target.closest("[data-cerrar]")) { dialogo.close(); return; }
+      var cabeza = e.target.closest(".tarea-cabeza");
+      if (cabeza) { abrirTarea(cabeza.closest(".tarea")); return; }
+      var ir = e.target.closest("[data-ir-grupo]");
+      if (ir) {
+        e.preventDefault();
+        var grupo = document.querySelector(".agenda-grupo-" + ir.dataset.irGrupo);
+        window.TallerYaSecciones && window.TallerYaSecciones.abrir("plan");
+        if (grupo) { grupo.open = true; grupo.scrollIntoView({ behavior: "smooth", block: "start" }); }
+        else document.getElementById("plan").scrollIntoView({ behavior: "smooth", block: "start" });
+        return;
+      }
+      var copiar = e.target.closest("[data-copiar]");
+      if (copiar) {
+        navigator.clipboard.writeText(copiar.dataset.copiar).then(function () {
+          copiar.textContent = "¡Listo!"; setTimeout(function () { copiar.textContent = "Copiar"; }, 1600);
+        });
+        return;
+      }
+      // Cierra los paneles de Posponer / Recordármelo al tocar fuera (o al abrir otro).
+      document.querySelectorAll(".tarea-pop[open]").forEach(function (p) { if (!p.contains(e.target)) p.open = false; });
+      var ver = e.target.closest("[data-ver-3d]");
+      if (ver && window.TallerYa3D && window.TallerYa3D.verPieza) { window.TallerYa3D.verPieza(ver.getAttribute("data-ver-3d")); return; }
+      var a = e.target.closest('a[href^="#tarea-"]');
+      if (a) { e.preventDefault(); mostrar(document.querySelector(a.getAttribute("href"))); }
+    });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); });
+  })();
+</script>

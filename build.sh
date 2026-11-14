@@ -3,6 +3,11 @@
 set -o errexit
 
 pip install -r requirements.txt
+
+# Recompila Tailwind si hay Node en el servidor; si no, se usa el tw.css ya incluido en el repositorio.
+if command -v npm >/dev/null 2>&1; then
+  npm ci --no-audit --no-fund && npm run css || echo "No se pudo recompilar Tailwind; se usa el tw.css del repositorio."
+fi
 python manage.py collectstatic --no-input
 python manage.py migrate --no-input
 

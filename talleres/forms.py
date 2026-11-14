@@ -51,3 +51,26 @@ class RegistroTallerForm(EstiloMixin, forms.ModelForm):
 
     def clean_whatsapp(self):
         return normalizar_celular(self.cleaned_data["whatsapp"])
+
+
+
+class PerfilTallerForm(EstiloMixin, forms.ModelForm):
+    """Lo que el taller puede cambiar de su perfil público."""
+    class Meta:
+        model = Taller
+        fields = ["descripcion", "horario", "servicios", "marcas", "foto"]
+        labels = {"descripcion": "Sobre el taller", "foto": "Foto de portada"}
+        widgets = {
+            "descripcion": forms.Textarea(attrs={"rows": 5, "maxlength": 1200,
+                                                 "placeholder": "Cuéntale a los moteros quiénes son, desde cuándo trabajan y en qué son buenos."}),
+            "horario": forms.TextInput(attrs={"placeholder": "Ej: Lun-Sáb 8am-6pm"}),
+            "servicios": forms.CheckboxSelectMultiple,
+            "marcas": forms.CheckboxSelectMultiple,
+            "foto": forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}),
+        }
+
+    def clean_foto(self):
+        foto = self.cleaned_data.get("foto")
+        if foto and getattr(foto, "size", 0) > 5 * 1024 * 1024:
+            raise forms.ValidationError("La foto debe pesar máximo 5 MB.")
+        return foto

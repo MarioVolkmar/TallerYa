@@ -1,26 +1,23 @@
 {% extends "base.html" %}
-{% load static humanize %}
+{% load static humanize garaje_extras %}
 {% block title %}{{ moto }} · Mi garaje · TallerYa{% endblock %}
 
 {% block content %}
-<div class="flex flex-wrap items-center justify-between gap-3 mt-8">
-  <a href="{% url 'garaje:garaje' %}?lista=1" class="text-sm text-suave hover:text-[#f2611d]">← Mi garaje</a>
-  <a href="{% url 'garaje:editar' moto.pk %}" class="boton-texto">Editar moto</a>
-</div>
-
-<div class="flex flex-wrap items-end justify-between gap-6 mt-4">
-  <div class="min-w-0">
-    <p class="etiqueta">{{ moto.linea.get_tipo_display|default:moto.get_tipo_otra_display }}{% if moto.linea %} · {{ moto.linea.cilindraje }} cc{% endif %}</p>
-    <h1 class="titulo text-4xl md:text-5xl mt-3">{{ moto }}</h1>
-    {% if moto.apodo %}<p class="text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
+<!-- Encabezado: miga para volver al garaje y nombre de la moto -->
+<header class="cabeza-moto">
+  <nav class="miga" aria-label="Ruta">
+    {% url 'garaje:garaje' as url_garaje %}{% include "parciales/volver.html" with url=url_garaje|add:"?lista=1" texto="Mi garaje" %}
+    <span class="miga-sep" aria-hidden="true">/</span>
+    <span class="miga-actual">{{ moto.linea.get_tipo_display|default:moto.get_tipo_otra_display }}{% if moto.linea %} · {{ moto.linea.cilindraje }} cc{% endif %}</span>
+  </nav>
+  <div class="flex flex-wrap items-center gap-3 mt-3">
+    <h1 class="titulo text-4xl md:text-5xl">{{ moto }}</h1>
+    {% if moto.placa %}<span class="placa-moto" title="Placa (solo la ves tú)">{{ moto.placa }}</span>{% endif %}
   </div>
-  <div class="text-right">
-    <p class="km-grande">{{ moto.km_actual|intcomma }} <span class="text-lg text-suave">km</span></p>
-    {% if plan.km_por_dia %}<p class="text-xs text-suave mt-1">Ruedas unos {{ plan.km_por_dia|floatformat:0 }} km al día</p>{% endif %}
-  </div>
-</div>
+  {% if moto.apodo %}<p class="text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
+</header>
 
-<div class="grid gap-6 lg:grid-cols-3 mt-6">
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start mt-6">
   <!-- Modelo 3D -->
   <section class="papel p-3 lg:col-span-2" aria-label="Modelo 3D de tu moto">
     <div class="visor" id="visor">
@@ -32,60 +29,256 @@
           <button type="button" data-modo="rayos" aria-pressed="false">Rayos X</button>
           <button type="button" data-modo="moto" aria-pressed="false">Moto</button>
         </div>
-        <button type="button" class="btn btn-borde text-[.65rem] px-3 py-1.5" id="visor-centrar">Centrar</button>
+        <div class="flex gap-2">
+          <button type="button" class="visor-boton" id="abrir-personalizar" hidden
+                  aria-controls="personalizar" aria-expanded="false" aria-label="Personalizar">🎨 <span class="solo-ancho">Personalizar</span></button>
+          <button type="button" class="visor-boton" id="visor-centrar" aria-label="Centrar"><svg class="solo-movil" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg><span class="solo-ancho">Centrar</span></button>
+        </div>
       </div>
       <p class="visor-ayuda" id="visor-ayuda">Arrastra para girar · toca una pieza</p>
+      <p class="visor-colocar" id="visor-colocar" hidden>Toca la moto donde quieres la calca · <kbd>Esc</kbd> para cancelar</p>
       <div class="visor-ficha" id="visor-ficha" hidden aria-live="polite"></div>
     </div>
-    <div class="leyenda px-2 pt-3 pb-1">
-      <span style="--c: var(--ok)">Al día</span>
-      <span style="--c: var(--pronto)">Pronto</span>
-      <span style="--c: var(--vencido)">Toca ya</span>
-      <span style="--c: var(--desconocido)">Sin registro</span>
+    <div class="leyenda-3d">
+      <p class="leyenda-3d-titulo">Estado de tus sistemas</p>
+      <ul class="leyenda-3d-lista">
+        {% for clave, nombre, desc, color in leyenda %}
+        <li style="--c: var({{ color }})" class="{% if not agenda|get_item:clave %}vacio{% endif %}" data-grupo="{{ clave }}">
+          <a href="#plan" class="leyenda-3d-enlace" data-ir-grupo="{{ clave }}" title="Ver en la agenda">
+            <strong>{{ agenda|get_item:clave|length }}</strong>
+            <span><span class="leyenda-3d-nombre">{{ nombre }}</span><span class="leyenda-3d-desc">{{ desc }}</span></span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </section>
 
-  <!-- Kilometraje y resumen -->
+  <!-- Odómetro, aceite y documentos -->
   <aside class="space-y-6">
-    <section class="papel p-6">
-      <h2 class="titulo text-xl">Actualizar kilometraje</h2>
-      <form method="post" action="{% url 'garaje:registrar_km' moto.pk %}" class="mt-4 flex gap-2 items-end">
+    <section class="papel p-6 tablero">
+      <div class="flex items-baseline justify-between gap-2">
+        <h2 class="titulo text-xl">Kilometraje</h2>
+        <span class="text-xs text-suave" id="km-por-dia">{% if plan.km_por_dia %}≈ {{ plan.km_por_dia|floatformat:0 }} km al día{% endif %}</span>
+      </div>
+
+      <div class="odometro" id="odometro" data-km="{{ moto.km_actual }}" role="img" aria-label="{{ moto.km_actual }} kilómetros">
+        {% for d in digitos_km %}<span class="odometro-digito{% if d.relleno %} relleno{% endif %}">{{ d.valor }}</span>{% endfor %}
+        <span class="odometro-unidad">km</span>
+      </div>
+
+      {% if aceite %}
+      <div class="tacometro tacometro-{{ aceite.estado }}" id="tacometro">
+        <svg viewBox="0 0 120 70" class="tacometro-arco" aria-hidden="true">
+          <path d="M12 62 A48 48 0 0 1 108 62" class="tacometro-fondo"/>
+          <path d="M89.5 24.6 A48 48 0 0 1 108 62" class="tacometro-zona"/>
+          <path d="M12 62 A48 48 0 0 1 108 62" class="tacometro-valor" pathLength="100" style="stroke-dasharray: {{ aceite.pct }} 100"/>
+          <g class="tacometro-aguja" style="transform: rotate({{ aceite.giro }}deg)"><line x1="60" y1="62" x2="60" y2="22"/><circle cx="60" cy="62" r="5"/></g>
+        </svg>
+        <div class="tacometro-texto">
+          <p class="tacometro-etiqueta">Aceite de motor</p>
+          <p class="tacometro-dato">{{ aceite.dato }}</p>
+          <p class="text-xs text-suave tacometro-detalle">{{ aceite.detalle }}</p>
+        </div>
+      </div>
+      {% endif %}
+
+      <form method="post" action="{% url 'garaje:registrar_km' moto.pk %}" class="odometro-form" id="form-km" novalidate>
         {% csrf_token %}
-        <label class="campo-label flex-1">{{ lectura_form.km.label }}{{ lectura_form.km }}</label>
-        <button class="btn btn-lava px-4 py-3 text-xs shrink-0">Guardar</button>
+        <label class="sr-only" for="{{ lectura_form.km.id_for_label }}">{{ lectura_form.km.label }}</label>
+        {{ lectura_form.km }}
+        <button class="btn btn-lava px-4 py-3 text-xs shrink-0">Actualizar</button>
       </form>
-      <p class="text-xs text-suave mt-3">Actualízalo cada semana para que los avisos sean precisos.</p>
+      <p class="km-aviso" id="km-aviso" aria-live="polite">Escribe lo que marca tu tablero. Hazlo cada semana para que los avisos sean precisos.</p>
     </section>
 
     <section class="papel p-6">
-      <h2 class="titulo text-xl">Resumen</h2>
-      <ul class="mt-4 space-y-2 text-sm">
-        <li class="flex justify-between"><span>Toca ya</span><span class="estado {% if plan.urgentes %}estado-vencido{% else %}estado-desconocido{% endif %}">{{ plan.urgentes|length }}</span></li>
-        <li class="flex justify-between"><span>Pronto</span><span class="estado estado-pronto">{{ plan.pronto|length }}</span></li>
-        <li class="flex justify-between"><span>Al día</span><span class="estado estado-ok">{{ plan.al_dia|length }}</span></li>
-        <li class="flex justify-between"><span>Sin registro</span><span class="estado estado-desconocido">{{ plan.sin_registro|length }}</span></li>
+      <h2 class="titulo text-xl">Documentos</h2>
+      {% with aviso=moto.aviso_documentos %}{% if aviso and aviso.estado == "desconocido" %}
+      <p class="aviso-doc aviso-doc-desconocido mt-3">{{ aviso.texto }} y te avisamos antes de que venzan.</p>
+      {% endif %}{% endwith %}
+      <ul class="mt-4 space-y-3">
+        {% for doc in moto.documentos %}
+        <li class="doc-fila">
+          <span class="punto-mini punto-{{ doc.estado }}"></span>
+          <span class="min-w-0 flex-1">
+            <span class="block font-semibold text-sm">{{ doc.nombre }}</span>
+            <span class="block text-xs {% if doc.estado == 'vencido' %}text-[#ff8a70]{% elif doc.estado == 'pronto' %}text-mostaza{% else %}text-suave{% endif %}">
+              {% if not doc.vence %}Sin fecha registrada
+              {% elif doc.estado == "vencido" %}Venció hace {{ doc.dias_abs }} día{{ doc.dias_abs|pluralize }}
+              {% elif doc.dias == 0 %}Vence hoy
+              {% else %}Vence el {{ doc.vence|date:"j M Y" }} · en {{ doc.dias }} día{{ doc.dias|pluralize }}{% endif %}
+            </span>
+          </span>
+          {% if doc.clave == "soat" %}
+            {% if soat_en_curso %}
+            <span class="doc-solicitado" title="Solicitud del {{ soat_en_curso.creado|date:'j M' }} · {{ soat_en_curso.get_estado_display }}">✓ Cotización solicitada</span>
+            {% elif doc.estado == "pronto" or doc.estado == "vencido" or not doc.vence %}
+            <button type="button" class="doc-agendar" data-cotizar-soat>
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+              Cotizar
+            </button>
+            {% endif %}
+          {% endif %}
+          {% if doc.clave == "tecno" and servicio_tecno and doc.estado == "pronto" or doc.clave == "tecno" and servicio_tecno and doc.estado == "vencido" %}
+          <a href="{% url 'talleres:inicio' %}?servicio={{ servicio_tecno }}" class="doc-agendar" title="Talleres que hacen la revisión técnico-mecánica">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            Agendar
+          </a>
+          {% endif %}
+          {% if doc.archivo %}<a href="{% url 'garaje:documento' moto.pk doc.clave %}" target="_blank" rel="noopener" class="doc-abrir">Ver</a>{% endif %}
+        </li>
+        {% endfor %}
       </ul>
-      <p class="text-xs text-suave mt-4">Los intervalos son orientativos. Sigue también el manual de tu moto.</p>
+      <a href="{% url 'garaje:editar' moto.pk %}" class="btn barra-datos w-full justify-center mt-5" title="Marca, línea, año, apodo, SOAT y técnico-mecánica">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h5M7 14h3M15 10.5h2M15 14h2"/></svg>
+        Datos de la moto
+      </a>
+      <button type="button" class="eliminar-enlace" data-eliminar="{% url 'garaje:eliminar' moto.pk %}" data-nombre="{{ moto }}"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg>Eliminar esta moto</button>
     </section>
   </aside>
 </div>
+<script>
+  // Secciones plegables: el título abre y cierra; el navegador recuerda cuáles dejaste cerradas.
+  (function () {
+    function poner(seccion, abierta, guardar) {
+      var boton = seccion.querySelector(".seccion-boton");
+      var cuerpo = document.getElementById(boton.getAttribute("aria-controls"));
+      boton.setAttribute("aria-expanded", String(abierta));
+      cuerpo.hidden = !abierta;
+      if (guardar) { try { localStorage.setItem("seccion:" + seccion.id, abierta ? "1" : "0"); } catch (e) {} }
+    }
+    // Las secciones están más abajo en la página: se conectan cuando ya cargó todo el HTML.
+    document.addEventListener("DOMContentLoaded", function () { document.querySelectorAll("[data-plegable]").forEach(function (seccion) {
+      var guardado = null;
+      try { guardado = localStorage.getItem("seccion:" + seccion.id); } catch (e) {}
+      if (guardado === "0" && location.hash !== "#" + seccion.id) poner(seccion, false, false);
+      seccion.querySelector(".seccion-boton").addEventListener("click", function () {
+        poner(seccion, this.getAttribute("aria-expanded") !== "true", true);
+      });
+    }); });
+    // Para los botones que llevan a una sección (p. ej. "Plan mantenimiento" desde el 3D): la abren primero.
+    window.TallerYaSecciones = {
+      abrir: function (id) { var s = document.getElementById(id); if (s && s.hasAttribute("data-plegable")) poner(s, true, true); }
+    };
+  })();
+</script>
+<script src="{% static 'garaje/js/tablero.js' %}" defer></script>
+<script>
+  // "Otro taller": muestra el campo para escribir su nombre.
+  document.addEventListener("change", function (e) {
+    if (!e.target.matches || !e.target.matches(".selector-taller")) return;
+    var campo = e.target.closest("form").querySelector(".taller-otro");
+    if (campo) campo.hidden = e.target.value !== "otro";
+  });
+</script>
+
+<!-- Personalización del modelo 3D: cajón lateral que se abre desde el visor -->
+<aside id="personalizar" class="cajon" hidden role="dialog" aria-modal="false" aria-labelledby="personalizar-titulo">
+  <div class="cajon-cabeza">
+    <div>
+      <p class="cajon-titulo" id="personalizar-titulo">Personaliza tu moto</p>
+      <p class="cajon-sub">Los cambios se ven en vivo en el modelo</p>
+    </div>
+    <button type="button" class="cajon-cerrar" id="cerrar-personalizar" aria-label="Cerrar personalización">×</button>
+  </div>
+
+  <div class="cajon-pestanas" role="tablist" aria-label="Qué personalizar">
+    <button type="button" role="tab" id="tab-pintura" aria-controls="panel-pintura" aria-selected="true">Pintura</button>
+    <button type="button" role="tab" id="tab-calcas" aria-controls="panel-calcas" aria-selected="false">
+      Calcas <span class="pestana-cuenta" id="p-contador"></span>
+    </button>
+  </div>
+
+  <div class="cajon-cuerpo">
+    <!-- Pintura -->
+    <section id="panel-pintura" role="tabpanel" aria-labelledby="tab-pintura">
+      <p class="cajon-etiqueta">Color moto</p>
+      <div class="muestras" id="p-color"></div>
+
+      <p class="cajon-etiqueta mt-6">Rines y detalles</p>
+      <div class="muestras" id="p-secundario"></div>
+    </section>
+
+    <!-- Calcas -->
+    <section id="panel-calcas" role="tabpanel" aria-labelledby="tab-calcas" hidden>
+      <p class="cajon-etiqueta"><span class="paso">1</span> Elige un diseño</p>
+      <div class="calcas-catalogo" id="p-catalogo"></div>
+      <p class="calcas-limite" id="p-limite" hidden>
+        Ya tienes las 4 calcas permitidas. Quita una para poner otra.
+      </p>
+
+      <p class="cajon-etiqueta mt-6"><span class="paso">2</span> Toca la moto para pegarla</p>
+      <p class="cajon-ayuda">Después arrástrala sobre la moto para moverla.</p>
+
+      <div class="calcas-puestas" id="p-puestas" role="listbox" aria-label="Tus calcas"></div>
+      <div class="calca-editor" id="p-editor" hidden>
+        <div class="calca-editor-cabeza">
+          <span class="calca-editor-nombre" id="p-ed-nombre"></span>
+          <button type="button" class="calca-quitar" id="p-ed-quitar" aria-label="Quitar esta calca">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>
+          </button>
+        </div>
+        <label class="calca-campo" id="p-ed-texto-caja" hidden>
+          <span id="p-ed-texto-etq">Texto</span>
+          <input type="text" class="campo !mt-0 text-sm" id="p-ed-texto">
+        </label>
+        <label class="calca-campo">
+          <span>Tamaño <output id="p-ed-tamano-v"></output></span>
+          <input type="range" id="p-ed-tamano" min="0.4" max="1.6" step="0.05">
+        </label>
+        <label class="calca-campo">
+          <span>Giro <output id="p-ed-giro-v"></output></span>
+          <input type="range" id="p-ed-giro" min="-90" max="90" step="1">
+        </label>
+        <p class="cajon-etiqueta !mt-3 !mb-1.5">Color calca</p>
+        <div class="muestras muestras-chicas" id="p-ed-color"></div>
+        <label class="calca-interruptor">
+          <input type="checkbox" id="p-ed-ambos">
+          <span>Ponerla en ambos lados</span>
+        </label>
+      </div>
+    </section>
+  </div>
+
+  <div class="cajon-pie">
+    <button type="button" class="btn btn-lava text-xs px-5 py-3" id="p-guardar">Guardar diseño</button>
+    <div class="cajon-pie-secundarios">
+      <button type="button" class="boton-suave" id="p-atras" title="Quita solo el último cambio (Ctrl+Z)">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+        Atrás
+      </button>
+      <button type="button" class="boton-suave" id="p-deshacer" title="Deja la moto como estaba antes de tus cambios">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+        Deshacer todo
+      </button>
+    </div>
+    <p class="cajon-estado" id="p-estado" aria-live="polite"></p>
+  </div>
+</aside>
+{{ personalizacion|json_script:"datos-personalizacion" }}
+<script src="{% static 'garaje/js/personalizar.js' %}" defer></script>
 
 {% if datos_despiece.laminas %}
 <!-- Despiece interactivo -->
-<section id="despiece" class="mt-10 scroll-mt-24">
+<section id="despiece" class="mt-10 scroll-mt-24" data-plegable>
   <div class="flex flex-wrap items-end justify-between gap-3">
     <div>
-      <h2 class="titulo text-2xl md:text-3xl"><span class="numero">00</span>Despiece de tu moto</h2>
+      <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="despiece-cuerpo"><span class="numero">00</span>Piezas y repuestos<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
       <p class="text-sm text-suave mt-1">Las piezas de tu {{ despiece.linea }} con su código de repuesto original y su estado.</p>
     </div>
     <p class="text-xs text-suave">Catálogo {{ despiece.linea.marca }} · versión {{ despiece.version }} ({{ despiece.anio }})</p>
   </div>
   <div class="separador mt-4 mb-6"></div>
+  <div class="seccion-cuerpo" id="despiece-cuerpo">
 
   <div class="despiece">
     <nav class="despiece-sistemas papel" aria-label="Sistemas de la moto">
-      <p class="campo-label px-2 pb-2 hidden lg:block">Sistemas</p>
-      <div class="sistemas-lista" id="sistemas" role="tablist"></div>
+      <div class="sistemas-cabeza">
+        <span class="sistemas-cabeza-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 4.5-9 4.5-9-4.5z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg></span>
+        <span><span class="sistemas-cabeza-titulo">Sistemas</span><span class="sistemas-cabeza-sub">Elige uno para ver sus piezas</span></span>
+      </div>
+      <div class="sistemas-lista" id="sistemas"></div>
     </nav>
 
     <div class="despiece-visor papel">
@@ -94,7 +287,11 @@
           <p class="titulo text-lg leading-tight" id="lamina-titulo"></p>
           <p class="text-xs text-suave" id="lamina-resumen"></p>
         </div>
-        <div class="flex items-center gap-2 shrink-0">
+        <div class="flex flex-wrap items-center gap-2 min-w-0 max-w-full">
+          <div class="visor-modo" role="group" aria-label="Qué dibujo ver" id="fuente-dibujo" hidden>
+            <button type="button" data-fuente="dibujo" aria-pressed="true">Dibujo TallerYa</button>
+            <button type="button" data-fuente="original" aria-pressed="false">Plano original</button>
+          </div>
           <div class="visor-modo" role="group" aria-label="Qué números mostrar">
             <button type="button" data-filtro="mant" aria-pressed="true">Mantenimiento</button>
             <button type="button" data-filtro="todas" aria-pressed="false">Todas</button>
@@ -108,109 +305,170 @@
           <button type="button" data-zoom="menos" aria-label="Alejar">−</button>
           <button type="button" data-zoom="reset" aria-label="Ver dibujo completo">⤢</button>
         </div>
-        <p class="plano-ayuda">Arrastra para mover · rueda o pellizca para acercar</p>
       </div>
-      <div class="leyenda pt-3">
-        <span style="--c: var(--vencido)">Toca ya</span>
-        <span style="--c: var(--pronto)">Pronto</span>
-        <span style="--c: var(--ok)">Al día</span>
-        <span style="--c: var(--desconocido)">Sin registro</span>
-        <span style="--c: #2b3134">Otras piezas</span>
-      </div>
+      <p class="plano-ayuda">Arrastra para mover · rueda o pellizca para acercar</p>
+      <div class="guia" id="guia" hidden role="region" aria-label="Guía de la pieza" tabindex="-1"></div>
     </div>
 
     <aside class="despiece-panel">
       <div class="parte-ficha papel" id="parte-ficha" aria-live="polite"></div>
-      <div class="papel p-4 mt-4">
+      <!-- En escritorio esta caja se mueve dentro del sistema abierto (acordeón); en celular se queda aquí -->
+      <div class="caja-partes papel p-4 mt-4" id="caja-partes">
         <label class="sr-only" for="buscar-pieza">Buscar pieza</label>
-        <input type="search" id="buscar-pieza" class="campo !mt-0" placeholder="Buscar pieza en este sistema…" autocomplete="off">
+        <div class="buscador">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" id="buscar-pieza" class="buscador-campo" placeholder="Nombre o número de la pieza" autocomplete="off" enterkeyhint="search">
+          <button type="button" class="buscador-limpiar" id="buscar-limpiar" aria-label="Borrar búsqueda" hidden>×</button>
+        </div>
         <ul class="partes-lista mt-3" id="partes-lista"></ul>
       </div>
     </aside>
+  </div>
   </div>
 </section>
 {{ datos_despiece|json_script:"datos-despiece" }}
 <script src="{% static 'garaje/js/despiece.js' %}" defer></script>
 {% endif %}
 
-<!-- Plan de mantenimiento -->
-<section id="plan" class="mt-10 scroll-mt-24">
-  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">01</span>Plan de mantenimiento</h2>
+{% include "garaje/_agenda.html" %}
+
+{% if talleres %}
+<section id="talleres" class="mt-10 scroll-mt-24" data-plegable>
+  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="talleres-cuerpo"><span class="numero">02</span>Talleres para lo que toca<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
   <div class="separador mt-4 mb-6"></div>
-  <div class="papel overflow-hidden">
-    {% for t in plan.tareas %}
-    <article class="tarea tarea-{{ t.estado }} p-5 border-b border-white/5 last:border-b-0" data-pieza="{{ t.tarea.pieza }}" id="tarea-{{ t.tarea.clave }}">
-      <div class="flex flex-wrap items-start justify-between gap-3">
-        <div class="min-w-0">
-          <p class="font-semibold">{{ t.tarea.nombre }}{% if t.tarea.hazlo_tu %} <span class="chip ml-1">Puedes hacerlo tú</span>{% endif %}</p>
-          <p class="text-sm text-suave mt-0.5">{{ t.detalle }}{% if t.fecha_estimada and t.estado != "vencido" %} Aprox. el {{ t.fecha_estimada|date:"j \d\e F"|lower }}.{% endif %}</p>
-          <p class="text-xs text-suave mt-1">
-            {% if t.ultimo_km is not None %}Último: {{ t.ultimo_km|intcomma }} km · {{ t.ultima_fecha|date:"j M Y"|lower }}{% elif t.supuesto %}Contamos desde que la moto era nueva.{% endif %}
-            {% if t.tarea.intervalo_km %} · Cada {{ t.tarea.intervalo_km|intcomma }} km{% endif %}{% if t.tarea.intervalo_dias %} · o {{ t.tarea.intervalo_dias }} días{% endif %}
-          </p>
-        </div>
-        <span class="estado estado-{{ t.estado }}">{{ t.etiqueta }}</span>
+  <div class="seccion-cuerpo" id="talleres-cuerpo">
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+    {% for t in talleres %}
+    <article class="papel taller-sugerido">
+      <div class="flex flex-wrap items-center gap-2 min-h-[1.6rem]">
+        {% if t.cubre_todo %}<span class="insignia insignia-lava">Resuelve todo lo pendiente</span>{% endif %}
+        {% if t.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
+        {% if t.tu_marca %}<span class="insignia taller-marca">Trabaja {{ moto.linea.marca }}</span>{% endif %}
       </div>
-      {% if t.progreso is not None %}
-        <div class="barra barra-{{ t.estado }} mt-3" role="progressbar" aria-valuenow="{{ t.porcentaje }}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia el próximo {{ t.tarea.nombre|lower }}"><span style="width: {{ t.porcentaje }}%"></span></div>
-      {% endif %}
-      <details class="mt-3">
-        <summary class="boton-texto cursor-pointer w-fit">{% if t.estado == "desconocido" %}Registrar cuándo se hizo{% else %}Ya lo hice{% endif %}</summary>
-        <form method="post" action="{% url 'garaje:registrar_mantenimiento' moto.pk %}" class="grid gap-3 sm:grid-cols-4 mt-3 items-end">
-          {% csrf_token %}
-          <input type="hidden" name="tarea" value="{{ t.tarea.pk }}">
-          <label class="campo-label">Kilometraje<input type="number" name="km" value="{{ moto.km_actual }}" min="0" max="{{ moto.km_actual }}" class="campo" inputmode="numeric" required></label>
-          <label class="campo-label">Fecha<input type="date" name="fecha" value="{% now 'Y-m-d' %}" max="{% now 'Y-m-d' %}" class="campo" required></label>
-          <label class="campo-label">Taller (opcional)
-            <select name="taller" class="campo"><option value="">—</option>{% for tl in talleres_activos %}<option value="{{ tl.pk }}">{{ tl.nombre }}</option>{% endfor %}</select>
-          </label>
-          <button class="btn btn-lava py-3 text-xs">Registrar</button>
-        </form>
-      </details>
+      <a href="{{ t.get_absolute_url }}" class="taller-sugerido-nombre titulo text-xl mt-3 block">{{ t.nombre }}</a>
+      <ul class="taller-datos">
+        <li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>{{ t.direccion }} · {{ t.barrio }}</span></li>
+        {% if t.horario %}<li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>{{ t.horario }}</span></li>{% endif %}
+      </ul>
+
+      <p class="taller-rotulo">Te resuelve</p>
+      <ul class="taller-resuelve">
+        {% for p in t.tareas_que_cubre %}<li><span class="punto-mini punto-{{ p.estado }}" aria-hidden="true"></span><span title="{{ p.etiqueta }}">{{ p.tarea.nombre }}</span></li>{% endfor %}
+      </ul>
+
+      {% for c in t.cupones_sugeridos|slice:":1" %}
+      <div class="taller-cupon">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a3 3 0 0 0 0 6v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a3 3 0 0 0 0-6z"/><path d="M14 5v14" stroke-dasharray="2 2"/></svg>
+        <span class="min-w-0"><strong>{{ c.titulo }}</strong>{% if c.valido_hasta %}<small>Válido hasta el {{ c.valido_hasta|date:"j M Y"|lower }}</small>{% endif %}</span>
+        {% if t.cupones_sugeridos|length > 1 %}<em>+{{ t.cupones_sugeridos|length|add:"-1" }}</em>{% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="taller-acciones">
+        <a href="{{ t.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-lava text-xs px-4 py-2.5">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .3-3.4-.7-2.9-1.1-4.7-4.1-4.9-4.3-.1-.2-1.2-1.5-1.2-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.6-.1 1.2z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a href="{{ t.como_llegar }}" target="_blank" rel="noopener" class="boton-seccion">Cómo llegar</a>
+        <a href="{{ t.get_absolute_url }}" class="taller-ver">Ver taller →</a>
+      </div>
     </article>
     {% endfor %}
   </div>
-</section>
-
-{% if talleres %}
-<section class="mt-10">
-  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">02</span>Talleres para lo que toca</h2>
-  <div class="separador mt-4 mb-6"></div>
-  <div class="grid gap-6 md:grid-cols-3">
-    {% for t in talleres %}
-    <a href="{{ t.get_absolute_url }}" class="papel tarjeta block p-6">
-      <div class="flex flex-wrap gap-2 min-h-[1.4rem]">
-        {% if t.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
-        {% if t.cupones_sugeridos %}<span class="insignia insignia-lava">{{ t.cupones_sugeridos|length }} cupón{{ t.cupones_sugeridos|length|pluralize:"es" }}</span>{% endif %}
-      </div>
-      <h3 class="titulo text-xl mt-3">{{ t.nombre }}</h3>
-      <p class="text-sm text-suave mt-1">{{ t.barrio }}</p>
-      <div class="flex flex-wrap gap-1.5 mt-3">{% for s in t.servicios_que_tocan %}<span class="chip">{{ s }}</span>{% endfor %}</div>
-      {% for c in t.cupones_sugeridos|slice:":1" %}<p class="text-sm text-lava mt-3">{{ c.titulo }}</p>{% endfor %}
-    </a>
-    {% endfor %}
   </div>
 </section>
 {% endif %}
 
-<section class="mt-10 grid gap-6 md:grid-cols-2">
+<!-- Historial: bitácora de mantenimientos y lecturas de kilometraje (con filtros y "Ver más") -->
+<section id="historial" class="mt-10 scroll-mt-24" data-plegable>
+  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="historial-cuerpo"><span class="numero">03</span>Historial<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="seccion-cuerpo grid grid-cols-1 gap-6 lg:grid-cols-2 items-start" id="historial-cuerpo">
+  <!-- Bitácora: lo que ya se le hizo -->
   <div class="papel p-6">
-    <h2 class="titulo text-xl"><span class="numero">03</span>Historial</h2>
-    {% if historial %}
-      <ul class="mt-3 divide-y divide-white/5 text-sm">
-        {% for m in historial %}<li class="py-2.5 flex justify-between gap-3"><span>{{ m.tarea.nombre }}{% if m.taller %} <span class="text-suave">· {{ m.taller }}</span>{% endif %}</span><span class="text-suave shrink-0">{{ m.km|intcomma }} km · {{ m.fecha|date:"j M Y"|lower }}</span></li>{% endfor %}
-      </ul>
-    {% else %}
-      <p class="text-sm text-suave mt-3">Aún no has registrado mantenimientos.</p>
-    {% endif %}
+    <h3 class="titulo text-xl">Mantenimientos</h3>
+    <div class="agenda-bitacora">
+      {% if historial %}
+      {% regroup historial|dictsort:"tarea.nombre" by tarea.nombre as por_tarea %}
+      <div class="lista-filtros" data-filtros-de="bitacora">
+        <div class="visor-modo filtro-chips" role="group" aria-label="Dónde se hizo">
+          <button type="button" data-filtro="lugar" data-valor="" aria-pressed="true">Todos</button>
+          <button type="button" data-filtro="lugar" data-valor="taller" aria-pressed="false">En taller</button>
+          <button type="button" data-filtro="lugar" data-valor="yo" aria-pressed="false">Lo hice yo</button>
+        </div>
+        <div class="lista-filtros-selects">
+        {% if por_tarea|length > 1 %}
+        <select class="campo filtro-chico" data-filtro="tarea" aria-label="Filtrar por mantenimiento">
+          <option value="">Todos los mantenimientos</option>
+          {% for g in por_tarea %}<option value="{{ g.grouper }}">{{ g.grouper }}</option>{% endfor %}
+        </select>
+        {% endif %}
+        <select class="campo filtro-chico" data-filtro="dias" aria-label="Filtrar por fecha">
+          <option value="">Cualquier fecha</option>
+          <option value="30">Últimos 30 días</option>
+          <option value="90">Últimos 3 meses</option>
+          <option value="180">Últimos 6 meses</option>
+          <option value="365">Último año</option>
+        </select>
+        </div>
+      </div>
+      <ol id="bitacora" data-paginar="6">
+        {% for m in historial %}
+        <li data-lugar="{% if m.donde %}taller{% else %}yo{% endif %}" data-tarea="{{ m.tarea.nombre }}" data-fecha="{{ m.fecha|date:'Y-m-d' }}">
+          <span class="bitacora-fecha">{{ m.fecha|date:"j M"|lower }}<small>{{ m.fecha|date:"Y" }}</small></span>
+          <span class="min-w-0">
+            <span class="bitacora-nombre">{{ m.tarea.nombre }}</span>
+            <span class="bitacora-meta servicio-detalle">
+              <span>{{ m.km|intcomma }} km</span>
+              {% if m.taller %}<a href="{{ m.taller.get_absolute_url }}" class="servicio-taller">{{ m.taller.nombre }}</a>
+              {% elif m.donde %}<span class="servicio-taller sin-enlace">{{ m.donde }}</span>
+              {% else %}<span class="servicio-yo">Lo hice yo</span>{% endif %}
+            </span>
+          </span>
+        </li>
+        {% endfor %}
+      </ol>
+      <p class="text-sm text-suave lista-vacia" hidden>No hay registros con esos filtros.</p>
+      {% else %}
+      <p class="text-sm text-suave">Aún no has registrado mantenimientos. Cada vez que registres uno, quedará aquí.</p>
+      {% endif %}
+    </div>
   </div>
   <div class="papel p-6">
-    <h2 class="titulo text-xl"><span class="numero">04</span>Kilometraje</h2>
-    <ul class="mt-3 divide-y divide-white/5 text-sm">
-      {% for l in lecturas %}<li class="py-2.5 flex justify-between"><span>{{ l.km|intcomma }} km</span><span class="text-suave">{{ l.fecha|date:"j M Y"|lower }}</span></li>{% endfor %}
-    </ul>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h3 class="titulo text-xl">Kilometraje</h3>
+      {% if lecturas %}
+      <div class="lista-filtros lista-filtros-cabeza" data-filtros-de="lecturas">
+        <select class="campo filtro-chico" data-filtro="dias" aria-label="Filtrar por fecha">
+          <option value="">Cualquier fecha</option>
+          <option value="30">Últimos 30 días</option>
+          <option value="90">Últimos 3 meses</option>
+          <option value="180">Últimos 6 meses</option>
+          <option value="365">Último año</option>
+        </select>
+      </div>
+      {% endif %}
+    </div>
+    {% if lecturas %}
+    <div class="agenda-bitacora">
+      <ol id="lecturas" data-paginar="6">
+        {% for l in lecturas %}
+        <li data-fecha="{{ l.fecha|date:'Y-m-d' }}">
+          <span class="bitacora-fecha">{{ l.fecha|date:"j M"|lower }}<small>{{ l.fecha|date:"Y" }}</small></span>
+          <span class="min-w-0">
+            <span class="bitacora-nombre">{{ l.km|intcomma }} km</span>
+            <span class="bitacora-meta">{% if l.diferencia is None %}Primera lectura{% elif l.diferencia > 0 %}+{{ l.diferencia|intcomma }} km desde la anterior{% else %}Sin cambio desde la anterior{% endif %}</span>
+          </span>
+        </li>
+        {% endfor %}
+      </ol>
+      <p class="text-sm text-suave lista-vacia" hidden>No hay lecturas en ese periodo.</p>
+    </div>
+    {% else %}<p class="text-sm text-suave mt-3">Aún no hay lecturas.</p>{% endif %}
+  </div>
   </div>
 </section>
+
 
 {{ datos_3d|json_script:"datos-moto" }}
 <script type="importmap">
@@ -219,6 +477,13 @@
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
   }}
 </script>
+{# Después del importmap: descarga las librerías 3D en paralelo (si no, se piden una tras otra) #}
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/geometries/DecalGeometry.js" crossorigin>
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/utils/BufferGeometryUtils.js" crossorigin>
 <script type="module" src="{% static 'garaje/js/moto3d.js' %}"></script>
 <script>
   // Si la librería 3D no carga (sin internet o bloqueada), avisa en vez de quedarse "armando".
@@ -227,4 +492,39 @@
     if (aviso && !window.__moto3dListo) aviso.textContent = "No pudimos cargar el modelo 3D. Revisa tu conexión; el plan sigue disponible abajo.";
   }, 9000);
 </script>
+<!-- Cotizar SOAT -->
+<dialog id="dialogo-soat" class="dialogo-eliminar dialogo-registrar">
+  <form method="post" action="{% url 'garaje:cotizar_soat' moto.pk %}" class="space-y-4">
+    {% csrf_token %}
+    <div class="flex items-start justify-between gap-3">
+      <p class="titulo text-2xl">Cotiza tu <span class="text-lava">SOAT</span></p>
+      <button type="button" class="dialogo-cerrar" data-cerrar-soat aria-label="Cerrar">×</button>
+    </div>
+    <p class="text-sm text-suave">Te ayudamos a conseguirlo: un asesor de TallerYa te escribe por WhatsApp con opciones para tu moto. No pagas nada por pedir la cotización.</p>
+    <div class="soat-moto">
+      <span class="soat-moto-icono" aria-hidden="true">🏍️</span>
+      <span class="min-w-0"><strong class="block">{{ moto.nombre_completo }}</strong><span class="text-xs text-suave">{{ datos_3d.specs.cilindraje }} cc{% if moto.placa %} · {{ moto.placa }}{% endif %}{% for doc in moto.documentos %}{% if doc.clave == "soat" and doc.vence %} · SOAT vence el {{ doc.vence|date:"j M Y" }}{% endif %}{% endfor %}</span></span>
+    </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <label class="campo-label">Placa<input type="text" name="placa" maxlength="8" class="campo uppercase" placeholder="ABC12D" autocomplete="off" value="{{ moto.placa }}"></label>
+      <label class="campo-label">Celular (WhatsApp)<input type="tel" name="celular" class="campo" value="{{ request.motociclista.celular }}" inputmode="tel" required></label>
+    </div>
+    <label class="campo-label">Comentario (opcional)<input type="text" name="comentario" maxlength="300" class="campo" placeholder="Ej: prefiero que me contacten en la tarde"></label>
+    <p class="text-xs text-suave">Usamos estos datos solo para gestionar tu cotización.</p>
+    <div class="flex flex-wrap justify-end gap-3">
+      <button type="button" class="boton-seccion" data-cerrar-soat>Cancelar</button>
+      <button class="btn btn-lava text-xs px-6 py-3">Pedir cotización</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var d = document.getElementById("dialogo-soat");
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("[data-cotizar-soat]")) { d.showModal(); return; }
+      if (e.target.closest("[data-cerrar-soat]") || e.target === d) d.close();
+    });
+  })();
+</script>
+{% include "garaje/_eliminar_moto.html" %}
 {% endblock %}

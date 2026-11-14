@@ -1,0 +1,42 @@
+{% extends "legal/base_legal.html" %}
+{% block legal %}
+<p>Estos términos regulan el uso de TallerYa (el sitio web y sus servicios), operado por <strong>{{ legal.razon_social }}</strong>{% if legal.nit %}, NIT {{ legal.nit }}{% endif %}, con domicilio en {{ legal.ciudad }}. Al crear una cuenta o usar el sitio aceptas estos términos. Si no estás de acuerdo, no uses TallerYa.</p>
+
+<h2>1. Qué es TallerYa</h2>
+<p>TallerYa es un directorio de talleres de motos de Medellín y el Valle de Aburrá. Permite buscar talleres, obtener cupones de descuento, llevar el plan de mantenimiento de tu moto, consultar despieces de referencia y participar en un foro. <strong>TallerYa no presta servicios mecánicos</strong>: los servicios los presta y factura cada taller, que es el único responsable por su calidad, precio, garantía y cumplimiento.</p>
+
+<h2>2. Cuentas y tipos de usuario</h2>
+<ul>
+  <li><strong>Motero:</strong> persona que registra sus motos, usa cupones, el garaje y el foro.</li>
+  <li><strong>Taller:</strong> establecimiento que publica su información y valida cupones. Su publicación queda sujeta a la revisión de TallerYa.</li>
+  <li><strong>Administrador:</strong> personal de TallerYa que gestiona el contenido y aprueba talleres.</li>
+</ul>
+<p>Debes dar información veraz, mantener tu contraseña en secreto y avisarnos si alguien usa tu cuenta sin permiso. Puedes entrar con tu correo o con tu cuenta de Google. Debes ser mayor de edad para crear una cuenta. Podemos suspender cuentas que incumplan estos términos.</p>
+
+<h2>3. Talleres</h2>
+<p>Cada taller declara que la información que publica (dirección, horarios, servicios, fotos) es cierta y que cuenta con los permisos para operar. La insignia de «verificado» indica que TallerYa revisó sus datos básicos; no es una certificación técnica ni una garantía sobre sus trabajos. Las reseñas reflejan la opinión de quienes las escriben.</p>
+
+<h2>4. Cupones</h2>
+<p>Los cupones los ofrece cada taller y se rigen por las <a href="{% url 'talleres:legal' 'cupones' %}">condiciones de los cupones</a> y por las condiciones particulares de cada uno.</p>
+
+<h2>5. TallerYa Plus</h2>
+<p>Plus es una suscripción opcional que da acceso a cupones exclusivos y a un regalo mensual. Se paga por los medios indicados en su página y se activa cuando confirmamos el pago, por el tiempo contratado. Puedes no renovarla en cualquier momento. Los beneficios de Plus dependen de los cupones que ofrezcan los talleres en cada periodo.</p>
+
+<h2>6. Garaje, plan de mantenimiento y despiece</h2>
+<p>El plan de mantenimiento, los intervalos, el modelo 3D y las guías de piezas son <strong>orientativos</strong> y se calculan con la información que tú registras. No reemplazan el manual del fabricante ni el diagnóstico de un mecánico. Los códigos de repuesto se muestran como referencia; confirma siempre con el taller o el distribuidor antes de comprar. Los documentos que subas (SOAT, técnico-mecánica) son solo para tu consulta y no constituyen prueba ante autoridades.</p>
+
+<h2>7. Contenido que publicas</h2>
+<p>Eres responsable de lo que publicas en el foro, en reseñas o en tu avatar. No está permitido publicar contenido falso, ofensivo, ilegal, publicitario no autorizado o que infrinja derechos de terceros. Podemos ocultar o retirar contenido reportado o que incumpla estas reglas. Al publicar nos autorizas a mostrar ese contenido dentro de TallerYa.</p>
+
+<h2>8. Propiedad intelectual</h2>
+<p>La marca TallerYa, el diseño del sitio, los dibujos y textos propios son de {{ legal.razon_social }}. Las marcas de motos y repuestos pertenecen a sus dueños y se mencionan solo como referencia.</p>
+
+<h2>9. Responsabilidad</h2>
+<p>Hacemos lo posible para que el sitio funcione bien y la información sea correcta, pero no garantizamos que esté siempre disponible ni libre de errores. TallerYa no responde por los servicios, productos o precios de los talleres, ni por daños derivados de decisiones tomadas solo con base en la información orientativa del sitio. Esto no limita los derechos que te da la Ley 1480 de 2011 (Estatuto del Consumidor).</p>
+
+<h2>10. Datos personales</h2>
+<p>Tratamos tus datos según nuestra <a href="{% url 'talleres:legal' 'privacidad' %}">política de tratamiento de datos personales</a> y la <a href="{% url 'talleres:legal' 'cookies' %}">política de cookies</a>.</p>
+
+<h2>11. Cambios y ley aplicable</h2>
+<p>Podemos actualizar estos términos; publicaremos la nueva versión con su fecha y, si el cambio es importante, te avisaremos. Estos términos se rigen por las leyes de la República de Colombia.</p>
+{% endblock %}

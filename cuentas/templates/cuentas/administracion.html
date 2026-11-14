@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load avatares %}
+{% block title %}Administración · TallerYa{% endblock %}
+{% block content %}
+<div class="flex flex-wrap items-end justify-between gap-4 mt-10">
+  <div>
+    <p class="etiqueta">Administración</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Usuarios y <span class="text-lava">talleres</span></h1>
+  </div>
+  <a href="{% url 'admin:index' %}" class="btn barra-datos">Panel completo de Django</a>
+</div>
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-3 mt-8">
+  {% for clave, n in conteos.items %}
+  <a href="?rol={{ clave }}" class="papel p-5 admin-cifra{% if filtro == clave %} activa{% endif %}">
+    <span class="admin-cifra-n">{{ n }}</span>
+    <span class="admin-cifra-txt">{% if clave == "motero" %}Moteros{% elif clave == "taller" %}Talleres{% else %}Administradores{% endif %}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<section class="mt-10">
+  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">01</span>Talleres por aprobar</h2>
+  <div class="separador mt-4 mb-6"></div>
+  {% if pendientes %}
+  <div class="papel overflow-hidden">
+    {% for t in pendientes %}
+    <div class="admin-fila">
+      <div class="min-w-0">
+        <p class="font-semibold">{{ t.nombre }}</p>
+        <p class="text-xs text-suave mt-0.5">{{ t.barrio }} · {{ t.responsable }} · {{ t.whatsapp }}{% if t.usuario %} · {{ t.usuario.email }}{% endif %} · {{ t.creado|date:"j M Y" }}</p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <a href="{% url 'admin:talleres_taller_change' t.pk %}" class="boton-texto">Ver datos</a>
+        <form method="post" action="{% url 'cuentas:aprobar_taller' t.pk %}">{% csrf_token %}<button class="btn btn-lava text-xs px-4 py-2">Aprobar</button></form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="text-suave">No hay talleres esperando aprobación.</p>
+  {% endif %}
+</section>
+
+<section class="mt-10">
+  <div class="flex flex-wrap items-end justify-between gap-3">
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">02</span>Usuarios</h2>
+    <form method="get" class="flex flex-wrap gap-2 items-center">
+      <div class="buscador">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" name="q" value="{{ q }}" class="buscador-campo" placeholder="Correo, nombre o taller" aria-label="Buscar usuarios">
+      </div>
+      <select name="rol" class="campo !mt-0 !w-auto" aria-label="Filtrar por rol">
+        <option value="">Todos los roles</option>
+        {% for clave, nombre in nombres.items %}<option value="{{ clave }}" {% if filtro == clave %}selected{% endif %}>{{ nombre }}</option>{% endfor %}
+      </select>
+      <button class="btn btn-borde text-xs px-4 py-2.5">Buscar</button>
+    </form>
+  </div>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="papel overflow-hidden">
+    {% for u, r, nombre_rol in filas %}
+    <div class="admin-fila">
+      <div class="min-w-0 flex items-center gap-3">
+        {% avatar u 36 %}
+        <div class="min-w-0">
+        <p class="font-semibold truncate">{{ u.first_name|default:u.username }}</p>
+        <p class="text-xs text-suave mt-0.5 truncate">{{ u.email }}{% if r == "taller" %} · {{ u.taller }}{% if not u.taller.activo %} (en revisión){% endif %}{% endif %} · desde {{ u.date_joined|date:"j M Y" }}</p>
+        </div>
+      </div>
+      <span class="rol-chip rol-{{ r }}">{{ nombre_rol }}</span>
+    </div>
+    {% empty %}
+    <p class="p-5 text-suave">No hay usuarios con esos filtros.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

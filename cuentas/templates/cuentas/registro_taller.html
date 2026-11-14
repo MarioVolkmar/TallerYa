@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Registra tu taller · TallerYa{% endblock %}
+{% block content %}
+{% url 'cuentas:registro' as url_registro %}{% include "parciales/volver.html" with url=url_registro texto="Tipo de cuenta" clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
+  <p class="etiqueta">Para talleres</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Registra tu taller <span class="text-lava">gratis</span></h1>
+  <p class="text-suave mt-2">Llega a más motociclistas de tu zona. Revisamos cada taller antes de publicarlo.</p>
+
+  <form method="post" enctype="multipart/form-data" class="mt-6 space-y-6">
+    {% csrf_token %}
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">Tu cuenta</h2>
+      <p class="text-sm text-suave mt-1">Con este correo entras a administrar tu taller.</p>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4">
+        {% for field in cuenta %}
+        <div class="{% if field.name == 'email' %}sm:col-span-2{% endif %}">
+          <label class="campo-label">{{ field.label }}{{ field }}</label>
+          {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">El taller</h2>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4">
+        {% for field in negocio %}
+        <div class="{% if field.field.widget.input_type == 'checkbox' or field.name == 'descripcion' or field.name == 'direccion' or field.name == 'foto' %}sm:col-span-2{% endif %}">
+          {% if field.field.widget.input_type == "checkbox" %}
+            <p class="campo-label mb-2">{{ field.label }}</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">{% for cb in field %}<label class="opcion">{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+          {% else %}
+            <label class="campo-label">{{ field.label|capfirst }}{% if not field.field.required %} <span class="font-normal text-suave">(opcional)</span>{% endif %}{{ field }}</label>
+          {% endif %}
+          {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text }}</p>{% endif %}
+          {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <button class="btn btn-lava w-full py-3.5 text-sm">Crear cuenta y enviar taller</button>
+  </form>
+</div>
+{% endblock %}

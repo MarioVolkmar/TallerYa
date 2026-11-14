@@ -45,8 +45,12 @@ class EstadoTarea:
             return "No sabemos cuándo se hizo por última vez. Regístralo para empezar a contar."
         partes = []
         if self.km_restantes is not None:
-            partes.append(f"faltan {self.km_restantes:,} km".replace(",", ".") if self.km_restantes > 0
-                          else f"pasado por {-self.km_restantes:,} km".replace(",", "."))
+            if self.km_restantes > 0:
+                partes.append(f"faltan {self.km_restantes:,} km".replace(",", "."))
+            elif self.km_restantes == 0:
+                partes.append("toca justo ahora")
+            else:
+                partes.append(f"pasado por {-self.km_restantes:,} km".replace(",", "."))
         if self.dias_restantes is not None and (self.km_restantes is None or self.dias_restantes < 30):
             partes.append(f"faltan {self.dias_restantes} días" if self.dias_restantes > 0
                           else f"vencido hace {-self.dias_restantes} días")

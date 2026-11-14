@@ -1,0 +1,134 @@
+{
+  "marca": "KTM",
+  "linea": "RC 200",
+  "version": "",
+  "anio": 2019,
+  "fuente": "https://blog.auteco.com.co/wp-content/uploads/2019/05/MANUAL-DE-PARTES-RC-200.pdf",
+  "formato": "auteco",
+  "laminas": [
+    {
+      "figura": 36,
+      "titulo_es": "Bomba de freno delantera y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-del",
+        "TAPA BOMBA FRENO": "liquido-frenos"
+      },
+      "diagrama": "freno_completo"
+    },
+    {
+      "figura": 37,
+      "titulo_es": "Bomba de freno trasera y pastillas",
+      "pieza": "freno_tras",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-tras"
+      },
+      "diagrama": "freno_completo"
+    },
+    {
+      "figura": 33,
+      "titulo_es": "Rueda trasera y arrastre",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "LLANTA": "llanta-tras",
+        "SPROCKET": "kit-arrastre",
+        "CADENA 520": "kit-arrastre"
+      },
+      "diagrama": "rueda_trasera"
+    },
+    {
+      "figura": 8,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "PIÑÓN SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 15,
+      "titulo_es": "Lubricación y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO ACEITE": "aceite",
+        "CEDAZO ACEITE": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 16,
+      "titulo_es": "Encendido y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJÍA": "bujia"
+      },
+      "diagrama": "encendido"
+    },
+    {
+      "figura": "12A",
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VÁLVULA ADMISIÓN": "valvulas",
+        "VÁLVULA ESCAPE": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 11,
+      "titulo_es": "Refrigeración",
+      "pieza": "refrigeracion",
+      "reglas": {
+        "TAPA RADIADOR": "refrigerante",
+        "RADIADOR": "refrigerante"
+      },
+      "diagrama": "radiador"
+    },
+    {
+      "figura": 32,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 23,
+      "titulo_es": "Amortiguador",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 35,
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERÍA 12V": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": 19,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RETEN": "suspension-del",
+        "RETÉN": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    }
+  ]
+}

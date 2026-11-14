@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Notificaciones · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto">
+  <div class="flex flex-wrap items-end justify-between gap-4 mt-10">
+    <div>
+      <p class="etiqueta">Tu cuenta</p>
+      <h1 class="titulo text-4xl md:text-5xl mt-3">Notifica<span class="text-lava">ciones</span></h1>
+    </div>
+    {% if notificaciones_sin_leer %}
+    <form method="post" action="{% url 'notificaciones:marcar_todas' %}">{% csrf_token %}
+      <button class="boton-seccion">Marcar todas como leídas</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <div class="papel overflow-hidden mt-8">
+    {% for n in notificaciones %}
+    <a href="{% url 'notificaciones:ir' n.pk %}" class="notif-fila{% if not n.leida %} sin-leer{% endif %}">
+      {% include "parciales/icono_notificacion.html" with tipo=n.tipo %}
+      <span class="min-w-0 flex-1">
+        <span class="notif-titulo">{{ n.titulo }}</span>
+        {% if n.texto %}<span class="notif-texto">{{ n.texto }}</span>{% endif %}
+        <span class="notif-hace">hace {{ n.creada|timesince }}</span>
+      </span>
+      {% if not n.leida %}<span class="notif-punto" aria-label="Sin leer"></span>{% endif %}
+    </a>
+    {% empty %}
+    <div class="p-10 text-center">
+      <p class="titulo text-2xl">Todo tranquilo por aquí</p>
+      <p class="text-suave mt-2">Te avisaremos cuando le toque algo a tu moto, cuando venza un documento o cuando te respondan en el foro.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

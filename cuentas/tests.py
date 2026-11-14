@@ -38,7 +38,7 @@ class RegistroYSesionTests(TestCase):
         self.client.post(reverse("cuentas:registro"), datos_registro())
         self.client.logout()
         r = self.client.post(reverse("cuentas:entrar"), {"username": "LAURA@correo.com", "password": CLAVE})
-        self.assertRedirects(r, reverse("cuentas:mi_cuenta"))
+        self.assertRedirects(r, reverse("talleres:inicio"))
 
     def test_next_externo_se_ignora(self):
         r = self.client.post(reverse("cuentas:registro") + "?next=https://malo.example/", datos_registro())
@@ -151,3 +151,226 @@ class EntrarConSesionAbiertaTests(TestCase):
         r = self.client.post(reverse("cuentas:salir"), {"next": reverse("cuentas:entrar")})
         self.assertRedirects(r, reverse("cuentas:entrar"))
         self.assertNotContains(self.client.get(reverse("cuentas:entrar")), "Ya iniciaste sesión como")
+
+
+class RolesTests(TestCase):
+    def setUp(self):
+        from talleres.models import Barrio, Taller
+        self.barrio = Barrio.objects.first() or Barrio.objects.create(nombre="Laureles")
+        self.motero = User.objects.create_user("m@x.com", "m@x.com", "x", first_name="Mara")
+        Motociclista.objects.create(nombre="Mara", celular="573005550000", usuario=self.motero)
+        self.cuenta_taller = User.objects.create_user("t@x.com", "t@x.com", "x", first_name="Tomás")
+        self.taller = Taller.objects.create(nombre="Taller Prueba", responsable="Tomás", whatsapp="573005551111",
+                                            direccion="Cra 1", barrio=self.barrio, usuario=self.cuenta_taller)
+        self.admin = User.objects.create_user("a@x.com", "a@x.com", "x", is_staff=True)
+
+    def test_rol_de_cada_cuenta(self):
+        from .roles import rol_de
+        self.assertEqual([rol_de(self.motero), rol_de(self.cuenta_taller), rol_de(self.admin)], ["motero", "taller", "admin"])
+
+    def test_navbar_segun_la_sesion(self):
+        r = self.client.get(reverse("talleres:inicio"))
+        self.assertContains(r, "Crear cuenta")
+        self.client.force_login(self.cuenta_taller)
+        r = self.client.get(reverse("talleres:inicio"))
+        self.assertContains(r, 'nav-cuenta-nombre">Taller Prueba<')  # el taller ve su nombre en la cápsula
+        self.assertContains(r, "Canjear cupón")
+        self.assertNotContains(r, ">Crear cuenta<")
+        self.client.force_login(self.admin)
+        self.assertContains(self.client.get(reverse("talleres:inicio")), "Administración")
+
+    def test_crear_cuenta_pregunta_el_tipo(self):
+        r = self.client.get(reverse("cuentas:registro"))
+        self.assertContains(r, "Soy motero")
+        self.assertContains(r, "Tengo un taller")
+
+    def test_administracion_solo_para_administradores(self):
+        url = reverse("cuentas:administracion")
+        self.client.force_login(self.motero)
+        self.assertEqual(self.client.get(url).status_code, 302)
+        self.client.force_login(self.admin)
+        r = self.client.get(url)
+        self.assertContains(r, "Taller Prueba")  # aparece como pendiente
+        self.client.post(reverse("cuentas:aprobar_taller", args=[self.taller.pk]))
+        self.taller.refresh_from_db()
+        self.assertTrue(self.taller.activo)
+
+    def test_motero_no_puede_aprobar_talleres(self):
+        self.client.force_login(self.motero)
+        self.client.post(reverse("cuentas:aprobar_taller", args=[self.taller.pk]))
+        self.taller.refresh_from_db()
+        self.assertFalse(self.taller.activo)
+
+
+class AvatarTests(TestCase):
+    def setUp(self):
+        import tempfile
+        from django.test import override_settings
+        self.carpeta = tempfile.mkdtemp()
+        self.ajuste = override_settings(MEDIA_ROOT=self.carpeta)
+        self.ajuste.enable()
+        self.usuario = User.objects.create_user("av@x.com", "av@x.com", "x", first_name="Ana")
+        Motociclista.objects.create(nombre="Ana", celular="573006660000", usuario=self.usuario)
+        self.client.force_login(self.usuario)
+
+    def tearDown(self):
+        import shutil
+        self.ajuste.disable()
+        shutil.rmtree(self.carpeta, ignore_errors=True)
+
+    def foto(self, ancho=900, alto=500):
+        from io import BytesIO
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from PIL import Image
+        img = Image.new("RGB", (ancho, alto), (200, 80, 30))
+        exif = Image.Exif()
+        exif[0x010F] = "Camara secreta"  # dato EXIF que debe desaparecer
+        salida = BytesIO()
+        img.save(salida, "JPEG", exif=exif)
+        return SimpleUploadedFile("yo.jpg", salida.getvalue(), content_type="image/jpeg")
+
+    def test_subir_foto_la_recorta_y_quita_exif(self):
+        from PIL import Image
+        from .models import Perfil
+        r = self.client.post(reverse("cuentas:avatar"), {"eleccion": "foto", "foto": self.foto()})
+        self.assertEqual(r.status_code, 302)
+        perfil = Perfil.objects.get(usuario=self.usuario)
+        with Image.open(perfil.avatar_foto.path) as img:
+            self.assertEqual(img.size, (256, 256))
+            self.assertEqual(len(img.getexif()), 0)
+        self.assertNotIn("yo", perfil.avatar_foto.name)
+
+    def test_elegir_predisenado_borra_la_foto(self):
+        import os
+        from .models import Perfil
+        self.client.post(reverse("cuentas:avatar"), {"eleccion": "foto", "foto": self.foto()})
+        ruta = Perfil.objects.get(usuario=self.usuario).avatar_foto.path
+        self.client.post(reverse("cuentas:avatar"), {"eleccion": "casco-lava"})
+        perfil = Perfil.objects.get(usuario=self.usuario)
+        self.assertEqual(perfil.avatar_predisenado, "casco-lava")
+        self.assertFalse(perfil.avatar_foto)
+        self.assertFalse(os.path.exists(ruta))
+        self.assertContains(self.client.get(reverse("cuentas:mi_cuenta")), 'aria-label="Casco lava"')
+
+    def test_rechaza_eleccion_inventada_y_archivos_que_no_son_imagen(self):
+        from django.core.files.uploadedfile import SimpleUploadedFile
+        from .models import Perfil
+        self.client.post(reverse("cuentas:avatar"), {"eleccion": "<script>"})
+        self.client.post(reverse("cuentas:avatar"), {"eleccion": "foto", "foto": SimpleUploadedFile("x.jpg", b"no soy imagen")})
+        perfil = Perfil.de(self.usuario)
+        self.assertEqual(perfil.avatar_predisenado, "")
+        self.assertFalse(perfil.avatar_foto)
+
+    def test_guardar_sin_recargar_devuelve_el_avatar_nuevo(self):
+        r = self.client.post(reverse("cuentas:avatar"), {"eleccion": "rueda"}, HTTP_X_REQUESTED_WITH="fetch")
+        datos = r.json()
+        self.assertTrue(datos["ok"])
+        self.assertIn('aria-label="Rueda"', datos["grande"])
+        self.assertIsNone(datos["foto"])
+        r = self.client.post(reverse("cuentas:avatar"), {"eleccion": "inventado"}, HTTP_X_REQUESTED_WITH="fetch")
+        self.assertEqual(r.status_code, 400)
+
+
+class GoogleTests(TestCase):
+    def setUp(self):
+        from unittest import mock
+        from django.test import override_settings
+        self.ajuste = override_settings(GOOGLE_CLIENT_ID="cliente-prueba", GOOGLE_CLIENT_SECRET="secreto-prueba")
+        self.ajuste.enable()
+        self.datos = {"sub": "1234567890", "email": "Nuevo@Gmail.com", "email_verified": True, "given_name": "Nico"}
+        def falso(url, datos=None, token=None):
+            return {"access_token": "token"} if datos else self.datos
+        self.parche = mock.patch("cuentas.google._pedir", side_effect=falso)
+        self.parche.start()
+
+    def tearDown(self):
+        self.parche.stop()
+        self.ajuste.disable()
+
+    def ida_y_vuelta(self, **extra):
+        from urllib.parse import parse_qs, urlparse
+        r = self.client.get(reverse("cuentas:google"))
+        params = parse_qs(urlparse(r["Location"]).query)
+        self.assertEqual(params["code_challenge_method"], ["S256"])
+        state = extra.pop("state", params["state"][0])
+        return self.client.get(reverse("cuentas:google_volver"), {"state": state, "code": "codigo", **extra})
+
+    def test_cuenta_nueva_y_completar_como_motero(self):
+        from .models import Perfil
+        r = self.ida_y_vuelta()
+        self.assertRedirects(r, reverse("cuentas:completar"))
+        usuario = User.objects.get(username="nuevo@gmail.com")
+        self.assertFalse(usuario.has_usable_password())
+        self.assertEqual(Perfil.objects.get(usuario=usuario).google_sub, "1234567890")
+        r = self.client.post(reverse("cuentas:completar") + "?tipo=motero", {"celular": "300 777 8888"})
+        self.assertEqual(r.status_code, 302)
+        self.assertEqual(usuario.motociclista.celular, "573007778888")
+
+    def test_vincula_cuenta_existente_por_correo(self):
+        existente = User.objects.create_user("nuevo@gmail.com", "nuevo@gmail.com", "clave-vieja")
+        Motociclista.objects.create(nombre="Nico", celular="573007779999", usuario=existente)
+        r = self.ida_y_vuelta()
+        self.assertRedirects(r, reverse("talleres:inicio"), fetch_redirect_response=False)
+        self.assertEqual(User.objects.filter(username="nuevo@gmail.com").count(), 1)
+        self.assertEqual(int(self.client.session["_auth_user_id"]), existente.pk)
+
+    def test_state_falso_no_inicia_sesion(self):
+        r = self.ida_y_vuelta(state="inventado")
+        self.assertRedirects(r, reverse("cuentas:entrar"))
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+    def test_correo_sin_verificar_no_entra(self):
+        self.datos["email_verified"] = False
+        self.ida_y_vuelta()
+        self.assertNotIn("_auth_user_id", self.client.session)
+        self.assertFalse(User.objects.filter(username="nuevo@gmail.com").exists())
+
+    def test_sin_credenciales_el_boton_avisa_que_llega_pronto(self):
+        # Sin credenciales el botón se ve, pero no lleva a Google: avisa que llega pronto.
+        from django.test import override_settings
+        url_google = reverse("cuentas:google")
+        with override_settings(GOOGLE_CLIENT_ID="", GOOGLE_CLIENT_SECRET=""):
+            r = self.client.get(reverse("cuentas:entrar"))
+            self.assertContains(r, "Continuar con Google")
+            self.assertContains(r, "data-google-pronto")
+            self.assertNotContains(r, f'href="{url_google}')
+        r = self.client.get(reverse("cuentas:entrar"))
+        self.assertContains(r, f'href="{url_google}')
+
+
+class ActividadConTalleresTests(TestCase):
+    def test_agrupa_por_taller_y_deja_fuera_lo_hecho_por_uno_mismo(self):
+        from datetime import date
+        from cuentas.views import actividad_con_talleres
+        eventos = [
+            {"fecha": date(2026, 1, 5), "tipo": "mantenimiento", "titulo": "Aceite", "lugar": "", "taller": None},
+            {"fecha": date(2026, 2, 1), "tipo": "mantenimiento", "titulo": "Frenos", "lugar": "Motos El Paisa", "taller": None},
+            {"fecha": date(2026, 3, 1), "tipo": "cupon", "titulo": "15%", "lugar": "motos el paisa", "taller": None},
+        ]
+        a = actividad_con_talleres(eventos)
+        self.assertEqual(a["resumen"], {"talleres": 1, "mantenimientos": 1, "cupones": 1, "citas": 0})
+        self.assertEqual(a["talleres"][0]["visitas"], 2)
+        self.assertEqual(a["talleres"][0]["ultimo"]["titulo"], "15%")
+
+
+class CalificarTallerTests(TestCase):
+    def setUp(self):
+        self.usuario = get_user_model().objects.create_user("cal@x.com", "cal@x.com", "x", first_name="Cami")
+        self.client.force_login(self.usuario)
+        barrio = Barrio.objects.create(nombre="Centro")
+        self.taller = Taller.objects.create(nombre="Taller C", responsable="Ana", whatsapp="573001234567",
+                                            direccion="Calle 1", barrio=barrio, activo=True)
+
+    def test_califica_y_luego_actualiza_sin_duplicar(self):
+        from talleres.models import Resena
+        url = reverse("cuentas:calificar_taller", args=[self.taller.pk])
+        self.client.post(url, {"estrellas": "4", "comentario": "Bien"})
+        self.client.post(url, {"estrellas": "5", "comentario": ""})
+        r = Resena.objects.get(taller=self.taller, usuario=self.usuario)
+        self.assertEqual((r.estrellas, r.nombre), (5, "Cami"))
+        self.assertEqual(Resena.objects.count(), 1)
+
+    def test_rechaza_estrellas_fuera_de_rango(self):
+        from talleres.models import Resena
+        self.client.post(reverse("cuentas:calificar_taller", args=[self.taller.pk]), {"estrellas": "9"})
+        self.assertFalse(Resena.objects.exists())

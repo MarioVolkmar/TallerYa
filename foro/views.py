@@ -8,6 +8,9 @@ from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
+from notificaciones.models import Notificacion
+from notificaciones.servicios import notificar
+
 from talleres.models import Marca
 
 from .forms import PreguntaForm, RespuestaForm
@@ -81,6 +84,10 @@ def pregunta(request, pk, slug=None):
                 respuesta.pregunta = pregunta
                 respuesta.autor = request.user
                 respuesta.save()
+                if pregunta.autor_id != request.user.pk:
+                    quien = getattr(getattr(request.user, "taller", None), "nombre", "") or request.user.first_name or "Alguien"
+                    notificar(pregunta.autor, f"foro-respuesta:{respuesta.pk}", f"{quien} respondió tu pregunta",
+                              pregunta.titulo, respuesta.get_absolute_url(), Notificacion.Tipo.FORO)
                 messages.success(request, "¡Gracias por responder!")
                 return redirect(respuesta)
 
@@ -102,6 +109,9 @@ def marcar_mejor(request, pk):
     pregunta = respuesta.pregunta
     pregunta.mejor_respuesta = None if pregunta.mejor_respuesta_id == respuesta.pk else respuesta
     pregunta.save(update_fields=["mejor_respuesta"])
+    if pregunta.mejor_respuesta_id and respuesta.autor_id != request.user.pk:
+        notificar(respuesta.autor, f"foro-mejor:{respuesta.pk}", "Tu respuesta fue elegida como la mejor",
+                  pregunta.titulo, respuesta.get_absolute_url(), Notificacion.Tipo.FORO)
     return redirect(respuesta)
 
 

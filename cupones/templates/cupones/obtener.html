@@ -2,8 +2,8 @@
 {% block title %}{{ cupon.titulo }} · TallerYa{% endblock %}
 
 {% block content %}
-<a href="{% url 'cupones:lista' %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Todos los cupones</a>
-<div class="grid gap-8 md:grid-cols-2 mt-6 items-start">
+{% url 'cupones:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Todos los cupones" clase="mt-8" %}
+<div class="grid grid-cols-1 gap-8 md:grid-cols-2 mt-6 items-start">
   <div>
     <p class="etiqueta">Tu cupón</p>
     <h1 class="titulo text-4xl md:text-5xl mt-3">Obtén tu <span class="text-lava">código</span></h1>

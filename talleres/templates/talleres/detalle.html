@@ -5,98 +5,273 @@
 <section class="hero relative overflow-hidden">
   {% include "talleres/_paisaje.html" %}
   <div class="contenido max-w-6xl mx-auto px-4 pt-10 pb-40 md:pt-16 md:pb-52">
-    <a href="{% url 'talleres:inicio' %}" class="text-sm text-suave hover:text-[#f2611d]">← Todos los talleres</a>
-    <div class="flex flex-wrap gap-2 mt-6">
-      {% if taller.destacado %}<span class="insignia insignia-lava">Destacado</span>{% endif %}
-      {% if taller.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
+    {% url 'talleres:inicio' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Todos los talleres" %}
+    <div class="perfil-cabeza mt-6">
+      <span class="perfil-avatar" aria-hidden="true">{% if taller.foto %}<img src="{{ taller.foto.url }}" alt="">{% else %}{{ taller.nombre|first|upper }}{% endif %}</span>
+      <div class="min-w-0">
+        <div class="flex flex-wrap gap-2">
+          {% if taller.destacado %}<span class="insignia insignia-lava">Destacado</span>{% endif %}
+          {% if taller.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
+        </div>
+        <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-2 max-w-3xl">{{ taller.nombre }}</h1>
+        <p class="perfil-datos">
+          <span>📍 {{ taller.barrio }}</span>
+          {% if taller.horario %}<span>🕒 {{ taller.horario }}</span>{% endif %}
+          {% with c=taller.calificacion %}{% if c %}<span><span class="estrellas">★</span> <strong>{{ c|floatformat:1 }}</strong> · {{ resenas|length }} reseña{{ resenas|length|pluralize }}</span>{% endif %}{% endwith %}
+        </p>
+      </div>
     </div>
-    <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-3 max-w-3xl">{{ taller.nombre }}</h1>
-    {% with c=taller.calificacion %}{% if c %}
-      <p class="mt-3 text-lg"><span class="estrellas">★</span> <strong>{{ c|floatformat:1 }}</strong> <span class="text-suave">· {{ resenas|length }} reseña{{ resenas|length|pluralize }}</span></p>
-    {% endif %}{% endwith %}
+    <div class="flex flex-wrap gap-3 mt-6">
+      <button type="button" class="btn btn-lava text-sm px-6 py-3" data-abrir="dialogo-cita">📅 Pedir cita</button>
+      <a href="{{ taller.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-sm px-6 py-3">Escribir por WhatsApp</a>
+      {% if es_mio %}<a href="{% url 'talleres:editar_perfil' %}" class="boton-seccion">✏️ Editar mi perfil</a>{% endif %}
+    </div>
   </div>
 </section>
 {% endblock %}
 
 {% block content %}
-<div class="relative z-10 -mt-28 md:-mt-36 grid gap-6 lg:grid-cols-3">
-  <article class="papel overflow-hidden lg:col-span-2">
-    {% if taller.foto %}<img src="{{ taller.foto.url }}" alt="{{ taller.nombre }}" class="w-full h-60 object-cover">{% endif %}
-    <div class="p-6 md:p-8">
-      <div class="grid gap-3 sm:grid-cols-2 text-suave">
-        <p class="flex gap-2.5">
-          <svg class="mt-1 shrink-0" width="12" height="14" viewBox="0 0 12 14" aria-hidden="true"><path d="M6 0a5.5 5.5 0 0 0-5.5 5.5C.5 9.6 6 14 6 14s5.5-4.4 5.5-8.5A5.5 5.5 0 0 0 6 0Zm0 7.5a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z" fill="#f2611d"/></svg>
-          <span>{{ taller.direccion }}, {{ taller.barrio }}</span>
-        </p>
-        {% if taller.horario %}<p class="flex gap-2.5">
-          <svg class="mt-1 shrink-0" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="none" stroke="#e3a72f" stroke-width="1.6"/><path d="M7 3.5V7l2.5 1.5" fill="none" stroke="#e3a72f" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <span>{{ taller.horario }}</span>
-        </p>{% endif %}
-      </div>
+<div class="relative z-10 -mt-28 md:-mt-36 space-y-10">
 
-      {% if taller.descripcion %}<p class="mt-6 text-lg leading-relaxed">{{ taller.descripcion|linebreaksbr }}</p>{% endif %}
+  {% if fotos or taller.foto %}
+  <!-- Portada / galería destacada -->
+  <div class="perfil-portada papel overflow-hidden">
+    {% if fotos %}
+      {% for f in fotos|slice:":5" %}
+      <button type="button" class="perfil-portada-foto{% if forloop.first %} principal{% endif %}" data-foto="{{ forloop.counter0 }}" aria-label="Ver foto {{ forloop.counter }}">
+        <img src="{{ f.imagen.url }}" alt="{{ f.descripcion|default:taller.nombre }}" loading="lazy">
+        {% if forloop.counter == 5 and fotos|length > 5 %}<span class="perfil-mas">+{{ fotos|length|add:"-5" }}</span>{% endif %}
+      </button>
+      {% endfor %}
+    {% else %}
+      <img src="{{ taller.foto.url }}" alt="{{ taller.nombre }}" class="w-full h-72 object-cover" loading="lazy" decoding="async">
+    {% endif %}
+  </div>
+  {% endif %}
 
-      <div class="separador my-7"></div>
+  <div>
+    <div class="space-y-10">
+      <!-- Sobre el taller -->
+      <section>
+        <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.sobre }}</span>Sobre el taller</h2>
+        <div class="separador mt-4 mb-6"></div>
+        <div class="papel p-6 md:p-8">
+          {% if taller.descripcion %}<p class="text-lg leading-relaxed">{{ taller.descripcion|linebreaksbr }}</p>
+          {% else %}<p class="text-suave">Este taller aún no ha escrito su presentación.</p>{% endif %}
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 text-suave mt-6">
+            <p class="flex gap-2.5"><span aria-hidden="true">📍</span><span>{{ taller.direccion }}, {{ taller.barrio }}</span></p>
+            {% if taller.horario %}<p class="flex gap-2.5"><span aria-hidden="true">🕒</span><span>{{ taller.horario }}</span></p>{% endif %}
+            {% if taller.marcas.exists %}<p class="flex gap-2.5 sm:col-span-2"><span aria-hidden="true">🏍️</span><span>Trabaja: {{ taller.marcas.all|join:", " }}</span></p>{% endif %}
+          </div>
+          {% include "parciales/mapa_taller.html" %}
+        </div>
+      </section>
 
-      <h2 class="titulo text-xl"><span class="numero">01</span>Servicios</h2>
-      <div class="flex flex-wrap gap-2 mt-3">{% for s in taller.servicios.all %}<span class="chip">{{ s }}</span>{% endfor %}</div>
+      <!-- Servicios -->
+      <section>
+        <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.servicios }}</span>Servicios</h2>
+        <div class="separador mt-4 mb-6"></div>
+        <div class="perfil-servicios">
+          {% for s in taller.servicios.all %}
+          <button type="button" class="perfil-servicio papel" data-abrir="dialogo-cita" data-servicio="{{ s.pk }}">
+            <span class="perfil-servicio-icono" aria-hidden="true">🔧</span>
+            <span class="perfil-servicio-nombre">{{ s.nombre }}</span>
+            <span class="perfil-servicio-cta">Pedir cita →</span>
+          </button>
+          {% empty %}<p class="text-suave">Este taller aún no ha listado sus servicios.</p>{% endfor %}
+        </div>
+      </section>
 
-      {% if taller.marcas.exists %}
-      <h2 class="titulo text-xl mt-7"><span class="numero">02</span>Marcas</h2>
-      <p class="mt-2 text-suave">{{ taller.marcas.all|join:", " }}</p>
+      {% if fotos %}
+      <!-- Fotos -->
+      <section>
+        <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.fotos }}</span>Fotos</h2>
+        <div class="separador mt-4 mb-6"></div>
+        <div class="perfil-galeria">
+          {% for f in fotos %}
+          <button type="button" class="perfil-galeria-foto" data-foto="{{ forloop.counter0 }}" aria-label="Ver foto {{ forloop.counter }}">
+            <img src="{{ f.imagen.url }}" alt="{{ f.descripcion|default:taller.nombre }}" loading="lazy">
+            {% if f.descripcion %}<span>{{ f.descripcion }}</span>{% endif %}
+          </button>
+          {% endfor %}
+        </div>
+      </section>
       {% endif %}
     </div>
-  </article>
 
-  <aside class="papel p-6 md:p-7 h-fit lg:sticky lg:top-24">
-    <p class="etiqueta">Contacto directo</p>
-    <p class="titulo text-2xl mt-3">Habla con el taller</p>
-    <p class="text-suave text-sm mt-2">Escríbeles por WhatsApp o pide una cita aquí abajo.</p>
-    <a href="{{ taller.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp w-full py-3 text-sm mt-5">Escribir por WhatsApp</a>
-    <a href="#cita" class="btn btn-borde w-full py-3 text-sm mt-3">Pedir cita</a>
-  </aside>
-</div>
-
-{% if cupones %}
-<section class="mt-10">
-  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">%</span>Cupones disponibles</h2>
-  <div class="separador mt-4 mb-6"></div>
-  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {% for cupon in cupones %}{% include "cupones/_ticket.html" with con_boton=True %}{% endfor %}
   </div>
-</section>
-{% endif %}
 
-<div class="grid gap-6 md:grid-cols-2 mt-10">
-  <section id="cita" class="papel p-6 md:p-7 scroll-mt-24">
-    <h2 class="titulo text-2xl mb-4"><span class="numero">03</span>Pedir cita</h2>
-    <form method="post" class="space-y-4">
-      {% csrf_token %}<input type="hidden" name="accion" value="cita">
-      {% for field in cita_form %}
-        <label class="campo-label">{{ field.label }}{{ field }}</label>
-        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      {% endfor %}
-      <button class="btn btn-lava w-full py-3 text-sm">Enviar solicitud</button>
-    </form>
+  {% if cupones %}
+  <section>
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.cupones }}</span>Cupones disponibles</h2>
+    <div class="separador mt-4 mb-6"></div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {% for cupon in cupones %}{% include "cupones/_ticket.html" with con_boton=True %}{% endfor %}
+    </div>
   </section>
+  {% endif %}
 
-  <section class="papel p-6 md:p-7">
-    <h2 class="titulo text-2xl mb-4"><span class="numero">04</span>Reseñas</h2>
-    {% for r in resenas %}
-      <div class="py-3 border-b border-white/5 last:border-0">
-        <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span></p>
-        <p class="text-sm text-suave mt-0.5">{{ r.comentario }}</p>
+  <!-- Reseñas -->
+  <section>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.resenas }}</span>Reseñas</h2>
+      <button type="button" class="boton-seccion" data-abrir="dialogo-resena">★ Escribir reseña</button>
+    </div>
+    <div class="separador mt-4 mb-6"></div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-3 items-start">
+      <div class="papel p-6 perfil-puntaje">
+        {% with c=taller.calificacion %}
+        <p class="perfil-puntaje-numero">{% if c %}{{ c|floatformat:1 }}{% else %}–{% endif %}</p>
+        <p class="estrellas">{% for i in "12345" %}<span{% if c and forloop.counter > c|floatformat:0|add:0 %} class="opacity-30"{% endif %}>★</span>{% endfor %}</p>
+        <p class="text-sm text-suave">{{ resenas|length }} reseña{{ resenas|length|pluralize }}</p>
+        {% endwith %}
+        <ul class="perfil-reparto">
+          {% for n, cuantas, pct in reparto %}<li><span>{{ n }}★</span><span class="perfil-reparto-barra"><span style="width: {{ pct }}%"></span></span><span>{{ cuantas }}</span></li>{% endfor %}
+        </ul>
       </div>
-    {% empty %}<p class="text-suave text-sm">Aún no hay reseñas. ¡Sé el primero!</p>{% endfor %}
-
-    <form method="post" class="space-y-4 mt-6 pt-6 border-t border-white/10">
-      {% csrf_token %}<input type="hidden" name="accion" value="resena">
-      {% for field in resena_form %}
-        <label class="campo-label">{{ field.label }}{{ field }}</label>
-        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      {% endfor %}
-      <button class="btn btn-borde w-full py-3 text-sm">Publicar reseña</button>
-    </form>
+      <div class="papel p-6 md:col-span-2">
+        {% for r in resenas %}
+          <div class="perfil-resena">
+            <span class="perfil-resena-inicial" aria-hidden="true">{{ r.nombre|first|upper }}</span>
+            <div class="min-w-0">
+              <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span> <span class="text-xs text-suave">· {{ r.creado|date:"j M Y"|lower }}</span></p>
+              <p class="text-sm text-suave mt-0.5">{{ r.comentario }}</p>
+            </div>
+          </div>
+        {% empty %}<p class="text-suave text-sm">Aún no hay reseñas. ¡Sé el primero!</p>{% endfor %}
+      </div>
+    </div>
   </section>
 </div>
+
+<!-- Ventana: pedir cita -->
+<dialog id="dialogo-cita" class="dialogo-eliminar dialogo-registrar">
+  <form method="post" class="space-y-4">
+    {% csrf_token %}<input type="hidden" name="accion" value="cita">
+    <div class="flex items-start justify-between gap-3">
+      <p class="titulo text-2xl">Pedir cita en <span class="text-lava">{{ taller.nombre }}</span></p>
+      <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <p class="text-sm text-suave">El taller recibe tu solicitud y te contacta para confirmar.</p>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {% for field in cita_form %}
+      <div class="{% if field.name == 'detalle' %}sm:col-span-2{% endif %}">
+        {% if field.name == "moto" and mis_motos %}
+        <label class="campo-label">Moto
+          <select class="campo" id="cita-moto-elegir" aria-label="¿Qué moto llevas?">
+            {% for m in mis_motos %}<option value="{{ m }}" {% if field.value == m %}selected{% endif %}>{{ m }}</option>{% endfor %}
+            <option value="__otra">Otra moto</option>
+          </select>
+        </label>
+        <label class="campo-label mt-3" id="cita-moto-otra" hidden>¿Cuál moto?
+          <input type="text" name="moto" maxlength="80" class="campo" value="{{ field.value|default:'' }}" placeholder="Ej: Honda CB 190R 2023" required>
+        </label>
+        {% else %}
+        <label class="campo-label">{{ field.label }}{{ field }}</label>
+        {% endif %}
+        {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="flex flex-wrap justify-end gap-3">
+      <button type="button" class="boton-seccion" data-cerrar>Cancelar</button>
+      <button class="btn btn-lava text-xs px-6 py-3">Enviar solicitud</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Ventana: escribir reseña -->
+<dialog id="dialogo-resena" class="dialogo-eliminar">
+  <form method="post" class="space-y-4">
+    {% csrf_token %}<input type="hidden" name="accion" value="resena">
+    <div class="flex items-start justify-between gap-3">
+      <p class="titulo text-2xl">Califica a <span class="text-lava">{{ taller.nombre }}</span></p>
+      <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <label class="campo-label">Tu nombre{{ resena_form.nombre }}</label>
+    {% for e in resena_form.nombre.errors %}<p class="error">{{ e }}</p>{% endfor %}
+    <fieldset class="estrellas-elegir" aria-label="Estrellas">
+      {% for i in "54321" %}<input type="radio" name="estrellas" value="{{ i }}" id="resena-estrella-{{ i }}" required><label for="resena-estrella-{{ i }}" title="{{ i }} de 5">★</label>{% endfor %}
+    </fieldset>
+    {% for e in resena_form.estrellas.errors %}<p class="error">{{ e }}</p>{% endfor %}
+    <label class="campo-label">Comentario{{ resena_form.comentario }}</label>
+    {% for e in resena_form.comentario.errors %}<p class="error">{{ e }}</p>{% endfor %}
+    <div class="flex flex-wrap justify-end gap-3">
+      <button type="button" class="boton-seccion" data-cerrar>Cancelar</button>
+      <button class="btn btn-lava text-xs px-6 py-3">Publicar reseña</button>
+    </div>
+  </form>
+</dialog>
+
+{% if fotos %}
+<!-- Visor de fotos -->
+<dialog id="visor-fotos" class="visor-fotos" aria-label="Fotos del taller">
+  <button type="button" class="visor-fotos-cerrar" data-cerrar aria-label="Cerrar">×</button>
+  <button type="button" class="visor-fotos-flecha izq" data-paso="-1" aria-label="Anterior">‹</button>
+  <figure><img id="visor-fotos-img" alt=""><figcaption id="visor-fotos-texto"></figcaption></figure>
+  <button type="button" class="visor-fotos-flecha der" data-paso="1" aria-label="Siguiente">›</button>
+</dialog>
+<script>
+  window.__fotosTaller = [{% for f in fotos %}{ url: "{{ f.imagen.url|escapejs }}", texto: "{{ f.descripcion|escapejs }}" }{% if not forloop.last %},{% endif %}{% endfor %}];
+</script>
+{% endif %}
+<script>
+  (function () {
+    // Abre las ventanas (cita, reseña); un servicio abre la cita con ese servicio elegido.
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-abrir]");
+      if (b) {
+        var d = document.getElementById(b.dataset.abrir);
+        if (b.dataset.servicio) {
+          var sel = d.querySelector('select[name="servicio"]');
+          if (sel) { sel.value = b.dataset.servicio; sel.dispatchEvent(new Event("change", { bubbles: true })); }
+        }
+        d.showModal();
+        return;
+      }
+      var abierto = e.target.closest("dialog[open]");
+      if (e.target.closest("[data-cerrar]") && abierto) { abierto.close(); return; }
+      if (e.target.tagName === "DIALOG") e.target.close();
+    });
+    // Moto de la cita: una de tus motos o "Otra moto" (entonces se escribe).
+    var elegir = document.getElementById("cita-moto-elegir");
+    if (elegir) {
+      var otra = document.getElementById("cita-moto-otra"), texto = otra.querySelector("input");
+      var sincronizar = function () {
+        var esOtra = elegir.value === "__otra";
+        otra.hidden = !esOtra;
+        if (!esOtra) texto.value = elegir.value;
+        else if ([].some.call(elegir.options, function (o) { return o.value === texto.value; })) texto.value = "";
+        if (esOtra) texto.focus();
+      };
+      // Si el valor guardado no es una de tus motos, arranca en "Otra moto".
+      if (texto.value && ![].some.call(elegir.options, function (o) { return o.value === texto.value; })) elegir.value = "__otra";
+      elegir.addEventListener("change", sincronizar);
+      sincronizar();
+    }
+    // Si el envío tuvo errores, la ventana vuelve a abrirse con ellos.
+    {% if abrir %}document.getElementById("dialogo-{{ abrir }}").showModal();{% endif %}
+
+    // Visor de fotos
+    var fotos = window.__fotosTaller || [];
+    var visor = document.getElementById("visor-fotos"), actual = 0;
+    function mostrar(i) {
+      actual = (i + fotos.length) % fotos.length;
+      document.getElementById("visor-fotos-img").src = fotos[actual].url;
+      document.getElementById("visor-fotos-texto").textContent = fotos[actual].texto || (actual + 1) + " de " + fotos.length;
+    }
+    if (visor) {
+      document.addEventListener("click", function (e) {
+        var f = e.target.closest("[data-foto]");
+        if (f) { mostrar(Number(f.dataset.foto)); visor.showModal(); return; }
+        var paso = e.target.closest("[data-paso]");
+        if (paso) mostrar(actual + Number(paso.dataset.paso));
+      });
+      visor.addEventListener("keydown", function (e) {
+        if (e.key === "ArrowRight") mostrar(actual + 1);
+        if (e.key === "ArrowLeft") mostrar(actual - 1);
+      });
+    }
+  })();
+</script>
 {% endblock %}

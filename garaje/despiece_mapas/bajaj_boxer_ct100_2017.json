@@ -1,0 +1,115 @@
+{
+  "marca": "Auteco Bajaj",
+  "linea": "Boxer CT 100",
+  "version": "",
+  "anio": 2017,
+  "fuente": "https://blog.auteco.com.co/wp-content/uploads/2018/11/MANUAL-DE-PARTES-UNION-BOXER-CT-100-AGOSTO-2017.pdf",
+  "formato": "auteco",
+  "laminas": [
+    {
+      "figura": 27,
+      "titulo_es": "Freno delantero de tambor",
+      "pieza": "freno_del",
+      "reglas": {
+        "BANDAS FRENO": "bandas-del"
+      },
+      "diagrama": "freno_tambor"
+    },
+    {
+      "figura": 28,
+      "titulo_es": "Freno trasero de tambor y arrastre",
+      "pieza": "freno_tras",
+      "reglas": {
+        "BANDAS FRENO": "bandas-tras",
+        "KIT SPROCKET": "kit-arrastre",
+        "CADENA": "kit-arrastre",
+        "SPROCKET TRASERO": "kit-arrastre"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "PIÑÓN SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 9,
+      "titulo_es": "Carcasa, drenaje y rejilla de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "REJILLA FILTRO ACEITE": "aceite",
+        "TORNILLO DRENAJE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Cubierta del clutch y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO DE ACEITE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 17,
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENTO FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 21,
+      "titulo_es": "Magneto y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJÍA": "bujia"
+      },
+      "diagrama": "encendido"
+    },
+    {
+      "figura": 2,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "KIT VÁLVULAS": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Rines y llantas",
+      "pieza": "llanta_del",
+      "reglas": {
+        "DELANTERA": "llanta-del",
+        "TRASERA": "llanta-tras"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 31,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RESORTE SUSPENSIÓN": "suspension-del",
+        "RESORTE TUBO": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 23,
+      "titulo_es": "Brazo oscilante y amortiguadores",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    }
+  ]
+}

@@ -11,6 +11,7 @@ urlpatterns = [
     path("", include("cuentas.urls")),
     path("", include("foro.urls")),
     path("", include("garaje.urls")),
+    path("", include("notificaciones.urls")),
     path("", include("cupones.urls")),
     path("", include("talleres.urls")),
     # Fotos subidas por los talleres. Suficiente para el MVP (en Render, con un Disk montado en

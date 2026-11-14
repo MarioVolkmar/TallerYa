@@ -1,81 +1,280 @@
 {% extends "base.html" %}
-{% block title %}{% if nueva %}Agregar moto{% else %}Editar moto{% endif %} · TallerYa{% endblock %}
+{% block title %}{% if nueva %}Agregar moto{% else %}Datos de la moto{% endif %} · TallerYa{% endblock %}
 {% block content %}
-<a href="{% if moto %}{{ moto.get_absolute_url }}{% else %}{% url 'garaje:garaje' %}?lista=1{% endif %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Volver</a>
+{% if moto %}{% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}{% else %}{% url 'garaje:garaje' as url_garaje %}{% include "parciales/volver.html" with url=url_garaje|add:"?lista=1" texto="Mi garaje" clase="mt-8" %}{% endif %}
 <div class="max-w-2xl mx-auto mt-4">
+  {% if nueva %}
+  <ol class="pasos-alta mb-6" aria-label="Pasos" id="pasos-alta">
+    <li class="{% if mostrar_paso2 %}hecho{% else %}actual{% endif %}" data-paso="1"><span>1</span>Datos de la moto</li>
+    <li class="{% if mostrar_paso2 %}actual{% endif %}" data-paso="2"><span>2</span>Último mantenimiento</li>
+  </ol>
+  {% endif %}
+  <div id="paso-1"{% if mostrar_paso2 %} hidden{% endif %}>
   <p class="etiqueta">Mi garaje</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">{% if nueva %}Agrega tu <span class="text-lava">moto</span>{% else %}Editar <span class="text-lava">{{ moto }}</span>{% endif %}</h1>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{% if nueva %}Agrega tu <span class="text-lava">moto</span>{% else %}Datos de tu <span class="text-lava">{{ moto }}</span>{% endif %}</h1>
 
-  <section class="papel p-6 md:p-8 mt-6">
-    <form method="post" class="grid gap-5 sm:grid-cols-2" id="form-moto">
-      {% csrf_token %}
-      {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm sm:col-span-2">{{ e }}</div>{% endfor %}
+  </div>
+  <form method="post" enctype="multipart/form-data" id="form-moto" class="mt-6 space-y-6">
+    {% csrf_token %}
+    {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
 
-      <div class="sm:col-span-2">
-        <label class="campo-label">{{ form.linea_catalogo.label }}{{ form.linea_catalogo }}</label>
-        {% for e in form.linea_catalogo.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      </div>
+    <div id="paso-1-campos" class="space-y-6"{% if mostrar_paso2 %} hidden{% endif %}>
+    <!-- La moto -->
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">La moto</h2>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4">
+        <div class="sm:col-span-2">
+          <label class="campo-label">{{ form.linea_catalogo.label }}{{ form.linea_catalogo }}</label>
+          {% for e in form.linea_catalogo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
 
-      <div class="sm:col-span-2 grid gap-5 sm:grid-cols-3" id="campos-otra">
+        <div class="sm:col-span-2 grid grid-cols-1 gap-5 sm:grid-cols-3" id="campos-otra">
+          <div>
+            <label class="campo-label">{{ form.marca_otra.label|capfirst }}{{ form.marca_otra }}</label>
+            {% for e in form.marca_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          </div>
+          <div>
+            <label class="campo-label">{{ form.linea_otra.label|capfirst }}{{ form.linea_otra }}</label>
+            {% for e in form.linea_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          </div>
+          <div>
+            <label class="campo-label">{{ form.tipo_otra.label|capfirst }}{{ form.tipo_otra }}</label>
+            {% for e in form.tipo_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          </div>
+          <p class="text-xs text-suave sm:col-span-3 -mt-2">Con el tipo armamos un modelo 3D aproximado. Si nos escribes, agregamos tu línea al catálogo.</p>
+        </div>
+
         <div>
-          <label class="campo-label">{{ form.marca_otra.label|capfirst }}{{ form.marca_otra }}</label>
-          {% for e in form.marca_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          <label class="campo-label">{{ form.modelo.label|capfirst }}{{ form.modelo }}</label>
+          {% for e in form.modelo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          <p class="error" id="error-anio" aria-live="polite" hidden></p>
+        </div>
+        {% if form.km_actual %}
+        <div>
+          <label class="campo-label">{{ form.km_actual.label }}{{ form.km_actual }}</label>
+          {% for e in form.km_actual.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          <p class="error" id="error-km" aria-live="polite" hidden></p>
+        </div>
+        {% endif %}
+        <div>
+          <label class="campo-label">Apodo <span class="font-normal text-suave">(opcional)</span>{{ form.apodo }}</label>
+          {% for e in form.apodo.errors %}<p class="error">{{ e }}</p>{% endfor %}
         </div>
         <div>
-          <label class="campo-label">{{ form.linea_otra.label|capfirst }}{{ form.linea_otra }}</label>
-          {% for e in form.linea_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          <label class="campo-label">Placa <span class="font-normal text-suave">(opcional, solo la ves tú)</span>{{ form.placa }}</label>
+          {% for e in form.placa.errors %}<p class="error">{{ e }}</p>{% endfor %}
+          <p class="aviso-suave" id="aviso-placa" aria-live="polite" hidden></p>
         </div>
-        <div>
-          <label class="campo-label">{{ form.tipo_otra.label|capfirst }}{{ form.tipo_otra }}</label>
-          {% for e in form.tipo_otra.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+        {% if form.color %}
+        <fieldset class="sm:col-span-2 color-discreto">
+          <legend class="campo-label">Color</legend>
+          <div class="colores colores-chicos">
+            {% for opcion in form.color %}
+              <label title="{{ opcion.choice_label }}">{{ opcion.tag }}<span class="muestra" style="background: {{ opcion.data.value }}"></span><span class="sr-only">{{ opcion.choice_label }}</span></label>
+            {% endfor %}
+          </div>
+        </fieldset>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Documentos -->
+    <section class="papel p-6 md:p-8">
+      <div class="flex flex-wrap items-center gap-2"><h2 class="form-seccion">Documentos</h2><span class="chip-opcional">Opcional</span></div>
+      <p class="text-sm text-suave mt-2">Guarda cuándo vencen y te avisamos con un mes de anticipación. Puedes subir un pantallazo o el PDF para tenerlos a mano.</p>
+
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
+        {% for doc in documentos_form %}
+        <div class="doc-tarjeta">
+          <p class="doc-nombre">{{ doc.nombre }}</p>
+          <p class="text-xs text-suave mt-1 sm:min-h-[2.6rem]">{{ doc.ayuda|default:"Obligatorio para circular." }}</p>
+          <label class="campo-label mt-3">Vence el{{ doc.fecha }}</label>
+          {% for e in doc.fecha.errors %}<p class="error">{{ e }}</p>{% endfor %}
+
+          <p class="campo-label mt-4">Foto o PDF</p>
+          {% if doc.actual %}
+          <div class="doc-actual">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
+            <a href="{{ doc.url_ver }}" target="_blank" rel="noopener" class="doc-ver">Ver archivo guardado</a>
+            <label class="doc-quitar">{{ doc.quitar }} Quitar</label>
+          </div>
+          {% endif %}
+          <label class="doc-subir">
+            {{ doc.archivo }}
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
+            <span class="doc-subir-texto" data-vacio="{% if doc.actual %}Reemplazar archivo{% else %}Subir pantallazo o PDF{% endif %}">{% if doc.actual %}Reemplazar archivo{% else %}Subir pantallazo o PDF{% endif %}</span>
+          </label>
+          <p class="text-xs text-suave mt-1.5">JPG, PNG, WEBP o PDF · máximo 5 MB</p>
+          {% for e in doc.archivo.errors %}<p class="error">{{ e }}</p>{% endfor %}
         </div>
-        <p class="text-xs text-suave sm:col-span-3 -mt-2">Con el tipo armamos un modelo 3D aproximado. Si nos escribes, agregamos tu línea al catálogo.</p>
+        {% endfor %}
       </div>
+    </section>
 
-      <div>
-        <label class="campo-label">{{ form.modelo.label|capfirst }}{{ form.modelo }}</label>
-        {% for e in form.modelo.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      </div>
-      {% if form.km_actual %}
-      <div>
-        <label class="campo-label">{{ form.km_actual.label }}{{ form.km_actual }}</label>
-        {% for e in form.km_actual.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      </div>
-      {% endif %}
-      <div>
-        <label class="campo-label">Apodo <span class="font-normal">(opcional)</span>{{ form.apodo }}</label>
-        {% for e in form.apodo.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      </div>
+    {% if nueva %}
+    <!-- Sin JavaScript este botón guarda directamente; con JavaScript lleva al paso 2 sin crear nada todavía. -->
+    <button class="btn btn-lava w-full py-3.5 text-sm" id="btn-siguiente">Siguiente: último mantenimiento</button>
+    {% else %}
+    <button class="btn btn-lava w-full py-3.5 text-sm">Guardar cambios</button>
+    {% endif %}
+    </div>
 
-      <fieldset class="sm:col-span-2">
-        <legend class="campo-label">Color</legend>
-        <div class="colores">
-          {% for opcion in form.color %}
-            <label title="{{ opcion.choice_label }}">{{ opcion.tag }}<span class="muestra" style="background: {{ opcion.data.value }}"></span><span class="sr-only">{{ opcion.choice_label }}</span></label>
-          {% endfor %}
-        </div>
-      </fieldset>
-
-      <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">{% if nueva %}Agregar al garaje{% else %}Guardar cambios{% endif %}</button>
-    </form>
-  </section>
+    {% if nueva %}
+    <!-- Paso 2: en el mismo formulario. La moto solo se crea al dar "Agregar al garaje". -->
+    <div id="paso-2"{% if not mostrar_paso2 %} hidden{% endif %}>
+      <p class="etiqueta">Plan de mantenimiento</p>
+      <div class="flex flex-wrap items-center gap-3 mt-3">
+        <h1 class="titulo text-4xl md:text-5xl">Ponle al día <span class="text-lava">el plan</span></h1>
+        <span class="chip-opcional">Opcional</span>
+      </div>
+      <p class="text-suave mt-2">¿Cuándo le hiciste mantenimiento por última vez a cada sistema? Con eso calculamos qué le toca a tu moto y cuándo.</p>
+      <div class="papel overflow-hidden mt-6" id="filas-al-dia" aria-live="polite">
+        {% if filas %}{% include "garaje/_al_dia_filas.html" %}{% endif %}
+      </div>
+      <p class="text-xs text-suave mt-3">«Hace poco» lo registra con el kilometraje actual. Con una fecha aproximada estimamos el kilometraje. Siempre puedes corregirlo después en el plan.</p>
+      <div class="flex flex-wrap items-center gap-3 mt-6">
+        <button class="btn btn-lava px-7 py-3.5 text-sm" name="guardar" value="1">Agregar al garaje</button>
+        <button type="button" class="boton-seccion" id="btn-atras">Atrás</button>
+      </div>
+    </div>
+    {% endif %}
+  </form>
 
   {% if moto %}
-  <form method="post" action="{% url 'garaje:eliminar' moto.pk %}" class="mt-6 text-center"
-        onsubmit="return confirm('¿Eliminar {{ moto|escapejs }} y todo su historial? No se puede deshacer.')">
-    {% csrf_token %}<button class="boton-texto">Eliminar esta moto del garaje</button>
-  </form>
+  <!-- Zona para eliminar: separada, explicada y con confirmación en dos pasos -->
+  <details class="zona-peligro mt-10">
+    <summary>
+      <span>
+        <span class="zona-peligro-titulo">Eliminar esta moto</span>
+        <span class="zona-peligro-texto">Se borran su historial, el kilometraje, el diseño y los documentos.</span>
+      </span>
+      <span class="zona-peligro-abrir">Eliminar…</span>
+    </summary>
+    <form method="post" action="{% url 'garaje:eliminar' moto.pk %}" class="zona-peligro-confirmar">
+      {% csrf_token %}
+      <p class="text-sm">¿Seguro que quieres eliminar <strong>{{ moto }}</strong>? Esto no se puede deshacer.</p>
+      <button class="btn btn-peligro text-xs px-5 py-3">Sí, eliminar la moto</button>
+    </form>
+  </details>
   {% endif %}
 </div>
 
 <script>
-  // Muestra los campos de "otra moto" solo cuando se elige esa opción.
   (function () {
+    // Muestra los campos de "otra moto" solo cuando se elige esa opción.
     var select = document.getElementById("id_linea_catalogo");
     var otra = document.getElementById("campos-otra");
     function actualizar() { otra.style.display = select.value === "otra" ? "" : "none"; }
     select.addEventListener("change", actualizar);
     actualizar();
+    // Año del modelo: solo números, 4 dígitos y dentro del rango; avisa mientras escribes.
+    var anio = document.querySelector("[data-validar-anio]");
+    var errorAnio = document.getElementById("error-anio");
+    if (anio) {
+      var minimo = Number(anio.min), maximo = Number(anio.max);
+      var revisarAnio = function (alSalir) {
+        anio.value = anio.value.replace(/\D/g, "").slice(0, 4);
+        var v = anio.value, mensaje = "";
+        if (v.length === 4 && (Number(v) < minimo || Number(v) > maximo)) mensaje = "El modelo debe estar entre " + minimo + " y " + maximo + ".";
+        else if (alSalir && v && v.length < 4) mensaje = "Escribe el año completo, por ejemplo " + (maximo - 3) + ".";
+        else if (alSalir === "enviar" && !v) mensaje = "Escribe el año del modelo.";
+        errorAnio.textContent = mensaje;
+        errorAnio.hidden = !mensaje;
+        anio.classList.toggle("campo-invalido", Boolean(mensaje));
+        anio.setAttribute("aria-invalid", mensaje ? "true" : "false");
+        return !mensaje;
+      };
+      anio.addEventListener("input", function () { revisarAnio(false); });
+      anio.addEventListener("blur", function () { revisarAnio(true); });
+      document.getElementById("form-moto").addEventListener("submit", function (e) {
+        if (!revisarAnio("enviar")) { e.preventDefault(); anio.focus(); }
+      });
+    }
+    // Kilometraje: solo números enteros (sin signo menos ni decimales) y con un tope razonable.
+    var km = document.querySelector("[data-validar-km]");
+    var errorKm = document.getElementById("error-km");
+    if (km) {
+      var tope = Number(km.max);
+      km.addEventListener("keydown", function (e) { if (["-", "+", "e", "E", ".", ","].indexOf(e.key) >= 0) e.preventDefault(); });
+      var revisarKm = function (alEnviar) {
+        var limpio = km.value.replace(/\D/g, "");
+        if (limpio !== km.value) km.value = limpio;
+        var mensaje = "";
+        if (limpio && Number(limpio) > tope) mensaje = "Ese kilometraje es demasiado alto. Revisa el número.";
+        else if (alEnviar && !limpio) mensaje = "Escribe el kilometraje que marca tu moto.";
+        errorKm.textContent = mensaje;
+        errorKm.hidden = !mensaje;
+        km.classList.toggle("campo-invalido", Boolean(mensaje));
+        km.setAttribute("aria-invalid", mensaje ? "true" : "false");
+        return !mensaje;
+      };
+      km.addEventListener("input", function () { revisarKm(false); });
+      km.addEventListener("paste", function () { setTimeout(function () { revisarKm(false); }); });
+      document.getElementById("form-moto").addEventListener("submit", function (e) {
+        if (!revisarKm(true)) { e.preventDefault(); km.focus(); }
+      });
+    }
+    // Pasos del alta: "Siguiente" no envía; trae las filas según la moto elegida y muestra el paso 2.
+    var siguiente = document.getElementById("btn-siguiente");
+    if (siguiente) {
+      var form = document.getElementById("form-moto");
+      var paso1 = [document.getElementById("paso-1"), document.getElementById("paso-1-campos")];
+      var paso2 = document.getElementById("paso-2");
+      var filas = document.getElementById("filas-al-dia");
+      var pasos = document.querySelectorAll("#pasos-alta li");
+      var cargado = "";
+      var mostrar = function (n) {
+        paso1.forEach(function (el) { el.hidden = n !== 1; });
+        paso2.hidden = n !== 2;
+        pasos[0].className = n === 1 ? "actual" : "hecho";
+        pasos[1].className = n === 2 ? "actual" : "";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+      if (!paso2.hidden) cargado = "listo";
+      siguiente.addEventListener("click", function (e) {
+        e.preventDefault();
+        var campos = paso1[1].querySelectorAll("input, select, textarea");
+        for (var i = 0; i < campos.length; i++) {
+          if (campos[i].offsetParent !== null && !campos[i].checkValidity()) { campos[i].reportValidity(); return; }
+        }
+        if (anio && !revisarAnio("enviar")) { anio.focus(); return; }
+        if (km && !revisarKm(true)) { km.focus(); return; }
+        var clave = new URLSearchParams({ linea: select.value === "otra" ? "" : select.value,
+          tipo: (document.getElementById("id_tipo_otra") || {}).value || "", km: km ? km.value : "" }).toString();
+        if (clave === cargado || (cargado === "listo" && filas.children.length)) { cargado = clave; mostrar(2); return; }
+        siguiente.disabled = true;
+        fetch("{% url 'garaje:tareas_alta' %}?" + clave, { headers: { "X-Requested-With": "fetch" } })
+          .then(function (r) { if (!r.ok) throw new Error(); return r.text(); })
+          .then(function (html) { filas.innerHTML = html; cargado = clave; mostrar(2); })
+          .catch(function () { form.submit(); })  // si falla, guarda sin el paso 2
+          .finally(function () { siguiente.disabled = false; });
+      });
+      document.getElementById("btn-atras").addEventListener("click", function () { mostrar(1); });
+    }
+    // Placa: mayúsculas, sin espacios ni guiones; si no tiene el formato de moto (ABC12D) avisa sin bloquear.
+    var placa = document.querySelector("[data-validar-placa]");
+    if (placa) {
+      var avisoPlaca = document.getElementById("aviso-placa");
+      var revisarPlaca = function () {
+        var limpio = placa.value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 7);
+        if (limpio !== placa.value) placa.value = limpio;
+        var raro = limpio.length >= 5 && !/^[A-Z]{3}[0-9]{2}[A-Z]$/.test(limpio);
+        avisoPlaca.textContent = raro ? "Las placas de moto suelen ser como ABC12D. Si la tuya es distinta, puedes guardarla así." : "";
+        avisoPlaca.hidden = !raro;
+      };
+      placa.addEventListener("input", revisarPlaca);
+      revisarPlaca();
+    }
+    // Muestra el nombre del archivo elegido.
+    document.querySelectorAll(".doc-subir input[type=file]").forEach(function (input) {
+      input.addEventListener("change", function () {
+        var texto = input.parentElement.querySelector(".doc-subir-texto");
+        texto.textContent = input.files.length ? input.files[0].name : texto.dataset.vacio;
+        input.parentElement.classList.toggle("con-archivo", input.files.length > 0);
+      });
+    });
   })();
 </script>
+{% if nueva %}{% include "garaje/_al_dia_script.html" %}{% endif %}
 {% endblock %}

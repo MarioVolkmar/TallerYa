@@ -199,6 +199,25 @@ _NOMBRES = {
     "PLUG, HOLE": "Tapón",
     "PLUG, STRAIGHT SCREW": "Tapón roscado",
     "COVER, UNDER": "Tapa inferior",
+    # Piezas críticas de otros catálogos (Yamaha Crypton, FZ25, MT-03, XTZ125 y Honda Wave)
+    "PLUG SPARK": "Bujía",
+    "ELEMENT ASSY, OIL CLEANER": "Filtro de aceite",
+    "AIR CLEANER ELEMENT ASSY": "Filtro de aire",
+    "ELEMENT ASSY, AIR CLEANER": "Filtro de aire",
+    "ELEMENT COMP., AIR CLEANER": "Filtro de aire",
+    "BRAKE SHOE SET": "Bandas de freno (juego)",
+    "SHOE SET, BRAKE": "Bandas de freno (juego)",
+    "PAD SET, FR": "Pastillas de freno delanteras (juego)",
+    "SPROCKET, DRIVE": "Piñón de salida",
+    "SPROCKET, DRIVEN": "Corona (sprocket trasero)",
+    "SPROCKET, FINAL DRIVEN": "Corona (sprocket trasero)",
+    "CHAIN": "Cadena de transmisión",
+    "RADIATOR COMP": "Radiador completo",
+    "TANK, RESERVOIR": "Depósito de líquido de frenos",
+    "SCREEN, OIL FILTER": "Malla del filtro de aceite",
+    "BOLT, DRAIN PLUG": "Tornillo de drenaje del aceite",
+    "VALVE, IN": "Válvula de admisión",
+    "VALVE, EX": "Válvula de escape",
 }
 
 # Explicaciones cortas para piezas de mantenimiento (se busca por el inicio de la clave normalizada).

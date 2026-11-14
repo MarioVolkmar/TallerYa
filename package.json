@@ -1,0 +1,12 @@
+{
+  "name": "tallerya",
+  "private": true,
+  "description": "Solo para compilar el CSS de Tailwind (el sitio es Django).",
+  "scripts": {
+    "css": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --minify",
+    "css:vigilar": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.19"
+  }
+}

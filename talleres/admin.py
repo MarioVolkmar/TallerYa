@@ -1,12 +1,19 @@
 from django.contrib import admin
 
-from .models import Barrio, Marca, Resena, Servicio, SolicitudCita, Taller
+from .models import Barrio, FotoTaller, Marca, Resena, Servicio, SolicitudCita, Taller
 
 admin.site.register([Barrio, Servicio, Marca])
 
 
+class FotoTallerInline(admin.TabularInline):
+    model = FotoTaller
+    extra = 0
+    fields = ("imagen", "descripcion", "orden")
+
+
 @admin.register(Taller)
 class TallerAdmin(admin.ModelAdmin):
+    inlines = [FotoTallerInline]
     list_display = ("nombre", "barrio", "verificado", "activo", "destacado", "creado")
     list_filter = ("verificado", "activo", "destacado", "barrio")
     list_editable = ("verificado", "activo", "destacado")

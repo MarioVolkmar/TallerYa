@@ -1,18 +1,96 @@
 {% extends "base.html" %}
 
 {% block hero %}
-<section class="hero relative overflow-hidden">
-  {% include "talleres/_paisaje.html" %}
-  <div class="contenido max-w-6xl mx-auto px-4 pt-14 pb-56 md:pt-24 md:pb-72">
+{% with estilo=motero|yesno:"vitrina,garaje" %}
+<section class="hero portada portada-{{ estilo }} relative overflow-hidden">
+  {% if estilo == "vitrina" %}<span class="portada-palabra" aria-hidden="true">Taller</span>{% else %}<span class="portada-vertical" aria-hidden="true">Valle de Aburrá · Medellín</span>{% endif %}
+  {% if estilo == "vitrina" and motos_portada %}
+  <div class="portada-escena portada-carrusel" data-carrusel>
+    {% for m in motos_portada %}
+    <div class="portada-slide{% if forloop.first %} activa{% endif %}" data-nombre="{{ m }}" data-url="{% url 'garaje:moto' m.pk %}">
+      <iframe {% if forloop.first %}src{% else %}data-src{% endif %}="{% url 'garaje:vista_3d' m.pk %}" title="Modelo 3D de {{ m }}" tabindex="-1"></iframe>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  {% include "talleres/_portada_moto.html" %}
+  {% endif %}
+  <div class="contenido max-w-6xl mx-auto px-4 pt-6 {% if estilo == "vitrina" and motos_portada %}pb-[25rem]{% else %}pb-[27rem]{% endif %} md:pt-6 md:pb-52">
     <p class="etiqueta">Medellín · Valle de Aburrá</p>
-    <h1 class="titulo text-5xl sm:text-6xl md:text-7xl mt-4 max-w-2xl">Encuentra un taller <span class="text-lava">de confianza</span> para tu moto</h1>
+    {% if estilo == "vitrina" %}
+    <h1 class="titulo text-5xl sm:text-6xl lg:text-7xl mt-4 max-w-xl">Tu moto en <span class="text-lava">buenas manos</span></h1>
+    {% else %}
+    <h1 class="titulo text-5xl sm:text-6xl lg:text-7xl mt-4 max-w-xl">Encuentra un taller <span class="text-lava">de confianza</span></h1>
+    {% endif %}
     <p class="mt-5 max-w-md text-lg text-suave">Talleres verificados en Medellín, con reseñas reales y cita por WhatsApp.</p>
+    <div class="flex flex-wrap gap-3 mt-7">
+      <a href="#buscar" class="btn btn-lava text-xs px-6 py-3">Buscar taller</a>
+      {% if estilo == "vitrina" %}<a href="{% url 'cupones:lista' %}" class="portada-boton">Ver cupones</a>
+      {% elif not user.is_authenticated %}<a href="{% url 'cuentas:registro' %}" class="portada-boton">Crear mi garaje</a>{% endif %}
+    </div>
+    {% if estilo == "vitrina" %}
+    <div class="portada-ficha">
+      <a href="{% if motos_portada %}{% url 'garaje:moto' motos_portada.0.pk %}{% else %}{% url 'garaje:agregar' %}{% endif %}" data-ficha-enlace>
+        <small>Mi garaje</small>
+        <strong data-ficha-nombre>{% if motos_portada %}{{ motos_portada.0 }}{% else %}Agrega tu moto{% endif %}</strong>
+        <em>{% if motos_portada %}Ver plan de mantenimiento →{% else %}Mantenimiento · SOAT · Tecno →{% endif %}</em>
+      </a>
+      {% if motos_portada|length > 1 %}
+      <div class="portada-controles">
+        <button type="button" data-carrusel-ir="-1" aria-label="Moto anterior">‹</button>
+        <span><b data-carrusel-actual>01</b> / {{ motos_portada|length|stringformat:"02d" }}</span>
+        <button type="button" data-carrusel-ir="1" aria-label="Moto siguiente">›</button>
+      </div>
+      {% endif %}
+    </div>
+    {% else %}
+    <p class="portada-ficha"><small>Talleres verificados</small><strong>Cita por WhatsApp</strong></p>
+    {% endif %}
   </div>
 </section>
+{% endwith %}
+{% if motos_portada|length > 1 %}
+<script>
+  // Carrusel de las motos del motero: cambia solo cada 8 s y con las flechas. Solo la moto visible dibuja en 3D.
+  (function () {
+    var slides = [].slice.call(document.querySelectorAll(".portada-slide"));
+    var nombre = document.querySelector("[data-ficha-nombre]"), enlace = document.querySelector("[data-ficha-enlace]");
+    var actual = document.querySelector("[data-carrusel-actual]"), i = 0, reloj;
+    // La moto actual sale arrancando (la vista 3D avisa "moto-fuera") y entra la siguiente rodando.
+    var cambiando = false;
+    function mostrar(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, k) { s.classList.toggle("activa", k === i); });
+      var marco = slides[i].querySelector("iframe");
+      if (marco.dataset.src) { marco.src = marco.dataset.src; delete marco.dataset.src; }
+      else if (marco.contentWindow) marco.contentWindow.postMessage("entrar", location.origin);
+      cambiando = false;
+      nombre.textContent = slides[i].dataset.nombre;
+      enlace.href = slides[i].dataset.url;
+      actual.textContent = String(i + 1).padStart(2, "0");
+    }
+    function ir(n) {
+      if (cambiando) return;
+      cambiando = true;
+      var marco = slides[i].querySelector("iframe"), destino = n, listo = false;
+      function seguir() { if (listo) return; listo = true; window.removeEventListener("message", alSalir); mostrar(destino); }
+      function alSalir(e) { if (e.origin === location.origin && e.data === "moto-fuera") seguir(); }
+      window.addEventListener("message", alSalir);
+      if (marco && marco.contentWindow) marco.contentWindow.postMessage("salir", location.origin);
+      setTimeout(seguir, 1800);   // por si la vista 3D no responde (sin WebGL, movimiento reducido…)
+    }
+    function programar() { clearInterval(reloj); reloj = setInterval(function () { ir(i + 1); }, 8000); }
+    document.querySelectorAll("[data-carrusel-ir]").forEach(function (b) {
+      b.addEventListener("click", function () { ir(i + Number(b.dataset.carruselIr)); programar(); });
+    });
+    programar();
+  })();
+</script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
-<form method="get" class="papel relative z-10 -mt-32 md:-mt-40 p-4 md:p-5 grid gap-3 md:grid-cols-5" role="search">
+<form method="get" id="buscar" class="scroll-mt-24 papel relative z-10 mt-8 md:-mt-40 p-4 md:p-5 grid grid-cols-1 gap-3 md:grid-cols-5" role="search">
   <label class="md:col-span-2">
     <span class="sr-only">Buscar taller</span>
     <input name="q" value="{{ filtros.q }}" placeholder="Buscar taller..." class="campo !mt-0">
@@ -48,7 +126,7 @@
   </div>
   <div class="separador mb-8"></div>
 
-  <div class="grid gap-6 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
     {% for t in talleres %}
     <a href="{{ t.get_absolute_url }}" class="papel tarjeta relative block p-6 {% if t.destacado %}destacado{% endif %}">
       <span class="numero-fantasma" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
@@ -83,6 +161,8 @@
   </div>
 </section>
 
+{# Invitación a registrar taller: solo para visitantes sin sesión (los moteros y talleres ya tienen su cuenta) #}
+{% if not user.is_authenticated %}
 <section class="mt-16 papel p-6 md:p-10 relative overflow-hidden">
   <span class="numero-fantasma !text-[9rem] !bottom-[-2.5rem]" aria-hidden="true">02</span>
   <div class="relative md:flex md:items-center md:justify-between gap-8">
@@ -94,4 +174,5 @@
     <a href="{% url 'talleres:registro' %}" class="btn btn-lava px-7 py-3 text-sm mt-6 md:mt-0 shrink-0">Registra tu taller</a>
   </div>
 </section>
+{% endif %}
 {% endblock %}

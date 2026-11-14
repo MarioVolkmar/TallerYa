@@ -1,19 +1,47 @@
-{# Cupón tipo boleta. Variables: cupon, con_boton (opcional) #}
+{# Cupón tipo boleta con la información del taller. Variables: cupon, con_boton (opcional) #}
+{% with t=cupon.taller %}
 <article class="papel ticket h-full">
   <div class="p-6 flex-1">
     <div class="flex items-start justify-between gap-3">
-      <p class="etiqueta">{% if cupon.taller %}{{ cupon.taller }}{% else %}Todos los talleres aliados{% endif %}</p>
-      {% if cupon.solo_plus %}<span class="insignia insignia-plus shrink-0">Plus</span>{% endif %}
+      {% if t %}
+        <a href="{{ t.get_absolute_url }}" class="ticket-taller">{{ t }}</a>
+      {% else %}
+        <span class="ticket-taller sin-enlace">Todos los talleres aliados</span>
+      {% endif %}
+      <span class="flex items-center gap-1.5 shrink-0">
+        {% if cupon.solo_plus %}<span class="insignia insignia-plus">Plus</span>{% endif %}
+      </span>
     </div>
     <h3 class="titulo text-2xl md:text-[1.7rem] mt-3">{{ cupon.titulo }}</h3>
-    {% if cupon.taller %}<p class="text-sm text-suave mt-2">{{ cupon.taller.barrio }}{% if cupon.taller.horario %} · {{ cupon.taller.horario }}{% endif %}</p>{% endif %}
-    {% if cupon.condiciones %}<p class="text-sm text-suave mt-3">{{ cupon.condiciones|linebreaksbr }}</p>{% endif %}
+
+    <ul class="ticket-datos">
+      {% if t %}
+      {% with nota=t.calificacion %}{% if nota %}
+      <li><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="#e3a72f"/></svg>
+        <span><strong>{{ nota|floatformat:1 }}</strong> en reseñas</span></li>
+      {% endif %}{% endwith %}
+      <li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span>{{ t.barrio }} · <a href="{{ t.como_llegar }}" target="_blank" rel="noopener" class="ticket-enlace">Cómo llegar</a></span></li>
+      {% if t.horario %}
+      <li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span>{{ t.horario }}</span></li>
+      {% endif %}
+      {% endif %}
+      {% if cupon.condiciones %}
+      <li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>{{ cupon.condiciones }}</span></li>
+      {% endif %}
+    </ul>
   </div>
   <div class="ticket-corte" aria-hidden="true"></div>
   <div class="p-6 pt-5 flex items-center justify-between gap-4">
-    <p class="text-xs text-suave leading-snug">
-      {% if cupon.valido_hasta %}Válido hasta<br><strong class="text-[#ede3cc] text-sm">{{ cupon.valido_hasta|date:"j \d\e F"|lower }}</strong>{% else %}Sin fecha de<br>vencimiento{% endif %}
-    </p>
+    <div class="ticket-pie-datos">
+      <p>{% if cupon.valido_hasta %}Válido hasta<br><strong>{{ cupon.valido_hasta|date:"j M Y"|lower }}</strong>{% else %}Sin fecha de<br>vencimiento{% endif %}</p>
+      {% if cupon.cupo %}{% with quedan=cupon.restantes %}
+      <p class="{% if quedan <= 5 %}pocos{% endif %}">{% if quedan > 0 %}Quedan<br><strong>{{ quedan }} cupo{{ quedan|pluralize }}</strong>{% else %}Cupos<br><strong>Agotados</strong>{% endif %}</p>
+      {% endwith %}{% endif %}
+    </div>
     {% if con_boton %}<a href="{{ cupon.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5 shrink-0">Obtener cupón</a>{% endif %}
   </div>
 </article>
+{% endwith %}

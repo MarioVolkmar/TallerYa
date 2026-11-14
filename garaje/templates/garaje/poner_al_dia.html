@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}{% if pendientes %}Ponle al día el plan{% else %}Actualiza tus mantenimientos{% endif %} · TallerYa{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
+  {% if nueva %}
+  <ol class="pasos-alta" aria-label="Pasos">
+    <li class="hecho"><span>1</span>Datos de la moto</li>
+    <li class="actual" aria-current="step"><span>2</span>Último mantenimiento</li>
+  </ol>
+  {% endif %}
+  <p class="etiqueta mt-6">Plan de mantenimiento</p>
+  <div class="flex flex-wrap items-center gap-3 mt-3">
+    {% if pendientes %}<h1 class="titulo text-4xl md:text-5xl">Ponle al día <span class="text-lava">el plan</span></h1>
+    {% else %}<h1 class="titulo text-4xl md:text-5xl">Actualiza <span class="text-lava">tus mantenimientos</span></h1>{% endif %}
+  </div>
+  <p class="text-suave mt-2">{% if pendientes %}¿Cuándo le hiciste mantenimiento por última vez a estos sistemas? Con eso calculamos qué le toca a tu {{ moto }} y cuándo.{% else %}Marca lo que le hiciste y no registraste en su momento. Lo que no cambies se queda como estaba.{% endif %}</p>
+
+  <form method="post" class="mt-6">
+    {% csrf_token %}
+    <div class="papel overflow-hidden">
+      {% include "garaje/_al_dia_filas.html" with km_actual=moto.km_actual %}
+    </div>
+    <p class="text-xs text-suave mt-3">«Hace poco» lo registra con el kilometraje actual ({{ moto.km_actual|intcomma }} km). Con una fecha aproximada estimamos el kilometraje. Siempre puedes corregirlo después en el plan.</p>
+    <div class="flex flex-wrap items-center gap-3 mt-6">
+      <button class="btn btn-lava px-7 py-3.5 text-sm">Guardar y ver mi moto</button>
+      <a href="{{ moto.get_absolute_url }}" class="boton-seccion">{% if pendientes %}Omitir por ahora{% else %}Cancelar{% endif %}</a>
+    </div>
+  </form>
+</div>
+{% include "garaje/_al_dia_script.html" %}
+{% endblock %}

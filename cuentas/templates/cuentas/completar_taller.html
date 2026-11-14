@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Registra tu taller · TallerYa{% endblock %}
+{% block content %}
+{% url 'cuentas:completar' as url_completar %}{% include "parciales/volver.html" with url=url_completar texto="Tipo de cuenta" clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
+  <p class="etiqueta">Último paso</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Datos de tu <span class="text-lava">taller</span></h1>
+  <p class="text-suave mt-2">Revisamos cada taller antes de publicarlo.</p>
+  <form method="post" enctype="multipart/form-data" class="mt-6 space-y-6">
+    {% csrf_token %}
+    <section class="papel p-6 md:p-8">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {% for field in negocio %}
+        <div class="{% if field.field.widget.input_type == 'checkbox' or field.name == 'descripcion' or field.name == 'direccion' or field.name == 'foto' %}sm:col-span-2{% endif %}">
+          {% if field.field.widget.input_type == "checkbox" %}
+            <p class="campo-label mb-2">{{ field.label }}</p>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">{% for cb in field %}<label class="opcion">{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+          {% else %}
+            <label class="campo-label">{{ field.label|capfirst }}{% if not field.field.required %} <span class="font-normal text-suave">(opcional)</span>{% endif %}{{ field }}</label>
+          {% endif %}
+          {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    <button class="btn btn-lava w-full py-3.5 text-sm">Enviar taller</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{
+  "marca": "Honda",
+  "linea": "Wave 110S",
+  "version": "AFS110 (13K92H0)",
+  "anio": 2019,
+  "fuente": "https://motorared.netlify.app/src/pdf/WAVE110S.pdf",
+  "laminas": [
+    {
+      "figura": "F-13",
+      "titulo_es": "Freno delantero de tambor",
+      "pieza": "freno_del",
+      "reglas": {
+        "SHOE SET, BRAKE": "bandas-del"
+      },
+      "diagrama": ""
+    },
+    {
+      "figura": "F-18",
+      "titulo_es": "Freno trasero de tambor",
+      "pieza": "freno_tras",
+      "reglas": {
+        "SHOE SET, BRAKE": "bandas-tras"
+      },
+      "diagrama": ""
+    },
+    {
+      "figura": "F-19",
+      "titulo_es": "Rueda trasera y corona",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras",
+        "SPROCKET, FINAL DRIVEN": "kit-arrastre"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "E-17",
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET, DRIVE": "kit-arrastre"
+      },
+      "diagrama": ""
+    },
+    {
+      "figura": "E-14",
+      "titulo_es": "Bomba de aceite y malla",
+      "pieza": "aceite",
+      "reglas": {
+        "SCREEN, OIL FILTER": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "E-15",
+      "titulo_es": "Cárter y tapón de drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "BOLT, DRAIN PLUG": "aceite"
+      },
+      "diagrama": ""
+    },
+    {
+      "figura": "F-25",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENT, AIR CLEANER": "filtro-aire",
+        "ELEMENT COMP., AIR CLEANER": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "E-2",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "PLUG, SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "E-3",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, IN.": "valvulas",
+        "VALVE, EX.": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "F-14",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "F-11",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SPRING, FRONT FORK": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    }
+  ]
+}

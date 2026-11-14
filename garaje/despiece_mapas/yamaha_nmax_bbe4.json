@@ -5,19 +5,138 @@
   "anio": 2024,
   "fuente": "https://motoblu.co/catalogo/catalogo-partes-despiece-yamaha-n-max/",
   "laminas": [
-    {"figura": 22, "titulo_es": "Freno delantero", "pieza": "freno_del", "reglas": {"BRAKE PAD": "pastillas-del"}},
-    {"figura": 24, "titulo_es": "Freno trasero", "pieza": "freno_tras", "reglas": {"BRAKE PAD": "pastillas-tras"}},
-    {"figura": 26, "titulo_es": "Bomba de freno y líquido", "pieza": "freno_del", "reglas": {"CAP, RESERVOIR": "liquido-frenos", "DIAPHRAGM, RESERVOIR": "liquido-frenos"}},
-    {"figura": 12, "titulo_es": "Variador, correa y clutch", "pieza": "correa", "reglas": {"V-BELT": "correa-cvt", "WEIGHT SET": "correa-cvt", "CLUTCH WEIGHT SHOE": "correa-cvt"}},
-    {"figura": 7, "titulo_es": "Bomba de aceite y drenaje", "pieza": "aceite", "reglas": {"STRAINER, OIL": "aceite", "PLUG,DRAIN": "aceite"}},
-    {"figura": 8, "titulo_es": "Admisión y filtro de aire", "pieza": "filtro_aire", "reglas": {"ELEMENT, AIR CLEANER": "filtro-aire"}},
-    {"figura": 1, "titulo_es": "Cilindro, culata y bujía", "pieza": "bujia", "reglas": {"PLUG, SPARK": "bujia"}},
-    {"figura": 3, "titulo_es": "Válvulas", "pieza": "motor", "reglas": {"VALVE, INTAKE": "valvulas", "VALVE, EXHAUST": "valvulas"}},
-    {"figura": 6, "titulo_es": "Radiador y mangueras", "pieza": "refrigeracion", "reglas": {"CAP, RADIATOR": "refrigerante", "RADIATOR ASSY": "refrigerante"}},
-    {"figura": 21, "titulo_es": "Rueda delantera", "pieza": "llanta_del", "reglas": {"TIRE": "llanta-del"}},
-    {"figura": 23, "titulo_es": "Rueda trasera", "pieza": "llanta_tras", "reglas": {"TIRE": "llanta-tras"}},
-    {"figura": 18, "titulo_es": "Dirección y suspensión delantera", "pieza": "suspension_del", "reglas": {"OIL SEAL": "suspension-del", "SPRING, FRONT FORK": "suspension-del"}},
-    {"figura": 17, "titulo_es": "Basculante y amortiguadores", "pieza": "suspension_tras", "reglas": {"SHOCK ABSORBER": "suspension-tras"}},
-    {"figura": 36, "titulo_es": "Sistema eléctrico y batería", "pieza": "bateria", "reglas": {"BATTERY": "bateria"}}
+    {
+      "figura": 22,
+      "titulo_es": "Freno delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "BRAKE PAD": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 24,
+      "titulo_es": "Freno trasero",
+      "pieza": "freno_tras",
+      "reglas": {
+        "BRAKE PAD": "pastillas-tras"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Bomba de freno y líquido",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP, RESERVOIR": "liquido-frenos",
+        "DIAPHRAGM, RESERVOIR": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": 12,
+      "titulo_es": "Variador, correa y clutch",
+      "pieza": "correa",
+      "reglas": {
+        "V-BELT": "correa-cvt",
+        "WEIGHT SET": "correa-cvt",
+        "CLUTCH WEIGHT SHOE": "correa-cvt"
+      },
+      "diagrama": "cvt"
+    },
+    {
+      "figura": 7,
+      "titulo_es": "Bomba de aceite y drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "STRAINER, OIL": "aceite",
+        "PLUG,DRAIN": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": 8,
+      "titulo_es": "Admisión y filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENT, AIR CLEANER": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 1,
+      "titulo_es": "Cilindro, culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "PLUG, SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, INTAKE": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Radiador y mangueras",
+      "pieza": "refrigeracion",
+      "reglas": {
+        "CAP, RADIATOR": "refrigerante",
+        "RADIATOR ASSY": "refrigerante"
+      },
+      "diagrama": "radiador"
+    },
+    {
+      "figura": 21,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 23,
+      "titulo_es": "Rueda trasera",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 18,
+      "titulo_es": "Dirección y suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "OIL SEAL": "suspension-del",
+        "SPRING, FRONT FORK": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 17,
+      "titulo_es": "Basculante y amortiguadores",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "SHOCK ABSORBER": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 36,
+      "titulo_es": "Sistema eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY": "bateria"
+      },
+      "diagrama": "electrico"
+    }
   ]
 }

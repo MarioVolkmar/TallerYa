@@ -1,0 +1,131 @@
+{
+  "marca": "Auteco Bajaj",
+  "linea": "Discover 125",
+  "version": "UG CBS",
+  "anio": 2020,
+  "fuente": "https://blog.auteco.com.co/wp-content/uploads/2020/03/MANUAL-DE-PARTES-DISCOVER-125-UG-CON-CBS.pdf",
+  "formato": "auteco",
+  "laminas": [
+    {
+      "figura": 34,
+      "titulo_es": "Caliper delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 33,
+      "titulo_es": "Bomba de freno y líquido",
+      "pieza": "freno_del",
+      "reglas": {
+        "DIAFRAGMA BOMBA FRENO": "liquido-frenos",
+        "TAPA BOMBA FRENO": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": 35,
+      "titulo_es": "Rueda trasera, freno de tambor y arrastre",
+      "pieza": "freno_tras",
+      "reglas": {
+        "BANDAS FRENO": "bandas-tras",
+        "KIT SPROCKET": "kit-arrastre"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": 8,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "PIÑÓN SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 12,
+      "titulo_es": "Carcasa izquierda y cedazo de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "CEDAZO FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Cubierta del clutch y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 18,
+      "titulo_es": "Caja del filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJÍA": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "KIT VÁLVULAS": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 31,
+      "titulo_es": "Llantas, rines y neumáticos",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA DELANTERA": "llanta-del",
+        "LLANTA TRASERA": "llanta-tras"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 39,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RETEN TUBO TELESCÓPICO": "suspension-del",
+        "RESORTE TUBO TELESCÓPICO": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Brazo oscilante y amortiguadores",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 48,
+      "titulo_es": "Equipo eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERÍA 12V": "bateria"
+      },
+      "diagrama": "electrico"
+    }
+  ]
+}

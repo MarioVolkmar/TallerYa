@@ -1,0 +1,5 @@
+/* Tailwind compilado (reemplaza el CDN que compilaba en el navegador del visitante).
+   Tras añadir clases de Tailwind en plantillas o JS: npm run css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

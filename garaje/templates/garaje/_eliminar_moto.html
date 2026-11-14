@@ -1,0 +1,40 @@
+{# Confirmación para eliminar una moto. Botones: [data-eliminar=url][data-nombre]. Modo edición: [data-editar=id de la lista]. #}
+<dialog id="dialogo-eliminar" class="dialogo-eliminar">
+  <form method="post" id="form-eliminar">
+    {% csrf_token %}
+    <p class="titulo text-2xl">¿Eliminar <span class="text-lava" id="eliminar-nombre"></span>?</p>
+    <p class="text-sm text-suave mt-2">Se borran su historial, el kilometraje, el diseño y los documentos. Esto no se puede deshacer.</p>
+    <div class="flex flex-wrap justify-end gap-3 mt-6">
+      <button type="button" class="boton-seccion" id="eliminar-cancelar">Cancelar</button>
+      <button class="btn btn-peligro text-xs px-5 py-3">Sí, eliminar</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var dialogo = document.getElementById("dialogo-eliminar");
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest("[data-eliminar]");
+      if (b) {
+        e.preventDefault();
+        document.getElementById("form-eliminar").action = b.dataset.eliminar;
+        document.getElementById("eliminar-nombre").textContent = b.dataset.nombre;
+        dialogo.showModal();
+        return;
+      }
+      var t = e.target.closest("[data-editar]");
+      if (t) {
+        var lista = document.getElementById(t.dataset.editar);
+        var activo = lista.classList.toggle("editando");
+        t.setAttribute("aria-pressed", activo);
+        t.querySelector("span").textContent = activo ? "Listo" : "Editar";
+        return;
+      }
+      // En modo edición, las fichas no abren la moto: así no se entra por error.
+      var enlace = e.target.closest(".editando a");
+      if (enlace && !enlace.closest("[data-eliminar]")) e.preventDefault();
+    });
+    document.getElementById("eliminar-cancelar").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); });
+  })();
+</script>

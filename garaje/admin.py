@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import path
 
 from .models import (Despiece, Lamina, LecturaKm, LineaMoto, Mantenimiento, Moto, ParteDespiece,
-                     TareaMantenimiento)
+                     SolicitudSoat, TareaMantenimiento)
 
 
 @admin.register(LineaMoto)
@@ -42,7 +42,7 @@ class MantenimientoInline(admin.TabularInline):
 class MotoAdmin(admin.ModelAdmin):
     list_display = ("nombre_completo", "motociclista", "km_actual", "creado")
     list_filter = ("linea__marca", "linea__tipo")
-    search_fields = ("linea__nombre", "marca_otra", "linea_otra", "motociclista__nombre", "motociclista__celular")
+    search_fields = ("linea__nombre", "marca_otra", "linea_otra", "placa", "motociclista__nombre", "motociclista__celular")
     raw_id_fields = ("motociclista",)
     inlines = [LecturaInline, MantenimientoInline]
 
@@ -132,3 +132,23 @@ class LaminaAdmin(admin.ModelAdmin):
         parte.save(update_fields=["x", "y"])
         return JsonResponse({"ok": True, "parte": parte.pk, "x": parte.x, "y": parte.y})
 
+
+
+
+@admin.register(SolicitudSoat)
+class SolicitudSoatAdmin(admin.ModelAdmin):
+    list_display = ("creado", "moto", "placa", "celular", "vence", "estado")
+    list_filter = ("estado",)
+    list_editable = ("estado",)
+    search_fields = ("placa", "celular", "moto__motociclista__nombre")
+    readonly_fields = ("moto", "placa", "celular", "comentario", "creado", "datos_moto")
+    fields = ("estado", "notas_internas", "datos_moto", "placa", "celular", "comentario", "creado")
+
+    @admin.display(description="Vence el SOAT")
+    def vence(self, obj):
+        return obj.moto.soat_vence or "—"
+
+    @admin.display(description="Moto")
+    def datos_moto(self, obj):
+        m = obj.moto
+        return f"{m.nombre_completo} · {m.specs().get('cilindraje', '?')} cc · dueño: {m.motociclista}"

@@ -14,7 +14,7 @@
 
 {% block content %}
 <div class="relative z-10 -mt-28 md:-mt-36">
-  <form method="get" class="papel p-4 md:p-5 grid gap-3 md:grid-cols-6" role="search">
+  <form method="get" class="papel p-4 md:p-5 grid grid-cols-1 gap-3 md:grid-cols-6" role="search">
     <label class="md:col-span-3"><span class="sr-only">Buscar</span>
       <input name="q" value="{{ q }}" placeholder="Buscar en el foro..." class="campo !mt-0">
     </label>
@@ -40,7 +40,7 @@
       <a href="{{ p.get_absolute_url }}" class="pregunta-fila flex gap-4 p-5 border-b border-white/5 last:border-0">
         <div class="contador shrink-0 {% if p.mejor_respuesta_id %}resuelta{% elif p.num_respuestas %}con-respuesta{% endif %}">
           <span class="block text-xl font-bold">{{ p.num_respuestas }}</span>
-          <span class="block text-[.6rem] uppercase tracking-wider">{% if p.mejor_respuesta_id %}resuelta{% else %}resp.{% endif %}</span>
+          <span class="block text-[.72rem] uppercase tracking-wider">{% if p.mejor_respuesta_id %}resuelta{% else %}resp.{% endif %}</span>
         </div>
         <div class="min-w-0">
           <p class="font-semibold text-lg leading-snug">{{ p.titulo }}</p>

@@ -48,5 +48,41 @@ class Suscripcion(models.Model):
         self.estado = self.Estado.ACTIVA
         self.vence = base + timedelta(days=dias or settings.PLUS_DIAS)
         self.save()
+        if self.motociclista.usuario_id:
+            from django.urls import reverse
+
+            from notificaciones.models import Notificacion
+            from notificaciones.servicios import notificar
+            notificar(self.motociclista.usuario, f"plus:{self.pk}:{self.vence}", "TallerYa Plus activo",
+                      f"Tienes Plus hasta el {self.vence:%d/%m/%Y}.", reverse("cuentas:plus"), Notificacion.Tipo.PLUS)
         # Una sola suscripción activa por motociclista: la nueva absorbe a las anteriores.
         otras.update(estado=self.Estado.CANCELADA)
+
+
+def ruta_avatar(instancia, nombre):
+    # Nombre aleatorio: la foto no lleva el correo ni el nombre original del archivo.
+    from uuid import uuid4
+    return f"avatares/{uuid4().hex}.jpg"
+
+
+class Perfil(models.Model):
+    """Datos de la cuenta que sirven para cualquier rol (motero, taller o administrador)."""
+
+    usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="perfil")
+    avatar_foto = models.ImageField("foto de perfil", upload_to=ruta_avatar, blank=True)
+    avatar_predisenado = models.CharField("avatar prediseñado", max_length=20, blank=True)
+    google_sub = models.CharField("ID de Google", max_length=64, unique=True, null=True, blank=True, editable=False,
+                                  help_text="Identificador de la cuenta de Google vinculada (no es el correo)")
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "perfil"
+        verbose_name_plural = "perfiles"
+
+    def __str__(self):
+        return f"Perfil de {self.usuario}"
+
+    @classmethod
+    def de(cls, usuario):
+        perfil, _ = cls.objects.get_or_create(usuario=usuario)
+        return perfil

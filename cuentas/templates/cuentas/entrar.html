@@ -1,31 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Entrar · TallerYa{% endblock %}
 {% block content %}
-<div class="max-w-md mx-auto mt-12">
-  <p class="etiqueta">Tu cuenta</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">Entrar</h1>
-  {% if user.is_authenticated %}
-  <div class="mensaje mt-6">
-    <p>Ya iniciaste sesión como <strong>{{ user.email|default:user.username }}</strong>.</p>
-    <p class="text-sm text-suave mt-1">Para entrar con otra cuenta, primero cierra esta sesión.</p>
-    <div class="flex flex-wrap gap-3 mt-3">
-      <form method="post" action="{% url 'cuentas:salir' %}">{% csrf_token %}<input type="hidden" name="next" value="{% url 'cuentas:entrar' %}"><button class="btn btn-lava text-xs px-4 py-2">Cerrar sesión</button></form>
-      <a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-borde text-xs px-4 py-2">Ir a mi cuenta</a>
+<div class="entrar mt-8 md:mt-12">
+  <!-- Escena del taller (la misma de la portada), solo en pantallas medianas y grandes -->
+  <aside class="entrar-escena portada-garaje" aria-hidden="true">
+    <div class="entrar-escena-texto">
+      <p class="etiqueta">Bienvenido de vuelta</p>
+      <p class="titulo text-3xl lg:text-4xl mt-3">Tu moto te <span class="text-lava">espera</span> en el taller</p>
     </div>
-  </div>
-  {% else %}
-  <section class="papel p-6 md:p-8 mt-6">
+    {% include "talleres/_portada_moto.html" with estilo="garaje" animacion="quemada" %}
+    <ul class="entrar-placas">
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">TALLERES</span></li>
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">MI GARAJE</span></li>
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">CUPONES</span></li>
+      <li><span class="entrar-clavo"></span><span class="entrar-placa">FORO</span></li>
+    </ul>
+  </aside>
+
+  <section class="entrar-caja papel">
+    <p class="etiqueta">Tu cuenta</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Entrar</h1>
+    {% if user.is_authenticated %}
+    <div class="mensaje mt-6">
+      <p>Ya iniciaste sesión como <strong>{{ user.email|default:user.username }}</strong>.</p>
+      <p class="text-sm text-suave mt-1">Para entrar con otra cuenta, primero cierra esta sesión.</p>
+      <div class="flex flex-wrap gap-3 mt-3">
+        <form method="post" action="{% url 'cuentas:salir' %}">{% csrf_token %}<input type="hidden" name="next" value="{% url 'cuentas:entrar' %}"><button class="btn btn-lava text-xs px-4 py-2">Cerrar sesión</button></form>
+        <a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-borde text-xs px-4 py-2">Ir a mi cuenta</a>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-suave mt-2">Tu garaje, tus cupones y tus talleres de confianza, en un solo lugar.</p>
+    <div class="mt-6">{% include "cuentas/_boton_google.html" %}</div>
     <form method="post" class="space-y-4">
       {% csrf_token %}
       {% include "cuentas/_campos.html" %}
       <input type="hidden" name="next" value="{{ next }}">
-      <button class="btn btn-lava w-full py-3 text-sm">Entrar</button>
+      <div class="flex justify-end -mt-1"><a href="{% url 'cuentas:recuperar' %}" class="boton-texto text-sm">¿Olvidaste tu contraseña?</a></div>
+      <button class="btn btn-lava w-full py-3.5 text-sm">Entrar</button>
     </form>
-    <div class="flex flex-wrap justify-between gap-3 mt-5 text-sm">
-      <a href="{% url 'cuentas:recuperar' %}" class="boton-texto">Olvidé mi contraseña</a>
-      <a href="{% url 'cuentas:registro' %}{% if next %}?next={{ next|urlencode }}{% endif %}" class="boton-texto">Crear cuenta</a>
-    </div>
+    <p class="entrar-registro">¿Aún no tienes cuenta? <a href="{% url 'cuentas:registro' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Créala gratis</a></p>
+    {% endif %}
   </section>
-  {% endif %}
 </div>
 {% endblock %}

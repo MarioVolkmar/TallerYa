@@ -1,0 +1,124 @@
+{
+  "marca": "Yamaha",
+  "linea": "FZ 25",
+  "version": "B8V4",
+  "anio": 2024,
+  "fuente": "https://motoblu.co/wp/download/228/fz25/2752/fz25-b8v4_2024",
+  "laminas": [
+    {
+      "figura": 25,
+      "titulo_es": "Freno delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "BRAKE PAD": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 27,
+      "titulo_es": "Freno trasero",
+      "pieza": "freno_tras",
+      "reglas": {
+        "BRAKE PAD": "pastillas-tras"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 29,
+      "titulo_es": "Bomba de freno delantera y líquido",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP, RESERVOIR": "liquido-frenos",
+        "DIAPHRAGM, RESERVOIR": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": 31,
+      "titulo_es": "Bomba de freno trasera y líquido",
+      "pieza": "freno_tras",
+      "reglas": {
+        "CAP, RESERVOIR": "liquido-frenos",
+        "DIAPHRAGM, RESERVOIR": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Rueda trasera y arrastre",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras",
+        "SPROCKET, DRIVEN": "kit-arrastre",
+        "CHAIN (": "kit-arrastre"
+      },
+      "diagrama": "rueda_trasera"
+    },
+    {
+      "figura": 5,
+      "titulo_es": "Bomba de aceite y filtro",
+      "pieza": "aceite",
+      "reglas": {
+        "STRAINER, OIL": "aceite",
+        "OIL CLEANER": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Admisión y filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENT ASSY, AIR CLEANER": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 1,
+      "titulo_es": "Cilindro y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "PLUG, SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, INTAKE": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 24,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 20,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "OIL SEAL": "suspension-del",
+        "SPRING, FRONT FORK": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 39,
+      "titulo_es": "Sistema eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY": "bateria"
+      },
+      "diagrama": "electrico"
+    }
+  ]
+}

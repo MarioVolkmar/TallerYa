@@ -117,6 +117,11 @@ class Cupon(models.Model):
     def puede_emitirse(self):
         return self.vigente and (self.cupo is None or self.codigos.count() < self.cupo)
 
+    @property
+    def restantes(self):
+        """Códigos que quedan por entregar (None si no tiene cupo)."""
+        return None if self.cupo is None else max(0, self.cupo - self.codigos.count())
+
     @classmethod
     def regalo_actual(cls):
         return cls.objects.vigentes().filter(regalo_mensual=True).order_by("-creado").first()

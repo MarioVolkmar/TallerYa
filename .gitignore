@@ -9,3 +9,13 @@ staticfiles/
 
 # Planos de despiece (material de terceros): solo en local, nunca al repositorio
 despiece_local/
+
+# Planos para generar versiones mejoradas con IA (material de terceros): solo local
+planos_a_generar/
+# Documentos personales subidos (SOAT, técnico-mecánica)
+privado/
+
+manual_despiece/
+
+# Dependencias de Node (solo para compilar Tailwind)
+node_modules/

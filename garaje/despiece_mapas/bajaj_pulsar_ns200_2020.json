@@ -1,0 +1,154 @@
+{
+  "marca": "Auteco Bajaj",
+  "linea": "Pulsar NS 200",
+  "version": "FI",
+  "anio": 2020,
+  "fuente": "https://blog.auteco.com.co/wp-content/uploads/2020/03/MANUAL-DE-PARTES-PULSAR-NS200-F.I.pdf",
+  "formato": "auteco",
+  "laminas": [
+    {
+      "figura": 33,
+      "titulo_es": "Caliper delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 32,
+      "titulo_es": "Bomba de freno delantera y líquido",
+      "pieza": "freno_del",
+      "reglas": {
+        "DIAFRAGMA BOMBA FRENO": "liquido-frenos",
+        "TAPA BOMBA FRENO": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": 36,
+      "titulo_es": "Bomba de freno trasera y pastillas",
+      "pieza": "freno_tras",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-tras",
+        "LÍQUIDO FRENOS": "liquido-frenos",
+        "LIQUIDO FRENOS": "liquido-frenos"
+      },
+      "diagrama": "freno_completo"
+    },
+    {
+      "figura": 35,
+      "titulo_es": "Rueda trasera y arrastre",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET": "kit-arrastre",
+        "CADENA 520": "kit-arrastre"
+      },
+      "diagrama": "rueda_trasera"
+    },
+    {
+      "figura": 7,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "PIÑÓN SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 10,
+      "titulo_es": "Carcasa derecha y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 11,
+      "titulo_es": "Carcasa izquierda y cedazo de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "CEDAZO FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 14,
+      "titulo_es": "Radiador",
+      "pieza": "refrigeracion",
+      "reglas": {
+        "TAPA RADIADOR": "refrigerante",
+        "RADIADOR (SOLO)": "refrigerante",
+        "REFRIGERANTE": "refrigerante"
+      },
+      "diagrama": "radiador"
+    },
+    {
+      "figura": 19,
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 22,
+      "titulo_es": "Encendido y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJÍA": "bujia"
+      },
+      "diagrama": "encendido"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VÁLVULA ADMISIÓN": "valvulas",
+        "VÁLVULA ESCAPE": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 30,
+      "titulo_es": "Llantas y rines",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA DELANTERA": "llanta-del",
+        "LLANTA TRASERA": "llanta-tras"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 39,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RETEN TUBO TELESCÓPICO": "suspension-del",
+        "RESORTE SUSPENSIÓN": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Brazo oscilante y amortiguador",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 53,
+      "titulo_es": "Equipo eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERÍA 12V": "bateria"
+      },
+      "diagrama": "electrico"
+    }
+  ]
+}

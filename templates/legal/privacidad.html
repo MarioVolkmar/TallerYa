@@ -1,0 +1,49 @@
+{% extends "legal/base_legal.html" %}
+{% block legal %}
+<p>En cumplimiento de la Ley 1581 de 2012, el Decreto 1377 de 2013 y demás normas sobre protección de datos personales en Colombia, esta política explica cómo <strong>{{ legal.razon_social }}</strong>{% if legal.nit %}, NIT {{ legal.nit }}{% endif %}, con domicilio en {{ legal.ciudad }}, como responsable del tratamiento, recoge, usa y protege tus datos en TallerYa.</p>
+
+<h2>1. Qué datos recogemos</h2>
+<ul>
+  <li><strong>De tu cuenta:</strong> nombre, correo, contraseña (guardada cifrada) y, si entras con Google, el identificador de tu cuenta de Google, tu nombre y tu correo verificado.</li>
+  <li><strong>De contacto:</strong> número de celular, con el que se asocian tus cupones.</li>
+  <li><strong>De tus motos:</strong> marca, línea, año, apodo, kilometraje, mantenimientos registrados, diseño de personalización y, si los subes, las fechas y archivos de tu SOAT y técnico-mecánica.</li>
+  <li><strong>De tu perfil:</strong> avatar o foto (la recortamos y le quitamos datos como la ubicación).</li>
+  <li><strong>De talleres:</strong> nombre del negocio, responsable, WhatsApp, dirección, servicios y fotos.</li>
+  <li><strong>De uso:</strong> cupones obtenidos y canjeados, citas solicitadas, publicaciones en el foro, reseñas y datos técnicos básicos como la dirección IP, usada para seguridad y para evitar abusos.</li>
+</ul>
+
+<h2>2. Para qué los usamos</h2>
+<ul>
+  <li>Crear y administrar tu cuenta e identificarte al entrar.</li>
+  <li>Entregar y validar cupones, y gestionar TallerYa Plus.</li>
+  <li>Calcular tu plan de mantenimiento y enviarte avisos dentro de la plataforma (mantenimientos, vencimiento de documentos, respuestas en el foro).</li>
+  <li>Permitir que los talleres validen cupones y te contacten cuando pides una cita.</li>
+  <li>Mostrar tu nombre o avatar en lo que publicas en el foro.</li>
+  <li>Mejorar el servicio con estadísticas internas y prevenir fraudes o usos indebidos.</li>
+</ul>
+<p>No vendemos tus datos. Solo compartimos lo necesario con el taller cuando usas uno de sus cupones o le pides una cita, y con proveedores que nos ayudan a operar el sitio (alojamiento, inicio de sesión con Google, mapas), bajo condiciones de confidencialidad.</p>
+
+<h2>3. Documentos y datos sensibles</h2>
+<p>Los archivos de SOAT y técnico-mecánica son opcionales. Se guardan en un almacenamiento privado, con nombres aleatorios, y <strong>solo tú puedes verlos</strong>. Se borran cuando los reemplazas, los quitas o eliminas la moto.</p>
+
+<h2>4. Tus derechos</h2>
+<p>Como titular puedes:</p>
+<ul>
+  <li>Conocer, actualizar y rectificar tus datos.</li>
+  <li>Pedir prueba de la autorización que nos diste.</li>
+  <li>Saber cómo hemos usado tus datos.</li>
+  <li>Revocar la autorización o pedir que suprimamos tus datos, cuando no exista un deber legal de conservarlos.</li>
+  <li>Presentar quejas ante la Superintendencia de Industria y Comercio.</li>
+  <li>Acceder gratuitamente a tus datos.</li>
+</ul>
+<p>Muchos datos los puedes corregir tú mismo desde «Mi cuenta» y «Datos de la moto». Para ejercer cualquier derecho escríbenos{% if legal.correo %} a <a href="mailto:{{ legal.correo }}">{{ legal.correo }}</a>{% endif %}. Responderemos las consultas en máximo 10 días hábiles y los reclamos en máximo 15 días hábiles, según la ley.</p>
+
+<h2>5. Autorización</h2>
+<p>Al crear tu cuenta, obtener un cupón o registrar tu taller, nos autorizas a tratar tus datos para las finalidades de esta política. Los menores de edad no deben crear cuentas.</p>
+
+<h2>6. Seguridad y conservación</h2>
+<p>Aplicamos medidas técnicas y administrativas razonables para proteger tus datos: contraseñas cifradas, conexión segura y acceso restringido. Conservamos los datos mientras tengas una cuenta activa o mientras sean necesarios para las finalidades descritas y para cumplir obligaciones legales.</p>
+
+<h2>7. Cambios</h2>
+<p>Si cambiamos esta política, publicaremos la nueva versión con su fecha y te avisaremos si el cambio es importante.</p>
+{% endblock %}

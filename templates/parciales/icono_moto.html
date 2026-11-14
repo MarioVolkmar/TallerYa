@@ -1,0 +1,8 @@
+{# Ícono de una moto: círculo con su color de pintura y la silueta según su tipo. Uso: include ... with moto=m #}
+<span class="icono-moto" style="background: {{ moto.color }}; color: {{ moto.color_contraste }}" aria-hidden="true">
+  {% if moto.tipo == "scooter" %}
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="22" r="3.5"/><circle cx="24" cy="22" r="3.5"/><path d="M11.5 22h7l3-9h3M21.5 13l-1-4h-3M8 18.5c1-3 3-4.5 6-4.5h4"/></svg>
+  {% else %}
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="21" r="4"/><circle cx="24.5" cy="21" r="4"/><path d="M7.5 21l5-7h7l5 7M12.5 14l2-3h4M19.5 14l2-5h3"/></svg>
+  {% endif %}
+</span>

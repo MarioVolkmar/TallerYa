@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{# Borrador redactado para TallerYa: debe revisarlo un abogado antes de publicar. Datos del responsable en settings.LEGAL. #}
+{% block title %}{{ titulo_legal }} · TallerYa{% endblock %}
+{% block content %}
+<div class="grid grid-cols-1 gap-8 lg:grid-cols-4 mt-10 items-start">
+  <nav class="legal-menu papel" aria-label="Documentos legales">
+    <p class="etiqueta">Legal</p>
+    <ul class="mt-3">
+      {% for clave, nombre in paginas_legales.items %}
+      <li><a href="{% url 'talleres:legal' clave %}" class="{% if clave == pagina %}activo{% endif %}"{% if clave == pagina %} aria-current="page"{% endif %}>{{ nombre }}</a></li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <article class="legal lg:col-span-3">
+    <h1 class="titulo text-4xl md:text-5xl">{{ titulo_legal }}</h1>
+    <p class="legal-fecha">Última actualización: {{ legal.actualizado }}</p>
+    {% block legal %}{% endblock %}
+    <p class="legal-contacto">¿Preguntas sobre este documento? Escríbenos{% if legal.correo %} a <a href="mailto:{{ legal.correo }}">{{ legal.correo }}</a>{% else %} desde tu cuenta en TallerYa{% endif %}.</p>
+  </article>
+</div>
+{% endblock %}

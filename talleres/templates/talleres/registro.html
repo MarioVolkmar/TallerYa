@@ -14,7 +14,7 @@
 
 {% block content %}
 <section class="papel relative z-10 -mt-28 md:-mt-36 p-6 md:p-10 max-w-3xl mx-auto">
-  <form method="post" enctype="multipart/form-data" class="grid gap-5 sm:grid-cols-2">
+  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2">
     {% csrf_token %}
     {% for field in form %}
       <div class="{% if field.field.widget.input_type == 'checkbox' or field.name == 'descripcion' or field.name == 'direccion' or field.name == 'foto' %}sm:col-span-2{% endif %}">

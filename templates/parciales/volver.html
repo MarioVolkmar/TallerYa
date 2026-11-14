@@ -1,0 +1,5 @@
+{# Botón para volver atrás, igual en todo el sitio. Uso: {% include "parciales/volver.html" with url=... texto="Mi garaje" %} #}
+<a href="{{ url }}" class="volver{% if clase %} {{ clase }}{% endif %}">
+  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  {{ texto }}
+</a>

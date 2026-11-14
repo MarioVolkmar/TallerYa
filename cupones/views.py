@@ -68,6 +68,7 @@ def mi_cupon(request, codigo):
         "moto": moto,
         "enlace_referido": enlace,
         "whatsapp_compartir": f"https://wa.me/?text={quote(texto)}",
+        "invitacion_whatsapp": texto,
         "premios": moto.codigos.filter(origen__in=[CodigoCupon.Origen.PREMIO, CodigoCupon.Origen.REGALO]).select_related("cupon").exclude(pk=codigo.pk),
         "num_referidos": moto.referidos.count(),
     })

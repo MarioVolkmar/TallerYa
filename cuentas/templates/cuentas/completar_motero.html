@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Completa tu perfil · TallerYa{% endblock %}
+{% block content %}
+{% url 'cuentas:completar' as url_completar %}{% include "parciales/volver.html" with url=url_completar texto="Tipo de cuenta" clase="mt-8" %}
+<div class="max-w-md mx-auto mt-4">
+  <p class="etiqueta">Último paso</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Tu <span class="text-lava">celular</span></h1>
+  <p class="text-suave mt-2">Con él guardamos tus cupones y los talleres te contactan por WhatsApp.</p>
+  <section class="papel p-6 md:p-8 mt-6">
+    <form method="post" class="space-y-4">
+      {% csrf_token %}
+      {% include "cuentas/_campos.html" %}
+      <button class="btn btn-lava w-full py-3 text-sm">Listo</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from .models import Suscripcion
+from .models import Perfil, Suscripcion
 
 
 @admin.register(Suscripcion)
@@ -23,3 +23,19 @@ class SuscripcionAdmin(admin.ModelAdmin):
     def cancelar(self, request, queryset):
         n = queryset.update(estado=Suscripcion.Estado.CANCELADA)
         self.message_user(request, f"{n} suscripción(es) canceladas.")
+
+
+
+@admin.register(Perfil)
+class PerfilAdmin(admin.ModelAdmin):
+    list_display = ("usuario", "avatar_predisenado", "tiene_foto", "con_google", "creado")
+    search_fields = ("usuario__email", "usuario__first_name")
+    readonly_fields = ("google_sub", "creado")
+
+    @admin.display(boolean=True, description="Foto")
+    def tiene_foto(self, perfil):
+        return bool(perfil.avatar_foto)
+
+    @admin.display(boolean=True, description="Google")
+    def con_google(self, perfil):
+        return bool(perfil.google_sub)

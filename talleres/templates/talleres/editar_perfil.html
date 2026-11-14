@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Editar mi perfil · TallerYa{% endblock %}
+{% block content %}
+{% url 'cuentas:mi_cuenta' as url_cuenta %}{% include "parciales/volver.html" with url=url_cuenta texto="Mi cuenta" clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
+  <p class="etiqueta">Mi taller</p>
+  <div class="flex flex-wrap items-end justify-between gap-3 mt-3">
+    <h1 class="titulo text-4xl md:text-5xl">Tu <span class="text-lava">perfil</span></h1>
+    {% if taller.activo %}<a href="{{ taller.get_absolute_url }}" class="boton-seccion" target="_blank" rel="noopener">Ver cómo lo ven los moteros →</a>{% endif %}
+  </div>
+  <p class="text-suave mt-2">Un perfil completo, con fotos de tu local y tus trabajos, genera más confianza y más citas.</p>
+
+  <form method="post" enctype="multipart/form-data" class="mt-6 space-y-6">
+    {% csrf_token %}
+    {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+
+    <section class="papel p-6 md:p-8 space-y-5">
+      <h2 class="form-seccion">Presentación</h2>
+      <label class="campo-label">{{ form.descripcion.label }}{{ form.descripcion }}</label>
+      {% for e in form.descripcion.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <label class="campo-label">Horario{{ form.horario }}</label>
+      {% for e in form.horario.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <div>
+        <p class="campo-label">Foto de portada</p>
+        <div class="flex flex-wrap items-center gap-4 mt-2">
+          {% if taller.foto %}<img src="{{ taller.foto.url }}" alt="" class="w-20 h-20 object-cover rounded-xl">{% endif %}
+          <label class="doc-subir">{{ form.foto }}<span class="doc-subir-texto" data-vacio="{% if taller.foto %}Cambiar portada{% else %}Subir portada{% endif %}">{% if taller.foto %}Cambiar portada{% else %}Subir portada{% endif %}</span></label>
+        </div>
+        <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP · máximo 5 MB. Sale como tu imagen de perfil.</p>
+        {% for e in form.foto.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">Servicios que ofreces</h2>
+      <div class="perfil-checks mt-4">{% for c in form.servicios %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+      {% for e in form.servicios.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <h2 class="form-seccion mt-7">Marcas que trabajas</h2>
+      <div class="perfil-checks mt-4">{% for c in form.marcas %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <div class="flex flex-wrap items-center gap-2"><h2 class="form-seccion">Fotos</h2><span class="chip-opcional">{{ fotos|length }} de {{ maximo }}</span></div>
+      <p class="text-sm text-suave mt-2">Tu local, tu equipo y trabajos terminados. Las primeras salen como portada de tu perfil.</p>
+      {% if fotos|length < maximo %}
+      <label class="doc-subir mt-4">
+        <input type="file" name="galeria" accept="image/jpeg,image/png,image/webp" multiple>
+        <span class="doc-subir-texto" data-vacio="Agregar fotos (puedes elegir varias)">Agregar fotos (puedes elegir varias)</span>
+      </label>
+      <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP · máximo 5 MB cada una.</p>
+      {% endif %}
+    </section>
+
+    <button class="btn btn-lava w-full py-3.5 text-sm">Guardar perfil</button>
+  </form>
+
+  {% if fotos %}
+  <div class="editar-galeria mt-6">
+    {% for f in fotos %}
+    <div class="editar-galeria-foto">
+      <img src="{{ f.imagen.url }}" alt="">
+      <form method="post" action="{% url 'talleres:eliminar_foto' f.pk %}">
+        {% csrf_token %}<button class="editar-galeria-quitar" aria-label="Eliminar foto" title="Eliminar foto">×</button>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+<script>
+  document.querySelectorAll(".doc-subir input[type=file]").forEach(function (input) {
+    input.addEventListener("change", function () {
+      var texto = input.parentElement.querySelector(".doc-subir-texto");
+      var n = input.files.length;
+      texto.textContent = n === 0 ? texto.dataset.vacio : n === 1 ? input.files[0].name : n + " fotos elegidas";
+      input.parentElement.classList.toggle("con-archivo", n > 0);
+    });
+  });
+</script>
+{% endblock %}

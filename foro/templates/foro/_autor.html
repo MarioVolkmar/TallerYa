@@ -1,7 +1,8 @@
-{# Nombre del autor con insignia si es una cuenta de taller. Variable: autor #}
+{# Avatar y nombre del autor, con insignia si es una cuenta de taller. Variable: autor #}
+{% load avatares %}<span class="inline-flex items-center gap-1.5 align-middle">{% avatar autor 22 %}
 {% if autor.taller %}
   <a href="{{ autor.taller.get_absolute_url }}" class="font-semibold hover:text-[#f2611d]">{{ autor.taller }}</a>
   <span class="insignia {% if autor.taller.verificado %}insignia-verificado{% else %}insignia-lava{% endif %} ml-1">{% if autor.taller.verificado %}✔ Taller verificado{% else %}Taller{% endif %}</span>
 {% else %}
   <span class="font-semibold">{{ autor.first_name|default:"Motociclista" }}</span>
-{% endif %}
+{% endif %}</span>

@@ -1,0 +1,39 @@
+{# Filas de "último mantenimiento" por sistema. Variables: filas, km_actual, tentativos #}
+{% load humanize %}
+      {% for f in filas %}
+      <fieldset class="al-dia-fila">
+        <div class="al-dia-cabeza">
+          <div class="min-w-0">
+            <legend class="font-semibold">{{ f.tarea.nombre }}</legend>
+            <p class="text-xs text-suave mt-0.5">{% if f.intervalo %}Se recomienda {{ f.intervalo|lower }}{% endif %}{% if f.registrada is not None %} · último registro a los {{ f.registrada|intcomma }} km{% endif %}</p>
+          </div>
+          <div class="visor-modo al-dia-opciones" role="radiogroup" aria-label="Cuándo se hizo: {{ f.tarea.nombre }}">
+            <label><input type="radio" name="estado_{{ f.tarea.pk }}" value="poco" {% if f.eleccion == "poco" %}checked{% endif %}><span>Hace poco</span></label>
+            <label><input type="radio" name="estado_{{ f.tarea.pk }}" value="km" {% if f.eleccion == "km" %}checked{% endif %}><span>A los … km</span></label>
+            <label><input type="radio" name="estado_{{ f.tarea.pk }}" value="nose" {% if f.eleccion == "nose" %}checked{% endif %}><span>No sé</span></label>
+          </div>
+        </div>
+        <!-- Panel: kilometraje exacto -->
+        <div class="al-dia-panel" data-panel="km" {% if f.eleccion != "km" %}hidden{% endif %}>
+          <label class="al-dia-km">
+            <span>¿A qué kilometraje se hizo?</span>
+            <span class="al-dia-km-campo">
+              <input type="number" name="km_{{ f.tarea.pk }}" value="{{ f.km }}" min="0" max="{{ km_actual }}" inputmode="numeric" placeholder="Ej: 4500">
+              <em>km</em>
+            </span>
+          </label>
+          <span class="text-xs text-suave">Hoy tiene {{ km_actual|intcomma }} km</span>
+          {% if f.error %}<p class="error w-full">{{ f.error }}</p>{% endif %}
+        </div>
+        <!-- Panel: fecha tentativa para estimar -->
+        <div class="al-dia-panel" data-panel="nose" {% if f.eleccion != "nose" %}hidden{% endif %}>
+          <span class="al-dia-pregunta">¿Más o menos hace cuánto?</span>
+          <div class="al-dia-chips">
+            {% for valor, texto in tentativos %}
+            <label class="al-dia-chip"><input type="radio" name="hace_{{ f.tarea.pk }}" value="{{ valor }}" {% if f.hace == valor %}checked{% endif %}><span>{{ texto }}</span></label>
+            {% endfor %}
+            <label class="al-dia-chip"><input type="radio" name="hace_{{ f.tarea.pk }}" value="" {% if not f.hace %}checked{% endif %}><span>Ni idea</span></label>
+          </div>
+        </div>
+      </fieldset>
+      {% endfor %}

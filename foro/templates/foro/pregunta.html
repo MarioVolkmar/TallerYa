@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}{{ pregunta.titulo }} · Foro TallerYa{% endblock %}
 {% block content %}
-<a href="{% url 'foro:lista' %}" class="inline-block mt-8 text-sm text-suave hover:text-[#f2611d]">← Volver al foro</a>
+{% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
 
 <article class="papel p-6 md:p-8 mt-6">
   {% if pregunta.marca %}<span class="chip">{{ pregunta.marca }}</span>{% endif %}

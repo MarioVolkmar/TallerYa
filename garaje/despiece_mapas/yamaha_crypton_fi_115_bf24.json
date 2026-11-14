@@ -1,0 +1,124 @@
+{
+  "marca": "Yamaha",
+  "linea": "Crypton FI 115",
+  "version": "BF24",
+  "anio": 2019,
+  "fuente": "https://motoblu.co/wp/download/265/t115-fi-crypton/4716/crypton-115-fi-bf24_2019-2",
+  "laminas": [
+    {
+      "figura": 25,
+      "titulo_es": "Freno delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "BRAKE PAD": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": 28,
+      "titulo_es": "Bomba de freno y líquido",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP, RESERVOIR": "liquido-frenos",
+        "DIAPHRAGM, RESERVOIR": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Rueda trasera, freno de tambor y arrastre",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras",
+        "BRAKE SHOE": "bandas-tras",
+        "SPROCKET, DRIVEN": "kit-arrastre",
+        "CHAIN (": "kit-arrastre"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET, DRIVE (": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 5,
+      "titulo_es": "Bomba de aceite y filtro",
+      "pieza": "aceite",
+      "reglas": {
+        "STRAINER, OIL": "aceite",
+        "OIL CLEANER": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Admisión y filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "AIR CLEANER ELEMENT": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 1,
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "PLUG, SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, INTAKE": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 24,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 21,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "OIL SEAL": "suspension-del",
+        "SPRING, FRONT FORK": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 19,
+      "titulo_es": "Basculante y amortiguador",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "SHOCK ABSORBER": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 38,
+      "titulo_es": "Sistema eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY": "bateria"
+      },
+      "diagrama": "electrico"
+    }
+  ]
+}

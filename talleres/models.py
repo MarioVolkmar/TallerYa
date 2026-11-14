@@ -99,6 +99,20 @@ class Taller(models.Model):
         return self.resenas.filter(visible=True).aggregate(p=Avg("estrellas"))["p"]
 
     @property
+    def ubicacion(self):
+        """Dirección completa para buscar el taller en el mapa."""
+        return f"{self.direccion}, {self.barrio.nombre}, {self.barrio.ciudad}, Antioquia, Colombia"
+
+    @property
+    def mapa_embebido(self):
+        # Mapa de Google sin clave de API (se busca por la dirección: el taller no guarda coordenadas).
+        return f"https://www.google.com/maps?q={quote(self.ubicacion)}&output=embed&hl=es"
+
+    @property
+    def como_llegar(self):
+        return f"https://www.google.com/maps/dir/?api=1&destination={quote(self.ubicacion)}"
+
+    @property
     def whatsapp_url(self):
         return f"https://wa.me/{self.whatsapp}?text={quote(f'Hola {self.nombre}, te encontré en TallerYa.')}"
 
@@ -129,8 +143,28 @@ class SolicitudCita(models.Model):
         return f"{self.nombre} → {self.taller} ({self.fecha_preferida})"
 
 
+class FotoTaller(models.Model):
+    """Fotos que el taller sube a su perfil (local, trabajos, equipo)."""
+    MAXIMO = 8
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="fotos")
+    imagen = models.ImageField(upload_to="talleres/galeria/")
+    descripcion = models.CharField(max_length=120, blank=True)
+    orden = models.PositiveSmallIntegerField(default=0)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["orden", "creado"]
+        verbose_name = "foto del taller"
+        verbose_name_plural = "fotos del taller"
+
+    def __str__(self):
+        return f"Foto de {self.taller}"
+
+
 class Resena(models.Model):
     taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="resenas")
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                related_name="resenas", help_text="Cuenta que la escribió (si estaba conectada)")
     nombre = models.CharField(max_length=80)
     estrellas = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comentario = models.TextField(max_length=600)

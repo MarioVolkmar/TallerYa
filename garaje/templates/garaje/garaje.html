@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block title %}Mi garaje · TallerYa{% endblock %}
 {% block content %}
 <div class="flex flex-wrap items-end justify-between gap-4 mt-10">
@@ -7,11 +8,15 @@
     <h1 class="titulo text-4xl md:text-5xl mt-3">Mi <span class="text-lava">garaje</span></h1>
     <p class="text-suave mt-2 max-w-lg">Registra tu moto y su kilometraje. Te avisamos qué le toca y cuándo.</p>
   </div>
-  {% if puede_agregar %}<a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-3">Agregar moto</a>{% endif %}
+  <div class="flex flex-wrap items-center gap-2">
+    {% if planes %}<button type="button" class="boton-seccion boton-editar" data-editar="lista-motos" aria-pressed="false"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg><span>Editar</span></button>{% endif %}
+    {% if puede_agregar %}<a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-3">Agregar moto</a>{% endif %}
+  </div>
 </div>
 
-<div class="grid gap-6 md:grid-cols-2 mt-8">
+<div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8 lista-editable" id="lista-motos">
   {% for moto, plan in planes %}
+  <div class="moto-ficha">
   <a href="{{ moto.get_absolute_url }}" class="papel tarjeta relative block p-6">
     <span class="numero-fantasma" aria-hidden="true">{{ forloop.counter|stringformat:"02d" }}</span>
     <div class="relative">
@@ -25,10 +30,29 @@
         {% else %}<span class="estado estado-ok">Al día</span>{% endif %}
       </div>
       {% if moto.apodo %}<p class="text-sm text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
-      <p class="km-grande mt-5">{{ moto.km_actual }} <span class="text-lg text-suave">km</span></p>
-      <span class="ver titulo text-sm tracking-widest mt-5">Ver estado <span aria-hidden="true">→</span></span>
+      <div class="flex flex-wrap items-end justify-between gap-3 mt-5">
+        <p class="km-grande">{{ moto.km_actual|intcomma }} <span class="text-lg text-suave">km</span></p>
+        {% if moto.placa %}<span class="placa-moto placa-chica" title="Placa">{{ moto.placa }}</span>{% endif %}
+      </div>
+
+      <!-- Pie: estado de los documentos en dos indicadores pequeños, y el enlace -->
+      <div class="ficha-pie">
+        <ul class="ficha-docs" aria-label="Documentos">
+          {% for doc in moto.documentos %}
+          <li class="doc-chip doc-chip-{{ doc.estado }}"
+              title="{% if not doc.vence %}{{ doc.nombre }}: agrega la fecha de vencimiento en Datos de la moto{% elif doc.estado == 'vencido' %}{{ doc.nombre }} vencido{% else %}{{ doc.nombre }} vence el {{ doc.vence|date:'j M Y' }}{% endif %}">
+            <span class="doc-chip-punto" aria-hidden="true"></span>
+            {% if doc.clave == "tecno" %}Tecno{% else %}SOAT{% endif %}
+            <span class="doc-chip-estado">{% if not doc.vence %}sin fecha{% elif doc.estado == "vencido" %}vencido{% elif doc.estado == "pronto" %}{% if doc.dias == 0 %}hoy{% else %}{{ doc.dias }} día{{ doc.dias|pluralize }}{% endif %}{% else %}al día{% endif %}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        <span class="ver titulo text-sm tracking-widest">Ver estado <span aria-hidden="true">→</span></span>
+      </div>
     </div>
   </a>
+  <button type="button" class="eliminar-pill" data-eliminar="{% url 'garaje:eliminar' moto.pk %}" data-nombre="{{ moto }}" aria-label="Eliminar {{ moto }}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Eliminar</button>
+  </div>
   {% empty %}
   <div class="papel p-10 md:col-span-2 text-center">
     <p class="titulo text-2xl">Tu garaje está vacío</p>
@@ -37,4 +61,6 @@
   </div>
   {% endfor %}
 </div>
+
+{% include "garaje/_eliminar_moto.html" %}
 {% endblock %}

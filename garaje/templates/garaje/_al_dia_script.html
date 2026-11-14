@@ -1,0 +1,11 @@
+<script>
+  // Cada fila muestra debajo el panel de la opción elegida ("A los … km" o "No sé"). Funciona también con filas cargadas después.
+  document.addEventListener("change", function (e) {
+    var r = e.target;
+    if (!r.matches || !r.matches('.al-dia-opciones input[type="radio"]')) return;
+    var fila = r.closest(".al-dia-fila");
+    fila.querySelectorAll("[data-panel]").forEach(function (p) { p.hidden = p.dataset.panel !== r.value; });
+    var campo = fila.querySelector('[data-panel="km"]:not([hidden]) input');
+    if (campo) campo.focus();
+  });
+</script>

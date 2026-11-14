@@ -41,11 +41,14 @@ INSTALLED_APPS = [
     "cuentas",
     "foro",
     "garaje",
+    "notificaciones",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
+    # Comprime el HTML (~48 KB -> ~9 KB): carga más rápido con datos móviles. Los estáticos ya los comprime WhiteNoise.
+    "django.middleware.gzip.GZipMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -66,6 +69,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "cuentas.roles.contexto",
+                "notificaciones.servicios.contexto",
             ],
         },
     },
@@ -88,7 +93,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 LOGIN_URL = "cuentas:entrar"
-LOGIN_REDIRECT_URL = "cuentas:mi_cuenta"
+LOGIN_REDIRECT_URL = "talleres:inicio"
 LOGOUT_REDIRECT_URL = "talleres:inicio"
 
 LANGUAGE_CODE = "es-co"
@@ -100,6 +105,13 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = "media/"
 MEDIA_ROOT = Path(os.environ.get("DJANGO_MEDIA_ROOT", BASE_DIR / "media"))
+# Documentos personales (SOAT, técnico-mecánica): fuera de MEDIA_ROOT para que /media/ nunca los sirva.
+# Solo se entregan a su dueño desde la vista garaje:documento.
+PRIVADO_ROOT = Path(os.environ.get("DJANGO_PRIVADO_ROOT", BASE_DIR / "privado"))
+
+# Ingreso con Google: credenciales de un "ID de cliente de OAuth" (Google Cloud Console). Sin ellas, el botón no aparece.
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {
@@ -144,3 +156,22 @@ TALLERYA_WHATSAPP = os.environ.get("TALLERYA_WHATSAPP", "573000000000")
 PLUS_PRECIO_MENSUAL = int(os.environ.get("PLUS_PRECIO_MENSUAL", "9900"))
 PLUS_NEQUI = os.environ.get("PLUS_NEQUI", "300 000 0000")
 PLUS_DIAS = 30
+
+# Contacto de TallerYa para el footer. Lo que quede vacío no se muestra.
+CONTACTO = {
+    "whatsapp": os.environ.get("CONTACTO_WHATSAPP", ""),      # solo números con indicativo, ej: 573001234567
+    "correo": os.environ.get("CONTACTO_CORREO", ""),
+    "direccion": os.environ.get("CONTACTO_DIRECCION", ""),
+    "ciudad": os.environ.get("CONTACTO_CIUDAD", "Medellín, Antioquia"),
+    "horario": os.environ.get("CONTACTO_HORARIO", ""),        # ej: Lun-Vie 8am-6pm
+    "instagram": os.environ.get("CONTACTO_INSTAGRAM", ""),    # usuario sin @
+}
+
+# Datos del responsable para las páginas legales (términos, tratamiento de datos). Complétalos antes de publicar.
+LEGAL = {
+    "razon_social": os.environ.get("LEGAL_RAZON_SOCIAL", "TallerYa"),
+    "nit": os.environ.get("LEGAL_NIT", ""),
+    "correo": os.environ.get("LEGAL_CORREO", ""),
+    "ciudad": os.environ.get("LEGAL_CIUDAD", "Medellín, Antioquia, Colombia"),
+    "actualizado": os.environ.get("LEGAL_ACTUALIZADO", "12 de noviembre de 2026"),
+}

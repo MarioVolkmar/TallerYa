@@ -1,0 +1,134 @@
+{
+  "marca": "KTM",
+  "linea": "Duke 200",
+  "version": "",
+  "anio": 2019,
+  "fuente": "https://blog.auteco.com.co/wp-content/uploads/2019/05/MANUAL-DE-PARTES-200-DUKE.pdf",
+  "formato": "auteco",
+  "laminas": [
+    {
+      "figura": 34,
+      "titulo_es": "Bomba de freno delantera y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-del",
+        "TAPA BOMBA FRENO": "liquido-frenos"
+      },
+      "diagrama": "freno_completo"
+    },
+    {
+      "figura": 35,
+      "titulo_es": "Bomba de freno trasera y pastillas",
+      "pieza": "freno_tras",
+      "reglas": {
+        "PASTAS FRENO": "pastillas-tras"
+      },
+      "diagrama": "freno_completo"
+    },
+    {
+      "figura": 32,
+      "titulo_es": "Rueda trasera y arrastre",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "LLANTA": "llanta-tras",
+        "SPROCKET": "kit-arrastre",
+        "CADENA 520": "kit-arrastre"
+      },
+      "diagrama": "rueda_trasera"
+    },
+    {
+      "figura": 8,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "PIÑÓN SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 15,
+      "titulo_es": "Lubricación y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO ACEITE": "aceite",
+        "CEDAZO ACEITE": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": 26,
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTRO DE AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 16,
+      "titulo_es": "Encendido y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJÍA": "bujia"
+      },
+      "diagrama": "encendido"
+    },
+    {
+      "figura": "12A",
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VÁLVULA ADMISIÓN": "valvulas",
+        "VÁLVULA ESCAPE": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "11A",
+      "titulo_es": "Radiador y refrigeración",
+      "pieza": "refrigeracion",
+      "reglas": {
+        "TAPA RADIADOR": "refrigerante",
+        "RADIADOR": "refrigerante"
+      },
+      "diagrama": "radiador"
+    },
+    {
+      "figura": 31,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 24,
+      "titulo_es": "Amortiguador",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": 33,
+      "titulo_es": "Equipo eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERÍA 12V": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": 19,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RETEN": "suspension-del",
+        "RETÉN": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{# Mapa de un taller con botón "Cómo llegar". Variable: taller #}
+<div class="mapa-taller">
+  <iframe src="{{ taller.mapa_embebido }}" title="Mapa: {{ taller.nombre }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+  <a href="{{ taller.como_llegar }}" target="_blank" rel="noopener" class="mapa-llegar">
+    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 19-9-9 19-2-8z"/></svg>
+    Cómo llegar
+  </a>
+</div>
