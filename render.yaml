@@ -41,3 +41,8 @@ services:
         sync: false
       - key: PLUS_PRECIO_MENSUAL
         value: "9900"
+
+      # Token de los endpoints /tareas/avisos/ y /tareas/citas/ que llama GitHub Actions a diario (gratis; ver .github/workflows/avisos.yml).
+      # Pon el mismo valor en el secreto TAREAS_TOKEN de GitHub. Mínimo 20 caracteres.
+      - key: TAREAS_TOKEN
+        sync: false

@@ -18,9 +18,32 @@
     campo.dispatchEvent(new Event("input", { bubbles: true }));
     campo.dispatchEvent(new Event("change", { bubbles: true }));
   }
+  // Dentro de un <dialog> el panel flota como capa fija (no empuja el contenido ni hace aparecer una barra de
+  // desplazamiento en el diálogo); se abre hacia arriba si no cabe abajo y se reubica si el diálogo se desplaza.
+  let flotando = null;
+  function flotar(panel, ancla) {
+    const r = ancla.getBoundingClientRect();
+    const vw = document.documentElement.clientWidth, vh = window.innerHeight, margen = 8, sep = 6;
+    panel.classList.add("flotante");
+    panel.style.maxHeight = "";
+    panel.style.minWidth = r.width + "px";
+    const abajo = vh - r.bottom - sep - margen, arriba = r.top - sep - margen;
+    const alto = panel.offsetHeight;
+    const haciaArriba = alto > abajo && arriba > abajo;
+    const cabe = haciaArriba ? arriba : abajo;
+    if (alto > cabe) panel.style.maxHeight = Math.max(120, cabe) + "px";
+    const h = panel.offsetHeight, w = panel.offsetWidth;
+    panel.style.top = (haciaArriba ? r.top - sep - h : r.bottom + sep) + "px";
+    panel.style.left = Math.max(margen, Math.min(r.left, vw - w - margen)) + "px";
+    flotando = { panel, ancla };
+  }
+  document.addEventListener("scroll", () => {
+    if (flotando && !flotando.panel.hidden) flotar(flotando.panel, flotando.ancla);
+  }, true);
   // El panel se abre hacia arriba si no cabe debajo.
   function ubicar(panel, ancla) {
     panel.classList.remove("hacia-arriba", "hacia-izquierda");
+    if (ancla.closest("dialog")) { flotar(panel, ancla); return; }
     const r = ancla.getBoundingClientRect();
     const alto = panel.offsetHeight;
     if (r.bottom + alto + 12 > window.innerHeight && r.top > alto + 12) panel.classList.add("hacia-arriba");

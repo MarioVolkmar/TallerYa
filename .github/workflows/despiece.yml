@@ -1,0 +1,34 @@
+# Precalienta la caché del despiece después de cada despliegue, para que nadie espere al abrirlo (gratis, sin
+# preDeploy de pago en Render). Render despliega solo al subir a main; aquí se espera a que termine y se llama al
+# endpoint protegido POST /tareas/despiece/ por tandas (cada una cabe en el tiempo de una petición) hasta que no falte nada.
+# Usa los mismos secretos de avisos.yml: TALLERYA_URL y TAREAS_TOKEN.
+name: Precalentar despiece
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  precalentar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Esperar el despliegue y precalentar
+        env:
+          TALLERYA_URL: ${{ secrets.TALLERYA_URL }}
+          TAREAS_TOKEN: ${{ secrets.TAREAS_TOKEN }}
+          ESPERA: ${{ github.event_name == 'push' && '420' || '0' }}
+        run: |
+          if [ -z "$TALLERYA_URL" ] || [ -z "$TAREAS_TOKEN" ]; then
+            echo "Sin los secretos TALLERYA_URL o TAREAS_TOKEN: no se precalienta."; exit 0
+          fi
+          sleep "$ESPERA"   # el build de Render tarda unos minutos
+          for i in $(seq 1 20); do
+            salida=$(curl --fail-with-body --silent --show-error --max-time 120 \
+                          --retry 4 --retry-delay 30 --retry-all-errors \
+                          -X POST -H "Authorization: Bearer $TAREAS_TOKEN" "$TALLERYA_URL/tareas/despiece/") || true
+            echo "$salida"
+            echo "$salida" | grep -q "faltan 0 " && exit 0
+          done
+          echo "Quedaron despieces sin precalentar (se arman en la primera visita)."

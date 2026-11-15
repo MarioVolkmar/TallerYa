@@ -12,6 +12,8 @@ Hecho en Django 5.2 (Python), con Tailwind compilado y Three.js para el modelo 3
 | `cuentas` | Registro e ingreso con correo o con Google, verificación de correo, recuperación de contraseña, roles (motociclista, taller, admin), avatares y aceptación de términos. También TallerYa Plus: suscripción mensual que se paga por Nequi y se activa en el admin. |
 | `cupones` | Cupones para un taller o para todos, con vencimiento y cupo. El motociclista obtiene un código único (`TY-XXXXXX`). El taller lo canjea en `/canjear/` con su PIN de 6 dígitos, y los intentos fallidos se bloquean un rato. Referidos: quien invita recibe un premio cuando su amigo canjea su primer cupón. Hay cupones "solo Plus" y un regalo mensual para los suscriptores. |
 | `foro` | Preguntas y respuestas entre usuarios con cuenta, con mejor respuesta e insignia para las cuentas de taller. Con 3 reportes, una publicación se oculta hasta que un admin la revise. |
+| `tramites` | SOAT (tarifa de ley y pedido dentro de la app; el pago es una simulación mientras no haya aliado) y CDA para la técnico-mecánica. |
+| `logros` | Insignias y puntos (servicio verificado, aporte útil, viajero, buena reseña) canjeables por cupones. |
 | `noticias` | Titulares de fuentes RSS/Atom y artículos de consejo. |
 | `notificaciones` | Avisos dentro del sitio (citas, Plus, SOAT, etc.). |
 | `garaje` | "Mi garaje": motos, kilometraje e historial; plan de mantenimiento por línea de moto; SOAT, técnico-mecánica y documentos privados; cotización de SOAT; avisos de pico y placa por WhatsApp; modelo 3D; despiece interactivo (ver [docs/despiece.md](docs/despiece.md)). |
@@ -62,6 +64,10 @@ La primera corre solo una app. La segunda es la suite completa (unos 2 minutos):
 | `importar_despiece <pdf> <mapa.json>` | Importa las láminas de un catálogo de partes en PDF según un mapa JSON. Opciones: `--reemplazar` borra y vuelve a crear las láminas (se pierden las marcas hechas a mano); `--reenlazar` actualiza las láminas existentes sin borrarlas. Solo en local, con `requirements-dev.txt`. Detalle en [docs/despiece.md](docs/despiece.md). |
 | `traducir_despiece` | Vuelve a calcular el nombre en español y la explicación de todas las piezas con el glosario, sin tocar las marcas. Úsalo después de mejorar `garaje/despiece_glosario.py`. |
 | `recordar_pico_placa` | Envía por WhatsApp el recordatorio de pico y placa de mañana a quienes lo activaron. Pensado para correr cada tarde con un cron. |
+| `avisar_vencimientos` | Crea los avisos de SOAT y técnico-mecánica (30, 15 y 3 días antes) y de pico y placa. Pensado para un cron diario temprano. |
+| `recordar_citas` | Envía la notificación de recordatorio de las citas de mañana. No repite avisos. Pensado para un cron diario (p. ej. 6 p. m.). |
+| `evaluar_logros` | Otorga la insignia *Viajero* de las rodadas que ya pasaron (las demás insignias llegan al momento). Pensado para un cron cada noche. |
+| `precalentar_despiece` | Arma y guarda en caché el despiece de todas las motos, para que nadie espere tras un despliegue. Lo dispara `.github/workflows/despiece.yml` después de cada push. |
 | `importar_noticias` | Trae los titulares nuevos de las fuentes de noticias (RSS/Atom). |
 
 Ejemplo de importación:
@@ -111,7 +117,7 @@ Antes de producción, ten en cuenta:
 - **Archivos**: el disco de Render se borra en cada despliegue. Monta un Disk y apunta `DJANGO_MEDIA_ROOT` y `DJANGO_PRIVADO_ROOT` a él, o usa S3 o Cloudinary.
 - **Despiece**: las láminas y sus imágenes se generan en local con `importar_despiece` y quedan en la base de datos y en `media/`. Hay que llevarlas a producción aparte (ver [docs/despiece.md](docs/despiece.md)).
 - **Dominio propio**: agrégalo en Render y en `DJANGO_ALLOWED_HOSTS` / `DJANGO_CSRF_TRUSTED_ORIGINS`.
-- **Cron**: programa `recordar_pico_placa` (y `importar_noticias` si lo usas) como Cron Job de Render.
+- **Cron**: programa `recordar_pico_placa`, `avisar_vencimientos`, `recordar_citas`, `evaluar_logros` (y `importar_noticias` si lo usas) como Cron Job de Render.
 
 ## Carpetas que nunca van al repositorio
 

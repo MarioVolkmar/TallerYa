@@ -1,0 +1,36 @@
+{# Menú "Papeles" del navbar de escritorio: SOAT y técnico-mecánica #}
+{% with p=request.path %}
+<div class="ns" data-menu-servicios>
+  <button type="button" class="nav-link ns-boton{% if p|slice:':5' == '/soat' or p|slice:':14' == '/tecnomecanica' %} activo{% endif %}" aria-expanded="false" aria-controls="menu-servicios">
+    Papeles<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div class="ns-panel papel" id="menu-servicios" hidden>
+    <a href="{% url 'tramites:soat' %}" class="ns-item">
+      <span class="ns-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      <span><strong>SOAT</strong><small>Precio de ley al instante y pídelo aquí</small></span>
+    </a>
+    <a href="{% url 'tramites:tecnomecanica' %}" class="ns-item">
+      <span class="ns-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 13l2 2 4-4"/></svg></span>
+      <span><strong>Técnico-mecánica</strong><small>CDA con precio, mapa y cómo agendar</small></span>
+    </a>
+  </div>
+</div>
+{% endwith %}
+<script>
+  (function () {
+    var raiz = document.querySelector("[data-menu-servicios]"); if (!raiz || raiz.dataset.listo) return;
+    raiz.dataset.listo = "1";
+    var boton = raiz.querySelector(".ns-boton"), panel = raiz.querySelector(".ns-panel");
+    function abrir(si) { panel.hidden = !si; boton.setAttribute("aria-expanded", String(si)); }
+    boton.addEventListener("click", function () { abrir(panel.hidden); if (!panel.hidden) panel.querySelector("a").focus(); });
+    document.addEventListener("click", function (e) { if (!raiz.contains(e.target)) abrir(false); });
+    raiz.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !panel.hidden) { abrir(false); boton.focus(); }
+      if ((e.key === "ArrowDown" || e.key === "ArrowUp") && !panel.hidden) {
+        var items = [].slice.call(panel.querySelectorAll("a")), i = items.indexOf(document.activeElement);
+        items[(i + (e.key === "ArrowDown" ? 1 : -1) + items.length) % items.length].focus(); e.preventDefault();
+      }
+    });
+    raiz.addEventListener("focusout", function (e) { if (!raiz.contains(e.relatedTarget)) abrir(false); });
+  })();
+</script>

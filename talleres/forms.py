@@ -166,12 +166,13 @@ class PerfilTallerForm(EstiloMixin, forms.ModelForm):
 
 class AgendaForm(EstiloMixin, forms.ModelForm):
     """Agenda y emergencias. Los turnos por día se leen aparte (campos d<dia>_<n>_abre / _cierra)."""
-    CASILLAS = ["agenda_activa", "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio"]
+    CASILLAS = ["agenda_activa", "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio", "gasolina_domicilio"]
 
     class Meta:
         model = Taller
         fields = ["agenda_activa", "duracion_franja", "cupo_franja",
-                  "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio", "latitud", "longitud"]
+                  "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio", "gasolina_domicilio",
+                  "latitud", "longitud"]
         widgets = {"latitud": forms.HiddenInput, "longitud": forms.HiddenInput}
 
     def __init__(self, *args, **kwargs):

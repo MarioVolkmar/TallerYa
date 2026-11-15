@@ -10,6 +10,7 @@ if command -v npm >/dev/null 2>&1; then
 fi
 python manage.py collectstatic --no-input
 python manage.py migrate --no-input
+python manage.py createcachetable   # tabla de la caché del despiece (si ya existe, no hace nada)
 
 # Datos de ejemplo (talleres, cupones, foro). Es seguro repetirlo: no duplica nada.
 if [ "$CARGAR_DEMO" = "1" ]; then

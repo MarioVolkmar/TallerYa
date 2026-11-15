@@ -25,8 +25,9 @@
     const m = document.cookie.match(new RegExp(`(?:^|; )${nombre}=([^;]*)`));
     return m ? decodeURIComponent(m[1]) : "";
   }
-  function pintarContador(n) {
+  function pintarContador(n, urgentes) {
     contador.textContent = n > 9 ? "9+" : String(n);
+    contador.classList.toggle("campana-urgente", urgentes > 0);
     contador.hidden = n === 0;
     boton.setAttribute("aria-label", n ? `Notificaciones: ${n} sin leer` : "Notificaciones");
     marcar.hidden = n === 0;
@@ -37,13 +38,13 @@
     try {
       const datos = await fetch(panel.dataset.url, { headers: { Accept: "application/json" } }).then((r) => r.json());
       lista.innerHTML = "";
-      pintarContador(datos.sin_leer);
+      pintarContador(datos.sin_leer, datos.urgentes || 0);
       if (!datos.notificaciones.length) {
         lista.appendChild(el("p", "campana-vacio", "Todo tranquilo por aquí. Te avisaremos cuando le toque algo a tu moto."));
         return;
       }
       datos.notificaciones.forEach((n) => {
-        const a = el("a", "notif-fila" + (n.leida ? "" : " sin-leer"));
+        const a = el("a", "notif-fila" + (n.leida ? "" : " sin-leer") + (n.urgente ? " notif-urgente" : ""));
         a.href = n.ir;
         const icono = el("span", `notif-icono notif-${n.tipo}`);
         const relleno = n.tipo === "plus" ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
@@ -52,6 +53,7 @@
         textos.append(el("span", "notif-titulo", n.titulo));
         if (n.texto) textos.append(el("span", "notif-texto", n.texto));
         textos.append(el("span", "notif-hace", `hace ${n.hace}`));
+        if (n.accion) textos.append(el("span", "notif-accion", `${n.accion} →`));
         a.append(icono, textos);
         if (!n.leida) a.append(el("span", "notif-punto"));
         lista.appendChild(a);

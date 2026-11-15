@@ -46,3 +46,21 @@
 .em-vacio { padding: 1rem; font-size: .92rem; }
 .em-cerrados summary { cursor: pointer; padding: .6rem 0; }
 @media (min-width: 768px) { .em-taller { grid-template-columns: 1fr 18rem; align-items: center; } }
+
+/* Flujo "¿Te varaste?" */
+.em-flujo { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.em-opcion { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .25rem;
+  min-height: 5.2rem; padding: .7rem .5rem; text-align: center; font-weight: 800; line-height: 1.2;
+  background: var(--pizarra); border: 2px solid var(--borde); border-radius: 14px; color: var(--crema); }
+.em-icono { width: 34px; height: 34px; flex: none; color: var(--crema); }
+.em-opcion:hover, .em-opcion:focus-visible { border-color: var(--lava-2); }
+.em-opcion[aria-pressed="true"] .em-icono { color: var(--lava); }
+.em-opcion[aria-pressed="true"] { border-color: var(--lava); background: var(--pizarra-2); box-shadow: 0 0 0 3px rgba(242, 97, 29, .25); }
+.em-opcion-accidente { border-color: #b3261e; }
+.em-flujo .em-opcion:last-child:nth-child(odd) { grid-column: 1 / -1; min-height: 4rem; flex-direction: row; }
+.em-ayuda { display: grid; gap: .6rem; padding: 1rem; }
+.em-ayuda ul { display: grid; gap: .4rem; padding-left: 1.1rem; list-style: disc; font-size: .95rem; }
+.em-123 { min-height: 3.8rem; font-size: 1.25rem; justify-content: center; background: #b3261e; border-color: #b3261e; color: #fff; }
+.em-fuente { font-size: .75rem; color: var(--crema-2); }
+.em-pista { font-size: .8rem; color: var(--crema-2); margin-top: -.4rem; }
+@media (min-width: 640px) { .em-flujo { grid-template-columns: repeat(5, 1fr); } .em-flujo .em-opcion:last-child:nth-child(odd) { grid-column: auto; flex-direction: column; min-height: 5.2rem; } }

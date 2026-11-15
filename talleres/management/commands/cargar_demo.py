@@ -91,6 +91,7 @@ class Command(BaseCommand):
 
         self.cargar_foro()
         call_command("cargar_foro_demo")  # una pregunta de ejemplo por tema del foro (no borra nada)
+        call_command("cargar_cupones_puntos")  # cupones que se canjean con puntos de insignias
         if settings.DEBUG:
             self.cargar_garaje()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))

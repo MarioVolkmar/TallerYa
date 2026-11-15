@@ -1,0 +1,50 @@
+# Tareas diarias de TallerYa, gratis con GitHub Actions (sin cron de pago en Render):
+#   5:30 a. m. → avisos: vencimientos de SOAT y técnico-mecánica, y pico y placa del día
+#   6:00 p. m. → citas: recordatorio de las citas de mañana
+#   12:00 a. m. → logros: insignias que dependen del tiempo (rodadas pasadas, "Moto al día")
+# Llama al endpoint protegido POST /tareas/<tarea>/ (solo acepta las tareas de garaje/vista_tareas.py).
+# Configura en GitHub > Settings > Secrets and variables > Actions:
+#   TALLERYA_URL  = https://<tu-servicio>.onrender.com   (sin barra final)
+#   TAREAS_TOKEN  = el mismo valor de la variable TAREAS_TOKEN del servicio web en Render
+name: Tareas diarias
+
+on:
+  schedule:
+    - cron: "30 10 * * *"  # 10:30 UTC = 5:30 a. m. en Medellín → avisos
+    - cron: "0 23 * * *"   # 23:00 UTC = 6:00 p. m. en Medellín → citas
+    - cron: "0 5 * * *"    # 05:00 UTC = 12:00 a. m. en Medellín → logros
+  workflow_dispatch:        # botón "Run workflow" para probarlo a mano
+    inputs:
+      tarea:
+        description: Tarea a correr
+        type: choice
+        options: [avisos, citas, logros]
+        default: avisos
+
+jobs:
+  tarea:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Disparar tarea
+        env:
+          TALLERYA_URL: ${{ secrets.TALLERYA_URL }}
+          TAREAS_TOKEN: ${{ secrets.TAREAS_TOKEN }}
+          HORARIO: ${{ github.event.schedule }}
+          ELEGIDA: ${{ inputs.tarea }}
+        run: |
+          if [ -z "$TALLERYA_URL" ] || [ -z "$TAREAS_TOKEN" ]; then
+            echo "Faltan los secretos TALLERYA_URL o TAREAS_TOKEN"; exit 1
+          fi
+          case "$HORARIO" in
+            "0 23 * * *") TAREA=citas ;;
+            "30 10 * * *") TAREA=avisos ;;
+            "0 5 * * *") TAREA=logros ;;
+            *) TAREA="${ELEGIDA:-avisos}" ;;
+          esac
+          echo "Tarea: $TAREA"
+          # El plan gratuito de Render duerme el servicio: el primer intento lo despierta; por eso los reintentos.
+          curl --fail-with-body --silent --show-error --max-time 120 \
+               --retry 4 --retry-delay 30 --retry-all-errors \
+               -X POST -H "Authorization: Bearer $TAREAS_TOKEN" \
+               "$TALLERYA_URL/tareas/$TAREA/"

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "notificaciones",
     "noticias",
     "logros",
+    "tramites",
 ]
 
 MIDDLEWARE = [
@@ -215,11 +216,21 @@ CACHES = {
         if os.environ.get("REDIS_URL") and sys.argv[1:2] != ["test"] else
         {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}
     ),
+    # Lo pesado del despiece (~200 KB por catálogo): en la base de datos, para que sobreviva a reinicios y a que Render
+    # duerma el servicio (su disco se borra). 100 entradas ≈ 4 versiones del código × 25 catálogos (≈ 20 MB como máximo).
+    # Tabla propia: `manage.py createcachetable` (lo corre build.sh).
     "despiece": (
         {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": "despiece"}
         if sys.argv[1:2] == ["test"] else
+        {"BACKEND": "django.core.cache.backends.db.DatabaseCache", "LOCATION": "cache_despiece",
+         "OPTIONS": {"MAX_ENTRIES": 100, "CULL_FREQUENCY": 3}}
+    ),
+    # Dibujos SVG de láminas y piezas: muchos (miles) y baratos de volver a dibujar; en disco, sin ocupar la base.
+    "despiece_svg": (
+        {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": "despiece_svg"}
+        if sys.argv[1:2] == ["test"] else
         {"BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
          "LOCATION": os.environ.get("DESPIECE_CACHE_DIR", os.path.join(tempfile.gettempdir(), "tallerya_despiece")),
-         "OPTIONS": {"MAX_ENTRIES": 300}}
+         "OPTIONS": {"MAX_ENTRIES": 20000}}
     ),
 }

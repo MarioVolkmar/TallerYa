@@ -19,23 +19,25 @@
   <script src="{% static 'talleres/js/notificaciones.js' %}" defer></script>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
-  <header class="sticky top-0 z-30 border-b border-white/5 bg-[#111517]/85 backdrop-blur">
-    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-      <a href="{% url 'talleres:inicio' %}" class="flex items-center gap-2.5" aria-label="TallerYa, inicio">
+  <header class="sticky top-0 z-30 border-b border-white/5 bg-[#111517]/85 backdrop-blur" id="cabecera">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4 cabecera-fila">
+      <a href="{% url 'talleres:inicio' %}" class="flex items-center gap-2.5 cabecera-logo" aria-label="TallerYa, inicio">
         {% include "parciales/logo.html" with clase="h-10 w-auto" lema=False %}
       </a>
       {% url 'cupones:lista' as u_cupones %}{% url 'foro:lista' as u_foro %}{% url 'cuentas:plus' as u_plus %}
       <div class="flex items-center gap-3 lg:gap-6">
-      <nav class="hidden lg:flex items-center gap-6" aria-label="Principal">
+      <nav class="hidden lg:flex items-center gap-6 nav-escritorio" aria-label="Principal">
         <a href="{% url 'talleres:directorio' %}" class="nav-link {% if request.path|slice:':9' == '/talleres' or request.path|slice:':8' == '/taller/' %}activo{% endif %}">Talleres</a>
         <a href="{{ u_cupones }}" class="nav-link {% if request.path|slice:':8' == '/cupones' %}activo{% endif %}">Cupones</a>
         <a href="{{ u_foro }}" class="nav-link {% if request.path|slice:':5' == '/foro' %}activo{% endif %}">Foro</a>
-        {% if rol != "taller" %}<a href="{% url 'garaje:diagnostico' %}" class="nav-link {% if request.path|slice:':12' == '/diagnostico' %}activo{% endif %}" title="¿Qué le pasa a tu moto?">Diagnóstico</a>{% endif %}
+        {% if rol != "taller" %}<a href="{% url 'garaje:diagnostico' %}" class="nav-link {% if request.path|slice:':12' == '/diagnostico' %}activo{% endif %}" title="¿Qué le pasa a tu moto?">Diagnóstico</a>
+        {% include "parciales/menu_servicios.html" %}{% endif %}
         {# Enlaces según el rol: motero (garaje), taller (canjear cupones) y administrador (gestión) #}
         {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}" class="nav-link {% if request.path|slice:':7' == '/garaje' %}activo{% endif %}">Mi garaje</a>{% endif %}
         {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}" class="nav-link {% if request.path|slice:':8' == '/canjear' %}activo{% endif %}">Validar cupón</a>{% endif %}
         {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}" class="nav-link {% if request.path|slice:':20' == '/cuenta/administraci' %}activo{% endif %}">Administración</a>{% endif %}
         {# Plus va con la cuenta, no entre las secciones: separador y luego Plus, Entrar/Crear cuenta o el avatar #}
+        {% if rol != "taller" %}<a href="{% url 'talleres:emergencias' %}" class="nav-emergencia{% if request.path|slice:':12' == '/emergencias' %} activo{% endif %}" title="Grúa, pinchazo, no prende, sin gasolina o accidente" aria-label="¿Te varaste? Emergencias"><span class="ib-emergencia-punto" aria-hidden="true"></span><span class="nav-emergencia-texto">¿Te varaste?</span></a>{% endif %}
         <span class="nav-separador" aria-hidden="true"></span>
         <a href="{{ u_plus }}" class="nav-plus {% if request.path|slice:':5' == '/plus' %}activo{% endif %}">
           <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="currentColor"/></svg>
@@ -43,7 +45,7 @@
         </a>
         {% if not user.is_authenticated %}
           <a href="{% url 'cuentas:entrar' %}" class="nav-link">Entrar</a>
-          <a href="{% url 'cuentas:registro' %}" class="btn btn-borde text-xs px-4 py-2">Crear cuenta</a>
+          <a href="{% url 'cuentas:registro' %}" class="btn btn-borde text-xs px-4 py-2 nav-registro" aria-label="Crear cuenta"><span class="txt-largo">Crear cuenta</span><span class="txt-corto" aria-hidden="true">Registro</span></a>
         {% endif %}
       </nav>
       {% if user.is_authenticated %}
@@ -57,7 +59,7 @@
           <button type="button" class="campana-boton" id="campana" aria-haspopup="true" aria-expanded="false" aria-controls="campana-panel"
                   aria-label="Notificaciones{% if notificaciones_sin_leer %}: {{ notificaciones_sin_leer }} sin leer{% endif %}">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
-            <span class="campana-contador" {% if not notificaciones_sin_leer %}hidden{% endif %}>{% if notificaciones_sin_leer > 9 %}9+{% else %}{{ notificaciones_sin_leer }}{% endif %}</span>
+            <span class="campana-contador{% if notificaciones_urgentes %} campana-urgente{% endif %}" {% if not notificaciones_sin_leer %}hidden{% endif %}>{% if notificaciones_sin_leer > 9 %}9+{% else %}{{ notificaciones_sin_leer }}{% endif %}</span>
           </button>
           <div class="campana-panel papel" id="campana-panel" hidden data-url="{% url 'notificaciones:panel' %}">
             <div class="campana-cabeza">
@@ -78,7 +80,12 @@
           <a href="{{ u_cupones }}">Cupones</a>
           <a href="{{ u_foro }}">Foro</a>
           <a href="{% url 'foro:rodadas' %}" class="menu-sub">Rodadas</a>
-          {% if rol != "taller" %}<a href="{% url 'garaje:diagnostico' %}">¿Qué le pasa a tu moto?</a>{% endif %}
+          {% if rol != "taller" %}
+          <a href="{% url 'garaje:diagnostico' %}">¿Qué le pasa a tu moto?</a>
+          <p class="menu-grupo">Papeles</p>
+          <a href="{% url 'tramites:soat' %}" class="menu-sub">SOAT</a>
+          <a href="{% url 'tramites:tecnomecanica' %}" class="menu-sub">Técnico-mecánica (CDA)</a>
+          {% endif %}
           <a href="{{ u_plus }}" class="menu-plus"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="m12 2 2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 16.9 5.9 20.4l1.5-6.8L2.2 9l6.9-.7z" fill="currentColor"/></svg>Plus</a>
           {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}">Mi garaje</a>{% endif %}
           {% if user.is_authenticated and rol != "taller" %}<a href="{% url 'logros:mis_insignias' %}">Mis insignias</a>{% endif %}
@@ -95,6 +102,27 @@
       </div>
     </div>
   </header>
+  <script>
+    // Navbar sin desbordes: si no cabe (ancho, zoom del navegador, nombre largo), primero se compacta y,
+    // si aún no cabe, pasa al menú hamburguesa. Mide el desborde real en vez de un breakpoint fijo.
+    (function () {
+      var cab = document.getElementById("cabecera"); if (!cab) return;
+      var fila = cab.querySelector(".cabecera-fila"), pend = false;
+      function noCabe() { return fila.scrollWidth > fila.clientWidth + 1; }
+      function medir() {
+        pend = false;
+        var pasos = ["nav-c1", "nav-c2", "nav-c3", "nav-hamburguesa"];   // de lo más suave a lo más fuerte
+        cab.classList.remove.apply(cab.classList, pasos);
+        if (window.innerWidth < 1024) return;                    // por debajo ya es menú móvil (lg)
+        for (var i = 0; i < pasos.length && noCabe(); i++) cab.classList.add(pasos[i]);
+      }
+      function pedir() { if (!pend) { pend = true; requestAnimationFrame(medir); } }
+      medir();
+      window.addEventListener("resize", pedir);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(pedir);
+      window.addEventListener("load", pedir);
+    })();
+  </script>
 
   {% block hero %}{% endblock %}
 
@@ -132,6 +160,9 @@
               <li><a href="{% url 'cuentas:plus' %}" class="pie-plus">PLUS <span aria-hidden="true">★</span></a></li>
               <li><a href="{% url 'talleres:directorio' %}">Talleres</a></li>
               <li><a href="{% url 'talleres:emergencias' %}">Emergencias</a></li>
+              <li><a href="{% url 'garaje:diagnostico' %}">Diagnóstico</a></li>
+              <li><a href="{% url 'tramites:soat' %}">SOAT</a></li>
+              <li><a href="{% url 'tramites:tecnomecanica' %}">Técnico-mecánica</a></li>
               <li><a href="{% url 'cupones:lista' %}">Cupones</a></li>
               <li><a href="{% url 'foro:lista' %}">Foro</a></li>
               <li><a href="{% url 'foro:rodadas' %}">Rodadas</a></li>
