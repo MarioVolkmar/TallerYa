@@ -11,6 +11,14 @@ CASCO = ('<path d="M14 40c0-14 9-24 21-24 10 0 17 8 17 18v6c0 2.2-1.8 4-4 4H18c-
          '<path d="M18 29c3-6 8-10 14-11" stroke="{a}" stroke-width="4" fill="none" stroke-linecap="round"/>'
          '<rect x="14" y="40" width="38" height="4" rx="2" fill="{o}" opacity=".3"/>')
 FIGURAS = {
+    "chispa": ('<rect x="29" y="7" width="6" height="5" rx="1.5" fill="#d3d1c7"/><rect x="30.2" y="12" width="3.6" height="3" fill="#9a9fa2"/>'
+               '<path d="M24 15h16l2 23H22z" fill="#ede3cc"/><path d="M24 15h6l-1.2 23H22z" fill="#fff" opacity=".55"/>'
+               '<path d="M23.6 20h16.8M23.2 25h17.6" stroke="#b9b6aa" stroke-width="1.2"/>'
+               '<rect x="22.5" y="27.5" width="19" height="10.5" rx="5.2" fill="{o}"/>'
+               '<rect x="26.6" y="30.6" width="3.8" height="4.4" rx="1.3" fill="{a}"/><rect x="33.6" y="30.6" width="3.8" height="4.4" rx="1.3" fill="{a}"/>'
+               '<polygon points="18,40 46,40 50,46 46,52 18,52 14,46" fill="#8f9496"/>'
+               '<polygon points="18,40 32,40 32,52 18,52 14,46" fill="#c4c9cc"/>'
+               '<rect x="20" y="52" width="24" height="3" rx="1" fill="#f2611d"/>'),
     "llave": ('<path d="M19 45l18-18" stroke="{c}" stroke-width="8" stroke-linecap="round"/>'
               '<circle cx="41" cy="23" r="10" fill="{c}"/>'
               '<rect x="38" y="9" width="6" height="15" rx="1.5" fill="{f}" transform="rotate(45 41 23)"/>'
@@ -96,8 +104,16 @@ FIGURAS = {
                '<circle cx="51" cy="24" r="3" fill="{a}" opacity=".55"/><circle cx="55" cy="17" r="4" fill="{a}" opacity=".35"/>'),
 }
 
+# Chispa con un rayito saliendo a su lado (la cabeza un poco a la izquierda para dejarle sitio al rayo)
+FIGURAS["chispa-rayito"] = ('<g transform="translate(-5 0)">' + FIGURAS["chispa"] + '</g>'
+                            '<path d="M49 13l-7 11h5l-3 9 8-12h-5z" fill="{a}"/>'
+                            '<path d="M47.5 16l-3.5 6" stroke="#fff" stroke-width="1.3" stroke-linecap="round" opacity=".6"/>')
+
 # Catálogo: clave -> (nombre, figura, color de la figura, fondo, acento)
 PREDISENADOS = {
+    "chispa": ("Chispa", "chispa", "#ede3cc", "#1d2427", "#e3a72f"),
+    "chispa-rayos": ("Chispa rayos X", "chispa", "#ede3cc", "#12324d", "#85b7eb"),
+    "chispa-rayito": ("Chispa con rayito", "chispa-rayito", "#ede3cc", "#252e31", "#e3a72f"),
     "casco-lava": ("Casco lava", "casco", "#f2611d", "#1d2427", "#ede3cc"),
     "llave": ("Llave", "llave", "#ede3cc", "#f2611d", "#1d2427"),
     "piston": ("Pistón", "piston", "#e3a72f", "#1d2427", "#f2611d"),

@@ -1,0 +1,12 @@
+{% load static %}{# Botón flotante del chat de ayuda con Chispa. La ventana la arma chispa-chat.js al abrirla (carga diferida). #}
+<link rel="stylesheet" href="{% static 'ayuda/css/chispa-chat.css' %}">
+<div class="cc" id="chispa-chat" data-catalogo="{% url 'ayuda:catalogo' %}" data-preguntar="{% url 'ayuda:preguntar' %}" data-foro="{% url 'foro:preguntar' %}">
+  <button type="button" class="cc-globito" hidden aria-label="¿Te ayudo? Abre la ayuda de Chispa">¿Te ayudo?<span class="cc-burbuja cc-b1" aria-hidden="true"></span><span class="cc-burbuja cc-b2" aria-hidden="true"></span></button>
+  <button type="button" class="cc-boton" aria-haspopup="dialog" aria-expanded="false" aria-controls="chispa-chat-panel" aria-label="Pregúntale a Chispa">
+    {% include "parciales/chispa.html" with pose="escena" estilo="a" id="chispa-chat-cara" vista="boton" clase="cc-figura" %}
+    <svg class="cc-chispas" viewBox="-50 -8 110 224" aria-hidden="true" focusable="false"><g class="cc-arco"><circle cx="1" cy="200" r="10" fill="#ffd27a" opacity=".55"/><path d="M-1 196 L3 199 L-2 201 L2 204" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round"/></g><g stroke-linecap="round" stroke-width="3"><path d="M1 200 l0 -7" stroke="#fff" style="--x:-26px;--y:-16px"/><path d="M1 200 l0 -7" stroke="#ffd27a" style="--x:22px;--y:-22px"/><path d="M1 200 l5 -5" stroke="#ffd27a" style="--x:-34px;--y:6px"/><path d="M1 200 l-5 -5" stroke="#fff" style="--x:32px;--y:4px"/><path d="M1 200 l0 -6" stroke="#f5b843" style="--x:-8px;--y:-32px"/><path d="M1 200 l0 -6" stroke="#f5b843" style="--x:12px;--y:16px"/></g></svg>
+  </button>
+  <svg class="cc-mano" viewBox="0 0 16 12" aria-hidden="true" focusable="false"><rect x="1" y="1" width="15" height="10" rx="5" fill="#b8b09f"/><path d="M3 3.2 H9 M3 6 H9 M3 8.8 H9" stroke="#6c675c" stroke-width="1.2" stroke-linecap="round"/><path d="M2 2 Q5 1.4 9 2" stroke="#efe6d2" stroke-width=".9" fill="none" opacity=".7"/></svg>
+  <p class="cc-pista" hidden>Arrástrame al borde para esconderme</p>
+</div>
+<script src="{% static 'ayuda/js/chispa-chat.js' %}" defer></script>

@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "saludos": {
+    "anonimo": "¡Hola! Soy Chispa, tu copiloto de taller. ¿En qué te ayudo hoy?",
+    "con_nombre": "¡Hola, {nombre}! Soy Chispa, tu copiloto de taller. ¿En qué te ayudo hoy?"
+  },
+  "sin_respuesta": {
+    "respuesta": [
+      "Uy, no encontré una respuesta para eso. 🔧",
+      "Prueba con otras palabras o elige un tema. También puedes preguntarle a la comunidad en el foro."
+    ],
+    "acciones": [
+      {"texto": "Preguntar en el foro", "url_nombre": "foro:preguntar"},
+      {"texto": "Ver el foro", "url_nombre": "foro:lista"}
+    ],
+    "relacionadas": ["que-es-tallerya", "agregar-moto", "emergencia"]
+  },
+  "temas": [
+    {
+      "id": "moto",
+      "titulo": "Mi moto y mantenimiento",
+      "preguntas": [
+        {
+          "id": "agregar-moto",
+          "pregunta": "¿Cómo agrego mi moto?",
+          "claves": ["agregar moto", "registrar moto", "nueva moto", "mi garaje", "crear garaje"],
+          "respuesta": [
+            "Entra a Mi garaje y agrega tu moto: eliges la marca y la línea (o la escribes si no está), el año y el kilometraje.",
+            "Con eso armamos tu plan de mantenimiento y los avisos de SOAT, técnico-mecánica y pico y placa."
+          ],
+          "acciones": [{"texto": "Agregar moto", "url_nombre": "garaje:bienvenida"}],
+          "relacionadas": ["km-estimado", "lo-urgente"]
+        },
+        {
+          "id": "km-estimado",
+          "pregunta": "¿Cómo se estima el kilometraje de mi moto?",
+          "claves": ["kilometraje", "km estimado", "estimacion", "cuantos km", "odometro", "kilometros"],
+          "respuesta": [
+            "Calculamos cuántos km ruedas al día: primero con tus lecturas de km (si hay al menos una semana entre la primera y la última), luego con lo rodado desde que registraste la moto, con la fecha de matrícula o con el año del modelo. Sin datos, suponemos 25 km al día.",
+            "Por eso las fechas dicen «km estimado». Entre más seguido anotes el km, más fino queda el plan."
+          ],
+          "acciones": [{"texto": "Ver mi plan", "url_nombre": "garaje:moto", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["actualizar-km", "sin-idea"]
+        },
+        {
+          "id": "actualizar-km",
+          "pregunta": "¿Cómo actualizo el kilometraje?",
+          "claves": ["actualizar km", "anotar km", "cambiar kilometraje", "km actual"],
+          "respuesta": [
+            "En la ficha de tu moto escribe el km que marca el tablero y guarda. Cada lectura ajusta tu ritmo de km por día, el plan y los gastos.",
+            "Al guardar te decimos cuántos pendientes tienes."
+          ],
+          "acciones": [{"texto": "Ir a mi moto", "url_nombre": "garaje:moto", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["km-estimado", "lo-urgente"]
+        },
+        {
+          "id": "lo-urgente",
+          "pregunta": "¿Qué es «Lo urgente»?",
+          "claves": ["lo urgente", "urgente", "pendientes", "toca ya", "por atender", "vencido"],
+          "respuesta": [
+            "Es el panel de la ficha de tu moto con hasta 5 tareas: primero las vencidas y luego las próximas, con cuánto te pasaste o cuánto falta («faltan 800 km»).",
+            "Los estados son: Al día, Pronto, Muy pronto, Toca ya y Sin registro. Si no hay nada pendiente, verás «Todo al día»."
+          ],
+          "acciones": [{"texto": "Ver mi plan", "url_nombre": "garaje:moto", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["registrar-mantenimiento", "km-estimado"]
+        },
+        {
+          "id": "registrar-mantenimiento",
+          "pregunta": "¿Cómo registro lo que le hice a la moto?",
+          "claves": ["registrar lo que hice", "registrar mantenimiento", "cambie aceite", "ya lo hice", "anotar servicio"],
+          "respuesta": [
+            "En la ficha de tu moto toca «Registrar lo que hice», elige la tarea y cuándo: «Hace poco», «A los … km» o «No sé».",
+            "Queda guardado en el plan y en la hoja de vida de la moto."
+          ],
+          "acciones": [{"texto": "Registrar en mi moto", "url_nombre": "garaje:moto", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["sin-idea", "hoja-vida"]
+        },
+        {
+          "id": "sin-idea",
+          "pregunta": "¿Qué pasa si no sé cuándo hice un mantenimiento?",
+          "claves": ["no se", "sin idea", "no recuerdo", "no me acuerdo", "cuando lo hice"],
+          "respuesta": [
+            "Elige «No sé» y di hace cuánto más o menos. Si de verdad no tienes idea, marca «Sin idea»: contamos desde 0 km y desde la matrícula.",
+            "Así lo más que verás es «Pronto (estimado)», nunca un «Toca ya» en rojo por un dato que no sabemos."
+          ],
+          "relacionadas": ["registrar-mantenimiento", "km-estimado"]
+        },
+        {
+          "id": "hoja-vida",
+          "pregunta": "¿Qué es la hoja de vida de la moto?",
+          "claves": ["hoja de vida", "historial", "codigo para el taller", "vender moto", "servicio verificado"],
+          "respuesta": [
+            "Es el historial de servicios: fecha, km, qué se hizo, costo y taller. Los servicios de talleres de TallerYa salen «verificados».",
+            "Para que un taller lo anote, genérale un código de 6 caracteres: sirve una sola vez y vence a los 30 minutos. Si vas a vender la moto, puedes compartir un enlace público sin tu nombre ni la placa completa."
+          ],
+          "acciones": [{"texto": "Ver hoja de vida", "url_nombre": "garaje:hoja_vida", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["gastos", "registrar-mantenimiento"]
+        },
+        {
+          "id": "gastos",
+          "pregunta": "¿Cómo llevo los gastos de la moto?",
+          "claves": ["gastos", "gasolina", "costo por km", "cuanto gasto", "consumo"],
+          "respuesta": [
+            "En Gastos anotas categoría (gasolina, aceite, repuestos, SOAT, parqueadero…), valor y fecha. Ves el gasto del mes, el costo por km y un estimado de km por galón.",
+            "Los servicios con costo de la hoja de vida se suman solos."
+          ],
+          "acciones": [{"texto": "Ver gastos", "url_nombre": "garaje:gastos", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["hoja-vida", "actualizar-km"]
+        }
+      ]
+    },
+    {
+      "id": "papeles",
+      "titulo": "Papeles y pico y placa",
+      "preguntas": [
+        {
+          "id": "soat",
+          "pregunta": "¿Cómo me avisan del SOAT y cómo lo compro?",
+          "claves": ["soat", "seguro", "vence el soat", "comprar soat", "precio soat"],
+          "respuesta": [
+            "Pon la fecha de vencimiento en los datos de tu moto y te avisamos a los 30, 15 y 3 días y el día que vence (en la ficha, Mi garaje y la campana).",
+            "En la página de SOAT ves el precio de ley según el cilindraje y puedes pedirlo."
+          ],
+          "acciones": [
+            {"texto": "Ver SOAT", "url_nombre": "tramites:soat"},
+            {"texto": "Editar fechas de mi moto", "url_nombre": "garaje:editar", "con_moto": true, "texto_sin_moto": "Agregar moto"}
+          ],
+          "relacionadas": ["tecnomecanica", "pico-placa"]
+        },
+        {
+          "id": "tecnomecanica",
+          "pregunta": "¿Cuándo me toca la técnico-mecánica?",
+          "claves": ["tecnomecanica", "tecno", "revision tecnico mecanica", "cda", "revision"],
+          "respuesta": [
+            "Si tu moto es nueva, la primera revisión vence a los 2 años de la matrícula. Pon la fecha en los datos de tu moto y te avisamos antes de que venza.",
+            "En la página de técnico-mecánica encuentras CDA por municipio, con precio, mapa y WhatsApp."
+          ],
+          "acciones": [
+            {"texto": "Buscar CDA", "url_nombre": "tramites:tecnomecanica"},
+            {"texto": "Editar fechas de mi moto", "url_nombre": "garaje:editar", "con_moto": true, "texto_sin_moto": "Agregar moto"}
+          ],
+          "relacionadas": ["soat", "pico-placa"]
+        },
+        {
+          "id": "pico-placa",
+          "pregunta": "¿Cómo funciona el pico y placa en Medellín?",
+          "claves": ["pico y placa", "pico placa", "restriccion", "placa", "hoy tengo pico"],
+          "respuesta": [
+            "Para motos en Medellín cuenta el primer número de la placa, de 5:00 a. m. a 8:00 p. m., de lunes a viernes (no aplica fines de semana ni festivos): lunes 5 y 8, martes 1 y 4, miércoles 0 y 2, jueves 3 y 6, viernes 7 y 9.",
+            "En la ficha de tu moto ves la semana y puedes activar el aviso «Hoy tienes pico y placa». Confirma siempre con la Secretaría de Movilidad si cambia la medida."
+          ],
+          "acciones": [{"texto": "Pico y placa de mi moto", "url_nombre": "garaje:moto", "con_moto": true, "ancla": "pico-placa", "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["soat", "notificaciones"]
+        }
+      ]
+    },
+    {
+      "id": "talleres",
+      "titulo": "Talleres y citas",
+      "preguntas": [
+        {
+          "id": "buscar-taller",
+          "pregunta": "¿Cómo encuentro un buen taller?",
+          "claves": ["buscar taller", "taller cerca", "mecanico", "directorio", "taller de confianza"],
+          "respuesta": [
+            "En el directorio filtra por barrio, servicio, marca, «Solo verificados» o «Con cupón». Cada taller tiene reseñas reales, fotos y precios si los publica.",
+            "Al filtrar por servicio te mostramos el precio típico en Medellín cuando hay suficientes talleres."
+          ],
+          "acciones": [{"texto": "Buscar taller", "url_nombre": "talleres:directorio"}],
+          "relacionadas": ["pedir-cita", "cupones"]
+        },
+        {
+          "id": "pedir-cita",
+          "pregunta": "¿Cómo pido una cita?",
+          "claves": ["cita", "pedir cita", "agendar", "reservar", "whatsapp", "turno"],
+          "respuesta": [
+            "En la página del taller llena el formulario de cita (no necesitas cuenta). Si el taller tiene agenda, eliges día y hora libres; también puedes escribirle por WhatsApp o llamar.",
+            "El taller la confirma o propone otra hora, y el día antes te recordamos."
+          ],
+          "acciones": [{"texto": "Buscar taller", "url_nombre": "talleres:directorio"}],
+          "relacionadas": ["cancelar-cita", "buscar-taller"]
+        },
+        {
+          "id": "cancelar-cita",
+          "pregunta": "¿Cómo cancelo o cambio una cita?",
+          "claves": ["cancelar cita", "cambiar cita", "reprogramar", "mis citas"],
+          "respuesta": [
+            "En Mi cuenta abre la cita y toca cancelar (puedes dejar un motivo); le avisamos al taller. Si el taller te propone otra fecha, la aceptas o la rechazas desde el enlace que te llega."
+          ],
+          "acciones": [{"texto": "Mi cuenta", "url_nombre": "cuentas:mi_cuenta"}],
+          "relacionadas": ["pedir-cita"]
+        },
+        {
+          "id": "emergencia",
+          "pregunta": "Me varé, ¿qué hago?",
+          "claves": ["emergencia", "me vare", "grua", "pinchazo", "no prende", "accidente", "sin gasolina", "varado"],
+          "respuesta": [
+            "En Emergencias (sin cuenta) elige qué pasó: accidente, grúa, pinchazo, no prende o sin gasolina. Te mostramos talleres que atienden emergencias, primero los abiertos, y grúas con WhatsApp.",
+            "Si hubo heridos, llama ya al 123."
+          ],
+          "acciones": [{"texto": "Emergencias", "url_nombre": "talleres:emergencias"}],
+          "relacionadas": ["diagnostico", "buscar-taller"]
+        },
+        {
+          "id": "cupones",
+          "pregunta": "¿Cómo uso un cupón?",
+          "claves": ["cupon", "descuento", "codigo", "promocion", "canjear"],
+          "respuesta": [
+            "En Cupones toca el que quieras y te damos un código TY-… con QR. Muéstralo en ese taller: cada cupón es de un solo uso y de un taller específico.",
+            "Si invitas amigos, te ganas un cupón cuando ellos canjean el suyo."
+          ],
+          "acciones": [{"texto": "Ver cupones", "url_nombre": "cupones:lista"}],
+          "relacionadas": ["plus", "buscar-taller"]
+        },
+        {
+          "id": "registrar-taller",
+          "pregunta": "Tengo un taller, ¿cómo lo registro?",
+          "claves": ["registrar taller", "mi taller", "soy mecanico", "inscribir taller", "dueno de taller"],
+          "respuesta": [
+            "Crea tu cuenta como taller con los datos del negocio. Queda en revisión y, cuando lo aprobamos, aparece en el directorio y puedes recibir citas, publicar precios y cupones."
+          ],
+          "acciones": [{"texto": "Registrar mi taller", "url_nombre": "talleres:registro"}],
+          "relacionadas": ["buscar-taller"]
+        }
+      ]
+    },
+    {
+      "id": "diagnostico",
+      "titulo": "Diagnóstico y despiece",
+      "preguntas": [
+        {
+          "id": "diagnostico",
+          "pregunta": "¿Cómo funciona el diagnóstico?",
+          "claves": ["diagnostico", "ruido", "falla", "vibra", "humo", "fuga", "que tiene mi moto", "sintoma"],
+          "respuesta": [
+            "Elige tu moto y el síntoma (ruido, vibra, no prende, frena mal, humo…), responde 1 a 3 preguntas y te decimos el sistema y la causa probable, qué revisar tú mismo, qué tan urgente es y talleres que lo arreglan.",
+            "Es una orientación: no reemplaza al mecánico."
+          ],
+          "acciones": [{"texto": "Hacer diagnóstico", "url_nombre": "garaje:diagnostico"}],
+          "relacionadas": ["despiece", "emergencia"]
+        },
+        {
+          "id": "despiece",
+          "pregunta": "¿Qué es el despiece y el modelo 3D?",
+          "claves": ["despiece", "piezas", "repuestos", "3d", "rayos x", "modelo 3d"],
+          "respuesta": [
+            "El despiece muestra las piezas de tu moto con dibujos propios y, en cada una, una guía con su kilometraje estimado.",
+            "En el modelo 3D puedes personalizar los colores y activar Rayos X para ver piezas internas pintadas según tu plan."
+          ],
+          "acciones": [{"texto": "Ir a mi moto", "url_nombre": "garaje:moto", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["diagnostico", "lo-urgente"]
+        }
+      ]
+    },
+    {
+      "id": "foro",
+      "titulo": "Foro y rodadas",
+      "preguntas": [
+        {
+          "id": "foro",
+          "pregunta": "¿Cómo pregunto en el foro?",
+          "claves": ["foro", "preguntar", "comunidad", "mencionar", "mejor respuesta"],
+          "respuesta": [
+            "Con tu cuenta, entra al foro y toca preguntar. Puedes mencionar a alguien con @, reaccionar y marcar la mejor respuesta de tu pregunta."
+          ],
+          "acciones": [{"texto": "Preguntar en el foro", "url_nombre": "foro:preguntar"}, {"texto": "Ver el foro", "url_nombre": "foro:lista"}],
+          "relacionadas": ["rodadas"]
+        },
+        {
+          "id": "rodadas",
+          "pregunta": "¿Qué son las rodadas?",
+          "claves": ["rodada", "rodadas", "paseo", "ruta", "salir a rodar", "parche"],
+          "respuesta": [
+            "Son salidas en grupo: fecha, punto de encuentro, destino, nivel y cupo. Puedes verlas sin cuenta; para crear una o tocar «Voy» necesitas entrar."
+          ],
+          "acciones": [{"texto": "Ver rodadas", "url_nombre": "foro:rodadas"}],
+          "relacionadas": ["foro"]
+        }
+      ]
+    },
+    {
+      "id": "cuenta",
+      "titulo": "Cuenta y Plus",
+      "preguntas": [
+        {
+          "id": "que-es-tallerya",
+          "pregunta": "¿Qué puedo hacer en TallerYa?",
+          "claves": ["que es tallerya", "para que sirve", "como funciona", "que puedo hacer"],
+          "respuesta": [
+            "Encuentras talleres de confianza en Medellín y pides cita, llevas el mantenimiento de tu moto con avisos de SOAT, técnico-mecánica y pico y placa, haces un diagnóstico, consigues cupones y hablas con otros moteros en el foro."
+          ],
+          "acciones": [{"texto": "Buscar taller", "url_nombre": "talleres:directorio"}, {"texto": "Agregar moto", "url_nombre": "garaje:bienvenida"}],
+          "relacionadas": ["crear-cuenta", "agregar-moto"]
+        },
+        {
+          "id": "crear-cuenta",
+          "pregunta": "¿Cómo creo mi cuenta?",
+          "claves": ["crear cuenta", "registrarme", "registro", "entrar con google", "verificar correo", "contrasena"],
+          "respuesta": [
+            "Regístrate con nombre, correo, celular y contraseña; te llega un correo para verificar la cuenta. Si está disponible, también puedes entrar con Google."
+          ],
+          "acciones": [{"texto": "Crear cuenta", "url_nombre": "cuentas:registro"}],
+          "relacionadas": ["plus", "insignias"]
+        },
+        {
+          "id": "plus",
+          "pregunta": "¿Qué es TallerYa Plus?",
+          "claves": ["plus", "suscripcion", "premium", "regalo del mes"],
+          "respuesta": [
+            "Plus te da cupones exclusivos y un regalo cada mes, sin permanencia, por 30 días.",
+            "Lo solicitas en la página de Plus, pagas por Nequi y lo activamos en menos de 24 horas."
+          ],
+          "acciones": [{"texto": "Ver Plus", "url_nombre": "cuentas:plus"}],
+          "relacionadas": ["cupones", "insignias"]
+        },
+        {
+          "id": "insignias",
+          "pregunta": "¿Cómo gano insignias y puntos?",
+          "claves": ["insignias", "puntos", "logros", "premios"],
+          "respuesta": [
+            "Ganas puntos con servicios verificados, aportes útiles en el foro, buenas reseñas y rodadas. Los puntos se canjean por cupones."
+          ],
+          "acciones": [{"texto": "Mis insignias", "url_nombre": "logros:mis_insignias"}],
+          "relacionadas": ["cupones", "plus"]
+        }
+      ]
+    },
+    {
+      "id": "app",
+      "titulo": "App en el celular",
+      "preguntas": [
+        {
+          "id": "instalar-app",
+          "pregunta": "¿Cómo instalo TallerYa en el celular?",
+          "claves": ["instalar", "app", "aplicacion", "descargar", "iphone", "android", "pantalla de inicio"],
+          "respuesta": [
+            "No necesitas tienda de apps. En Android (Chrome) toca «Instalar» en la barra «Instala TallerYa» o en el menú. En iPhone abre el sitio en Safari, toca Compartir y luego «Agregar a inicio»."
+          ],
+          "relacionadas": ["notificaciones"]
+        },
+        {
+          "id": "notificaciones",
+          "pregunta": "¿Cómo activo los avisos en el celular?",
+          "claves": ["notificaciones", "avisos", "alertas", "campana", "push"],
+          "respuesta": [
+            "Abre la campana y toca «Activar avisos en este celular»: te avisamos de SOAT, técnico-mecánica, pico y placa y mantenimiento. En iPhone primero instala la app en el inicio."
+          ],
+          "acciones": [{"texto": "Ver notificaciones", "url_nombre": "notificaciones:lista"}],
+          "relacionadas": ["instalar-app", "pico-placa"]
+        }
+      ]
+    }
+  ]
+}

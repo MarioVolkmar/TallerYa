@@ -5131,7 +5131,7 @@ header .pt-enlace:hover::after { transform: translateX(2px); }
    Los estilos base son la escena final: con "reducir movimiento" basta apagar las animaciones.
    Para revertir: quitar chispa_escena=True de inicio.html; si se descartan del todo, borrar este bloque
    hasta «fin de escenas de Chispa» y los bloques {% if chispa_escena %} de talleres/_portada_moto.html. */
-.portada-garaje .pm-chispa-escena { --t-carga: 7.3s; --t-rayo: 8.3s; --t-lampara: 8.8s; --t-luz: 9.4s; --reposo: 12.3s; }
+.portada-garaje .pm-chispa-escena { --t-carga: 5.3s; --t-rayo: 6.3s; --t-lampara: 6.8s; --t-luz: 7.4s; --reposo: 10.3s; }
 .portada-vacia.pm-chispa-escena { --reposo: 5s; }
 
 /* Piezas comunes: carga, rayo doble, destello, chispas del bombillo y saludo en reposo */
@@ -5160,51 +5160,51 @@ header .pt-enlace:hover::after { transform: translateX(2px); }
 @keyframes pm-ch-saludo-der { 0%, 2% { opacity: 1; } 3%, 20% { opacity: 0; } 21%, 100% { opacity: 1; } }
 @keyframes pm-ch-saludo-alza { 0%, 2% { opacity: 0; } 3%, 20% { opacity: 1; } 21%, 100% { opacity: 0; } }
 
-/* -- 1) Portada sin sesión: la moto llega solo con la farola y se apaga (0,2–3,8 s) · Chispa entra barriendo (4–6 s) y apoya la escoba (6,4–7,1 s)
-       · carga y rayo (7,3–8,8 s) · la lámpara parpadea y prende (8,8–9,8 s) · saluda (9,8–11,8 s) · la moto enciende (10 s) -- */
-.portada-garaje .portada-escena.pm-chispa-escena .pm-lampara { animation: pm-mecer 3.4s ease-in-out 11.5s infinite; }
+/* -- 1) Portada sin sesión (intro ~10 s): la moto llega en penumbra (0,2–3,4 s) · Chispa entra barriendo (2,6–4,2 s) y apoya la escoba (4,5–5,2 s)
+       · carga y rayo (5,3–6,8 s) · la lámpara parpadea y prende (6,8–7,8 s) · saluda (7,8–9,8 s) · la moto enciende (8 s) -- */
+.portada-garaje .portada-escena.pm-chispa-escena .pm-lampara { animation: pm-mecer 3.4s ease-in-out 9.5s infinite; }
 .portada-garaje .portada-escena.pm-chispa-escena .pm-luz, .portada-garaje .portada-escena.pm-chispa-escena .pm-charco,
 .portada-garaje .portada-escena.pm-chispa-escena .pm-halo-moto { animation: pm-ch-luz .45s ease-out var(--t-luz) both; }
 .portada-garaje .portada-escena.pm-chispa-escena .pm-bombillo { animation: pm-ch-bombillo .6s linear var(--t-lampara) both, pm-brillo 1.8s ease-in-out var(--reposo) infinite; }
 /* La moto llega solo con la farola (faro y haz); se estaciona, se apaga y todo queda oscuro; enciende de nuevo a los 10 s */
-.portada-garaje .portada-escena.pm-chispa-escena .pm-moto { animation: pm-ralenti .16s linear 0s 22, pm-arranca-motor .9s ease-out 10s forwards, pm-ralenti .16s linear 10.9s infinite, pm-chg-ilumina .4s ease-out var(--t-luz) both; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-moto { animation: pm-ralenti .16s linear 0s 22, pm-arranca-motor .9s ease-out 8s forwards, pm-ralenti .16s linear 8.9s infinite, pm-chg-ilumina .4s ease-out var(--t-luz) both; }
 .portada-garaje .portada-escena.pm-chispa-escena .portada-tablero, .portada-garaje .portada-escena.pm-chispa-escena .portada-letrero { animation: pm-chg-ilumina .4s ease-out var(--t-luz) both; }
 .portada-garaje .portada-escena.pm-chispa-escena .pm-lampara > g > path { animation: pm-chg-ilumina .3s ease-out var(--t-lampara) both; }
 /* Chispa entra en penumbra como la moto: solo brillan sus ojos (y la carga y el rayo); todo recupera el color al prender la lámpara */
 .pm-chg-ojos { pointer-events: none; animation: pm-chg-ojos .4s ease-out var(--t-luz) both; }
 @keyframes pm-chg-ojos { from { opacity: .9; } to { opacity: 0; } }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-faro { animation: pm-chg-faro 1s linear 10s both, pm-titilar 2.2s ease-in-out 11s infinite; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-faro-halo { animation: pm-chg-halo-faro 1s linear 10s both, pm-halo 2.2s ease-in-out 11s infinite; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-haz { animation: pm-chg-haz 1s linear 10s both, pm-haz-respira 3.2s ease-in-out 11s infinite; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-stop { animation: pm-chg-stop 1.2s linear 10s both; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-stop-brillo { animation: pm-chg-stop-brillo 1.2s linear 10s both; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-direccional { animation: pm-chg-direccional 1.2s linear 10s both; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-humo-acelera circle { animation: pm-bocanada 1.6s ease-out 10.1s both; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-humo circle { animation-delay: calc(11s + var(--r)); }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-arranque { animation: pm-combo-llega 8s linear both, pm-arranque 6s cubic-bezier(.3, .7, .3, 1) 14.5s infinite; }
-.portada-garaje .portada-escena.pm-chispa-escena .pm-rueda { animation: pm-combo-rueda 8s linear both, pm-girar 6s ease-in-out 14.5s infinite; }
-.pm-ch-garaje .pm-ch-anda { animation: pm-chg-anda 2s cubic-bezier(.3, .6, .4, 1) 4s both; }
-.pm-ch-garaje .pm-ch-pasos { animation: pm-ch-pasos .4s linear 4s 5, pm-chg-inclina .7s ease-in-out 6.4s; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-faro { animation: pm-chg-faro 1s linear 8s both, pm-titilar 2.2s ease-in-out 9s infinite; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-faro-halo { animation: pm-chg-halo-faro 1s linear 8s both, pm-halo 2.2s ease-in-out 9s infinite; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-haz { animation: pm-chg-haz 1s linear 8s both, pm-haz-respira 3.2s ease-in-out 9s infinite; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-stop { animation: pm-chg-stop 1.2s linear 8s both; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-stop-brillo { animation: pm-chg-stop-brillo 1.2s linear 8s both; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-direccional { animation: pm-chg-direccional 1.2s linear 8s both; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-humo-acelera circle { animation: pm-bocanada 1.6s ease-out 8.1s both; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-humo circle { animation-delay: calc(9s + var(--r)); }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-arranque { animation: pm-combo-llega 8s linear both, pm-arranque 6s cubic-bezier(.3, .7, .3, 1) 12.5s infinite; }
+.portada-garaje .portada-escena.pm-chispa-escena .pm-rueda { animation: pm-combo-rueda 8s linear both, pm-girar 6s ease-in-out 12.5s infinite; }
+.pm-ch-garaje .pm-ch-anda { animation: pm-chg-anda 1.6s cubic-bezier(.3, .6, .4, 1) 2.6s both; }
+.pm-ch-garaje .pm-ch-pasos { animation: pm-ch-pasos .4s linear 2.6s 4, pm-chg-inclina .7s ease-in-out 4.5s; }
 .pm-ch-garaje .chispa { animation: pm-ch-vibrar .1s linear var(--t-carga) 10, pm-chg-ilumina .4s ease-out var(--t-luz) both; }
-.pm-ch-garaje .ch-mira { animation: pm-chg-mira 12.3s linear both, ch-mirar 8.5s ease-in-out 12.3s infinite; }
-/* Chispa llega barriendo (4–6 s), da un último barrido, apoya la escoba con la mano (6,4–7,1 s, con rebote), carga y lanza el rayo,
-   saluda (9,8–11,8 s). En reposo (cada 14 s) saluda y luego toma la escoba con el mismo movimiento al revés, barre y la vuelve a apoyar. */
-.pm-ch-garaje .ch-b-escoba { animation: pm-chg-i-escoba 12.3s linear both, pm-chg-r-escoba 14s linear 12.3s infinite; }
-.pm-ch-garaje .ch-polvo { animation: pm-chg-i-polvo 12.3s linear both, pm-chg-r-polvo 14s linear 12.3s infinite; }
-.pm-ch-garaje .pm-ch-escoba-apoyada { animation: pm-chg-i-apoyada 12.3s linear both, pm-chg-r-apoyada 14s linear 12.3s infinite, pm-chg-ilumina .4s ease-out var(--t-luz) both; }
-.pm-ch-garaje .pm-ch-escoba-mov { animation: pm-chg-escoba-deja .7s ease-out 6.4s both, pm-chg-escoba-r 14s linear 12.3s infinite; }
-.pm-ch-garaje .ch-b-izq { animation: pm-chg-i-izq 12.3s linear both, pm-chg-r-izq 14s linear 12.3s infinite; }
-.pm-ch-garaje .ch-b-der { animation: pm-chg-i-der 12.3s linear both, pm-chg-r-der 14s linear 12.3s infinite; }
-.pm-ch-garaje .ch-b-alza { animation: pm-chg-i-alza 12.3s linear both, pm-chg-r-alza 14s linear 12.3s infinite; }
+.pm-ch-garaje .ch-mira { animation: pm-chg-mira 10.3s linear both, ch-mirar 8.5s ease-in-out 10.3s infinite; }
+/* Chispa llega barriendo (2,6–4,2 s), da un último barrido, apoya la escoba con la mano (4,5–5,2 s, con rebote), carga y lanza el rayo,
+   saluda (7,8–9,8 s). En reposo (cada 14 s) saluda y luego toma la escoba con el mismo movimiento al revés, barre y la vuelve a apoyar. */
+.pm-ch-garaje .ch-b-escoba { animation: pm-chg-i-escoba 10.3s linear both, pm-chg-r-escoba 14s linear 10.3s infinite; }
+.pm-ch-garaje .ch-polvo { animation: pm-chg-i-polvo 10.3s linear both, pm-chg-r-polvo 14s linear 10.3s infinite; }
+.pm-ch-garaje .pm-ch-escoba-apoyada { animation: pm-chg-i-apoyada 10.3s linear both, pm-chg-r-apoyada 14s linear 10.3s infinite, pm-chg-ilumina .4s ease-out var(--t-luz) both; }
+.pm-ch-garaje .pm-ch-escoba-mov { animation: pm-chg-escoba-deja .7s ease-out 4.5s both, pm-chg-escoba-r 14s linear 10.3s infinite; }
+.pm-ch-garaje .ch-b-izq { animation: pm-chg-i-izq 10.3s linear both, pm-chg-r-izq 14s linear 10.3s infinite; }
+.pm-ch-garaje .ch-b-der { animation: pm-chg-i-der 10.3s linear both, pm-chg-r-der 14s linear 10.3s infinite; }
+.pm-ch-garaje .ch-b-alza { animation: pm-chg-i-alza 10.3s linear both, pm-chg-r-alza 14s linear 10.3s infinite; }
 @keyframes pm-chg-ilumina { from { filter: brightness(.22) saturate(.5); } to { filter: none; } }
 @keyframes pm-chg-halo-faro { 0% { opacity: 0; } 10% { opacity: .9; } 30% { opacity: .4; } 60%, 100% { opacity: .7; } }
 @keyframes pm-chg-inclina { 0%, 100% { transform: rotate(0); } 45% { transform: rotate(-4deg); } }
-@keyframes pm-chg-i-escoba { 0%, 52% { opacity: 1; } 52.1%, 100% { opacity: 0; } }
-@keyframes pm-chg-i-apoyada { 0%, 52% { opacity: 0; } 52.1%, 100% { opacity: 1; } }
-@keyframes pm-chg-i-polvo { 0%, 31% { opacity: 0; } 32.5%, 48.8% { opacity: 1; } 50.4%, 100% { opacity: 0; } }
-@keyframes pm-chg-i-izq { 0%, 52% { opacity: 0; } 52.1%, 100% { opacity: 1; } }
-@keyframes pm-chg-i-der { 0%, 52% { opacity: 0; } 52.1%, 79.7% { opacity: 1; } 80.9%, 95.9% { opacity: 0; } 97.2%, 100% { opacity: 1; } }
-@keyframes pm-chg-i-alza { 0%, 79.7% { opacity: 0; } 80.9%, 95.9% { opacity: 1; } 97.2%, 100% { opacity: 0; } }
+@keyframes pm-chg-i-escoba { 0%, 43.7% { opacity: 1; } 43.8%, 100% { opacity: 0; } }
+@keyframes pm-chg-i-apoyada { 0%, 43.7% { opacity: 0; } 43.8%, 100% { opacity: 1; } }
+@keyframes pm-chg-i-polvo { 0%, 24% { opacity: 0; } 25.2%, 40.8% { opacity: 1; } 42.5%, 100% { opacity: 0; } }
+@keyframes pm-chg-i-izq { 0%, 43.7% { opacity: 0; } 43.8%, 100% { opacity: 1; } }
+@keyframes pm-chg-i-der { 0%, 43.7% { opacity: 0; } 43.8%, 75.7% { opacity: 1; } 76.9%, 95.1% { opacity: 0; } 96.1%, 100% { opacity: 1; } }
+@keyframes pm-chg-i-alza { 0%, 75.7% { opacity: 0; } 76.9%, 95.1% { opacity: 1; } 96.1%, 100% { opacity: 0; } }
 @keyframes pm-chg-escoba-deja { 0% { transform: translate(8px, 6px) rotate(16deg); } 35% { transform: translate(4px, -14px) rotate(-4deg); } 70% { transform: translate(0, -2px) rotate(5deg); } 85% { transform: translate(0, 0) rotate(1deg); } 100% { transform: translate(0, 0) rotate(3deg); } }
 @keyframes pm-chg-escoba-r { 0%, 42% { transform: translate(0, 0) rotate(3deg); } 43% { transform: translate(0, 0) rotate(1deg); } 44.5% { transform: translate(0, -2px) rotate(5deg); } 45.8% { transform: translate(4px, -14px) rotate(-4deg); } 47%, 68% { transform: translate(8px, 6px) rotate(16deg); } 69.2% { transform: translate(4px, -14px) rotate(-4deg); } 70.5% { transform: translate(0, -2px) rotate(5deg); } 72% { transform: translate(0, 0) rotate(1deg); } 73%, 100% { transform: translate(0, 0) rotate(3deg); } }
 @keyframes pm-chg-r-alza { 0%, 1% { opacity: 0; } 2%, 12% { opacity: 1; } 13%, 100% { opacity: 0; } }
@@ -5213,8 +5213,8 @@ header .pt-enlace:hover::after { transform: translateX(2px); }
 @keyframes pm-chg-r-escoba { 0%, 46.9% { opacity: 0; } 47%, 68% { opacity: 1; } 68.1%, 100% { opacity: 0; } }
 @keyframes pm-chg-r-apoyada { 0%, 46.9% { opacity: 1; } 47%, 68% { opacity: 0; } 68.1%, 100% { opacity: 1; } }
 @keyframes pm-chg-r-polvo { 0%, 48% { opacity: 0; } 50%, 66% { opacity: 1; } 67.5%, 100% { opacity: 0; } }
-@keyframes pm-chg-anda { 0% { transform: translateX(340px); opacity: 0; } 8% { opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
-@keyframes pm-chg-mira { 0%, 32% { transform: translate(0, 0); } 34%, 50% { transform: translate(-3px, 1.5px); } 52%, 58% { transform: translate(-4px, 2px); } 60%, 76% { transform: translate(-3px, -4px); } 80%, 100% { transform: translate(0, 0); } }
+@keyframes pm-chg-anda { 0% { transform: translateX(272px); opacity: 0; } 8% { opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
+@keyframes pm-chg-mira { 0%, 25% { transform: translate(0, 0); } 27%, 42% { transform: translate(-3px, 1.5px); } 44%, 50% { transform: translate(-4px, 2px); } 52%, 70% { transform: translate(-3px, -4px); } 74%, 100% { transform: translate(0, 0); } }
 @keyframes pm-chg-faro { 0% { opacity: .08; filter: none; } 10% { opacity: 1; filter: brightness(1.9); } 30% { opacity: .5; filter: none; } 60%, 100% { opacity: 1; filter: none; } }
 @keyframes pm-chg-haz { 0% { opacity: 0; } 10% { opacity: .95; } 30% { opacity: .5; } 60%, 100% { opacity: .7; } }
 @keyframes pm-chg-stop { 0% { fill: #4a1712; } 2%, 60% { fill: #ff2a1f; } 80%, 100% { fill: #e2412f; } }

@@ -220,6 +220,7 @@
     </div>
   </footer>
 <script src="{% static 'talleres/js/paginar.js' %}" defer></script>
+{% block chat_ayuda %}{% include "ayuda/_chispa_chat.html" %}{% endblock %}
 <div class="instalar-app" id="instalar-app" hidden role="dialog" aria-label="Instalar TallerYa">
   <img src="{% static 'talleres/img/pwa/icon-192.png' %}" alt="" width="40" height="40">
   <div class="instalar-texto">

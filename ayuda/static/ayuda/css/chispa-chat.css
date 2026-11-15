@@ -1,0 +1,137 @@
+/* Chat de ayuda con Chispa: botón flotante y ventana (panel desde abajo en celular, tarjeta en escritorio) */
+.cc { position: fixed; right: 16px; bottom: 16px; z-index: 55; font-family: "Archivo", system-ui, sans-serif; }
+/* si está la barra «Instala TallerYa», Chispa sube para no taparla */
+body:has(.instalar-app:not([hidden])) .cc { bottom: 92px; }
+/* Botón = Chispa entera, de pie en la esquina, sin círculo */
+.cc-boton { position: relative; display: block; width: 52px; height: 104px; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 14px; }
+.cc-boton:focus-visible { outline: 2px solid #e8a92a; outline-offset: 4px; }
+.cc-figura { width: 100%; height: 100%; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .45)); }
+.cc-figura .ch-cuerpo { animation: cc-flota 2.8s ease-in-out infinite; }
+.cc-figura .ch-sombra { transform-box: fill-box; transform-origin: center; animation: cc-sombra 2.8s ease-in-out infinite; }
+/* En reposo cuelgan los dos brazos simétricos. Al saludar gira el MISMO brazo derecho sobre el hombro (la tuerca):
+   sube por fuera, saluda y baja suave hasta exactamente su pose de reposo (rotate 0): sin cambio de elemento ni salto. */
+.cc .cc-figura .ch-b-der { opacity: 1; animation: none; }
+.cc .cc-figura .ch-b-alza { opacity: 0; animation: none; }
+/* el JS pone .cc-saluda: cada ~9 s, y al pasar el cursor o enfocar a Chispa (nunca a medias) */
+.cc.cc-saluda .cc-figura .ch-b-der-giro { animation: cc-brazo 2.2s ease-in-out; }
+.cc-abierto .cc-figura { animation: cc-salta .5s cubic-bezier(.3, 1.6, .5, 1); }
+/* Chispas por el electrodo al pasar el cursor o enfocar: una ráfaga de ~0,5 s (el JS pone .cc-chispea) */
+.cc-chispas { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.cc-chispas path, .cc-arco { opacity: 0; }
+.cc-chispas path { transform-box: fill-box; }
+.cc-chispea .cc-chispas g:last-child path { animation: cc-chispa .5s ease-out both; }
+.cc-chispea .cc-chispas g:last-child path:nth-child(even) { animation-delay: .05s; }
+.cc-chispea .cc-arco { animation: cc-arco .45s steps(1, end) both; }
+@keyframes cc-chispa { 0% { opacity: 0; transform: translate(0, 0); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--x), var(--y)); } }
+@keyframes cc-arco { 0% { opacity: 1; } 20% { opacity: .2; } 40% { opacity: 1; } 65%, 100% { opacity: 0; } }
+@media (max-width: 639px) { .cc { right: 10px; bottom: 10px; } .cc-boton { width: 44px; height: 88px; } }
+/* Globito «¿Te ayudo?»: viñeta de pensamiento con dos burbujitas hacia Chispa. Tocarla abre el chat; tocar fuera la cierra. */
+.cc-globito { position: absolute; right: 60px; bottom: 74px; margin: 0; padding: 8px 14px; border: 0; border-radius: 20px 20px 20px 20px / 18px 18px 18px 18px;
+  background: #efe6d2; color: #1d2426; font: inherit; font-weight: 600; font-size: .88rem; letter-spacing: 0; text-transform: none; white-space: nowrap;
+  cursor: pointer; filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .25)); animation: cc-pensar .3s ease-out both; }
+.cc-globito[hidden] { display: none; }
+.cc-burbuja { position: absolute; border-radius: 50%; background: #efe6d2; }
+.cc-b1 { right: -9px; bottom: -6px; width: 10px; height: 10px; }
+.cc-b2 { right: -17px; bottom: -14px; width: 6px; height: 6px; }
+.cc-globito:focus-visible { outline: 2px solid #e8a92a; outline-offset: 3px; }
+@media (max-width: 639px) {
+  /* en celular, encima de la cabeza de Chispa; las burbujitas bajan hacia ella */
+  .cc-globito { right: 0; bottom: 100px; padding: 6px 11px; font-size: .78rem; }
+  .cc-b1 { right: 18px; bottom: -9px; width: 8px; height: 8px; }
+  .cc-b2 { right: 13px; bottom: -16px; width: 5px; height: 5px; }
+}
+@keyframes cc-pensar { from { opacity: 0; transform: translateY(4px) scale(.9); } to { opacity: 1; transform: none; } }
+/* Esconder a Chispa: se arrastra al borde derecho. Escondida, se asoma desde detrás del borde (la "pared"):
+   un lado de la cabeza con un ojo, inclinada, y una manito agarrada al borde. Con el cursor se asoma más. */
+.cc { transition: transform .35s ease; touch-action: pan-y; }
+.cc-boton { cursor: grab; transition: clip-path .35s ease, transform .35s ease; }
+.cc-arrastrando, .cc-arrastrando .cc-boton { cursor: grabbing; transition: none; }
+.cc-mano { position: absolute; left: 14px; top: 46px; width: 19px; height: 14px; opacity: 0; pointer-events: none; transition: left .35s ease, opacity .2s; }
+.cc-pista { position: absolute; right: 4px; bottom: 112px; margin: 0; padding: 5px 10px; border-radius: 10px; background: rgba(20, 26, 28, .92);
+  border: 1px solid rgba(239, 230, 210, .18); color: #d8d0bd; font-size: .75rem; white-space: nowrap; pointer-events: none; animation: cc-pensar .3s ease-out both; }
+.cc-pista[hidden] { display: none; }
+.cc-escondida { transform: translateX(44px); }
+.cc-escondida .cc-boton { cursor: pointer; clip-path: inset(0 0 54px 0); transform: rotate(-12deg); transform-origin: 40% 45%; }
+.cc-escondida .cc-mano { opacity: 1; }
+.cc-escondida .cc-globito, .cc-escondida .cc-chispas, .cc-escondida .cc-pista { display: none; }
+@media (hover: hover) {
+  .cc-escondida:hover { transform: translateX(32px); }
+  .cc-escondida:hover .cc-boton { transform: rotate(-6deg); }
+  .cc-escondida:hover .cc-mano { left: 28px; }
+  .cc-escondida:hover .ch-mira { animation: none; transform: translateX(-3px); }
+}
+@media (max-width: 639px) {
+  .cc-escondida { transform: translateX(37px); }
+  .cc-escondida .cc-boton { clip-path: inset(0 0 46px 0); }
+  .cc-mano { left: 13px; top: 40px; width: 14px; height: 10px; }
+  .cc-pista { bottom: 96px; font-size: .7rem; }
+}
+/* botón de esconder en la cabecera del chat: mismo estilo que la × */
+.cc-panel-esconder { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 1px solid rgba(239, 230, 210, .2);
+  background: none; color: #b8b09f; cursor: pointer; transition: transform .2s ease, background-color .2s, border-color .2s, color .2s; }
+.cc-panel-esconder svg { width: 18px; height: 18px; overflow: visible; }
+.cc-ojo-ic { transform-box: fill-box; transform-origin: center; transition: transform .2s ease; }
+.cc-panel-esconder:hover, .cc-panel-esconder:focus-visible, .cc-panel-esconder:active { transform: scale(1.06); background: rgba(232, 169, 42, .14); border-color: #e8a92a; color: #f2c25a; }
+.cc-raya { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.cc-panel-esconder svg { display: block; }
+/* hover: el ojo se achica un poco y la raya se vuelve a dibujar en diagonal */
+.cc-panel-esconder:hover .cc-ojo-ic, .cc-panel-esconder:focus-visible .cc-ojo-ic, .cc-panel-esconder:active .cc-ojo-ic { transform: scale(.86); }
+.cc-panel-esconder:hover .cc-raya, .cc-panel-esconder:focus-visible .cc-raya, .cc-panel-esconder:active .cc-raya { animation: cc-raya .35s ease-out both; }
+@keyframes cc-raya { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes cc-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes cc-sombra { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.85); opacity: .7; } }
+@keyframes cc-brazo { 0% { transform: rotate(0); } 22% { transform: rotate(-162deg); } 35% { transform: rotate(-140deg); } 48% { transform: rotate(-162deg); } 61% { transform: rotate(-140deg); } 72% { transform: rotate(-156deg); animation-timing-function: ease-out; } 100% { transform: rotate(0); } }
+@keyframes cc-salta { 0% { transform: translateY(0); } 40% { transform: translateY(-14px); } 100% { transform: translateY(0); } }
+
+.cc-panel { position: fixed; z-index: 70; display: flex; flex-direction: column; background: #161c1e; color: #efe6d2;
+  border: 1px solid rgba(239, 230, 210, .14); box-shadow: 0 18px 50px rgba(0, 0, 0, .55); left: 0; right: 0; bottom: 0;
+  max-height: min(82vh, 640px); border-radius: 18px 18px 0 0; animation: cc-sube .25s ease-out both; }
+.cc-panel[hidden] { display: none; }
+@media (min-width: 640px) {
+  .cc-panel { left: auto; right: 16px; bottom: 128px; width: 380px; height: min(580px, calc(100vh - 150px)); max-height: none; border-radius: 18px; }
+  body:has(.instalar-app:not([hidden])) .cc-panel { bottom: 204px; height: min(520px, calc(100vh - 230px)); }
+}
+.cc-cabeza { display: flex; align-items: center; gap: 10px; padding: 12px 12px 12px 14px; border-bottom: 1px solid rgba(239, 230, 210, .1); }
+.cc-panel .chispa { overflow: hidden; margin: 0; }
+.cc-cabeza .chispa { width: 26px; height: 44px; flex: none; }
+.cc-titulo { flex: 1; margin: 0; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .06em; font-size: 1.05rem; }
+.cc-titulo small { display: block; font-family: "Archivo", sans-serif; text-transform: none; letter-spacing: 0; font-size: .72rem; color: #b8b09f; }
+.cc-cerrar { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 1px solid rgba(239, 230, 210, .2); background: none; color: #efe6d2; cursor: pointer;
+  transition: transform .2s ease, background-color .2s, border-color .2s, color .2s; }
+.cc-cerrar svg { display: block; width: 18px; height: 18px; transform-origin: 50% 50%; transition: transform .2s ease; }
+.cc-cerrar:hover, .cc-cerrar:focus-visible, .cc-cerrar:active { transform: scale(1.06); background: rgba(242, 97, 29, .14); border-color: #f2611d; color: #ff9a5c; }
+.cc-cerrar:hover svg, .cc-cerrar:focus-visible svg, .cc-cerrar:active svg { transform: rotate(90deg); }
+.cc-cerrar:focus-visible, .cc-panel-esconder:focus-visible, .cc-chip:focus-visible, .cc-accion:focus-visible, .cc-enviar:focus-visible { outline: 2px solid #e8a92a; outline-offset: 2px; }
+.cc-log { flex: 1; overflow-y: auto; padding: 14px 12px 6px; display: flex; flex-direction: column; gap: 8px; overscroll-behavior: contain; }
+.cc-msg { max-width: 88%; padding: 9px 12px; border-radius: 14px; font-size: .9rem; line-height: 1.4; }
+.cc-msg p { margin: 0; }
+.cc-msg p + p { margin-top: 6px; }
+.cc-bot { align-self: flex-start; background: #222a2c; border: 1px solid rgba(232, 169, 42, .25); border-bottom-left-radius: 4px; }
+.cc-yo { align-self: flex-end; background: #f2611d; color: #fff; border-bottom-right-radius: 4px; font-weight: 600; }
+.cc-chips, .cc-acciones { display: flex; flex-wrap: wrap; gap: 6px; }
+.cc-chip { padding: 7px 11px; border-radius: 999px; border: 1px solid rgba(232, 169, 42, .55); background: rgba(232, 169, 42, .06); color: #efe6d2;
+  font: inherit; font-size: .8rem; text-align: left; cursor: pointer; }
+.cc-chip:hover { background: rgba(232, 169, 42, .18); }
+.cc-chip-volver { border-color: rgba(239, 230, 210, .25); color: #b8b09f; }
+.cc-accion { display: inline-flex; align-items: center; padding: 7px 13px; border-radius: 999px; background: #e8a92a; color: #141a1c; font-weight: 700; font-size: .8rem; text-decoration: none; }
+.cc-accion:hover { background: #f2c25a; }
+.cc-escribiendo { display: flex; align-items: center; gap: 8px; color: #b8b09f; font-size: .8rem; }
+.cc-escribiendo .chispa { width: 20px; height: 34px; }
+.cc-escribiendo .ch-mira { animation: cc-barrer .5s ease-in-out infinite alternate !important; }
+.cc-form { display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); border-top: 1px solid rgba(239, 230, 210, .1); }
+.cc-form input { flex: 1; min-width: 0; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(239, 230, 210, .2); background: #0f1415; color: #efe6d2; font: inherit; font-size: 16px; }
+.cc-form input:focus { outline: 2px solid rgba(232, 169, 42, .7); outline-offset: 0; }
+.cc-enviar { padding: 0 14px; border-radius: 12px; border: 0; background: #f2611d; color: #fff; font-weight: 700; cursor: pointer; }
+.cc-velo { position: fixed; inset: 0; z-index: 69; background: rgba(0, 0, 0, .45); }
+@media (min-width: 640px) { .cc-velo { display: none; } }
+@keyframes cc-aparece { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes cc-sube { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes cc-barrer { from { transform: translateX(-3px); } to { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) {
+  .cc-globito, .cc-panel { animation: none; }
+  .cc-escribiendo .ch-mira { animation: none !important; }
+  .cc-figura, .cc-figura .ch-cuerpo, .cc-figura .ch-sombra, .cc-abierto .cc-figura, .cc.cc-saluda .cc-figura .ch-b-der-giro,
+  .cc-chispea .cc-chispas path, .cc-chispea .cc-arco { animation: none !important; }
+  .cc, .cc-boton, .cc-mano, .cc-cerrar, .cc-cerrar svg, .cc-panel-esconder, .cc-ojo-ic { transition: none !important; }
+  .cc-raya { animation: none !important; }
+}
