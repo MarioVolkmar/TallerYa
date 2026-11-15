@@ -6,7 +6,7 @@
   <div>
     <p class="etiqueta">Insignias</p>
     <h1 class="titulo text-3xl md:text-4xl mt-2">Tus <span class="text-lava">logros</span></h1>
-    <p class="text-suave mt-2 max-w-xl">Se ganan cuidando tu moto y ayudando a la comunidad, no publicando por publicar. Cada insignia tiene un tope por mes.</p>
+    <p class="text-suave mt-2 max-w-xl">Gana puntos cuidando tu moto, ayudando en el foro y rodando con otros moteros. Cámbialos por descuentos en talleres.</p>
   </div>
   <p class="papel p-6"><span class="etiqueta">Puntos disponibles</span><br><strong class="titulo text-3xl">{{ puntos }}</strong></p>
 </div>
@@ -25,14 +25,27 @@
   <h2 class="titulo text-2xl md:text-3xl">Canjea tus puntos</h2>
   <div class="separador mt-4 mb-6"></div>
   {% if not tiene_perfil %}<p class="text-suave text-sm mb-4">Para recibir cupones completa tu perfil con tu celular.</p>{% endif %}
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <div class="cj-rejilla">
     {% for c in cupones %}
-    <article class="papel p-6">
-      <p class="titulo text-lg">{{ c.titulo }}</p>
-      <p class="text-sm text-suave mt-1">{{ c.taller|default:"Todos los talleres" }}</p>
-      <form method="post" action="{% url 'logros:canjear' c.pk %}" class="mt-4">{% csrf_token %}
-        <button class="btn {% if puntos >= c.puntos_logros %}btn-lava{% else %}btn-borde{% endif %} text-xs px-5 py-2.5">Canjear por {{ c.puntos_logros }} puntos</button>
-      </form>
+    <article class="cj-cupon{% if puntos >= c.puntos_logros %} alcanza{% endif %}">
+      <div class="cj-costo">
+        <strong>{{ c.puntos_logros }}</strong>
+        <span>puntos</span>
+      </div>
+      <div class="cj-cuerpo">
+        <p class="cj-titulo">{{ c.titulo }}</p>
+        <p class="cj-taller">{% if c.taller %}{{ c.taller }}{% else %}Todos los talleres aliados{% endif %}{% if c.valido_hasta %} · hasta el {{ c.valido_hasta|date:"j M"|lower }}{% endif %}</p>
+        {% if puntos >= c.puntos_logros %}
+          <form method="post" action="{% url 'logros:canjear' c.pk %}" class="mt-3">{% csrf_token %}
+            <button class="btn btn-lava text-xs px-5 py-2.5">Canjear ahora</button>
+          </form>
+        {% else %}
+          <div class="cj-falta">
+            <span class="cj-barra" aria-hidden="true"><i style="width: {% widthratio puntos c.puntos_logros 100 %}%"></i></span>
+            <small>Te faltan {{ c.faltan }} punto{{ c.faltan|pluralize }}</small>
+          </div>
+        {% endif %}
+      </div>
     </article>
     {% empty %}
     <p class="text-suave">Pronto habrá cupones para canjear con puntos.</p>
@@ -40,14 +53,31 @@
   </div>
 </section>
 
-{% if logros or canjes %}
+{% if movimientos %}
+{# Historial de puntos: una sola línea de tiempo con lo ganado (+) y lo canjeado (−) #}
 <section class="mt-10">
   <h2 class="titulo text-2xl">Historial</h2>
-  <div class="separador mt-4 mb-4"></div>
-  <ul class="space-y-2 text-sm">
-    {% for c in canjes %}<li>🎟 Canjeaste {{ c.puntos }} puntos por «{{ c.codigo.cupon.titulo }}» · código <strong>{{ c.codigo.codigo }}</strong> · {{ c.creado|date:"j M Y" }}</li>{% endfor %}
-    {% for l in logros %}<li>{{ l.insignia.emoji }} {{ l.insignia.nombre }} · +{{ l.puntos }} · {{ l.creado|date:"j M Y" }}</li>{% endfor %}
-  </ul>
+  <div class="separador mt-4 mb-5"></div>
+  <ol class="hp-lista">
+    {% for m in movimientos %}
+    <li class="hp-fila hp-{{ m.tipo }}{% if m.insignia %} ins-{{ m.insignia.clave }}{% endif %}">
+      <span class="hp-icono" aria-hidden="true">{% if m.tipo == "canje" %}🎟{% else %}{{ m.insignia.emoji }}{% endif %}</span>
+      <span class="hp-texto">
+        {% if m.tipo == "canje" %}
+        <strong>Canjeaste «{{ m.cupon.titulo }}»</strong>
+        <small>{{ m.cupon.taller|default:"Todos los talleres aliados" }} · <a href="{% url 'cupones:mi_cupon' m.codigo %}" class="hp-codigo">{{ m.codigo }}</a></small>
+        {% else %}
+        <strong>{{ m.insignia.nombre }}</strong>
+        <small>{{ m.insignia.descripcion }}</small>
+        {% endif %}
+      </span>
+      <span class="hp-lado">
+        <b class="hp-puntos">{% if m.tipo == "canje" %}−{% else %}+{% endif %}{{ m.puntos }}</b>
+        <time datetime="{{ m.fecha|date:'c' }}">{{ m.fecha|date:"j M Y"|lower }}</time>
+      </span>
+    </li>
+    {% endfor %}
+  </ol>
 </section>
 {% endif %}
 {% endblock %}

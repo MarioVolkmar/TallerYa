@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load humanize static %}
 
 {% block hero %}
 {% with estilo=motero|yesno:"vitrina,garaje" %}
@@ -8,7 +8,7 @@
   {% if estilo == "vitrina" and motos_portada %}
   <div class="portada-escena portada-carrusel" data-carrusel>
     {% for m in motos_portada %}
-    <div class="portada-slide{% if forloop.first %} activa{% endif %}" data-nombre="{{ m }}" data-url="{% url 'garaje:moto' m.pk %}">
+    <div class="portada-slide{% if forloop.first %} activa{% endif %}" data-nombre="{{ m.nombre_corto }}" data-url="{% url 'garaje:moto' m.pk %}">
       <iframe {% if forloop.first %}src{% else %}data-src{% endif %}="{% url 'garaje:vista_3d' m.pk %}" title="Modelo 3D de {{ m }}" tabindex="-1"></iframe>
     </div>
     {% endfor %}
@@ -33,9 +33,10 @@
     <div class="portada-ficha">
       <a href="{% if motos_portada %}{% url 'garaje:moto' motos_portada.0.pk %}{% else %}{% url 'garaje:agregar' %}{% endif %}" data-ficha-enlace>
         <small>Mi garaje</small>
-        <strong data-ficha-nombre>{% if motos_portada %}{{ motos_portada.0 }}{% else %}Agrega tu moto{% endif %}</strong>
+        <strong data-ficha-nombre>{% if motos_portada %}{{ motos_portada.0.nombre_corto }}{% else %}Agrega tu moto{% endif %}</strong>
         <em>{% if motos_portada %}Ver plan de mantenimiento →{% else %}Mantenimiento · SOAT · Tecno →{% endif %}</em>
       </a>
+      <div class="portada-barra">
       {% if motos_portada|length > 1 %}
       <div class="portada-controles">
         <button type="button" data-carrusel-ir="-1" aria-label="Moto anterior"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
@@ -43,6 +44,13 @@
         <button type="button" data-carrusel-ir="1" aria-label="Moto siguiente"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
       </div>
       {% endif %}
+      {% if motos_portada %}
+      <button type="button" class="portada-noche" data-portada-noche aria-pressed="false" aria-label="Ver la moto de noche" title="Día / noche">
+        <svg class="icono-luna" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="icono-sol" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      {% endif %}
+      </div>
     </div>
     {% else %}
     <p class="portada-ficha"><small>Talleres verificados</small><strong>Cita por WhatsApp</strong></p>
@@ -50,7 +58,34 @@
   </div>
 </section>
 {% endwith %}
-{% if avisos %}<div class="max-w-6xl w-full mx-auto px-4 mt-6">{% include "garaje/_avisos.html" %}</div>{% endif %}
+{% if motos_portada %}
+<script>
+  // Día / noche de las motos 3D de la portada: avisa a todas las vistas (también a las que cargan después) y lo recuerda.
+  (function () {
+    var boton = document.querySelector("[data-portada-noche]"); if (!boton) return;
+    var marcos = [].slice.call(document.querySelectorAll(".portada-slide iframe")), noche = false;
+    try { noche = localStorage.getItem("tallerya-portada-noche") === "1"; } catch (e) {}
+    function enviar(marco) { if (marco.contentWindow) marco.contentWindow.postMessage(noche ? "noche" : "dia", location.origin); }
+    function pintar() {
+      boton.setAttribute("aria-pressed", String(noche));
+      boton.setAttribute("aria-label", noche ? "Ver la moto de día" : "Ver la moto de noche");
+      boton.classList.toggle("es-noche", noche);
+    }
+    marcos.forEach(function (m) { m.addEventListener("load", function () { enviar(m); }); if (noche) enviar(m); });
+    // La vista 3D avisa "moto-lista" cuando ya escucha (el modelo carga después del "load" del iframe): se le reenvía el modo
+    window.addEventListener("message", function (e) {
+      if (e.origin !== location.origin || e.data !== "moto-lista") return;
+      if (e.source) e.source.postMessage(noche ? "noche" : "dia", location.origin);
+    });
+    boton.addEventListener("click", function () {
+      noche = !noche;
+      try { localStorage.setItem("tallerya-portada-noche", noche ? "1" : "0"); } catch (e) {}
+      pintar(); marcos.forEach(enviar);
+    });
+    pintar();
+  })();
+</script>
+{% endif %}
 {% if motos_portada|length > 1 %}
 <script>
   // Carrusel de las motos del motero: cambia solo cada 8 s y con las flechas. Solo la moto visible dibuja en 3D.
@@ -95,7 +130,7 @@
 <form method="get" action="{% url 'talleres:directorio' %}" id="buscar" class="scroll-mt-24 relative z-10 mt-8 md:-mt-8 ib papel" role="search">
   <div class="ib-cabeza">
     <h2 class="ib-titulo"><span class="ib-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 12.6a6 6 0 0 1-7.7 1.6L6.6 21a2.1 2.1 0 0 1-3-3l6.8-6.7a6 6 0 0 1 1.6-7.7z"/></svg></span>Encuentra tu <span class="text-lava">taller</span></h2>
-    <a href="{% url 'talleres:emergencias' %}" class="ib-emergencia"><span class="ib-emergencia-punto" aria-hidden="true"></span>¿Te varaste? <span class="ib-emergencia-sub">Abiertos ahora</span></a>
+    <a href="{% url 'talleres:emergencias' %}" class="ib-emergencia"><span class="ib-emergencia-punto" aria-hidden="true"></span>¿Te varaste? <span class="ib-emergencia-sub">Grúa y ayuda ya</span></a>
   </div>
   <div class="bb">
       <label class="bb-campo bb-q"><span class="sr-only">Qué necesitas</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
@@ -126,24 +161,85 @@
 
 {% include "noticias/_noticiero.html" with numero="02" %}
 
-{# Comunidad: rodadas y foro #}
-<section class="mt-14 comunidad" aria-label="Comunidad">
-  <a href="{% url 'foro:rodadas' %}" class="papel comunidad-tarjeta">
-    <span class="comunidad-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3.5"/><circle cx="18.5" cy="17" r="3.5"/><path d="M5.5 17 9 9h5l4.5 8M9 9 8 6H5.5M14 9l2-3h2.5"/></svg></span>
-    <span class="min-w-0"><strong>Rodadas</strong><small>Salidas en grupo: mira las próximas y di "Voy".</small></span>
-    <span class="comunidad-ir" aria-hidden="true">→</span>
-  </a>
-  <a href="{% url 'foro:lista' %}" class="papel comunidad-tarjeta">
-    <span class="comunidad-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 10h6M9 14h4"/></svg></span>
-    <span class="min-w-0"><strong>Foro</strong><small>Pregunta a otros moteros y a los talleres.</small></span>
-    <span class="comunidad-ir" aria-hidden="true">→</span>
-  </a>
+{# Papeles de tu moto: SOAT y técnico-mecánica (las emergencias ya están en el menú y en el buscador) #}
+<section class="mt-16">
+  <div class="flex items-end justify-between gap-4 mb-6">
+    <h2 class="titulo text-3xl md:text-4xl"><span class="numero">03</span>Papeles de tu moto</h2>
+  </div>
+  <div class="separador mb-8"></div>
+  <div class="tp-rejilla">
+    <a href="{% url 'tramites:soat' %}" class="tp-tarjeta">
+      <span class="tp-cabeza"><span class="tp-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span><strong>SOAT</strong></span>
+      <span class="tp-texto">Mira el precio de ley según el cilindraje y pídelo sin salir de TallerYa.</span>
+      {% if soat_desde %}<span class="tp-dato">Desde ${{ soat_desde|intcomma }}</span>{% endif %}
+      <span class="tp-ir">Pide tu SOAT <span aria-hidden="true">→</span></span>
+    </a>
+    <a href="{% url 'tramites:tecnomecanica' %}" class="tp-tarjeta">
+      <span class="tp-cabeza"><span class="tp-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 13l2 2 4-4"/></svg></span><strong>Técnico-mecánica</strong></span>
+      <span class="tp-texto">Compara CDA del Valle de Aburrá: precio para motos, horario y cómo llegar.</span>
+      {% if cda_total %}<span class="tp-dato">{{ cda_total }} CDA</span>{% endif %}
+      <span class="tp-ir">Ver CDA <span aria-hidden="true">→</span></span>
+    </a>
+  </div>
+</section>
+
+{# Comunidad: próximas rodadas y lo último del foro #}
+<section class="mt-16">
+  <div class="flex items-end justify-between gap-4 mb-6">
+    <h2 class="titulo text-3xl md:text-4xl"><span class="numero">04</span>Comunidad</h2>
+  </div>
+  <div class="separador mb-8"></div>
+  <div class="cm-columnas">
+    <div class="cm-col">
+      <div class="cm-cabeza">
+        <h3 class="cm-sub"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Próximas rodadas</h3>
+        <a href="{% url 'foro:rodadas' %}" class="inicio-ver-todos">Ver todas <span aria-hidden="true">→</span></a>
+      </div>
+      {% if rodadas_portada %}
+      <ul class="cm-lista">
+        {% for r in rodadas_portada %}
+        <li><a href="{{ r.get_absolute_url }}" class="cm-item">
+          <span class="cm-fecha"><strong>{{ r.fecha_hora|date:"j" }}</strong><small>{{ r.fecha_hora|date:"M"|lower }}</small></span>
+          <span class="cm-texto">
+            <strong>{{ r.pregunta.titulo }}</strong>
+            <small>{{ r.fecha_hora|date:"l"|lower }} · {{ r.fecha_hora|time:"g:i a" }} · {{ r.punto_encuentro }}</small>
+          </span>
+          <span class="cm-dato">{{ r.num_asistentes }} van</span>
+        </a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <a href="{% url 'foro:rodada_crear' %}" class="cm-vacio"><strong>Aún no hay rodadas programadas</strong><small>Organiza la primera y sal con otros moteros →</small></a>
+      {% endif %}
+    </div>
+    <div class="cm-col">
+      <div class="cm-cabeza">
+        <h3 class="cm-sub"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>En el foro</h3>
+        <a href="{% url 'foro:lista' %}" class="inicio-ver-todos">Ver todas <span aria-hidden="true">→</span></a>
+      </div>
+      {% if preguntas_portada %}
+      <ul class="cm-lista">
+        {% for p in preguntas_portada %}
+        <li><a href="{{ p.get_absolute_url }}" class="cm-item">
+          <span class="cm-estado{% if p.mejor_respuesta_id %} resuelta{% elif p.n_resp %} con{% endif %}" aria-hidden="true">{% if p.mejor_respuesta_id %}<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg>{% else %}{{ p.n_resp }}{% endif %}</span>
+          <span class="cm-texto">
+            <strong>{{ p.titulo }}</strong>
+            <small>{% if p.mejor_respuesta_id %}Resuelta · {% endif %}{{ p.n_resp }} respuesta{{ p.n_resp|pluralize }} · {{ p.creado|timesince }}</small>
+          </span>
+        </a></li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <a href="{% url 'foro:preguntar' %}" class="cm-vacio"><strong>El foro está esperando tu pregunta</strong><small>Pregunta a otros moteros y a los talleres →</small></a>
+      {% endif %}
+    </div>
+  </div>
 </section>
 
 {# Invitación a registrar taller: solo para visitantes sin sesión (los moteros y talleres ya tienen su cuenta) #}
 {% if not user.is_authenticated %}
 <section class="mt-16 papel p-6 md:p-10 relative overflow-hidden inicio-taller">
-  <span class="numero-fantasma !text-[9rem] !bottom-[-2.5rem]" aria-hidden="true">03</span>
+  <span class="numero-fantasma !text-[9rem] !bottom-[-2.5rem]" aria-hidden="true">05</span>
   <div class="relative inicio-taller-rejilla">
     <div>
       <p class="etiqueta">¿Tienes un taller?</p>

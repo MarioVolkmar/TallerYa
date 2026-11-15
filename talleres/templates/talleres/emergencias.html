@@ -1,19 +1,55 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Emergencias · Talleres abiertos ahora · TallerYa{% endblock %}
+{% block title %}¿Te varaste? Grúas y talleres abiertos ahora · TallerYa{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="em mt-6 md:mt-10">
   <header class="em-cabeza">
     <p class="etiqueta">Emergencias</p>
-    <h1 class="titulo text-3xl md:text-4xl mt-1">¿Te varaste? Talleres abiertos ahora</h1>
+    <h1 class="titulo text-3xl md:text-4xl mt-1">¿Te varaste? ¿Qué te pasó?</h1>
     <p class="text-sm text-suave mt-1">{{ ahora|date:"l j \d\e F, g:i a" }}. Llama antes de ir para confirmar.</p>
   </header>
 
+  <nav class="em-flujo" aria-label="¿Qué te pasó?">
+    {% for clave, texto in opciones %}
+    {% if necesito == clave %}<a href="?{% if barrio %}barrio={{ barrio.pk }}{% endif %}" role="button" aria-pressed="true"{% else %}<a href="?necesito={{ clave }}{% if barrio %}&amp;barrio={{ barrio.pk }}{% endif %}" role="button" aria-pressed="false"{% endif %} class="em-opcion{% if clave == 'accidente' %} em-opcion-accidente{% endif %}">{% include "talleres/_icono_emergencia.html" %}<span>{{ texto }}</span></a>
+    {% endfor %}
+  </nav>
+  {% if necesito %}<p class="em-pista">Toca otra vez la opción elegida para ver todos.</p>{% endif %}
+
+  {% if necesito == "accidente" %}
+  <div class="papel em-ayuda" role="alert">
+    <p class="titulo text-xl">Si hay heridos o peligro, llama primero al 123</p>
+    <a href="tel:123" class="btn em-123">📞 Llamar al 123</a>
+    <ul>
+      <li>Ponte a salvo fuera de la vía y señaliza el sitio.</li>
+      <li>No muevas a una persona herida; espera a los equipos de emergencia.</li>
+      <li>Para trámites o reportes de tránsito: Secretaría de Movilidad <a href="tel:+576044457777" class="underline">(604) 445 77 77</a>.</li>
+    </ul>
+    <p class="em-fuente">Fuente: Alcaldía de Medellín, Secretaría de Movilidad (medellin.gov.co), consultada en noviembre de 2026.</p>
+  </div>
+  {% elif necesito == "no_prende" %}
+  <div class="papel em-ayuda">
+    <p class="titulo text-xl">Antes de llamar, revisa esto</p>
+    <ul>
+      <li>¿Tiene gasolina? Mira el tanque; si tiene llave de paso, que esté abierta o en reserva.</li>
+      <li>El interruptor de apagado (en el manillar derecho) debe estar en encendido.</li>
+      <li>La pata lateral recogida y, si es automática, el freno apretado al dar arranque.</li>
+      <li>Si el tablero se apaga o el arranque suena débil, puede ser la batería.</li>
+    </ul>
+    <a href="{% url 'garaje:diagnostico' %}" class="boton-seccion">Diagnóstico guiado paso a paso →</a>
+  </div>
+  {% elif necesito == "pinchazo" %}
+  <div class="papel em-ayuda"><p class="text-sm">Orilla la moto y no sigas rodando con la llanta desinflada: puedes dañar el rin. Estos talleres van a despinchar donde estés.</p></div>
+  {% elif necesito == "gasolina" %}
+  <div class="papel em-ayuda"><p class="text-sm">Si tu moto tiene llave de paso, ponla en reserva (RES) y busca la estación más cercana. Si no, estos talleres te llevan gasolina.</p></div>
+  {% endif %}
+
   <div class="em-ubicacion papel">
     <button type="button" class="btn btn-lava em-cerca" id="em-cerca" hidden>📍 Ordenar por cercanía</button>
-    <p class="text-xs text-suave" id="em-estado">Usamos tu ubicación solo en tu teléfono para ordenar la lista; no la guardamos.</p>
+    <p class="text-xs text-suave" id="em-estado">Usamos tu ubicación solo en tu teléfono para ordenar la lista{% if mostrar_gruas %} y ponerla en el mensaje de WhatsApp a la grúa{% endif %}; no la guardamos.</p>
     <form method="get" class="em-barrio" id="em-barrio">
+      {% if necesito %}<input type="hidden" name="necesito" value="{{ necesito }}">{% endif %}
       <label class="campo-label">O elige tu barrio
         <select name="barrio" class="campo" onchange="this.form.submit()">
           <option value="">Todos los barrios</option>
@@ -24,11 +60,21 @@
     </form>
   </div>
 
+  {% if mostrar_gruas %}
+  <section aria-labelledby="em-gruas">
+    <h2 class="titulo text-xl em-titulo" id="em-gruas"><span class="em-punto em-abierto"></span>Grúas para motos ({{ gruas|length }})</h2>
+    <ul class="em-lista" data-ordenable>
+      {% for g in gruas %}{% include "talleres/_grua_item.html" %}
+      {% empty %}<li class="papel em-vacio">Aún no hay grúas registradas. Mira abajo los talleres con grúa.</li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
   <section aria-labelledby="em-abiertos">
-    <h2 class="titulo text-xl em-titulo" id="em-abiertos"><span class="em-punto em-abierto"></span>Abiertos ahora ({{ abiertos|length }})</h2>
+    <h2 class="titulo text-xl em-titulo" id="em-abiertos"><span class="em-punto em-abierto"></span>{% if mostrar_gruas and necesito %}Talleres con grúa abiertos{% else %}Talleres abiertos ahora{% endif %} ({{ abiertos|length }})</h2>
     <ul class="em-lista" data-ordenable>
       {% for t in abiertos %}{% include "talleres/_emergencia_item.html" %}
-      {% empty %}<li class="papel em-vacio">Ningún taller de emergencias está abierto en este momento. Prueba con los de abajo: algunos no han registrado su horario.</li>{% endfor %}
+      {% empty %}<li class="papel em-vacio">Ningún taller {% if necesito %}con este servicio {% endif %}está abierto en este momento.{% if sin_horario or cerrados %} Prueba con los de abajo: algunos no han registrado su horario.{% endif %}</li>{% endfor %}
     </ul>
   </section>
 
@@ -47,6 +93,9 @@
   {% endif %}
 </div>
 <script>
+  document.querySelectorAll('.em-opcion[role="button"]').forEach(function (a) {
+    a.addEventListener("keydown", function (e) { if (e.key === " ") { e.preventDefault(); a.click(); } });
+  });
   (function () {
     var boton = document.getElementById("em-cerca"), estado = document.getElementById("em-estado");
     if (!navigator.geolocation) return;
@@ -68,7 +117,13 @@
           });
           items.sort(function (a, b) { return a._km - b._km; }).forEach(function (li) { lista.appendChild(li); });
         });
-        estado.textContent = "Ordenados por cercanía. Los talleres sin ubicación van al final.";
+        // La ubicación va solo dentro del mensaje de WhatsApp a la grúa, nunca en la URL de esta página
+        var wa = document.querySelectorAll("a[data-wa]");
+        if (wa.length) {
+          var texto = "{{ mensaje_grua|escapejs }} en https://maps.google.com/?q=" + lat.toFixed(5) + "," + lng.toFixed(5);
+          wa.forEach(function (a) { a.href = "https://wa.me/" + a.dataset.wa + "?text=" + encodeURIComponent(texto); });
+        }
+        estado.textContent = "Ordenados por cercanía. Los que no tienen ubicación van al final." + (wa.length ? " Tu ubicación irá en el mensaje de WhatsApp." : "");
       }, function () {
         estado.textContent = "Sin ubicación. Elige tu barrio para ver primero los más cercanos.";
         document.querySelector("#em-barrio select").focus();

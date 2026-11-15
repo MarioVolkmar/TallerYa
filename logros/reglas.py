@@ -1,12 +1,11 @@
 """Reglas de las insignias y cálculo de puntos.
 
 Antiabuso: nada cuenta por publicar en bruto. Cada regla exige una señal de otra persona
-(votos, solución elegida, asistentes) o datos reales (plan de mantenimiento con registros recientes),
+(votos, solución elegida, asistentes) o la confirmación de un taller (servicio verificado o cupón canjeado),
 cada logro tiene una referencia única (no se cuenta dos veces) y cada insignia tiene un tope por mes.
-El plan de garaje solo se lee.
+Garaje y cupones solo se leen.
 """
 from dataclasses import dataclass
-from datetime import timedelta
 
 from django.db import IntegrityError, transaction
 from django.db.models import Count, F, Q, Sum
@@ -18,7 +17,6 @@ from .models import Canje, Logro
 VOTOS_PARA_APORTE = 2          # votos "me sirvió" de otras personas
 ASISTENTES_MINIMOS = 3         # una rodada de uno o dos no cuenta
 LARGO_MINIMO_RESENA = 40       # caracteres
-DIAS_REGISTRO_RECIENTE = 180   # "al día" exige al menos un mantenimiento registrado en este periodo
 
 
 @dataclass(frozen=True)
@@ -32,10 +30,11 @@ class Insignia:
 
 
 INSIGNIAS = {i.clave: i for i in [
-    Insignia("mantenimiento", "Moto al día", "🛠", "Plan de mantenimiento sin tareas vencidas y con registros recientes.", 30, 1),
+    # "Moto al día" (clave "mantenimiento") dejó de dar puntos: el dueño la marcaba a mano. Sus logros viejos se conservan.
+    Insignia("servicio", "Servicio verificado", "🔧", "Un taller confirmó un servicio en tu hoja de vida o canjeó un cupón tuyo en su local.", 25, 2),
     Insignia("aporte", "Aporte útil", "💡", f"Respuesta en el foro con {VOTOS_PARA_APORTE}+ votos o elegida como solución.", 20, 3),
-    Insignia("rodada", "Rodador", "🏍", f"Asistió a una rodada de otra persona con {ASISTENTES_MINIMOS}+ asistentes.", 15, 4),
-    Insignia("resena", "Reseñista", "⭐", f"Reseña de un taller de {LARGO_MINIMO_RESENA}+ caracteres (una por taller).", 10, 2),
+    Insignia("rodada", "Viajero", "🛵", f"Asistió a una rodada de otra persona con {ASISTENTES_MINIMOS}+ asistentes.", 15, 4),
+    Insignia("resena", "Buena reseña", "⭐", f"Reseña de un taller de {LARGO_MINIMO_RESENA}+ caracteres (una por taller).", 10, 2),
 ]}
 
 
@@ -64,21 +63,19 @@ def _otorgar(usuario, clave, referencias):
     return nuevos
 
 
-def _refs_mantenimiento(usuario):
-    from garaje.models import Mantenimiento
-    from garaje.plan import calcular_plan
+def _refs_servicios(usuario):
+    """Servicios confirmados por un taller: registro verificado en la hoja de vida (con el código de un solo uso
+    del dueño) o un cupón canjeado en el local. No cuentan los cupones comprados con puntos (no se farmea)."""
+    from cupones.models import CodigoCupon
+    from garaje.models import RegistroServicio
     perfil = getattr(usuario, "motociclista", None)
     if not perfil:
         return []
-    motos = list(perfil.motos.all())
-    desde = timezone.localdate() - timedelta(days=DIAS_REGISTRO_RECIENTE)
-    if not motos or not Mantenimiento.objects.filter(moto__in=motos, fecha__gte=desde).exists():
-        return []
-    for moto in motos:
-        plan = calcular_plan(moto)
-        if plan.urgentes or len(plan.sin_registro) == len(plan.tareas):
-            return []
-    return [timezone.localdate().strftime("%Y-%m")]
+    hechos = [(r.creado, f"rs-{r.pk}") for r in RegistroServicio.objects.filter(moto__motociclista=perfil, verificado=True)
+              .only("pk", "creado")]
+    hechos += [(c.canjeado_en, f"cc-{c.pk}") for c in CodigoCupon.objects.filter(motociclista=perfil, canjeado_en__isnull=False)
+               .exclude(origen=CodigoCupon.Origen.LOGROS).only("pk", "canjeado_en")]
+    return [ref for _, ref in sorted(hechos)]
 
 
 def _refs_aportes(usuario):
@@ -111,14 +108,15 @@ def _refs_resenas(usuario):
     return list(dict.fromkeys(talleres))  # una por taller
 
 
-REGLAS = {"mantenimiento": _refs_mantenimiento, "aporte": _refs_aportes, "rodada": _refs_rodadas, "resena": _refs_resenas}
+REGLAS = {"servicio": _refs_servicios, "aporte": _refs_aportes, "rodada": _refs_rodadas, "resena": _refs_resenas}
 
 
-def evaluar(usuario):
-    """Revisa todas las reglas y otorga lo que falte (idempotente). Devuelve el número de logros nuevos."""
+def evaluar(usuario, claves=None):
+    """Revisa las reglas (todas o solo `claves`) y otorga lo que falte. Es idempotente: la referencia
+    única de cada logro impide sumar dos veces. Devuelve el número de logros nuevos."""
     if not getattr(usuario, "is_authenticated", False):
         return 0
-    return sum(_otorgar(usuario, clave, regla(usuario)) for clave, regla in REGLAS.items())
+    return sum(_otorgar(usuario, clave, REGLAS[clave](usuario)) for clave in (claves or REGLAS))
 
 
 def puntos_disponibles(usuario):

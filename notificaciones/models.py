@@ -31,3 +31,14 @@ class Notificacion(models.Model):
 
     def __str__(self):
         return f"{self.titulo} → {self.usuario}"
+
+    @property
+    def accion(self):
+        """Texto del botón: "Pedir SOAT", "Ver CDA"… (vacío si el aviso no lleva botón)."""
+        from garaje.avisos import accion_de_clave
+        return accion_de_clave(self.clave)
+
+    @property
+    def urgente(self):
+        from garaje.avisos import es_urgente
+        return not self.leida and es_urgente(self.clave)

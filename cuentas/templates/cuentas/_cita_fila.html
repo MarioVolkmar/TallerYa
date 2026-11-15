@@ -1,0 +1,11 @@
+{% load avatares %}<li>
+  <a href="{% url 'cuentas:cita' c.pk %}" class="mc-cita estado-{{ c.estado }}">
+    <span class="mc-fecha"><strong>{{ c.fecha_preferida|date:"j" }}</strong><small>{{ c.fecha_preferida|date:"M"|lower }}</small></span>
+    {% logo_taller c.taller 40 as logo %}<span class="mc-logo{% if logo %} con-logo{% endif %}" style="--tono: {{ c.taller.tono }}" aria-hidden="true">{% if logo %}{{ logo }}{% else %}{{ c.taller.iniciales }}{% endif %}</span>
+    <span class="mc-texto">
+      <strong>{{ c.taller.nombre }}</strong>
+      <small>{{ c.fecha_preferida|date:"l"|lower }}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %} · {{ c.moto }}{% if c.servicio %} · {{ c.servicio }}{% endif %}</small>
+    </span>
+    <span class="pt-chip chip-{{ c.estado }}">{{ c.get_estado_display }}</span>
+  </a>
+</li>

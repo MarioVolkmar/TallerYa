@@ -1,0 +1,2 @@
+{% if pedido %}<a href="{% url 'tramites:soat' %}?moto={{ moto.pk }}#pedir" class="doc-solicitado" title="Pedido del {{ pedido.creado|date:'j M' }}">SOAT: {{ pedido.get_estado_display|lower }}</a>
+{% elif pedir %}<a href="{% url 'tramites:soat' %}?moto={{ moto.pk }}" class="doc-agendar"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Pedir SOAT</a>{% endif %}

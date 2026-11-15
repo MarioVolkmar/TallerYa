@@ -6,11 +6,13 @@
       {% if t.abierto_24h %}<span class="insignia">24 h</span>{% endif %}
       {% if t.grua %}<span class="insignia">Grúa</span>{% endif %}
       {% if t.despinche_domicilio %}<span class="insignia">Despinche a domicilio</span>{% endif %}
+      {% if t.gasolina_domicilio %}<span class="insignia">Gasolina a domicilio</span>{% endif %}
       {% if t.horario and not t.abierto_24h %}<span class="text-xs text-suave">🕒 {{ t.horario }}</span>{% endif %}
     </p>
   </div>
   <div class="em-botones">
     <a href="{% url 'talleres:ir_llamar' t.slug %}" rel="nofollow" class="btn btn-lava em-boton">📞 Llamar</a>
-    <a href="{% url 'talleres:ir_whatsapp' t.slug %}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp em-boton">WhatsApp</a>
+    {% if mostrar_gruas and necesito %}<a href="https://wa.me/{{ t.whatsapp }}?text={{ mensaje_grua|urlencode:'' }}" data-wa="{{ t.whatsapp }}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp em-boton">WhatsApp</a>
+    {% else %}<a href="{% url 'talleres:ir_whatsapp' t.slug %}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp em-boton">WhatsApp</a>{% endif %}
   </div>
 </li>

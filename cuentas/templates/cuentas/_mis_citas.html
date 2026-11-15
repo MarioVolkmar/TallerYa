@@ -1,0 +1,22 @@
+{% load avatares %}{# Mi cuenta: citas con talleres. Variables: citas_proximas, citas_anteriores #}
+<section class="papel p-6 md:p-7" id="citas">
+  <div class="flex items-center justify-between gap-3">
+    <h2 class="titulo text-2xl"><span class="numero">01</span>Mis citas</h2>
+    <a href="{% url 'talleres:directorio' %}" class="boton-seccion">Agendar otra</a>
+  </div>
+  {% if citas_proximas %}
+  <ul class="mc-lista mt-4">
+    {% for c in citas_proximas %}{% include "cuentas/_cita_fila.html" %}{% endfor %}
+  </ul>
+  {% else %}
+  <a href="{% url 'talleres:directorio' %}" class="mc-vacio mt-4"><strong>No tienes citas programadas</strong><small>Busca un taller de confianza y agenda por TallerYa →</small></a>
+  {% endif %}
+  {% if citas_anteriores %}
+  <details class="mc-anteriores mt-4">
+    <summary>Ver anteriores ({{ citas_anteriores|length }})</summary>
+    <ul class="mc-lista mt-3">
+      {% for c in citas_anteriores %}{% include "cuentas/_cita_fila.html" %}{% endfor %}
+    </ul>
+  </details>
+  {% endif %}
+</section>

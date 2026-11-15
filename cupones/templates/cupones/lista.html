@@ -27,6 +27,33 @@
   </div>
 </div>
 
+{# Cupones que se canjean con los puntos de las insignias #}
+<section class="mt-16 papel p-6 md:p-8 cp-puntos">
+  <div class="cp-puntos-cabeza">
+    <div>
+      <p class="etiqueta">Insignias</p>
+      <h2 class="titulo text-2xl md:text-3xl mt-2">Canjéalos con <span class="text-lava">puntos</span></h2>
+      <p class="text-suave text-sm mt-2 max-w-xl">Ganas puntos con tus insignias: servicios hechos en talleres de TallerYa, ayudar en el foro, ir a rodadas y reseñar talleres.</p>
+    </div>
+    {% if mis_puntos is not None %}<a href="{% url 'logros:mis_insignias' %}" class="cp-mis-puntos"><b>{{ mis_puntos }}</b> pts disponibles <span aria-hidden="true">→</span></a>
+    {% else %}<a href="{% url 'cuentas:entrar' %}?next={{ request.get_full_path|urlencode }}" class="cp-mis-puntos">Entra para ver tus puntos <span aria-hidden="true">→</span></a>{% endif %}
+  </div>
+  {% if por_puntos %}
+  <ul class="cp-lista">
+    {% for c in por_puntos %}
+    <li class="cp-fila{% if mis_puntos is not None and mis_puntos >= c.puntos_logros %} alcanza{% endif %}">
+      <span class="cp-costo"><b>{{ c.puntos_logros }}</b> pts</span>
+      <span class="cp-texto"><strong>{{ c.titulo }}</strong><small>{{ c.taller|default:"Todos los talleres aliados" }}</small></span>
+      {% if mis_puntos is not None and mis_puntos >= c.puntos_logros %}<a href="{% url 'logros:mis_insignias' %}" class="cp-accion">Canjear</a>
+      {% elif c.faltan %}<span class="cp-falta">Te faltan {{ c.faltan }}</span>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="cp-vacio">Pronto habrá cupones que se canjean con puntos. Mientras tanto, ve sumando.</p>
+  {% endif %}
+</section>
+
 <section class="mt-16">
   <h2 class="titulo text-3xl md:text-4xl"><span class="numero">01</span>Cómo funciona</h2>
   <div class="separador mt-4 mb-8"></div>

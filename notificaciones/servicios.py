@@ -29,6 +29,7 @@ def _lista_corta(nombres, maximo=3):
 
 def generar_para(usuario):
     """Avisos de mantenimiento y documentos de las motos del usuario (agrupados por moto)."""
+    from garaje.avisos import url_talleres
     from garaje.plan import calcular_plan
 
     perfil = getattr(usuario, "motociclista", None)
@@ -38,9 +39,10 @@ def generar_para(usuario):
     for moto in perfil.motos.select_related("linea", "linea__marca"):
         plan = calcular_plan(moto)
         ajustes = {a.tarea_id: a for a in moto.ajustes.select_related("tarea")}
-        for estado, titulo in (("vencido", "Toca ya"), ("pronto", "Se acerca")):
+        # Mismo criterio que la agenda: "Toca ya" = rojo (vencido o urgente), "Se acerca" = amarillo.
+        for estado, titulo, lista in (("vencido", "Toca ya", plan.urgentes), ("pronto", "Se acerca", plan.pronto)):
             # Lo que la persona pospuso no vuelve a avisar hasta la fecha elegida.
-            tareas = [t for t in plan.tareas if t.estado == estado and not (t.tarea.pk in ajustes and ajustes[t.tarea.pk].pospuesta)]
+            tareas = [t for t in lista if not (t.tarea.pk in ajustes and ajustes[t.tarea.pk].pospuesta)]
             if not tareas:
                 continue
             # La firma cambia si cambia la lista o si se registra un mantenimiento: entonces vuelve a avisar.
@@ -51,12 +53,13 @@ def generar_para(usuario):
                 usuario, f"plan:{moto.pk}:{estado}:{firma}",
                 f"{titulo}: {n} mantenimiento{plural} de tu {moto}",
                 _lista_corta([t.tarea.nombre for t in tareas]),
-                f"{moto.get_absolute_url()}#plan", Notificacion.Tipo.MANTENIMIENTO,
+                url_talleres([t.tarea.servicio_id for t in tareas], moto), Notificacion.Tipo.MANTENIMIENTO,
             )
         for a in ajustes.values():
             if a.recordatorio_pendiente and a.recordar_el <= hoy:
                 notificar(usuario, f"recordar:{moto.pk}:{a.tarea_id}:{a.recordar_el}", f"Recordatorio: {a.tarea.nombre}",
-                          f"Lo pediste para hoy · {moto}", f"{moto.get_absolute_url()}#plan", Notificacion.Tipo.MANTENIMIENTO)
+                          f"Lo pediste para hoy · {moto}", url_talleres([a.tarea.servicio_id], moto),
+                          Notificacion.Tipo.MANTENIMIENTO)
                 a.recordado = True
                 a.save(update_fields=["recordado"])
         from garaje.pico_placa import aviso_pendiente
@@ -87,4 +90,17 @@ def contexto(request):
     if not usuario or not usuario.is_authenticated:
         return {}
     generar_si_toca(request)
-    return {"notificaciones_sin_leer": Notificacion.objects.filter(usuario=usuario, leida=False).count()}
+    return {"notificaciones_sin_leer": Notificacion.objects.filter(usuario=usuario, leida=False).count(),
+            "notificaciones_urgentes": contar_urgentes(usuario)}
+
+
+def contar_urgentes(usuario):
+    """Avisos sin leer en rojo (campana): documento vencido o urgente, pico y placa de hoy o mantenimiento "Toca ya"."""
+    from django.db.models import Q
+    from garaje.avisos import es_urgente
+
+    hoy = timezone.localdate()
+    claves = Notificacion.objects.filter(usuario=usuario, leida=False).filter(
+        Q(clave__startswith="doc:") | Q(clave__startswith="pyp:") | Q(clave__contains=":vencido:")
+    ).values_list("clave", flat=True)
+    return sum(1 for c in claves if es_urgente(c, hoy))

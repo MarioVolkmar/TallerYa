@@ -1,0 +1,26 @@
+{% load humanize %}{# Estado del pedido de SOAT. Variables: pedido, url_pago, simulado #}
+<div class="tr-pedido">
+  <div class="tr-pedido-cabeza">
+    <div>
+      <p class="tr-pedido-titulo">SOAT {{ pedido.placa }}{% if pedido.valor %} · ${{ pedido.valor|intcomma }}{% endif %}</p>
+      <p class="tr-nota">Pedido el {{ pedido.creado|date:"j \d\e F"|lower }} · {{ pedido.linea }}</p>
+    </div>
+    <span class="tr-chip tr-chip-{{ pedido.estado }}">{{ pedido.get_estado_display }}</span>
+  </div>
+  <ol class="tr-pasos" aria-label="Estado del pedido">
+    {% for etiqueta, hecho, actual in pedido.pasos %}
+    <li class="{% if hecho %}hecho{% elif actual %}actual{% endif %}"{% if actual %} aria-current="step"{% endif %}><span aria-hidden="true"></span>{{ etiqueta }}</li>
+    {% endfor %}
+  </ol>
+  {% if pedido.estado == "recibido" or pedido.estado == "en_proceso" %}
+    <p class="tr-leyenda"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>Te avisamos cuando tu póliza esté lista para pagar.</p>
+  {% elif pedido.estado == "lista_pagar" %}
+    <a href="{{ url_pago }}" class="btn btn-lava text-xs px-6 py-3 mt-1 inline-flex">Pagar{% if pedido.valor %} ${{ pedido.valor|intcomma }}{% endif %}</a>
+    {% if simulado %}<p class="tr-nota">Por ahora el pago es de prueba: no se cobra nada.</p>{% endif %}
+  {% elif pedido.estado == "pagada" %}
+    <p class="tr-leyenda">Pago recibido. Estamos emitiendo tu póliza; te avisamos cuando quede lista.</p>
+  {% elif pedido.estado == "emitida" %}
+    <p class="tr-en-curso">Tu SOAT quedó emitido{% if pedido.numero_poliza %} (póliza {{ pedido.numero_poliza }}){% endif %}{% if pedido.inicio_vigencia %}, vigente desde el {{ pedido.inicio_vigencia|date:"j \d\e F \d\e Y"|lower }}{% endif %}.</p>
+    {% if pedido.poliza %}<a href="{% url 'tramites:poliza' pedido.pk %}" target="_blank" rel="noopener" class="btn btn-borde text-xs px-6 py-3 mt-3 inline-flex">Descargar póliza (PDF)</a>{% endif %}
+  {% endif %}
+</div>

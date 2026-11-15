@@ -537,7 +537,7 @@ class EmergenciasTests(TestCase):
         self.assertEqual([t.nombre for t in r.context["abiertos"]], ["Con Horario", "Siempre Abierto"])
 
     def test_pocas_consultas(self):
-        with self.assertNumQueries(3):  # talleres, horarios (prefetch) y barrios
+        with self.assertNumQueries(4):  # talleres, horarios (prefetch), barrios y grúas
             self.client.get(reverse("talleres:emergencias"))
 
     def test_taller_marca_emergencias_y_ubicacion(self):
@@ -575,3 +575,103 @@ class RegistrarServicioTests(PanelTallerTests):
         r = self.client.post(url, {"codigo": codigo, "fecha": timezone.localdate().isoformat(), "km": 5200, "servicios": "Otra"})
         self.assertEqual(r.status_code, 200)  # el código ya se usó
         self.assertEqual(RegistroServicio.objects.filter(moto=moto).count(), 1)
+
+
+class GruasTeVarasteTests(TestCase):
+    """Flujo "¿Te varaste?": opciones que filtran, grúas (modelo propio), números verificados y WhatsApp prellenado."""
+
+    def setUp(self):
+        from datetime import time
+        from .models import Grua
+        self.belen = Barrio.objects.get_or_create(nombre="Belén", ciudad="Medellín")[0]
+        crear = lambda nombre, **k: Taller.objects.create(nombre=nombre, responsable="A", whatsapp="573001112233",
+                                                          direccion="X", barrio=self.belen, activo=True,
+                                                          atiende_emergencias=True, abierto_24h=True, **k)
+        crear("Taller Grua", grua=True)
+        crear("Taller Despinche", despinche_domicilio=True)
+        crear("Taller Gasolina", gasolina_domicilio=True)
+        self.g24 = Grua.objects.create(nombre="Grua Bello", telefono="570000000001", whatsapp="570000000001",
+                                       municipios=["Bello"], abierto_24h=True, tarifa_desde=90000)
+        self.gmed = Grua.objects.create(nombre="Grua Medellin", telefono="570000000002", whatsapp="570000000002",
+                                        municipios=["Medellín"], abierto_24h=True)
+        self.noche = Grua.objects.create(nombre="Grua Noche", telefono="570000000003", abre=time(20), cierra=time(4))
+        Grua.objects.create(nombre="Grua Inactiva", telefono="570000000004", activo=False)
+
+    def test_horario_de_grua_y_cierre_despues_de_medianoche(self):
+        from datetime import datetime
+        from .emergencias import grua_abierta
+        self.assertTrue(grua_abierta(self.noche, datetime(2026, 11, 16, 23, 0)))
+        self.assertTrue(grua_abierta(self.noche, datetime(2026, 11, 16, 3, 0)))
+        self.assertFalse(grua_abierta(self.noche, datetime(2026, 11, 16, 12, 0)))
+        self.noche.abre = None
+        self.assertIsNone(grua_abierta(self.noche))
+
+    def test_opcion_filtra_talleres(self):
+        url = reverse("talleres:emergencias")
+        r = self.client.get(url, {"necesito": "pinchazo"})
+        self.assertEqual([t.nombre for t in r.context["abiertos"]], ["Taller Despinche"])
+        self.assertFalse(r.context["mostrar_gruas"])
+        r = self.client.get(url, {"necesito": "gasolina"})
+        self.assertEqual([t.nombre for t in r.context["abiertos"]], ["Taller Gasolina"])
+        r = self.client.get(url, {"necesito": "no_prende"})
+        self.assertEqual(len(r.context["abiertos"]), 3)
+        self.assertContains(r, reverse("garaje:diagnostico"))
+        r = self.client.get(url, {"necesito": "inventado"})
+        self.assertIsNone(r.context["necesito"])
+
+    def test_orden_de_gruas_abiertas_primero_y_por_municipio(self):
+        from datetime import datetime
+        from .emergencias import ordenar_gruas
+        gruas = ordenar_gruas([self.noche, self.g24, self.gmed], "Medellín", datetime(2026, 11, 16, 12, 0))
+        self.assertEqual([g.nombre for g in gruas], ["Grua Medellin", "Grua Bello", "Grua Noche"])
+
+    def test_pagina_de_grua(self):
+        r = self.client.get(reverse("talleres:emergencias"), {"necesito": "grua", "barrio": self.belen.pk})
+        nombres = [g.nombre for g in r.context["gruas"]]
+        self.assertEqual(nombres[0], "Grua Medellin")
+        self.assertNotIn("Grua Inactiva", nombres)
+        self.assertEqual([t.nombre for t in r.context["abiertos"]], ["Taller Grua"])
+        self.assertContains(r, "Desde $90.000")
+        self.assertContains(r, "tel:+570000000001")
+        self.assertContains(r, "https://wa.me/570000000001?text=Necesito%20gr%C3%BAa%20para%20mi%20moto")
+        self.assertNotContains(r, "maps.google.com/?q=6")  # la ubicación solo la agrega el navegador
+
+    def test_accidente_muestra_123_y_movilidad(self):
+        r = self.client.get(reverse("talleres:emergencias"), {"necesito": "accidente"})
+        self.assertContains(r, 'href="tel:123"')
+        self.assertContains(r, "tel:+576044457777")
+        self.assertTrue(r.context["mostrar_gruas"])
+
+    def test_mensaje_incluye_moto_con_sesion(self):
+        from .emergencias import mensaje_grua
+        self.assertEqual(mensaje_grua("Yamaha NMAX 2022"), "Necesito grúa para mi moto Yamaha NMAX 2022")
+        self.assertEqual(mensaje_grua(), "Necesito grúa para mi moto")
+
+    def test_pocas_consultas(self):
+        from django.db import connection
+        from django.test.utils import CaptureQueriesContext
+        with CaptureQueriesContext(connection) as c:
+            self.client.get(reverse("talleres:emergencias"), {"necesito": "grua"})
+        propias = [q for q in c.captured_queries if "talleres_" in q["sql"]]
+        self.assertLessEqual(len(propias), 5)  # talleres, horarios, barrios, grúas (+ menú del sitio)
+
+    def test_admin_alta_de_grua(self):
+        from .admin import GruaForm
+        f = GruaForm({"nombre": "Nueva", "telefono": "570000000009", "municipios": ["Bello", "Medellín"],
+                      "vehiculo": "cama", "activo": "on", "abre": "08:00"})
+        self.assertFalse(f.is_valid())
+        self.assertIn("cierra", f.errors)
+        f = GruaForm({"nombre": "Nueva", "telefono": "570000000009", "municipios": ["Bello"], "vehiculo": "cama",
+                      "activo": "on", "abierto_24h": "on"})
+        self.assertTrue(f.is_valid(), f.errors)
+        self.assertEqual(f.save().municipios, ["Bello"])
+
+    def test_boton_elegido_se_deselecciona_y_sin_emojis(self):
+        r = self.client.get(reverse("talleres:emergencias"), {"necesito": "pinchazo", "barrio": self.belen.pk})
+        html = r.content.decode()
+        self.assertIn(f'href="?barrio={self.belen.pk}" role="button" aria-pressed="true"', html)
+        self.assertEqual(html.count('aria-pressed="false"'), 4)
+        self.assertEqual(html.count('class="em-icono"'), 5)
+        self.assertNotIn("Ver todo", html)
+        self.assertIn("Toca otra vez", html)
+        self.assertNotIn("Toca otra vez", self.client.get(reverse("talleres:emergencias")).content.decode())

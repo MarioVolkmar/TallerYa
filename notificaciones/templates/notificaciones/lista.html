@@ -16,12 +16,13 @@
 
   <div class="papel overflow-hidden mt-8">
     {% for n in notificaciones %}
-    <a href="{% url 'notificaciones:ir' n.pk %}" class="notif-fila{% if not n.leida %} sin-leer{% endif %}">
+    <a href="{% url 'notificaciones:ir' n.pk %}" class="notif-fila{% if not n.leida %} sin-leer{% endif %}{% if n.urgente %} notif-urgente{% endif %}">
       {% include "parciales/icono_notificacion.html" with tipo=n.tipo %}
       <span class="min-w-0 flex-1">
         <span class="notif-titulo">{{ n.titulo }}</span>
         {% if n.texto %}<span class="notif-texto">{{ n.texto }}</span>{% endif %}
         <span class="notif-hace">hace {{ n.creada|timesince }}</span>
+        {% if n.accion %}<span class="notif-accion">{{ n.accion }} →</span>{% endif %}
       </span>
       {% if not n.leida %}<span class="notif-punto" aria-label="Sin leer"></span>{% endif %}
     </a>

@@ -7,6 +7,7 @@ from django.utils.timesince import timesince
 from django.views.decorators.http import require_POST
 
 from .models import Notificacion
+from .servicios import contar_urgentes
 
 
 @login_required
@@ -20,8 +21,10 @@ def panel(request):
     ultimas = request.user.notificaciones.all()[:8]
     return JsonResponse({
         "sin_leer": request.user.notificaciones.filter(leida=False).count(),
+        "urgentes": contar_urgentes(request.user),
         "notificaciones": [{
             "tipo": n.tipo, "titulo": n.titulo, "texto": n.texto, "leida": n.leida,
+            "accion": n.accion, "urgente": n.urgente,
             "hace": timesince(n.creada).split(",")[0], "ir": reverse("notificaciones:ir", args=[n.pk]),
         } for n in ultimas],
     })
@@ -34,8 +37,11 @@ def ir(request, pk):
     if not notif.leida:
         notif.leida = True
         notif.save(update_fields=["leida"])
-    interna = notif.url.startswith("/") and not notif.url.startswith("//")
-    return redirect(notif.url if interna else "notificaciones:lista")
+    # La página que resuelve el aviso (pedir SOAT, CDA, talleres del servicio…), también para avisos viejos.
+    from garaje.avisos import url_solucion
+    destino = url_solucion(notif.clave) or notif.url
+    interna = destino.startswith("/") and not destino.startswith("//")
+    return redirect(destino if interna else "notificaciones:lista")
 
 
 @login_required

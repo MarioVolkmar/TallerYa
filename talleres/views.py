@@ -91,18 +91,32 @@ def inicio(request):
         .order_by("-destacado", F("prom_orden").desc(nulls_last=True), "-n_orden", "-verificado", "nombre")[:4]
     ), request.user)
     motos_portada = list(motero.motos.select_related("linea", "linea__marca")) if motero else []
-    from garaje.avisos import avisos_moto
     return render(request, "talleres/inicio.html", {
         "motero": motero,
         "motos_portada": motos_portada,
-        # Franja "hoy": pico y placa y documentos por vencer de sus motos
-        "avisos": [a for m in motos_portada for a in avisos_moto(m)],
         "destacados": destacados,
         "total_talleres": Taller.objects.filter(activo=True).count(),
         "barrios": Barrio.objects.filter(talleres__activo=True).distinct(),
         "servicios_rapidos": Servicio.objects.filter(talleres__activo=True).annotate(n=Count("talleres")).order_by("-n")[:6],
         "noticias": noticias or list(Articulo.objects.filter(publicado=True)[:5]),
+        **_comunidad_portada(),
     })
+
+
+def _comunidad_portada():
+    """Próximas rodadas (1 consulta, con asistentes contados) y preguntas recientes del foro (1 consulta)."""
+    from django.utils import timezone
+
+    from foro.models import Pregunta
+    from foro.rodadas import _visibles
+    rodadas = list(_visibles().filter(fecha_hora__gte=timezone.now()).order_by("fecha_hora")[:3])
+    preguntas = list(Pregunta.objects.filter(visible=True, rodada__isnull=True)
+                     .annotate(n_resp=Count("respuestas", filter=Q(respuestas__visible=True)))
+                     .order_by("-creado")[:3])
+    from tramites.models import CentroCDA, TarifaSoat
+    soat = TarifaSoat.objects.filter(anio=timezone.localdate().year).order_by("valor").values_list("valor", flat=True).first()
+    return {"rodadas_portada": rodadas, "preguntas_portada": preguntas,
+            "soat_desde": soat, "cda_total": CentroCDA.objects.filter(activo=True).count()}
 
 
 ORDENES = {"recomendados": "Recomendados", "calificacion": "Mejor calificados", "resenas": "Más reseñas",
@@ -852,21 +866,37 @@ def precios_taller(request):
 
 
 def emergencias(request):
-    """Talleres que atienden emergencias, abiertos ahora primero. La cercanía se calcula en el navegador con la
-    ubicación del motero (nunca se envía al servidor); si no la da, elige su barrio."""
-    from .emergencias import abierto_ahora, ordenar_por_barrio
+    """Flujo "¿Te varaste?": el motero elige qué le pasó y ve quién lo atiende, abiertos ahora primero. La cercanía se
+    calcula en el navegador con su ubicación (nunca se envía al servidor); si no la da, elige su barrio."""
+    from . import emergencias as em
+    from .models import Grua
     ahora = timezone.localtime()
-    talleres = list(Taller.objects.filter(activo=True, atiende_emergencias=True)
+    necesito = request.GET.get("necesito")
+    necesito = necesito if necesito in em.OPCIONES else None
+    filtro = em.OPCIONES[necesito][1] if necesito else {}
+    talleres = list(Taller.objects.filter(activo=True, atiende_emergencias=True, **filtro)
                     .select_related("barrio").prefetch_related("horarios").order_by("-abierto_24h", "nombre"))
     barrio = None
     if request.GET.get("barrio", "").isdigit():
         barrio = Barrio.objects.filter(pk=request.GET["barrio"]).first()
-    talleres = ordenar_por_barrio(talleres, barrio)
+    talleres = em.ordenar_por_barrio(talleres, barrio)
     grupos = {True: [], None: [], False: []}
     for t in talleres:
-        t.abierto = abierto_ahora(t, ahora, list(t.horarios.all()))
+        t.abierto = em.abierto_ahora(t, ahora, list(t.horarios.all()))
         grupos[t.abierto].append(t)
+    gruas = []
+    if necesito in em.CON_GRUAS:
+        gruas = em.ordenar_gruas(list(Grua.objects.filter(activo=True)), barrio.ciudad if barrio else None, ahora)
+        for g in gruas:
+            g.tarifa_txt = pesos(g.tarifa_desde) if g.tarifa_desde else ""
+    moto = None
+    perfil = getattr(request.user, "motociclista", None) if request.user.is_authenticated else None
+    if perfil:
+        moto = perfil.motos.select_related("linea", "linea__marca").first()
     return render(request, "talleres/emergencias.html", {
         "abiertos": grupos[True], "sin_horario": grupos[None], "cerrados": grupos[False],
         "barrio": barrio, "barrios": Barrio.objects.all(), "ahora": ahora,
+        "opciones": [(k, txt) for k, (txt, _) in em.OPCIONES.items()], "necesito": necesito,
+        "gruas": gruas, "mostrar_gruas": necesito in em.CON_GRUAS,
+        "mensaje_grua": em.mensaje_grua(moto.nombre_completo if moto else None),
     })

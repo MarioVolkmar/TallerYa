@@ -88,9 +88,11 @@
       {% endif %}
     </section>
 
+    {% include "cuentas/_mis_citas.html" %}
+
     <section class="papel p-6 md:p-7">
       <div class="flex items-center justify-between gap-3">
-        <h2 class="titulo text-2xl"><span class="numero">01</span>Mis cupones</h2>
+        <h2 class="titulo text-2xl"><span class="numero">02</span>Mis cupones</h2>
         <a href="{% url 'cupones:lista' %}" class="boton-seccion">Ver cupones<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       {% if disponibles or usados %}
@@ -127,14 +129,14 @@
     </section>
 
     <section class="papel p-6 md:p-7">
-      <h2 class="titulo text-2xl"><span class="numero">02</span>Mis insignias</h2>
+      <h2 class="titulo text-2xl"><span class="numero">03</span>Mis insignias</h2>
       <div class="mt-4">{% insignias request.user enlace=True %}</div>
     </section>
     {% endif %}
 
     <section class="papel p-6 md:p-7">
       <div class="flex items-center justify-between gap-3">
-        <h2 class="titulo text-2xl"><span class="numero">03</span>Mis preguntas</h2>
+        <h2 class="titulo text-2xl"><span class="numero">04</span>Mis preguntas</h2>
         <a href="{% url 'foro:preguntar' %}" class="boton-seccion"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Hacer una pregunta</a>
       </div>
       {% if preguntas %}
@@ -184,7 +186,7 @@
     {% if moto %}
     <!-- Mi actividad con talleres: tu relación con cada taller (lo que hiciste tú queda en la bitácora de cada moto) -->
     <section class="papel p-6 md:p-7 scroll-mt-24" id="actividad">
-      <h2 class="titulo text-2xl"><span class="numero">04</span>Mi actividad con talleres</h2>
+      <h2 class="titulo text-2xl"><span class="numero">05</span>Mi actividad con talleres</h2>
       {% with a=actividad %}
       {% if a.talleres %}
       <ul class="actividad-resumen" aria-label="Resumen">

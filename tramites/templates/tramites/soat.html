@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Pide tu SOAT · TallerYa{% endblock %}
+{% block content %}
+<div class="mt-10 max-w-3xl">
+  <p class="etiqueta">Trámites</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Pide tu <span class="text-lava">SOAT</span></h1>
+  <p class="text-suave mt-2">El precio del SOAT de moto lo fija el Gobierno cada año según el cilindraje: es el mismo en todas las aseguradoras. Mira cuánto vale tu moto, haz el pedido aquí y te avisamos cuando tu póliza esté lista para pagar.</p>
+</div>
+
+<div class="tr-rejilla mt-8">
+  <section class="papel tr-caja">
+    <p class="tr-paso"><span>1</span>Tu moto</p>
+    {% if motos %}
+      {% if motos|length > 1 %}
+      <nav class="tr-motos" aria-label="Elige la moto">
+        {% for m in motos %}<a href="?moto={{ m.pk }}" class="tr-moto{% if m == moto %} activa{% endif %}">{{ m }}</a>{% endfor %}
+      </nav>
+      {% endif %}
+      <div class="tr-ficha">
+        <strong>{{ moto }}</strong>
+        <span>{% if cilindraje %}{{ cilindraje }} cc{% endif %}{% if moto.placa %} · <span class="placa-moto placa-mini">{{ moto.placa }}</span>{% endif %}</span>
+      </div>
+      {% if documento.vence %}
+      <p class="tr-vence tr-{{ documento.estado }}">{% if documento.dias < 0 %}Tu SOAT venció el {{ documento.vence|date:"j \d\e F"|lower }}: circular sin él tiene multa e inmovilización.{% elif documento.dias == 0 %}Tu SOAT vence hoy.{% else %}Tu SOAT vence el {{ documento.vence|date:"j \d\e F"|lower }} (en {{ documento.dias }} día{{ documento.dias|pluralize }}).{% endif %}</p>
+      {% endif %}
+    {% else %}
+      <p class="tr-sub-elige">Elige el cilindraje</p>
+      <nav class="tr-cats" aria-label="Cilindraje de la moto">
+        {% for clave, nombre in categorias %}<a href="?cat={{ clave }}" class="tr-cat{% if clave == categoria_clave %} activa{% endif %}"{% if clave == categoria_clave %} aria-current="true"{% endif %}>{{ nombre|cut:"Motos de " }}</a>{% endfor %}
+      </nav>
+      <form method="get" class="tr-cc">
+        <label for="cc">O escribe el cilindraje exacto</label>
+        <div class="tr-cc-fila">
+          <input type="number" id="cc" name="cc" min="49" max="1900" inputmode="numeric" placeholder="Ej.: 125" value="{{ cilindraje|default_if_none:'' }}" required>
+          <span>cc</span>
+          <button class="btn btn-borde text-xs px-5 py-2.5">Ver precio</button>
+        </div>
+      </form>
+    {% endif %}
+  </section>
+
+  <section class="papel tr-caja tr-precio">
+    <p class="tr-paso"><span>2</span>Precio {{ anio }}</p>
+    {% if categoria %}
+      <p class="tr-categoria">{{ categoria }}</p>
+      {% if tarifa %}
+        <p class="tr-valor">${{ tarifa.valor|intcomma }}</p>
+        <p class="tr-nota">{% if tarifa.nota %}{{ tarifa.nota }} · {% endif %}<a href="{{ tarifa.fuente }}" target="_blank" rel="noopener">Fuente oficial</a></p>
+      {% else %}
+        <p class="tr-valor tr-sin">Por confirmar</p>
+        <p class="tr-nota">Aún no hemos cargado la tarifa oficial de {{ anio }} para esta categoría. Pídela abajo y te la enviamos.</p>
+      {% endif %}
+    {% else %}
+      <p class="tr-nota">Elige tu moto o escribe el cilindraje para ver la categoría y el precio.</p>
+    {% endif %}
+  </section>
+</div>
+
+<section class="papel tr-caja mt-6" id="pedir">
+  <p class="tr-paso"><span>3</span>{% if pedido and not puede_pedir %}Tu pedido{% else %}Pídelo aquí{% endif %}</p>
+  {% if not user.is_authenticated %}
+    <p class="text-suave text-sm mt-2">Crea tu cuenta gratis (o entra) para hacer el pedido con los datos de tu moto. Volverás aquí con lo que elegiste.</p>
+    <div class="flex flex-wrap gap-2 mt-4">
+      <a href="{% url 'cuentas:registro' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-lava text-xs px-6 py-3">Crear cuenta y pedir mi SOAT</a>
+      <a href="{% url 'cuentas:entrar' %}?next={{ request.get_full_path|urlencode }}" class="btn btn-borde text-xs px-6 py-3">Ya tengo cuenta</a>
+    </div>
+  {% elif not moto %}
+    <p class="text-suave text-sm mt-2">Agrega tu moto al garaje para pedir el SOAT con sus datos.</p>
+    <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-6 py-3 mt-4 inline-flex">Agregar mi moto</a>
+  {% elif pedido and not puede_pedir %}
+    {% include "tramites/_pedido_estado.html" %}
+  {% else %}
+    <form method="post" action="{% url 'tramites:pedir_soat' moto.pk %}" enctype="multipart/form-data" class="tr-form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<p class="tr-error tr-ancho">{{ form.non_field_errors|join:" " }}</p>{% endif %}
+      <p class="tr-sub tr-ancho">De tu moto</p>
+      <label>Placa<input type="text" name="placa" maxlength="8" value="{{ placa_form }}" placeholder="ABC12D" autocapitalize="characters" required></label>
+      <label>Línea y cilindraje<input type="text" value="{{ moto.nombre_completo }} · {{ cilindraje }} cc" readonly tabindex="-1"></label>
+      <label class="tr-ancho">{{ form.chasis_motor.label }}{{ form.chasis_motor }}{% for e in form.chasis_motor.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <label class="tr-ancho tr-archivo">O sube la foto de la tarjeta de propiedad <small>(JPG, PNG o PDF, máx. 5 MB · se guarda privada)</small>{{ form.tarjeta_propiedad }}{% for e in form.tarjeta_propiedad.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <p class="tr-sub tr-ancho">Del dueño (tomador)</p>
+      <label>Tipo de documento{{ form.tipo_documento }}</label>
+      <label>Número de documento{{ form.numero_documento }}{% for e in form.numero_documento.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <label class="tr-ancho">Nombre completo{{ form.nombre_completo }}{% for e in form.nombre_completo.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <label>Correo{{ form.correo }}{% for e in form.correo.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <label>Celular{{ form.celular }}{% for e in form.celular.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <label class="tr-ancho">Dirección{{ form.direccion }}{% for e in form.direccion.errors %}<span class="tr-error">{{ e }}</span>{% endfor %}</label>
+      <label class="tr-ancho tr-casilla">{{ form.acepta_datos }}<span>Autorizo a TallerYa a tratar mis datos personales para gestionar mi SOAT, según la <a href="{% url 'talleres:legal' 'privacidad' %}" target="_blank" rel="noopener">política de tratamiento de datos</a> (Ley 1581 de 2012).</span></label>
+      {% for e in form.acepta_datos.errors %}<p class="tr-error tr-ancho">{{ e }}</p>{% endfor %}
+      <div class="tr-ancho tr-enviar">
+        <button class="btn btn-lava text-xs px-6 py-3">Pedir mi SOAT{% if tarifa %} · ${{ tarifa.valor|intcomma }}{% endif %}</button>
+        <p class="tr-leyenda"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>Te avisamos cuando tu póliza esté lista para pagar.</p>
+      </div>
+    </form>
+  {% endif %}
+</section>
+
+{# Siguiente trámite: banda con acento a la izquierda, clicable completa #}
+<a href="{% url 'tramites:tecnomecanica' %}{% if moto %}?moto={{ moto.pk }}{% endif %}" class="tr-siguiente mt-6">
+  <span class="tr-siguiente-texto">
+    <strong>¿También te toca la técnico-mecánica?</strong>
+    <small>Compara los CDA aliados, sus precios y beneficios.</small>
+  </span>
+  <span class="tr-siguiente-ir">Ver CDA <span aria-hidden="true">→</span></span>
+</a>
+{% endblock %}

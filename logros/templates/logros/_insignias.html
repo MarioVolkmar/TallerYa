@@ -1,5 +1,36 @@
-<div class="flex flex-wrap items-center gap-3">
-  {% for it in items %}<span class="chip" title="{{ it.insignia.descripcion }}">{{ it.insignia.emoji }} {{ it.insignia.nombre }}{% if it.veces > 1 %} ×{{ it.veces }}{% endif %}</span>
-  {% empty %}<span class="text-sm text-suave">Aún sin insignias.</span>{% endfor %}
-  {% if enlace %}<a href="{% url 'logros:mis_insignias' %}" class="boton-texto">Ver insignias y puntos →</a>{% endif %}
+{% if enlace %}
+{# Mi cuenta: las 4 insignias como medallas (ganadas a color, por ganar con candado), progreso y puntos #}
+<div class="ins">
+  <div class="ins-cabeza">
+    <div class="ins-progreso">
+      <p><strong>{{ ganadas }}</strong><span>/{{ total }}</span> insignias</p>
+      <span class="ins-barra" aria-hidden="true"><i style="width: {% widthratio ganadas total 100 %}%"></i></span>
+    </div>
+    <div class="ins-moneda">
+      <span class="ins-moneda-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.75a1.75 1.75 0 0 1 0 3.5h-2.5a1.75 1.75 0 0 0 0 3.5H14.5"/></svg></span>
+      <span><b>{{ puntos }}</b><small>pts para cupones</small></span>
+    </div>
+  </div>
+  <ul class="ins-medallas">
+    {% for it in todas %}{% with i=it.insignia %}
+    <li class="ins-medalla ins-{{ i.clave }}{% if it.veces %} ganada{% endif %}" title="{{ i.descripcion }}">
+      <span class="ins-disco">
+        <span class="ins-emoji" aria-hidden="true">{{ i.emoji }}</span>
+        {% if it.veces > 1 %}<em class="ins-veces">×{{ it.veces }}</em>{% elif not it.veces %}<span class="ins-candado" aria-label="Por ganar"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>{% endif %}
+      </span>
+      <strong>{{ i.nombre }}</strong>
+      <small>{% if it.veces %}Ganada{% else %}+{{ i.puntos }} pts{% endif %}</small>
+    </li>
+    {% endwith %}{% endfor %}
+  </ul>
+  <div class="ins-pie">
+    <p>{% if ganadas %}Sigue sumando: cada insignia se puede volver a ganar cada mes.{% else %}Haz un servicio en un taller de TallerYa, ayuda en el foro o ve a una rodada para ganar la primera.{% endif %}</p>
+    <a href="{% url 'logros:mis_insignias' %}" class="ins-ver">Cómo ganarlas <span aria-hidden="true">→</span></a>
+  </div>
 </div>
+{% else %}
+{# Perfil público: solo las ganadas #}
+{% if items %}<ul class="ins-chips">
+  {% for it in items %}<li class="ins-chip ins-{{ it.insignia.clave }}" title="{{ it.insignia.descripcion }}"><span class="ins-icono ins-emoji" aria-hidden="true">{{ it.insignia.emoji }}</span>{{ it.insignia.nombre }}{% if it.veces > 1 %} ×{{ it.veces }}{% endif %}</li>{% endfor %}
+</ul>{% endif %}
+{% endif %}

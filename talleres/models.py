@@ -90,6 +90,7 @@ class Taller(models.Model):
     abierto_24h = models.BooleanField("abierto 24 horas", default=False)
     grua = models.BooleanField("tiene grúa", default=False)
     despinche_domicilio = models.BooleanField("despinche a domicilio", default=False)
+    gasolina_domicilio = models.BooleanField("lleva gasolina a domicilio", default=False)
     # Ubicación del local (la pone el taller) para ordenar por cercanía en /emergencias; la del motero nunca se guarda
     latitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
@@ -309,3 +310,36 @@ class PrecioServicio(models.Model):
 
     def __str__(self):
         return f"{self.taller} · {self.servicio} {self.cilindraje}: {self.desde}–{self.hasta}"
+
+
+class Grua(models.Model):
+    """Empresa de grúa que no es taller (los talleres con grúa usan Taller.grua). Modelo aparte para no mezclarla
+    con el directorio, los cupones ni las reseñas de talleres; se da de alta desde el admin."""
+    class Vehiculo(models.TextChoices):
+        PLANCHON = "planchon", "Planchón"
+        CAMA = "cama", "Cama (plataforma)"
+        AMBOS = "ambos", "Planchón y cama"
+
+    nombre = models.CharField(max_length=120)
+    telefono = models.CharField(max_length=20, help_text="Con indicativo, solo números. Ej: 573001234567")
+    whatsapp = models.CharField(max_length=20, blank=True, help_text="Vacío si no atiende por WhatsApp")
+    municipios = models.JSONField("zona de cobertura", default=list, blank=True,
+                                  help_text="Municipios del Valle de Aburrá que cubre")
+    abierto_24h = models.BooleanField("24 horas", default=False)
+    abre = models.TimeField(null=True, blank=True, help_text="Horario diario si no es 24 h")
+    cierra = models.TimeField(null=True, blank=True, help_text="Puede ser después de medianoche (ej. 02:00)")
+    tarifa_desde = models.PositiveIntegerField("tarifa base desde (COP)", null=True, blank=True)
+    vehiculo = models.CharField("lleva motos en", max_length=10, choices=Vehiculo.choices, default=Vehiculo.PLANCHON)
+    latitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    activo = models.BooleanField(default=True)
+    demo = models.BooleanField(default=False, help_text="Dato de muestra: no es una empresa real")
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-abierto_24h", "nombre"]
+        verbose_name = "grúa"
+        verbose_name_plural = "grúas"
+
+    def __str__(self):
+        return self.nombre

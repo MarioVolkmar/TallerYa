@@ -452,3 +452,58 @@ class TerminosTests(TestCase):
         self.client.post(reverse("cuentas:registro"), datos_registro())
         self.assertIsNotNone(Perfil.objects.get(usuario__username="laura@correo.com").terminos_aceptados)
 
+
+
+class CitasMoteroTests(TestCase):
+    """Mis citas en Mi cuenta: lista, detalle solo para el dueño, cancelar y archivo de calendario."""
+
+    def setUp(self):
+        from datetime import date, time
+        from talleres.models import SolicitudCita
+        User = get_user_model()
+        self.usuario = User.objects.create_user("cita@x.com", "cita@x.com", "x", first_name="Ana")
+        Motociclista.objects.create(nombre="Ana", celular="573001112233", usuario=self.usuario)
+        dueno = User.objects.create_user("t@x.com", "t@x.com", "x")
+        barrio = Barrio.objects.filter(ciudad="Medellín").first()
+        self.taller = Taller.objects.create(nombre="Taller Citas", responsable="Tomás", whatsapp="573005551111",
+                                            direccion="Cra 1", barrio=barrio, activo=True, usuario=dueno)
+        manana = timezone.localdate() + timedelta(days=1)
+        self.proxima = SolicitudCita.objects.create(taller=self.taller, usuario=self.usuario, nombre="Ana", telefono="3001112233",
+                                                    moto="Yamaha NMAX", fecha_preferida=manana, hora=time(9, 0), estado="confirmada")
+        self.vieja = SolicitudCita.objects.create(taller=self.taller, usuario=self.usuario, nombre="Ana", telefono="3001112233",
+                                                  moto="Yamaha NMAX", fecha_preferida=date(2025, 1, 10), estado="atendida")
+        self.client.force_login(self.usuario)
+
+    def test_mi_cuenta_lista_proximas_y_anteriores(self):
+        r = self.client.get(reverse("cuentas:mi_cuenta"))
+        self.assertEqual([c.pk for c in r.context["citas_proximas"]], [self.proxima.pk])
+        self.assertEqual([c.pk for c in r.context["citas_anteriores"]], [self.vieja.pk])
+        self.assertContains(r, reverse("cuentas:cita", args=[self.proxima.pk]))
+
+    def test_detalle_solo_para_el_dueno(self):
+        self.assertContains(self.client.get(reverse("cuentas:cita", args=[self.proxima.pk])), "Taller Citas")
+        otro = get_user_model().objects.create_user("otro@x.com", "otro@x.com", "x")
+        self.client.force_login(otro)
+        self.assertEqual(self.client.get(reverse("cuentas:cita", args=[self.proxima.pk])).status_code, 404)
+        self.assertEqual(self.client.post(reverse("cuentas:cita_cancelar", args=[self.proxima.pk])).status_code, 404)
+        self.assertEqual(self.client.get(reverse("cuentas:cita_ics", args=[self.proxima.pk])).status_code, 404)
+
+    def test_cancelar_avisa_al_taller(self):
+        from notificaciones.models import Notificacion
+        self.client.post(reverse("cuentas:cita_cancelar", args=[self.proxima.pk]), {"motivo": "viaje"})
+        self.proxima.refresh_from_db()
+        self.assertEqual(self.proxima.estado, "cancelada")
+        self.assertIn("viaje", self.proxima.motivo_cancelacion)
+        self.assertTrue(Notificacion.objects.filter(usuario=self.taller.usuario).exists())
+        # una atendida ya no se cancela
+        self.client.post(reverse("cuentas:cita_cancelar", args=[self.vieja.pk]))
+        self.vieja.refresh_from_db()
+        self.assertEqual(self.vieja.estado, "atendida")
+
+    def test_archivo_de_calendario(self):
+        r = self.client.get(reverse("cuentas:cita_ics", args=[self.proxima.pk]))
+        self.assertEqual(r["Content-Type"], "text/calendar; charset=utf-8")
+        texto = r.content.decode()
+        self.assertIn("BEGIN:VEVENT", texto)
+        self.assertIn("SUMMARY:Cita en Taller Citas", texto)
+        self.assertIn("DTSTART:", texto)

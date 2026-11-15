@@ -1,7 +1,7 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
-from . import views
+from . import citas, views
 from .forms import EntrarForm, RecuperarForm
 
 app_name = "cuentas"
@@ -13,6 +13,9 @@ urlpatterns = [
     ), name="entrar"),
     path("cuenta/salir/", auth_views.LogoutView.as_view(), name="salir"),
     path("cuenta/", views.mi_cuenta, name="mi_cuenta"),
+    path("cuenta/citas/<int:pk>/", citas.detalle, name="cita"),
+    path("cuenta/citas/<int:pk>/cancelar/", citas.cancelar, name="cita_cancelar"),
+    path("cuenta/citas/<int:pk>/calendario.ics", citas.ics, name="cita_ics"),
     path("cuenta/avatar/", views.cambiar_avatar, name="avatar"),
     path("cuenta/calificar/<int:pk>/", views.calificar_taller, name="calificar_taller"),
     path("cuenta/google/", views.google_entrar, name="google"),

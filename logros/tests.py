@@ -1,6 +1,4 @@
 from datetime import timedelta
-from types import SimpleNamespace
-from unittest import mock
 
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
@@ -49,9 +47,9 @@ class ReglasTests(TestCase):
         for r in resp[2:]:
             for u in self.otros[1:3]:
                 Voto.objects.create(usuario=u, respuesta=r)
-        self.assertEqual(reglas.evaluar(self.ana), 3)  # 5 útiles, tope 3 al mes
-        self.assertEqual(reglas.evaluar(self.ana), 0)  # idempotente
+        # las señales ya las otorgaron al votar: 5 útiles, tope 3 al mes
         self.assertEqual(self.claves().count("aporte"), 3)
+        self.assertEqual(reglas.evaluar(self.ana), 0)  # idempotente
 
     def test_respuesta_a_pregunta_propia_u_oculta_no_cuenta(self):
         propia = Pregunta.objects.create(autor=self.ana, titulo="Mi pregunta propia", cuerpo="x")
@@ -87,23 +85,88 @@ class ReglasTests(TestCase):
         Resena.objects.create(taller=t1, usuario=self.ana, nombre="Ana", estrellas=5, comentario=largo)
         Resena.objects.create(taller=t1, usuario=self.ana, nombre="Ana", estrellas=4, comentario=largo + " Otra vez.")
         Resena.objects.create(taller=t2, usuario=self.ana, nombre="Ana", estrellas=5, comentario="Bien")
-        self.assertEqual(reglas.evaluar(self.ana), 1)
+        self.assertEqual(self.claves(), ["resena"])  # por señal, al guardar
+        self.assertEqual(reglas.evaluar(self.ana), 0)
 
-    def test_mantenimiento_al_dia_lee_el_plan(self):
-        from garaje.models import LineaMoto, Mantenimiento, Moto, TareaMantenimiento
+    def test_servicio_verificado_solo_con_confirmacion_del_taller(self):
+        from garaje import hoja_vida
+        from garaje.models import LineaMoto, Mantenimiento, Moto, RegistroServicio, TareaMantenimiento
         perfil = Motociclista.objects.create(nombre="Ana", celular="573001110000", usuario=self.ana)
         moto = Moto.objects.create(motociclista=perfil, linea=LineaMoto.objects.get(nombre="NKD 125"), modelo=2022,
                                    km_inicial=1000, km_actual=1000)
-        self.assertEqual(reglas.evaluar(self.ana), 0)  # sin registros recientes
+        taller = Taller.objects.create(nombre="T", responsable="X", whatsapp="573000000000", direccion="X",
+                                       barrio=Barrio.objects.get_or_create(nombre="Belén")[0], activo=True)
+        # lo que el dueño marca a mano no da puntos
         Mantenimiento.objects.create(moto=moto, tarea=TareaMantenimiento.objects.get(clave="aceite"), km=1000)
-        vencido = SimpleNamespace(urgentes=[1], sin_registro=[], tareas=[1, 2])
-        al_dia = SimpleNamespace(urgentes=[], sin_registro=[1], tareas=[1, 2])
-        with mock.patch("garaje.plan.calcular_plan", return_value=vencido):
-            self.assertEqual(reglas.evaluar(self.ana), 0)
-        with mock.patch("garaje.plan.calcular_plan", return_value=al_dia):
-            self.assertEqual(reglas.evaluar(self.ana), 1)
-            self.assertEqual(reglas.evaluar(self.ana), 0)  # una vez por mes
-        self.assertEqual(Logro.objects.get().referencia, timezone.localdate().strftime("%Y-%m"))
+        RegistroServicio.objects.create(moto=moto, km=1000, servicios="Aceite (a mano)")
+        self.assertFalse(Logro.objects.exists())
+        # el taller registra con el código de un solo uso → al momento
+        cod = hoja_vida.generar_codigo(moto)
+        hoja_vida.registrar_verificado(taller, cod.codigo, fecha=timezone.localdate(), km=1500, servicios="Aceite y filtro")
+        self.assertEqual(self.claves(), ["servicio"])
+        self.assertEqual(Logro.objects.get().puntos, 25)
+        # cupón canjeado en el local → otro; uno comprado con puntos no cuenta
+        cupon = Cupon.objects.create(titulo="10% aceite")
+        normal = CodigoCupon.objects.create(cupon=cupon, motociclista=perfil)
+        con_puntos = CodigoCupon.objects.create(cupon=cupon, motociclista=perfil, origen=CodigoCupon.Origen.LOGROS)
+        from cupones.servicios import canjear
+        canjear(con_puntos.codigo, taller=taller)
+        self.assertEqual(self.claves().count("servicio"), 1)
+        canjear(normal.codigo, taller=taller)
+        self.assertEqual(self.claves().count("servicio"), 2)
+        # tope 2 al mes
+        cod = hoja_vida.generar_codigo(moto)
+        hoja_vida.registrar_verificado(taller, cod.codigo, fecha=timezone.localdate(), km=2000, servicios="Frenos")
+        self.assertEqual(self.claves().count("servicio"), 2)
+        self.assertEqual(reglas.evaluar(self.ana), 0)
+
+    def test_moto_al_dia_ya_no_da_puntos_pero_conserva_lo_ganado(self):
+        Logro.objects.create(usuario=self.ana, clave="mantenimiento", referencia="2026-10", puntos=30)
+        self.assertEqual(reglas.puntos_disponibles(self.ana), 30)
+        self.assertEqual(reglas.resumen(self.ana), [])  # ya no se muestra como insignia
+        self.assertContains(self._pagina(), "Servicio verificado")
+
+    def _pagina(self):
+        self.client.force_login(self.ana)
+        return self.client.get(reverse("logros:mis_insignias"))
+
+
+class AutomaticoTests(TestCase):
+    """Las insignias se otorgan al ocurrir el hecho (señales) o con la tarea diaria, sin abrir /insignias/."""
+
+    def setUp(self):
+        cache.clear()
+        self.ana = _usuario("ana")
+        self.otros = [_usuario(f"u{i}") for i in range(3)]
+
+    def test_voto_y_solucion_otorgan_aporte_al_momento(self):
+        p = Pregunta.objects.create(autor=self.otros[0], titulo="¿Qué llanta compro?", cuerpo="x")
+        r1 = Respuesta.objects.create(pregunta=p, autor=self.ana, cuerpo="r1")
+        r2 = Respuesta.objects.create(pregunta=p, autor=self.ana, cuerpo="r2")
+        self.client.force_login(self.otros[1])
+        self.client.post(reverse("foro:votar", args=["respuesta", r1.pk]))
+        self.assertFalse(Logro.objects.exists())
+        self.client.force_login(self.otros[2])
+        self.client.post(reverse("foro:votar", args=["respuesta", r1.pk]))
+        self.assertEqual(Logro.objects.filter(usuario=self.ana, referencia=str(r1.pk)).count(), 1)
+        self.client.force_login(self.otros[0])
+        self.client.post(reverse("foro:marcar_mejor", args=[r2.pk]))
+        self.assertEqual(Logro.objects.filter(usuario=self.ana, clave="aporte").count(), 2)
+
+    def test_tarea_diaria_otorga_rodadas_pasadas(self):
+        from io import StringIO
+        from django.core.management import call_command
+        p = Pregunta.objects.create(autor=self.otros[0], titulo="Rodada", cuerpo="x", categoria=Categoria.RUTAS)
+        r = Rodada.objects.create(pregunta=p, organizador=self.otros[0], fecha_hora=timezone.now() - timedelta(hours=5),
+                                  punto_encuentro="Parque", destino="El Retiro")
+        for u in [self.otros[0], self.otros[1], self.ana]:
+            Asistencia.objects.create(rodada=r, usuario=u)
+        salida = StringIO()
+        call_command("evaluar_logros", stdout=salida)
+        self.assertTrue(Logro.objects.filter(usuario=self.ana, clave="rodada").exists())
+        self.assertIn("Insignias nuevas: 2", salida.getvalue())  # Ana y u1 (quien organiza no cuenta)
+        call_command("evaluar_logros", stdout=StringIO())
+        self.assertEqual(Logro.objects.filter(clave="rodada").count(), 2)  # idempotente
 
 
 class CanjeTests(TestCase):
@@ -121,7 +184,7 @@ class CanjeTests(TestCase):
         self._dar_puntos(20)
         r = self.client.get(reverse("logros:mis_insignias"))
         self.assertContains(r, "Aporte útil")
-        self.assertContains(r, "Canjear por 40 puntos")
+        self.assertContains(r, "Te faltan 20 puntos")  # 20 de 40: aún no alcanza
         self.assertEqual(r.context["puntos"], 20)
 
     def test_canje_sin_puntos_suficientes_falla(self):

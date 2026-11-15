@@ -16,9 +16,25 @@ MAX_INTENTOS_CANJE = 8
 BLOQUEO_SEGUNDOS = 15 * 60
 
 
+def _por_puntos(cupones, puntos):
+    """Cupones canjeables con puntos de insignias, del más barato al más caro, con cuántos puntos le faltan al usuario."""
+    lista = sorted((c for c in cupones if c.puntos_logros), key=lambda c: c.puntos_logros)
+    for c in lista:
+        c.faltan = max(c.puntos_logros - puntos, 0) if puntos is not None else 0
+    return lista
+
+
 def lista(request):
+    cupones = Cupon.objects.disponibles().con_nota_taller()
+    puntos = None
+    if request.user.is_authenticated:
+        from logros.reglas import puntos_disponibles
+        puntos = puntos_disponibles(request.user)
     return render(request, "cupones/lista.html", {
-        "cupones": Cupon.objects.disponibles().con_nota_taller(),
+        "cupones": cupones,
+        # Los que también se pueden canjear con los puntos de las insignias, del más barato al más caro
+        "por_puntos": _por_puntos(cupones, puntos),
+        "mis_puntos": puntos,
         "invitado": SESION_REF in request.session,
     })
 

@@ -42,6 +42,7 @@
       <label class="tf-check">{{ form.abierto_24h }} <span>{{ form.abierto_24h.label|capfirst }}</span></label>
       <label class="tf-check">{{ form.grua }} <span>{{ form.grua.label|capfirst }}</span></label>
       <label class="tf-check">{{ form.despinche_domicilio }} <span>{{ form.despinche_domicilio.label|capfirst }}</span></label>
+      <label class="tf-check">{{ form.gasolina_domicilio }} <span>{{ form.gasolina_domicilio.label|capfirst }}</span></label>
       {{ form.latitud }}{{ form.longitud }}
       <p class="text-sm"><button type="button" class="boton-seccion" id="tomar-ubicacion">📍 Usar la ubicación actual del taller</button>
         <span class="text-suave" id="ubicacion-estado">{% if form.instance.latitud %}Ubicación guardada.{% else %}Sin ubicación: te ordenamos por barrio.{% endif %}</span></p>

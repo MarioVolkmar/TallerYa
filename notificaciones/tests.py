@@ -17,9 +17,10 @@ User = get_user_model()
 
 class NotificacionesTests(TestCase):
     def setUp(self):
+        from garaje.utiles_pruebas import usar_intervalos_generales
+        usar_intervalos_generales(self)  # cuenta con el aceite general (2.500 km), no con el manual de la NMAX
         self.usuario = User.objects.create_user("n@x.com", "n@x.com", "x", first_name="Nora")
         self.perfil = Motociclista.objects.create(nombre="Nora", celular="573008880000", usuario=self.usuario)
-        # 3.000 km desde nueva: el aceite (cada 2.500) ya toca.
         self.moto = Moto.objects.create(motociclista=self.perfil, linea=LineaMoto.objects.get(nombre="NMAX 155"),
                                         modelo=2024, km_inicial=0, km_actual=3000,
                                         soat_vence=timezone.localdate() + timedelta(days=5))
@@ -31,6 +32,9 @@ class NotificacionesTests(TestCase):
         self.assertEqual(Notificacion.objects.filter(usuario=self.usuario).count(), 1)
 
     def test_genera_avisos_de_mantenimiento_y_documentos_agrupados(self):
+        # Aceite (cada 2.500 km) cambiado a los 200 km: con 3.000 ya toca. Sin registro solo sería "Pronto".
+        Mantenimiento.objects.create(moto=self.moto, tarea=TareaMantenimiento.objects.get(clave="aceite"), km=200,
+                                     fecha=timezone.localdate() - timedelta(days=10))
         generar_para(self.usuario)
         generar_para(self.usuario)  # la segunda vez no duplica
         titulos = list(Notificacion.objects.filter(usuario=self.usuario).values_list("titulo", flat=True))

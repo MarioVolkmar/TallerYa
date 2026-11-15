@@ -208,6 +208,8 @@ def mi_cuenta(request):
         })
     if hasattr(request.user, "taller"):
         contexto["taller"] = request.user.taller
+    from .citas import citas_de
+    contexto.update(citas_de(request.user))
     contexto["preguntas"] = (request.user.preguntas.filter(visible=True)
                              .annotate(n_respuestas=Count("respuestas", filter=Q(respuestas__visible=True)))[:50])
     perfil = Perfil.de(request.user)

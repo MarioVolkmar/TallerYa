@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load avatares %}
+{% block title %}Cita en {{ cita.taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="mt-8 max-w-4xl">
+  <a href="{% url 'cuentas:mi_cuenta' %}#citas" class="mc-volver">← Mis citas</a>
+
+  <section class="papel mc-detalle mt-4">
+    <div class="mc-detalle-cabeza">
+      <span class="mc-fecha mc-fecha-grande"><strong>{{ cita.fecha_preferida|date:"j" }}</strong><small>{{ cita.fecha_preferida|date:"M"|lower }}</small></span>
+      <div class="min-w-0">
+        <p class="etiqueta">Tu cita</p>
+        <h1 class="titulo text-3xl md:text-4xl mt-1">{{ cita.fecha_preferida|date:"l j \d\e F"|lower|capfirst }}</h1>
+        <p class="text-suave mt-1">{% if cita.hora %}A las {{ cita.hora|time:"g:i a" }}{% else %}El taller te confirma la hora{% endif %}</p>
+      </div>
+      <span class="pt-chip chip-{{ cita.estado }} mc-detalle-chip">{{ cita.get_estado_display }}</span>
+    </div>
+
+    {% if cita.estado == "reprogramada" %}
+    <div class="mc-aviso mc-aviso-azul">
+      <p><strong>{{ cita.taller.nombre }} te propone otra fecha:</strong> {{ cita.fecha_propuesta|date:"l j \d\e F"|lower }}{% if cita.hora_propuesta %} a las {{ cita.hora_propuesta|time:"g:i a" }}{% endif %}{% if cita.nota_taller %} — “{{ cita.nota_taller }}”{% endif %}.</p>
+      {% if responder_url %}<a href="{{ responder_url }}" class="btn btn-lava text-xs px-5 py-2.5">Responder propuesta</a>{% endif %}
+    </div>
+    {% elif cita.estado == "cancelada" and cita.motivo_cancelacion %}
+    <div class="mc-aviso"><p><strong>Cancelada.</strong> {{ cita.motivo_cancelacion }}</p></div>
+    {% endif %}
+
+    <dl class="mc-datos">
+      <div><dt>Moto</dt><dd>{{ cita.moto }}</dd></div>
+      <div><dt>Servicio</dt><dd>{% if cita.servicio %}{{ cita.servicio }}{% else %}Por definir con el taller{% endif %}</dd></div>
+      <div><dt>Pedida el</dt><dd>{{ cita.creado|date:"j M Y, g:i a"|lower }}</dd></div>
+      <div><dt>A nombre de</dt><dd>{{ cita.nombre }}</dd></div>
+      {% if cita.detalle %}<div class="mc-ancho"><dt>Tu nota</dt><dd class="mc-nota">“{{ cita.detalle }}”</dd></div>{% endif %}
+    </dl>
+
+    <div class="mc-acciones">
+      {% if whatsapp %}<a href="{{ whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">Escribir al taller por WhatsApp</a>{% endif %}
+      {% if cita.estado != "cancelada" and cita.estado != "atendida" %}<a href="{% url 'cuentas:cita_ics' cita.pk %}" class="btn btn-borde text-xs px-5 py-2.5">Agregar a mi calendario</a>{% endif %}
+      {% if cancelable %}<button type="button" class="btn btn-borde mc-cancelar text-xs px-5 py-2.5" data-abrir-cancelar>Cancelar cita</button>{% endif %}
+    </div>
+  </section>
+
+  <section class="papel mc-taller mt-5">
+    <div class="mc-taller-info">
+      {% logo_taller cita.taller 56 as logo %}<span class="mc-logo mc-logo-grande{% if logo %} con-logo{% endif %}" style="--tono: {{ cita.taller.tono }}" aria-hidden="true">{% if logo %}{{ logo }}{% else %}{{ cita.taller.iniciales }}{% endif %}</span>
+      <div class="min-w-0">
+        <p class="tc-nombre">{{ cita.taller.nombre }}</p>
+        <p class="mc-taller-dato">{{ cita.taller.direccion }} · {{ cita.taller.barrio }}</p>
+        <div class="mc-taller-botones">
+          <a href="{{ como_llegar }}" target="_blank" rel="noopener" class="pt-enlace">Cómo llegar</a>
+          <a href="{{ cita.taller.get_absolute_url }}" class="pt-enlace">Ver taller</a>
+        </div>
+      </div>
+    </div>
+    <div class="mc-mapa"><iframe src="{{ mapa_url }}" title="Mapa de {{ cita.taller.nombre }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+  </section>
+</div>
+
+{% if cancelable %}
+<dialog class="papel rp-dialogo mc-dialogo" id="dialogo-cancelar-cita" aria-labelledby="mc-cancelar-titulo">
+  <form method="post" action="{% url 'cuentas:cita_cancelar' cita.pk %}" class="space-y-4">
+    {% csrf_token %}
+    <p class="titulo text-2xl" id="mc-cancelar-titulo">¿Cancelar la cita?</p>
+    <p class="text-sm text-suave">Le avisamos a {{ cita.taller.nombre }} para que libere el espacio. Si solo necesitas otra fecha, escríbele por WhatsApp.</p>
+    <label class="campo-label">Motivo (opcional)<input type="text" name="motivo" maxlength="150" class="campo" placeholder="Ej.: me salió un viaje"></label>
+    <div class="flex flex-wrap justify-end gap-3">
+      <button type="button" class="boton-seccion" data-cerrar-cancelar>Volver</button>
+      <button class="btn btn-lava text-xs px-6 py-3">Sí, cancelar</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var d = document.getElementById("dialogo-cancelar-cita");
+    document.querySelector("[data-abrir-cancelar]").addEventListener("click", function () { d.showModal(); });
+    d.querySelector("[data-cerrar-cancelar]").addEventListener("click", function () { d.close(); });
+    d.addEventListener("click", function (e) { if (e.target === d) d.close(); });
+  })();
+</script>
+{% endif %}
+{% endblock %}

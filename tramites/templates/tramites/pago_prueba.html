@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Pago de prueba · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto mt-10">
+  <p class="tr-simulacion" role="note"><strong>Simulación.</strong> Esta página es de prueba: no cobra dinero ni pide datos de tarjeta. Cuando tengamos aseguradora aliada, aquí irá su pago real.</p>
+  <section class="papel tr-caja mt-5">
+    <p class="tr-paso"><span>$</span>Pago de prueba</p>
+    <p class="tr-pedido-titulo mt-3">SOAT {{ pedido.placa }} · {{ pedido.linea }}</p>
+    <p class="tr-valor">{% if pedido.valor %}${{ pedido.valor|intcomma }}{% else %}Por confirmar{% endif %}</p>
+    <p class="tr-nota">Tomador: {{ pedido.nombre_completo }} · {{ pedido.tipo_documento }} terminado en {{ pedido.numero_documento|slice:"-4:" }}</p>
+    <form method="post" class="mt-5 flex flex-wrap gap-3">
+      {% csrf_token %}
+      <button class="btn btn-lava text-xs px-6 py-3">Simular pago aprobado</button>
+      <a href="{{ volver }}" class="btn btn-borde text-xs px-6 py-3">Volver</a>
+    </form>
+  </section>
+</div>
+{% endblock %}
