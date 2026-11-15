@@ -1,10 +1,16 @@
-{% load static avatares %}<!DOCTYPE html>
+{% load static avatares seo %}<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}TallerYa · Talleres de motos en Medellín{% endblock %}</title>
+  {% block seo %}{% seo %}{% endblock %}
   <meta name="theme-color" content="#111517">
+  <link rel="manifest" href="{% url 'notificaciones:manifiesto' %}">
+  <link rel="apple-touch-icon" href="{% static 'talleres/img/pwa/apple-touch-icon.png' %}">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TallerYa">
   <link rel="icon" type="image/svg+xml" href="{% static 'talleres/img/favicon.svg' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +23,7 @@
   <link rel="stylesheet" href="{% static 'talleres/css/tw.css' %}">
   <script src="{% static 'talleres/js/controles.js' %}" defer></script>
   <script src="{% static 'talleres/js/notificaciones.js' %}" defer></script>
+  <script src="{% static 'talleres/js/pwa.js' %}" defer></script>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
   <header class="sticky top-0 z-30 border-b border-white/5 bg-[#111517]/85 backdrop-blur" id="cabecera">
@@ -68,6 +75,10 @@
             </div>
             <div class="campana-lista"></div>
             <a href="{% url 'notificaciones:lista' %}" class="campana-todas">Ver todas</a>
+            <div class="push-caja" id="push-caja" hidden data-estado="{% url 'notificaciones:push_estado' %}" data-suscribir="{% url 'notificaciones:push_suscribir' %}" data-desactivar="{% url 'notificaciones:push_desactivar' %}">
+              <button type="button" class="push-boton" data-push>Activar avisos en este celular</button>
+              <p class="push-nota" data-push-nota></p>
+            </div>
           </div>
         </div>
       </div>
@@ -91,6 +102,7 @@
           {% if user.is_authenticated and rol != "taller" %}<a href="{% url 'logros:mis_insignias' %}">Mis insignias</a>{% endif %}
           {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}">Validar cupón</a>{% endif %}
           {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}">Administración</a>{% endif %}
+          <a href="#" data-instalar-app hidden>Instalar app</a>
           {% if user.is_authenticated %}
             <a href="{% if rol == "taller" %}{% url 'talleres:panel' %}{% else %}{% url 'cuentas:mi_cuenta' %}{% endif %}" class="menu-cuenta">{% avatar user 28 %}<span class="nav-cuenta-nombre">{% if rol == "taller" %}{{ user.taller.nombre }}{% else %}{{ user.first_name|default:"Mi cuenta" }}{% endif %}</span></a>
           {% else %}
@@ -208,5 +220,15 @@
     </div>
   </footer>
 <script src="{% static 'talleres/js/paginar.js' %}" defer></script>
+<div class="instalar-app" id="instalar-app" hidden role="dialog" aria-label="Instalar TallerYa">
+  <img src="{% static 'talleres/img/pwa/icon-192.png' %}" alt="" width="40" height="40">
+  <div class="instalar-texto">
+    <strong>Instala TallerYa</strong>
+    <span data-android>Ábrelo como app y recibe avisos de tu moto.</span>
+    <span data-ios hidden>Toca Compartir y luego «Agregar a inicio».</span>
+  </div>
+  <button type="button" class="instalar-boton" data-instalar data-android>Instalar</button>
+  <button type="button" class="instalar-cerrar" data-cerrar aria-label="Cerrar">×</button>
+</div>
 </body>
 </html>

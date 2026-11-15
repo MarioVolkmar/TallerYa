@@ -11,7 +11,7 @@ services:
     runtime: python
     plan: free
     buildCommand: ./build.sh
-    startCommand: gunicorn config.wsgi:application
+    startCommand: gunicorn config.wsgi:application --timeout 60
     healthCheckPath: /
     envVars:
       - key: PYTHON_VERSION
@@ -24,6 +24,9 @@ services:
         generateValue: true
       - key: DJANGO_DEBUG
         value: "0"
+      # Proxies de confianza delante de la app para leer la IP real (X-Forwarded-For). En Render: 1.
+      - key: PROXIES_DE_CONFIANZA
+        value: "1"
       - key: WEB_CONCURRENCY
         value: "2"
       - key: CARGAR_DEMO
@@ -45,4 +48,11 @@ services:
       # Token de los endpoints /tareas/avisos/ y /tareas/citas/ que llama GitHub Actions a diario (gratis; ver .github/workflows/avisos.yml).
       # Pon el mismo valor en el secreto TAREAS_TOKEN de GitHub. Mínimo 20 caracteres.
       - key: TAREAS_TOKEN
+        sync: false
+      # Avisos push al celular (Web Push). Genera el par con `python manage.py generar_vapid`. Sin ellos el sitio funciona sin push.
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: VAPID_SUBJECT
         sync: false

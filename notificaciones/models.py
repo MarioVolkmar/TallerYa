@@ -42,3 +42,23 @@ class Notificacion(models.Model):
     def urgente(self):
         from garaje.avisos import es_urgente
         return not self.leida and es_urgente(self.clave)
+
+
+class SuscripcionPush(models.Model):
+    """Un celular o navegador que activó los avisos push de una persona (Web Push)."""
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="suscripciones_push")
+    endpoint = models.TextField(unique=True)
+    p256dh = models.CharField(max_length=200)
+    auth = models.CharField(max_length=100)
+    agente = models.CharField(max_length=200, blank=True)
+    creada = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "suscripción push"
+        verbose_name_plural = "suscripciones push"
+
+    def __str__(self):
+        return f"push de {self.usuario}"
+
+    def como_dict(self):
+        return {"endpoint": self.endpoint, "keys": {"p256dh": self.p256dh, "auth": self.auth}}

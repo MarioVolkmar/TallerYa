@@ -5,3 +5,4 @@ whitenoise>=6.7
 gunicorn>=23
 psycopg[binary]>=3.2
 redis>=5  # solo se usa si se define REDIS_URL
+pywebpush>=2.0  # avisos push al celular (solo se usa si hay claves VAPID)
