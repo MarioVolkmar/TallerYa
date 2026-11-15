@@ -1,58 +1,67 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load foro_extras avatares %}
 {% block title %}{{ rodada.titulo }} · Rodadas TallerYa{% endblock %}
 {% block content %}
 {% url 'foro:rodadas' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver a rodadas" clase="mt-8" %}
 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-6 items-start">
-<article class="papel p-6 md:p-8 lg:col-span-2">
+<article class="papel p-6 md:p-8 lg:col-span-2 fo-con-menu-arriba">
+  {% include "foro/_menu.html" with obj=pregunta tipo="pregunta" propio=es_organizador reportado=rodada_reportada sin_editar=True %}
   <p class="fo-meta"><span class="fo-tema fo-tema-rutas">Rodada</span><span class="chip">{{ rodada.get_nivel_display }}</span>{% if rodada.pasada %}<span class="chip">Archivada</span>{% endif %}</p>
   <h1 class="titulo text-3xl md:text-4xl mt-3">{{ rodada.titulo }}</h1>
-  <p class="text-sm text-suave mt-3">Organiza {% include "foro/_autor.html" with autor=rodada.organizador %}</p>
   <div class="separador my-5"></div>
   <dl class="space-y-2">
+    {% with o=rodada.organizador %}
+    <div><dt class="etiqueta">Organiza</dt><dd class="ro-organiza-linea"><a href="{% url 'foro:integrante' o.pk %}">{% avatar o 24 %}<strong>{% if o.taller %}{{ o.taller }}{% else %}{{ o.first_name|default:"Motociclista" }}{% endif %}</strong></a>{% if o.taller.verificado %}<span class="ro-verificado">✔ Taller verificado</span>{% endif %}<small>{{ rodadas_organizadas }} rodada{{ rodadas_organizadas|pluralize }} organizada{{ rodadas_organizadas|pluralize }}</small></dd></div>
+    {% endwith %}
     <div><dt class="etiqueta">Cuándo</dt><dd class="font-semibold">{{ rodada.fecha_hora|date:"l j \d\e F · g:i a" }}</dd></div>
     <div><dt class="etiqueta">Punto de encuentro</dt><dd class="font-semibold">📍 {{ rodada.punto_encuentro }}</dd></div>
     <div><dt class="etiqueta">Destino o ruta</dt><dd class="font-semibold">{{ rodada.destino }}</dd></div>
   </dl>
   <p class="cuerpo-post mt-5">{{ pregunta.cuerpo }}</p>
-  {% if user.is_authenticated and not es_organizador %}
-  <form method="post" action="{% url 'foro:reportar' 'pregunta' pregunta.pk %}" class="mt-5"
-        onsubmit="return confirm('¿Reportar esta rodada como inapropiada?')">{% csrf_token %}
-    <button class="boton-texto">Reportar</button>
-  </form>
-  {% endif %}
 </article>
 
-<aside class="papel p-6">
-  <p class="etiqueta">Van {{ asistentes|length }}{% if rodada.cupo %} de {{ rodada.cupo }}{% endif %}</p>
+<aside class="papel p-6 ro-caja">
+  <p class="ro-cupo-texto"><strong>{{ asistentes|length }}{% if rodada.cupo %} de {{ rodada.cupo }}{% endif %}</strong> van{% if lleno %} · <span class="ro-llena">Llena</span>{% endif %}</p>
+  {% if rodada.cupo %}
+  <div class="ro-barra{% if lleno %} ro-barra-llena{% elif casi_lleno %} ro-barra-casi{% endif %}" role="progressbar" aria-valuemin="0" aria-valuemax="{{ rodada.cupo }}" aria-valuenow="{{ asistentes|length }}" aria-label="Cupo ocupado"><span style="width: {{ ocupado }}%"></span></div>
+  {% else %}<p class="ro-sin-cupo">Sin límite de cupo</p>{% endif %}
   {% if not rodada.pasada %}
     {% if user.is_authenticated %}
       {% if voy and es_organizador %}<p class="text-sm text-suave mt-4">Eres quien organiza.</p>
-      {% elif voy %}<form method="post" action="{% url 'foro:rodada_voy' rodada.pk %}" class="mt-4">{% csrf_token %}<button class="btn btn-borde w-full py-3 text-sm">Ya no voy</button></form>
+      {% elif voy %}<form method="post" action="{% url 'foro:rodada_voy' rodada.pk %}" class="mt-4">{% csrf_token %}<button class="btn btn-borde w-full py-3 text-sm" title="Ya estás inscrito: toca para cancelar tu asistencia">Cancelar</button></form>
       {% elif lleno %}<p class="text-sm text-suave mt-4">El cupo está lleno.</p>
       {% else %}<form method="post" action="{% url 'foro:rodada_voy' rodada.pk %}" class="mt-4">{% csrf_token %}<button class="btn btn-lava w-full py-3 text-sm">🏍 Voy</button></form>{% endif %}
     {% else %}
     <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="btn btn-lava w-full py-3 text-sm mt-4">Entra para decir «Voy»</a>
     {% endif %}
-  {% endif %}
-  <ul class="mt-5 space-y-2 text-sm">
-    {% for u in asistentes %}<li>{% include "foro/_autor.html" with autor=u %}</li>{% endfor %}
+  {% else %}<p class="text-sm text-suave mt-4">Esta rodada ya pasó.</p>{% endif %}
+
+  <p class="etiqueta mt-6">Inscritos</p>
+  <ul class="ro-inscritos">
+    {% for u in asistentes %}
+    <li><a href="{% url 'foro:integrante' u.pk %}" title="{% if u.taller %}{{ u.taller }}{% else %}{{ u.first_name|default:'Motociclista' }}{% endif %}">{% avatar u 28 %}<span>{% if u.taller %}{{ u.taller }}{% else %}{{ u.first_name|default:"Motociclista" }}{% endif %}</span>{% if u.pk == rodada.organizador_id %}<em>Organiza</em>{% endif %}</a></li>
+    {% endfor %}
   </ul>
+
+  <p class="etiqueta mt-6">Punto de encuentro</p>
+  <div class="ro-mapa">
+    <iframe src="{{ mapa_embebido }}" title="Mapa: {{ rodada.punto_encuentro }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+  <div class="ro-mapa-botones">
+    <a href="{{ url_google_maps }}" target="_blank" rel="noopener" class="boton-seccion">Abrir en Google Maps</a>
+    <a href="{{ url_waze }}" target="_blank" rel="noopener" class="boton-seccion">Abrir en Waze</a>
+  </div>
 </aside>
 </div>
 
 <section class="mt-10">
-  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ comentarios|length|stringformat:"02d" }}</span>Comentario{{ comentarios|length|pluralize }}</h2>
+  <h2 class="titulo text-2xl md:text-3xl">Comentarios{% if comentarios %} <span class="fo-conteo">· {{ comentarios|length }}</span>{% endif %}</h2>
   <div class="separador mt-4 mb-6"></div>
   <div class="space-y-4">
     {% for r in comentarios %}
-    <article id="r{{ r.pk }}" class="papel p-6 scroll-mt-24">
-      <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · hace {{ r.creado|timesince }}</p>
+    <article id="r{{ r.pk }}" class="papel p-6 scroll-mt-24 fo-con-menu-arriba">
+      {% if r.autor == user %}{% include "foro/_menu.html" with obj=r tipo="respuesta" propio=True %}{% else %}{% include "foro/_menu.html" with obj=r tipo="respuesta" propio=False reportado=r.reportado %}{% endif %}
+      <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · {% hace r.creado %}</p>
       <p class="cuerpo-post mt-3">{{ r.cuerpo }}</p>
-      {% if user.is_authenticated and r.autor != user %}
-      <form method="post" action="{% url 'foro:reportar' 'respuesta' r.pk %}" class="mt-4" onsubmit="return confirm('¿Reportar este comentario como inapropiado?')">{% csrf_token %}
-        <button class="boton-texto">Reportar</button>
-      </form>
-      {% endif %}
     </article>
     {% empty %}
     <p class="text-suave">Aún no hay comentarios. ¿Dudas sobre la ruta? Pregunta aquí.</p>
@@ -70,4 +79,6 @@
     {% endif %}
   </div>
 </section>
+{% if user.is_authenticated %}{% include "foro/_reporte.html" %}{% endif %}
+{% load static %}<script src="{% static 'foro/js/hilo.js' %}" defer data-sugerir="{% url 'foro:sugerir_usuarios' %}" data-pregunta="{{ pregunta.pk }}"></script>
 {% endblock %}

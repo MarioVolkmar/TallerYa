@@ -1,0 +1,14 @@
+{# Formulario para responder a un mensaje concreto. Variable: padre (vacío en la plantilla que clona el JavaScript) #}
+<form method="post" action="{{ url_publicar|default:pregunta.get_absolute_url }}" class="fo-form-hilo">
+  {% csrf_token %}
+  <input type="hidden" name="padre" value="{{ padre.pk|default:'' }}">
+  <label class="campo-label" for="cuerpo-hilo-{{ padre.pk|default:'x' }}">Responder a <span data-nombre>{{ padre.autor_nombre }}</span>
+    <textarea id="cuerpo-hilo-{{ padre.pk|default:'x' }}" name="cuerpo" rows="3" maxlength="3000" required class="campo" data-menciones
+              placeholder="Escribe @ para mencionar a alguien del foro">{% if form_hilo %}{{ form_hilo.cuerpo.value|default:'' }}{% endif %}</textarea>
+  </label>
+  {% for e in form_hilo.cuerpo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+  <div class="fo-form-hilo-botones">
+    <button class="btn btn-lava py-2 px-5 text-xs">Publicar respuesta</button>
+    <a href="#r{{ padre.pk|default:'' }}" class="boton-seccion fo-cancelar">Cancelar</a>
+  </div>
+</form>

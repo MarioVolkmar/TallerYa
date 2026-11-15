@@ -1,8 +1,10 @@
-{# Botón "me sirvió". Variables: tipo, pk, votos, mio, propio #}
+{# Botón "Me sirvió" (cuenta para ordenar y para la solución). Variables: tipo, pk, votos, mio, propio #}
 {% if user.is_authenticated and not propio %}
 <form method="post" action="{% url 'foro:votar' tipo pk %}" class="fo-votar-form">{% csrf_token %}
-  <button class="fo-votar{% if mio %} activo{% endif %}" title="Me sirvió"><span aria-hidden="true">▲</span> Me sirvió · <span data-votos>{{ votos }}</span></button>
+  <button class="fo-accion fo-votar{% if mio %} activo{% endif %}" aria-pressed="{% if mio %}true{% else %}false{% endif %}">{% include "foro/_icono_pulgar.html" %}<span>Me sirvió</span><span class="fo-votar-n" data-votos{% if not votos %} hidden{% endif %}>· {{ votos }}</span></button>
 </form>
+{% elif user.is_authenticated %}
+{% if votos %}<span class="fo-accion fo-accion-solo" title="A {{ votos }} persona{{ votos|pluralize }} le{{ votos|pluralize }} sirvió">{% include "foro/_icono_pulgar.html" %}<span class="fo-votar-n">{{ votos }}</span><span class="sr-only"> me sirvió</span></span>{% endif %}
 {% else %}
-<span class="fo-votar fo-votar-solo" title="Votos"><span aria-hidden="true">▲</span> <span>{{ votos }}</span> me sirvió</span>
+<a class="fo-accion" href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" title="Entra para votar">{% include "foro/_icono_pulgar.html" %}<span>Me sirvió</span>{% if votos %}<span class="fo-votar-n">· {{ votos }}</span>{% endif %}</a>
 {% endif %}

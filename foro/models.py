@@ -33,12 +33,32 @@ class Pregunta(models.Model):
     )
     visible = models.BooleanField(default=True)
     creado = models.DateTimeField(auto_now_add=True)
+    # Última interacción (creación, respuesta nueva o edición de la pregunta): ordena "Recientes" y los grupos.
+    ultima_actividad = models.DateTimeField("última actividad", null=True, blank=True, db_index=True)
+    # Autor de la última respuesta (vacío si lo último fue crear o editar la pregunta)
+    ultimo_autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                     related_name="+", verbose_name="autor de la última respuesta")
 
     class Meta:
         ordering = ["-creado"]
 
     def __str__(self):
         return self.titulo
+
+    def save(self, *args, **kwargs):
+        if self.ultima_actividad is None:
+            from django.utils import timezone
+            self.ultima_actividad = timezone.now()
+        super().save(*args, **kwargs)
+
+    def recalcular_actividad(self):
+        """Vuelve a calcular la última actividad desde las respuestas visibles (tras borrar u ocultar una)."""
+        ultima = self.respuestas.filter(visible=True).order_by("-creado").first()
+        if ultima and ultima.creado > self.creado:
+            self.ultima_actividad, self.ultimo_autor_id = ultima.creado, ultima.autor_id
+        else:
+            self.ultima_actividad, self.ultimo_autor_id = self.creado, None
+        Pregunta.objects.filter(pk=self.pk).update(ultima_actividad=self.ultima_actividad, ultimo_autor_id=self.ultimo_autor_id)
 
     @property
     def slug(self):
@@ -51,6 +71,9 @@ class Pregunta(models.Model):
 class Respuesta(models.Model):
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name="respuestas")
     autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="respuestas")
+    # Mensaje al que responde dentro del tema (vacío = responde a la pregunta). Si se borra, la respuesta sube de nivel.
+    padre = models.ForeignKey("self", on_delete=models.SET_NULL, null=True, blank=True, related_name="hijas",
+                              verbose_name="en respuesta a")
     cuerpo = models.TextField(max_length=3000)
     visible = models.BooleanField(default=True)
     creado = models.DateTimeField(auto_now_add=True)
@@ -60,6 +83,12 @@ class Respuesta(models.Model):
 
     def __str__(self):
         return f"Respuesta de {self.autor} a «{self.pregunta}»"
+
+    def save(self, *args, **kwargs):
+        nueva = self._state.adding
+        super().save(*args, **kwargs)
+        if nueva and self.visible:  # una respuesta nueva sube el tema en "Recientes"
+            Pregunta.objects.filter(pk=self.pregunta_id).update(ultima_actividad=self.creado, ultimo_autor_id=self.autor_id)
 
     def get_absolute_url(self):
         return f"{self.pregunta.get_absolute_url()}#r{self.pk}"
@@ -109,6 +138,41 @@ class Voto(models.Model):
             models.UniqueConstraint(fields=["usuario", "respuesta"], condition=Q(respuesta__isnull=False), name="un_voto_por_respuesta"),
         ]
 
+
+
+class Reaccion(models.Model):
+    """Reacción con emoji a una pregunta o respuesta (una por usuario y mensaje; se cambia o se quita).
+    "Me sirvió" no es una reacción: es el Voto, que cuenta para ordenar y para la solución."""
+
+    class Tipo(models.TextChoices):
+        GUSTA = "gusta", "Me gusta"
+        ENCANTA = "encanta", "Me encanta"
+        DIVIERTE = "divierte", "Me divierte"
+        PREOCUPA = "preocupa", "Me preocupa"
+        DESACUERDO = "desacuerdo", "No estoy de acuerdo"
+
+    EMOJI = {"gusta": "👍", "encanta": "❤️", "divierte": "😄", "preocupa": "😟", "desacuerdo": "👎"}
+
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reacciones_foro")
+    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, null=True, blank=True, related_name="reacciones")
+    respuesta = models.ForeignKey(Respuesta, on_delete=models.CASCADE, null=True, blank=True, related_name="reacciones")
+    tipo = models.CharField(max_length=12, choices=Tipo.choices)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "reacción"
+        verbose_name_plural = "reacciones"
+        constraints = [
+            models.CheckConstraint(
+                condition=Q(pregunta__isnull=False, respuesta__isnull=True) | Q(pregunta__isnull=True, respuesta__isnull=False),
+                name="reaccion_un_solo_objetivo",
+            ),
+            models.UniqueConstraint(fields=["usuario", "pregunta"], condition=Q(pregunta__isnull=False), name="una_reaccion_por_pregunta"),
+            models.UniqueConstraint(fields=["usuario", "respuesta"], condition=Q(respuesta__isnull=False), name="una_reaccion_por_respuesta"),
+        ]
+
+    def __str__(self):
+        return f"{self.EMOJI.get(self.tipo, '')} {self.usuario} → {self.pregunta or self.respuesta}"
 
 class Rodada(models.Model):
     """Rodada o evento: sus comentarios y reportes son los de su pregunta del foro (tema "Rutas y paseos")."""

@@ -17,7 +17,7 @@ from notificaciones.models import Notificacion
 from notificaciones.servicios import notificar
 
 from .forms import RespuestaForm, RodadaForm
-from .models import Asistencia, Categoria, Pregunta, Rodada
+from .models import Asistencia, Categoria, Pregunta, Respuesta, Rodada
 from .views import _puede_publicar
 
 
@@ -32,8 +32,10 @@ def lista(request):
     pasadas = request.GET.get("ver") == "pasadas"
     rodadas = _visibles().filter(fecha_hora__lt=ahora).order_by("-fecha_hora") if pasadas \
         else _visibles().filter(fecha_hora__gte=ahora).order_by("fecha_hora")
+    base = Rodada.objects.filter(pregunta__visible=True)
     return render(request, "foro/rodadas.html", {
         "pagina": Paginator(rodadas, 12).get_page(request.GET.get("pagina")), "pasadas": pasadas,
+        "num_proximas": base.filter(fecha_hora__gte=ahora).count(), "num_pasadas": base.filter(fecha_hora__lt=ahora).count(),
     })
 
 
@@ -63,30 +65,37 @@ def crear(request):
 def detalle(request, pk):
     rodada = get_object_or_404(_visibles(), pk=pk)
     pregunta = rodada.pregunta
-    form = RespuestaForm(request.POST or None)
-    if request.method == "POST":
-        if not request.user.is_authenticated:
-            return redirect_to_login(rodada.get_absolute_url())
-        if form.is_valid():
-            if not _puede_publicar(request.user):
-                messages.error(request, "Has publicado mucho en poco tiempo. Intenta de nuevo en un rato.")
-            else:
-                respuesta = form.save(commit=False)
-                respuesta.pregunta, respuesta.autor = pregunta, request.user
-                respuesta.save()
-                if rodada.organizador_id != request.user.pk:
-                    notificar(rodada.organizador, f"foro-respuesta:{respuesta.pk}", "Comentaron tu rodada",
-                              rodada.titulo, f"{rodada.get_absolute_url()}#r{respuesta.pk}", Notificacion.Tipo.FORO)
-                messages.success(request, "Comentario publicado.")
-                return redirect(f"{rodada.get_absolute_url()}#r{respuesta.pk}")
+    from .views import contexto_hilo, publicar_respuesta
+    publicado, padre, form = publicar_respuesta(request, pregunta, en_rodada=True)
+    if isinstance(publicado, Respuesta):
+        messages.success(request, "Comentario publicado.")
+        return redirect(f"{rodada.get_absolute_url()}#r{publicado.pk}")
+    if publicado:
+        return publicado
+    hilo = contexto_hilo(request, pregunta, padre, form, por_votos=False)
 
     asistentes = [a.usuario for a in rodada.asistencias.select_related("usuario", "usuario__taller")]
     voy = request.user.is_authenticated and any(u.pk == request.user.pk for u in asistentes)
+    comentarios = hilo["respuestas"]
+    # Organizador primero; cupo en porcentaje para la barra
+    asistentes.sort(key=lambda u: u.pk != rodada.organizador_id)
+    ocupado = round(100 * len(asistentes) / rodada.cupo) if rodada.cupo else None
+    # Mapa por texto, como en la ficha de los talleres (sin clave de API: la rodada no guarda coordenadas)
+    from urllib.parse import quote
+    lugar = quote(f"{rodada.punto_encuentro}, Valle de Aburrá, Antioquia")
     return render(request, "foro/rodada.html", {
+        **hilo, "url_publicar": rodada.get_absolute_url(), "es_autor": False,
         "rodada": rodada, "pregunta": pregunta, "asistentes": asistentes, "voy": voy,
         "lleno": rodada.cupo is not None and len(asistentes) >= rodada.cupo,
-        "comentarios": pregunta.respuestas.filter(visible=True).select_related("autor", "autor__taller"),
-        "form": form, "es_organizador": request.user.pk == rodada.organizador_id,
+        "comentarios": comentarios,
+        "es_organizador": request.user.pk == rodada.organizador_id,
+        "rodada_reportada": hilo["pregunta_reportada"],
+        "ocupado": min(ocupado, 100) if ocupado is not None else None,
+        "casi_lleno": ocupado is not None and ocupado >= 80,
+        "rodadas_organizadas": Rodada.objects.filter(organizador_id=rodada.organizador_id, pregunta__visible=True).count(),
+        "mapa_embebido": f"https://www.google.com/maps?q={lugar}&output=embed&hl=es",
+        "url_google_maps": f"https://www.google.com/maps/search/?api=1&query={lugar}",
+        "url_waze": f"https://waze.com/ul?q={lugar}&navigate=yes",
     })
 
 

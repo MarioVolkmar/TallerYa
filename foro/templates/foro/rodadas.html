@@ -10,11 +10,10 @@
   </div>
   <a href="{% url 'foro:rodada_crear' %}" class="btn btn-lava text-xs px-5 py-2.5">Organizar una rodada</a>
 </div>
-<nav class="flex flex-wrap gap-5 mt-6" aria-label="Ver rodadas">
-  <a href="{% url 'foro:rodadas' %}" class="boton-texto {% if not pasadas %}text-lava font-semibold{% endif %}">Próximas</a>
-  <a href="{% url 'foro:rodadas' %}?ver=pasadas" class="boton-texto {% if pasadas %}text-lava font-semibold{% endif %}">Archivo (pasadas)</a>
+<nav class="fo-pestanas mb-6" aria-label="Ver rodadas">
+  <a href="{% url 'foro:rodadas' %}"{% if not pasadas %} class="activo" aria-current="page"{% endif %}><svg class="fo-ico-cat" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Próximas · {{ num_proximas }}</a>
+  <a href="{% url 'foro:rodadas' %}?ver=pasadas"{% if pasadas %} class="activo" aria-current="page"{% endif %}><svg class="fo-ico-cat" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9M10 13h4"/></svg>Archivo · {{ num_pasadas }}</a>
 </nav>
-<div class="separador mt-3 mb-6"></div>
 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
   {% for r in pagina %}
   <a href="{{ r.get_absolute_url }}" class="papel p-6 block">

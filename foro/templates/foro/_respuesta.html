@@ -1,0 +1,17 @@
+{% load foro_extras %}{# Un mensaje del tema y, debajo, sus respuestas en hilo (máximo 2 niveles visuales). Variables: r, pregunta, es_autor, responder #}
+<div class="fo-nodo">
+<article id="r{{ r.pk }}" class="papel fo-msg fo-nivel-{{ r.nivel }} scroll-mt-24{% if r.pk == pregunta.mejor_respuesta_id %} mejor{% endif %}">
+  {% if r.pk == pregunta.mejor_respuesta_id %}<p class="fo-solucion">✓ Solución aceptada por quien preguntó</p>{% endif %}
+  <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · {% hace r.creado %}{% if r.responde_a %}<span class="fo-responde-a"> · en respuesta a <a href="#r{{ r.padre_id }}">@{{ r.responde_a }}</a></span>{% endif %}</p>
+  <p class="cuerpo-post mt-3">{{ r.cuerpo_html }}</p>
+  {% if r.autor == user %}{% include "foro/_acciones.html" with obj=r tipo="respuesta" propio=True votos=r.num_votos mio=r.vote_mio %}{% else %}{% include "foro/_acciones.html" with obj=r tipo="respuesta" propio=False votos=r.num_votos mio=r.vote_mio reportado=r.reportado %}{% endif %}
+  <div id="responder-{{ r.pk }}" class="fo-responder-slot">{% if responder == r.pk %}{% include "foro/_form_hilo.html" with padre=r %}{% endif %}</div>
+</article>
+{% if r.total_hilo %}
+{% if r.nivel == 0 %}<button type="button" class="fo-colapsar" aria-expanded="true" aria-controls="hilo-{{ r.pk }}" data-n="{{ r.total_hilo }}" hidden>Ocultar {{ r.total_hilo }} respuesta{{ r.total_hilo|pluralize }}</button>{% endif %}
+<div id="hilo-{{ r.pk }}" class="fo-hilo{% if r.planas %} fo-hilo-plano{% endif %}" role="group" aria-label="Respuestas a {{ r.autor_nombre }}">
+  {% for h in r.en_hilo %}{% include "foro/_respuesta.html" with r=h %}{% endfor %}
+  {% for h in r.planas %}{% include "foro/_respuesta.html" with r=h %}{% endfor %}
+</div>
+{% endif %}
+</div>

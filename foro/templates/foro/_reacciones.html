@@ -1,0 +1,23 @@
+{# Chips de reacciones del mensaje y botón para reaccionar. Variables: obj (reacciones_lista, reaccion_mia), tipo, propio, opciones_reaccion #}
+<div class="fo-reacciones" data-reacciones="{{ tipo }}-{{ obj.pk }}">
+  {% if user.is_authenticated and not propio %}
+  <form method="post" action="{% url 'foro:reaccionar' tipo obj.pk %}" class="fo-reacciones-form">{% csrf_token %}
+    {% for r in obj.reacciones_lista %}
+    <button name="reaccion" value="{{ r.clave }}" class="fo-chip{% if r.mia %} activo{% endif %}" aria-pressed="{% if r.mia %}true{% else %}false{% endif %}"
+            title="{{ r.nombre }}: {{ r.quienes }}{% if r.mia %} · toca para quitar la tuya{% endif %}"><span aria-hidden="true">{{ r.emoji }}</span> {{ r.n }}<span class="sr-only"> {{ r.nombre }} ({{ r.quienes }})</span></button>
+    {% endfor %}
+    <details class="fo-reaccionar">
+      <summary class="fo-accion fo-accion-ico" role="button" aria-label="Reaccionar" title="Reaccionar">{% include "foro/_icono_carita.html" %}</summary>
+      <div class="fo-selector" role="group" aria-label="Elige una reacción">
+        {% for clave, emoji, nombre in opciones_reaccion %}
+        <button name="reaccion" value="{{ clave }}" class="fo-selector-op{% if obj.reaccion_mia == clave %} activo{% endif %}" data-nombre="{{ nombre }}"
+                aria-pressed="{% if obj.reaccion_mia == clave %}true{% else %}false{% endif %}"><span aria-hidden="true">{{ emoji }}</span><span class="sr-only">{{ nombre }}</span></button>
+        {% endfor %}
+      </div>
+    </details>
+  </form>
+  {% else %}
+    {% for r in obj.reacciones_lista %}<span class="fo-chip fo-chip-solo" title="{{ r.nombre }}: {{ r.quienes }}"><span aria-hidden="true">{{ r.emoji }}</span> {{ r.n }}<span class="sr-only"> {{ r.nombre }} ({{ r.quienes }})</span></span>{% endfor %}
+    {% if not user.is_authenticated %}<a class="fo-accion fo-accion-ico" href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" aria-label="Entra para reaccionar" title="Entra para reaccionar">{% include "foro/_icono_carita.html" %}</a>{% endif %}
+  {% endif %}
+</div>

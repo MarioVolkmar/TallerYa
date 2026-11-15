@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% load avatares foro_extras %}
+{% block title %}{{ nombre }} · Foro TallerYa{% endblock %}
+{% block content %}
+{% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
+
+<section class="papel fo-integrante mt-6">
+  <div class="fo-integrante-cabeza">
+    {% avatar integrante 72 %}
+    <div class="min-w-0">
+      <h1 class="titulo text-3xl md:text-4xl">{{ nombre }}</h1>
+      <p class="fo-integrante-sub">
+        {% if integrante.taller %}<span class="insignia {% if integrante.taller.verificado %}insignia-verificado{% else %}insignia-lava{% endif %}">{% if integrante.taller.verificado %}✔ Taller verificado{% else %}Taller{% endif %}</span>
+        <a href="{{ integrante.taller.get_absolute_url }}" class="fo-integrante-ficha">Ver ficha del taller →</a>{% endif %}
+        <span>Participa desde {{ desde|date:"F \d\e Y"|lower }}</span>
+      </p>
+    </div>
+  </div>
+  <dl class="fo-integrante-cifras">
+    <div><dt>Preguntas</dt><dd>{{ conteos.preguntas|cifra_corta }}</dd></div>
+    <div><dt>Respuestas</dt><dd>{{ conteos.respuestas|cifra_corta }}</dd></div>
+    <div><dt>Soluciones aceptadas</dt><dd>{{ conteos.soluciones|cifra_corta }}</dd></div>
+    <div><dt>«Me sirvió» recibidos</dt><dd>{{ conteos.me_sirvio|cifra_corta }}</dd></div>
+  </dl>
+</section>
+
+<nav class="fo-pestanas" aria-label="Actividad">
+  <a href="?tab=respuestas"{% if pestana == "respuestas" %} class="activo" aria-current="page"{% endif %}>Respuestas · {{ conteos.respuestas }}</a>
+  <a href="?tab=preguntas"{% if pestana == "preguntas" %} class="activo" aria-current="page"{% endif %}>Preguntas · {{ conteos.preguntas }}</a>
+</nav>
+
+<section class="papel fo-filas mt-4">
+  {% if pestana == "preguntas" %}
+    {% for p in pagina %}{% include "foro/_fila.html" %}{% empty %}<p class="fo-integrante-vacio">Aún no ha hecho preguntas.</p>{% endfor %}
+  {% else %}
+    {% for r in pagina %}
+    <a href="{{ r.get_absolute_url }}" class="fo-actividad-item">
+      <span class="fo-actividad-tema">En «{{ r.pregunta.titulo }}»</span>
+      <span class="fo-actividad-extracto">{{ r.extracto|truncatechars:220 }}</span>
+      <span class="fo-cifra">{% hace r.creado %}{% if r.pk == r.pregunta.mejor_respuesta_id %} · <span class="fo-actividad-solucion">✓ Solución aceptada</span>{% endif %}</span>
+    </a>
+    {% empty %}<p class="fo-integrante-vacio">Aún no ha respondido.</p>{% endfor %}
+  {% endif %}
+</section>
+{% if pagina.has_other_pages %}
+<nav class="paginacion" aria-label="Páginas">
+  {% if pagina.has_previous %}<a href="?tab={{ pestana }}&amp;pagina={{ pagina.previous_page_number }}" rel="prev">← Anterior</a>{% endif %}
+  <span class="actual">{{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+  {% if pagina.has_next %}<a href="?tab={{ pestana }}&amp;pagina={{ pagina.next_page_number }}" rel="next">Siguiente →</a>{% endif %}
+</nav>
+{% endif %}
+{% endblock %}

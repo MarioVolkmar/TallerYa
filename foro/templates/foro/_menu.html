@@ -1,0 +1,19 @@
+{# Menú ⋯ de un mensaje. Variables: obj, tipo, propio, reportado, ancla #}
+<details class="fo-menu">
+  <summary class="fo-menu-boton" role="button" aria-label="Más opciones" title="Más opciones"><span aria-hidden="true">⋯</span></summary>
+  <div class="fo-menu-lista">
+    <a href="{{ obj.get_absolute_url }}" class="fo-menu-op" data-copiar>Copiar enlace</a>
+    {% if propio %}
+    {% if not sin_editar %}<a href="{% url 'foro:editar' tipo obj.pk %}" class="fo-menu-op">Editar</a>{% endif %}
+    <form method="post" action="{% url 'foro:eliminar' tipo obj.pk %}"
+          onsubmit="return confirm('{% if tipo == "pregunta" %}¿Eliminar tu pregunta y todas sus respuestas? No se puede deshacer.{% else %}¿Eliminar tu respuesta? No se puede deshacer.{% endif %}')">{% csrf_token %}
+      <button class="fo-menu-op fo-menu-peligro">Eliminar</button>
+    </form>
+    {% elif user.is_authenticated %}
+      {% if reportado %}<span class="fo-menu-op fo-menu-inactivo">Ya lo reportaste</span>
+      {% else %}<a href="?reportar={{ tipo }}-{{ obj.pk }}#reporte" class="fo-menu-op" data-reportar="{% url 'foro:reportar' tipo obj.pk %}">Reportar</a>{% endif %}
+    {% else %}
+    <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}" class="fo-menu-op">Entra para reportar</a>
+    {% endif %}
+  </div>
+</details>

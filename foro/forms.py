@@ -12,7 +12,8 @@ class PreguntaForm(EstiloMixin, forms.ModelForm):
         fields = ["titulo", "categoria", "marca", "linea", "cuerpo"]
         labels = {"titulo": "Tu pregunta", "cuerpo": "Detalles", "categoria": "Tema",
                   "marca": "Marca de tu moto (opcional)", "linea": "Línea (opcional)"}
-        widgets = {"cuerpo": forms.Textarea(attrs={"rows": 6, "placeholder": "Cuenta el modelo, el año, qué síntomas tiene..."})}
+        widgets = {"cuerpo": forms.Textarea(attrs={"rows": 6, "data-menciones": "",
+                                                   "placeholder": "Cuenta el modelo, el año, qué síntomas tiene... (@ para mencionar)"})}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,7 +46,8 @@ class RespuestaForm(EstiloMixin, forms.ModelForm):
         model = Respuesta
         fields = ["cuerpo"]
         labels = {"cuerpo": "Tu respuesta"}
-        widgets = {"cuerpo": forms.Textarea(attrs={"rows": 4})}
+        widgets = {"cuerpo": forms.Textarea(attrs={"rows": 4, "data-menciones": "",
+                                                   "placeholder": "Escribe @ para mencionar a alguien del foro"})}
 
 
 # Señales de una dirección privada (casa, apto, nomenclatura con #). Las rodadas se citan en lugares públicos.

@@ -1,0 +1,25 @@
+{% comment %}Barra de acciones al pie de un mensaje: Me sirvió, reacciones, Responder (y solución) y menú ⋯.
+   Variables: obj, tipo, propio, votos, mio, reportado; en respuestas también pregunta, es_autor, responder{% endcomment %}
+<div class="fo-barra-acc">
+  <div class="fo-barra-fila">
+    {% include "foro/_votar.html" with pk=obj.pk %}
+    {% include "foro/_reacciones.html" %}
+    <span class="fo-sep" aria-hidden="true">·</span>
+    {% if tipo == "respuesta" %}
+      {% if user.is_authenticated %}
+      <a class="fo-accion fo-responder" href="?responder={{ obj.pk }}#responder-{{ obj.pk }}" data-responder="{{ obj.pk }}" data-nombre="{{ obj.autor_nombre }}"
+         aria-controls="responder-{{ obj.pk }}" aria-expanded="{% if responder == obj.pk %}true{% else %}false{% endif %}">{% include "foro/_icono_responder.html" %}<span>Responder</span></a>
+      {% else %}
+      <a class="fo-accion" href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}">{% include "foro/_icono_responder.html" %}<span>Responder</span></a>
+      {% endif %}
+      {% if es_autor and obj.autor != user %}
+      <form method="post" action="{% url 'foro:marcar_mejor' obj.pk %}">{% csrf_token %}
+        <button class="fo-accion{% if obj.pk == pregunta.mejor_respuesta_id %} fo-accion-ok{% endif %}"><span aria-hidden="true">✓</span><span>{% if obj.pk == pregunta.mejor_respuesta_id %}Quitar solución{% else %}Es la solución{% endif %}</span></button>
+      </form>
+      {% endif %}
+    {% else %}
+      <a class="fo-accion" href="#responder-tema">{% include "foro/_icono_responder.html" %}<span>Responder</span></a>
+    {% endif %}
+  </div>
+  {% include "foro/_menu.html" %}
+</div>

@@ -228,3 +228,327 @@ class RodadaTests(TestCase):
             self.client.post(reverse("foro:reportar", args=["pregunta", rodada.pregunta.pk]))
         self.assertEqual(self.client.get(rodada.get_absolute_url()).status_code, 404)
         self.assertNotContains(self.client.get(reverse("foro:rodadas")), "Rodada 2")
+
+
+class HiloYMencionesTests(TestCase):
+    """Respuestas en hilo (máx. 2 niveles visuales), @menciones y sus notificaciones sin duplicar."""
+
+    def setUp(self):
+        cache.clear()
+        from notificaciones.models import Notificacion
+        self.Notificacion = Notificacion
+        self.ana = User.objects.create_user("ana@x.com", "ana@x.com", "x", first_name="Ana")
+        self.beto = User.objects.create_user("beto@x.com", "beto@x.com", "x", first_name="Beto")
+        self.caro = User.objects.create_user("caro@x.com", "caro@x.com", "x", first_name="Carolina")
+        self.pregunta = Pregunta.objects.create(autor=self.ana, titulo="¿Qué aceite le echo a la Boxer?", cuerpo="Detalles")
+
+    def _alias(self, u):
+        from .menciones import alias
+        return alias(u)
+
+    def _notifs(self, u):
+        return list(self.Notificacion.objects.filter(usuario=u).values_list("titulo", flat=True))
+
+    def test_responder_a_un_mensaje_lo_anida_y_notifica_al_autor(self):
+        r1 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.beto, cuerpo="Usa 20W-50")
+        self.client.force_login(self.caro)
+        r = self.client.post(self.pregunta.get_absolute_url(), {"cuerpo": "Yo uso 10W-40", "padre": r1.pk})
+        hija = Respuesta.objects.get(cuerpo="Yo uso 10W-40")
+        self.assertRedirects(r, hija.get_absolute_url(), fetch_redirect_response=False)
+        self.assertEqual(hija.padre, r1)
+        self.assertEqual(self._notifs(self.beto), ["Carolina respondió tu mensaje"])
+        self.assertEqual(self._notifs(self.ana), [])  # la respuesta en hilo no avisa a quien preguntó
+
+    def test_padre_de_otro_tema_no_se_acepta(self):
+        otra = Pregunta.objects.create(autor=self.beto, titulo="Otra pregunta de prueba", cuerpo="x")
+        ajena = Respuesta.objects.create(pregunta=otra, autor=self.beto, cuerpo="Ajena")
+        self.client.force_login(self.caro)
+        self.client.post(self.pregunta.get_absolute_url(), {"cuerpo": "Hola", "padre": ajena.pk})
+        self.assertFalse(Respuesta.objects.filter(cuerpo="Hola").exists())
+
+    def test_mencion_notifica_y_se_muestra_como_nombre(self):
+        self.client.force_login(self.beto)
+        self.client.post(self.pregunta.get_absolute_url(), {"cuerpo": f"Pregúntale a @{self._alias(self.caro)} que sabe"})
+        self.assertEqual(self._notifs(self.caro), ["Beto te mencionó en ¿Qué aceite le echo a la Boxer?"])
+        r = self.client.get(self.pregunta.get_absolute_url())
+        self.assertContains(r, f'<a href="{reverse("foro:integrante", args=[self.caro.pk])}" class="fo-mencion">@Carolina</a>', html=True)
+        self.assertNotContains(r, "caro@x.com")
+
+    def test_mencion_y_respuesta_directa_no_duplican(self):
+        r1 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.beto, cuerpo="Usa 20W-50")
+        self.client.force_login(self.caro)
+        self.client.post(self.pregunta.get_absolute_url(),
+                         {"cuerpo": f"@{self._alias(self.beto)} ¿y sintético? @{self._alias(self.beto)}", "padre": r1.pk})
+        self.assertEqual(self._notifs(self.beto), ["Carolina respondió tu mensaje"])
+
+    def test_mencionar_a_quien_pregunto_en_respuesta_de_primer_nivel_no_duplica(self):
+        self.client.force_login(self.beto)
+        self.client.post(self.pregunta.get_absolute_url(), {"cuerpo": f"@{self._alias(self.ana)} usa 20W-50"})
+        self.assertEqual(self._notifs(self.ana), ["Beto respondió tu pregunta"])
+
+    def test_mencion_falsa_o_propia_no_notifica(self):
+        self.client.force_login(self.beto)
+        self.client.post(self.pregunta.get_absolute_url(),
+                         {"cuerpo": f"@otronombre-{self.caro.pk} y yo mismo @{self._alias(self.beto)}"})
+        self.assertEqual(self._notifs(self.caro), [])
+        self.assertEqual(self._notifs(self.beto), [])
+
+    def test_hilo_profundo_se_aplana_en_el_nivel_2(self):
+        from .menciones import armar_hilo
+        r1 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.beto, cuerpo="1")
+        r2 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.caro, cuerpo="2", padre=r1)
+        r3 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.ana, cuerpo="3", padre=r2)
+        r4 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.beto, cuerpo="4", padre=r3)
+        r5 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.caro, cuerpo="5", padre=r4)
+        todas = list(self.pregunta.respuestas.select_related("autor"))
+        raiz = armar_hilo(self.pregunta, todas, {r.pk: r.padre_id for r in todas})
+        self.assertEqual([r.pk for r in raiz], [r1.pk])
+        n2 = raiz[0].en_hilo[0]
+        self.assertEqual((n2.pk, n2.nivel), (r2.pk, 1))
+        n3 = n2.en_hilo[0]
+        self.assertEqual((n3.pk, n3.nivel), (r3.pk, 2))
+        self.assertEqual([(h.pk, h.nivel, h.responde_a) for h in n3.planas], [(r4.pk, 2, "Ana"), (r5.pk, 2, "Beto")])
+        self.assertEqual(raiz[0].total_hilo, 4)
+        html = self.client.get(self.pregunta.get_absolute_url()).content.decode()
+        self.assertIn("en respuesta a", html)
+        self.assertIn(f'aria-controls="hilo-{r1.pk}"', html)
+
+    def test_respuesta_cuyo_padre_se_oculto_sube_de_nivel(self):
+        r1 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.beto, cuerpo="oculta", visible=False)
+        r2 = Respuesta.objects.create(pregunta=self.pregunta, autor=self.caro, cuerpo="Sigo visible", padre=r1)
+        r = self.client.get(self.pregunta.get_absolute_url())
+        self.assertContains(r, "Sigo visible")
+        self.assertNotContains(r, "oculta</p>")
+        self.assertEqual([x.pk for x in r.context["hilo"]], [r2.pk])
+
+    def test_sugerir_usuarios_sin_correos_y_con_sesion(self):
+        Respuesta.objects.create(pregunta=self.pregunta, autor=self.caro, cuerpo="Hola")
+        url = reverse("foro:sugerir_usuarios")
+        self.assertEqual(self.client.get(url).status_code, 302)
+        self.client.force_login(self.beto)
+        datos = self.client.get(url, {"q": "car", "pregunta": self.pregunta.pk}).json()["usuarios"]
+        self.assertEqual(datos, [{"alias": self._alias(self.caro), "nombre": "Carolina", "detalle": "En este tema"}])
+        self.assertNotIn("@x.com", str(self.client.get(url).json()))
+
+
+class ListaAgrupadaTests(TestCase):
+    def setUp(self):
+        cache.clear()
+        self.ana = User.objects.create_user("ana@x.com", "ana@x.com", "x", first_name="Ana")
+        for i in range(7):
+            Pregunta.objects.create(autor=self.ana, titulo=f"Ruido raro en la moto número {i}", cuerpo="x", categoria="fallas")
+        Pregunta.objects.create(autor=self.ana, titulo="¿Cada cuánto cambio el aceite?", cuerpo="x", categoria="mantenimiento")
+
+    def test_vista_por_defecto_recientes_y_grupos(self):
+        r = self.client.get(reverse("foro:lista"))
+        self.assertTrue(r.context["agrupada"])
+        self.assertEqual(len(r.context["recientes"]), 5)
+        grupos = {g["clave"]: g for g in r.context["grupos"]}
+        self.assertEqual((grupos["fallas"]["total"], len(grupos["fallas"]["temas"])), (7, 5))
+        self.assertEqual(grupos["mantenimiento"]["total"], 1)
+        self.assertEqual(grupos["rutas"]["total"], 0)
+        self.assertContains(r, 'class="papel fo-grupo fo-grupo-fallas"')
+        self.assertContains(r, "?categoria=fallas")
+
+    def test_con_orden_o_filtro_lista_plana(self):
+        for qs in ({"orden": "votados"}, {"filtro": "sin-respuesta"}, {"categoria": "fallas"}, {"q": "aceite"}):
+            r = self.client.get(reverse("foro:lista"), qs)
+            self.assertFalse(r.context["agrupada"], qs)
+        self.assertEqual(len(self.client.get(reverse("foro:lista"), {"categoria": "fallas"}).context["pagina"]), 7)
+
+    def test_estado_accesible_y_cifras_compactas(self):
+        from .templatetags.foro_extras import cifra_corta
+        self.assertEqual([cifra_corta(n) for n in (0, 999, 1000, 1234, 15500, 2_300_000)],
+                         ["0", "999", "1 mil", "1,2 mil", "15,5 mil", "2,3 M"])
+        self.assertContains(self.client.get(reverse("foro:lista")), '<span class="sr-only">Sin respuesta</span>')
+
+    def test_fecha_en_una_sola_unidad(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        from .templatetags.foro_extras import hace_texto
+        ahora = timezone.now()
+        casos = {timedelta(seconds=20): "hace un momento", timedelta(minutes=5): "hace 5 min",
+                 timedelta(hours=19, minutes=13): "hace 19 h", timedelta(days=1, hours=3): "hace 1 día",
+                 timedelta(days=3): "hace 3 días", timedelta(days=70): "hace 2 meses", timedelta(days=800): "hace 2 años"}
+        for delta, esperado in casos.items():
+            self.assertEqual(hace_texto(ahora - delta, ahora), esperado)
+
+
+class ReaccionesYMenuTests(TestCase):
+    def setUp(self):
+        cache.clear()
+        from notificaciones.models import Notificacion
+        self.Notificacion = Notificacion
+        self.ana = User.objects.create_user("ana@x.com", "ana@x.com", "x", first_name="Ana")
+        self.beto = User.objects.create_user("beto@x.com", "beto@x.com", "x", first_name="Beto")
+        self.caro = User.objects.create_user("caro@x.com", "caro@x.com", "x", first_name="Carolina")
+        self.pregunta = Pregunta.objects.create(autor=self.ana, titulo="¿Qué aceite le echo a la Boxer?", cuerpo="Detalles")
+        self.resp = Respuesta.objects.create(pregunta=self.pregunta, autor=self.beto, cuerpo="Usa 20W-50")
+        self.url = reverse("foro:reaccionar", args=["respuesta", self.resp.pk])
+
+    def _titulos(self, u):
+        return list(self.Notificacion.objects.filter(usuario=u).values_list("titulo", flat=True))
+
+    def test_reaccionar_requiere_sesion(self):
+        r = self.client.post(self.url, {"reaccion": "gusta"})
+        self.assertTrue(r.url.startswith(reverse("cuentas:entrar")))
+
+    def test_poner_cambiar_y_quitar_con_fetch(self):
+        from .models import Reaccion
+        self.client.force_login(self.caro)
+        cab = {"HTTP_X_REQUESTED_WITH": "fetch"}
+        d = self.client.post(self.url, {"reaccion": "gusta"}, **cab).json()
+        self.assertTrue(d["ok"])
+        self.assertIn("👍", d["html"])
+        self.client.post(self.url, {"reaccion": "encanta"}, **cab)
+        self.assertEqual(list(Reaccion.objects.values_list("tipo", flat=True)), ["encanta"])
+        self.client.post(self.url, {"reaccion": "encanta"}, **cab)
+        self.assertFalse(Reaccion.objects.exists())
+
+    def test_respaldo_sin_js_redirige(self):
+        self.client.force_login(self.caro)
+        r = self.client.post(self.url, {"reaccion": "gusta"})
+        self.assertRedirects(r, self.resp.get_absolute_url(), fetch_redirect_response=False)
+
+    def test_no_reacciona_a_lo_propio_ni_tipo_invalido(self):
+        from .models import Reaccion
+        self.client.force_login(self.beto)
+        self.client.post(self.url, {"reaccion": "gusta"})
+        self.client.force_login(self.caro)
+        self.client.post(self.url, {"reaccion": "inapropiado"})
+        self.assertFalse(Reaccion.objects.exists())
+
+    def test_notificacion_agrupada(self):
+        self.client.force_login(self.caro)
+        self.client.post(self.url, {"reaccion": "gusta"})
+        self.assertEqual(self._titulos(self.beto), ["A Carolina le gustó tu respuesta"])
+        self.client.force_login(self.ana)
+        self.client.post(self.url, {"reaccion": "gusta"})
+        self.assertEqual(self._titulos(self.beto), ["A 2 personas les gustó tu respuesta"])
+        self.client.post(self.url, {"reaccion": "divierte"})
+        self.assertEqual(self._titulos(self.beto), ["2 personas reaccionaron a tu respuesta"])
+
+    def test_reporte_con_motivo_y_sin_duplicar(self):
+        url = reverse("foro:reportar", args=["respuesta", self.resp.pk])
+        self.client.force_login(self.caro)
+        d = self.client.post(url, {"motivo_tipo": "spam"}, HTTP_X_REQUESTED_WITH="fetch").json()
+        self.assertTrue(d["ok"])
+        self.assertEqual(Reporte.objects.get().motivo, "Spam o publicidad")
+        d = self.client.post(url, {"motivo_tipo": "otro", "motivo": "x"}, HTTP_X_REQUESTED_WITH="fetch").json()
+        self.assertFalse(d["ok"])
+        self.assertEqual(Reporte.objects.count(), 1)
+        self.assertContains(self.client.get(self.pregunta.get_absolute_url()), "Ya lo reportaste")
+
+    def test_dialogo_de_reporte_sin_js(self):
+        self.client.force_login(self.caro)
+        r = self.client.get(self.pregunta.get_absolute_url(), {"reportar": f"respuesta-{self.resp.pk}"})
+        self.assertContains(r, 'action="%s"' % reverse("foro:reportar", args=["respuesta", self.resp.pk]))
+        self.assertContains(r, "Spam o publicidad")
+
+    def test_editar_y_eliminar_solo_lo_propio(self):
+        from .menciones import alias
+        hija = Respuesta.objects.create(pregunta=self.pregunta, autor=self.caro, cuerpo="¿Y sintético?", padre=self.resp)
+        editar = reverse("foro:editar", args=["respuesta", self.resp.pk])
+        eliminar = reverse("foro:eliminar", args=["respuesta", self.resp.pk])
+        self.client.force_login(self.caro)
+        self.assertEqual(self.client.get(editar).status_code, 404)
+        self.assertEqual(self.client.post(eliminar).status_code, 404)
+        self.client.force_login(self.beto)
+        self.client.post(editar, {"cuerpo": "Usa 20W-50, @" + alias(self.caro)})
+        self.resp.refresh_from_db()
+        self.assertTrue(self.resp.cuerpo.startswith("Usa 20W-50, @"))
+        self.assertTrue(self.Notificacion.objects.filter(usuario=self.caro, titulo__contains="mencionó").exists())
+        self.client.post(eliminar)
+        self.assertFalse(Respuesta.objects.filter(pk=self.resp.pk).exists())
+        hija.refresh_from_db()
+        self.assertIsNone(hija.padre)  # sube al nivel de la respuesta eliminada
+
+    def test_menu_muestra_editar_solo_al_autor(self):
+        self.client.force_login(self.beto)
+        r = self.client.get(self.pregunta.get_absolute_url())
+        self.assertContains(r, reverse("foro:editar", args=["respuesta", self.resp.pk]))
+        self.assertNotContains(r, reverse("foro:editar", args=["pregunta", self.pregunta.pk]))
+
+
+class LoPropioNoSeVotaTests(TestCase):
+    def setUp(self):
+        cache.clear()
+        self.ana = User.objects.create_user("ana@x.com", "ana@x.com", "x", first_name="Ana")
+        self.beto = User.objects.create_user("beto@x.com", "beto@x.com", "x", first_name="Beto")
+        self.pregunta = Pregunta.objects.create(autor=self.ana, titulo="¿Qué aceite le echo a la Boxer?", cuerpo="x")
+        self.resp = Respuesta.objects.create(pregunta=self.pregunta, autor=self.ana, cuerpo="Me respondo")
+
+    def test_voto_y_reaccion_propios_se_rechazan(self):
+        from .models import Reaccion, Voto
+        self.client.force_login(self.ana)
+        r = self.client.post(reverse("foro:votar", args=["respuesta", self.resp.pk]), HTTP_X_REQUESTED_WITH="fetch")
+        self.assertEqual(r.status_code, 403)
+        self.client.post(reverse("foro:votar", args=["pregunta", self.pregunta.pk]))
+        r = self.client.post(reverse("foro:reaccionar", args=["pregunta", self.pregunta.pk]), {"reaccion": "gusta"},
+                             HTTP_X_REQUESTED_WITH="fetch")
+        self.assertEqual(r.status_code, 403)
+        self.assertFalse(Voto.objects.exists())
+        self.assertFalse(Reaccion.objects.exists())
+
+    def test_en_lo_propio_no_hay_botones_solo_conteos(self):
+        from .models import Voto
+        Voto.objects.create(usuario=self.beto, respuesta=self.resp)
+        self.client.force_login(self.ana)
+        html = self.client.get(self.pregunta.get_absolute_url()).content.decode()
+        self.assertNotIn(reverse("foro:votar", args=["respuesta", self.resp.pk]), html)
+        self.assertNotIn(reverse("foro:reaccionar", args=["respuesta", self.resp.pk]), html)
+        self.assertNotIn(reverse("foro:votar", args=["pregunta", self.pregunta.pk]), html)
+        self.assertIn('<span class="fo-votar-n">1</span>', html)
+
+
+class ActividadEIntegranteTests(TestCase):
+    def setUp(self):
+        cache.clear()
+        self.ana = User.objects.create_user("ana@x.com", "ana@x.com", "x", first_name="Ana")
+        self.beto = User.objects.create_user("beto@x.com", "beto@x.com", "x", first_name="Beto")
+        self.vieja = Pregunta.objects.create(autor=self.ana, titulo="Pregunta vieja sobre frenos", cuerpo="x")
+        self.nueva = Pregunta.objects.create(autor=self.ana, titulo="Pregunta nueva sobre cadena", cuerpo="x")
+
+    def test_responder_sube_el_tema_en_recientes(self):
+        self.assertEqual(self.client.get(reverse("foro:lista")).context["recientes"][0], self.nueva)
+        Respuesta.objects.create(pregunta=self.vieja, autor=self.beto, cuerpo="Cambia las pastillas")
+        r = self.client.get(reverse("foro:lista"))
+        self.assertEqual(r.context["recientes"][0], self.vieja)
+        self.assertContains(r, "última respuesta")
+        self.assertEqual(r.context["grupos"][0]["temas"][0], self.vieja)
+        self.vieja.refresh_from_db()
+        self.assertEqual(self.vieja.ultimo_autor, self.beto)
+
+    def test_eliminar_la_respuesta_recalcula(self):
+        resp = Respuesta.objects.create(pregunta=self.vieja, autor=self.beto, cuerpo="Cambia las pastillas")
+        self.client.force_login(self.beto)
+        self.client.post(reverse("foro:eliminar", args=["respuesta", resp.pk]))
+        self.vieja.refresh_from_db()
+        self.assertIsNone(self.vieja.ultimo_autor)
+        self.assertEqual(self.vieja.ultima_actividad, self.vieja.creado)
+
+    def test_pagina_de_integrante_publica_y_sin_datos_privados(self):
+        resp = Respuesta.objects.create(pregunta=self.vieja, autor=self.beto, cuerpo="Cambia las pastillas delanteras")
+        self.vieja.mejor_respuesta = resp
+        self.vieja.save(update_fields=["mejor_respuesta"])
+        from .models import Voto
+        Voto.objects.create(usuario=self.ana, respuesta=resp)
+        r = self.client.get(reverse("foro:integrante", args=[self.beto.pk]))
+        self.assertEqual(r.context["conteos"], {"preguntas": 0, "respuestas": 1, "soluciones": 1, "me_sirvio": 1})
+        self.assertContains(r, f"#r{resp.pk}")
+        self.assertContains(r, "Pregunta vieja sobre frenos")
+        self.assertNotContains(r, "beto@x.com")
+        r = self.client.get(reverse("foro:integrante", args=[self.ana.pk]), {"tab": "preguntas"})
+        self.assertEqual(r.context["pestana"], "preguntas")
+        self.assertEqual(len(r.context["pagina"]), 2)
+
+    def test_integrante_pagina_de_20(self):
+        for i in range(23):
+            Respuesta.objects.create(pregunta=self.vieja, autor=self.beto, cuerpo=f"Respuesta {i}")
+        r = self.client.get(reverse("foro:integrante", args=[self.beto.pk]))
+        self.assertEqual(len(r.context["pagina"]), 20)
+        self.assertEqual(len(self.client.get(reverse("foro:integrante", args=[self.beto.pk]), {"pagina": 2}).context["pagina"]), 3)
+
+    def test_nombre_del_autor_lleva_a_su_actividad(self):
+        r = self.client.get(self.vieja.get_absolute_url())
+        self.assertContains(r, reverse("foro:integrante", args=[self.ana.pk]))

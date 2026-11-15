@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Editar · Foro TallerYa{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=objeto.get_absolute_url texto="Volver al tema" clase="mt-8" %}
+<div class="papel p-6 md:p-8 mt-6 max-w-3xl">
+  <h1 class="titulo text-2xl md:text-3xl">Editar {% if tipo == "pregunta" %}tu pregunta{% else %}tu respuesta{% endif %}</h1>
+  <form method="post" class="space-y-4 mt-5">{% csrf_token %}
+    {% include "cuentas/_campos.html" %}
+    <div class="flex flex-wrap items-center gap-4">
+      <button class="btn btn-lava py-3 px-8 text-sm">Guardar cambios</button>
+      <a href="{{ objeto.get_absolute_url }}" class="boton-seccion">Cancelar</a>
+    </div>
+  </form>
+</div>
+{% load static %}<script src="{% static 'foro/js/hilo.js' %}" defer data-sugerir="{% url 'foro:sugerir_usuarios' %}" data-pregunta="{% if tipo == 'pregunta' %}{{ objeto.pk }}{% else %}{{ objeto.pregunta_id }}{% endif %}"></script>
+{% endblock %}

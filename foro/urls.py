@@ -16,5 +16,10 @@ urlpatterns = [
     path("foro/rodadas/nueva/", rodadas.crear, name="rodada_crear"),
     path("foro/rodadas/<int:pk>/", rodadas.detalle, name="rodada"),
     path("foro/rodadas/<int:pk>/voy/", rodadas.voy, name="rodada_voy"),
+    path("foro/reaccionar/<str:tipo>/<int:pk>/", views.reaccionar, name="reaccionar"),
+    path("foro/editar/<str:tipo>/<int:pk>/", views.editar, name="editar"),
+    path("foro/eliminar/<str:tipo>/<int:pk>/", views.eliminar, name="eliminar"),
+    path("foro/integrante/<int:pk>/", views.integrante, name="integrante"),
+    path("foro/usuarios/", views.sugerir_usuarios, name="sugerir_usuarios"),
     path("foro/votar/<str:tipo>/<int:pk>/", views.votar, name="votar"),
 ]

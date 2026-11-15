@@ -1,0 +1,20 @@
+{# Diálogo de reporte (uno por página). Sin JavaScript se abre con ?reportar=tipo-id. Variables: motivos_reporte, reporte_sin_js #}
+<dialog id="reporte" class="fo-dialogo" aria-labelledby="reporte-titulo"{% if reporte_sin_js %} open{% endif %}>
+  <form method="post" action="{{ reporte_sin_js }}" class="fo-dialogo-form">{% csrf_token %}
+    <h2 id="reporte-titulo" class="titulo text-xl">Reportar</h2>
+    <p class="text-sm text-suave">¿Qué pasa con este mensaje? Lo revisamos sin decirle a nadie quién lo reportó.</p>
+    <fieldset class="fo-motivos">
+      <legend class="sr-only">Motivo</legend>
+      {% for clave, nombre in motivos_reporte %}
+      <label class="fo-motivo"><input type="radio" name="motivo_tipo" value="{{ clave }}" required{% if forloop.first %} checked{% endif %}> {{ nombre }}</label>
+      {% endfor %}
+    </fieldset>
+    <label class="campo-label">Detalles (opcional; obligatorio si eliges «Otro»)
+      <textarea name="motivo" rows="2" maxlength="180" class="campo"></textarea></label>
+    <div class="fo-form-hilo-botones">
+      <button class="btn btn-lava py-2 px-5 text-xs">Enviar reporte</button>
+      <a href="{{ request.path }}" class="boton-seccion" data-cerrar>Cancelar</a>
+    </div>
+  </form>
+</dialog>
+<div class="fo-aviso" role="status" aria-live="polite" hidden></div>
