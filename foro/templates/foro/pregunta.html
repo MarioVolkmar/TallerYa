@@ -1,5 +1,6 @@
-{% extends "base.html" %}{% load foro_extras %}
+{% extends "base.html" %}{% load foro_extras %}{% load seo %}
 {% block title %}{{ pregunta.titulo }} · Foro TallerYa{% endblock %}
+{% block seo %}{% seo titulo=pregunta.titulo|add:" · Foro TallerYa" descripcion=pregunta.cuerpo|truncatechars:200 tipo="article" %}{% endblock %}
 {% block content %}
 {% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
 
@@ -44,18 +45,5 @@
   </div>
 </section>
 {% load static %}<script src="{% static 'foro/js/hilo.js' %}" defer data-sugerir="{% url 'foro:sugerir_usuarios' %}" data-pregunta="{{ pregunta.pk }}"></script>
-<script>
-  // Votar sin recargar
-  document.addEventListener("submit", async function (e) {
-    var form = e.target.closest(".fo-votar-form"); if (!form) return;
-    e.preventDefault();
-    try {
-      var r = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { "X-Requested-With": "fetch" } });
-      if (!r.ok) throw 0;
-      var d = await r.json(), b = form.querySelector("button");
-      b.classList.toggle("activo", d.votado); b.setAttribute("aria-pressed", String(d.votado));
-      var n = b.querySelector("[data-votos]"); n.textContent = "· " + d.votos; n.hidden = !d.votos;
-    } catch (_) { form.submit(); }
-  });
-</script>
+
 {% endblock %}

@@ -1,5 +1,5 @@
 {# Portada del inicio con la moto como protagonista: "garaje" para visitantes, "vitrina" para moteros. #}
-<svg class="portada-escena{% if animacion %} pm-anim-{{ animacion }}{% else %} pm-anim-llegada-encendido{% endif %}" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+<svg class="portada-escena{% if estilo == "vitrina" %} portada-vacia{% endif %}{% if chispa_escena %} pm-chispa-escena{% endif %}{% if animacion %} pm-anim-{{ animacion }}{% else %} pm-anim-llegada-encendido{% endif %}" viewBox="0 0 1000 600" preserveAspectRatio="{{ alinear|default:"xMidYMax" }} meet" aria-hidden="true">
   <defs>
     <filter id="pm-papel" x="-10%" y="-10%" width="120%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity=".45"/></filter>
     <filter id="pm-difuso"><feGaussianBlur stdDeviation="14"/></filter>
@@ -117,8 +117,8 @@
   </symbol>
   </defs>
   {% if estilo == "vitrina" %}
-      <circle cx="500" cy="360" r="400" fill="url(#pm-foco)"/>
-      <line x1="80" y1="557" x2="920" y2="557" stroke="#f26522" stroke-width="1.5" opacity=".5"/>
+      <circle class="pm-v-foco" cx="500" cy="360" r="400" fill="url(#pm-foco)"/>
+      <line class="pm-v-piso" x1="80" y1="557" x2="920" y2="557" stroke="#f26522" stroke-width="1.5" opacity=".5"/>
   {% else %}
       <!-- Lámpara: se enciende al cargar y se mece suave; polvo flotando en el haz -->
       <g class="pm-lampara">
@@ -152,7 +152,7 @@
       </a>
   {% endif %}
   <ellipse class="pm-halo-moto" cx="500" cy="430" rx="360" ry="190" fill="url(#pm-halo-moto)"/>
-  <ellipse cx="500" cy="556" rx="300" ry="22" fill="#000" opacity=".55" filter="url(#pm-difuso)"/>
+  <ellipse class="pm-sombra-moto" cx="500" cy="556" rx="300" ry="22" fill="#000" opacity=".55" filter="url(#pm-difuso)"/>
   {% if estilo != "vitrina" %}<g class="pm-humo" fill="#cfc6b0">
     <circle cx="344" cy="447" r="7" style="--r:0s"/><circle cx="344" cy="447" r="9" style="--r:-.8s"/><circle cx="344" cy="447" r="6" style="--r:-1.6s"/>
   </g>{% endif %}
@@ -169,4 +169,109 @@
     <g class="pm-reflejo" mask="url(#pm-mascara-reflejo)" opacity=".16"><g transform="matrix(1 0 0 -1 0 1112)"><use href="#pm-moto" x="200" y="212" width="600" height="360"/></g></g>
     <use href="#pm-moto" x="200" y="212" width="600" height="360"/>
   </g></g>
+  {% if chispa_escena and estilo != "vitrina" %}<!-- Escena de Chispa (portada sin sesión): la moto llega a oscuras, Chispa entra y prende la lámpara con un rayo. Se apaga quitando chispa_escena en inicio.html -->
+  <g class="pm-ch-garaje">
+    <radialGradient id="chg-destello-g"><stop offset="0" stop-color="#ffd27a" stop-opacity=".32"/><stop offset=".5" stop-color="#e8a92a" stop-opacity=".1"/><stop offset="1" stop-color="#e8a92a" stop-opacity="0"/></radialGradient>
+    <circle class="pm-ch-destello" cx="500" cy="190" r="360" fill="url(#chg-destello-g)"/>
+    <g class="pm-ch-chispas" stroke="#ffd27a" stroke-width="2.2" stroke-linecap="round"><path d="M500 90 v5" style="--x:-58px;--y:70px"/><path d="M506 90 v5" style="--x:46px;--y:84px"/><path d="M494 91 v4" style="--x:-30px;--y:110px"/><path d="M510 91 v4" style="--x:76px;--y:52px"/><path d="M498 92 v4" style="--x:12px;--y:124px"/></g>
+    <g class="pm-ch-sitio">
+    <g class="pm-ch-rayo" fill="none" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M817 384 L775 334 L793 322 L725 264 L745 252 L655 192 L671 178 L567 130 L583 116 L528 90" pathLength="100" stroke="#e8a92a" stroke-width="11" opacity=".4"/>
+      <path d="M745 252 l-30 4 l-8 12 M655 192 l-6 28 l-14 6 M567 130 l-26 -16" pathLength="100" stroke="#e8a92a" stroke-width="5" opacity=".4"/>
+      <path d="M817 384 L775 334 L793 322 L725 264 L745 252 L655 192 L671 178 L567 130 L583 116 L528 90" pathLength="100" stroke="#fff" stroke-width="2.4"/>
+      <path d="M745 252 l-30 4 l-8 12 M655 192 l-6 28 l-14 6 M567 130 l-26 -16" pathLength="100" stroke="#fff" stroke-width="1.3"/>
+    </g>
+    <g class="pm-ch-escoba-apoyada" transform="translate(766 568)"><g class="pm-ch-escoba-mov"><path d="M0 -24 L0 -128" stroke="#7a4f24" stroke-width="3.8" stroke-linecap="round"/><path d="M-.8 -28 L-.8 -124" stroke="#c48d52" stroke-width="1.1" stroke-linecap="round"/><path d="M-9 -27 H9 V-22 H-9 Z" fill="#8e887a"/><path d="M-9 -22 L9 -22 L13 0 Q0 2 -13 0 Z" fill="#d39a33"/><path d="M-4 -20 L-7 -1 M1 -20 L1 0 M5 -20 L8 -1" stroke="#8a6418" stroke-width=".9"/></g></g>
+    <g class="pm-ch-anda"><g class="pm-ch-pasos">{% include "parciales/chispa.html" with pose="escena" id="chg" x=750 y=376 ancho=135 alto=203 %}
+      <g class="pm-chg-ojos"><circle cx="810.3" cy="451.6" r="8" fill="url(#chg-ojo)"/><circle cx="824.7" cy="451.6" r="8" fill="url(#chg-ojo)"/><rect x="807.6" y="447.6" width="5.4" height="8" rx="2.7" fill="#f5b843"/><rect x="822" y="447.6" width="5.4" height="8" rx="2.7" fill="#f5b843"/></g>
+      <g class="pm-ch-carga" fill="none" stroke="#ffd27a" stroke-linecap="round"><circle cx="817.5" cy="386" r="17" fill="url(#chg-ojo)" stroke="none"/><circle cx="817.5" cy="386" r="11" stroke-width="2.2" stroke-dasharray="4 3"/><circle cx="817.5" cy="386" r="17" stroke-width="1.1" opacity=".7"/></g></g></g>
+    </g>
+  </g>{% endif %}
+  {% if alinear and estilo != "vitrina" %}<g class="pm-ficha" text-anchor="end">
+    <text class="pm-ficha-sub" x="980" y="34">Talleres verificados</text>
+    <text class="pm-ficha-txt" x="980" y="84">Cita por WhatsApp</text>
+  </g>{% endif %}
+  {% if chispa_escena and estilo == "vitrina" %}<!-- Escena de Chispa (garaje vacío): lámpara prendida, Chispa entra, escanea el piso con el visor y proyecta un holograma de moto. Se apaga quitando chispa_escena en inicio.html -->
+  <g class="pm-chv-lampara">
+    <line x1="500" y1="-700" x2="500" y2="58" stroke="#0c1011" stroke-width="3"/>
+    <g class="pm-chv-luz"><polygon points="410,560 590,560 522,84 478,84" fill="url(#pm-cono)"/><ellipse cx="500" cy="556" rx="270" ry="34" fill="url(#pm-charco)"/>
+      <g class="pm-chv-polvo" fill="#fff2cf"><circle cx="470" cy="355" r="1.2" style="--d:9.3s;--r:-4.8s;--x:-13px"/><circle cx="452" cy="230" r="2.2" style="--d:8.3s;--r:-2.9s;--x:-15px"/><circle cx="468" cy="466" r="2" style="--d:6.7s;--r:-1.7s;--x:-12px"/><circle cx="500" cy="300" r="1.4" style="--d:10s;--r:-8.1s;--x:-2px"/><circle cx="520" cy="410" r="1.8" style="--d:7.6s;--r:-3.3s;--x:10px"/><circle cx="536" cy="250" r="1.2" style="--d:9.1s;--r:-5.6s;--x:8px"/><circle cx="488" cy="520" r="1.6" style="--d:8.8s;--r:-6.2s;--x:-6px"/><circle cx="512" cy="180" r="1.1" style="--d:7.2s;--r:-0.9s;--x:12px"/></g></g>
+    <g class="pm-chv-pantalla" filter="url(#pm-papel)"><path d="M476 58 L524 58 L540 86 L460 86 Z" fill="#e8a93a"/><ellipse class="pm-chv-bombillo" cx="500" cy="86" rx="40" ry="5" fill="#fff2cf"/></g>
+  </g>
+  {% endif %}
+  {% if estilo == "vitrina" %}<a href="{% url 'garaje:bienvenida' %}" class="pm-vacio" aria-label="Agrega tu moto">
+    <rect class="pm-vacio-puesto" x="210" y="520" width="580" height="62" rx="10"/>
+    <g class="pm-vacio-mas"><circle cx="500" cy="395" r="40"/><path d="M500 375v40M480 395h40"/></g>
+    <text x="500" y="470" text-anchor="middle">Aquí va tu moto</text>
+    {% if chispa_escena %}
+    <linearGradient id="pm-chv-haz-g" gradientUnits="userSpaceOnUse" x1="860" y1="452" x2="215" y2="430"><stop offset="0" stop-color="#85B7EB" stop-opacity=".5"/><stop offset=".55" stop-color="#85B7EB" stop-opacity=".13"/><stop offset="1" stop-color="#85B7EB" stop-opacity="0"/></linearGradient>
+    <path class="pm-chv-haz" d="M852 447 Q560 330 205 262 L205 572 Q560 530 852 457 Q858 452 852 447 Z" fill="url(#pm-chv-haz-g)"/>
+    <radialGradient id="chv-ojo-azul"><stop offset="0" stop-color="#bfe0ff" stop-opacity=".85"/><stop offset="1" stop-color="#85B7EB" stop-opacity="0"/></radialGradient>
+    <g class="pm-chv-holo">
+      <pattern id="pm-chv-rayas" width="8" height="4" patternUnits="userSpaceOnUse"><rect width="8" height="1.1" fill="#cfe4fb"/></pattern>
+      <filter id="pm-chv-brillo" x="-8%" y="-12%" width="116%" height="124%"><feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <radialGradient id="pm-chv-sombra-g"><stop offset="0" stop-color="#000" stop-opacity=".45"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+      <ellipse cx="458" cy="562" rx="300" ry="14" fill="url(#pm-chv-sombra-g)"/>
+      <ellipse class="pm-chv-base" cx="458" cy="560" rx="270" ry="9" fill="none" stroke="#85B7EB" stroke-width="1.2"/>
+      <g class="pm-chv-holo-motos" transform="translate(215 272) scale(1.5)" filter="url(#pm-chv-brillo)">
+        <g class="pm-chv-moto pm-chv-scooter">
+          <circle cx="80" cy="150" r="40" class="h-llanta"/><circle cx="80" cy="150" r="33" class="h-rin"/><path class="h-det" d="M80.0 143.0 L76.2 118.2 M80.0 143.0 L83.8 118.2"/><path class="h-det" d="M86.7 147.8 L109.0 136.5 M86.7 147.8 L111.4 143.8"/><path class="h-det" d="M84.1 155.7 L101.8 173.5 M84.1 155.7 L95.6 178.0"/><path class="h-det" d="M75.9 155.7 L64.4 178.0 M75.9 155.7 L58.2 173.5"/><path class="h-det" d="M73.3 147.8 L48.6 143.8 M73.3 147.8 L51.0 136.5"/><circle cx="80" cy="150" r="16.8" class="h-disco"/><circle cx="80" cy="150" r="5" class="h-eje"/><circle cx="262" cy="150" r="40" class="h-llanta"/><circle cx="262" cy="150" r="33" class="h-rin"/><path class="h-det" d="M262.0 143.0 L258.2 118.2 M262.0 143.0 L265.8 118.2"/><path class="h-det" d="M268.7 147.8 L291.0 136.5 M268.7 147.8 L293.4 143.8"/><path class="h-det" d="M266.1 155.7 L283.8 173.5 M266.1 155.7 L277.6 178.0"/><path class="h-det" d="M257.9 155.7 L246.4 178.0 M257.9 155.7 L240.2 173.5"/><path class="h-det" d="M255.3 147.8 L230.6 143.8 M255.3 147.8 L233.0 136.5"/><circle cx="262" cy="150" r="16.8" class="h-disco"/><circle cx="262" cy="150" r="5" class="h-eje"/>
+          <path id="pm-chv-c-scooter" class="h-cuerpo" d="M30 120 C24 104 28 90 40 84 L62 72 Q92 62 120 66 L132 72 Q152 70 170 78 L176 92 L180 122 L226 122 L232 102 L244 70 L252 44 L258 26 L276 30 L292 54 L294 74 L284 92 L268 106 L250 116 L238 134 L178 136 L160 132 L140 124 L118 126 L96 116 L62 112 L42 120 Z"/>
+          <use href="#pm-chv-c-scooter" class="h-rayas"/>
+          <path class="h-vidrio" d="M252 30 L262 6 L272 9 L268 31 Z"/>
+          <ellipse class="h-det" cx="122" cy="128" rx="38" ry="13"/>
+          <path class="h-det" d="M58 146 L118 142 L120 154 L60 158 Z M64 70 Q92 60 122 66 M132 72 Q150 69 168 78 M182 122 L178 94 M232 104 L262 150 M240 102 L270 150 M226 132 Q262 100 296 126 M98 116 L112 140 M246 30 L236 22 M268 28 L282 22"/>
+          <path class="h-luz" d="M280 48 L292 56 L291 66 L279 59 Z M28 100 L36 98"/>
+          <circle cx="288" cy="58" r="9" class="h-faro-brillo"/>
+        </g>
+        <g class="pm-chv-moto pm-chv-naked">
+          <circle cx="74" cy="140" r="50" class="h-llanta"/><circle cx="74" cy="140" r="43" class="h-rin"/><path class="h-det" d="M74.0 133.0 L69.0 98.3 M74.0 133.0 L79.0 98.3"/><path class="h-det" d="M80.7 137.8 L112.1 122.3 M80.7 137.8 L115.2 131.9"/><path class="h-det" d="M78.1 145.7 L102.6 170.8 M78.1 145.7 L94.4 176.7"/><path class="h-det" d="M69.9 145.7 L53.6 176.7 M69.9 145.7 L45.4 170.8"/><path class="h-det" d="M67.3 137.8 L32.8 131.9 M67.3 137.8 L35.9 122.3"/><circle cx="74" cy="140" r="21.0" class="h-disco"/><circle cx="74" cy="140" r="5" class="h-eje"/><circle cx="298" cy="140" r="50" class="h-llanta"/><circle cx="298" cy="140" r="43" class="h-rin"/><path class="h-det" d="M298.0 133.0 L293.0 98.3 M298.0 133.0 L303.0 98.3"/><path class="h-det" d="M304.7 137.8 L336.1 122.3 M304.7 137.8 L339.2 131.9"/><path class="h-det" d="M302.1 145.7 L326.6 170.8 M302.1 145.7 L318.4 176.7"/><path class="h-det" d="M293.9 145.7 L277.6 176.7 M293.9 145.7 L269.4 170.8"/><path class="h-det" d="M291.3 137.8 L256.8 131.9 M291.3 137.8 L259.9 122.3"/><circle cx="298" cy="140" r="21.0" class="h-disco"/><circle cx="298" cy="140" r="5" class="h-eje"/>
+          <path id="pm-chv-c-naked" class="h-cuerpo" d="M12 60 L40 62 L120 68 L130 60 L150 40 L196 34 L222 42 L238 38 L262 54 L260 74 L230 78 L232 104 L214 138 L190 150 L140 150 L128 118 L110 80 L62 82 L22 72 Z"/>
+          <use href="#pm-chv-c-naked" class="h-rayas"/>
+          <path class="h-det" d="M150 82 L198 78 L212 104 L200 140 L152 146 L140 114 Z M156 92 L200 89 M154 102 L204 99 M152 112 L206 110 M126 64 L170 104 L212 74 M120 70 L134 116 M74 140 L144 122 M190 150 Q170 166 124 160 L106 150 L132 144 M42 62 Q80 60 118 68 M150 42 L196 36"/>
+          <path class="h-det" d="M296 140 L254 56 M304 138 L262 54 M272 98 Q298 86 322 102 M246 32 L228 26 M244 32 L240 16"/>
+          <path class="h-luz" d="M14 62 L22 64"/>
+          <circle cx="258" cy="62" r="9" class="h-faro-brillo"/>
+        </g>
+        <g class="pm-chv-moto pm-chv-enduro">
+          <circle cx="72" cy="138" r="52" class="h-llanta"/><circle cx="72" cy="138" r="45" class="h-rin"/><circle cx="72" cy="138" r="53.5" class="h-taco"/><path class="h-radio" d="M78.0 138.0 L112.2 155.9 M77.8 139.6 L106.2 165.7 M77.2 141.0 L97.9 173.6 M76.2 142.2 L87.8 179.1 M75.0 143.2 L76.6 181.8 M73.6 143.8 L65.1 181.5 M72.0 144.0 L54.1 178.2 M70.4 143.8 L44.3 172.2 M69.0 143.2 L36.4 163.9 M67.8 142.2 L30.9 153.8 M66.8 141.0 L28.2 142.6 M66.2 139.6 L28.5 131.1 M66.0 138.0 L31.8 120.1 M66.2 136.4 L37.8 110.3 M66.8 135.0 L46.1 102.4 M67.8 133.8 L56.2 96.9 M69.0 132.8 L67.4 94.2 M70.4 132.2 L78.9 94.5 M72.0 132.0 L89.9 97.8 M73.6 132.2 L99.7 103.8 M75.0 132.8 L107.6 112.1 M76.2 133.8 L113.1 122.2 M77.2 135.0 L115.8 133.4 M77.8 136.4 L115.5 144.9"/><circle cx="72" cy="138" r="21.8" class="h-disco"/><circle cx="72" cy="138" r="5" class="h-eje"/><circle cx="300" cy="132" r="58" class="h-llanta"/><circle cx="300" cy="132" r="51" class="h-rin"/><circle cx="300" cy="132" r="59.5" class="h-taco"/><path class="h-radio" d="M306.0 132.0 L345.7 152.3 M305.8 133.6 L338.9 163.5 M305.2 135.0 L329.4 172.5 M304.2 136.2 L317.9 178.7 M303.0 137.2 L305.2 181.7 M301.6 137.8 L292.2 181.4 M300.0 138.0 L279.7 177.7 M298.4 137.8 L268.5 170.9 M297.0 137.2 L259.5 161.4 M295.8 136.2 L253.3 149.9 M294.8 135.0 L250.3 137.2 M294.2 133.6 L250.6 124.2 M294.0 132.0 L254.3 111.7 M294.2 130.4 L261.1 100.5 M294.8 129.0 L270.6 91.5 M295.8 127.8 L282.1 85.3 M297.0 126.8 L294.8 82.3 M298.4 126.2 L307.8 82.6 M300.0 126.0 L320.3 86.3 M301.6 126.2 L331.5 93.1 M303.0 126.8 L340.5 102.6 M304.2 127.8 L346.7 114.1 M305.2 129.0 L349.7 126.8 M305.8 130.4 L349.4 139.8"/><circle cx="300" cy="132" r="24.4" class="h-disco"/><circle cx="300" cy="132" r="5" class="h-eje"/>
+          <path id="pm-chv-c-enduro" class="h-cuerpo" d="M2 46 L22 42 L40 44 L170 40 L178 34 L206 30 L232 26 L246 22 L250 40 L240 62 L214 70 L210 104 L196 128 L150 132 L136 104 L112 70 L62 58 L22 54 Z"/>
+          <use href="#pm-chv-c-enduro" class="h-rayas"/>
+          <path class="h-det" d="M150 74 L196 72 L208 100 L194 126 L152 128 L142 100 Z M154 84 L198 82 M152 94 L202 92 M150 104 L204 102 M72 138 L144 112 M118 56 L136 108 M192 92 Q172 62 112 60 L56 52 M44 44 L168 41"/>
+          <path class="h-det" d="M300 132 L246 28 M308 130 L254 26 M262 66 L302 62 L320 72 L280 78 Z M236 16 L256 12 M232 26 L238 46"/>
+          <path class="h-luz" d="M4 46 L12 45"/>
+          <circle cx="244" cy="36" r="9" class="h-faro-brillo"/>
+        </g>
+      </g>
+      <linearGradient id="pm-chv-barrido-g" x1="0" x2="1"><stop offset="0" stop-color="#cfe4fb" stop-opacity="0"/><stop offset=".5" stop-color="#cfe4fb" stop-opacity=".8"/><stop offset="1" stop-color="#cfe4fb" stop-opacity="0"/></linearGradient>
+      <g class="pm-chv-barrido" fill="url(#pm-chv-barrido-g)"><rect x="215" y="558" width="486" height="1.4"/><rect x="215" y="558" width="486" height="1"/><rect x="215" y="558" width="486" height="1.8"/></g>
+    </g>
+    <g class="pm-chv-mas-pos"><g transform="translate(500 238)"><g class="pm-chv-mas">
+      <radialGradient id="pm-chv-mas-halo"><stop offset="0" stop-color="#ff9a5c" stop-opacity=".55"/><stop offset="1" stop-color="#f2611d" stop-opacity="0"/></radialGradient>
+      <pattern id="pm-chv-rayas-lava" width="8" height="4" patternUnits="userSpaceOnUse"><rect width="8" height="1.1" fill="#ffb48a"/></pattern>
+      <clipPath id="pm-chv-mas-clip"><circle r="27"/></clipPath>
+      <g class="pm-chv-mas-holo" filter="url(#pm-chv-brillo)">
+        <circle r="48" fill="url(#pm-chv-mas-halo)" opacity=".5"/>
+        <circle class="pm-chv-mas-anillo" r="38" fill="none" stroke="#f2611d" stroke-width="2.5" stroke-dasharray="6 5"/>
+        <circle class="pm-chv-mas-fondo" r="27"/>
+        <circle r="27" fill="url(#pm-chv-rayas-lava)" opacity=".35"/>
+        <g clip-path="url(#pm-chv-mas-clip)"><rect class="pm-chv-mas-scan" x="-27" y="-27" width="54" height="2" fill="#ffd0b0"/></g>
+        <path d="M0 -12v24M-12 0h24"/>
+      </g>
+    </g></g></g>
+    <g class="pm-chv-escaneo-pos"><g class="pm-chv-escaneo"><polygon points="852,447 215,262 215,572 852,457" fill="url(#pm-chv-haz-g)"/><line x1="215" y1="262" x2="215" y2="572" stroke="#cfe4fb" stroke-width="2.5" vector-effect="non-scaling-stroke"/></g></g>
+    <g class="pm-chv-chispa"><g class="pm-ch-anda"><g class="pm-ch-pasos">
+      {% include "parciales/chispa.html" with pose="escena" id="chv" x=795 y=376 ancho=135 alto=203 %}
+      <g class="pm-chv-ojos-proy"><circle cx="855.3" cy="451.6" r="13" fill="url(#chv-ojo-azul)"/><circle cx="869.7" cy="451.6" r="13" fill="url(#chv-ojo-azul)"/></g>
+    </g></g></g>
+    <g transform="translate(866 300)"><g class="pm-chv-globo-movil"><g class="pm-chv-globo"><g transform="translate(-866 -300)">
+      <path d="M654 150 H876 Q890 150 890 164 V230 Q890 244 876 244 H872 L866 300 L846 244 H654 Q640 244 640 230 V164 Q640 150 654 150 Z" fill="#141a1c" fill-opacity=".96" stroke="#e8a92a" stroke-width="1.6" stroke-linejoin="round"/>
+      <path class="pm-chv-rayito" d="M670 168 L659 190 L668 190 L661 212 L680 184 L670 184 L677 168 Z" fill="#e8a92a"/>
+      <text class="pm-chv-globo-tit" x="692" y="194">¿Y tu moto?</text>
+      <text class="pm-chv-globo-sub" x="692" y="224">Agrégala en 1 minuto</text>
+    </g></g></g></g>
+    {% else %}
+    <g class="pm-chispa">{% include "parciales/chispa.html" with pose="barriendo" estilo="a" x=795 y=376 ancho=135 alto=203 %}</g>
+    {% endif %}
+  </a>{% endif %}
 </svg>

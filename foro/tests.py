@@ -552,3 +552,52 @@ class ActividadEIntegranteTests(TestCase):
     def test_nombre_del_autor_lleva_a_su_actividad(self):
         r = self.client.get(self.vieja.get_absolute_url())
         self.assertContains(r, reverse("foro:integrante", args=[self.ana.pk]))
+
+
+class ComentariosDeRodadaTests(TestCase):
+    """Los comentarios de una rodada usan el mismo hilo, reacciones y menciones que las respuestas del foro."""
+
+    def setUp(self):
+        cache.clear()
+        from datetime import timedelta
+        from django.utils import timezone
+        from .models import Rodada
+        self.ana = User.objects.create_user("ana@x.com", "ana@x.com", "x", first_name="Ana")
+        self.beto = User.objects.create_user("beto@x.com", "beto@x.com", "x", first_name="Beto")
+        p = Pregunta.objects.create(autor=self.ana, titulo="Rodada a Santa Elena", cuerpo="x", categoria="rutas")
+        self.rodada = Rodada.objects.create(pregunta=p, organizador=self.ana, fecha_hora=timezone.now() + timedelta(days=3),
+                                            punto_encuentro="Parque de El Poblado", destino="Santa Elena")
+        self.pregunta = p
+        self.comentario = Respuesta.objects.create(pregunta=p, autor=self.beto, cuerpo="¿A qué hora salimos?")
+
+    def test_responder_a_lo_propio_en_hilo_y_notificar(self):
+        from notificaciones.models import Notificacion
+        self.client.force_login(self.beto)
+        r = self.client.post(self.rodada.get_absolute_url(), {"cuerpo": "Y llevo herramienta", "padre": self.comentario.pk})
+        hija = Respuesta.objects.get(cuerpo="Y llevo herramienta")
+        self.assertRedirects(r, f"{self.rodada.get_absolute_url()}#r{hija.pk}", fetch_redirect_response=False)
+        self.assertEqual(hija.padre, self.comentario)
+        self.client.force_login(self.ana)
+        self.client.post(self.rodada.get_absolute_url(), {"cuerpo": "A las 6", "padre": self.comentario.pk})
+        self.assertTrue(Notificacion.objects.filter(usuario=self.beto, titulo="Ana respondió tu mensaje").exists())
+
+    def test_comentario_de_primer_nivel_avisa_al_organizador(self):
+        from notificaciones.models import Notificacion
+        self.client.force_login(self.beto)
+        self.client.post(self.rodada.get_absolute_url(), {"cuerpo": "¡Voy!"})
+        self.assertTrue(Notificacion.objects.filter(usuario=self.ana, titulo="Beto comentó tu rodada").exists())
+
+    def test_reaccionar_a_lo_propio_rechazado_y_barra_en_la_pagina(self):
+        from .models import Reaccion
+        self.client.force_login(self.beto)
+        r = self.client.post(reverse("foro:reaccionar", args=["respuesta", self.comentario.pk]), {"reaccion": "gusta"},
+                             HTTP_X_REQUESTED_WITH="fetch")
+        self.assertEqual(r.status_code, 403)
+        self.assertFalse(Reaccion.objects.exists())
+        html = self.client.get(self.rodada.get_absolute_url()).content.decode()
+        self.assertIn(f'data-responder="{self.comentario.pk}"', html)  # sí puede responder lo suyo
+        self.assertNotIn(reverse("foro:reaccionar", args=["respuesta", self.comentario.pk]), html)
+        self.client.force_login(self.ana)
+        html = self.client.get(self.rodada.get_absolute_url()).content.decode()
+        self.assertIn(reverse("foro:reaccionar", args=["respuesta", self.comentario.pk]), html)
+        self.assertIn('id="fo-plantilla-hilo"', html)

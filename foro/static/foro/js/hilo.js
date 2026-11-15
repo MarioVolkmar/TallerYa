@@ -77,6 +77,23 @@
   window.addEventListener("hashchange", revelar);
 
 
+  /* ---------- "Me sirvió" sin recargar (respaldo: el formulario POST normal) ---------- */
+  document.addEventListener("submit", function (e) {
+    var form = e.target.closest(".fo-votar-form");
+    if (!form) return;
+    e.preventDefault();
+    fetch(form.action, { method: "POST", body: new FormData(form), headers: { "X-Requested-With": "fetch" } })
+      .then(function (r) { if (!r.ok) throw 0; return r.json(); })
+      .then(function (d) {
+        var b = form.querySelector("button"), n = b.querySelector("[data-votos]");
+        b.classList.toggle("activo", d.votado);
+        b.setAttribute("aria-pressed", String(d.votado));
+        n.textContent = "· " + d.votos;
+        n.hidden = !d.votos;
+      })
+      .catch(function () { form.submit(); });
+  });
+
   /* ---------- Aviso discreto ---------- */
   var avisoT = null;
   function avisar(texto) {

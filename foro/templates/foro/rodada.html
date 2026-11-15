@@ -1,5 +1,6 @@
-{% extends "base.html" %}{% load foro_extras avatares %}
+{% extends "base.html" %}{% load foro_extras avatares %}{% load seo %}
 {% block title %}{{ rodada.titulo }} · Rodadas TallerYa{% endblock %}
+{% block seo %}{% seo titulo=rodada.titulo|add:" · Rodadas TallerYa" descripcion=rodada.destino|add:" · salida desde "|add:rodada.punto_encuentro|add:". Rodada de motos en Medellín: fecha, nivel y cupo en TallerYa." tipo="article" %}{% endblock %}
 {% block content %}
 {% url 'foro:rodadas' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver a rodadas" clase="mt-8" %}
 <div class="grid grid-cols-1 gap-8 lg:grid-cols-3 mt-6 items-start">
@@ -56,20 +57,17 @@
 <section class="mt-10">
   <h2 class="titulo text-2xl md:text-3xl">Comentarios{% if comentarios %} <span class="fo-conteo">· {{ comentarios|length }}</span>{% endif %}</h2>
   <div class="separador mt-4 mb-6"></div>
-  <div class="space-y-4">
-    {% for r in comentarios %}
-    <article id="r{{ r.pk }}" class="papel p-6 scroll-mt-24 fo-con-menu-arriba">
-      {% if r.autor == user %}{% include "foro/_menu.html" with obj=r tipo="respuesta" propio=True %}{% else %}{% include "foro/_menu.html" with obj=r tipo="respuesta" propio=False reportado=r.reportado %}{% endif %}
-      <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · {% hace r.creado %}</p>
-      <p class="cuerpo-post mt-3">{{ r.cuerpo }}</p>
-    </article>
+  <div class="fo-hilos">
+    {% for r in hilo %}
+    {% include "foro/_respuesta.html" %}
     {% empty %}
     <p class="text-suave">Aún no hay comentarios. ¿Dudas sobre la ruta? Pregunta aquí.</p>
     {% endfor %}
   </div>
-  <div class="papel p-6 md:p-8 mt-8">
+  {% if user.is_authenticated %}<template id="fo-plantilla-hilo">{% include "foro/_form_hilo.html" with padre=None %}</template>{% endif %}
+  <div class="papel p-6 md:p-8 mt-8 scroll-mt-24" id="responder-tema">
     {% if user.is_authenticated %}
-      <form method="post" class="space-y-4">{% csrf_token %}
+      <form method="post" action="{{ rodada.get_absolute_url }}" class="space-y-4">{% csrf_token %}
         {% include "cuentas/_campos.html" %}
         <button class="btn btn-lava py-3 px-8 text-sm">Comentar</button>
       </form>

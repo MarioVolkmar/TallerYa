@@ -1,0 +1,102 @@
+{% comment %}Chispa, la mascota de TallerYa: una bujía con visor de casco. Animaciones en tallerya.css (bloque "Chispa").
+   Uso:  {% include "parciales/chispa.html" with pose="barriendo" estilo="a" clase="w-24" %}
+   pose:     quieta (por defecto) | barriendo | saludando | escena (todos los brazos; la escena animada elige cuáles se ven)
+   estilo:   a (bujía real, por defecto) | b (línea técnica azul, como Rayos X)
+   Dentro de otro SVG: pasar x, y, ancho, alto (en unidades del SVG padre).
+   id:       prefijo de los degradados; cámbialo si hay dos Chispas en la misma página.
+   etiqueta: texto para lectores de pantalla (sin ella, Chispa es decorativa).
+   mira:     "derecha" para que mire a la derecha de vez en cuando (por defecto mira a la izquierda).
+{% endcomment %}
+{% with u=id|default:"chispa" p=pose|default:"quieta" e=estilo|default:"a" %}
+<svg class="chispa chispa-{{ p }} chispa-{{ e }}{% if mira == "derecha" %} chispa-mira-der{% endif %}{% if clase %} {{ clase }}{% endif %}" viewBox="-75 -8 150 226"{% if x %} x="{{ x }}"{% endif %}{% if y %} y="{{ y }}"{% endif %}{% if ancho %} width="{{ ancho }}"{% endif %}{% if alto %} height="{{ alto }}"{% endif %} overflow="visible"{% if etiqueta %} role="img" aria-label="{{ etiqueta }}"{% else %} aria-hidden="true" focusable="false"{% endif %}>
+  <defs>
+    <linearGradient id="{{ u }}-cer" x1="0" x2="1"><stop offset="0" stop-color="#fffaf0"/><stop offset=".35" stop-color="#f4ecdb"/><stop offset=".75" stop-color="#dcd1ba"/><stop offset="1" stop-color="#b3a78e"/></linearGradient>
+    <linearGradient id="{{ u }}-met" x1="0" x2="1"><stop offset="0" stop-color="#8e887a"/><stop offset=".3" stop-color="#f1ebdc"/><stop offset=".62" stop-color="#b8b09f"/><stop offset="1" stop-color="#5f5b52"/></linearGradient>
+    <linearGradient id="{{ u }}-cara" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3ecdc"/><stop offset="1" stop-color="#b5ad9b"/></linearGradient>
+    <linearGradient id="{{ u }}-ros" x1="0" x2="1"><stop offset="0" stop-color="#454b4d"/><stop offset=".35" stop-color="#a1a6a2"/><stop offset=".7" stop-color="#5d6466"/><stop offset="1" stop-color="#2a3032"/></linearGradient>
+    <linearGradient id="{{ u }}-lava" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a5c"/><stop offset=".5" stop-color="#f2611d"/><stop offset="1" stop-color="#a83f14"/></linearGradient>
+    <linearGradient id="{{ u }}-vis" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c383b"/><stop offset=".55" stop-color="#121a1c"/><stop offset="1" stop-color="#090e0f"/></linearGradient>
+    <radialGradient id="{{ u }}-ojo"><stop offset="0" stop-color="#ffd27a" stop-opacity=".8"/><stop offset="1" stop-color="#e8a92a" stop-opacity="0"/></radialGradient>
+    <radialGradient id="{{ u }}-sombra"><stop offset="0" stop-color="#000" stop-opacity=".55"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+  </defs>
+  <ellipse class="ch-sombra" cx="-6" cy="209" rx="44" ry="5.5" fill="url(#{{ u }}-sombra)"/>
+  {% if p == "barriendo" or p == "escena" %}<g class="ch-polvo" fill="#b9b19f"><circle cx="-62" cy="206" r="3.2"/><circle cx="-58" cy="209" r="2.2"/><circle cx="-66" cy="210" r="2.6"/></g>{% endif %}
+  <g class="ch-cuerpo">
+    {# Terminal y cuello #}
+    <path class="ch-p" d="M-9 4 Q-9 0 -5 0 H5 Q9 0 9 4 V12 H-9 Z" fill="url(#{{ u }}-met)"/>
+    <rect class="ch-p" x="-6.5" y="12" width="13" height="3.2" fill="#5f5b52"/>
+    <path class="ch-p" d="M-7 15 H7 L9 23 H-9 Z" fill="url(#{{ u }}-met)"/>
+    <path class="ch-brillo" d="M-5 2.5 H3" stroke="#fffaf0" stroke-width="1.4" stroke-linecap="round" opacity=".8"/>
+    {# Cerámica con anillos #}
+    <path class="ch-p" d="M-13 22 H13 C15 50 21 80 24 104 H-24 C-21 80 -15 50 -13 22 Z" fill="url(#{{ u }}-cer)"/>
+    <rect class="ch-p" x="-15.4" y="27" width="30.8" height="5" rx="2.5" fill="url(#{{ u }}-cer)"/>
+    <rect class="ch-p" x="-16.2" y="35" width="32.4" height="5" rx="2.5" fill="url(#{{ u }}-cer)"/>
+    <rect class="ch-p" x="-17.2" y="43" width="34.4" height="5" rx="2.5" fill="url(#{{ u }}-cer)"/>
+    <rect class="ch-p" x="-18.4" y="51" width="36.8" height="5" rx="2.5" fill="url(#{{ u }}-cer)"/>
+    <path class="ch-l" d="M-14 32.4 H14 M-15 40.4 H15 M-16 48.4 H16 M-17 56.4 H17" stroke="#a89c83" stroke-width="1" opacity=".55"/>
+    <path class="ch-brillo" d="M-10.5 28.6 H-4 M-11 36.6 H-4.5 M-12 44.6 H-5 M-13 52.6 H-5.5 M-19 96 C-18.5 99 -18 101 -17.5 102" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".85"/>
+    {# Visor de casco con los ojos #}
+    <path class="ch-p ch-vis" d="M-18.5 60 Q0 54 18.5 60 L21.5 88 Q0 97 -21.5 88 Z" fill="url(#{{ u }}-vis)" stroke="#bdb39c" stroke-width="1.6"/>
+    <g transform="translate(0 76)"><g class="ch-mira"><g class="ch-ojos">
+      <circle class="ch-halo" cx="-8" cy="0" r="10" fill="url(#{{ u }}-ojo)"/><circle class="ch-halo" cx="8" cy="0" r="10" fill="url(#{{ u }}-ojo)"/>
+      <rect class="ch-ojo" x="-11.5" y="-5" width="7" height="10" rx="3.5" fill="#f5b843"/><rect class="ch-ojo" x="4.5" y="-5" width="7" height="10" rx="3.5" fill="#f5b843"/>
+      <rect class="ch-brillo" x="-10.2" y="-3.6" width="2" height="3" rx="1" fill="#fff3d0"/><rect class="ch-brillo" x="5.8" y="-3.6" width="2" height="3" rx="1" fill="#fff3d0"/>
+    </g></g></g>
+    <path class="ch-brillo" d="M-14 63 Q-3 59 9 60.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" fill="none" opacity=".22"/>
+    {# Hombro metálico, tuerca hexagonal y anillo #}
+    <path class="ch-p" d="M-24 103 H24 L27 112 H-27 Z" fill="url(#{{ u }}-met)"/>
+    <path class="ch-p" d="M-34 113 H-12 V137 H-34 Q-37.5 125 -34 113 Z" fill="#8f897b"/>
+    <rect class="ch-p" x="-12" y="112" width="24" height="26" fill="url(#{{ u }}-cara)"/>
+    <path class="ch-p" d="M12 113 H34 Q37.5 125 34 137 H12 Z" fill="#6c675c"/>
+    <path class="ch-brillo" d="M-33 113.2 H33 M-6 116 V134" stroke="#fffaf0" stroke-width="1.2" stroke-linecap="round" opacity=".55"/>
+    <path class="ch-l" d="M-34 136.8 H34" stroke="#3e3b35" stroke-width="1.2" opacity=".7"/>
+    <rect class="ch-p" x="-27" y="138" width="54" height="7" rx="2" fill="url(#{{ u }}-lava)"/>
+    <path class="ch-brillo" d="M-24 139.6 H20" stroke="#ffd0b0" stroke-width="1" opacity=".7"/>
+    {# Rosca, electrodo central y electrodo de tierra #}
+    <rect class="ch-p" x="-19" y="145" width="38" height="41" fill="url(#{{ u }}-ros)"/>
+    <path class="ch-l" d="M-19 148 L19 152 M-19 153 L19 157 M-19 158 L19 162 M-19 163 L19 167 M-19 168 L19 172 M-19 173 L19 177 M-19 178 L19 182" stroke="#d0d4cf" stroke-width="1.5" opacity=".5"/>
+    <path class="ch-p" d="M-19 186 H19 L16 190 H-16 Z" fill="#393f41"/>
+    <rect class="ch-p" x="-2.5" y="189" width="5" height="7" rx="1" fill="#ddd6c6"/>
+    <path class="ch-l" d="M15 188 V199 Q15 203.5 10.5 203.5 H-3" stroke="#8e887a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path class="ch-brillo" d="M14.2 189 V199" stroke="#e6dfcd" stroke-width="1.3" stroke-linecap="round"/>
+    <g class="ch-arco" stroke="#ffd27a" stroke-width="1.6" stroke-linecap="round" fill="none"><circle cx="1" cy="199.5" r="6" fill="url(#{{ u }}-ojo)" stroke="none"/><path d="M0 196.5 L2.5 198.5 L-1 199.8 L1.5 202"/><path d="M4 198 L11 194.5 M-3 199 L-10 196 M3 201 L8 205"/></g>
+    {# Brazos según la pose. "escena" trae todos los juegos de brazos y la animación de la escena decide cuál se ve. #}
+    {% if p == "barriendo" or p == "escena" %}
+    <g class="ch-b-escoba" transform="translate(-4 122)"><g class="ch-barre"><g transform="translate(4 -122)">
+      <path class="ch-l" d="M-12 88 L-44 196" stroke="#7a4f24" stroke-width="4.2" stroke-linecap="round"/>
+      <path class="ch-brillo" d="M-12.8 90 L-42.5 190" stroke="#c48d52" stroke-width="1.2" stroke-linecap="round"/>
+      <path class="ch-p" d="M-52.6 193.5 L-35.4 198.5 L-36.5 202.3 L-53.7 197.3 Z" fill="#8e887a"/>
+      <path class="ch-p" d="M-53.7 197.3 L-36.5 202.3 L-35.5 213 Q-48 213 -60.3 206 Z" fill="#d39a33"/>
+      <path class="ch-l" d="M-49 199 L-54 208 M-44 200.5 L-46.5 211 M-39.5 201.8 L-39.5 212" stroke="#8a6418" stroke-width="1" opacity=".8"/>
+      <path class="ch-l" d="M-34 124 C-46 134 -46 152 -33.3 160" stroke="#77726a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path class="ch-l" d="M34 126 C34 150 2 152 -25.6 134" stroke="#77726a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path class="ch-brillo" d="M-35 125.5 C-45 134 -45 150 -35 157 M33 128 C33 147 4 149 -22 134.5" stroke="#d9d1bd" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <circle class="ch-p" cx="-33.3" cy="160" r="4.6" fill="url(#{{ u }}-met)"/><circle class="ch-p" cx="-25.6" cy="134" r="4.6" fill="url(#{{ u }}-met)"/>
+    </g></g></g>
+    {% endif %}
+    {% if p == "saludando" %}
+    <path class="ch-l" d="M-34 124 C-48 126 -50 142 -37 148" stroke="#77726a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+    <path class="ch-brillo" d="M-35 125.5 C-46 128 -47 140 -38 145" stroke="#d9d1bd" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+    <circle class="ch-p" cx="-36" cy="148" r="4.6" fill="url(#{{ u }}-met)"/>
+    {% endif %}
+    {% if p == "saludando" or p == "escena" %}
+    <g class="ch-b-alza" transform="translate(34 124)"><g class="ch-saluda"><g transform="translate(-34 -124)">
+      <path class="ch-l" d="M34 124 C46 114 52 98 50 83" stroke="#77726a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path class="ch-brillo" d="M35 121.5 C45 112 50 99 48.6 86" stroke="#d9d1bd" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <circle class="ch-p" cx="50" cy="78" r="5.6" fill="url(#{{ u }}-met)"/><circle class="ch-p" cx="44.6" cy="81" r="2.6" fill="#b8b09f"/>
+    </g></g></g>
+    {% endif %}
+    {% if p != "barriendo" and p != "saludando" %}
+    <g class="ch-b-izq"><path class="ch-l" d="M-34 124 C-42 134 -43 150 -40 162" stroke="#77726a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path class="ch-brillo" d="M-35 126 C-41 135 -42 148 -40.5 158" stroke="#d9d1bd" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <circle class="ch-p" cx="-40" cy="164" r="4.6" fill="url(#{{ u }}-met)"/></g>
+    <g class="ch-b-der"><path class="ch-l" d="M34 124 C42 134 43 150 40 162" stroke="#77726a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+      <path class="ch-brillo" d="M33 126 C39 135 40 148 38.5 158" stroke="#d9d1bd" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+      <circle class="ch-p" cx="40" cy="164" r="4.6" fill="url(#{{ u }}-met)"/></g>
+    {% endif %}
+    {# Tornillos de los hombros #}
+    <circle class="ch-p" cx="-31" cy="124" r="3" fill="#4f4b44"/><circle class="ch-p" cx="31" cy="124" r="3" fill="#4f4b44"/>
+    <circle class="ch-brillo" cx="-31.8" cy="123.2" r="1" fill="#efe6d2"/><circle class="ch-brillo" cx="30.2" cy="123.2" r="1" fill="#efe6d2"/>
+  </g>
+</svg>
+{% endwith %}

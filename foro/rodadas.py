@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import redirect_to_login
 from django.core.paginator import Paginator
 from django.db import transaction
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -32,10 +32,12 @@ def lista(request):
     pasadas = request.GET.get("ver") == "pasadas"
     rodadas = _visibles().filter(fecha_hora__lt=ahora).order_by("-fecha_hora") if pasadas \
         else _visibles().filter(fecha_hora__gte=ahora).order_by("fecha_hora")
-    base = Rodada.objects.filter(pregunta__visible=True)
+    # Las dos pestañas se cuentan en una sola consulta
+    conteos = Rodada.objects.filter(pregunta__visible=True).aggregate(
+        proximas=Count("pk", filter=Q(fecha_hora__gte=ahora)), pasadas=Count("pk", filter=Q(fecha_hora__lt=ahora)))
     return render(request, "foro/rodadas.html", {
         "pagina": Paginator(rodadas, 12).get_page(request.GET.get("pagina")), "pasadas": pasadas,
-        "num_proximas": base.filter(fecha_hora__gte=ahora).count(), "num_pasadas": base.filter(fecha_hora__lt=ahora).count(),
+        "num_proximas": conteos["proximas"], "num_pasadas": conteos["pasadas"],
     })
 
 
@@ -74,7 +76,7 @@ def detalle(request, pk):
         return publicado
     hilo = contexto_hilo(request, pregunta, padre, form, por_votos=False)
 
-    asistentes = [a.usuario for a in rodada.asistencias.select_related("usuario", "usuario__taller")]
+    asistentes = [a.usuario for a in rodada.asistencias.select_related("usuario", "usuario__taller", "usuario__perfil")]
     voy = request.user.is_authenticated and any(u.pk == request.user.pk for u in asistentes)
     comentarios = hilo["respuestas"]
     # Organizador primero; cupo en porcentaje para la barra

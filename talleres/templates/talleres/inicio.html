@@ -14,7 +14,7 @@
     {% endfor %}
   </div>
   {% else %}
-  {% include "talleres/_portada_moto.html" %}
+  {% include "talleres/_portada_moto.html" with alinear="xMaxYMax" chispa_escena=True %}
   {% endif %}
   <div class="contenido max-w-6xl mx-auto px-4 pt-6 {% if estilo == "vitrina" and motos_portada %}pb-[25rem]{% else %}pb-[27rem]{% endif %} md:pt-6 md:pb-52">
     <p class="etiqueta">Medellín · Valle de Aburrá</p>
@@ -29,9 +29,9 @@
       {% if estilo == "vitrina" %}<a href="{% url 'cupones:lista' %}" class="portada-boton">Ver cupones</a>
       {% elif not user.is_authenticated %}<a href="{% url 'cuentas:registro' %}" class="portada-boton">Crear mi garaje</a>{% endif %}
     </div>
-    {% if estilo == "vitrina" %}
+    {% if estilo == "vitrina" and motos_portada %}
     <div class="portada-ficha">
-      <a href="{% if motos_portada %}{% url 'garaje:moto' motos_portada.0.pk %}{% else %}{% url 'garaje:agregar' %}{% endif %}" data-ficha-enlace>
+      <a href="{% if motos_portada %}{% url 'garaje:moto' motos_portada.0.pk %}{% else %}{% url 'garaje:bienvenida' %}{% endif %}" data-ficha-enlace>
         <small>Mi garaje</small>
         <strong data-ficha-nombre>{% if motos_portada %}{{ motos_portada.0.nombre_corto }}{% else %}Agrega tu moto{% endif %}</strong>
         <em>{% if motos_portada %}Ver plan de mantenimiento →{% else %}Mantenimiento · SOAT · Tecno →{% endif %}</em>
@@ -52,7 +52,7 @@
       {% endif %}
       </div>
     </div>
-    {% else %}
+    {% elif estilo != "vitrina" %}
     <p class="portada-ficha"><small>Talleres verificados</small><strong>Cita por WhatsApp</strong></p>
     {% endif %}
   </div>

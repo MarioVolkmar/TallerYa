@@ -4,7 +4,7 @@
   <div class="fo-barra-fila">
     {% include "foro/_votar.html" with pk=obj.pk %}
     {% include "foro/_reacciones.html" %}
-    <span class="fo-sep" aria-hidden="true">·</span>
+    {% if not propio %}<span class="fo-sep" aria-hidden="true">·</span>{% endif %}
     {% if tipo == "respuesta" %}
       {% if user.is_authenticated %}
       <a class="fo-accion fo-responder" href="?responder={{ obj.pk }}#responder-{{ obj.pk }}" data-responder="{{ obj.pk }}" data-nombre="{{ obj.autor_nombre }}"

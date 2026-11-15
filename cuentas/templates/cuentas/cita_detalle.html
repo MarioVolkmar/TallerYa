@@ -3,7 +3,7 @@
 {% block title %}Cita en {{ cita.taller.nombre }} · TallerYa{% endblock %}
 {% block content %}
 <div class="mt-8 max-w-4xl">
-  <a href="{% url 'cuentas:mi_cuenta' %}#citas" class="mc-volver">← Mis citas</a>
+  {% url 'cuentas:mi_cuenta' as url_cuenta %}{% with url_citas=url_cuenta|add:"#citas" %}{% include "parciales/volver.html" with url=url_citas texto="Mis citas" %}{% endwith %}
 
   <section class="papel mc-detalle mt-4">
     <div class="mc-detalle-cabeza">

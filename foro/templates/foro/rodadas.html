@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load seo %}
 {% block title %}Rodadas y eventos · TallerYa{% endblock %}
+{% block seo %}{% seo titulo="Rodadas y eventos de motos en Medellín · TallerYa" descripcion="Próximas rodadas y eventos de moteros en Medellín y Antioquia: rutas, nivel, punto de encuentro y cupo. Apúntate o organiza la tuya." %}{% endblock %}
 {% block content %}
 {% url 'foro:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Volver al foro" clase="mt-8" %}
 <div class="flex flex-wrap items-end justify-between gap-4 mt-6">

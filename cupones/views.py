@@ -100,7 +100,8 @@ def referido(request, codigo):
 
 
 def _ip(request):
-    return request.META.get("REMOTE_ADDR", "desconocida")
+    from cuentas.limites import ip_cliente  # detrás del proxy de Render, REMOTE_ADDR es la misma para todos
+    return ip_cliente(request)
 
 
 def canjear_cupon(request):
