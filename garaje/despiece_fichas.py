@@ -110,6 +110,18 @@ FICHAS = {
         "Son guías plásticas que ayudan a que la polea del variador se deslice suave.",
         "Se revisan junto con los rodillos, cada 12.000 km aprox.",
         ["Ruido en el variador", "Desgaste visible en las guías"], ["Se cambian junto con los rodillos"], "taller"),
+    "CAM, BRAKE": _f(
+        "Es la leva del freno de tambor: gira con el pedal o la palanca y abre las bandas contra el tambor.",
+        "Se limpia y engrasa al cambiar las bandas.",
+        ["El freno queda largo: hay que pisar mucho", "El pedal o la palanca no regresa solo"],
+        ["Engrásala poco: la grasa no debe llegar a las bandas", "Gastada, ni las bandas nuevas frenan bien"], "taller"),
+    "CAM, RR BRAKE": None,
+    "CAM, FR BRAKE": None,
+    "SLIDER, CHAIN": _f(
+        "Es el deslizador de la cadena: protege el basculante del roce de la cadena.",
+        "Se revisa con la cadena; se cambia si está gastado o roto.",
+        ["Ruido de la cadena rozando", "Marcas en el basculante"],
+        ["Si está muy gastado, revisa también el tensado de la cadena"], "media"),
     "CAM": _f(
         "Es la rampa sobre la que ruedan los rodillos del variador.",
         "Se revisa al cambiar rodillos.", ["Marcas o surcos donde ruedan los rodillos"], ["Si está marcada, los rodillos nuevos se gastan rápido"], "taller"),
@@ -281,7 +293,7 @@ FICHAS = {
         ["La moto se hunde mucho al frenar", "Queda más baja adelante"], ["Si llevas parrillero seguido, puede convenir un resorte más firme"], "taller"),
     "SHOCK ABSORBER": _f(
         "Es el amortiguador trasero: absorbe los golpes y controla que la moto no rebote.",
-        "Revísalo cada 10.000 km; dura entre 20.000 y 40.000 km según el uso.",
+        "Revísalo cada 20.000 km (fugas y rebote), o antes si rebota o bota aceite; dura entre 20.000 y 40.000 km según el uso.",
         ["La moto rebota después de un hueco", "Aceite en el cuerpo del amortiguador", "Golpe seco al pasar resaltos"],
         ["Ajusta la precarga si llevas parrillero o carga", "Cambia los dos al tiempo si la moto tiene doble amortiguador"],
         "media"),
@@ -393,15 +405,31 @@ def _normalizar(texto):
     return t.lstrip(". ").rstrip(". ").strip()
 
 
+for _k in ("CAM, RR BRAKE", "CAM, FR BRAKE", "CAM, RR. BRAKE", "CAM, FR. BRAKE", "CAM, REAR BRAKE", "CAM, FRONT BRAKE", "CAM, BRAKE SHOE"):
+    FICHAS[_k] = FICHAS["CAM, BRAKE"]
 _FICHAS = {_normalizar(k): v for k, v in FICHAS.items()}
+
+
+# Fichas que solo valen en la transmisión automática: "CAM" no es el árbol de levas ni la leva del freno, "SLIDER" no es
+# el deslizador de la cadena
+_SOLO_CVT = {"CAM", "SLIDER", "WEIGHT SET", "PRIMARY SLIDING SHEAVE", "V-BELT", "CLUTCH WEIGHT SHOE SET"}
+
+
+def _prefijo(clave, k):
+    """¿La descripción empieza por la clave como palabra completa? ("CAM, RR" sí; "CAMSHAFT" o "CAMISA" no)."""
+    return clave == k or (clave.startswith(k) and clave[len(k)] in " ,(/-")
+
+
+def _vale(k, pieza):
+    return k not in _SOLO_CVT or pieza == "correa"
 
 
 def ficha_para(descripcion, pieza=""):
     clave = _normalizar(descripcion)
     clave = _POR_SISTEMA.get((clave, pieza), clave)
-    if clave in _FICHAS:
+    if clave in _FICHAS and _vale(clave, pieza):
         return dict(_FICHAS[clave])
-    candidatos = [k for k in _FICHAS if clave.startswith(k)]
+    candidatos = [k for k in _FICHAS if _prefijo(clave, k) and _vale(k, pieza)]
     if candidatos:
         return dict(_FICHAS[max(candidatos, key=len)])
     palabra = re.split(r"[ ,]", clave, maxsplit=1)[0]
@@ -649,7 +677,7 @@ def _categoria(clave):
 def tiene_guia_propia(descripcion):
     """¿El catálogo de guías conoce esta pieza por su nombre (no solo por su categoría)?"""
     clave = _normalizar(_ALIAS.get(_normalizar(descripcion)) or descripcion)
-    if clave in _FICHAS or any(clave.startswith(k) for k in _FICHAS):
+    if clave in _FICHAS or any(_prefijo(clave, k) for k in _FICHAS):
         return True
     return clave in _QUE_HACE or any(clave.startswith(k + ",") or clave.startswith(k + " ") for k in _QUE_HACE)
 

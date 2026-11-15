@@ -68,6 +68,7 @@
       "titulo_es": "Filtro de aire",
       "pieza": "filtro_aire",
       "reglas": {
+        "CONDUCTO FILTRO": null, "CUBIERTA FILTRO": null,
         "FILTRO AIRE": "filtro-aire"
       },
       "diagrama": "admision"

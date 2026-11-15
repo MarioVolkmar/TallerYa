@@ -64,7 +64,7 @@
       "titulo_es": "Cárter derecho",
       "pieza": "aceite",
       "reglas": {
-        "DRAIN PLUG": "aceite",
+        "BOLT, DRAIN PLUG": "aceite",
         "GAUGE, OIL LEVEL": "aceite"
       },
       "diagrama": "carcasa"

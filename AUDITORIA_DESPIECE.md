@@ -165,3 +165,16 @@ Los scripts están en el scratchpad de la sesión Auditor. Para conservarlos, co
 Ruta: `C:\Users\volkm\AppData\Local\Temp\claude\c8098dd74742036e\241de04c-c8be-44a7-9bd8-95fb1b006a99\scratchpad\`. Se corren desde la raíz del proyecto con `venv/Scripts/python.exe`.
 
 **Críticos encontrados: 5. Corregidos: 4** (enlaces falsos, contaminación Honda, rueda trasera de scooter con cadena y amortiguador de scooter con piezas de cadena). El quinto (la Gixxer) lo decidió el usuario: la moto tiene disco atrás. Se quitó el enlace de las bandas y se aclaró el título de la lámina (verificado). Solo falta el catálogo de la versión con disco.
+
+## Criterios nuevos del usuario (vía Planos): forma real, qué se cambia, primera palabra, nombres de empaques
+
+Revisado en los 24 despieces activos (script `criterios_planos.py` en el scratchpad del Auditor). Lote A enviado a Planos; pendiente de verificar.
+
+| Criterio | Hallazgos | Errores reales |
+|---|---|---|
+| 2. Qué se cambia | 50 piezas con tarea en tapón/tapa/tornillo | 6 sellos a ref−1 o lejos que `tarea_al_sello` no ve; 6 tapas del filtro de aceite con tarea; 4 enlaces falsos (tapa piñón, capuchón de batería, cubierta y conducto del filtro de aire); 3 tapones de drenaje para cotejar en el PDF |
+| 3. Primera palabra | 47 piezas en puesto de otro tipo | causa: `herraje_para` mira el texto entero y no reconoce "O RING", "PACKING" ni "Empaq"; mangueras dibujadas como batería, depósito o inyector |
+| 1. Forma real | tapones y tapas dibujados como otra pieza | cadena, malla, batería, filtro, volante, culata, pasador o bomba en lugar de tapón; bujía y capuchón dibujados como tapa |
+| 4. Nombres de empaques | 184 nombres a secas ("O ring" 87, "Empaque" 49, "Retén" 19, "Sello" 14…) | más los que traen dueño pero en orden inglés o abreviados |
+
+**Para que decida el usuario:** la tarea del líquido de frenos y del refrigerante sigue en la tapa del depósito o del radiador, porque ahí no se cambia ninguna pieza, solo el líquido. Propuesta: dejarla en la tapa.

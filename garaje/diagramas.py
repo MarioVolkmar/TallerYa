@@ -9,6 +9,7 @@ las partes de un catálogo se asignan a los puestos por palabras clave (REGLAS),
     puesto_para(clave, desc) → nombre del puesto o None
     version(clave)           → huella del SVG (para el caché del navegador)
 """
+import copy
 import hashlib
 from html import escape
 import math
@@ -42,6 +43,47 @@ def curva(p0, p1, p2, n=16):
     """Curva cuadrática en 3D (para mangueras)."""
     return [tuple((1 - t) ** 2 * a + 2 * (1 - t) * t * b + t ** 2 * c for a, b, c in zip(p0, p1, p2))
             for t in (i / n for i in range(n + 1))]
+
+
+def cadena_eslabones(puntos, grosor=8):
+    """Cadena de transmisión: trazo oscuro con los eslabones marcados (no una manguera lisa)."""
+    return manguera(puntos, grosor, "#5d666a") + [polilinea(puntos, grosor * .45, "#c9ced0", guiones="3 3")]
+
+
+def seguro_pin(c, eje, r, grosor=1.6):
+    """Pin seguro (anillo elástico): aro delgado de alambre con su abertura, no un anillo grueso."""
+    ext = [(math.cos(a) * r, math.sin(a) * r) for a in [0.45 + i * (2 * math.pi - 0.9) / 24 for i in range(25)]]
+    return prisma(c, eje, ext + [(x * .84, y * .84) for x, y in ext[::-1]], grosor, lado=LADO_MEDIO, cara="#dfe3e4")
+
+
+def bujia_real(c, eje=(0, 1, 0), escala=1.0):
+    """Bujía desde la punta (electrodo en `c`) hacia el terminal: electrodo, rosca, arandela, hexágono, aislador de
+    porcelana con sus anillos y el terminal donde entra el capuchón."""
+    a, k = eje, escala
+    en = lambda d: tuple(ci + ai * d * k for ci, ai in zip(c, a))
+    f = cilindro(en(2), a, 1.2 * k, 4, lado=OSCURO)                                    # electrodo central
+    f += cilindro(en(13), a, 4 * k, 18 * k, lado=LADO_MEDIO, cara="#dfe3e4") + iso.roscas(en(13), a, 4 * k, 16 * k, 2.5)
+    f += cilindro(en(23), a, 6.5 * k, 2 * k, lado=LADO_MEDIO)                            # arandela de sello
+    f += prisma(en(29), a, hexagono(8.5 * k), 10 * k, lado=LADO_MEDIO, cara="#e6e9ea")   # hexágono (llave de bujía)
+    f += cilindro(en(46), a, 5.5 * k, 24 * k, r2=4.5 * k, cara="#fbfaf6", lado="#ece8de")  # porcelana
+    for d in (40, 46, 52):
+        f += cilindro(en(d), a, 5.8 * k, 1.5 * k, cara="#fbfaf6", lado="#ddd8cc")
+    f += cilindro(en(62), a, 2.4 * k, 8 * k, lado=LADO_MEDIO) + cilindro(en(66), a, 3.4 * k, 3 * k, lado=LADO_MEDIO)
+    return f
+
+
+def grapa_manguera(c, r=6):
+    """Guía o grapa de manguera: aro que la abraza y pestaña para atornillarla al chasis."""
+    x, y, z = c
+    return (caja((x + r + 5, y, z), (10, 3, 10), colores=(OSCURO, LADO_MEDIO, OSCURO))
+            + cilindro(c, Y, r + 2, 9, ri=r, lado=OSCURO, cara=LADO_MEDIO))
+
+
+def tapon_perno(base_cabeza, eje, largo, d, cabeza=None):
+    """Tapón de drenaje o de llenado: tornillo de cabeza hexagonal con su arandela de sello bajo la cabeza."""
+    a = eje
+    arandela_c = tuple(b + x * 1.2 for b, x in zip(base_cabeza, a))
+    return perno(base_cabeza, a, largo, d, cabeza or d * 1.7) + arandela(arandela_c, a, d * .95, 2, color="#e8c9a0", lado="#c9a227")
 
 
 # ---------------------------------------------------------------------------
@@ -150,7 +192,10 @@ def _bomba_mano(lado=1, sufijo="", con_linea=True):
         P("manigueta" + sufijo, prisma((92 * s, -4, 70), Y, [(u * s, v) for u, v in manigueta], 8, lado=LADO_MEDIO, cara="#f1f3f4")
           + cilindro((62 * s, -4, 52), Y, 9, 10, lado=OSCURO, cara=LADO_MEDIO), (140 * s, -4, 70), (70 * s, 50)),
         P("abrazadera" + sufijo, prisma((-75 * s, 0, 0), X, redondeado(34, 44, 7), 20, hueco=iso._circ2d(15, 24)), (-75 * s, 0, 0), (-70 * s, 55)),
-        P("interruptor" + sufijo, caja((48 * s, -30, -20), (22, 12, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)), (48 * s, -30, -20), (70 * s, -10)),
+        P("interruptor" + sufijo, caja((48 * s, -30, -20), (16, 9, 12), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + cilindro((38 * s, -30, -20), X, 2.5, 6, lado=LADO_MEDIO)
+          + caja((52 * s, -30, -12), (3, 2, 6), colores=("#d8b36a",) * 3, grosor=1) + caja((44 * s, -30, -12), (3, 2, 6), colores=("#d8b36a",) * 3, grosor=1),
+          (48 * s, -30, -20), (70 * s, -10)),
         P("kit_reparacion" + sufijo, cilindro((175 * s, 0, 0), X, 10, 34) + oring((205 * s, 0, 0), X, 10) + resorte((235 * s, 0, 0), X, 7, 36, 6),
           (205 * s, 0, 0), (60 * s, -50)),
         P("banjo" + sufijo, perno((-30 * s, -10, 0), MENOS_Y, 26, 9) + arandela((-30 * s, -24, 0), Y, 11), (-30 * s, -10, 0), (-75 * s, 20)),
@@ -158,7 +203,7 @@ def _bomba_mano(lado=1, sufijo="", con_linea=True):
     if con_linea:
         piezas += [
             P("manguera" + sufijo, manguera(tubo), tubo[8], (-80 * s, 40)),
-            P("soporte_manguera" + sufijo, caja((60 * s, -205, 110), (18, 12, 18)), (60 * s, -205, 110), (65 * s, 30)),
+            P("soporte_manguera" + sufijo, grapa_manguera((60 * s, -205, 110), 7), (60 * s, -205, 110), (65 * s, 30)),
         ]
     return piezas
 
@@ -193,8 +238,8 @@ def _bombas_abs():
           + [f for dx in (-30, -10, 10, 30) for f in cilindro((abs_c[0] + dx, abs_c[1] + 34, abs_c[2] + 10), Y, 6, 8)],
           (abs_c[0], abs_c[1] + 30, abs_c[2]), (70, 50), orden=3),
         P("tubos", manguera(t1, 5, "#c9ced0") + manguera(t2, 5, "#c9ced0"), t1[10], (70, 40), orden=2),
-        P("guia_manguera", caja(m1[10], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)) + caja(m2[10], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
-          + caja(t1[8], (14, 10, 14), colores=(OSCURO, LADO_MEDIO, OSCURO)), m1[10], (60, -30), orden=3),
+        P("guia_manguera", grapa_manguera(m1[10]) + grapa_manguera(m2[10])
+          + grapa_manguera(t1[8]), m1[10], (60, -30), orden=3),
         P("soporte_abs", prisma((abs_c[0], abs_c[1] - 52, abs_c[2]), Y, redondeado(130, 70, 10), 4, lado=LADO_MEDIO, cara="#e9ecec"),
           (abs_c[0] + 50, abs_c[1] - 52, abs_c[2]), (70, 30), orden=1),
     ]
@@ -242,8 +287,8 @@ def _freno_trasero():
     pedal = [(-12, -14), (150, -26), (176, -20), (180, -6), (160, 4), (20, 18), (-10, 16), (-24, 0)]
     piezas = _bomba_pie() + caliper + [
         P("manguera", manguera(tubo, 8), tubo[12], (80, 30), orden=2),
-        P("guia_manguera", caja(tubo[10], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
-          + caja(tubo[22], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)), tubo[22], (60, -30), orden=3),
+        P("guia_manguera", grapa_manguera(tubo[10])
+          + grapa_manguera(tubo[22]), tubo[22], (60, -30), orden=3),
         P("soporte_deposito", prisma((-110, 60, -20), Z, [(-14, 40), (14, 40), (18, -30), (6, -60), (-10, -60), (-18, -30)], 6,
                                      hueco=iso._circ2d(5, 12), lado=LADO_MEDIO), (-110, 40, -20), (-70, -20), orden=1),
         # Pedal: su brazo corto sube a la horquilla de la varilla de la bomba
@@ -373,8 +418,10 @@ def _admision():
         P("tapa", prisma((240, -50, 250), Z, redondeado(244, 144, 34), 14, lado="#e2dccc", cara="#f1ece0"), (300, -80, 250), (60, 70)),
         P("ducto", cilindro((15, 60, 0), X, 24, 64, r2=19, lado="#c7ccce", cara="#dfe3e4"), (15, 60, 0), (-30, -80)),
         P("cuerpo_aceleracion", caja((-45, 60, 0), (40, 52, 52)) + cilindro((-45, 60, 0), X, 18, 42, ri=14), (-45, 60, 0), (-60, -75)),
-        P("motor_ralenti", caja((-45, 105, -10), (20, 18, 20), colores=(OSCURO, LADO_MEDIO, OSCURO)), (-45, 105, -10), (-60, -40)),
-        P("inyector", cilindro((-95, 105, 10), Y, 7, 46, lado=OSCURO, cara=LADO_MEDIO) + cilindro((-95, 76, 10), Y, 3, 12),
+        P("motor_ralenti", cilindro((-45, 105, -10), Y, 10, 18, lado=OSCURO, cara=LADO_MEDIO) + caja((-45, 118, -10), (10, 8, 12), colores=(CAUCHO,) * 3)
+          + cilindro((-45, 92, -10), Y, 3.5, 10, lado=LADO_MEDIO), (-45, 105, -10), (-60, -40)),
+        P("inyector", cilindro((-95, 105, 10), Y, 6, 40, lado=OSCURO, cara=LADO_MEDIO) + caja((-86, 118, 10), (10, 10, 9), colores=(CAUCHO,) * 3)
+          + oring((-95, 126, 10), Y, 7, 3) + oring((-95, 85, 10), Y, 7, 3) + cilindro((-95, 76, 10), Y, 3, 12, lado=LADO_MEDIO),
           (-95, 105, 10), (-70, -50)),
         P("empaque", oring((-85, 50, 0), X, 19), (-85, 50, 0), (-65, 40)),
         P("multiple", cilindro((-125, 40, 0), X, 20, 36, r2=15), (-125, 40, 0), (-70, 60)),
@@ -500,8 +547,7 @@ def _culata(perfil=None):
             culata += cilindro((xc, 268, -fondo / 2 - 14), Z, r * .4, 28, ri=r * .28, lado=al_lado, cara=al_cara)
     # Bujías: una por cilindro (o tres en las de triple chispa), dibujadas aparte, a la derecha
     def una_bujia(x, z, escala=1.0):
-        return (cilindro((x, 352, z), Y, 4 * escala, 18) + prisma((x, 370, z), Y, hexagono(10 * escala), 10, lado=LADO_MEDIO)
-                + cilindro((x, 392, z), Y, 8 * escala, 34, cara="#fbfaf6", lado="#f1eee6") + cilindro((x, 414, z), Y, 3, 10))
+        return bujia_real((x, 344, z), Y, escala)
     bujias, x0 = [], ancho / 2 + 60
     for k in range(p["c"] * p["b"]):
         bujias += una_bujia(x0 + k * 30, -20, 1.0 if k % max(1, p["b"]) == 0 else .8)
@@ -523,7 +569,7 @@ def _culata(perfil=None):
         P("anillos", [f for xc in xs for f in _anillos((xc, -66, 0), r * .93)], (xs[0] + r, -57, 0), (70, 10), orden=1),
         P("piston", [f for xc in xs for f in _piston((xc, -120, 0), r * .9)], (xs[0], -110, 0), (-90, 40), orden=1),
         P("pasador", [f for xc in xs for f in cilindro((xc, -124, 100), Z, 9, 64, ri=5, cara="#e9ecec")], (xs[0], -124, 120), (70, 30), orden=2),
-        P("seguros_piston", [f for xc in xs for f in oring((xc, -124, 148), Z, 9, 2) + oring((xc, -124, 56), Z, 9, 2)],
+        P("seguros_piston", [f for xc in xs for f in seguro_pin((xc, -124, 148), Z, 9) + seguro_pin((xc, -124, 56), Z, 9)],
           (xs[0], -124, 148), (70, 40), orden=2),
     ]
     lineas = [linea((xc, -150, 0), (xc, 420, 0)) for xc in xs]
@@ -550,11 +596,15 @@ def _valvulas(perfil=None):
     def pila(x, z):
         return {
             "valvula": cilindro((x, 40, z), Y, 3, 130) + cilindro((x, -28, z), Y, 20 if not cuatro else 16, 8, r2=4),
-            "sello": cilindro((x, 112, z), Y, 6, 11, cara=CAUCHO_CARA, lado=CAUCHO),
+            "sello": cilindro((x, 110, z), Y, 6, 8, ri=3, cara=CAUCHO_CARA, lado=CAUCHO)
+                     + cilindro((x, 116, z), Y, 5, 4, r2=3.6, ri=3, cara=CAUCHO_CARA, lado=CAUCHO) + resorte((x, 116, z), Y, 5.4, 3, 2, 1.2),
             "base": arandela((x, 128, z), Y, 15, 2.5),
             "resorte": resorte((x, 168, z), Y, 13 if cuatro else 15, 62, 7),
             "platillo": cilindro((x, 210, z), Y, 9, 6, r2=14, ri=4),
-            "cunas": caja((x - 4, 226, z), (5, 12, 7)) + caja((x + 4, 226, z), (5, 12, 7)),
+            "cunas": prisma((x - 3, 226, z), Y, [(-math.cos(a) * 5, math.sin(a) * 5) for a in [i * math.pi / 8 for i in range(-4, 5)]], 12,
+                            lado=LADO_MEDIO, cara="#e6e9ea")
+                     + prisma((x + 3, 226, z), Y, [(math.cos(a) * 5, math.sin(a) * 5) for a in [i * math.pi / 8 for i in range(-4, 5)]], 12,
+                              lado=LADO_MEDIO, cara="#e6e9ea"),
         }
     adm = [pila(0, z) for z in zs]
     esc = [pila(170, z) for z in zs]
@@ -608,7 +658,9 @@ def _radiador():
           + [polilinea([(93.5, y, -60), (93.5, y - 12, 60)], 2.2, "#7f878a") for y in range(-70, 75, 16)], (90, 40, -40), (70, -50)),
         P("carcasa_ventilador", cilindro((-70, 0, 0), X, 66, 24, ri=58, lado=LADO_MEDIO), (-70, 50, 30), (-80, -30)),
         P("ventilador", prisma((-115, 0, 0), X, aspas, 10, hueco=iso._circ2d(8, 16)), (-115, 0, 0), (-80, 40)),
-        P("termostato", caja((160, 60, -210), (30, 26, 26)) + cilindro((160, 73, -210), Y, 8, 4), (160, 60, -210), (60, -30)),
+        P("termostato", cilindro((160, 66, -210), Y, 17, 3, ri=7, lado="#b08d3c", cara="#d8b36a")
+          + cilindro((160, 54, -210), Y, 7, 16, lado="#b08d3c", cara="#d8b36a") + resorte((160, 52, -210), Y, 10, 18, 4, 1.8)
+          + cilindro((160, 76, -210), Y, 4, 10, lado=LADO_MEDIO), (160, 60, -210), (60, -30)),
         P("manguera", manguera(superior, 12), superior[8], (60, -40)),
         P("manguera_inferior", manguera(inferior, 12) + manguera(hacia_bomba, 12), inferior[8], (60, 40)),
         P("tubo_t", cilindro((110, -190, -60), X, 9, 30) + cilindro((110, -200, -60), Y, 7, 20), (110, -190, -60), (60, 50)),
@@ -619,6 +671,10 @@ def _radiador():
           (deposito[0], deposito[1] + 56, deposito[2]), (70, -20)),
         P("manguera_deposito", manguera(al_deposito, 6), al_deposito[8], (60, -20)),
         P("drenaje", perno((0, -110, 30), Y, 18, 7), (0, -110, 30), (-70, 30)),
+        # Bomba de agua al final de la manguera de abajo: caracol con su tapa, el impulsor adentro y el eje que la mueve
+        P("bomba_agua", cilindro((232, -200, -170), X, 26, 18, lado=LADO_MEDIO, cara="#eef0f0")
+          + cilindro((244, -200, -170), X, 18, 4, lado=LADO_MEDIO, cara="#dfe3e4") + cilindro((214, -200, -170), X, 3.5, 34, lado=LADO_MEDIO)
+          + cilindro((232, -176, -170), Y, 7, 22), (232, -200, -170), (60, 50)),
         P("abrazaderas", arandela(superior[2], Z, 14, 3) + arandela(inferior[2], Z, 14, 3) + arandela(hacia_bomba[-3], Z, 14, 3),
           inferior[2], (-60, 50)),
         P("empaques", oring((-30, 100, 30), Y, 12) + oring((-30, -110, 30), Y, 9), (-30, 100, 30), (-70, 30)),
@@ -652,7 +708,16 @@ def _rueda(disco_derecha=False, x_tuerca=225):
     piezas = [
         P("llanta", llanta, (0, 130, 0), (-70, -70), orden=0),
         P("rin", rin, (0, -60, 60), (-80, 75), orden=1),
-        P("valvula", cilindro((10, 100, 30), Y, 3, 22, lado=OSCURO), (10, 110, 30), (60, -60)),
+        P("valvula", cilindro((10, 92, 30), Y, 6, 12, r2=4, cara=CAUCHO_CARA, lado=CAUCHO) + cilindro((10, 104, 30), Y, 3, 12, lado=LADO_MEDIO)
+          + cilindro((10, 113, 30), Y, 3.6, 6, lado=OSCURO, cara="#59636a"), (10, 110, 30), (60, -60)),
+        # Neumático (cámara) de las ruedas con cámara: un aro delgado de caucho que va dentro de la llanta, con su válvula
+        P("neumatico", cilindro((95, 0, 0), X, 118, 26, ri=98, cara="#4a4f52", lado="#33383b", hueco_color="none")
+          + cilindro((95, -104, 0), Y, 3, 14, lado=LADO_MEDIO), (95, 110, 0), (70, -60), orden=0),
+        # Radios (rayos) de las ruedas de rayos: van cruzados de la manzana al rin, con su niple en el rin
+        P("radios", [polilinea([(23, 26 * math.cos(a), 26 * math.sin(a)), (23, 104 * math.cos(a + 0.55), 104 * math.sin(a + 0.55))], 1.4, "#7f878a")
+                     for a in [i * 2 * math.pi / 18 for i in range(18)]]
+          + [polilinea([(23, 26 * math.cos(a), 26 * math.sin(a)), (23, 104 * math.cos(a - 0.55), 104 * math.sin(a - 0.55))], 1.4, "#9aa2a5")
+             for a in [i * 2 * math.pi / 18 + 0.17 for i in range(18)]], (23, 60, 40), (70, 40), orden=2),
         P("eje", cilindro((-300, 0, 0), X, 7, 200) + prisma((-405, 0, 0), X, hexagono(11), 10, lado=LADO_MEDIO), (-380, 0, 0), (-60, -60)),
         P("buje", cilindro((-200, 0, 0), X, 13, 44, ri=8), (-200, 0, 0), (-50, 60)),
         P("retenedores", retenedor((-165, 0, 0), X, 25) + retenedor((165, 0, 0), X, 25), (-165, 0, 0), (-60, -65)),
@@ -708,8 +773,12 @@ def _suspension_delantera():
           + cilindro((90, 250, -180), Y, 24, 23, ri=14, lado=LADO_MEDIO, cara="#f4f5f5")
           + cilindro((-30, 250, -180), Y, 14, 23.5, ri=8), (-90, 250, -180), (-70, 40)),
         P("eje_direccion", cilindro((-30, 340, -180), Y, 11, 160), (-30, 340, -180), (-70, -20)),
-        P("rodamientos_direccion", rodamiento((-30, 440, -180), Y, 22, 9), (-30, 440, -180), (-70, -30)),
-        P("tazas", cilindro((-30, 462, -180), Y, 25, 5, ri=13), (-30, 462, -180), (60, -40)),
+        # Dirección: dos juegos sobre la espiga. Abajo, sobre la tijera inferior: balinera y su taza (prensada en la columna);
+        # arriba, bajo la tijera superior: taza y balinera. La columna del chasis va entre los dos (no se dibuja)
+        P("rodamientos_direccion", rodamiento((-30, 278, -180), Y, 22, 9) + rodamiento((-30, 486, -180), Y, 20, 8),
+          (-30, 486, -180), (-70, -30)),
+        P("tazas", cilindro((-30, 296, -180), Y, 25, 5, ri=13) + cilindro((-30, 468, -180), Y, 23, 5, ri=12),
+          (-30, 468, -180), (60, -40)),
         # Puente superior (tijera de arriba): aprieta la parte alta de las barras y la tuerca de la dirección
         P("tijera_superior", prisma((-30, 520, -180), Y, tijera, 16, lado=LADO_MEDIO, cara="#f4f5f5")
           + cilindro((-150, 520, -180), Y, 22, 17, ri=14, lado=LADO_MEDIO, cara="#f4f5f5")
@@ -822,8 +891,8 @@ def _amortiguadores(perfil=None):
         P("protector_cadena", prisma((-120, y + 44, 0), X, [(-150, 0), (130, 0), (120, 18), (-140, 18)], 4, lado="#3c4448", cara="#59636a"),
           (-122, y + 54, 0), (-70, -30), orden=2),
         # Cadena: corre por fuera del brazo izquierdo, del piñón de salida (adelante) a la corona (atrás)
-        P("cadena", manguera([(-140, y + 30, zp + 40), (-140, y + 20, zt - 10), (-140, y - 40, zt - 30), (-140, y - 50, zp + 10), (-140, y + 30, zp + 40)],
-                              6, "#7a8488"), (-140, y + 20, zt + 60), (-70, 40), orden=3),
+        P("cadena", cadena_eslabones([(-140, y + 30, zp + 40), (-140, y + 20, zt - 10), (-140, y - 40, zt - 30), (-140, y - 50, zp + 10), (-140, y + 30, zp + 40)],
+                              6), (-140, y + 20, zt + 60), (-70, 40), orden=3),
         # Barra de torque del freno de tambor: une el plato del freno con el brazo para que no gire al frenar
         P("barra_torque", caja((112, y - 30, -60), (8, 10, 240), colores=(LADO_MEDIO, "#eef1f2", LADO_CLARO))
           + cilindro((112, y - 30, 58), X, 7, 10, ri=3) + cilindro((112, y - 30, -178), X, 7, 10, ri=3), (112, y - 30, -60), (60, 50), orden=3),
@@ -864,12 +933,20 @@ def _electrico():
           (-160, 0, 40), (-70, -30)),
         P("arnes", manguera(arnes, 7, "#7a8488"), arnes[10], (-60, 60)),
         P("switch", cilindro((200, 40, -40), Y, 26, 30) + caja((200, 58, -40), (8, 6, 16), colores=(CAUCHO,) * 3), (200, 40, -40), (60, -50)),
-        P("llave", prisma((280, -20, 60), Z, redondeado(40, 62, 16), 12, lado=OSCURO, cara=LADO_MEDIO), (280, -20, 60), (60, 30)),
-        P("sensor_pata", caja((-200, -110, 140), (34, 20, 22), colores=(OSCURO, LADO_MEDIO, OSCURO)), (-200, -110, 140), (-60, 40)),
+        P("llave", prisma((280, 0, 60), Z, redondeado(34, 40, 14), 8, lado=OSCURO, cara="#4a5357")
+          + prisma((280, -38, 60), Z, [(-5, 18), (5, 18), (5, -14), (2, -18), (-5, -18), (-5, -6), (-2, -4), (-5, 0)], 3,
+                   lado=LADO_MEDIO, cara="#dfe3e4"), (280, -20, 60), (60, 30)),
+        P("sensor_pata", caja((-200, -110, 140), (26, 14, 18), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + cilindro((-200, -110, 155), Z, 3.5, 12, lado=LADO_MEDIO) + manguera([(-213, -110, 140), (-240, -120, 150), (-260, -110, 170)], 3, "#5d666a"),
+          (-200, -110, 140), (-60, 40)),
         P("modulo", caja((80, -140, 200), (70, 20, 50), colores=(OSCURO, LADO_MEDIO, OSCURO))
           # Aletas de disipación del regulador / módulo
           + [f for i in range(-3, 4) for f in caja((80 + i * 9, -126, 200), (3, 8, 48), colores=(OSCURO, LADO_CLARO, LADO_MEDIO), grosor=1)],
           (80, -140, 200), (60, 40)),
+        # Capuchón de la bujía con su cable (algunas marcas lo listan con la parte eléctrica)
+        P("capuchon", cilindro((140, 120, 120), Y, 10, 30, r2=8, cara=CAUCHO_CARA, lado=CAUCHO)
+          + cilindro((140, 138, 129), Z, 7.5, 22, r2=6, cara=CAUCHO_CARA, lado=CAUCHO)
+          + manguera([(140, 138, 140), (150, 150, 175), (175, 150, 205)], 4, "#5d666a"), (140, 130, 120), (60, -50)),
         P(None, perno((0, 140, 30), MENOS_Y, 20, 6), (0, 140, 30), (60, -40), herraje="h_tornillo"),
     ]
     return piezas, []
@@ -926,13 +1003,16 @@ def _encendido():
         P("magneto", cilindro((-60, -80, -140), Z, 96, 40, ri=20, cara="#f3f4f4", lado=LADO_MEDIO)
           + puntos_en_cara((-60, -80, -140), Z, 40, 66, 8, 9, color="#c9a227"), (-60, 10, -140), (-70, -60), orden=0),
         P("estator", cilindro((-60, -80, -80), Z, 64, 22, ri=22, cara="#e9d3a8", lado="#c9a227"), (-60, -40, -80), (-75, 40), orden=1),
-        P("bujia", cilindro((-60, 80, 120), Y, 9, 50, cara=BLANCO) + prisma((-60, 120, 120), Y, hexagono(11), 16, lado=LADO_MEDIO)
-          + cilindro((-60, 150, 120), Y, 7, 40, cara="#f4f1e8", lado="#e9e4d8"), (-60, 150, 120), (-60, -60), orden=2),
-        P("capuchon", cilindro((-60, 215, 120), Y, 13, 46, cara=CAUCHO_CARA, lado=CAUCHO), (-60, 225, 120), (-60, -50), orden=3),
+        P("bujia", bujia_real((-60, 60, 120), Y, 1.6), (-60, 150, 120), (-60, -60), orden=2),
+        P("capuchon", cilindro((-60, 206, 120), Y, 12, 34, r2=10, cara=CAUCHO_CARA, lado=CAUCHO)
+          + cilindro((-60, 226, 131), Z, 9, 26, r2=7, cara=CAUCHO_CARA, lado=CAUCHO), (-60, 225, 120), (-60, -50), orden=3),
         # Antivibrante (caucho) del capuchón: el sello que entra sobre la bujía, separado en el despiece
         P("antivibrante", cilindro((-60, 182, 120), Y, 15, 12, ri=8, cara="#7b8385", lado=CAUCHO), (-60, 182, 135), (60, -10), orden=3),
         P("cables", manguera([(-60, 230, 120)] + cable, 6, "#5d666a"), cable[6], (-30, 60), orden=2),
-        P("bobina", caja((150, 30, -20), (70, 50, 40), colores=(OSCURO, LADO_MEDIO, OSCURO)), (150, 50, -20), (60, -60), orden=2),
+        P("bobina", caja((150, 30, -20), (60, 40, 34), colores=(OSCURO, LADO_MEDIO, OSCURO))
+          + cilindro((150, 58, -20), Y, 9, 16, cara=CAUCHO_CARA, lado=CAUCHO)
+          + caja((112, 30, -20), (16, 4, 20), colores=(LADO_MEDIO, "#dfe3e4", LADO_MEDIO))
+          + caja((188, 30, -20), (16, 4, 20), colores=(LADO_MEDIO, "#dfe3e4", LADO_MEDIO)), (150, 50, -20), (60, -60), orden=2),
         P("cdi", caja((180, -90, 120), (80, 18, 55), colores=(OSCURO, LADO_MEDIO, OSCURO)), (180, -90, 120), (60, 40), orden=2),
         P("regulador", caja((250, 60, 160), (60, 22, 60), colores=("#5d666a", "#7a8488", "#4c5458"))
           + [f for i in range(5) for f in caja((250, 75, 160 - 24 + i * 12), (60, 6, 3), colores=("#4c5458",) * 3, grosor=1)],
@@ -982,7 +1062,7 @@ def _transmision():
         P("reten", retenedor((285, ys, 0), X, 17), (285, ys, 0), (60, -55), orden=2),
         P("pinon", prisma((330, ys, 0), X, engranaje(38, 14, 7), 9, hueco=iso._circ2d(10), cara="#f6f6f4", lado=LADO_MEDIO),
           (330, ys + 38, 0), (70, -40), orden=3),
-        P("cadena", manguera(cadena, 8, "#7a8488"), cadena[-1], (60, 40), orden=2),
+        P("cadena", cadena_eslabones(cadena, 8), cadena[-1], (60, 40), orden=2),
     ]
     lineas = [linea((-260, yp, 0), (300, yp, 0)), linea((-260, ys, 0), (380, ys, 0)), linea((-140, 0, zt), (180, 0, zt))]
     return piezas, lineas
@@ -1032,6 +1112,20 @@ def _tapa_clutch(c):
     return f
 
 
+def _tapon_varilla(c):
+    """Tapón de llenado con varilla de nivel (eje Y hacia afuera): agarradera plana, rosca y varilla larga con sus dos marcas."""
+    x, y, z = c
+    agarre =[(-15, -4), (-13, -6), (13, -6), (15, -4), (15, 4), (13, 6), (-13, 6), (-15, 4)]
+    formas = cilindro((x, y - 34, z), Y, 2.2, 60, lado=LADO_MEDIO)                     # varilla
+    formas += cilindro((x, y - 52, z), Y, 2.8, 1.5, lado=OSCURO) + cilindro((x, y - 60, z), Y, 2.8, 1.5, lado=OSCURO)  # marcas
+    formas += cilindro((x, y - 2, z), Y, 8, 10, lado=LADO_MEDIO)                       # rosca
+    for k in range(4):
+        formas += cilindro((x, y - 6 + k * 3, z), Y, 8.6, 0.8, lado=OSCURO)
+    formas += cilindro((x, y + 4, z), Y, 11, 2.5, lado=OSCURO)                         # asiento del o-ring
+    formas += prisma((x, y + 13, z), Y, agarre, 16, lado=OSCURO, cara=LADO_MEDIO)      # agarradera
+    return formas
+
+
 def _carcasa():
     piezas = [
         P("carcasa_izq", _media_carcasa(-170), (-170, 128, 30), (-70, -70), orden=0),
@@ -1041,20 +1135,28 @@ def _carcasa():
         P("carcasa_der", _media_carcasa(0), (0, 128, -30), (40, -95), orden=2),
         P("rodamientos", rodamiento((-118, 8, 0), X, 30, 14) + rodamiento((-122, -40, -92), X, 18, 10) + rodamiento((-122, -84, -62), X, 14, 9), (-118, 8, 0), (-70, 50), orden=1),
         P("reten", retenedor((-230, 8, 0), X, 24), (-230, 8, 0), (-60, 40), orden=1),
-        P("swiche", cilindro((-220, -80, 60), X, 9, 20, lado=OSCURO, cara=LADO_MEDIO) + cilindro((-235, -80, 60), X, 3, 14),
+        P("swiche", cilindro((-206, -80, 60), X, 6, 10, lado=LADO_MEDIO) + iso.roscas((-206, -80, 60), X, 6, 9, 2.5)
+          + prisma((-216, -80, 60), X, hexagono(9), 7, lado=LADO_MEDIO, cara="#e6e9ea")
+          + cilindro((-224, -80, 60), X, 6, 8, cara=CAUCHO_CARA, lado=CAUCHO) + cilindro((-232, -80, 60), X, 2, 8, lado="#b08d3c"),
           (-225, -80, 60), (-60, 55), orden=1),
         P("tapa_clutch", _tapa_clutch((110, 10, 20)), (110, 96, 0), (50, -80), orden=3),
         P("visor", cilindro((126, -52, 70), X, 12, 4, cara="#cfe6f1", lado="#9fbfcc"), (126, -52, 70), (70, 30), orden=4),
-        P("tapon_llenado", cilindro((110, 110, -20), Y, 9, 22) + cilindro((110, 126, -20), Y, 13, 8, lado=OSCURO),
-          (110, 130, -20), (60, -50), orden=4),
+        P("tapon_llenado", _tapon_varilla((110, 150, -20)), (110, 176, -20), (60, -50), orden=4),
         P("filtro", cilindro((215, 30, -20), X, 26, 40, ri=10, cara="#f9f4e4", lado="#e6dcc0")
           + [polilinea([(196, 30 + math.sin(t) * 26, -20 + math.cos(t) * 26), (234, 30 + math.sin(t) * 26, -20 + math.cos(t) * 26)], 1)
              for t in [i * 0.5 for i in range(13)]], (215, 56, -20), (60, -55), orden=5),
         P("tapa_filtro", cilindro((270, 30, -20), X, 32, 10) + perno((285, 55, -40), X, 16, 5), (270, 30, -20), (60, 40), orden=6),
-        P("bomba", prisma((60, -60, 70), X, engranaje(28, 18), 10, hueco=iso._circ2d(7)), (60, -60, 70), (50, 70), orden=3),
-        P("malla", cilindro((0, -170, 20), Y, 14, 40, ri=8, cara="#f4f1e8") + puntos_en_cara((0, -170, 20), Y, 40, 11, 8, 2),
+        P("bomba", cilindro((66, -60, 70), X, 24, 14, lado=LADO_MEDIO, cara="#eef0f0")
+          + prisma((74, -60, 70), X, _rotor_interior(14, 4), 2, lado=LADO_MEDIO, cara="#cfd4d6")
+          + cilindro((48, -60, 70), X, 3.5, 36, lado=LADO_MEDIO)
+          + prisma((40, -60, 70), X, engranaje(16, 16), 5, hueco=iso._circ2d(4), cara="#f6f6f4", lado=LADO_MEDIO), (60, -60, 70), (50, 70), orden=3),
+        P("malla", cilindro((0, -170, 20), Y, 14, 40, ri=10, cara="#e6e9ea", lado="#d4d9da")
+          + [polilinea([(14.3 * math.cos(a), -190, 20 + 14.3 * math.sin(a)), (14.3 * math.cos(a), -150, 20 + 14.3 * math.sin(a))], 0.8, "#8f9799")
+             for a in [i * math.pi / 9 for i in range(-1, 11)]]
+          + [polilinea([(14.3 * math.cos(a), yy, 20 + 14.3 * math.sin(a)) for a in [i * math.pi / 12 for i in range(-2, 15)]], 0.8, "#8f9799")
+             for yy in (-182, -174, -166, -158)],
           (0, -170, 20), (-70, 10), orden=1),
-        P("tapon", cilindro((0, -220, 20), Y, 20, 10) + prisma((0, -233, 20), Y, hexagono(14), 12, lado=LADO_MEDIO),
+        P("tapon", tapon_perno((0, -228, 20), Y, 18, 12),
           (0, -225, 20), (-70, 20), orden=1),
     ]
     lineas = [("carcasa_der", linea((-260, 8, 0), (300, 8, 0))), ("malla", linea((0, -124, 20), (0, -255, 20))),
@@ -1075,7 +1177,7 @@ def _arrastre_trasero():
         P("porta_sprocket", cilindro((-250, 0, 0), X, 70, 26, ri=18, cara=LADO_CLARO, lado=LADO_MEDIO), (-250, 55, -40), (-40, -80), orden=1),
         P("corona", prisma((-290, 0, 0), X, engranaje(104, 42, 9), 6, hueco=iso._circ2d(24), cara="#f6f6f4", lado=LADO_MEDIO)
           + puntos_en_cara((-290, 0, 0), X, 6, 48, 4, 6), (-290, 90, -40), (-60, -60), orden=0),
-        P("cadena", manguera([(-290, y, z) for _, y, z in cadena], 8, "#7a8488"), (-290, cadena[-1][1], 330), (-50, 40), orden=0),
+        P("cadena", cadena_eslabones([(-290, y, z) for _, y, z in cadena], 8), (-290, cadena[-1][1], 330), (-50, 40), orden=0),
     ]
 
 
@@ -1147,8 +1249,8 @@ def _freno_completo():
     piezas = bomba + caliper + [
         P("manguera", manguera(tubo, 8), tubo[10], (-80, 30), orden=2),
         # Guías (grapas) de la manguera a lo largo del recorrido
-        P("guia_manguera", caja(tubo[8], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO))
-          + caja(tubo[20], (16, 10, 16), colores=(OSCURO, LADO_MEDIO, OSCURO)), tubo[20], (60, -30), orden=3),
+        P("guia_manguera", grapa_manguera(tubo[8])
+          + grapa_manguera(tubo[20]), tubo[20], (60, -30), orden=3),
         # Soporte del depósito (en los frenos traseros el tanque va aparte, atornillado al chasis)
         P("soporte_deposito", prisma((-70, 40, -60), Z, [(-14, 40), (14, 40), (18, -30), (6, -60), (-10, -60), (-18, -30)], 6,
                                      hueco=iso._circ2d(5, 12), lado=LADO_MEDIO), (-70, 20, -60), (-70, -20), orden=1),
@@ -1156,6 +1258,9 @@ def _freno_completo():
         P("pedal", prisma((-240, -470, 140), Z, pedal, 12, hueco=iso._circ2d(9, 20), lado=LADO_MEDIO, cara="#f1f3f4")
           + cilindro((-240 + 172, -470 - 13, 140 + 14), Z, 11, 26, cara=CAUCHO_CARA, lado=CAUCHO)
           + resorte((-240 + 40, -470 + 30, 150), Y, 6, 46, 7) + cilindro((-240, -470, 120), Z, 8, 46), (-180, -480, 146), (-60, 50), orden=1),
+        # Frenado combinado (CBS): el pedal trasero jala este cable, que también acciona la bomba delantera desde abajo
+        P("cable_cbs", manguera(curva((-200, -440, 140), (-150, -200, 80), (-20, -30, -18)), 4, "#4a5357")
+          + cilindro((-20, -24, -18), Y, 4, 14, lado=LADO_MEDIO), (-150, -200, 80), (-70, 40), orden=2),
     ]
     lineas = [("bomba", linea((-120, 0, 0), (260, 0, 0))), ("deposito", linea((0, 20, 0), (0, 170, 0))),
               ("piston", linea((CALIPER[0] - 27, CALIPER[1] + 2, CALIPER[2] + 26), (CALIPER[0] - 27, CALIPER[1] + 2, CALIPER[2] + 150))),
@@ -1173,7 +1278,7 @@ def _circlip(c, r):
 
 HERRAJES = [  # (puesto, nombre en la franja, palabras clave en español e inglés, sin tildes)
     ("h_arandela", "Arandelas y platinas", ["ARANDELA", "ARAND", "WASHER", "PLATINA", "PLACA", "PLATE"]),
-    ("h_tornillo", "Tornillos", ["TORNILLO", "TORN", "PERNO", "ESPARRAGO", "REMACHE", "BOLT", "SCREW", "STUD", "RIVET"]),
+    ("h_tornillo", "Tornillos", ["TORNILLO", "TORN", "PERNO", "ESPARRAGO", "REMACHE", "CERROJO", "BOLT", "SCREW", "STUD", "RIVET"]),
     ("h_tuerca", "Tuercas", ["CONTRATUERCA", "TUERCA", "NUT"]),
     ("h_seguro", "Seguros", ["ANILLO", "PIN SEGURO", "PIN DE SEGURIDAD", "PIN SEGURIDAD", "SEGURO", "CIRCLIP", "SNAP"]),
     ("h_pin", "Pines", ["PIN", "PASADOR", "CHAVETA", "GUIA DE CENTRADO", "ESPIGA", "DOWEL", "COTTER", "KEY"]),
@@ -1268,6 +1373,9 @@ DESTINO_POR_TIPO = {
 def herraje_para(descripcion):
     """Puesto de la franja de tornillería para una pieza que el dibujo no tiene ("h_otros" si no se reconoce)."""
     texto = _sin_tildes(descripcion.upper())
+    tipo = tipo_por_primera_palabra(descripcion)
+    if tipo:
+        return _HERRAJE_DE_TIPO[tipo]
     for puesto, patron in _HERRAJES_RE:
         if patron.search(texto):
             return puesto
@@ -1403,9 +1511,9 @@ def _caja_secundaria():
           (80, yi, zi), (70, 30), orden=6),
         # Retenes: donde un eje sale de la caja (al clutch y a la rueda), para que no se escape el aceite
         P("retenes", retenedor((-110, ys, zs), X, 17) + retenedor((112, yp, zp), X, 13), (-110, ys, zs), (-60, 60), orden=6),
-        P("tapon_llenado", prisma((-80, 56, 20), X, hexagono(11), 8, lado=LADO_MEDIO) + cilindro((-88, 56, 20), X, 9, 10),
+        P("tapon_llenado", tapon_perno((-76, 56, 20), (-1, 0, 0), 14, 10),
           (-80, 56, 20), (-50, -60), orden=7),
-        P("tapon_drenaje", prisma((-80, -50, 60), X, hexagono(9), 8, lado=LADO_MEDIO) + arandela((-86, -50, 60), X, 8, 2),
+        P("tapon_drenaje", tapon_perno((-76, -50, 60), (-1, 0, 0), 12, 8),
           (-80, -50, 60), (-60, 50), orden=7),
     ]
     lineas = [linea((-200, ys, zs), (130, ys, zs)), linea((-100, yi, zi), (120, yi, zi)), linea((-100, yp, zp), (170, yp, zp))]
@@ -1529,7 +1637,7 @@ def _cilindro_piston(perfil=None):
         P("anillos", [f for xc in xs for f in _anillos((xc, 160, 0), r * .93)], (xs[0] + r, 169, 0), (70, -30), orden=3),
         P("piston", [f for xc in xs for f in _piston((xc, 120, 0), r * .9)], (xs[0], 130, 0), (-90, 20), orden=4),
         P("pasador", [f for xc in xs for f in cilindro((xc, 112, 100), Z, 9, 64, ri=5)], (xs[0], 112, 120), (70, 20), orden=5),
-        P("seguros_piston", [f for xc in xs for f in oring((xc, 112, 148), Z, 9, 2) + oring((xc, 112, 56), Z, 9, 2)], (xs[0], 112, 148), (70, 40), orden=6),
+        P("seguros_piston", [f for xc in xs for f in seguro_pin((xc, 112, 148), Z, 9) + seguro_pin((xc, 112, 56), Z, 9)], (xs[0], 112, 148), (70, 40), orden=6),
         P("biela", [f for xc in xs for f in _biela((xc, -10, 0))], (xs[0], -10, 0), (-90, 30), orden=3),
         P("ciguenal", [f for xc in xs for f in cilindro((xc - 30, -80, 0), X, 62, 16, lado=LADO_MEDIO, cara="#ecece8")
                        + cilindro((xc + 30, -80, 0), X, 62, 16, lado=LADO_MEDIO, cara="#ecece8") + cilindro((xc, -80, 0), X, 12, 46)]
@@ -1648,9 +1756,13 @@ def _inyeccion():
         P("cuerpo", caja((0, 0, 0), (80, 84, 84)) + cilindro((0, 0, 0), X, 30, 110, ri=24) + cilindro((56, 0, 0), X, 22, 2, cara="#d8dcdd", grosor=1),
           (20, 42, 0), (-60, -80), orden=1),
         P("polea", cilindro((0, 0, 64), Z, 24, 8) + caja((0, 26, 72), (6, 16, 6)), (0, 0, 68), (60, 40), orden=2),
-        P("sensor_tps", caja((0, 0, -60), (34, 34, 14), colores=(OSCURO, LADO_MEDIO, OSCURO)), (0, 0, -66), (-60, 40), orden=2),
-        P("motor_ralenti", caja((10, 64, -24), (28, 24, 28), colores=(OSCURO, LADO_MEDIO, OSCURO)), (10, 64, -24), (60, -50), orden=2),
-        P("inyector", cilindro((-70, 110, 0), Y, 8, 54, lado=OSCURO, cara=LADO_MEDIO) + cilindro((-70, 76, 0), Y, 3, 14), (-70, 110, 0), (-60, -50), orden=3),
+        P("sensor_tps", prisma((0, 0, -60), Z, redondeado(34, 30, 10), 10, lado=OSCURO, cara="#4a5357")
+          + caja((22, -6, -60), (12, 10, 9), colores=(CAUCHO,) * 3), (0, 0, -66), (-60, 40), orden=2),
+        P("motor_ralenti", cilindro((10, 64, -24), Y, 13, 22, lado=OSCURO, cara=LADO_MEDIO) + caja((10, 80, -24), (12, 9, 14), colores=(CAUCHO,) * 3)
+          + cilindro((10, 49, -24), Y, 4.5, 12, lado=LADO_MEDIO), (10, 64, -24), (60, -50), orden=2),
+        P("inyector", cilindro((-70, 110, 0), Y, 7, 46, lado=OSCURO, cara=LADO_MEDIO) + caja((-60, 126, 0), (12, 11, 10), colores=(CAUCHO,) * 3)
+          + oring((-70, 135, 0), Y, 8, 3) + oring((-70, 88, 0), Y, 8, 3) + cilindro((-70, 78, 0), Y, 3.5, 14, lado=LADO_MEDIO),
+          (-70, 110, 0), (-60, -50), orden=3),
         P("empaque", oring((-70, 70, 0), Y, 6, 2) + oring((-110, 0, 0), X, 22, 2), (-70, 70, 0), (-70, 20), orden=2),
         P("riel", cilindro((-70, 160, 0), Y, 11, 26), (-70, 160, 0), (-60, -30), orden=4),
         P("sensor", caja((-40, 20, 60), (18, 22, 18), colores=(OSCURO, LADO_MEDIO, OSCURO)) + cilindro((-40, 0, 60), Y, 5, 12), (-40, 20, 60), (-60, 40), orden=2),
@@ -1785,10 +1897,20 @@ def _base(clave):
     return clave.split("__", 1)[0]
 
 
-def _construir(clave):
+@lru_cache(maxsize=256)
+def _construir_guardado(clave):
     base, _, perfil = clave.partition("__")
     funcion = DIAGRAMAS[base][1]
-    return funcion(perfil) if base in PERFILABLES and perfil else funcion()
+    piezas, lineas = funcion(perfil) if base in PERFILABLES and perfil else funcion()
+    return tuple(piezas), tuple(lineas)
+
+
+def _construir(clave):
+    """Geometría del dibujo. Armarla es lo más lento del despiece y se pide una vez por cada pieza sola de la guía:
+    se arma una vez por clave y se entregan copias de las piezas, porque componer() y dibujar_lamina() les ponen
+    atributos (ancla_svg, contexto...). Las formas no se modifican y se comparten."""
+    piezas, lineas = _construir_guardado(clave)
+    return [copy.copy(q) for q in piezas], list(lineas)
 
 
 def nombre_dibujo(clave):
@@ -1870,7 +1992,8 @@ REGLAS = {
                     ("GEAR", "engranajes"), ("FORK, SHIFT", "horquillas"), ("SHIFT FORK", "horquillas"), ("CAM, SHIFT", "tambor_selector"),
                     ("SHIFT CAM", "tambor_selector"), ("CHAIN", "cadena"), ("OIL SEAL", "reten"), ("BEARING", "rodamientos")],
     "carcasa": [("CRANKCASE 1", "carcasa_izq"), ("CRANKCASE 2", "carcasa_der"), ("COVER, CRANKCASE", "tapa_clutch"),
-                ("CRANKCASE", "carcasa_der"), ("COVER", "tapa_clutch"), ("LEVEL", "visor"), ("GAUGE", "tapon_llenado"),
+                ("CRANKCASE", "carcasa_der"), ("COVER", "tapa_clutch"), ("PLUG, OIL LEVEL", "tapon_llenado"), ("GAUGE", "tapon_llenado"), ("LENS", "visor"),
+                ("WINDOW", "visor"), ("SIGHT", "visor"), ("LEVEL", "visor"),
                 ("FILLER", "tapon_llenado"), ("ELEMENT", "filtro"), ("OIL CLEANER", "filtro"), ("STRAINER", "malla"),
                 ("SCREEN", "malla"), ("PLUG", "tapon"), ("SWITCH", "swiche"), ("NEUTRAL", "swiche"), ("GASKET", "empaques"),
                 ("OIL SEAL", "reten"), ("BEARING", "rodamientos"), ("PUMP", "bomba")],
@@ -1882,6 +2005,13 @@ REGLAS["rueda_trasera"] = [("SPROCKET", "corona"), ("CLUTCH HUB", "porta_sprocke
 
 # Lo mismo para los catálogos en español (Auteco: Bajaj, KTM, TVS). Sin tildes; se comparan sin tildes.
 REGLAS_ES = {
+    "cvt": [("RESORTE CONTRAPESO", "resortes_zapatas"), ("AMORT CONTRAPESO", "zapatas"), ("ZAPATA", "zapatas"),
+            ("CONTRAPESO", "rodillos"), ("RODILLO", "rodillos"), ("CORREDERA", "deslizadores"), ("DESLIZADOR", "deslizadores"),
+            ("ROLDANA PRIMARIA MOVIL", "polea_movil"), ("POLEA MOVIL", "polea_movil"), ("PISCO FIXADOR", "polea_fija"),
+            ("POLEA FIJA", "polea_fija"), ("ROLDANA SECUNDARIA", "polea_trasera"), ("ASIENTO DE RESORTE SECUNDARIO", "resorte_torque"),
+            ("RESORTE SECUNDARIO", "resorte_torque"), ("CAJA DE EMBRAGUE", "campana"), ("CAMPANA", "campana"),
+            ("PORTADOR DE EMBRAGUE", "clutch"), ("CORREA", "correa"), ("LEVA", "rampa"), ("RAMPA", "rampa"),
+            ("COLLAR", "buje"), ("CASQUILLO", "buje"), ("BUJE", "buje")],
     "freno_disco": [("RESORTE PASTA", "resorte_pastillas"), ("PIN PASTA", "pasador"), ("PASADOR", "pasador"), ("PASTA", "pastillas"),
                     ("PASTILLA", "pastillas"), ("DISCO", "disco"), ("RETENES", "empaques"), ("EMPAQUETADURA", "empaques"),
                     ("PISTON", "piston"), ("CALIPER", "caliper"), ("SANGRADO", "purgador"), ("PURGA", "purgador"),
@@ -2054,7 +2184,8 @@ for _clave, _reglas in {
     "valvulas": [("EJE DEL BALANCIN", "eje_balancin"), ("EJE BALANCIN", "eje_balancin"), ("BALANCIN", "balancin"),
                  ("RETEN", "sello"), ("SELLO", "sello"), ("CUNA", "cunas"), ("KIT RETENES", "sello")],
     "admision": [("CONDUCTO", "ducto"), ("MANGUERA", "manguera"), ("CUBIERTA FILTRO", "tapa"), ("EMPAQUE", "empaque")],
-    "rueda": [("VALVULA", "valvula"), ("RODAMIENTO", "rodamientos"), ("BALINERA", "rodamientos"), ("RETEN", "retenedores")],
+    "rueda": [("ROTOR DE SENSOR", "sensor_abs"), ("RUEDA FUNDIDA", "rin"), ("NEUMATICO", "llanta"), ("EJE DE LA RUEDA", "eje"),
+              ("VALVULA", "valvula"), ("RODAMIENTO", "rodamientos"), ("COJINETE", "rodamientos"), ("BALINERA", "rodamientos"), ("RETEN", "retenedores")],
     "rueda_trasera": [("PORTA", "porta_sprocket"), ("VALVULA", "valvula"), ("RODAMIENTO", "rodamientos"),
                       ("BALINERA", "rodamientos"), ("RETEN", "retenedores"), ("BUJE RIN", "buje")],
     "rueda_tambor": [("PORTA", "porta_sprocket"), ("VALVULA", "valvula"), ("RODAMIENTO", "rodamientos"), ("BALINERA", "rodamientos"),
@@ -2065,7 +2196,7 @@ for _clave, _reglas in {
     "carcasa": [("EMPAQUE CARCASA", "empaques"), ("JUNTA CARCASA", "empaques"), ("TAPON CARCASA", "tapon"), ("BUJE CARCASA", None)],
     "electrico": [("CABLE", "arnes")],
     "transmision": [("RETEN EJE", "reten"), ("BALINERA EJE", "rodamientos")],
-    "freno_completo": [("MANGUERA TANQUE", "manguera"), ("KIT RETENES", "empaques"), ("KIT GUARDAPOLVO", "guardapolvo")],
+    "freno_completo": [("CABLE FRENO", "cable_cbs"), ("CABLE CBS", "cable_cbs"), ("MANGUERA TANQUE", "manguera"), ("KIT RETENES", "empaques"), ("KIT GUARDAPOLVO", "guardapolvo")],
 }.items():
     REGLAS_ES[_clave] = _reglas + REGLAS_ES[_clave]
 # La regla "SUSPENSION" sola era demasiado amplia ("Resorte suspensión" no es la barra completa)
@@ -2124,7 +2255,7 @@ REGLAS.update({
 PUESTOS_FIJOS = {
     "freno_disco": {"caliper", "disco", "empaques", "guardapolvo", "lamina", "pasador", "pastillas", "piston", "purgador",
                     "resorte_pastillas", "soporte"},
-    "freno_completo": {"abrazadera", "banjo", "bomba", "caliper", "deposito", "diafragma", "empaques", "guardapolvo",
+    "freno_completo": {"abrazadera", "banjo", "bomba", "cable_cbs", "caliper", "deposito", "diafragma", "empaques", "guardapolvo",
                        "guia_manguera", "interruptor", "kit_reparacion", "lamina", "manguera", "manigueta", "pasador",
                        "pastillas", "pedal", "piston", "purgador", "resorte_pastillas", "soporte", "soporte_deposito", "tapa"},
     "freno_trasero": {"banjo", "bomba", "caliper", "deposito", "diafragma", "empaques", "guardapolvo", "guia_manguera",
@@ -2287,6 +2418,44 @@ REGLAS_ES["clutch"] = [("CORONA INTERNA", "centro"), ("PIÑON CORONA", "canasta"
                        ("ARANDELA", "arandela_empuje"), ("TORNILLO", "tornillos_resorte")]
 
 
+# Catálogo Yamaha Colombia en español (Aerox 155): palabras de su traducción para ubicar cada pieza en el dibujo.
+# Van primero en sus listas porque "ROTOR DE SENSOR" no es el cable del sensor ni "TUBO EXTERIOR" el tubo interior.
+_YAMAHA_CO = {
+    "rueda": [("ROTOR DE SENSOR", "sensor_abs")],
+    "rueda_tambor": [("JUEGO DE ZAPATA", "bandas"), ("ZAPATA", "bandas"), ("RUEDA FUNDIDA", "rin"), ("NEUMATICO", "llanta"),
+                     ("PLACA INDICADOR", "indicador"), ("PALANCA DE ARBOL", "palanca"), ("ARBOL DE LEVAS", "leva"), ("RESORTE DE TENSION", "resortes")],
+    "freno_disco": [("FUNDA", "guardapolvo"), ("JUEGO DE RETENES", "empaques"), ("COJIN DE FREN", "pastillas"),
+                    ("SOPORTE DE PASTILLAS", "resorte_pastillas"), ("CALIBRE", "caliper"), ("TORNILLO DE PURGA", "purgador")],
+    "bombas_abs": [("HIDRAULICA", "unidad_abs")],
+    "bomba_freno": [("CLAMP,SENSOR", "h_electrico"), ("CLAMP, SENSOR", "h_electrico"), ("CLAMP (L", "h_electrico"),
+                    ("HIDRAULICA", "unidad_abs"), ("HYDRAULIC", "unidad_abs"), ("HYDR UNIT", "unidad_abs"),
+                    ("MASTER", "bomba"), ("CYLINDER ASSY", "bomba"), ("PISTON ASSY", "kit_reparacion")],
+    "freno_completo": [("MANIFRE", "manigueta")],
+    "suspension_delantera": [("TUBO EXTERIOR", "botella"), ("TUBO INTERIOR", "barra_cromada"), ("PLATINA INFERIOR", "eje_direccion"),
+                             ("PISTA DE BOLAS", "tazas"), ("RETEN DE COJINETE", "rodamientos_direccion"), ("PERNO DE TAPA", "tapon"),
+                             ("CILINDRO COMPL DE HORQ", "cilindro_amortiguador"), ("HORQUILLA DELANTERA", "barra_completa")],
+    "radiador": [("BOMBA DE AGUA", "bomba_agua"), ("EJE IMPULSOR", "bomba_agua"), ("CUBIERTA DE CAJA", "bomba_agua"),
+                 ("GRIFO DE DRENAJE", "drenaje"), ("CAJA VENTILADOR", "carcasa_ventilador"), ("TAPON, DEL RADIADOR", "tapa"),
+                 ("TUBO", "manguera")],
+    "carcasa": [("EQUILIBRIO", "h_caucho"), ("ELEMENTO", "filtro"), ("TAPON DEL NIVEL", "tapon_llenado")],
+    "aceite": [("COLADOR", "malla")],
+    "admision": [("CAJA DE ACELERADOR", "cuerpo_aceleracion"), ("UNION DEL FILTRO", "ducto"), ("TUBO DE ADMISION", "ducto")],
+    "caja_secundaria": [("EJE SECUNDARIO", "eje_salida"), ("ENGRANAJE TRACC", "pinon_primario"), ("ENGRANAJE RUEDA", "engranaje_salida"),
+                        ("SELLO ACEITE", "retenes")],
+}
+for _clave, _reglas in _YAMAHA_CO.items():
+    REGLAS[_clave] = _reglas + REGLAS.get(_clave, [])
+    REGLAS_ES[_clave] = _reglas + REGLAS_ES.get(_clave, [])
+REGLAS["radiador"] = [("WATER PUMP", "bomba_agua"), ("IMPELLER", "bomba_agua")] + REGLAS["radiador"]
+# Ruedas de rayos y con cámara: en Colombia "neumático" es la cámara (TUBE) y "llanta" la cubierta; los rayos con sus niples
+_RUEDAS = [("VALVE", "valvula"), ("VALVULA", "valvula"), ("TUBE", "neumatico"), ("NEUMAT", "neumatico"), ("CAMARA", "neumatico"),
+           ("SPOKE", "radios"), ("NIPPLE", "radios"), ("RADIO", "radios"), ("RAYO", "radios"), ("NIPLE", "radios")]
+for _clave in ("rueda", "rueda_trasera", "rueda_tambor"):
+    REGLAS[_clave] = _RUEDAS + REGLAS.get(_clave, [])
+    REGLAS_ES[_clave] = _RUEDAS + REGLAS_ES.get(_clave, [])
+
+
+
 def _sin_tildes(texto):
     return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
 
@@ -2363,14 +2532,94 @@ def puesto_para(clave, descripcion):
     propio = puesto_en_dibujo(clave, descripcion)
     if herraje in SIEMPRE_EN_FRANJA and propio not in CON_LUGAR_PROPIO:
         return herraje
-    return propio or herraje
+    return _por_primera_palabra(clave, descripcion, propio) or propio or herraje
+
+
+# La primera palabra del catálogo dice qué es la pieza; lo que sigue, a qué pertenece: "O-RING, OIL PUMP" es un o-ring
+# (de la bomba), no la bomba. Si la regla del dibujo la mandó a una pieza de otro tipo, va al puesto de su tipo en ese
+# dibujo (el o-ring de la lámina del aceite) o, si el dibujo no tiene uno, a la franja de tornillería.
+_TIPO_INICIO = [
+    ("bujia", re.compile(r"^(PLUG,?\s*SPARK|SPARK PLUG|BUJIAS?)\b")),
+    ("capuchon", re.compile(r"^(PLUG CAP|CAP,?\s*(SPARK\s*)?PLUG|CAPUCHON\s+(DE\s+(LA\s+)?)?BUJIA)\b")),
+    ("empaque", re.compile(r"^(O-?\s?RING|ORING|GASKET|EMPAQ\w*|EMAPQ\w*|JUNTA|PACKING|ANILLO (EN )?O)\b")),
+    ("reten", re.compile(r"^(OIL SEAL|DUST SEAL|SEAL,\s*(OIL|DUST)|RET[EÉ]N\w*|SELLO,? (DE )?ACEITE|SELLO PARA POLVO|GUARDAPOLVO)\b")),
+    ("resorte", re.compile(r"^(SPRING|RESORTES?|MUELLES?)\b")),
+    ("rodamiento", re.compile(r"^(BEARING|BALL BEARING|RODAMIENTOS?|BALINERAS?|COJINETES?)\b")),
+    ("buje", re.compile(r"^(COLLAR|SPACER|BUSH|BUJES?|ESPACIADOR|CASQUILLO)\b(?! DE (DIAFRAGMA|EMBRAGUE))")),
+    ("abrazadera", re.compile(r"^(CLAMPER|CLAMP|ABRAZADERA|ABRAZAD|GRAPA)\b")),
+    ("etiqueta", re.compile(r"^(CALCOMANIA|EMBLEMA?|LABEL|STICKER|GRAPHIC|ETIQUETA)\b")),
+    ("manguera", re.compile(r"^(HOSE|MANGUERA)\b")),
+    ("tapa", re.compile(r"^(PLUG|CAP|TAPON|CAPUCHON)\b")),
+]
+_TIPO_PUESTO = {"empaque": re.compile(r"^(empaque|oring|junta)"), "reten": re.compile(r"^(reten|retenedor|guardapolvo|sello)"),
+                "resorte": re.compile(r"^resorte"), "rodamiento": re.compile(r"^rodamiento"), "buje": re.compile(r"^buje"),
+                "abrazadera": re.compile(r"^abrazadera"), "etiqueta": re.compile(r"^(etiqueta|calcomania|emblema)"),
+                "bujia": re.compile(r"^bujia"), "capuchon": re.compile(r"^capuchon"), "manguera": re.compile(r"^manguera"),
+                "tapa": re.compile(r"^tap")}
+_HERRAJE_DE_TIPO = {"empaque": "h_empaque", "reten": "h_empaque", "resorte": "h_resorte", "rodamiento": "h_rodamiento",
+                    "buje": "h_buje", "abrazadera": "h_abrazadera", "etiqueta": "h_etiqueta", "bujia": "h_electrico",
+                    "capuchon": "h_electrico", "manguera": "h_manguera", "tapa": "h_tapa"}
+# Un buje sí puede ser el rodamiento liso de un eje, la guía de centrado o parte del soporte de caucho donde está
+_COMPATIBLES = {"buje": re.compile(r"^(rodamiento|guia|soporte)"), "tapa": re.compile(r"^(visor|deposito|purgador)")}
+# Puestos que son un conjunto y traen esas piezas dentro (el levantador del clutch es varilla y rodamiento)
+_CONJUNTOS = {"levantador", "kit_reparacion", "kit", "barra_completa", "amortiguador"}
+
+
+@lru_cache(maxsize=None)
+def _puestos_dibujo(base):
+    """Puestos que tiene el dibujo, en su orden."""
+    return tuple(dict.fromkeys(q.puesto for q in _construir_guardado(base)[0] if q.puesto)) if base in DIAGRAMAS else ()
+
+
+def tipo_por_primera_palabra(descripcion):
+    """Qué es la pieza según la primera palabra del catálogo (empaque, resorte, tapa...), o None."""
+    texto = _sin_tildes((descripcion or "").upper()).strip(" .")
+    return next((t for t, patron in _TIPO_INICIO if patron.match(texto)), None)
+
+
+def _por_primera_palabra(clave, descripcion, propio):
+    if propio in _CONJUNTOS or (propio or "").startswith("h_"):     # una regla que manda a la franja, se respeta
+        return None
+    texto = _sin_tildes(descripcion.upper()).strip(" .")
+    tipo = tipo_por_primera_palabra(descripcion)
+    if not tipo or (propio and (_TIPO_PUESTO[tipo].match(propio) or (tipo in _COMPATIBLES and _COMPATIBLES[tipo].match(propio)))):
+        return None
+    # Entre los puestos de ese tipo: el que nombra la descripción ("empaque_culata" para "Junta culata"); si ninguno,
+    # uno genérico ("empaques", "resortes"); los de otra pieza ("resorte_pastillas" para el resorte del pedal), nunca.
+    mejor, largo, generico = None, 0, None
+    for q in _puestos_dibujo(_base(clave)):
+        if not _TIPO_PUESTO[tipo].match(q):
+            continue
+        if "_" not in q:
+            generico = generico or q
+            continue
+        sufijo = q.split("_", 1)[1]
+        for frase in _SINONIMOS_SUFIJO.get(sufijo, [sufijo.upper().replace("_", " ")]):
+            if len(frase) > largo and re.search(rf"\b{frase}\b", texto):
+                mejor, largo = q, len(frase)
+    return mejor or generico or _HERRAJE_DE_TIPO[tipo]
+
+
+# Cómo nombra el catálogo la pieza a la que pertenece un empaque o resorte (la frase más larga que coincide gana)
+_SINONIMOS_SUFIJO = {
+    "culata": ["CYLINDER HEAD", "CULATA"],
+    "cilindro": ["CYLINDER", "CILINDRO"],
+    "tapa": ["CYLINDER HEAD COVER", "HEAD COVER", "CUBIERTA CULATA", "TAPA CULATA", "TAPA VALVULAS", "TAPA", "CUBIERTA", "COVER"],
+    "pastillas": ["PASTILLAS?", "PASTAS?", "PADS?"],
+    "llenado": ["LLENADO", "FILLER", "LEVEL", "NIVEL", "VARILLA", "MEDIDOR"],
+    "drenaje": ["DRENAJE", "DRAIN"],
+    "filtro": ["FILTRO", "FILTER", "STRAINER", "CEDAZO"],
+    "valvulas": ["VALVULAS?", "TAPPET"],
+    "deposito": ["DEPOSITO", "TANQUE", "RESERVOIR", "TANK"],
+    "clutch": ["CLUTCH", "CRANKCASE", "CARTER"],
+}
 
 
 # Clutch: los discos ("PLATE"), su tuerca, su arandela y los tornillos de los resortes tienen lugar en el dibujo
 CON_LUGAR_PROPIO |= {"discos_friccion", "separadores", "plato_presion", "tornillos_resorte", "tuerca_centro", "arandela_empuje", "levantador"}
 
 # Piezas que no todas las motos tienen: si la lámina no las trae, no se dibujan (las demás quedan tenues, como contexto)
-OPCIONALES = {"barra_torque", "cadena", "valvula_ais", "soporte_farola", "pedal", "kit", "unidad_abs", "soporte_abs", "tubos", "sensor_cable", "sensor_abs", "unidad_abs", "soporte_deposito", "guia_manguera", "manigueta",
+OPCIONALES = {"capuchon", "bomba_agua", "cable_cbs", "neumatico", "radios", "barra_torque", "cadena", "valvula_ais", "soporte_farola", "pedal", "kit", "unidad_abs", "soporte_abs", "tubos", "sensor_cable", "sensor_abs", "unidad_abs", "soporte_deposito", "guia_manguera", "manigueta",
               "filtro", "tapa_filtro",
               "ciguenal", "rodamientos_ciguenal", "biela", "piston", "anillos", "pasador", "seguros_piston", "empaque_culata", "bomba_gasolina", "catalizador", "sensor_oxigeno",
               }
@@ -2397,6 +2646,25 @@ def _texto_rotulo(texto, maximo=74):
 
 
 @lru_cache(maxsize=512)
+
+def _rotulo_columna(texto, cx, ancho):
+    """Nombre de una columna de la franja de tornillería, que nunca se sale de su casilla ni pisa a la vecina:
+    se achica la letra y, si aun así no cabe, se parte en dos líneas por el espacio más cercano a la mitad."""
+    base, minima, util = (14 if ancho >= 100 else 12), 10.5, ancho - 16
+    def tam(lineas):                      # Barlow semibold: ~0,53 del cuerpo por carácter
+        return min(base, util / (0.53 * max(len(t) for t in lineas)))
+    lineas = [texto]
+    if tam(lineas) < minima and " " in texto:
+        mitad = len(texto) / 2
+        corte = min((i for i, c in enumerate(texto) if c == " "), key=lambda i: abs(i - mitad))
+        lineas = [texto[:corte], texto[corte + 1:]]
+    t = max(tam(lineas), 9)
+    comun = f'text-anchor="middle" font-family="Barlow, Arial, sans-serif" font-size="{t:.1f}" font-weight="600" fill="#6f6857"'
+    if len(lineas) == 1:
+        return f'<text x="{cx:.1f}" y="928" {comun}>{escape(texto)}</text>'
+    return (f'<text x="{cx:.1f}" y="{928 - t * .55:.1f}" {comun}>{escape(lineas[0])}'
+            f'<tspan x="{cx:.1f}" dy="{t * 1.1:.1f}">{escape(lineas[1])}</tspan></text>')
+
 def dibujar_lamina(clave, grupos=None, usadas=None, titulo=None):
     """Dibujo de una lámina con su franja de tornillería.
 
@@ -2422,8 +2690,7 @@ def dibujar_lamina(clave, grupos=None, usadas=None, titulo=None):
             cuerpo_f += (f'<rect x="{cx - ancho / 2 + 5:.1f}" y="{arriba:.1f}" width="{ancho - 10:.1f}" height="{944 - arriba:.1f}"'
                          f' rx="12" fill="#f3eee2" stroke="#e4dccb" stroke-width="1.2"/>'
                          f'<g class="pieza" data-puesto="{g}">{dibujo.split("<g class=\"guias\">")[0]}</g>'
-                         f'<text x="{cx:.1f}" y="{928}" text-anchor="middle" font-family="Barlow, Arial, sans-serif"'
-                         f' font-size="{14 if ancho >= 100 else 12}" font-weight="600" fill="#6f6857">{nombres[g]}</text>')
+                         + _rotulo_columna(nombres[g], cx, ancho))
             lugares = []
             columnas_grupo = min(por_fila, n)
             filas_grupo = math.ceil(n / columnas_grupo)

@@ -14,7 +14,9 @@ import json
 import re
 from pathlib import Path
 
-RE_CODIGO = re.compile(r"\d{5}-[A-Z0-9]{2,5}-[A-Z0-9]{3,4}")
+# Códigos de repuesto: los propios del modelo (13101-KYJ-900) y la tornillería estándar de Honda y Hero, que es
+# solo numérica (94109-12000 arandela del tapón de drenaje, 95701-06016-00 tornillo con pestaña)
+RE_CODIGO = re.compile(r"\d{5}-[A-Z0-9]{2,5}-[A-Z0-9]{3,4}|\d{5}-\d{5}(?:-\d{2})?")
 RE_PUNTOS = re.compile(r"\s*([·•]{2,}|\.{3,}|[·•.]\s+[\d(-]).*$")
 # Columnas de modelo ("2TU", "7ID,8ID") o de color ("NH364M*SHEEN SILVER") que quedan en la línea de la descripción:
 # la fila es otra versión de la pieza anterior con la misma referencia

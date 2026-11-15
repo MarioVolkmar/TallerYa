@@ -8,6 +8,20 @@
 import re
 
 VARIANTES = {
+    # Correcciones del Auditor mecánico: nombres que no corresponden a la tecnología de la moto
+    ("XTZ 125", 6): {"2MC-E4453-00": "Ducto del filtro al carburador"},           # de carburador: no tiene cuerpo de aceleración
+    ("MT-03", 8): {"2MS-E3586-00": "Tobera de admisión (al cuerpo de aceleración)"},  # de inyección: "JOINT, CARBURETOR" es la tobera
+    # Tapa de la transmisión (fig. 11, igual en NMAX y Aerox): las tapas, su empaque y el filtro de aire de la caja de la correa
+    ("Aerox 155", 11): {"B6H-E5411-01": "Tapa de la transmisión", "B6H-E5431-00": "Tapa exterior de la transmisión",
+                        "B6H-E5451-00": "Empaque de la tapa de la transmisión", "2DP-E5407-00": "Filtro de aire de la caja de la correa",
+                        "B6H-E5316-00": "Caucho de la tapa", "B6H-E5326-00": "Caucho de la tapa", "B6H-E533C-00": "Caucho de la tapa",
+                        "B6H-E533E-00": "Caucho de la tapa"},
+    ("NMAX 155", 11): {"B6H-E5411-01": "Tapa de la transmisión", "B6H-E5431-00": "Tapa exterior de la transmisión",
+                       "2DP-E5407-00": "Filtro de aire de la caja de la correa"},
+    # Aerox, fig. 10: el "amortiguador" del cárter es el caucho del soporte del motor
+    ("Aerox 155", 10): {"90388-10808": "Caucho del soporte del motor", "4D1-F2216-00": "Buje del soporte del motor"},
+    # Aerox 155, fig. 7: el "filtro de aceite" del catálogo es el colador de malla que sostiene el tapón de drenaje
+    ("Aerox 155", 7): {"54P-E3411-00": "Colador del aceite"},
     # Pulsar NS 200 FI, fig. 22 (encendido de tres bujías): bobina doble (8) para las laterales, sencilla (9) para la central
     ("Pulsar NS 200", 22): {
         "DD111012": "Antivibrante salida de bobina",
@@ -32,6 +46,106 @@ _CON_TAMANO = re.compile(r"^(rodamiento|balinera|tornillo|perno|esp[aá]rrago|tu
 def _corto(nombre):
     nombre = re.sub(r"\s*[-–]\s*[-–\s]*$", "", nombre).strip()
     return nombre[:1].lower() + nombre[1:] if nombre else nombre
+
+
+# El catálogo lista el empaque de un tapón justo después de él; solo se llama "O-ring" o "Empaque", pero es lo que se
+# cambia en el mantenimiento, así que se nombra por su tapón: "Empaque del tapón con varilla del aceite".
+_SELLO_SUELTO = re.compile(r"(?i)^(o[\s-]?ring|empaque|arandela|arandela de (cobre|sellado)|junta)( grande| pequeñ[oa])?$")
+_TAPON = re.compile(r"(?i)^(tap[oó]n|tornillo de drenaje)\b")
+
+
+def nombres_de_sellos(partes):
+    """{índice: nombre} para el empaque que sigue a su tapón (número siguiente en la lámina)."""
+    salida = {}
+    for i in range(1, len(partes)):
+        p, previa = partes[i], partes[i - 1]
+        if p["ref"] == previa["ref"] + 1 and _SELLO_SUELTO.match(p["nombre"]) and _TAPON.match(previa["nombre"]):
+            salida[i] = f"Empaque del {_corto(previa['nombre'])}"
+    return salida
+
+# Empaques, retenedores y guardapolvos sin dueño ("O ring", "Retén"): nunca solos. Se nombran por la pieza que sellan:
+# la de su lugar en el dibujo (empaque_culata), la pieza que el catálogo lista antes o, si no, el sistema de la lámina.
+_SELLO_SIN_DUENO = re.compile(r"(?i)^(o[\s-]?ring|oring|empaque|empaques|junta|ret[eé]n|retenedor|sello|guardapolvo)$")
+_INICIO_SELLO = re.compile(r"(?i)^(o[\s-]?ring|oring)\b\s*")
+_DUENO_PUESTO = {"culata": "culata", "cilindro": "cilindro", "tapa": "tapa de válvulas", "silenciador": "silenciador",
+                 "tensor": "tensor de la cadenilla", "carcasa": "cárter", "carter": "cárter", "tapa_clutch": "tapa del clutch"}
+_FEMENINAS = {"base", "llave", "parte", "red", "polea", "flor", "cruceta", "torre"}
+_HERRAJE_O_SELLO = re.compile(r"(?i)^(tornillo|tuerca|arandela|anillo|pin|seguro|buje|abrazadera|grapa|o[\s-]?ring|oring|empaque|"
+                              r"junta|ret[eé]n|retenedor|sello|guardapolvo|esp[aá]rrago|resorte|platina|perno|contratuerca|gu[ií]a de centrado|kit|"
+                              r"remache|clip|chaveta|balinera|rodamiento|espaciador|-)")
+
+
+# Pieza que el catálogo nombra después de la coma ("BOOT, PIN BUSH"): es la dueña del sello, antes que la pieza vecina
+_DUENO_EN_DESCRIPCION = [
+    (r"PIN BUSH|SLIDE PIN|PASADOR", "pasador del caliper"), (r"(REAR )?SHOCK ABSORBER|CUSHION", "amortiguador trasero"),
+    (r"FRONT HUB|HUB,? FR", "manzana delantera"), (r"REAR HUB|HUB,? RR", "manzana trasera"), (r"\bHUB\b", "manzana"),
+    (r"\bWHEEL\b|\bRUEDA\b", "rueda"), (r"FRONT FORK|\bFORK\b|HORQUILLA", "barra de la suspensión"),
+    (r"STEERING|DIRECCION", "dirección"), (r"BRAKE CAM|CAMSHAFT, BRAKE", "leva del freno"), (r"\bCALIPER\b|CALIBRE", "caliper"),
+    (r"\bPISTON\b", "pistón"), (r"SWING ?ARM|REAR ARM", "basculante"), (r"\bVALVE\b|VALVULA", "válvula"),
+]
+
+
+def articulo_de(frase):
+    """'del', 'de la', 'de los' o 'de las' según la primera palabra de la frase (cárter → del, culata → de la)."""
+    palabra = (frase.split() or [""])[0].lower()
+    plural = palabra.endswith("s") and len(palabra) > 3 and not palabra.endswith(("ás", "és", "ís", "ós", "ús", "is"))
+    base = palabra[:-1] if plural and not palabra.endswith("es") else (palabra[:-2] if plural else palabra)
+    femenina = (base.endswith("a") or base.endswith(("ión", "ion", "dad")) or base in _FEMENINAS) and base not in ("sistema", "día")
+    if plural:
+        return "de las" if femenina else "de los"
+    return "de la" if femenina else "del"
+
+
+def _con_dueno(palabra, dueno):
+    dueno = dueno[:1].lower() + dueno[1:]
+    return f"{palabra} {articulo_de(dueno)} {dueno}"
+
+
+def nombres_de_empaques(partes, lamina):
+    """{índice: nombre} para empaques, retenedores y guardapolvos sin dueño. partes: dicts con nombre, descripcion y
+    _puesto (su lugar en el dibujo). La palabra se unifica: o-ring/empaque → Empaque; retén/sello → Retenedor."""
+    salida = {}
+    for i, p in enumerate(partes):
+        nombre = p["nombre"].strip()
+        texto = (p.get("descripcion") or "").upper()
+        if re.search(r"DUST SEAL|SEAL,\s*DUST|GUARDAP|^FUNDA", texto) or re.match(r"(?i)^guardapolvo", nombre):
+            palabra = "Guardapolvo"
+        elif re.search(r"OIL SEAL|SEAL,\s*OIL|RET[EÉ]N|RETENEDOR", texto) or re.match(r"(?i)^(ret[eé]n|retenedor|sello)$", nombre):
+            palabra = "Retenedor"
+        else:
+            palabra = "Empaque"
+        propio = next((d for patron, d in _DUENO_EN_DESCRIPCION if re.search(patron, texto)), None)
+        if _SELLO_SIN_DUENO.match(nombre) and propio:
+            salida[i] = _con_dueno(palabra, propio)          # la descripción nombra la pieza: manda sobre la vecina
+        elif _SELLO_SIN_DUENO.match(nombre):
+            puesto = p.get("_puesto") or ""
+            sufijo = puesto.split("_", 1)[1] if "_" in puesto and not puesto.startswith("h_") else ""
+            dueno = _DUENO_PUESTO.get(sufijo) or (sufijo.replace("_", " ") if sufijo else "")
+            if not dueno:
+                previa = next((q["nombre"] for q in reversed(partes[:i]) if 0 < p["ref"] - q["ref"] <= 2
+                               and not _HERRAJE_O_SELLO.match(q["nombre"])), "")
+                dueno = previa or re.split(r",| y | con | · |\(", lamina or "")[0].strip()
+            if dueno:
+                salida[i] = _con_dueno(palabra, dueno)
+        elif _INICIO_SELLO.match(nombre):
+            # "O ring eje balan inferior" → "Empaque del eje balan inferior"; "O ring de admisión" → "Empaque de admisión"
+            resto = _INICIO_SELLO.sub("", nombre)
+            if re.match(r"(?i)^(de|del|para)\b", resto):
+                salida[i] = f"{palabra} {resto}"
+            elif resto:
+                salida[i] = _con_dueno(palabra, resto)
+        else:
+            # Catálogo sin preposiciones: "Empaque culata" → "Empaque de la culata"; "Retén rin trasero" → "Retenedor del rin trasero"
+            m = re.match(r"(?i)^(empaque|junta|ret[eé]n|retenedor|sello|guardapolvo),?\s+(?!de\b|del\b|para\b)(\S.*)$", nombre)
+            if m:
+                cabeza = m.group(1).lower()
+                palabra = ("Empaque" if cabeza in ("empaque", "junta") else "Guardapolvo" if cabeza == "guardapolvo"
+                           else "Retenedor" if cabeza in ("retén", "reten", "retenedor") or palabra == "Retenedor" else "Sello")
+                resto = re.sub(r"\s*[+]\s*$", "", m.group(2)).strip()
+                if re.match(r"(?i)^(delantero|trasero|izquierdo|derecho|superior|inferior|grande|pequeño|interno|externo)\b", resto):
+                    continue                                   # "Retén delantero de la suspensión" ya se entiende
+                salida[i] = _con_dueno(palabra, resto)
+    return salida
 
 
 def nombres_distintos(linea, figura, partes):
@@ -259,8 +373,34 @@ def texto_tecnico(datos):
 # eje de salida, no la "primera" de una caja de cambios.
 NOMBRES_POR_SISTEMA = {
     # En la distribución, el "DAMPER, CHAIN" es la guía amortiguadora de la cadenilla (no el caucho de la cadena de arrastre)
-    "distribucion": [("DAMPER, CHAIN", "Guía de la cadenilla"), ("CHAIN DAMPER", "Guía de la cadenilla")],
-    "caja_secundaria": [("MAIN AXLE", "Eje intermedio con piñón y engranaje"), ("AXLE, DRIVE", "Eje de salida"),
+    # Carburador: el "JET" es el chicler (no un inyector)
+    "carburador": [("JET, MAIN", "Chicler de alta (principal)"), ("MAIN JET", "Chicler de alta (principal)"),
+                   ("JET, PILOT", "Chicler de baja"), ("PILOT JET", "Chicler de baja")],
+    # Variador en español de Yamaha Colombia: "contrapeso" son los rodillos y "leva", la rampa (solo en la CVT)
+    "cvt": [("AMORT CONTRAPESO", "Caucho de las zapatas"), ("RESORTE CONTRAPESO", "Resorte de las zapatas"),
+            ("CONTRAPESO", "Rodillos del variador"), ("LEVA", "Rampa del variador")],
+    "distribucion": [("DAMPER, CHAIN", "Guía de la cadenilla"), ("CHAIN DAMPER", "Guía de la cadenilla"),
+                     ("TENSOR CADENA", "Tensor de la cadenilla"), ("CADENA", "Cadenilla")],
+    # Yamaha llama "BOLT, STRAIGHT SCREW" al tornillo de drenaje del aceite (con su empaque al lado)
+    "carcasa": [("BOLT, STRAIGHT SCREW", "Tornillo de drenaje")],
+    # Ruedas: la cámara (TUBE) es el neumático en Colombia; la llanta es la cubierta
+    "rueda": [("TUBE, TIRE", "Neumático"), ("TUBE, TYRE", "Neumático"), ("TUBE (", "Neumático")],
+    "rueda_trasera": [("TUBE, TIRE", "Neumático"), ("TUBE, TYRE", "Neumático"), ("TUBE (", "Neumático")],
+    # Freno de tambor en español de Yamaha Colombia: el "árbol de levas" es la leva del freno
+    "rueda_tambor": [("TUBE, TIRE", "Neumático"), ("TUBE, TYRE", "Neumático"), ("TUBE (", "Neumático"),
+                     ("PALANCA DE ARBOL DE LEVAS", "Palanca del freno"), ("ARBOL DE LEVAS", "Leva del freno"),
+                     ("PLACA INDICADOR", "Indicador de desgaste")],
+    # En la parte eléctrica, las "correas" son amarras plásticas del cableado (no la correa del variador)
+    "electrico": [("CORREA PL", "Amarra plástica del cableado"), ("KIT CORREAS", "Amarras plásticas del cableado")],
+    # Clutch (Yamaha): "PLATE, CLUTCH" es el disco separador de acero; "PLATE, FRICTION", el de fricción
+    "clutch": [("PLATE, FRICTION", "Disco de fricción"), ("FRICTION PLATE", "Disco de fricción"), ("PLATE, CLUTCH", "Disco separador"),
+               ("PLATE, PRESSURE", "Plato de presión"), ("PRESSURE PLATE", "Plato de presión"), ("CUSHION", "Resorte amortiguador"),
+               ("PLATE, SEAT", "Asiento del resorte amortiguador"), ("PLATE, THRUST", "Arandela de empuje"),
+               ("PLATE, PUSH", "Placa de empuje"), ("SPRING, CLUTCH", "Resorte del clutch"), ("SCREW, SPRING", "Tornillo del resorte"),
+               ("SPRING, RETURN", "Resorte de retorno")],
+    "caja_secundaria": [("EJE PRINCIPAL", "Eje intermedio con piñón y engranaje"), ("EJE SECUNDARIO", "Eje de salida"),
+                        ("ENGRANAJE RUEDA", "Engranaje conducido del eje de salida"), ("ENGRANAJE TRACC", "Piñón del eje primario"),
+                        ("BOLT, STRAIGHT SCREW", "Tornillo de drenaje"), ("MAIN AXLE", "Eje intermedio con piñón y engranaje"), ("AXLE, DRIVE", "Eje de salida"),
                         ("DRIVE AXLE", "Eje de salida"), ("WHEEL", "Engranaje conducido del eje de salida"),
                         ("PRIMARY DRIVE", "Piñón del eje primario"), ("PRIMARY", "Piñón del eje primario"), ("PINION", "Piñón del eje intermedio"), ("OIL SEAL", "Retén"),
                         ("BEARING", "Rodamiento"), ("CIRCLIP", "Pin seguro")],
@@ -286,6 +426,74 @@ _FRASES = [(r"\brueda del(?:\.|$|(?=\s+(?:completa?|cta|cto|izq|der|izquierd[oa]
            (r"\barandela pi[ñn][oó]n salida\b", "arandela del piñón de salida"), (r"\bpi[ñn][oó]n salida\b", "piñón de salida"),
            (r"\bbuje caja\b", "buje de la caja"), (r"\barandela caja\b", "arandela de la caja"), (r"\bpiñon\b", "piñón"),
            (r"\bneumati?c?o?\b", "neumático"),
+           # Catálogo Yamaha Colombia en español (traducción automática de la marca): a nombres de taller
+           (r"\bcerrojo,?\s*reborde hueco( profund\w*)?\b", "tornillo con pestaña"), (r"^perno,\s*de brida\b", "tornillo con pestaña"),
+           (r"^tornillo,\s*de drenaje\b", "tornillo de drenaje"), (r"^anillo (en )?o\b", "o-ring"), (r"\bpasador,\s*de espiga\b", "guía de centrado"),
+           (r"\bpasador,\s*pist[oó]n\b", "pasador del pistón"), (r"\btuerca de brida\b", "tuerca con pestaña"),
+           (r"\btuerca auto(blocante|frenante)\b|\btuerca de auto-cierre\b", "tuerca autofrenante"),
+           (r"\bjunta,\s*de culata\b", "empaque de la culata"), (r"\bjunta,\s*de cilindro\b", "empaque del cilindro"),
+           (r"\b(perno )?perno prisionero\b|\bperno de puntal\b", "espárrago"),
+           (r"^calibre completo\b", "caliper"), (r"\bfunda de calibre\b", "guardapolvo del caliper"), (r"^funda$", "guardapolvo"),
+           (r"\bjuego de retenes de pinza\b", "kit de sellos del caliper"), (r"\bcjto\.? tornillo de purga\b", "purgador"),
+           (r"\bjuego de cojin de freno\b", "pastillas de freno"), (r"\bsoporte de pastillas\b", "resorte de las pastillas"),
+           (r"\bcilindro maestro completo\b", "bomba de freno"), (r"\bjuego de cilindro maestro\b", "kit de reparación de la bomba"),
+           (r"\btapa de tanque de reserva\b", "tapa del depósito"), (r"\bempaque,\s*diafragma\b", "diafragma del depósito"),
+           (r"\bsoporte de cilindro maestro\b", "abrazadera de la bomba"), (r"\binterrup\.? de parada delantero\b", "interruptor del stop"),
+           (r"\btornillo con rondona\b", "tornillo con arandela"), (r"\bperno de union\b", "tornillo banjo"), (r"\bunidad de hidraulica\b", "unidad ABS"),
+           (r"\brueda fundida trasera\b", "rin trasero"), (r"\brueda fundida delantera\b", "rin delantero"),
+           (r"\bpasador pivote\b", "pasador de las bandas"), (r"\bjuego de zapata de freno\b", "bandas de freno"), (r"\bresorte de tension\b", "resorte de las bandas"),
+           (r"\brotor de sensor\b|\bsensor del rotor\b", "disco del sensor (rueda fónica)"), (r"\bsello del aceite\b|\bsello aceite\b", "retenedor"),
+           (r"\bcojinete de rodillos\b", "rodamiento de agujas"), (r"\bcojinete\b", "rodamiento"),
+           (r"\broldana primaria movil\b", "polea móvil del variador"),            (r"\bcorredera\b", "deslizadores del variador"), (r"\bpisco fixador de porea\b", "polea fija del variador"),
+           (r"\bportador de embrague completo\b", "clutch completo"), (r"\bzapata,\s*peso de embreagem\b", "zapatas del clutch"),
+           (r"\bamort contrapeso embrague\b", "caucho de las zapatas"), (r"\bresorte contrapeso embrague\b", "resorte de las zapatas"),
+           (r"\broldana secundaria fija compl?\.?", "polea fija trasera"), (r"\broldana secundaria corrediza\b", "polea móvil trasera"),
+           (r"\basiento de resorte secundario\b", "asiento del resorte de torque"), (r"\bresorte secundario\b", "resorte de torque"),
+           (r"\bcaja de embrague completo\b", "campana del clutch"), (r"\bcorrea en v\b", "correa de la transmisión"),
+           (r"\bcasquillo solido\b", "buje"), (r"\bpresilla redonda\b", "pin seguro"), (r"^presilla$|^grampa$", "grapa"),
+           (r"\btapon de drenaje\b", "tapón de drenaje"), (r"\bresorte de compresion\b", "resorte"),
+           (r"\btapon del nivel de aceite\b", "tapón con varilla del aceite"), (r"^tapon de aceite$", "tapón del aceite"),
+           (r"\btapa de carter derecha\b", "tapa derecha del cárter"), (r"\bmanguela\b", "manguera"), (r"^carter completo\b", "cárter"),
+           (r"^multiple$", "múltiple de admisión"), (r"\bcaja de acelerador compl\w*\.?", "cuerpo de aceleración"), (r"\bresorte de embolo\b", "resorte del émbolo"),
+           (r"^motor$", "motor de ralentí"), (r"\bcaja filtro del aire\b", "caja del filtro de aire"), (r"\btapa caja del filtro\b", "tapa de la caja del filtro"),
+           (r"\bunion del filtro del aire\b", "unión del filtro de aire"), (r"\belemento del filtro del aire\b", "filtro de aire"),
+           (r"\btornillo (redondo )?rosca hembra\b", "tornillo"), (r"\btubo,\s*drenaje\b", "manguera de drenaje"), (r"\bequilibrio,\s*cubierta\b", "caucho de la cubierta"),
+           (r"\bbrida,\s*manguera\b", "abrazadera de la manguera"), (r"^(brida|banda)$", "abrazadera"),
+           (r"\bculata de cilindro completa\b", "culata"), (r"\btapa culata de cilindro\b", "tapa de válvulas"), (r"\bplaca respiradero\b", "placa del respiradero"),
+           (r"\bemapq\.? cbta\.?\s*de\s*resp\w*\.?", "empaque de la tapa del respiradero"), (r"\btornillo de reglaje\b", "tornillo de ajuste"),
+           (r"\bsello de aceite v[aá]lvula\b", "sello de la válvula"), (r"\bresorte v[aá]lvula interna\b", "resorte de la válvula"),
+           (r"\bseguro de v[aá]lvula\b", "cuñas de la válvula"), (r"\bret[eé]n resorte de v[aá]lvula\b", "platillo del resorte"),
+           (r"\basiento resorte de v[aá]lvula\b", "asiento del resorte"), (r"\bbrazo de balanc[ií]n de v[aá]lvula\b", "balancín"),
+           (r"\btornillo de ajuste de v[aá]lvula\b", "tornillo de calibración"), (r"\bpasador manivela\b", "pasador del cigüeñal"),
+           (r"\bcuna woodruff\b", "cuña del cigüeñal"), (r"^juego de anillos$", "anillos del pistón"), (r"\barbol de levas completo\b", "árbol de levas"),
+           (r"\bequipo de descompresion\b", "descompresor"), (r"\bleva de descompresion\b", "leva del descompresor"),
+           (r"\btope de guia\b", "guía de la cadenilla"), (r"\btensor cadena de leva\b", "tensor de la cadenilla"), (r"\bempaque de caja tensor\b", "empaque del tensor"),
+           (r"\btermostato conjunto\b", "termostato"), (r"^radiador completo$", "radiador"), (r"\btapon,\s*del radiador\b", "tapa del radiador"),
+           (r"\bgrifo de drenaje\b", "tornillo de drenaje del refrigerante"), (r"\bcaja ventilador\b", "carcasa del ventilador"),
+           (r"\bbomba de agua completa\b", "bomba de agua"), (r"\bcubierta de caja\b", "tapa de la bomba de agua"), (r"\beje impulsor completo\b", "eje de la bomba de agua"),
+           (r"\bllave de ignicion compl\w*\b", "switch de encendido"), (r"\bcubierta interruptor princ\.?", "tapa del switch"), (r"\bconjunto de cables\b", "arnés"),
+           (r"\bconjunto diodo\b", "diodo"), (r"\brele completo\b", "relé"), (r"\bunidad de control remoto compl\.?", "unidad de la llave inteligente"),
+           (r"\bunidad control comunicacion\b", "unidad de conectividad"), (r"\bunidad de control del generad\w*", "unidad de control del motor (ECU)"),
+           (r"\badmision\b", "admisión"), (r"\bguia\b", "guía"), (r"^boton\b", "botón"), (r"^tapon$", "tapón"),
+           (r"\bbobina de encendido completa\b", "bobina de encendido"), (r"\btapon de buj[ií]a completo\b", "capuchón de la bujía"),
+           (r"\bunidad termostato\b", "sensor de temperatura"), (r"\brele de destellador compl\.?", "relé de direccionales"), (r"\banillo goma\b", "caucho"),
+           (r"^empaquetadura$", "empaque"), (r"\bhorquilla delantera compl\w*\.?", "barra de la suspensión"), (r"\btubo exterior derecho\b", "botella derecha de la suspensión"),
+           (r"\btubo exterior izquierdo\b", "botella izquierda de la suspensión"), (r"\btubo exterior\b", "botella de la suspensión"),
+           (r"\banillo de enganche\b", "pin seguro"), (r"\btubo interior completo\b", "tubo interior de la barra"),
+           (r"\bcilindro compl de horq delant\b", "cilindro amortiguador de la barra"), (r"\bresorte de subensamble\b", "resorte de rebote"),
+           (r"\btornillo cabezahexagonal\b", "tornillo"), (r"\bresorte horquilla delant\.?", "resorte de la barra"), (r"\bperno de tapa\b", "tapón de la barra"),
+           (r"\bplatina inferior completa\b", "tijera inferior con la espiga"), (r"\bpista de bolas\b", "taza de la dirección"),
+           (r"\bret[eé]n de cojinete\b", "canastilla de la dirección"), (r"\bcubierta de base de bola\b", "tapa de la taza"), (r"\barandela de plana\b", "arandela"),
+           (r"\bsoporte de manguera freno\b", "soporte de la manguera de freno"), (r"\bbrazo posterior\b", "basculante"),
+           (r"\bamortiguador trasero completo\b", "amortiguador trasero"),
+           # Abreviaturas y orden inglés en nombres de empaques
+           (r"\bde admisi[oó]n del tubo\b", "del tubo de admisión"), (r"\bpulverizad\b", "pulverizador"), (r"\bcarb\b\.?", "carburador"),
+           (r"^sensor carburador\s*-\s*map\b", "sensor MAP (presión de admisión)"), (r"^inyector (de )?aceite\b", "surtidor de aceite"),
+           (r"^rodillo eje (clutch|principal)\b", "rodamiento de agujas del eje principal"), (r"^jet,?\s*main\b", "chicler de alta (principal)"),
+           (r"\bguardap\b\.?\s*ti\b", "guardapolvo de la tijera"), (r"^bolt[- ]washer\b", "tornillo con arandela"),
+           (r"^kit bujes amortiguador tras(era|ero)?\b\.?", "kit de bujes del amortiguador trasero"),(r"\bbalan\b", "balancín"),(r"\baguja aire\b", "tornillo de aire"), (r"\btapon tiempo\b", "tapón de tiempo"),
+           (r"\bconector cilindro\b", "conector del cilindro"), (r"^empaque del aceite$", "empaque del conducto de aceite"),
+           (r"^sello motriz del eje$", "retenedor del eje de salida"), (r"^sello del aceite$", "retenedor"),
            # Restos del amperaje ("Fusible A", "Fusible , A"): el amperaje va en la guía
            (r"^fusible[\s,.()\-]*(?:a\b[\s\-]*(?:bl)?)?\s*$", "fusible"), (r"\bcaja\s+(?:de\s+)?fusibles?\b", "caja de fusibles"),
            (r"\bsoporte\s+caja de fusibles\b", "soporte de la caja de fusibles"),
@@ -308,7 +516,7 @@ _FRASES = [(r"\brueda del(?:\.|$|(?=\s+(?:completa?|cta|cto|izq|der|izquierd[oa]
            (r"\bset\b", "juego de"), (r"\bcir ?clip\b", "pin seguro"), (r"\bcabrecadena\b", "guardacadena"), (r"\bcubrecadena\b", "guardacadena"),
            (r"\bbalinera rueda\b", "balinera de la rueda"), (r"\bbateria\b", "batería"),
            (r"\bconector termostato\s*-\s*(radiador|motor|conducto)\b", r"manguera del termostato al \1"),
-           (r"\bsensor carburador\s*-\s*map\b", "sensor MAP del carburador"), (r"\basamblea de\s+", ""),
+           (r"\basamblea de\s+", ""),
            (r"\bcollar distanciador\b", "separador"), (r"\bcollar,?\s*eje de rueda dentada\b", "separador del eje del piñón"),
            (r"\bcollar,?\s*varilla\b", "buje de la varilla"), (r"\bcollar\b", "buje"),
            (r"\bdel$", "delantero"), (r"\btras$", "trasero"), (r"\bizq$", "izquierdo"), (r"\bder$", "derecho")]

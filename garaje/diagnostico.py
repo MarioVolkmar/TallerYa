@@ -143,6 +143,23 @@ SINTOMAS = {
             ({"como": "chilla"}, "frenos_chillan"),
         ],
     },
+    "inestable": {
+        "nombre": "Se siente inestable o se va de lado", "icono": "llanta",
+        "preguntas": [
+            {"clave": "como", "texto": "¿Qué notas?", "opciones": [
+                ("pinchada", "Una llanta se ve baja o se desinfla", None),
+                ("bambolea", "El manubrio se sacude a velocidad", None),
+                ("pesada", "La dirección está dura o pesada", None),
+                ("lado", "Se va hacia un lado sin soltar el manubrio", None),
+            ]},
+        ],
+        "reglas": [
+            ({"como": "pinchada"}, "llanta_baja"),
+            ({"como": "bambolea"}, "direccion"),
+            ({"como": "pesada"}, "direccion_dura"),
+            ({"como": "lado"}, "alineacion"),
+        ],
+    },
     "humo": {
         "nombre": "Sale humo", "icono": "humo",
         "preguntas": [
@@ -156,6 +173,10 @@ SINTOMAS = {
              "opciones": [("si", "Sí, solo al prenderla en frío", None), ("no", "No, sigue saliendo caliente", None)]},
             {"clave": "radiador", "texto": "¿Tu moto tiene radiador (refrigeración líquida)?", "si": {"color": ["blanco"], "frio": ["no"], "r": [""]},
              "opciones": [("si", "Sí", None), ("no", "No, es enfriada por aire", None)]},
+            {"clave": "olor", "texto": "¿A qué huele?", "si": {"color": ["motor"]}, "opciones": [
+                ("aceite", "A aceite quemado", None),
+                ("cable", "A cable o plástico quemado", None),
+            ]},
         ],
         "reglas": [
             ({"color": "azul"}, "quema_aceite"),
@@ -164,6 +185,7 @@ SINTOMAS = {
             ({"color": "blanco", "r": "liquido"}, "empaque_culata"),
             ({"color": "blanco", "radiador": "si"}, "empaque_culata"),
             ({"color": "blanco"}, "quema_aceite"),
+            ({"color": "motor", "olor": "cable"}, "corto_electrico"),
             ({"color": "motor"}, "aceite_en_escape"),
         ],
     },
@@ -173,7 +195,7 @@ SINTOMAS = {
             {"clave": "que", "texto": "¿Qué gotea?", "opciones": [
                 ("aceite", "Aceite: café o negro y espeso, debajo del motor", None),
                 ("gasolina", "Gasolina: huele fuerte", None),
-                ("refrigerante", "Refrigerante: verde o rosado, huele dulce", {"r": ["liquido", ""]}),
+                ("refrigerante", "Refrigerante: verde, azul o rosado, huele dulce", {"r": ["liquido", ""]}),
                 ("frenos", "Líquido de frenos: claro o amarillento, cerca de una rueda o la manigueta", None),
                 ("barras", "Aceite en las barras de la suspensión delantera", None),
                 ("final", "Aceite cerca del eje de la rueda trasera", CVT),
@@ -307,7 +329,8 @@ RESULTADOS = {
         "sistema": "Lubricación", "urgencia": "pronto",
         "causa": "Empaque, retenedor o tapón del motor que bota aceite",
         "explicacion": "Limpia la zona y mira de dónde sale: tapón de drenaje, tapas laterales, base del cilindro o el retenedor "
-                       "del piñón de salida. Con poco aceite el motor se funde.",
+                       "del piñón de salida. Con poco aceite el motor se funde. Si el aceite cae sobre la llanta trasera o el freno, "
+                       "no la ruedes: patina.",
         "revisa": "El nivel de aceite antes de cada salida.",
         "piezas": [r"empaque", r"retenedor", r"tap[oó]n", r"o-?ring", r"anillo de caucho", r"filtro de aceite"],
         "otros_sistemas": ["Motor"],
@@ -409,7 +432,7 @@ RESULTADOS = {
         "explicacion": "Si sube de vueltas y no empuja, los discos de fricción ya no agarran. Primero se revisa el juego del "
                        "cable; si está bien, toca cambiar discos y resortes. Un aceite que no es para moto también lo hace patinar.",
         "revisa": "Que la manigueta del clutch tenga 10 a 20 mm de juego libre.",
-        "piezas": [r"disco", r"separador", r"resorte", r"plato", r"cable del clutch", r"canasta", r"centro"],
+        "piezas": [r"disco", r"separador", r"resorte (del |de )?(clutch|embrague)", r"plato", r"cable del clutch", r"canasta", r"centro"],
     },
     "clutch_no_suelta": {
         "sistema": "Caja de cambios y clutch", "subgrupo": "Clutch", "urgencia": "pronto",
@@ -441,7 +464,7 @@ RESULTADOS = {
         "causa": "Cadena floja, seca o kit de arrastre gastado",
         "explicacion": "Una cadena que golpea o chasquea está floja, seca o estirada. Si los dientes del sprocket están en "
                        "punta, se cambia el kit completo (cadena, piñón y sprocket). Una cadena muy floja se puede salir.",
-        "revisa": "Que la cadena tenga 2 a 3 cm de juego y esté lubricada.",
+        "revisa": "Que la cadena tenga 2 a 3 cm de juego (en las doble propósito como la XTZ, más: mira el manual) y esté lubricada.",
         "piezas": [r"cadena", r"pi[nñ][oó]n", r"sprocket", r"corona", r"tensor", r"gu[ií]a", r"deslizador"],
     },
     # ---------- Transmisión CVT y final (automáticas) ----------
@@ -485,8 +508,10 @@ RESULTADOS = {
     },
     "frenos_gastados": {
         "sistema": "Frenos", "urgencia": "parar",
-        "causa": "Pastillas o bandas gastadas o cristalizadas",
-        "explicacion": "Si el freno se siente firme pero no detiene, el material de fricción se acabó o se cristalizó. "
+        "causa": "Pastillas o bandas gastadas o cristalizadas, o pastillas y disco untados de aceite o de líquido de frenos",
+        "explicacion": "Si el freno se siente firme pero no detiene, el material de fricción se acabó o se cristalizó, o el disco "
+                       "y las pastillas están untados de aceite o de líquido de frenos (de un retenedor de barra o del caliper). "
+                       "Si el disco está untado, no la ruedes: se limpia con desengrasante de frenos y las pastillas contaminadas se cambian. "
                        "Es lo primero que se revisa: se cambia barato y es tu seguridad.",
         "piezas": [r"pastilla", r"banda", r"zapata", r"disco", r"campana"],
     },
@@ -540,8 +565,26 @@ RESULTADOS = {
         "causa": "Llanta desbalanceada o deformada, rin torcido o balineras",
         "explicacion": "La vibración que aparece desde cierta velocidad viene casi siempre de las ruedas: presión baja, "
                        "llanta deformada, rin torcido o balineras gastadas.",
-        "revisa": "La presión de las llantas y si tienen chichones o desgaste disparejo.",
+        "revisa": "La presión de las llantas y si tienen chichones o desgaste disparejo. Si la llanta tiene un chichón, una cortada "
+                  "que deja ver la lona o el rin está partido, no la ruedes: se puede estallar.",
         "piezas": [r"llanta", r"rin", r"balinera", r"eje", r"neum[aá]tico"],
+    },
+    "llanta_baja": {
+        "sistema": "Ruedas", "urgencia": "parar",
+        "causa": "Llanta baja o pinchada",
+        "explicacion": "Rodar con la llanta baja la despega del rin y te puedes caer. Ínflala a la presión del manual de tu moto "
+                       "(también suele estar en una etiqueta en el basculante o el guardacadena; en las scooters, debajo del asiento) y revisa si tiene un clavo o la válvula pierde aire.",
+        "revisa": "La presión en frío y si hay un clavo, una cortada o la válvula floja.",
+        "piezas": [r"llanta", r"neum[aá]tico", r"v[aá]lvula", r"rin"],
+    },
+    "alineacion": {
+        "sistema": "Ruedas", "urgencia": "pronto",
+        "causa": "Rueda trasera desalineada, barra torcida o llanta gastada en escalón",
+        "explicacion": "Si se va de lado sin soltar el manubrio, lo típico es la rueda trasera desalineada (en las de cadena, por "
+                       "tensores templados disparejos), una barra torcida tras una caída o una llanta gastada en escalón.",
+        "revisa": "Que las marcas de los tensores de la cadena estén iguales a los dos lados y que la llanta no tenga escalones.",
+        "piezas": [r"tensor", r"eje", r"barra", r"llanta"],
+        "otros_sistemas": ["Kit de arrastre", "Suspensión"],
     },
     # ---------- Suspensión ----------
     "suspension": {
@@ -562,8 +605,20 @@ RESULTADOS = {
         "sistema": "Suspensión", "subgrupo": "Delantera y dirección", "urgencia": "pronto",
         "causa": "Balineras de la dirección o barras",
         "explicacion": "Si el manubrio vibra o da golpecitos al frenar, las balineras de la dirección están flojas o "
-                       "picadas. Con la rueda en el aire, el manubrio no debe quedarse 'trabado' en el centro.",
-        "piezas": [r"balinera", r"cuna", r"rodamiento", r"barra", r"tuerca de (la )?direcci[oó]n"],
+                       "picadas. Con la rueda en el aire, el manubrio no debe quedarse 'trabado' en el centro. Si el manubrio bambolea "
+                       "solo a velocidad (se sacude de lado a lado), baja la velocidad sin frenar fuerte y no la ruedes hasta revisarla: "
+                       "también lo causa una llanta delantera con poca presión.",
+        "piezas": [r"balinera", r"cuna", r"rodamiento", r"barra", r"tuerca de (la )?direcci[oó]n", r"llanta"],
+        "otros_sistemas": ["Ruedas"],
+    },
+    "direccion_dura": {
+        "sistema": "Suspensión", "subgrupo": "Delantera y dirección", "urgencia": "pronto",
+        "causa": "Llanta delantera baja o balineras de la dirección apretadas o sin grasa",
+        "explicacion": "Una dirección dura o pesada suele ser la llanta delantera con poca presión, o las balineras de la dirección "
+                       "demasiado apretadas, secas o picadas. Con la rueda en el aire, el manubrio debe girar suave de lado a lado.",
+        "revisa": "La presión de la llanta delantera.",
+        "piezas": [r"llanta", r"balinera", r"cuna", r"rodamiento", r"tuerca de (la )?direcci[oó]n"],
+        "otros_sistemas": ["Ruedas"],
     },
     # ---------- Eléctrico ----------
     "bateria": {
@@ -577,7 +632,7 @@ RESULTADOS = {
     "arranque_electrico": {
         "sistema": "Eléctrico", "subgrupo": "Arranque", "urgencia": "pronto",
         "causa": "Motor de arranque, relé o un interruptor de seguridad",
-        "explicacion": "Si hay luces pero no arranca, revisa que esté en neutro, el clutch apretado y la pata lateral arriba "
+        "explicacion": "Si hay luces pero no arranca, revisa que esté en neutro, el clutch apretado (en las automáticas, un freno) y la pata lateral arriba "
                        "(tienen interruptor). Si todo está bien, falla el relé o el motor de arranque.",
         "revisa": "Neutro, clutch o freno apretado y pata lateral arriba.",
         "piezas": [r"motor de arranque", r"rel[eé]", r"interruptor (del clutch|de (la )?pata|de neutro|de arranque)", r"bendix", r"escobilla", r"fusible"],
@@ -605,6 +660,13 @@ RESULTADOS = {
         "explicacion": "Luces que bajan o parpadean con las revoluciones indican que el regulador o el estator no cargan "
                        "parejo. Si no se arregla, la batería se agota y la moto se apaga.",
         "piezas": [r"regulador", r"rectificador", r"estator", r"bobina de carga", r"bater[ií]a", r"magneto"],
+    },
+    "corto_electrico": {
+        "sistema": "Eléctrico", "subgrupo": "Batería y sistema eléctrico", "urgencia": "parar",
+        "causa": "Cortocircuito: un cable o conector que se está quemando",
+        "explicacion": "Olor a cable o plástico quemado es un cortocircuito. Apaga la moto y, si puedes, suelta el borne negativo "
+                       "de la batería: un corto puede prender la moto.",
+        "piezas": [r"cable", r"arn[eé]s", r"conector", r"regulador", r"fusible", r"rel[eé]"],
     },
     "bombillo": {
         "sistema": "Eléctrico", "subgrupo": "Batería y sistema eléctrico", "urgencia": "pronto",
@@ -709,9 +771,52 @@ def piezas_candidatas(clave, laminas, subgrupo="", limite=8):
                     if (excluir and excluir.search(plano)) or plano in vistos:
                         continue
                     vistos.add(plano)
-                    salida.append({"id": parte["id"], "nombre": nombre, "lamina": lamina["nombre"],
-                                   "estado": parte.get("estado"), "orden": (i_sis, m.start() > 0, i_patron)})
+                    salida.append({"id": parte["id"], "nombre": nombre, "lamina": lamina["nombre"], "lamina_id": lamina["id"],
+                                   "estado": parte.get("estado"), "orden": (i_sis, m.start() > 0, i_patron),
+                                   "x": parte.get("x"), "y": parte.get("y"), "ancla": parte.get("ancla")})
                     if len(salida) >= limite * 3:
                         break
     salida.sort(key=lambda p: p["orden"])
     return salida[:limite]
+
+
+def esquemas(piezas, laminas, maximo=2):
+    """Esquema de cada lámina donde hay candidatas: TODAS sus piezas dibujadas, numeradas como en el catálogo.
+
+    Las candidatas (las que explican el síntoma) van marcadas y primero, en el orden de probabilidad del diagnóstico;
+    el resto del sistema va en neutro, por su número. La lámina de la pieza más probable va primero. Coordenadas en
+    milésimas del dibujo (1000×1000)."""
+    por_id = {l["id"]: l for l in laminas}
+    orden = []
+    for p in piezas:
+        lamina = por_id.get(p["lamina_id"])
+        if lamina and lamina.get("dibujo_propio") and lamina["id"] not in orden:
+            orden.append(lamina["id"])
+    salida = []
+    for lamina_id in orden[:maximo]:
+        lamina = por_id[lamina_id]
+        candidatas = [p["id"] for p in piezas if p["lamina_id"] == lamina_id]
+        # Una fila por número del catálogo, como en el dibujo: las variantes del mismo número (otro código, color o
+        # modelo) se juntan; si alguna es candidata, manda esa. La cantidad va como "×2".
+        por_ref = {}
+        for q in lamina["partes"]:
+            if q.get("x") is None:
+                continue
+            previa = por_ref.get(q["ref"])
+            if previa is None or (q["id"] in candidatas and previa["id"] not in candidatas):
+                por_ref[q["ref"]] = q
+        marcas = []
+        for q in por_ref.values():
+            ancla = q.get("ancla") or [q["x"], q["y"]]
+            cantidad = q.get("cantidad") or 1
+            marcas.append({"id": q["id"], "ref": q["ref"], "nombre": q["nombre"], "cand": q["id"] in candidatas,
+                           "cantidad": cantidad if cantidad > 1 else None,
+                           "x": round(q["x"] * 1000), "y": round(q["y"] * 1000),
+                           "ax": round(ancla[0] * 1000), "ay": round(ancla[1] * 1000)})
+        ids = {m["id"] for m in marcas}
+        sospechosas = [next(m for m in marcas if m["id"] == c) for c in candidatas if c in ids]
+        resto = sorted((m for m in marcas if not m["cand"]), key=lambda m: m["ref"])
+        salida.append({"id": lamina_id, "nombre": lamina["nombre"], "imagen": lamina["imagen"],
+                       # en el dibujo, las candidatas al final para que queden encima
+                       "marcas": resto + sospechosas, "sospechosas": sospechosas, "resto": resto})
+    return salida

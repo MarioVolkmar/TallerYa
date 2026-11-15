@@ -6,6 +6,15 @@
   "fuente": "https://motoblu.co/catalogo/catalogo-partes-despiece-yamaha-n-max/",
   "laminas": [
     {
+      "figura": 11,
+      "titulo_es": "Tapa de la transmisión y filtro de la correa",
+      "pieza": "correa",
+      "diagrama": "carcasa",
+      "reglas": {
+        "ELEMENT": "correa-cvt"
+      }
+    },
+    {
       "figura": 22,
       "titulo_es": "Freno delantero",
       "pieza": "freno_del",
@@ -70,7 +79,10 @@
       "reglas": {
         "PLUG, SPARK": "bujia"
       },
-      "diagrama": "culata"
+      "diagrama": "culata",
+      "descripciones": {
+        "94700-00415": "PLUG, SPARK (NGK CPR8EA-9)"
+      }
     },
     {
       "figura": 3,

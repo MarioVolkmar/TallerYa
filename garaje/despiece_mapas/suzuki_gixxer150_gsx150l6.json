@@ -5,6 +5,10 @@
   "anio": 2015,
   "formato": "suzuki",
   "fuente": "https://suzukimotosmich.com/assets/images/content/products/gixxer-bitono/parts-GSX150DZA.pdf",
+  "variante": "Carburador",
+  "especificaciones": {
+    "freno_trasero": "tambor"
+  },
   "laminas": [
     {
       "figura": "535A",
@@ -26,11 +30,11 @@
     },
     {
       "figura": "550A",
-      "titulo_es": "Rueda trasera y corona (catálogo de la versión con tambor)",
+      "titulo_es": "Rueda trasera y freno de tambor",
       "pieza": "llanta_tras",
       "reglas": {
         "TIRE, REAR": "llanta-tras",
-        "SHOE, REAR BRAKE": null,
+        "SHOE, REAR BRAKE": "bandas-tras",
         "SPROCKET, REAR": "kit-arrastre",
         "TENSOR CADENA": "cadena-lubricar",
         "TEMPLADOR": "cadena-lubricar",
@@ -45,12 +49,12 @@
     },
     {
       "figura": "541A",
-      "titulo_es": "Basculante y cadena",
-      "pieza": "cadena",
+      "titulo_es": "Basculante",
+      "pieza": "suspension_tras",
       "reglas": {
         "CHAIN": "kit-arrastre"
       },
-      "diagrama": ""
+      "diagrama": "amortiguadores"
     },
     {
       "figura": "206A",
@@ -127,7 +131,7 @@
     },
     {
       "figura": "542A",
-      "titulo_es": "Amortiguador trasero",
+      "titulo_es": "Guardacadena y amortiguador trasero",
       "pieza": "suspension_tras",
       "reglas": {
         "ABSORBER ASSY": "suspension-tras",
@@ -150,6 +154,87 @@
         "BATTERY (": "bateria"
       },
       "diagrama": "electrico"
+    },
+    {
+      "figura": "102A",
+      "titulo_es": "Tapa de válvulas",
+      "pieza": "motor",
+      "diagrama": "culata"
+    },
+    {
+      "figura": "107A",
+      "titulo_es": "Cilindro",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": "120A",
+      "titulo_es": "Cigüeñal, biela y pistón",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": "127A",
+      "titulo_es": "Cadenilla y tensor",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": "130A",
+      "titulo_es": "Carburador",
+      "pieza": "filtro_aire",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": "163A",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": "201A",
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "diagrama": "clutch"
+    },
+    {
+      "figura": "112A",
+      "titulo_es": "Tapas del cárter",
+      "pieza": "aceite",
+      "diagrama": "carcasa",
+      "reglas": {
+        "PLUG, OIL FILLER": "aceite"
+      }
+    },
+    {
+      "figura": "212A",
+      "titulo_es": "Selector de cambios",
+      "pieza": "motor",
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "303A",
+      "titulo_es": "Magneto",
+      "pieza": "motor",
+      "diagrama": "encendido"
+    },
+    {
+      "figura": "312A",
+      "titulo_es": "Encendido y sistema eléctrico",
+      "pieza": "bateria",
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "524A",
+      "titulo_es": "Dirección",
+      "pieza": "suspension_del",
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "536A",
+      "titulo_es": "Manguera de freno delantera",
+      "pieza": "freno_del",
+      "diagrama": "bomba_freno"
     }
   ]
 }

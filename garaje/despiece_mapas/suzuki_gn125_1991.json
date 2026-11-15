@@ -155,7 +155,9 @@
       "figura": "battery",
       "titulo_es": "Batería",
       "pieza": "bateria",
+      "descripciones": {"33610-10311": "BATTERY"},
       "reglas": {
+        "BATTERY TERMINAL": null,
         "BATTERY": "bateria"
       },
       "diagrama": "electrico"

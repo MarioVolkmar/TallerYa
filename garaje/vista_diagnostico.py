@@ -1,7 +1,9 @@
 """Vista del diagnóstico guiado (datos en diagnostico.py). Aparte de views.py para no cruzarse con otras sesiones."""
+from types import SimpleNamespace
 from urllib.parse import urlencode
 
-from django.shortcuts import render
+from django.http import Http404, JsonResponse
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
 from talleres.models import Servicio, Taller
@@ -24,23 +26,77 @@ def _url(base, **params):
     return f"{base}?{urlencode(params)}" if params else base
 
 
+def _catalogo():
+    """Motos con despiece, para diagnosticar una que no está en el garaje. Hay un despiece por moto, así que se nombran
+    sin año ("Honda CB 125F"); si dos quedan con el mismo nombre, se desempata con la versión del catálogo."""
+    catalogo = list(Despiece.objects.filter(activo=True).select_related("linea", "linea__marca")
+                    .order_by("linea__marca__nombre", "linea__nombre", "-anio"))
+    nombres = [f"{d.linea.marca.nombre} {d.linea.nombre}" for d in catalogo]
+    for d, nombre in zip(catalogo, nombres):
+        if nombres.count(nombre) == 1:
+            d.etiqueta = nombre
+            continue
+        # Varias versiones de la misma línea (Gixxer 150 de carburador y FI ABS): su variante y los años que cubre cada una
+        anios = sorted(o.anio for o in catalogo if o.linea_id == d.linea_id)
+        siguiente = next((a for a in anios if a > d.anio), None)
+        rango = f"{d.anio}–{siguiente - 1}" if siguiente else f"{d.anio} en adelante"
+        d.etiqueta = f"{nombre} {d.variante} ({rango})" if d.variante else f"{nombre} ({d.version}, {rango})"
+        d.modelo = d.etiqueta[len(d.linea.marca.nombre) + 1:]
+    return catalogo
+
+
+def _laminas_de(despiece, moto=None):
+    """Láminas del despiece como las ve el visor; sin moto (moto del catálogo), sin estado de mantenimiento."""
+    if moto:
+        return datos_despiece(despiece, calcular_plan(moto))["laminas"]
+    sin_moto = SimpleNamespace(pk=0, km_actual=0, nombre_completo=str(despiece.linea))
+    plan = SimpleNamespace(moto=sin_moto, tareas=[], piezas=lambda: {})
+    return datos_despiece(despiece, plan)["laminas"]
+
+
+def despiece_publico(request, pk):
+    """Láminas de un despiece del catálogo (sin datos de ninguna moto), para la guía de pieza del diagnóstico."""
+    despiece = get_object_or_404(Despiece, pk=pk, activo=True)
+    sin_moto = SimpleNamespace(pk=0, km_actual=0, nombre_completo=str(despiece.linea))
+    datos = datos_despiece(despiece, SimpleNamespace(moto=sin_moto, tareas=[], piezas=lambda: {}))
+    datos.pop("registro", None)   # registrar mantenimiento no aplica sin moto del garaje
+    return JsonResponse(datos)
+
+
+def _tarjetas_diagnostico(talleres, moto, usuario):
+    """Datos de la tarjeta de taller (los mismos del directorio) y si trabaja la marca de la moto."""
+    from talleres.views import _preparar_tarjetas
+    talleres = _preparar_tarjetas(list(talleres), usuario)
+    marca = moto.linea.marca_id if moto and moto.linea_id else None
+    for t in talleres:
+        t.tu_marca = bool(marca) and any(m.pk == marca for m in t.marcas.all())
+    return talleres
+
+
 def diagnostico(request):
     base = reverse("garaje:diagnostico")
     motos = _motos_del_usuario(request)
     moto = None
     if request.GET.get("moto", "").isdigit():
         moto = next((m for m in motos if m.pk == int(request.GET["moto"])), None)
-    elif len(motos) == 1 and request.GET.get("moto") != "otra":
+    elif len(motos) == 1 and request.GET.get("moto") != "otra" and not request.GET.get("despiece"):
         moto = motos[0]
+    # Moto del catálogo (no está en el garaje): se usa su despiece
+    catalogo = _catalogo()
+    del_catalogo = None
+    if not moto and request.GET.get("despiece", "").isdigit():
+        del_catalogo = next((d for d in catalogo if d.pk == int(request.GET["despiece"])), None)
 
-    linea = getattr(moto, "linea", None)
+    linea = getattr(moto, "linea", None) or getattr(del_catalogo, "linea", None)
     t = getattr(linea, "transmision", "") or request.GET.get("t", "")
     t = t if t in ("cadena", "cvt") else ""
     r = getattr(linea, "refrigeracion", "") if linea else ""
     fijos = {"moto": moto.pk if moto else ("otra" if request.GET.get("moto") == "otra" else None),
+             "despiece": del_catalogo.pk if del_catalogo else None,
              "t": None if linea and linea.transmision else t}
     ctx = {"motos": motos, "moto": moto, "t": t, "base": base, "aviso": True,
-           "cambiar_moto": _url(base) if motos else None}
+           "cambiar_moto": _url(base) if motos else None,
+           "catalogo": catalogo, "del_catalogo": del_catalogo}
 
     # 1) Tipo de moto (si no la sabemos por su línea)
     if not t:
@@ -56,6 +112,10 @@ def diagnostico(request):
     if s not in sintomas:
         ctx["paso"] = "sintoma"
         ctx["sintomas"] = [(_url(base, **fijos, s=clave), datos["nombre"], datos["icono"]) for clave, datos in sintomas.items()]
+        # Sin moto del garaje: interruptor para pasar de "de cambios" a "automática" sin volver atrás
+        if fijos["t"]:
+            ctx["tipo_toggle"] = [(_url(base, **{**fijos, "t": v}), nombre, v == t)
+                                  for v, nombre in (("cadena", "De cambios"), ("cvt", "Automática"))]
         return render(request, "garaje/diagnostico.html", ctx)
 
     preguntas_todas = {p["clave"] for p in dx.SINTOMAS[s]["preguntas"]}
@@ -91,25 +151,29 @@ def diagnostico(request):
     subgrupo = res.get("subgrupo") or (dx.subgrupo_freno(contexto) if res["sistema"] == "Frenos" else "")
     nombre_servicio = dx.servicio_de(clave)
     servicio = Servicio.objects.filter(nombre=nombre_servicio).first()
-    talleres = Taller.objects.filter(activo=True).select_related("barrio")
+    from talleres.views import _base_talleres
+    talleres = _base_talleres()
     if servicio:
         talleres = talleres.filter(servicios=servicio)
-    piezas, sin_despiece = [], False
-    if moto:
-        despiece = Despiece.para(moto)
-        if despiece:
-            laminas = datos_despiece(despiece, calcular_plan(moto))["laminas"]
-            piezas = dx.piezas_candidatas(clave, laminas, subgrupo)
+    piezas, esquemas, sin_despiece = [], [], False
+    despiece = Despiece.para(moto) if moto else del_catalogo
+    if despiece:
+        laminas = _laminas_de(despiece, moto)
+        piezas = dx.piezas_candidatas(clave, laminas, subgrupo)
+        esquemas = dx.esquemas(piezas, laminas)
+        if moto:
             for p in piezas:
                 p["url"] = f"{moto.get_absolute_url()}?pieza={p['id']}#despiece"
-        else:
-            sin_despiece = True
+    elif moto:
+        sin_despiece = True
     ctx.update({
         "paso": "resultado", "clave": clave, "res": res, "subgrupo": subgrupo,
         "urgencia": res["urgencia"], "urgencia_info": dx.URGENCIAS[res["urgencia"]],
-        "piezas": piezas, "sin_despiece": sin_despiece,
+        "piezas": piezas, "sin_despiece": sin_despiece, "esquemas": esquemas,
+        "datos_url": (reverse("garaje:despiece_json", args=[moto.pk]) if moto and despiece
+                      else reverse("garaje:diagnostico_despiece", args=[despiece.pk]) if despiece else None),
         "servicio": servicio, "nombre_servicio": nombre_servicio,
-        "talleres": talleres.order_by("-destacado", "-verificado", "nombre")[:3],
+        "talleres": _tarjetas_diagnostico(talleres.order_by("-destacado", "-verificado", "nombre")[:3], moto, request.user),
         "directorio": _url(reverse("talleres:directorio"), servicio=servicio.pk if servicio else None),
     })
     return render(request, "garaje/diagnostico.html", ctx)

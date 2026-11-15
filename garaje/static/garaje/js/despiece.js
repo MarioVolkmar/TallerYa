@@ -5,6 +5,12 @@
   const seccion = document.getElementById("despiece");
   if (!seccion || !seccion.dataset.datos) return;
   const aviso = document.getElementById("despiece-aviso");
+  const error = document.getElementById("despiece-error");
+  document.getElementById("despiece-reintentar")?.addEventListener("click", () => {
+    if (error) error.hidden = true;
+    seccion.classList.remove("despiece-fallo");
+    cargar();
+  });
   const piezas = new Set((seccion.dataset.piezas || "").split(",").filter(Boolean));
   let pedido = null;
 
@@ -13,13 +19,16 @@
       pedido = fetch(seccion.dataset.datos, { credentials: "same-origin", headers: { Accept: "application/json" } })
         .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
         .then((datos) => {
-          seccion.classList.remove("despiece-cargando");
-          aviso?.remove();
           iniciar(datos);
+          seccion.classList.remove("despiece-cargando", "despiece-fallo");
+          seccion.classList.add("despiece-listo");
+          aviso?.remove();
         })
         .catch(() => {
           pedido = null;
-          if (aviso) aviso.textContent = "No se pudieron cargar las piezas. Revisa tu conexión y recarga la página.";
+          seccion.classList.add("despiece-fallo");
+          if (error) error.hidden = false;
+          if (aviso) aviso.textContent = "No se pudieron cargar las piezas.";
         });
     }
     return pedido;
@@ -29,6 +38,8 @@
   const puente = {
     tiene: (pieza) => piezas.has(pieza),
     mostrar: (pieza) => cargar().then(() => puente.mostrar(pieza)),
+    // El diagnóstico abre la guía de una pieza (por su id) sin salir de su página
+    abrirGuia: (id, opciones) => cargar().then(() => puente.abrirGuia(id, opciones)),
   };
   window.TallerYaDespiece = puente;
 
@@ -384,9 +395,16 @@
       pintarLista();
       reiniciar(false);
 
+      // Pieza inicial: la pedida (?pieza= o un toque); si no, la que explica el estado del sistema (la elige el
+      // servidor: vencida > pronto > la más avanzada > menor número); si no hay pendiente, la primera.
       const inicial = lamina.partes.find((p) => p.id === parteId) ||
-        mant.slice().sort((a, b) => peso(b.estado) - peso(a.estado))[0] || lamina.partes[0];
+        lamina.partes.find((p) => p.id === lamina.inicial) || lamina.partes[0];
       elegir(inicial);
+      if (!parteId && inicial && inicial !== lamina.partes[0]) {
+        // Solo desliza la lista (si tiene su propio scroll); la página no se mueve
+        const fila = lista.querySelector(`.parte-fila[data-id="${inicial.id}"]`);
+        if (fila && lista.scrollHeight > lista.clientHeight) lista.scrollTop = Math.max(0, fila.offsetTop - lista.offsetTop - 8);
+      }
     }
 
     function dibujarPlano() {
@@ -598,7 +616,8 @@
         </fieldset>
         <div class="registro-otro registro-pieza-ancho" hidden>
           <label class="campo-label">Kilometraje
-            <input type="number" name="km" class="campo" inputmode="numeric" min="0" max="${r.km}" value="${r.km}" required></label>
+            <input type="number" name="km" class="campo" inputmode="numeric" min="0" max="${r.km}" value="${r.km}"
+              placeholder="Si no lo sabes, déjalo vacío"></label>
           <label class="campo-label">Fecha
             <input type="date" name="fecha" class="campo" max="${r.hoy}" value="${r.hoy}" required></label>
         </div>
@@ -606,6 +625,9 @@
           <select name="taller" class="campo"><option value="">Lo hice yo / sin taller</option></select></label>
         <label class="campo-label registro-pieza-ancho" data-otro hidden>Nombre del taller (opcional)
           <input type="text" name="taller_otro" maxlength="80" class="campo" placeholder="Ej: Motos El Paisa"></label>
+        <label class="campo-label registro-pieza-ancho" data-precio hidden>Precio (opcional)
+          <input type="text" name="precio" inputmode="numeric" maxlength="12" class="campo" placeholder="Ej: 85.000" autocomplete="off"></label>
+        <div class="registro-pieza-ancho" data-verificar hidden></div>
         <p class="registro-pieza-aviso registro-pieza-ancho" aria-live="polite"></p>
         <button class="btn btn-lava text-xs py-3 registro-pieza-ancho">Registrar mantenimiento</button>`;
       const select = form.querySelector("select");
@@ -613,16 +635,25 @@
       const otro = el("option", "", "Otro taller (fuera de TallerYa)");
       otro.value = "otro";
       select.appendChild(otro);
-      select.addEventListener("change", () => { form.querySelector("[data-otro]").hidden = select.value !== "otro"; });
+      // Taller de TallerYa elegido: aviso "Aún no está verificado" con el QR (componente común: codigo_taller.js).
+      if (r.codigo_url) form.dataset.codigoUrl = r.codigo_url;
+      select.addEventListener("change", () => {
+        form.querySelector("[data-otro]").hidden = select.value !== "otro";
+        // Precio solo si lo hizo un taller: va a la hoja de vida y de ahí a Gastos (una sola vez). "Lo hice yo" no guarda precio.
+        const precio = form.querySelector("[data-precio]");
+        precio.hidden = select.value === "";
+        if (precio.hidden) precio.querySelector("input").value = "";
+      });
       caja.appendChild(form);
       const aviso = form.querySelector(".registro-pieza-aviso");
       const km = form.querySelector('[name="km"]');
-      const boton = form.querySelector("button");
+      const boton = form.querySelector("button:not([type=button])");  // el de enviar (no "Generar otro")
       const revisar = () => {
         const v = Number(km.value);
-        const malo = km.value === "" || !Number.isInteger(v) || v < 0 || v > r.km;
+        const vacio = km.value === "";  // sin km: lo estimamos por la fecha (con tus lecturas de kilometraje)
+        const malo = !vacio && (!Number.isInteger(v) || v < 0 || v > r.km);
         aviso.className = "registro-pieza-aviso registro-pieza-ancho" + (malo ? " error-km" : "");
-        aviso.textContent = !malo ? "" : v > r.km
+        aviso.textContent = vacio ? "Sin kilometraje: lo estimamos con la fecha y tus lecturas." : !malo ? "" : v > r.km
           ? `No puede ser mayor que el kilometraje actual (${r.km.toLocaleString("es-CO")} km).`
           : "Escribe el kilometraje en números enteros.";
         boton.disabled = malo;
@@ -665,6 +696,11 @@
           ver.href = location.pathname + "#plan";
           ver.addEventListener("click", (ev) => { ev.preventDefault(); location.hash = "plan"; location.reload(); });
           ok.appendChild(ver);
+          if (res.hoja_vida) {
+            const hv = el("a", "km-cambios", "Guardado también en tu hoja de vida");
+            hv.href = res.hoja_vida;
+            ok.append(" · ", hv);
+          }
           ficha.querySelector(".parte-tarea")?.after(ok);
         } catch (err) {
           aviso.className = "registro-pieza-aviso registro-pieza-ancho error-km";
@@ -684,7 +720,7 @@
           if (p.tarea && p.tarea.id === t.id) {
             toca = true;
             p.estado = t.estado;
-            Object.assign(p.tarea, { etiqueta: t.etiqueta, detalle: t.detalle, porcentaje: t.porcentaje });
+            Object.assign(p.tarea, { etiqueta: t.etiqueta, detalle: t.detalle, porcentaje: t.porcentaje, km: t.km });
           }
         });
         if (!toca) return;
@@ -717,6 +753,12 @@
       if (parte.estado) cabeza.appendChild(el("span", `estado estado-${parte.estado} shrink-0`, ETIQUETA[parte.estado]));
       ficha.appendChild(cabeza);
 
+      if (parte.fuera_planos) {
+        const aviso = el("p", "parte-fuera-planos");
+        aviso.append(el("span", "pastilla-fuera-planos", "No aparece en los planos"),
+                     el("span", "", " La dibujamos porque tu moto sí la tiene; se compra por su referencia."));
+        ficha.appendChild(aviso);
+      }
       if (parte.ayuda) ficha.appendChild(el("p", "parte-ayuda", parte.ayuda));
 
       if (parte.tarea) {
@@ -774,6 +816,31 @@
       const ul = el("ul", `guia-lista ${clase}`);
       items.forEach((t) => ul.appendChild(el("li", "", t)));
       return ul;
+    }
+
+    // Franja de ancho completo bajo el encabezado: km estimados desde el último cambio, barra y cuánto falta (color del
+    // nivel del plan) y, en letra pequeña, de dónde sale la cuenta.
+    function franjaKm(k) {
+      const miles = (n) => Math.abs(n).toLocaleString("es-CO");
+      const franja = el("section", `guia-franja-km nivel-${k.nivel}`);
+      franja.setAttribute("aria-label", "Kilometraje estimado");
+      const cifra = el("p", "guia-franja-cifra");
+      cifra.append(el("strong", "", `≈ ${miles(k.desde)} km`), el("span", "", " desde el último cambio"));
+      franja.appendChild(cifra);
+      const barra = el("div", `barra barra-${k.nivel}`);
+      barra.setAttribute("role", "progressbar");
+      barra.setAttribute("aria-valuemin", "0");
+      barra.setAttribute("aria-valuemax", "100");
+      barra.setAttribute("aria-valuenow", String(k.porcentaje));
+      const relleno = el("span");
+      relleno.style.width = k.porcentaje + "%";
+      barra.appendChild(relleno);
+      franja.appendChild(barra);
+      const falta = k.restantes > 0 ? `faltan ${miles(k.restantes)} km · ${k.porcentaje} %`
+        : k.restantes === 0 ? "toca justo ahora" : `pasado por ${miles(k.restantes)} km`;
+      franja.appendChild(el("p", "guia-franja-falta", falta));
+      franja.appendChild(el("p", "guia-franja-origen", k.texto_origen));
+      return franja;
     }
 
     function abrirGuia(parte) {
@@ -839,80 +906,71 @@
         cabeza.classList.add("con-dibujo");
       }
       guia.appendChild(cabeza);
+      if (parte.tarea && parte.tarea.km) guia.appendChild(franjaKm(parte.tarea.km));
 
       const cuerpo = el("div", "guia-cuerpo");
 
-      const queHace = seccion("¿Qué hace?", "◎", "guia-que");
-      queHace.appendChild(el("p", "guia-texto", g.que_hace));
-      if (g.contexto) queHace.appendChild(el("p", "guia-contexto", g.contexto));
-      cuerpo.appendChild(queHace);
+      // Tarjetas por parejas de largo parecido, en filas de 2 que se estiran a la más alta; si a una pareja le falta
+      // una tarjeta, la que queda va a lo ancho. En celular, una columna.
+      const cartas = {};
+      cartas.que = seccion("¿Qué hace?", "◎", "guia-que");
+      cartas.que.appendChild(el("p", "guia-texto", g.que_hace));
+      if (g.contexto) cartas.que.appendChild(el("p", "guia-contexto", g.contexto));
 
-      const cada = seccion("¿Cada cuánto?", "↻", "guia-cada");
-      if (parte.tarea) {
-        const plan = el("div", "guia-plan");
-        plan.appendChild(el("p", "guia-intervalo", parte.tarea.intervalo || parte.tarea.nombre));
+      // "¿Cada cuánto?": una sola línea del intervalo (con su nota). El estado va en la franja de km; si la tarea no
+      // cuenta por km (solo por tiempo), su estado va aquí, una vez.
+      cartas.cada = seccion("¿Cada cuánto?", "↻", "guia-cada");
+      cartas.cada.appendChild(el("p", "guia-texto", g.cada_cuanto));
+      if (parte.tarea && !parte.tarea.km) {
+        const plan = el("div", "guia-plan mt-3");
         if (parte.tarea.porcentaje !== null && parte.tarea.porcentaje !== undefined) {
-          const barraEstado = el("div", `barra barra-${parte.estado} mt-2`);
+          const barraEstado = el("div", `barra barra-${parte.estado}`);
           const relleno = el("span");
           relleno.style.width = parte.tarea.porcentaje + "%";
           barraEstado.appendChild(relleno);
           plan.appendChild(barraEstado);
         }
-        plan.appendChild(el("p", "text-sm mt-2", `${parte.tarea.nombre}: ${parte.tarea.detalle}`));
-        cada.appendChild(plan);
-        cada.appendChild(el("p", "guia-texto mt-3", g.cada_cuanto));
-      } else {
-        cada.appendChild(el("p", "guia-texto", g.cada_cuanto));
+        plan.appendChild(el("p", "text-sm mt-2", parte.tarea.detalle));
+        cartas.cada.appendChild(plan);
       }
-      cuerpo.appendChild(cada);
 
+      if (g.senales && g.senales.length) {
+        cartas.senales = seccion("Señales de que algo anda mal", "!", "guia-senales");
+        cartas.senales.appendChild(listaGuia(g.senales, "guia-alertas"));
+      }
       if (g.como_revisar && g.como_revisar.length) {
-        const revisar = seccion("Cómo revisarla tú mismo", "◉", "guia-revisar");
-        revisar.appendChild(listaGuia(g.como_revisar, "guia-pasos"));
-        cuerpo.appendChild(revisar);
+        cartas.revisar = seccion("Cómo revisarla tú mismo", "◉", "guia-revisar");
+        cartas.revisar.appendChild(listaGuia(g.como_revisar, "guia-pasos"));
       }
 
-      const senales = seccion("Señales de que algo anda mal", "!", "guia-senales");
-      senales.appendChild(listaGuia(g.senales, "guia-alertas"));
-      cuerpo.appendChild(senales);
-
-      if (g.si_no) {
-        const consecuencia = seccion("Si no la atiendes", "⚠", "guia-si-no");
-        consecuencia.classList.add("guia-advertencia");
-        consecuencia.appendChild(el("p", "guia-texto", g.si_no));
-        cuerpo.appendChild(consecuencia);
-      }
-
-      const consejos = seccion("Consejos", "✓", "guia-consejos");
-      consejos.appendChild(listaGuia(g.tips, "guia-consejos"));
-      cuerpo.appendChild(consejos);
-
-      if (g.al_comprar && g.al_comprar.length) {
-        const compra = seccion("Al comprar el repuesto", "$", "guia-compra");
-        compra.appendChild(listaGuia(g.al_comprar, "guia-compra"));
-        cuerpo.appendChild(compra);
-      }
-
-      const dificultad = seccion("¿Lo hago yo?", "⚒", "guia-hazlo");
+      cartas.hazlo = seccion("¿Lo hago yo?", "⚒", "guia-hazlo");
       const nivel = { facil: 1, media: 2, taller: 3 }[g.dificultad] || 3;
       const medidor = el("div", "guia-dificultad");
       const niveles = el("span", "guia-niveles");
       niveles.setAttribute("aria-hidden", "true");
       for (let n = 1; n <= 3; n++) niveles.appendChild(el("span", n <= nivel ? `lleno nivel-${nivel}` : ""));
       medidor.append(niveles, el("span", "font-semibold", g.dificultad_texto));
-      dificultad.appendChild(medidor);
-      cuerpo.appendChild(dificultad);
-      let columna = 0, previa = null;
-      for (const carta of cuerpo.children) {
-        if (carta.classList.contains("guia-destacada")) {
-          if (columna === 1 && previa) previa.classList.add("guia-ancha");
-          columna = 0;
-        } else {
-          columna = 1 - columna;
-        }
-        previa = carta;
+      cartas.hazlo.appendChild(medidor);
+      if (g.al_comprar && g.al_comprar.length) {
+        cartas.compra = seccion("Al comprar el repuesto", "$", "guia-compra");
+        cartas.compra.appendChild(listaGuia(g.al_comprar, "guia-compra"));
       }
-      if (columna === 1 && previa) previa.classList.add("guia-ancha");
+
+      if (g.tips && g.tips.length) {
+        cartas.consejos = seccion("Consejos", "✓", "guia-consejos");
+        cartas.consejos.appendChild(listaGuia(g.tips, "guia-consejos"));
+      }
+      if (g.si_no) {
+        cartas.si_no = seccion("Si no la atiendes", "⚠", "guia-si-no");
+        cartas.si_no.classList.add("guia-advertencia");
+        cartas.si_no.appendChild(el("p", "guia-texto", g.si_no));
+      }
+
+      for (const [a, b] of [["que", "cada"], ["senales", "revisar"], ["hazlo", "compra"], ["consejos", "si_no"]]) {
+        const fila = [cartas[a], cartas[b]].filter(Boolean);
+        if (fila.length === 1) fila[0].classList.add("guia-ancha");
+        cuerpo.append(...fila);
+      }
       guia.appendChild(cuerpo);
 
       // Acciones
@@ -981,6 +1039,13 @@
         window.TallerYaSecciones?.abrir("despiece");
         mostrar(lamina);
         $("despiece").scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "start" });
+    };
+    puente.abrirGuia = function (id, opciones = {}) {
+      const lamina = laminas.find((l) => l.partes.some((p) => p.id === Number(id)));
+      if (!lamina) return;
+      mostrar(lamina, Number(id));
+      abrirGuia(lamina.partes.find((p) => p.id === Number(id)));
+      if (opciones.sospechosa) guia.querySelector(".guia-cabeza .flex")?.appendChild(el("span", "guia-sospecha", "Puede ser esta"));
     };
 
     if (laminas.length) mostrar(laminas[0]);

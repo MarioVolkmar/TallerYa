@@ -82,6 +82,11 @@ GUIA = {
                      ["Revisa que esté firme y con sus dos tornillos."], "Floja, la bomba gira al frenar.", ["Aprieta primero el tornillo de arriba"], "facil"),
     "interruptor": _g("Es el interruptor que prende la luz de stop cuando frenas.", "Revísalo cuando revises las luces.", ["La luz de stop no prende o queda prendida"],
                       ["Pide a alguien que mire el stop mientras frenas."], "Sin luz de stop, los de atrás no saben que vas a frenar.", ["Es barato y fácil de cambiar"], "facil"),
+    "cable_cbs": _g("Es el cable del frenado combinado (CBS): al pisar el pedal trasero, jala también la bomba delantera para que frenen las dos ruedas.",
+                    "No tiene cambio por kilometraje: revisa su ajuste cuando revises los frenos.",
+                    ["El freno delantero se queda pegado", "Al pisar el pedal, la moto frena solo atrás"],
+                    ["Pisa el pedal: la manigueta debe moverse un poco sola."], "Desajustado, se pierde el frenado combinado o el freno queda arrastrando.",
+                    ["Lo ajusta el taller: un cable muy tenso deja el freno delantero pegado"], "taller"),
     "kit_reparacion": _g("Es el kit para reparar la bomba por dentro: pistón, copas de caucho y resorte.",
                          "Se usa cuando la bomba bota líquido o el freno pierde presión.", ["Fuga en la bomba", "Freno que se va a fondo"],
                          ["Si la bomba gotea por detrás de la manigueta o del pedal, necesita este kit."], "Con las copas vencidas el freno pierde fuerza.", ["Después de instalarlo hay que purgar el freno"]),
@@ -140,6 +145,16 @@ GUIA = {
               ["Rueda con juego", "Eje torcido u oxidado"], ["Debe estar recto y limpio."], "Torcido, la rueda vibra; seco, se oxida y se pega.", ["Engrásalo antes de montarlo", "Su tuerca lleva torque y pasador de seguridad"]),
     "rin": _g("Es el rin: la estructura de la rueda donde va montada la llanta.", "Revísalo al revisar las llantas.", ["Rin golpeado o torcido", "Vibración en el manubrio"],
               ["Gira la rueda y mira que no tambalee."], "Un rin torcido hace vibrar la moto y puede dañar la llanta.", ["Tras un golpe fuerte, hazlo revisar"]),
+    "neumatico": _g("Es el neumático (la cámara): el tubo de caucho con aire que va dentro de la llanta en las ruedas con cámara. Trae la válvula.",
+                    "No tiene cambio por kilometraje: se cambia si se pincha muchas veces, si pierde aire o cuando cambias la llanta.",
+                    ["La llanta se baja seguido", "Se pinchó y ya tiene varios parches"],
+                    ["Revisa la presión cada semana con la llanta fría."], "Bajo de aire, la llanta se calienta, se gasta rápido y la moto pierde agarre.",
+                    ["Al cambiar la llanta, pon neumático nuevo de la misma medida"], "media"),
+    "radios": _g("Son los radios (rayos): unen la manzana con el rin y sostienen el peso de la moto; cada uno se aprieta con su niple en el rin.",
+                 "Revísalos en cada mantenimiento: con un destornillador golpea suave cada uno; todos deben sonar parecido.",
+                 ["Un rayo suena diferente (flojo)", "La rueda se ve torcida al girar", "Un rayo roto"],
+                 ["Golpéalos uno por uno: el que suena apagado está flojo."], "Flojos, el rin se tuerce y se pueden partir más rayos.",
+                 ["El ajuste y el centrado del rin los hace el taller"], "taller"),
     "llanta": _g("Es la llanta: el único contacto de la moto con el piso. De ella dependen el agarre y la frenada.",
                  "Revisa la presión cada semana; se cambia cuando el labrado llega al testigo (1 mm) o tiene 5 años.",
                  ["Labrado gastado o liso", "Grietas o chichones", "Pierde aire"], ["Mide la presión en frío.", "Busca los testigos de desgaste en el labrado."],
@@ -349,7 +364,8 @@ GUIA = {
     "rodamientos_direccion": _g("Son las cunas de dirección: rodamientos que dejan girar el manubrio suave.", "Engrásalas cada 10.000 a 15.000 km.",
                                 ["Manubrio duro o con 'puntos' al girar", "Golpe al frenar fuerte"], ["Con la rueda en el aire, gira el manubrio: debe ir suave, sin escalones."],
                                 "Gastadas, la moto se vuelve inestable.", ["Se cambian con sus tazas"]),
-    "amortiguador": _g("Es el amortiguador trasero: controla el rebote del resorte para que la rueda no salte.", "Revísalo cada 10.000 km.",
+    "amortiguador": _g("Es el amortiguador trasero: controla el rebote del resorte para que la rueda no salte.",
+                       "Revísalo cada 20.000 km (fugas y rebote), o antes si rebota o bota aceite; dura entre 20.000 y 40.000 km según el uso.",
                        ["La moto rebota mucho atrás", "Aceite en el amortiguador"], ["Hunde la moto atrás: debe subir una vez y quedarse."], "Vencido, la rueda salta y pierde agarre.", ["Se cambian por pares (si son dos)"]),
     "basculante": _g("Es el basculante: el brazo que une la rueda trasera al chasis y sube y baja con la suspensión.", "Engrasa sus bujes cada 10.000 km.",
                      ["Juego en la rueda trasera"], ["Mueve la rueda de lado: no debe tener juego en el basculante."], "Con juego, la moto se mueve de atrás en las curvas.", ["Revisa sus bujes"]),
@@ -424,6 +440,15 @@ GUIA.update({
                  ["El testigo de neutro no prende o queda prendido"], ["Pon neutro con la llave prendida: debe prender la luz verde."],
                  "Si falla, no sabes si estás en neutro y la moto puede no prender.", ["Revisa su cable y conector"], "media"),
     # Carburación e inyección
+    "amarra": _g("Es una amarra plástica: sujeta el cableado al chasis para que no roce ni se suelte.",
+                 "No tiene cambio por kilometraje: se cambia si se rompe.", ["Cables sueltos o que rozan"],
+                 ["Revisa que el cableado vaya sujeto y lejos del escape."], "Suelto, el cable roza, se pela y causa fallas eléctricas.",
+                 ["No la aprietes tanto que estrangule los cables"], "facil"),
+    # F4-3: en la inyección es el cuerpo de aceleración (sin chicleres; el limpiador de carburador daña el sensor TPS)
+    "inyeccion:cuerpo": _g("Es el cuerpo de aceleración: por ahí pasa el aire que entra al motor y la mariposa regula cuánto, según cuánto aceleres.",
+                           "Límpialo cada 10.000 km o si el mínimo está inestable.", ["Mínimo inestable", "Se apaga al soltar el acelerador"],
+                           ["Mira que la mariposa esté limpia y que el acelerador regrese solo."], "Sucio, la moto se apaga en mínimo y responde mal.",
+                           ["Límpialo con limpiador de cuerpo de aceleración (apto para sensores), aplicado con un trapo, sin mojar el sensor de posición del acelerador (TPS)"]),
     "cuerpo": _g("Es el cuerpo del carburador o del acelerador: por ahí pasa el aire que entra al motor, y la mariposa o la cortina regulan cuánto, según cuánto aceleres.",
                  "Límpialo cada 10.000 km o si la moto prende mal o no tiene mínimo estable.", ["Mínimo inestable", "Tirones al acelerar", "Mucho consumo"],
                  ["Mira que el acelerador regrese solo y que no haya fugas de gasolina."], "Sucio, la moto se apaga en mínimo y gasta más.", ["Límpialo con limpiador de carburador, sin meter alambres en los chicleres"]),
@@ -499,8 +524,14 @@ GUIA.update({
                 ["Goteo de aceite alrededor del eje"], ["Busca aceite alrededor del eje."], "Con fuga, el motor pierde aceite poco a poco.", ["Instálalo con la cara del resorte hacia el aceite"], "media"),
     "visor": _g("Es el visor del nivel de aceite: una ventanita para ver si el aceite está entre las marcas.", "Míralo cada semana, con la moto derecha y el motor frío.",
                 ["No se ve el aceite o se ve muy oscuro"], ["Con la moto derecha, el aceite debe verse entre las dos marcas."], "Con poco aceite, el motor se desgasta o se funde.", ["Revísalo siempre en el mismo lugar plano"], "facil"),
-    "tapon_llenado": _g("Es el tapón de llenado del aceite (a veces con la varilla de nivel).", "Se abre para revisar o completar el aceite.", ["Fuga por el tapón"],
-                        ["Debe cerrar firme con su O-ring."], "Mal cerrado, bota aceite.", ["Cambia su O-ring si está duro"], "facil"),
+    "tapon_llenado": _g("Es el tapón por donde se echa el aceite. En muchas motos trae pegada una varilla para medir el nivel: "
+                        "se saca, se limpia, se mete sin enroscar y el aceite debe quedar entre las dos marcas.",
+                        "El tapón no se cambia: dura lo que la moto si no se rompe. Lo que se cambia es su empaque (el o-ring de "
+                        "caucho), cuando está duro, aplastado o rajado; lo normal es revisarlo en cada cambio de aceite.",
+                        ["Aceite por el borde del tapón", "El tapón queda flojo o se sale"],
+                        ["Mira el o-ring: debe estar blando, redondo y sin cortes.", "Mide el nivel con la moto derecha y el motor frío."],
+                        "Con el empaque malo bota aceite y entra mugre al motor.",
+                        ["Ciérralo solo con la mano, sin herramienta", "Un o-ring cuesta poco: cámbialo si dudas"], "facil"),
     "tapon_drenaje": _g("Es el tapón de drenaje: por ahí se saca el aceite viejo.", "Se quita en cada cambio de aceite.", ["Goteo por el tapón"],
                         ["Debe estar firme y sin humedad."], "Flojo, se pierde el aceite.", ["Arandela nueva en cada cambio"], "facil"),
     "carcasa_caja": _g("Es la carcasa de la transmisión final: guarda los engranajes y su propio aceite.", _SIN_CAMBIO, ["Fuga de aceite"], ["Busca aceite en su borde."],
@@ -520,6 +551,21 @@ GUIA.update({
     "ventilador": _g("Es el ventilador del radiador: se prende cuando el motor está caliente y la moto va despacio, para pasar aire por el radiador.", _SIN_CAMBIO,
                      ["La temperatura sube en trancones", "El ventilador no prende"], ["Deja la moto prendida quieta: el ventilador debe arrancar solo."],
                      "Si no prende, el motor se recalienta en el tráfico.", ["Revisa su fusible y su conector"], "media"),
+    "sello_cable_alta": _g("Es el sello del cable de alta: tapa la entrada del cable a la bobina o al capuchón para que no entre agua.",
+                           "No tiene cambio por kilometraje: se cambia si está cuarteado o suelto.",
+                           ["La moto falla o se apaga con lluvia o al lavarla", "Chispa o humedad donde entra el cable"],
+                           ["Mira que abrace el cable sin rajaduras."], "Con agua adentro, la chispa se escapa y el motor falla.",
+                           ["Si lavas la moto, no apuntes el agua a la bobina"], "facil"),
+    "filtro_correa": _g("Es el filtro de aire de la caja de la correa: deja entrar aire limpio para enfriar la correa y el variador sin que entre polvo.",
+                        "Revísalo y límpialo con la correa (lo pide el manual de las Yamaha automáticas); cámbialo si está roto o muy sucio.",
+                        ["La correa se calienta o se gasta rápido", "Mucho polvo dentro de la tapa de la transmisión"],
+                        ["Quita su tapa y mira la espuma: debe estar entera y sin barro."], "Tapado, la correa se recalienta y dura menos.",
+                        ["Si lavas la moto a presión, no apuntes a esa entrada de aire"], "media"),
+    "bomba_agua": _g("Es la bomba de agua: la mueve el motor y hace circular el refrigerante entre el motor y el radiador.",
+                     "No tiene cambio por kilometraje: revisa que no gotee refrigerante por su tapa o por el agujerito de abajo (indica sello gastado).",
+                     ["Gotas de refrigerante debajo de la bomba", "El motor se calienta aunque el radiador esté lleno"],
+                     ["Busca humedad o manchas blancas alrededor de la tapa de la bomba."], "Sin circulación, el motor se recalienta y se daña.",
+                     ["Si gotea, se cambian el sello mecánico y los o-rings, no siempre la bomba entera"], "taller"),
     "termostato": _g("Es el termostato: una válvula que no deja pasar el refrigerante al radiador hasta que el motor se calienta, para que llegue rápido a su temperatura.",
                      _SIN_CAMBIO, ["El motor se recalienta", "Tarda mucho en calentar"], ["El taller lo prueba en agua caliente."], "Pegado cerrado, el motor se recalienta.", ["Se cambia con el refrigerante"]),
     "radiador:deposito": _g("Es el depósito de expansión del refrigerante: guarda el líquido que se expande al calentarse y lo devuelve al enfriarse. Aquí se revisa el nivel.",
@@ -698,6 +744,11 @@ GUIA.update({
                           "Dañada, hay explosiones en el exosto y contamina más.", ["Revisa sus mangueras"], "media"),
     "flasher": _g("Es el flasher (intermitente): hace parpadear las direccionales.", _SIN_CAMBIO, ["Las direccionales no parpadean o van muy rápido"],
                   ["Si van muy rápido, suele ser un bombillo fundido."], "Si falla, las direccionales quedan fijas o apagadas.", ["Con bombillos LED se usa flasher para LED"], "facil"),
+    "pinon_tacometro": _g("Es el piñón del tacómetro: lo mueve el árbol de levas y hace girar la guaya del tacómetro (las revoluciones del motor).",
+                          "No tiene cambio por kilometraje: se revisa si la aguja del tacómetro no se mueve o salta.",
+                          ["La aguja de las revoluciones no se mueve", "Ruido o goteo de aceite donde entra la guaya"],
+                          ["Con el motor encendido, la aguja debe subir al acelerar."], "Sin él no sabes las revoluciones del motor.",
+                          ["Si la aguja falla, revisa primero la guaya"], "taller"),
     "pinon_velocimetro": _g("Es el piñón del velocímetro: va en la rueda y mueve la guaya que hace funcionar el velocímetro.", _SIN_CAMBIO,
                             ["El velocímetro no marca"], ["Revisa que la guaya gire al mover la rueda."], "Si se daña, el velocímetro deja de marcar.", ["Engrásalo al montar la rueda"], "media"),
     "caja_cambios": _g("Es la caja de cambios completa: los dos ejes con todos sus piñones, uno para cada marcha.", _SIN_CAMBIO,
@@ -750,9 +801,11 @@ _PALABRAS = [
     (r"EJE TIJERA|PIVOT SHAFT", "eje_basculante"), (r"KIT BUJ.*TIJERA|BUJES TIJERA", "bujes"), (r"TIJERA (CTA|COMPLETA)|SWING ?ARM|BRAZO OSCILANTE", "basculante"),
     (r"EMPAQ", "empaque"), (r"SEPARATOR", "empaque"),
     (r"SUSPEN|FRONT FORK|FORK ASSY", "barra_completa"), (r"DESLIZADOR", "deslizador"), (r"NEUMATI|TUBE, TIRE|INNER TUBE", "llanta"),
+    (r"^FLANGE\b.*DRIVEN|FINAL DRIVEN FLANGE", "porta_sprocket"), (r"\bSENSOR\b.*(VELOC|SPEED)|SPEED SENSOR|(VELOC|SPEED).*\bSENSOR\b", "sensor_cable"), (r"TACHOMETER", "pinon_tacometro"),
+    (r"SPEEDOMETER (GEAR|BOX)|GEAR,? SPEEDOMETER|GEAR SET, SPEEDOMETER|BOX ASSY, SPEEDOMETER", "pinon_velocimetro"),
     (r"DRIVEN|POLEA TRASERA|POLEA CONDUCIDA", "polea_trasera"), (r"PACKING|GASKET", "h_empaque"), (r"SHIM|LAINA", "h_arandela"), (r"CRANK ?CASE|CARCASA (CENTRAL|MOTOR)", "carter"), (r"KIT ARRAST|DRIVE CHAIN KIT", "kit_arrastre"),
-    (r"\bBELT|CORREA", "correa"), (r"HERRAMIENTA|TOOL", "herramienta"), (r"TYRE|\bTIRE|LLANTA", "llanta"), (r"CLEANER ASSY|ELEMENT, AIR", "admision:filtro"),
-    (r"PISTON ASSY|PISTON SET", "kit_reparacion"), (r"BREATHER|RESPIRADERO", "respiradero"), (r"O ?RING|ORING", "h_empaque"), (r"SET RING|\bRING\b", "h_seguro"),
+    (r"CORREA PL|KIT CORREAS|AMARRA|CINTILLO|BAND, WIRE|WIRE BAND", "amarra"), (r"\bBELT|CORREA", "correa"), (r"HERRAMIENTA|TOOL", "herramienta"), (r"TYRE|\bTIRE|LLANTA", "llanta"), (r"CLEANER ASSY|ELEMENT, AIR", "admision:filtro"),
+    (r"PISTON ASSY|PISTON SET", "kit_reparacion"), (r"BREATHER|RESPIRADERO", "respiradero"), (r"\bO[- ]?RING|ORING", "h_empaque"), (r"SET RING|\bRING\b", "h_seguro"),
     (r"^TIJERA|TIJERA (CTA|COMPLETA|TTR)", "basculante"),
     (r"GUARDAB|GUARDAFANGO|FENDER", "guardabarro"), (r"VENTILADOR|COOLING FAN|FAN, ", "ventilador_motor"), (r"CARBURADOR|CARBURETOR", "cuerpo"),
     (r"POLEA FIJA|FIXED (DRIVE )?FACE|FACE COMP, FIX", "polea_fija"), (r"POLEA MOVIL|MOVABLE", "polea_movil"), (r"AIR/C|AIR CLEANER|FILTRO (DE )?AIRE", "caja"),
@@ -767,11 +820,22 @@ GUIA["valvula_ais"] = GUIA["aire_secundario"]
 GUIA["amortiguadores:cadena"] = GUIA["cadena"]
 
 
+_SOLO_CVT = {"polea_trasera", "correa"}
+
+
 def guia_por_palabras(descripcion, diagrama=""):
     """Guía por el nombre de taller de la pieza (culatín, volante, botadores, tijera...); None si no se reconoce."""
     import unicodedata
     texto = "".join(c for c in unicodedata.normalize("NFD", (descripcion or "").upper()) if unicodedata.category(c) != "Mn")
+    base = (diagrama or "").split("__")[0]
+    if re.search(r"HIGH TENSION|CABLE DE ALTA", texto):
+        return GUIA["sello_cable_alta"]
+    # La primera palabra manda antes que las palabras de taller: "WASHER, 1ST DRIVEN" es una arandela, no la polea
+    if re.match(r"(WASHER|CIRCLIP|SNAP RING|BUSH|COLLAR|SPACER|SEAL|OIL SEAL|NUT|BOLT|SCREW|O-?\s?RING|CLAMP\w*)\b", texto):
+        return None
     for patron, clave in _PALABRAS:
+        if clave in _SOLO_CVT and base != "cvt":
+            continue                                    # la polea, la correa y el variador son de la automática
         if re.search(patron, texto):
             return guia_herraje(clave, diagrama, descripcion) if clave.startswith("h_") else GUIA.get(clave)
     return None
@@ -790,6 +854,9 @@ def guia_mecanica(diagrama, puesto, kit=None, descripcion=""):
                                 + "; ".join(p[:1].lower() + p[1:] for p in partes[:4]) + ".")
             return guia
     puesto = (puesto or "").replace("_trasera", "")
+    # El filtro de la tapa de la transmisión (scooter) no es el de aceite: es el de aire de la caja de la correa
+    if base == "carcasa" and puesto == "filtro" and re.match(r"ELEMENT(O)?\b(?!.*(OIL|ACEITE))", (descripcion or "").upper()):
+        return GUIA["filtro_correa"]
     por_nombre = guia_por_palabras(descripcion, diagrama)
     if por_nombre and (puesto.startswith("h_") or not puesto):
         return por_nombre                               # el nombre de taller dice más que su grupo de tornillería

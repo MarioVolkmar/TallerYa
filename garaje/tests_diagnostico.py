@@ -63,7 +63,7 @@ class VistaDiagnosticoTests(TestCase):
                                             direccion="Cl 1", barrio=barrio, activo=True)
         self.taller.servicios.add(self.frenos)
         self.nmax = LineaMoto.objects.get(nombre="NMAX 155")
-        despiece = Despiece.objects.create(linea=self.nmax, version="BBE4", anio=2024)
+        self.despiece = despiece = Despiece.objects.create(linea=self.nmax, version="BBE4", anio=2024)
         lamina = Lamina.objects.create(despiece=despiece, figura=22, titulo="FRONT BRAKE CALIPER", titulo_es="Freno delantero",
                                        pieza="freno_del", diagrama="freno_disco")
         self.pastilla = ParteDespiece.objects.create(lamina=lamina, ref=9, codigo="2DP-F5805-00", descripcion="BRAKE PAD KIT",
@@ -103,7 +103,9 @@ class VistaDiagnosticoTests(TestCase):
         ids = [p["id"] for p in r.context["piezas"]]
         self.assertIn(self.pastilla.pk, ids)
         self.assertEqual(len(ids), 1)  # el tornillo no entra
-        self.assertContains(r, f"{self.moto.get_absolute_url()}?pieza={self.pastilla.pk}#despiece")
+        # La pieza abre la guía ahí mismo: ya no enlaza a la ficha de la moto
+        self.assertNotContains(r, f"?pieza={self.pastilla.pk}")
+        self.assertContains(r, f'data-guia-pieza="{self.pastilla.pk}"')
 
     def test_moto_ajena_no_se_usa(self):
         otro = User.objects.create_user("b@x.com", "b@x.com", "x")
@@ -112,3 +114,123 @@ class VistaDiagnosticoTests(TestCase):
         r = self.client.get(self.url, {"moto": self.moto.pk})
         self.assertIsNone(r.context["moto"])
         self.assertEqual(r.context["paso"], "tipo")
+
+    RESULTADO_FRENO = {"s": "frena_mal", "cual": "del", "como": "poco"}
+
+    def test_motero_con_moto_ve_esquema_y_no_la_leyenda_de_agregar(self):
+        self.client.force_login(self.usuario)
+        r = self.client.get(self.url, self.RESULTADO_FRENO)
+        self.assertNotContains(r, "Agrega tu moto al garaje")
+        self.assertNotContains(r, "Agrega esta moto a tu garaje")
+        self.assertEqual(len(r.context["esquemas"]), 1)
+        esquema = r.context["esquemas"][0]
+        # Todas las piezas dibujadas del sistema, numeradas; la sospechosa marcada y primero en la lista
+        self.assertGreater(len(esquema["marcas"]), 1)
+        self.assertEqual([m["id"] for m in esquema["sospechosas"]], [self.pastilla.pk])
+        self.assertTrue(esquema["resto"])
+        self.assertContains(r, "Puede ser una de estas")
+        self.assertContains(r, "Resto del sistema")
+        self.assertContains(r, "Toca un número para ver la pieza")
+        # Ya no sale la sección de piezas aparte
+        self.assertNotContains(r, "Piezas a revisar")
+        self.assertNotContains(r, "Ver en el esquema")
+
+    def test_visitante_con_moto_del_catalogo(self):
+        r = self.client.get(self.url)
+        self.assertContains(r, f'<option value="{self.despiece.pk}"')
+        r = self.client.get(self.url, {"despiece": self.despiece.pk})
+        self.assertEqual(r.context["paso"], "sintoma")  # la transmisión sale de la línea (NMAX = cvt)
+        self.assertContains(r, "Transmisión CVT")
+        r = self.client.get(self.url, {"despiece": self.despiece.pk, **self.RESULTADO_FRENO})
+        self.assertEqual([p["id"] for p in r.context["piezas"]], [self.pastilla.pk])
+        self.assertEqual(len(r.context["esquemas"]), 1)
+        self.assertContains(r, "Crea tu cuenta gratis")
+        self.assertContains(r, reverse("cuentas:registro"))
+
+    def test_motero_elige_moto_del_catalogo_aunque_tenga_una_en_el_garaje(self):
+        self.client.force_login(self.usuario)
+        r = self.client.get(self.url, {"despiece": self.despiece.pk, **self.RESULTADO_FRENO})
+        self.assertIsNone(r.context["moto"])
+        self.assertContains(r, "Agrega esta moto a tu garaje")
+        self.assertContains(r, reverse("garaje:agregar"))
+
+    def test_sin_moto_no_sale_esquema(self):
+        r = self.client.get(self.url, {"t": "cadena", **self.RESULTADO_FRENO})
+        self.assertEqual(r.context["esquemas"], [])
+        self.assertNotContains(r, "Esquema del sistema")
+        self.assertNotContains(r, "diag-esquema-dibujo")
+        self.assertContains(r, "para ver el esquema con las piezas a revisar")
+
+    def test_motero_abre_la_guia_del_despiece_con_sus_datos(self):
+        self.client.force_login(self.usuario)
+        r = self.client.get(self.url, self.RESULTADO_FRENO)
+        # El visor real del despiece (su guía de pieza), con los datos de la moto del garaje
+        self.assertContains(r, "garaje/js/despiece.js")
+        self.assertContains(r, f'data-datos="{reverse("garaje:despiece_json", args=[self.moto.pk])}"')
+        self.assertContains(r, 'id="guia"')
+        self.assertNotContains(r, 'id="diag-guia"')        # ya no hay guía propia del diagnóstico
+
+    def test_visitante_abre_la_guia_con_el_json_publico_del_despiece(self):
+        r = self.client.get(self.url, {"despiece": self.despiece.pk, **self.RESULTADO_FRENO})
+        url = reverse("garaje:diagnostico_despiece", args=[self.despiece.pk])
+        self.assertContains(r, f'data-datos="{url}"')
+        datos = self.client.get(url).json()
+        self.assertIn("laminas", datos)
+        self.assertNotIn("registro", datos)
+        ids = {p["id"] for l in datos["laminas"] for p in l["partes"]}
+        self.assertIn(self.pastilla.pk, ids)
+        self.assertGreater(len(ids), 1)                    # el sistema completo, no solo la sospechosa
+        self.assertEqual(self.client.get(reverse("garaje:diagnostico_despiece", args=[99999])).status_code, 404)
+
+    def test_sin_moto_no_hay_guia(self):
+        r = self.client.get(self.url, {"t": "cadena", **self.RESULTADO_FRENO})
+        self.assertNotContains(r, 'id="diag-guia"')
+
+    def test_esquema_una_fila_por_numero(self):
+        from .models import ParteDespiece
+        # Otra fila con el mismo número (variante de código): en el esquema sale una sola vez
+        ParteDespiece.objects.create(lamina=self.pastilla.lamina, ref=2, codigo="90109-08299", descripcion="BOLT")
+        self.client.force_login(self.usuario)
+        r = self.client.get(self.url, self.RESULTADO_FRENO)
+        refs = [m["ref"] for m in r.context["esquemas"][0]["marcas"]]
+        self.assertEqual(len(refs), len(set(refs)))
+
+    def test_buscador_sin_anio_y_combobox(self):
+        r = self.client.get(self.url)
+        nombre = f"{self.nmax.marca.nombre} {self.nmax.nombre}"
+        self.assertContains(r, f">{nombre}</option>")
+        self.assertNotContains(r, f"{nombre} · 2024")
+        self.assertContains(r, 'role="combobox"')
+        self.assertContains(r, 'role="listbox"')
+        self.assertContains(r, "diag_buscador.js")
+        r = self.client.get(self.url, {"despiece": self.despiece.pk})
+        self.assertContains(r, f"{nombre}<small>del catálogo</small>")
+
+    def test_no_la_ruedes_enlaza_a_te_varaste(self):
+        url = reverse("talleres:emergencias") + "?necesito=grua"
+        r = self.client.get(self.url, {"t": "cadena", **self.RESULTADO_FRENO})   # frenos gastados: "No la ruedes"
+        self.assertContains(r, url)
+        r = self.client.get(self.url, {"t": "cadena", "s": "electrico", "que": "tablero"})   # "Puedes seguir rodando"
+        self.assertNotContains(r, url)
+
+
+class SeguridadDiagnosticoTests(TestCase):
+    """Correcciones del Auditor mecánico: los casos que no se deben rodar."""
+
+    def test_llanta_baja_no_se_rueda(self):
+        clave = dx.resultado("inestable", {"t": "cvt", "como": "pinchada"})
+        self.assertEqual(clave, "llanta_baja")
+        self.assertEqual(dx.RESULTADOS[clave]["urgencia"], "parar")
+        self.assertEqual(dx.servicio_de(clave), "Llantas")
+
+    def test_inestable_lleva_a_direccion_y_alineacion(self):
+        self.assertEqual(dx.resultado("inestable", {"t": "cadena", "como": "bambolea"}), "direccion")
+        self.assertEqual(dx.resultado("inestable", {"t": "cadena", "como": "pesada"}), "direccion_dura")
+        self.assertEqual(dx.resultado("inestable", {"t": "cadena", "como": "lado"}), "alineacion")
+
+    def test_humo_del_motor_con_olor_a_cable_es_corto(self):
+        self.assertIsNone(dx.resultado("humo", {"t": "cadena", "color": "motor"}))   # falta preguntar el olor
+        clave = dx.resultado("humo", {"t": "cadena", "color": "motor", "olor": "cable"})
+        self.assertEqual(clave, "corto_electrico")
+        self.assertEqual(dx.RESULTADOS[clave]["urgencia"], "parar")
+        self.assertEqual(dx.resultado("humo", {"t": "cadena", "color": "motor", "olor": "aceite"}), "aceite_en_escape")

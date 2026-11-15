@@ -181,6 +181,10 @@ _NOMBRES = {
     "WASHER, SPECIAL": "Arandela especial",
     "GASKET": "Empaque",
     "O-RING": "O-ring (empaque redondo)",
+    # Yamaha y Honda llaman así al tapón de llenado que trae la varilla de nivel (no es un visor)
+    "PLUG, OIL LEVEL": "Tapón con varilla del aceite",
+    "SEAL, HIGH TENSION CORD": "Sello del cable de alta de la bobina",
+    "GAUGE, OIL LEVEL": "Tapón con varilla del aceite",
     "SEAL": "Sello",
     "CLIP": "Grapa",
     "CLAMP": "Abrazadera",

@@ -5,6 +5,7 @@
   "anio": 2020,
   "fuente": "Catálogo Suzuki GIXXER SF FI · P74 · GSX150FRLAM0 (2020-1); misma mecánica que la Gixxer 150 FI ABS (se usan solo las figuras mecánicas)",
   "formato": "suzuki",
+  "variante": "FI ABS",
   "laminas": [
     {
       "figura": 52,
@@ -24,14 +25,14 @@
         "DIAPHRAGM": "liquido-frenos",
         "CAP": "liquido-frenos"
       },
-      "diagrama": "bombas_abs"
+      "diagrama": "bomba_freno"
     },
     {
       "figura": 51,
       "titulo_es": "Unidad ABS",
       "pieza": "freno_del",
       "reglas": {},
-      "diagrama": "bombas_abs"
+      "diagrama": "bomba_freno"
     },
     {
       "figura": 58,

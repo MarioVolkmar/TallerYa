@@ -233,6 +233,82 @@ def _sin_tildes(texto):
     return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
 
 
+# Enlaces por defecto tarea → pieza, iguales para todas las motos: se usan después de las reglas del mapa (que mandan,
+# también sus exclusiones null). Así cada tarea del plan tiene una pieza en su sistema y el visor abre en ella.
+# Cuando la tarea no cambia una pieza (el líquido de frenos), la pieza representativa es donde se revisa y se rellena.
+_RUEDA = ("rueda", "rueda_trasera", "rueda_tambor")
+REGLAS_GLOBALES = [
+    # (diagramas, piezas de la lámina o None, {patrón: tarea})
+    (("bomba_freno", "freno_completo", "bombas_abs", "freno_trasero"), None,
+     {"CAP, RESERVOIR": "liquido-frenos", "CAP, MASTER CYLINDER": "liquido-frenos", "RESERVOIR CAP": "liquido-frenos",
+      "TAPA BOMBA": "liquido-frenos", "TAPA TANQUE": "liquido-frenos", "TAPA DEPOSITO": "liquido-frenos"}),
+    (("electrico",), None, {"BATTERY": "bateria", "BATERIA": "bateria"}),
+    (("culata", "encendido"), None, {"SPARK PLUG": "bujia", "PLUG, SPARK": "bujia", "PLUG,SPARK": "bujia", "BUJIA": "bujia"}),
+    (_RUEDA, ("llanta_del",), {"TIRE": "llanta-del", "TYRE": "llanta-del", "LLANTA": "llanta-del", "NEUMATICO": "llanta-del"}),
+    (_RUEDA, ("llanta_tras", "cadena"), {"TIRE": "llanta-tras", "TYRE": "llanta-tras", "LLANTA": "llanta-tras", "NEUMATICO": "llanta-tras"}),
+    (("rueda_tambor", "freno_tambor"), ("llanta_tras", "freno_tras"), {"SHOE": "bandas-tras", "BANDA": "bandas-tras"}),
+    (("suspension_delantera",), None, {"OIL SEAL": "suspension-del", "RETEN": "suspension-del", "RETENEDOR": "suspension-del"}),
+    (("amortiguadores",), None, {"SHOCK ABSORBER": "suspension-tras", "CUSHION ASSY": "suspension-tras", "AMORTIGUADOR": "suspension-tras"}),
+    (("admision",), None, {"ELEMENT": "filtro-aire", "FILTRO AIRE": "filtro-aire", "AIR FILTER": "filtro-aire",
+                           "ELEMENTO FILTR": "filtro-aire", "ESPUMA FILTRO": "filtro-aire", "FILTRO DE AIRE": "filtro-aire"}),
+    (("caja_secundaria",), None, {"DRAIN": "aceite-caja", "DRENAJE": "aceite-caja", "BOLT, STRAIGHT SCREW": "aceite-caja"}),
+]
+
+
+def completar_con_globales(despiece, tareas, conf):
+    """Segunda pasada: las tareas que el mapa no logró enlazar en ninguna pieza de este despiece se enlazan con las
+    reglas globales (respetando las exclusiones null del mapa). Devuelve cuántas piezas se enlazaron."""
+    enlazadas = set(ParteDespiece.objects.filter(lamina__despiece=despiece, tarea__isnull=False)
+                    .values_list("tarea__clave", flat=True))
+    nuevas = 0
+    for lamina in despiece.laminas.all():
+        nulos = {k: None for laminas in conf["laminas"] for k, v in (laminas.get("reglas") or {}).items()
+                 if v is None and laminas.get("diagrama") == lamina.diagrama}
+        reglas = {}
+        for diagramas, piezas, globales in REGLAS_GLOBALES:
+            if lamina.diagrama in diagramas and (piezas is None or lamina.pieza in piezas):
+                reglas.update({k: v for k, v in globales.items() if v not in enlazadas and v in tareas})
+        if not reglas:
+            continue
+        partes = list(lamina.partes.all())
+        cambio = []
+        for parte in partes:
+            if parte.tarea_id or any(_sin_tildes(k).upper() in _sin_tildes(parte.descripcion).upper() for k in nulos):
+                continue
+            clave = tarea_para(reglas, parte.descripcion)
+            if clave:
+                parte.tarea = tareas[clave]
+                cambio.append(parte)
+        if cambio:
+            ParteDespiece.objects.bulk_update(cambio, ["tarea"])
+            ParteDespiece.objects.bulk_update(tarea_al_sello(partes), ["tarea"])
+            nuevas += len(cambio)
+            enlazadas |= {p.tarea.clave for p in cambio}
+    # Tercera opción: si el catálogo no vende la pieza que se cambia (la batería, el aceite de la caja), una pieza
+    # representativa donde se hace el trabajo: el soporte de la batería, la bomba del freno, la carcasa de la caja.
+    for clave, diagramas, patrones in REPRESENTATIVAS:
+        if clave in enlazadas or clave not in tareas:
+            continue
+        candidatas = [p for p in ParteDespiece.objects.filter(lamina__despiece=despiece, tarea__isnull=True).select_related("lamina")
+                      .order_by("lamina__orden", "ref") if diagramas is None or p.lamina.diagrama in diagramas]
+        for patron in patrones:
+            elegida = next((p for p in candidatas if re.search(patron, _sin_tildes(p.descripcion).upper())), None)
+            if elegida:
+                elegida.tarea = tareas[clave]
+                elegida.save(update_fields=["tarea"])
+                enlazadas.add(clave)
+                nuevas += 1
+                break
+    return nuevas
+
+
+_FRENOS = ("bomba_freno", "freno_completo", "bombas_abs", "freno_trasero", "freno_disco")
+REPRESENTATIVAS = [
+    ("liquido-frenos", _FRENOS, [r"BOMBA (DE )?FRENO|MASTER CYLINDER|CILINDRO MAESTRO"]),
+    ("aceite-caja", ("caja_secundaria",), [r"^(CARCAZA|CARCASA|CASE COMP|CASE, TRANSMISSION|CASE COMP\., MISSION)"]),
+]
+
+
 def tarea_para(reglas, descripcion, espanol=""):
     """Clave de la tarea del plan para una fila del catálogo según las reglas del mapa ({patrón: clave}).
 
@@ -249,6 +325,73 @@ def tarea_para(reglas, descripcion, espanol=""):
             if texto.startswith(p) or primera not in HERRAJES_INICIO:
                 return clave
     return None
+
+
+# Un tapón no se cambia en el mantenimiento: se cambia su empaque (o-ring o arandela). El catálogo suele listarlo justo
+# antes o después del tapón; si no, el empaque dice de qué tapón es ("ARANDELA TAPÓN", "WASHER, DRAIN").
+_TAPON = re.compile(r"^(PLUG(?!,?\s*SPARK)|TAP[OÓ]N(?! DE BUJ)|BOLT,?\s*(STRAIGHT SCREW|DRAIN)|DRAIN BOLT|TORNILLO,?\s+(DE\s+)?DRENAJE)", re.I)
+# La tapa del filtro de aceite tampoco se cambia: se cambia su o-ring; si la lámina no lo trae, la tapa suelta la tarea
+_TAPA_FILTRO = re.compile(r"^(TAPA|CUBIERTA|CAP|COVER)\b.*\b(FILTRO|FILTER)", re.I)
+# La varilla (o tapón con varilla) del aceite tampoco: su o-ring si lo hay; si no, la suelta (el empaque de drenaje la tiene)
+_VARILLA = re.compile(r"^(GAUGE,?\s*OIL LEVEL|OIL LEVEL GAUGE|PLUG,?\s*OIL LEVEL|VARILLA|TAP[OÓ]N DEL? NIVEL)", re.I)
+_NOMBRA_VARILLA = re.compile(r"\b(GAUGE|LEVEL|VARILLA|MEDIDOR|TAP[OÓ]N)\b", re.I)
+# El filtro sí se cambia, y con él el o-ring o empaque que lo acompaña
+_FILTRO = re.compile(r"^(FILTER|FILTRO|ELEMENT|CEDAZO)", re.I)
+_SELLO = re.compile(r"^(O-?\s?RING|ORING|GASKET|WASHER|EMPAQUE|EMPAQ|ARANDELA|ARAND|JUNTA|PACKING|ANILLO\s+RETEN|ANILLO\s+(EN\s+)?O\b)", re.I)
+_SELLO_FILTRO = re.compile(r"^(O-?\s?RING|ORING|GASKET|EMPAQUE|EMPAQ|ANILLO\s+(EN\s+)?O\b)", re.I)
+_NOMBRA_TAPON = re.compile(r"\b(TAP[OÓ]N|PLUG|DRAIN|DRENAJE)\b", re.I)
+_CONJUNTO_TAPON = re.compile(r"^(STRAINER|SCREEN|SPRING|CEDAZO|MALLA|REJILLA|RESORTE|FILTER|FILTRO|COLADOR)", re.I)
+_NOMBRA_TAPA = re.compile(r"\b(TAPA|CUBIERTA|CAP|COVER)\b", re.I)
+
+
+def _sello_de(p, partes, por_ref, nombra):
+    """El empaque de una pieza: primero el que la nombra ("WASHER, DRAIN PLUG", "ARAND TAPÓN DRENAJE"), el más cercano;
+    si no, el número anterior o el siguiente; si no, el o-ring que sigue al conjunto tapón-colador-resorte."""
+    nombran = sorted((q for q in partes if q is not p and not q.tarea_id and _SELLO.match(q.descripcion.strip(" ."))
+                      and nombra.search(q.descripcion)), key=lambda q: abs(q.ref - p.ref))
+    if nombran:
+        return nombran[0]
+    for ref in (p.ref + 1, p.ref - 1):
+        q = por_ref.get(ref)
+        if q and not q.tarea_id and _SELLO.match(q.descripcion.strip(" .")):
+            return q
+    # Tapón con colador (scooter): tapón, colador y resorte, y después su o-ring
+    ref = p.ref + 1
+    while por_ref.get(ref) and _CONJUNTO_TAPON.match(por_ref[ref].descripcion.strip(" .")):
+        ref += 1
+    q = por_ref.get(ref)
+    if ref > p.ref + 1 and q and not q.tarea_id and _SELLO.match(q.descripcion.strip(" .")):
+        return q
+    return None
+
+
+def tarea_al_sello(partes):
+    """partes: las de una lámina. Devuelve las que cambiaron: el empaque de un tapón o de la tapa del filtro toma su
+    tarea (y el tapón o la tapa la suelta); el o-ring de un filtro la comparte con el filtro."""
+    por_ref = {p.ref: p for p in partes}
+    cambios = []
+    for p in sorted(partes, key=lambda q: q.ref):
+        if not p.tarea_id:
+            continue
+        texto = p.descripcion.strip(" .")
+        if _TAPA_FILTRO.match(texto) or _VARILLA.match(texto):
+            sello = _sello_de(p, partes, por_ref, _NOMBRA_TAPA if _TAPA_FILTRO.match(texto) else _NOMBRA_VARILLA)
+            if sello:
+                sello.tarea_id = p.tarea_id
+                cambios.append(sello)
+            p.tarea_id = None
+            cambios.append(p)
+        elif _TAPON.match(texto):
+            sello = _sello_de(p, partes, por_ref, _NOMBRA_TAPON)
+            if sello:
+                sello.tarea_id, p.tarea_id = p.tarea_id, None
+                cambios += [sello, p]
+        elif _FILTRO.match(texto):
+            sello = por_ref.get(p.ref + 1)
+            if sello and not sello.tarea_id and _SELLO_FILTRO.match(sello.descripcion.strip(" .")):
+                sello.tarea_id = p.tarea_id
+                cambios.append(sello)
+    return list({id(q): q for q in cambios}.values())
 
 
 def _nombre_es(fila):
@@ -294,7 +437,8 @@ class Command(BaseCommand):
 
         with transaction.atomic():
             despiece, _ = Despiece.objects.update_or_create(
-                linea=linea, version=conf["version"], defaults={"anio": conf["anio"], "fuente": conf.get("fuente", "")},
+                linea=linea, version=conf["version"], defaults={"anio": conf["anio"], "fuente": conf.get("fuente", ""), "variante": conf.get("variante", ""),
+                          "especificaciones": conf.get("especificaciones", {})},
             )
             for orden, item in enumerate(conf["laminas"]):
                 clave_fig = str(item["figura"]).upper()
@@ -331,6 +475,8 @@ class Command(BaseCommand):
 
                 enlazadas = 0
                 for fila in fig["filas"]:
+                    if fila.get("codigo") in item.get("descripciones", {}):
+                        fila["descripcion"] = item["descripciones"][fila["codigo"]]
                     texto = f"{fila['descripcion']} {fila.get('espanol', '')}".upper()
                     clave = tarea_para(item.get("reglas", {}), fila["descripcion"], fila.get("espanol", ""))
                     tarea = tareas.get(clave) if clave else None
@@ -338,8 +484,12 @@ class Command(BaseCommand):
                     datos = {k: v for k, v in fila.items() if k != "espanol"}
                     ParteDespiece.objects.create(lamina=lamina, nombre_es=_nombre_es(fila),
                                                  ayuda=ayuda_para(fila["descripcion"]), tarea=tarea, **datos)
+                ParteDespiece.objects.bulk_update(tarea_al_sello(list(lamina.partes.all())), ["tarea"])
                 self.stdout.write(self.style.SUCCESS(
                     f"FIG. {clave_fig:>3} {lamina.nombre}: {len(fig['filas'])} partes, {enlazadas} enlazadas al plan"))
+            nuevas = completar_con_globales(despiece, tareas, conf)
+            if nuevas:
+                self.stdout.write(f"Enlaces por defecto (tareas sin pieza en el mapa): {nuevas}")
         self.stdout.write(f"Listo: {despiece}. Marca las piezas en el admin > Láminas de despiece.")
 
     def _reenlazar(self, lamina, item, fig, tareas, clave_fig):
@@ -352,6 +502,8 @@ class Command(BaseCommand):
         cambios, enlazadas = [], 0
         for parte in lamina.partes.all():
             fila = filas.get((str(parte.ref), parte.codigo)) or {"descripcion": parte.descripcion}
+            if parte.codigo in item.get("descripciones", {}):
+                parte.descripcion = item["descripciones"][parte.codigo]
             clave = tarea_para(item.get("reglas", {}), parte.descripcion, fila.get("espanol", ""))
             parte.tarea = tareas.get(clave) if clave else None
             parte.nombre_es = (nombre_por_sistema(lamina.diagrama, parte.descripcion)
@@ -359,5 +511,6 @@ class Command(BaseCommand):
             parte.ayuda = ayuda_para(parte.descripcion)
             enlazadas += bool(parte.tarea)
             cambios.append(parte)
-        ParteDespiece.objects.bulk_update(cambios, ["tarea", "nombre_es", "ayuda"])
+        ParteDespiece.objects.bulk_update(cambios, ["tarea", "nombre_es", "ayuda", "descripcion"])
+        ParteDespiece.objects.bulk_update(tarea_al_sello(cambios), ["tarea"])
         self.stdout.write(f"FIG. {clave_fig:>3} {lamina.nombre}: reenlazada ({len(cambios)} partes, {enlazadas} enlazadas al plan)")

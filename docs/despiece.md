@@ -4,6 +4,12 @@ El despiece muestra cada sistema de la moto (frenos, transmisión, motor…) com
 
 Los catálogos de partes de los fabricantes solo se usan en local para leer la lista de piezas. **Nunca se publican**: lo que ve el usuario son los dibujos de `garaje/diagramas.py`.
 
+**Cobertura (nov-2026): 25 líneas con despiece y 26 catálogos.** Los mapas están en `garaje/despiece_mapas/`. Hay un catálogo más que líneas porque la **Suzuki Gixxer 150** tiene dos versiones:
+- **`suzuki_gixxer150_fi_abs_2020`**: Gixxer SF con inyección y ABS, de 2020. Es la activa.
+- **`suzuki_gixxer150_gsx150l6`**: Gixxer de carburador de 2015, con freno de tambor atrás, del catálogo de Suzuki India. Está cargada pero inactiva.
+
+Cuando una línea tiene varios catálogos, `Despiece.para(moto)` (en `garaje/models.py`) elige, entre los **activos**, el del año de la moto o el anterior más cercano. Un catálogo inactivo no se muestra hasta activarlo en el admin. La más reciente es la **Yamaha Aerox 155**: scooter de 155 cc con CVT, refrigeración líquida, ABS adelante y tambor atrás. Se agregó al catálogo con la migración `garaje/0022_linea_aerox_155` y su mapa es `yamaha_aerox155_bvt2.json`: 23 láminas con dibujos propios, sacadas del catálogo Yamaha Colombia BVT2 2026, que se guarda solo en local.
+
 ## Flujo
 
 ```mermaid
@@ -98,6 +104,20 @@ Además, cada pieza muestra textos de dos módulos:
   - el plano con zoom;
   - las piezas coloreadas por estado, con búsqueda;
   - la ficha de la pieza elegida.
+- **Filtro de aire según su tipo.** Los cuidados cambian por tipo, porque el consejo de uno daña a los otros:
+  - **seco** (papel): no se lava ni se aceita;
+  - **viscoso**: no se limpia ni se sopla, se cambia cuando lo pide el plan;
+  - **espuma**: se lava y se aceita.
+  
+  El tipo sale de la descripción de la pieza (espuma), o de `_FILTRO_AIRE_POR_LINEA` en `garaje/views.py`, o en su defecto de la marca: Yamaha y Honda viscoso, el resto seco.
+- **Intervalos:** los textos de cada cuánto vienen de `garaje/intervalos/` (ver *Plan de mantenimiento por moto* en `docs/funciones.md`), no de las fichas.
+
+### 6. Caché
+
+- El despiece armado de cada moto se guarda en la caché `"despiece"`. Fuera de las pruebas es una tabla de la base de datos (`cache_despiece`, hasta 100 entradas), así que sobrevive a los reinicios. Los dibujos SVG van aparte, en la caché `"despiece_svg"`.
+- `manage.py precalentar_despiece` arma la caché de todas las motos. Se salta lo que ya está al día, y con `--max-segundos` para a tiempo y dice cuántos faltan.
+- Después de cada `push` a `main`, `.github/workflows/despiece.yml` llama a `POST /tareas/despiece/` (con el token `TAREAS_TOKEN`) en tandas de unos 15 s, hasta que no falte ninguno. También se puede lanzar a mano (`workflow_dispatch`).
+- La tabla de la caché la crea `build.sh` en cada despliegue (`createcachetable`), y el comando la vuelve a crear si falta.
 
 ## Llevar una moto nueva al despiece
 

@@ -13,7 +13,7 @@
       "reglas": {
         "Pastillas": "pastillas-del"
       },
-      "diagrama": "freno_disco"
+      "diagrama": "freno_completo"
     },
     {
       "figura": "F-7",
@@ -101,6 +101,7 @@
       "titulo_es": "Tapa del volante y piñón de salida",
       "pieza": "cadena",
       "reglas": {
+        "Tapa Piñ": null,
         "Piñon Salida": "kit-arrastre",
         "Piñón Salida": "kit-arrastre"
       },
