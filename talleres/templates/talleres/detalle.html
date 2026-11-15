@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% load avatares static %}
-{% block title %}{{ taller.nombre }} · TallerYa{% endblock %}
+{% load avatares static seo %}
+{% block title %}{{ taller.nombre }} · Taller de motos en {{ taller.barrio.nombre }} · TallerYa{% endblock %}
+{% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc imagen=seo_img %}{% json_ld_taller taller %}{% endblock %}
 
 {% block hero %}
 <section class="hero relative overflow-hidden perfil-hero portada-garaje">

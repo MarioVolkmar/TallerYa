@@ -82,7 +82,7 @@ class TramitesTests(TestCase):
     def test_pide_chasis_o_foto_de_tarjeta(self):
         self._pedir(chasis_motor="")
         self.assertFalse(PedidoSoat.objects.exists())
-        foto = SimpleUploadedFile("tarjeta.jpg", b"JPEG de prueba", content_type="image/jpeg")
+        foto = SimpleUploadedFile("tarjeta.jpg", b"\xff\xd8\xffJPEG de prueba", content_type="image/jpeg")
         self._pedir(chasis_motor="", tarjeta_propiedad=foto)
         pedido = PedidoSoat.objects.get()
         self.assertTrue(pedido.tarjeta_propiedad.name.startswith("soat/"))

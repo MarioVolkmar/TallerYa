@@ -17,7 +17,9 @@
         {% if c.estado == "pendiente" %}
         <button name="estado" value="confirmada" class="pt-boton pt-boton-ok">Confirmar</button>
         {% elif c.estado == "confirmada" %}
-        <button name="estado" value="atendida" class="pt-boton pt-boton-ok">Atendida</button>
+        <a href="{% url 'talleres:servicio_cita' c.pk %}" class="pt-boton pt-boton-ok">Registrar servicio</a>
+        {% elif c.estado == "atendida" and not c.servicios_hechos.exists %}
+        <a href="{% url 'talleres:servicio_cita' c.pk %}" class="pt-boton pt-boton-ok">Registrar servicio</a>
         {% endif %}
         {% if c.estado == "pendiente" or c.estado == "confirmada" or c.estado == "reprogramada" %}
         <button type="button" class="pt-boton pt-boton-mostaza" data-reprogramar="{% url 'talleres:cita_reprogramar' c.pk %}" data-nombre="{{ c.nombre }}" data-fecha="{{ c.fecha_propuesta|default:c.fecha_preferida|date:'Y-m-d' }}">{% if c.estado == "reprogramada" %}Cambiar propuesta{% else %}Reprogramar{% endif %}</button>

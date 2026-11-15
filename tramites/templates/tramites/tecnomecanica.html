@@ -50,7 +50,10 @@
   {% for c in cdas %}
   <article class="tc tr-cda-tc{% if c.aliado %} destacado{% endif %}" style="--tono: {{ c.tono }}">
     <div class="tc-portada tr-cda-portada">
-      <svg class="tc-marca-agua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/></svg>
+      <a href="{{ c.como_llegar }}" target="_blank" rel="noopener" class="tr-cda-mapa-col" aria-label="Ver {{ c.nombre }} en Google Maps">
+      <iframe src="{{ c.mapa_url }}" title="Mapa de {{ c.nombre }}" loading="lazy" tabindex="-1" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <span>Ver en el mapa ↗</span>
+      </a>
       <div class="tc-insignias">
         {% if c.aliado %}<span class="tc-chapa tc-chapa-lava">Aliado TallerYa</span>{% endif %}
         <span class="tc-chapa tc-chapa-verif">Centro de diagnóstico</span>
@@ -71,10 +74,6 @@
         {% if not c.precio_moto %}<li class="tr-sin">Precio por confirmar</li>{% endif %}
       </ul>
     </div>
-    <a href="{{ c.como_llegar }}" target="_blank" rel="noopener" class="tr-cda-mapa-col" aria-label="Ver {{ c.nombre }} en Google Maps">
-      <iframe src="{{ c.mapa_url }}" title="Mapa de {{ c.nombre }}" loading="lazy" tabindex="-1" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <span>Ver en el mapa ↗</span>
-    </a>
     <div class="tc-pie tr-cda-pie">
       {% if c.whatsapp_url %}<a href="{{ c.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-4 py-2.5">Agendar por WhatsApp</a>
       {% elif c.telefono %}<a href="tel:{{ c.telefono }}" class="btn btn-borde text-xs px-4 py-2.5">Llamar para agendar</a>{% endif %}

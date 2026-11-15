@@ -567,12 +567,12 @@ class RegistrarServicioTests(PanelTallerTests):
         codigo = generar_codigo(moto).codigo
         url = reverse("talleres:registrar_servicio")
         self.assertContains(self.client.get(url, {"codigo": codigo}), f'value="{codigo}"')
-        r = self.client.post(url, {"codigo": codigo, "fecha": timezone.localdate().isoformat(), "km": 5100,
-                                   "servicios": "Cambio de aceite", "costo": "", "notas": ""}, follow=True)
+        r = self.client.post(url, {"guardar": "1", "codigo": codigo, "fecha": timezone.localdate().isoformat(), "km": 5100,
+                                   "otros": "Cambio de aceite", "costo": "", "notas": ""}, follow=True)
         self.assertContains(r, "Registrado y verificado en la hoja de vida de la moto")
         registro = RegistroServicio.objects.get(moto=moto)
         self.assertTrue(registro.verificado)
-        r = self.client.post(url, {"codigo": codigo, "fecha": timezone.localdate().isoformat(), "km": 5200, "servicios": "Otra"})
+        r = self.client.post(url, {"guardar": "1", "codigo": codigo, "fecha": timezone.localdate().isoformat(), "km": 5200, "otros": "Otra"})
         self.assertEqual(r.status_code, 200)  # el código ya se usó
         self.assertEqual(RegistroServicio.objects.filter(moto=moto).count(), 1)
 

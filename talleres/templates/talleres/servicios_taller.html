@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Servicios registrados · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="mt-8 md:mt-10 sv">
+  {% url 'talleres:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi taller" %}
+  <h1 class="titulo text-4xl md:text-5xl">Servicios <span class="text-lava">registrados</span></h1>
+  <section class="sv-resumen" aria-label="Resumen">
+    <div class="pt-cifra pt-verde"><span>Este mes</span><strong>{{ resumen.servicios_mes }}</strong></div>
+    <div class="pt-cifra pt-mostaza"><span>Por confirmar</span><strong>{{ resumen.por_confirmar }}</strong></div>
+    <div class="pt-cifra pt-lava"><span>En total</span><strong>{{ resumen.servicios_total }}</strong></div>
+  </section>
+  <a href="{% url 'talleres:registrar_servicio' %}" class="btn btn-lava sv-enviar">+ Moto sin cita</a>
+  <section class="papel pt-caja">
+    <ul class="sv-lista">
+      {% for s in pagina %}
+      <li class="sv-item">
+        <div class="pt-cita-fecha"><strong>{{ s.fecha|date:"j" }}</strong><span>{{ s.fecha|date:"M"|lower }}</span></div>
+        <p class="pt-cita-quien">{{ s.moto }}{% if s.cita %} <span>· {{ s.cita.nombre }}</span>{% endif %}</p>
+        <p class="sv-que">{{ s.resumen }} · {{ s.km }} km{% if s.costo %} · ${{ s.costo }}{% endif %}</p>
+        <p><span class="pt-chip chip-{{ s.estado }}">{{ s.get_estado_display }}</span></p>
+      </li>
+      {% empty %}
+      <li class="pt-vacio"><p>Aún no has registrado servicios.</p><small>Al terminar una cita toca «Registrar servicio»: queda en la hoja de vida de la moto con tu sello y el dueño puede calificarte.</small></li>
+      {% endfor %}
+    </ul>
+    {% include "talleres/_paginas.html" %}
+  </section>
+</div>
+{% endblock %}

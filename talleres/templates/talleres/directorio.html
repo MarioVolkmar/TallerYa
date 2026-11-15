@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+{% load seo %}
 {% load static %}
-{% block title %}Talleres de motos en Medellín · TallerYa{% endblock %}
+{% block title %}{% if seo_pagina %}{{ seo_pagina.titulo }}{% else %}Talleres de motos en Medellín · TallerYa{% endif %}{% endblock %}
+{% block seo %}{% if seo_pagina %}{% seo titulo=seo_pagina.titulo descripcion=seo_pagina.descripcion %}{% else %}{% seo titulo="Talleres de motos en Medellín · TallerYa" descripcion="Directorio de talleres de motos en Medellín y el Valle de Aburrá: compara reseñas, servicios y precios, guarda favoritos y pide tu cita por WhatsApp." %}{% endif %}{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <section class="directorio mt-8 md:mt-12">
   <header class="dir-cabeza">
     <div>
       <p class="etiqueta">Directorio · Medellín y Valle de Aburrá</p>
-      <h1 class="titulo text-4xl md:text-5xl mt-3">Talleres de <span class="text-lava">confianza</span></h1>
-      <p class="text-suave mt-2 max-w-xl">Compara reseñas, servicios y precios, guarda tus favoritos y pide tu cita por WhatsApp.</p>
+      {% if seo_pagina %}<h1 class="titulo text-4xl md:text-5xl mt-3">{{ seo_pagina.h1 }}</h1>
+      <p class="text-suave mt-2 max-w-xl">{{ seo_pagina.intro }}</p>{% else %}<h1 class="titulo text-4xl md:text-5xl mt-3">Talleres de <span class="text-lava">confianza</span></h1>
+      <p class="text-suave mt-2 max-w-xl">Compara reseñas, servicios y precios, guarda tus favoritos y pide tu cita por WhatsApp.</p>{% endif %}
     </div>
     <div class="dir-stats">
       <div class="dir-stat dir-stat-lava"><strong>{{ stats.total }}</strong><span>Talleres</span></div>

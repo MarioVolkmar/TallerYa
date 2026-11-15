@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponseRedirect, JsonResponse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.db.models import Q
 from django.urls import reverse
@@ -18,6 +18,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import PerfilTallerForm, RegistroTallerForm, ResenaForm, SolicitudCitaForm
 from . import agenda, estadisticas
+from . import seo as seo_
 from . import precios as precios_ref
 from .models import Barrio, EventoDiario, FotoTaller, Marca, Resena, Servicio, SolicitudCita, Taller, TallerFavorito
 from .utils import normalizar_celular, pesos
@@ -132,9 +133,13 @@ ORDEN_SQL = {
 }
 
 
-def directorio(request):
-    """Página de talleres: búsqueda, filtros, orden, favoritos y paginación."""
-    f = request.GET
+def directorio(request, fijos=None, seo=None):
+    """Página de talleres: búsqueda, filtros, orden, favoritos y paginación.
+
+    `fijos` y `seo` los usan las páginas por barrio y servicio (talleres/seo.py): mismos filtros, texto propio."""
+    f = request.GET.copy()
+    for clave, valor in (fijos or {}).items():
+        f[clave] = str(valor)
     talleres = _base_talleres()
     if q := f.get("q", "").strip():
         # El filtro por servicio va en subconsulta: así no se duplican filas ni hace falta DISTINCT.
@@ -192,6 +197,7 @@ def directorio(request):
     for r in referencia:
         r["desde_txt"], r["hasta_txt"] = pesos(r["desde"]), pesos(r["hasta"])
     return render(request, "talleres/directorio.html", {
+        "seo_pagina": seo,
         "referencia": referencia,
         "pagina": pagina,
         "rango": paginador.get_elided_page_range(pagina.number, on_each_side=1, on_ends=1),
@@ -202,8 +208,7 @@ def directorio(request):
         "orden": orden,
         "ordenes": ORDENES,
         "stats": {
-            "total": activos_todos.count(),
-            "verificados": activos_todos.filter(verificado=True).count(),
+            **activos_todos.order_by().aggregate(total=Count("pk"), verificados=Count("pk", filter=Q(verificado=True))),
             "cupones": Cupon.objects.disponibles().filter(taller__activo=True).values("taller").distinct().count(),
         },
         "barrios": Barrio.objects.filter(talleres__activo=True).distinct(),
@@ -231,6 +236,34 @@ def favorito(request, slug):
     return redirect(destino)
 
 
+# Freno contra spam y notas infladas: reseñas y citas que alguien (con o sin cuenta) puede enviar por hora.
+MAX_RESENAS_POR_HORA, MAX_CITAS_POR_HORA = 3, 5
+
+
+def _claves_publicar(request, taller, accion):
+    from cuentas.limites import ip_cliente
+    quien = f"u{request.user.pk}" if request.user.is_authenticated else ip_cliente(request)
+    if accion == "cita":
+        return f"citas:{quien}", MAX_CITAS_POR_HORA
+    return f"resenas:{taller.pk}:{quien}", MAX_RESENAS_POR_HORA
+
+
+def _bloqueo_publicar(request, taller, accion):
+    """Mensaje de error si no se puede publicar la reseña o la cita; "" si sí."""
+    from cuentas.limites import superado
+    if accion != "cita" and request.user.is_authenticated and getattr(request.user, "taller", None) == taller:
+        return "No puedes reseñar tu propio taller."
+    clave, maximo = _claves_publicar(request, taller, accion)
+    if superado(clave, maximo):
+        return "Enviaste varias seguidas. Intenta de nuevo en un rato."
+    return ""
+
+
+def _contar_publicacion(request, taller, accion):
+    from cuentas.limites import sumar
+    sumar(_claves_publicar(request, taller, accion)[0], 3600)
+
+
 def detalle(request, slug):
     taller = get_object_or_404(Taller.objects.select_related("barrio", "usuario__perfil").prefetch_related("servicios", "marcas"),
                                slug=slug, activo=True)
@@ -247,7 +280,7 @@ def detalle(request, slug):
         inicial_cita["servicio"] = request.GET["servicio"]
     cita_form = SolicitudCitaForm(taller=taller, initial=inicial_cita)
     resena_form = ResenaForm(initial={"nombre": request.user.first_name} if request.user.is_authenticated else None)
-    abrir = ""
+    abrir = "resena" if request.GET.get("calificar") else ""  # desde el aviso "califica al taller"
 
     if request.method == "POST":
         accion = request.POST.get("accion")
@@ -257,6 +290,10 @@ def detalle(request, slug):
         else:
             resena_form = ResenaForm(request.POST)
             form, msg, abrir = resena_form, "¡Gracias por tu reseña!", "resena"
+        bloqueo = _bloqueo_publicar(request, taller, accion)
+        if bloqueo:
+            messages.error(request, bloqueo)
+            return redirect(taller)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.taller = taller
@@ -272,6 +309,7 @@ def detalle(request, slug):
             except agenda.FranjaOcupada as e:
                 form.add_error("hora" if "hora" in form.fields else None, str(e))
             else:
+                _contar_publicacion(request, taller, accion)
                 messages.success(request, msg)
                 return redirect(taller)
 
@@ -288,7 +326,17 @@ def detalle(request, slug):
     # Numeración de las secciones según las que existan, para que siempre sea 01, 02, 03…
     nombres = ["sobre", "servicios"] + (["fotos"] if fotos else []) + (["cupones"] if cupones else []) + ["resenas"]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
+    lugar = f"{taller.barrio.nombre}, {taller.barrio.ciudad}"
+    servicios_txt = ", ".join(x.nombre.lower() for x in list(taller.servicios.all())[:4])
+    seo_desc = (" ".join(taller.descripcion.split())[:170] + " " if taller.descripcion.strip() else "")
+    seo_desc += f"Taller de motos en {lugar}." + (f" Servicios: {servicios_txt}." if servicios_txt else "")
+    if resenas:
+        seo_desc += f" Calificación {taller.calificacion:.1f}/5 ({len(resenas)} reseñas)."
+    seo_desc += " Pide tu cita por WhatsApp."
     return render(request, "talleres/detalle.html", {
+        "seo_titulo": f"{taller.nombre} · Taller de motos en {taller.barrio.nombre} · TallerYa",
+        "seo_desc": seo_desc,
+        "seo_img": taller.foto.url if taller.foto else "",
         "taller": taller,
         "resenas": resenas,
         "reparto": [(n, c, round(c * 100 / len(resenas)) if resenas else 0) for n, c in reparto.items()],
@@ -448,8 +496,10 @@ def panel(request):
     nota = _nota(resenas)
     from cuentas.avatares import PREDISENADOS, svg_predisenado
     from cuentas.models import Perfil
+    from garaje.servicio_taller import resumen_taller
     return render(request, "talleres/panel.html", {
         "taller": taller,
+        "resumen": resumen_taller(taller, hoy),
         "perfil": Perfil.de(request.user),
         "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
         "completitud": _completitud(taller),
@@ -489,6 +539,15 @@ def cambiar_estado_cita(request, pk):
             settings.WHATSAPP_PLANTILLA_CANCELAR,
             [cita.nombre, taller.nombre, cita.fecha_preferida.strftime("%d/%m"), cita.motivo_cancelacion or "sin motivo"])
         messages.success(request, f"Cancelaste la cita de {cita.nombre}." + (f" Le avisamos por {' y '.join(canales)}." if canales else ""))
+    elif estado == SolicitudCita.Estado.CONFIRMADA and cita.estado != estado:
+        cita.estado = estado
+        cita.save(update_fields=["estado"])
+        cuando = f"{cita.fecha_preferida:%d/%m}" + (f" a las {_hora_texto(cita.hora)}" if cita.hora else "")
+        canales = _avisar_motero(
+            cita, f"cita-confirmada:{cita.pk}:{cita.fecha_preferida}", f"{taller.nombre} confirmó tu cita",
+            f"Te esperan el {cuando}.", taller.get_absolute_url(),
+            settings.WHATSAPP_PLANTILLA_CONFIRMAR, [cita.nombre, taller.nombre, cuando])
+        messages.success(request, f"Confirmaste la cita de {cita.nombre}." + (f" Le avisamos por {' y '.join(canales)}." if canales else ""))
     elif estado in SolicitudCita.Estado.values:
         cita.estado = estado
         cita.save(update_fields=["estado"])
@@ -612,9 +671,10 @@ def _avisar_motero(cita, clave, titulo, texto, url, plantilla, parametros):
         numero = normalizar_celular(cita.telefono)
     except Exception:
         return canales
-    moto = Motociclista.objects.filter(celular=numero, usuario__isnull=False).select_related("usuario").first()
-    if moto:
-        _avisar(moto.usuario, clave, titulo, texto, url)
+    usuario = cita.usuario or getattr(Motociclista.objects.filter(celular=numero, usuario__isnull=False)
+                                      .select_related("usuario").first(), "usuario", None)
+    if usuario:
+        _avisar(usuario, clave, titulo, texto, url)
         canales.append("TallerYa")
     if enviar_plantilla(numero, plantilla, parametros):
         canales.append("WhatsApp")
@@ -691,7 +751,7 @@ def cita_publica(request, token):
                                                           "hora": _hora_texto(cita.hora)})
 
 
-FILTROS_CITAS = [("abiertas", "Por atender"), ("confirmada", "Confirmadas"), ("reprogramada", "Esperando al motero"),
+FILTROS_CITAS = [("hoy", "Hoy"), ("proximas", "Próximas"), ("pasadas", "Pasadas"), ("abiertas", "Por atender"), ("confirmada", "Confirmadas"), ("reprogramada", "Esperando al motero"),
                  ("atendida", "Atendidas"), ("cancelada", "Canceladas"), ("todas", "Todas")]
 
 
@@ -701,15 +761,25 @@ def citas_taller(request):
     taller = _taller_de(request)
     if not taller:
         return redirect("cuentas:mi_cuenta")
-    filtro = request.GET.get("estado", "abiertas")
-    if filtro not in dict(FILTROS_CITAS):
-        filtro = "abiertas"
+    hoy = timezone.localdate()
     citas = taller.solicitudes.select_related("servicio")
     # Todos los conteos en una sola consulta
     conteos = citas.order_by().aggregate(
         abiertas=Count("pk", filter=Q(estado__in=ABIERTAS)), todas=Count("pk"),
+        hoy=Count("pk", filter=Q(fecha_preferida=hoy) & ~Q(estado=SolicitudCita.Estado.CANCELADA)),
+        proximas=Count("pk", filter=Q(fecha_preferida__gt=hoy, estado__in=ABIERTAS)),
+        pasadas=Count("pk", filter=Q(fecha_preferida__lt=hoy)),
         **{e: Count("pk", filter=Q(estado=e)) for e in SolicitudCita.Estado.values})
-    if filtro == "abiertas":
+    filtro = request.GET.get("estado") or ("hoy" if conteos["hoy"] else "abiertas")
+    if filtro not in dict(FILTROS_CITAS):
+        filtro = "abiertas"
+    if filtro == "hoy":
+        citas = citas.filter(fecha_preferida=hoy).exclude(estado=SolicitudCita.Estado.CANCELADA).order_by("hora", "creado")
+    elif filtro == "proximas":
+        citas = citas.filter(fecha_preferida__gt=hoy, estado__in=ABIERTAS).order_by("fecha_preferida", "hora")
+    elif filtro == "pasadas":
+        citas = citas.filter(fecha_preferida__lt=hoy).order_by("-fecha_preferida")
+    elif filtro == "abiertas":
         citas = citas.filter(estado__in=ABIERTAS).order_by("fecha_preferida")
     elif filtro != "todas":
         citas = citas.filter(estado=filtro).order_by("-fecha_preferida")
@@ -718,7 +788,6 @@ def citas_taller(request):
     if q := request.GET.get("q", "").strip():
         citas = citas.filter(Q(nombre__icontains=q) | Q(moto__icontains=q) | Q(telefono__icontains=q))
     pagina = Paginator(citas, 15).get_page(request.GET.get("pagina"))
-    hoy = timezone.localdate()
     for c in pagina:
         c.whatsapp_url = _whatsapp_cita(c, taller, request)
         c.vencida = c.estado == SolicitudCita.Estado.PENDIENTE and c.fecha_preferida < hoy
@@ -776,31 +845,6 @@ def estadisticas_taller(request):
         "plus": estadisticas.PLUS_TALLER, "es_plus": estadisticas.tiene_plus_taller(taller),
         "url_servicio_verificado": reverse("talleres:registrar_servicio"),
     })
-
-
-@login_required
-def registrar_servicio(request):
-    """El taller registra un servicio verificado en la hoja de vida de una moto, con el código que le muestra
-    el motero (QR o 6 caracteres). Modelo, formulario y reglas viven en garaje; aquí solo va la pantalla."""
-    taller = _taller_de(request)
-    if not taller:
-        return redirect("cuentas:mi_cuenta")
-    try:
-        from garaje.forms_hoja_vida import ServicioTallerForm
-    except ImportError:
-        ServicioTallerForm = None
-    form = None
-    if ServicioTallerForm:
-        if request.method == "POST":
-            form = ServicioTallerForm(request.POST, taller=taller)
-            if form.is_valid() and form.guardar():
-                messages.success(request, "Registrado y verificado en la hoja de vida de la moto.")
-                return redirect("talleres:registrar_servicio")
-        else:
-            form = ServicioTallerForm(taller=taller, initial={"codigo": request.GET.get("codigo", "").strip()[:12],
-                                                               "fecha": timezone.localdate()})
-    return render(request, "talleres/registrar_servicio.html", {
-        "taller": taller, "form": form, "moto": getattr(getattr(form, "codigo_obj", None), "moto", None)})
 
 
 def franjas(request, slug):
@@ -900,3 +944,23 @@ def emergencias(request):
         "gruas": gruas, "mostrar_gruas": necesito in em.CON_GRUAS,
         "mensaje_grua": em.mensaje_grua(moto.nombre_completo if moto else None),
     })
+
+
+def talleres_barrio(request, barrio):
+    b = seo_.barrio_por_slug(barrio)
+    n = Taller.objects.filter(activo=True, barrio=b).count()
+    return directorio(request, {"barrio": b.pk}, seo_.textos_barrio(b, n))
+
+
+def talleres_servicio(request, servicio):
+    s = seo_.servicio_por_slug(servicio)
+    n = Taller.objects.filter(activo=True, servicios=s).count()
+    return directorio(request, {"servicio": s.pk}, seo_.textos_servicio(s, n))
+
+
+def talleres_servicio_barrio(request, servicio, barrio):
+    s, b = seo_.servicio_por_slug(servicio), seo_.barrio_por_slug(barrio)
+    n = Taller.objects.filter(activo=True, servicios=s, barrio=b).count()
+    if not n:
+        raise Http404
+    return directorio(request, {"servicio": s.pk, "barrio": b.pk}, seo_.textos_servicio(s, n, b))

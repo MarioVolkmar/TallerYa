@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Registrar servicio · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="pt mt-8 md:mt-10 sv">
+  {% if cita %}{% url 'talleres:citas_taller' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mis citas" %}
+  {% else %}{% url 'talleres:registrar_servicio' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Buscar otra moto" %}{% endif %}
+  <section class="papel pt-caja sv">
+    <div>
+      <p class="etiqueta">{% if cita %}Cita de {{ cita.nombre }} · {{ cita.fecha_preferida|date:"j M"|lower }}{% else %}Moto sin cita{% endif %}</p>
+      <h1 class="titulo text-3xl mt-1">¿Qué se le hizo?</h1>
+    </div>
+    {% if sin_moto %}
+    <p class="text-sm">{{ cita.nombre }} pidió la cita sin una moto registrada en TallerYa ({{ cita.moto }}). Para que el servicio quede en su hoja de vida, pídele el código de su moto o búscala por placa.</p>
+    <div class="sv-botones">
+      <a href="{% url 'talleres:registrar_servicio' %}" class="btn btn-lava text-xs">Buscar la moto</a>
+      <form method="post">{% csrf_token %}<button name="solo_atendida" value="1" class="btn btn-borde text-xs w-full">Solo marcar atendida</button></form>
+    </div>
+    {% else %}
+    <div class="sv-moto">
+      <div><strong>{{ moto }}</strong><small>{% if moto.placa %}Placa {{ moto.placa|upper }} · {% endif %}{{ moto.km_actual }} km registrados</small></div>
+    </div>
+    {% if motos|length > 1 %}
+    <nav class="sv-motos" aria-label="Moto de {{ cita.nombre }}">
+      {% for m in motos %}<a href="?moto={{ m.pk }}"{% if m.pk == moto.pk %} aria-current="true"{% endif %}>{{ m }}</a>{% endfor %}
+    </nav>
+    {% endif %}
+    {% if origen == origenes.PLACA %}<p class="sv-aviso">El dueño recibe un aviso para confirmarlo. Cuando lo confirme, queda verificado con tu sello en su hoja de vida.</p>{% endif %}
+    <form method="post" enctype="multipart/form-data" class="sv">
+      {% csrf_token %}
+      <input type="hidden" name="guardar" value="1"><input type="hidden" name="moto" value="{{ moto.pk }}">
+      {% if codigo %}<input type="hidden" name="codigo" value="{{ codigo }}">{% endif %}
+      {% if placa %}<input type="hidden" name="placa" value="{{ placa }}">{% endif %}
+      {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <fieldset class="sv-tareas">
+        <legend class="campo-label mb-2">Del plan de mantenimiento de esta moto</legend>
+        {% if plan_vacio %}<p class="text-sm text-suave">Esta moto aún no tiene plan: escribe abajo qué se le hizo.</p>{% else %}{{ form.tareas }}{% endif %}
+      </fieldset>
+      <div><label class="campo-label">{{ form.otros.label }}{{ form.otros }}</label>{% for e in form.otros.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+      <div class="sv-campos">
+        {% for field in form %}{% if field.name != "tareas" and field.name != "otros" %}
+        <div><label class="campo-label">{{ field.label }}{{ field }}</label>{% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+        {% endif %}{% endfor %}
+      </div>
+      <button class="btn btn-lava sv-enviar">{% if origen == origenes.PLACA %}Enviar al dueño para confirmar{% else %}Registrar y verificar{% endif %}</button>
+    </form>
+    {% if cita %}<form method="post" class="text-center">{% csrf_token %}<button name="solo_atendida" value="1" class="pt-enlace text-sm">Marcar atendida sin registrar servicio</button></form>{% endif %}
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

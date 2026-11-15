@@ -54,6 +54,11 @@ class PedidoSoatForm(forms.ModelForm):
                 raise forms.ValidationError("El archivo pesa más de 5 MB.")
             if Path(archivo.name).suffix.lower() not in TIPOS:
                 raise forms.ValidationError("Sube una foto (JPG o PNG) o un PDF.")
+            # El contenido debe ser de verdad una imagen o un PDF (no basta con la extensión). HEIC: "ftyp" en el byte 4.
+            inicio = archivo.read(12)
+            archivo.seek(0)
+            if not (inicio.startswith((b"\xff\xd8\xff", b"\x89PNG", b"%PDF", b"RIFF")) or inicio[4:8] == b"ftyp"):
+                raise forms.ValidationError("Ese archivo no parece una foto o un PDF.")
         return archivo
 
     def clean(self):

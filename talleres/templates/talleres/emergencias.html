@@ -1,6 +1,7 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load seo %}
 {% load static %}
 {% block title %}¿Te varaste? Grúas y talleres abiertos ahora · TallerYa{% endblock %}
+{% block seo %}{% seo titulo="¿Te varaste? Grúas y talleres de motos abiertos ahora · TallerYa" descripcion="Moto varada en Medellín: encuentra grúas, despinche y talleres abiertos ahora, con llamada y WhatsApp directo." %}{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="em mt-6 md:mt-10">

@@ -1,17 +1,24 @@
 from django.urls import path
 
-from . import views
+from . import seo, views, vista_servicios
 
 app_name = "talleres"
 
 urlpatterns = [
     path("", views.inicio, name="inicio"),
     path("talleres/", views.directorio, name="directorio"),
+    path("talleres/en/<slug:barrio>/", views.talleres_barrio, name="barrio"),
+    path("talleres/servicio/<slug:servicio>/", views.talleres_servicio, name="servicio"),
+    path("talleres/servicio/<slug:servicio>/<slug:barrio>/", views.talleres_servicio_barrio, name="servicio_barrio"),
+    path("sitemap.xml", seo.sitemap_xml, name="sitemap"),
+    path("robots.txt", seo.robots_txt, name="robots"),
     path("taller/<slug:slug>/", views.detalle, name="detalle"),
     path("taller/<slug:slug>/favorito/", views.favorito, name="favorito"),
     path("taller/<slug:slug>/whatsapp/", views.ir, {"canal": "whatsapp"}, name="ir_whatsapp"),
     path("taller/<slug:slug>/llamar/", views.ir, {"canal": "llamar"}, name="ir_llamar"),
-    path("mi-taller/registrar-servicio/", views.registrar_servicio, name="registrar_servicio"),
+    path("mi-taller/registrar-servicio/", vista_servicios.registrar_servicio, name="registrar_servicio"),
+    path("mi-taller/servicios/", vista_servicios.servicios_taller, name="servicios_taller"),
+    path("mi-taller/cita/<int:pk>/servicio/", vista_servicios.servicio_cita, name="servicio_cita"),
     path("taller/<slug:slug>/franjas/", views.franjas, name="franjas"),
     path("mi-taller/precios/", views.precios_taller, name="precios"),
     path("mi-taller/agenda/", views.agenda_taller, name="agenda"),

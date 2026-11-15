@@ -19,7 +19,7 @@
         <a href="{% url 'talleres:estadisticas' %}" class="btn btn-borde text-xs px-4 py-2">Estadísticas del mes</a>
         <a href="{% url 'talleres:agenda' %}" class="btn btn-borde text-xs px-4 py-2">Agenda y horario</a>
         <a href="{% url 'talleres:precios' %}" class="btn btn-borde text-xs px-4 py-2">Mis precios</a>
-        <a href="{% url 'talleres:registrar_servicio' %}" class="btn btn-borde text-xs px-4 py-2">Registrar servicio</a>
+        <a href="{% url 'talleres:servicios_taller' %}" class="btn btn-borde text-xs px-4 py-2">Servicios registrados</a>
       </div>
     </div>
     <a href="{% url 'talleres:editar_perfil' %}" class="pt-completo{% if completitud.pct == 100 %} listo{% endif %}">
@@ -30,7 +30,8 @@
   </section>
 
   <section class="pt-cifras" aria-label="Resumen">
-    <a href="#citas" class="pt-cifra pt-lava"><span>Citas por atender</span><strong>{{ n_pendientes }}</strong></a>
+    <a href="{% url 'talleres:citas_taller' %}?estado=proximas" class="pt-cifra pt-lava"><span>Citas esta semana</span><strong>{{ resumen.citas_semana }}</strong><small>{{ n_pendientes }} por confirmar</small></a>
+    <a href="{% url 'talleres:servicios_taller' %}" class="pt-cifra pt-verde"><span>Servicios registrados</span><strong>{{ resumen.servicios_mes }}</strong><small>este mes{% if resumen.por_confirmar %} · {{ resumen.por_confirmar }} por confirmar{% endif %}</small></a>
     <a href="#resenas" class="pt-cifra pt-mostaza"><span>Calificación</span><strong>{% if nota.n %}{{ nota.prom|floatformat:1 }}{% else %}—{% endif %}</strong><small>{{ nota.n }} reseña{{ nota.n|pluralize }}</small></a>
     <div class="pt-cifra pt-rosa"><span>Te guardaron</span><strong>{{ favoritos }}</strong><small>motero{{ favoritos|pluralize }}</small></div>
     <a href="#cupones" class="pt-cifra pt-verde"><span>Cupones canjeados</span><strong>{{ canjes_mes }}</strong><small>este mes</small></a>
