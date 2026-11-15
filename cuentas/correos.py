@@ -57,3 +57,14 @@ def enviar_verificacion(request, usuario):
 def avisar_contrasena_cambiada(request, usuario):
     return enviar(usuario.email, "Tu contraseña de TallerYa cambió", "contrasena_cambiada",
                   {"usuario": usuario, "url": sitio(request) + reverse("cuentas:recuperar")}, request)
+
+
+def enviar_aviso(usuario, titulo, texto, ruta="", etiqueta="Aviso de tu moto"):
+    """Aviso general por correo (SOAT, técnico-mecánica...). Solo a quien tiene el correo verificado."""
+    from .models import Perfil
+    if not usuario.email or not Perfil.objects.filter(usuario=usuario, correo_verificado=True).exists():
+        return False
+    base = sitio()
+    return enviar(usuario.email, titulo, "aviso",
+                  {"usuario": usuario, "titulo": titulo, "texto": texto, "etiqueta": etiqueta,
+                   "url": base + ruta if (base and ruta) else ""})

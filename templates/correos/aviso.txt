@@ -1,0 +1,8 @@
+Hola{% if usuario.first_name %} {{ usuario.first_name }}{% endif %},
+
+{{ titulo }}
+{{ texto }}
+{% if url %}
+Míralo en TallerYa: {{ url }}
+{% endif %}
+— TallerYa

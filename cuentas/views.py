@@ -7,8 +7,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
-from django.shortcuts import redirect, render, get_object_or_404
-from django.urls import reverse
+from django.shortcuts import redirect, render, resolve_url, get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
@@ -26,7 +26,7 @@ from talleres.models import Taller
 
 from . import roles
 from .avatares import PREDISENADOS, html_avatar, svg_predisenado
-from . import correos, google
+from . import correos, google, guia, limites
 from .forms import (AvatarForm, CambiarContrasenaForm, CelularForm, CrearContrasenaForm, CuentaTallerForm, RegistroForm,
                     foto_cuadrada)
 from .models import Perfil, Suscripcion
@@ -60,7 +60,7 @@ def registro(request):
         siguiente = request.GET.get("next", "")
         if url_has_allowed_host_and_scheme(siguiente, {request.get_host()}, require_https=request.is_secure()):
             return redirect(siguiente)
-        return redirect("cuentas:mi_cuenta")
+        return redirect(guia.destino(usuario, reverse("cuentas:mi_cuenta")))
     return render(request, "cuentas/registro.html", {"form": form})
 
 
@@ -411,7 +411,7 @@ def google_volver(request):
         messages.success(request, f"¡Hola, {usuario.first_name or 'bienvenido'}! Cuéntanos cómo vas a usar TallerYa.")
         return redirect("cuentas:completar")
     messages.success(request, f"¡Hola de nuevo, {usuario.first_name or usuario.email}!")
-    return redirect(request.session.pop("google_siguiente", "") or "talleres:inicio")
+    return redirect(request.session.pop("google_siguiente", "") or guia.destino(request.user, reverse("talleres:inicio")))
 
 
 @login_required
@@ -430,7 +430,7 @@ def completar_perfil(request):
             moto.usuario = request.user
             moto.save()
             messages.success(request, "¡Listo! Ya puedes agregar tu moto al garaje.")
-            return redirect(request.session.pop("google_siguiente", "") or "talleres:inicio")
+            return redirect(request.session.pop("google_siguiente", "") or guia.destino(request.user, reverse("talleres:inicio")))
         return render(request, "cuentas/completar_motero.html", {"form": form})
     if tipo == "taller":
         negocio = RegistroTallerForm(request.POST or None, request.FILES or None)
@@ -453,6 +453,9 @@ def calificar_taller(request, pk):
     """Crea o actualiza la reseña de la cuenta para un taller (desde "Mi actividad con talleres")."""
     from talleres.models import Resena, Taller
     taller = get_object_or_404(Taller, pk=pk, activo=True)
+    if taller.usuario_id == request.user.pk:  # nadie infla la nota de su propio taller
+        messages.error(request, "No puedes calificar tu propio taller.")
+        return redirect(reverse("cuentas:mi_cuenta") + "#actividad")
     try:
         estrellas = int(request.POST.get("estrellas", ""))
     except ValueError:
@@ -526,6 +529,14 @@ def contrasena(request):
     return render(request, "cuentas/contrasena.html", {"form": form, "tiene": tiene})
 
 
+class EntrarView(auth_views.LoginView):
+    """Entrar con correo y contraseña. Sin ?next=, quien aún no tiene motos ni vio la guía de bienvenida va a ella."""
+    template_name = "cuentas/entrar.html"
+
+    def get_success_url(self):
+        return self.get_redirect_url() or guia.destino(self.request.user, resolve_url(settings.LOGIN_REDIRECT_URL))
+
+
 class RecuperarConfirmar(auth_views.PasswordResetConfirmView):
     """Al crear la contraseña nueva desde el correo: el correo queda confirmado y se avisa del cambio."""
     template_name = "cuentas/recuperar_nueva.html"
@@ -537,3 +548,27 @@ class RecuperarConfirmar(auth_views.PasswordResetConfirmView):
         perfil.save(update_fields=["correo_verificado"])
         correos.avisar_contrasena_cambiada(self.request, form.user)
         return respuesta
+
+
+class RecuperarView(auth_views.PasswordResetView):
+    """Recuperar contraseña con freno: 5 solicitudes por hora por IP y 3 por correo. Al pasarse responde igual que
+    si hubiera enviado (sin correo), para no revelar qué correos existen ni permitir el bombardeo de buzones."""
+    template_name = "cuentas/recuperar.html"
+    email_template_name = "correos/recuperar.txt"
+    html_email_template_name = "correos/recuperar.html"
+    subject_template_name = "cuentas/asunto_recuperar.txt"
+    success_url = reverse_lazy("cuentas:recuperar_enviado")
+
+    def get_form_class(self):
+        from .forms import RecuperarForm
+        return RecuperarForm
+
+    def form_valid(self, form):
+        claves = [f"recuperar:ip:{limites.ip_cliente(self.request)}",
+                  f"recuperar:correo:{form.cleaned_data['email'].strip().lower()}"]
+        maximos = (5, 3)
+        if any(limites.superado(c, m) for c, m in zip(claves, maximos)):
+            return redirect(self.success_url)
+        for c in claves:
+            limites.sumar(c, 3600)
+        return super().form_valid(form)

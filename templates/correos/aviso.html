@@ -1,0 +1,10 @@
+{% extends "correos/base.html" %}
+{% block preheader %}{{ texto }}{% endblock %}
+{% block etiqueta %}{{ etiqueta }}{% endblock %}
+{% block titulo %}{{ titulo }}{% endblock %}
+{% block contenido %}
+<p style="margin:0 0 12px;">Hola{% if usuario.first_name %} <strong style="color:#ede3cc;">{{ usuario.first_name }}</strong>{% endif %},</p>
+<p style="margin:0;">{{ texto }}</p>
+{% if url %}{% include "correos/_boton.html" with url=url texto="Ver en TallerYa" %}{% endif %}
+{% endblock %}
+{% block pie %}Recibes este aviso porque activaste los recordatorios de tu moto en TallerYa.{% endblock %}

@@ -29,7 +29,7 @@ class RegistroYSesionTests(TestCase):
 
     def test_registro_crea_usuario_y_motociclista(self):
         r = self.client.post(reverse("cuentas:registro"), datos_registro())
-        self.assertRedirects(r, reverse("cuentas:mi_cuenta"))
+        self.assertRedirects(r, reverse("garaje:bienvenida"), fetch_redirect_response=False)  # sin motos: guía de bienvenida
         u = User.objects.get()
         self.assertEqual(u.username, "laura@correo.com")
         self.assertEqual(u.motociclista.celular, "573005551234")
@@ -38,11 +38,11 @@ class RegistroYSesionTests(TestCase):
         self.client.post(reverse("cuentas:registro"), datos_registro())
         self.client.logout()
         r = self.client.post(reverse("cuentas:entrar"), {"username": "LAURA@correo.com", "password": CLAVE})
-        self.assertRedirects(r, reverse("talleres:inicio"))
+        self.assertRedirects(r, reverse("garaje:bienvenida"), fetch_redirect_response=False)
 
     def test_next_externo_se_ignora(self):
         r = self.client.post(reverse("cuentas:registro") + "?next=https://malo.example/", datos_registro())
-        self.assertRedirects(r, reverse("cuentas:mi_cuenta"))
+        self.assertRedirects(r, reverse("garaje:bienvenida"), fetch_redirect_response=False)  # el next externo se ignora
 
     def test_celular_con_cupones_requiere_uno_de_sus_codigos(self):
         moto = Motociclista.objects.create(nombre="Laura", celular="573005551234")
@@ -305,14 +305,14 @@ class GoogleTests(TestCase):
         self.assertFalse(usuario.has_usable_password())
         self.assertEqual(Perfil.objects.get(usuario=usuario).google_sub, "1234567890")
         r = self.client.post(reverse("cuentas:completar") + "?tipo=motero", {"celular": "300 777 8888"})
-        self.assertEqual(r.status_code, 302)
+        self.assertRedirects(r, reverse("garaje:bienvenida"), fetch_redirect_response=False)
         self.assertEqual(usuario.motociclista.celular, "573007778888")
 
     def test_vincula_cuenta_existente_por_correo(self):
         existente = User.objects.create_user("nuevo@gmail.com", "nuevo@gmail.com", "clave-vieja")
         Motociclista.objects.create(nombre="Nico", celular="573007779999", usuario=existente)
         r = self.ida_y_vuelta()
-        self.assertRedirects(r, reverse("talleres:inicio"), fetch_redirect_response=False)
+        self.assertRedirects(r, reverse("garaje:bienvenida"), fetch_redirect_response=False)  # aún sin motos
         self.assertEqual(User.objects.filter(username="nuevo@gmail.com").count(), 1)
         self.assertEqual(int(self.client.session["_auth_user_id"]), existente.pk)
 

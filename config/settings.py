@@ -1,5 +1,6 @@
 """Configuración de TallerYa. Valores sensibles y de producción vía variables de entorno."""
 import os
+import sys
 from pathlib import Path
 
 import dj_database_url
@@ -23,8 +24,9 @@ def env_lista(nombre, defecto=""):
     return [v.strip() for v in os.environ.get(nombre, defecto).split(",") if v.strip()]
 
 
-DEBUG = env_bool("DJANGO_DEBUG", True)
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-insegura-cambiar-en-produccion" if DEBUG else "")
+# Seguro por defecto: DEBUG apagado salvo que DJANGO_DEBUG=1 (en local, ponlo en .env).
+DEBUG = env_bool("DJANGO_DEBUG", False)
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-insegura-cambiar-en-produccion" if (DEBUG or sys.argv[1:2] == ["test"]) else "")
 if not SECRET_KEY:
     raise RuntimeError("Falta la variable de entorno DJANGO_SECRET_KEY")
 
@@ -124,6 +126,11 @@ MEDIA_ROOT = Path(os.environ.get("DJANGO_MEDIA_ROOT", BASE_DIR / "media"))
 PRIVADO_ROOT = Path(os.environ.get("DJANGO_PRIVADO_ROOT", BASE_DIR / "privado"))
 
 # Ingreso con Google: credenciales de un "ID de cliente de OAuth" (Google Cloud Console). Sin ellas, el botón no aparece.
+# Web Push (claves VAPID; sin ellas no hay avisos push)
+VAPID_PUBLIC_KEY = os.environ.get("VAPID_PUBLIC_KEY", "")
+VAPID_PRIVATE_KEY = os.environ.get("VAPID_PRIVATE_KEY", "")
+VAPID_SUBJECT = os.environ.get("VAPID_SUBJECT", "mailto:hola@tallerya.co")
+
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 STORAGES = {
@@ -149,6 +156,10 @@ else:
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "TallerYa <no-responder@tallerya.co>")
 # Dirección pública del sitio para los enlaces de correos enviados sin una visita (tareas programadas)
 SITIO_URL = os.environ.get("SITIO_URL", "")
+
+# Proxies delante de Django que añaden su salto a X-Forwarded-For (Render: 1). Sirve para saber la IP real de quien
+# visita en los límites de intentos (cuentas/limites.py). En local, 0: se usa REMOTE_ADDR.
+PROXIES_DE_CONFIANZA = int(os.environ.get("PROXIES_DE_CONFIANZA", "1" if os.environ.get("RENDER") else "0"))
 
 # Seguridad en producción
 if not DEBUG:
@@ -200,6 +211,7 @@ WHATSAPP_PLANTILLA_PICO_PLACA = os.environ.get("WHATSAPP_PLANTILLA_PICO_PLACA", 
 # Citas: propuesta de nueva fecha (motero, taller, fecha, hora, enlace) y cancelación (motero, taller, fecha, motivo)
 WHATSAPP_PLANTILLA_REPROGRAMAR = os.environ.get("WHATSAPP_PLANTILLA_REPROGRAMAR", "cita_reprogramada")
 WHATSAPP_PLANTILLA_CANCELAR = os.environ.get("WHATSAPP_PLANTILLA_CANCELAR", "cita_cancelada")
+WHATSAPP_PLANTILLA_CONFIRMAR = os.environ.get("WHATSAPP_PLANTILLA_CONFIRMAR", "cita_confirmada")
 
 # Noticiero motero: los titulares se refrescan solos (en segundo plano) cada pocas horas. Apagado en las pruebas.
 import sys  # noqa: E402

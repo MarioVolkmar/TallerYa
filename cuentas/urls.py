@@ -8,9 +8,7 @@ app_name = "cuentas"
 
 urlpatterns = [
     path("cuenta/registro/", views.registro, name="registro"),
-    path("cuenta/entrar/", auth_views.LoginView.as_view(
-        template_name="cuentas/entrar.html", authentication_form=EntrarForm,
-    ), name="entrar"),
+    path("cuenta/entrar/", views.EntrarView.as_view(authentication_form=EntrarForm), name="entrar"),
     path("cuenta/salir/", auth_views.LogoutView.as_view(), name="salir"),
     path("cuenta/", views.mi_cuenta, name="mi_cuenta"),
     path("cuenta/citas/<int:pk>/", citas.detalle, name="cita"),
@@ -31,14 +29,7 @@ urlpatterns = [
     path("plus/solicitar/", views.solicitar_plus, name="solicitar_plus"),
 
     # Recuperar contraseña por correo
-    path("cuenta/recuperar/", auth_views.PasswordResetView.as_view(
-        template_name="cuentas/recuperar.html",
-        form_class=RecuperarForm,
-        email_template_name="correos/recuperar.txt",
-        html_email_template_name="correos/recuperar.html",
-        subject_template_name="cuentas/asunto_recuperar.txt",
-        success_url=reverse_lazy("cuentas:recuperar_enviado"),
-    ), name="recuperar"),
+    path("cuenta/recuperar/", views.RecuperarView.as_view(), name="recuperar"),
     path("cuenta/recuperar/enviado/", auth_views.PasswordResetDoneView.as_view(
         template_name="cuentas/recuperar_enviado.html",
     ), name="recuperar_enviado"),

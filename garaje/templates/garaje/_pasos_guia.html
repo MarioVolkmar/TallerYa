@@ -1,0 +1,15 @@
+{# Guía de bienvenida: indicador de 4 pasos + «Saltar guía». El id pasos-alta lo usa el JS del formulario (pasos 1 y 2). #}
+<div class="guia-cabeza mb-6">
+  <ol class="pasos-alta pasos-guia" aria-label="Pasos de la bienvenida" id="pasos-alta">
+    <li class="{% if paso > 1 %}hecho{% elif paso == 1 %}actual{% endif %}" data-paso="1"{% if paso == 1 %} aria-current="step"{% endif %}><span>1</span><em>Tu moto</em></li>
+    <li class="{% if paso > 2 %}hecho{% elif paso == 2 %}actual{% endif %}" data-paso="2"{% if paso == 2 %} aria-current="step"{% endif %}><span>2</span><em>Último mantenimiento</em></li>
+    <li class="{% if paso > 3 %}hecho{% elif paso == 3 %}actual{% endif %}" data-paso="3"{% if paso == 3 %} aria-current="step"{% endif %}><span>3</span><em>Tu plan</em></li>
+    <li class="{% if paso == 4 %}actual{% endif %}" data-paso="4"{% if paso == 4 %} aria-current="step"{% endif %}><span>4</span><em>Qué más</em></li>
+  </ol>
+  {% if paso < 4 %}
+  <form method="post" action="{% url 'garaje:bienvenida_saltar' %}">
+    {% csrf_token %}
+    <button class="guia-saltar">Saltar guía</button>
+  </form>
+  {% endif %}
+</div>

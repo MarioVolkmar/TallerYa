@@ -107,6 +107,26 @@ class EntrarForm(EstiloMixin, AuthenticationForm):
     def clean_username(self):
         return self.cleaned_data["username"].strip().lower()
 
+    # Freno contra adivinar contraseñas: por correo (10 fallos en 15 min) y por IP (30 fallos, muchas cuentas).
+    MAX_FALLOS_CORREO, MAX_FALLOS_IP, VENTANA = 10, 30, 15 * 60
+
+    def clean(self):
+        from cuentas.limites import ip_cliente, limpiar, sumar, superado
+        correo = self.cleaned_data.get("username", "")
+        ip = ip_cliente(self.request) if self.request else "sin-ip"
+        claves = (f"login-correo:{correo}", self.MAX_FALLOS_CORREO), (f"login-ip:{ip}", self.MAX_FALLOS_IP)
+        if any(superado(c, m) for c, m in claves):
+            raise forms.ValidationError("Demasiados intentos fallidos. Espera 15 minutos o recupera tu contraseña.",
+                                        code="bloqueado")
+        try:
+            datos = super().clean()
+        except forms.ValidationError:
+            for c, _ in claves:
+                sumar(c, self.VENTANA)
+            raise
+        limpiar(claves[0][0])
+        return datos
+
 
 
 MAX_FOTO = 4 * 1024 * 1024  # 4 MB antes de recortar
