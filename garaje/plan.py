@@ -156,7 +156,10 @@ def _ritmo_lecturas(moto):
 
     Un salto imposible (más de RITMO_MAX por día, o grande el mismo día) es una corrección, no kilómetros rodados.
     Exige al menos una semana entre la primera y la última lectura."""
-    lecturas = list(moto.lecturas.order_by("fecha", "creado").values_list("fecha", "km"))
+    if "lecturas" in getattr(moto, "_prefetched_objects_cache", {}):  # Mi garaje las precarga para todas las motos
+        lecturas = [(lec.fecha, lec.km) for lec in sorted(moto.lecturas.all(), key=lambda lec: (lec.fecha, lec.creado))]
+    else:
+        lecturas = list(moto.lecturas.order_by("fecha", "creado").values_list("fecha", "km"))
     if len(lecturas) < 2:
         return None
     rodado = {lecturas[0][0]: 0}
@@ -310,19 +313,23 @@ def fecha_en_km(moto, km, hoy=None):
     return hoy - timedelta(days=dias)
 
 
-def calcular_plan(moto, hoy=None):
+def calcular_plan(moto, hoy=None, tareas=None):
+    """tareas: las TareaMantenimiento activas ya cargadas (Mi garaje las pasa una vez para todas las motos)."""
     hoy = hoy or timezone.localdate()
     specs = moto.specs()
     ritmo, estimado = ritmo_km(moto, hoy)
     ultimos = {}
-    for m in moto.mantenimientos.order_by("fecha", "km"):
+    # .all() + orden en Python: aprovecha prefetch_related("mantenimientos") si la vista lo hizo
+    for m in sorted(moto.mantenimientos.all(), key=lambda m: (m.fecha, m.km)):
         ultimos[m.tarea_id] = m  # se queda con el más reciente
 
     pospuestas = {a.tarea_id for a in moto.ajustes.all() if a.pospuesta}
     # Intervalos del manual de esta línea (garaje/intervalos/*.json); sin archivo, los generales de la base.
     propios = intervalos.de_linea(moto.linea, moto.modelo) if moto.linea_id else {}
     plan = PlanMoto(moto=moto, km_por_dia=ritmo, ritmo_estimado=estimado)
-    for tarea in TareaMantenimiento.objects.filter(activo=True).select_related("servicio"):
+    if tareas is None:
+        tareas = TareaMantenimiento.objects.filter(activo=True).select_related("servicio")
+    for tarea in tareas:
         if not tarea.aplica_a(specs):
             continue
         tarea = intervalos.aplicar(tarea, moto.linea, propios) if propios else tarea

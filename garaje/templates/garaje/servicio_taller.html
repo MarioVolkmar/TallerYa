@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Servicio de {{ s.taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="pt mt-8 md:mt-10 sv">
+  {% url 'garaje:hoja_vida' s.moto.pk as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Hoja de vida" %}
+  <section class="papel pt-caja sv">
+    <div>
+      <p class="etiqueta">{{ s.moto }}</p>
+      <h1 class="titulo text-3xl mt-1">{% if s.estado == estados.POR_CONFIRMAR %}¿Le hicieron esto a tu moto?{% else %}Servicio en {{ s.taller.nombre }}{% endif %}</h1>
+      <p class="mt-2"><span class="pt-chip chip-{{ s.estado }}">{% if s.estado == estados.VERIFICADO %}Verificado por el taller{% else %}{{ s.get_estado_display }}{% endif %}</span></p>
+    </div>
+    {% if s.estado == estados.POR_CONFIRMAR %}<p class="sv-aviso"><strong>{{ s.taller.nombre }}</strong> buscó tu moto por la placa y quiere anotar este servicio. Si lo confirmas, queda verificado en tu hoja de vida y tu plan de mantenimiento se pone al día.</p>{% endif %}
+    <dl class="sv-datos">
+      <dt>Taller</dt><dd><a href="{{ s.taller.get_absolute_url }}" class="text-lava">{{ s.taller.nombre }}</a>{% if s.taller.barrio %} · {{ s.taller.barrio }}{% endif %}</dd>
+      <dt>Fecha</dt><dd>{{ s.fecha|date:"j \d\e F \d\e Y" }}</dd>
+      <dt>Qué se hizo</dt><dd>{{ s.resumen }}</dd>
+      <dt>Kilometraje</dt><dd>{{ s.km }} km</dd>
+      {% if s.costo %}<dt>Valor</dt><dd>${{ s.costo }}</dd>{% endif %}
+      {% if s.notas %}<dt>Nota</dt><dd>{{ s.notas }}</dd>{% endif %}
+    </dl>
+    {% if s.foto %}<img src="{{ s.foto.url }}" alt="Foto del servicio" class="sv-foto" loading="lazy">{% endif %}
+    {% if s.estado == estados.POR_CONFIRMAR %}
+    <form method="post" class="sv-botones">{% csrf_token %}
+      <button name="accion" value="confirmar" class="btn btn-lava text-xs">Sí, confirmar</button>
+      <button name="accion" value="rechazar" class="btn btn-borde text-xs">No es mío</button>
+    </form>
+    {% elif s.estado == estados.VERIFICADO %}
+    <div class="sv-botones">
+      {% if not ya_califico %}<a href="{{ s.taller.get_absolute_url }}?calificar=1" class="btn btn-lava text-xs">★ Calificar a {{ s.taller.nombre }}</a>{% endif %}
+      <a href="{% url 'garaje:hoja_vida' s.moto.pk %}" class="btn btn-borde text-xs">Ver mi hoja de vida</a>
+    </div>
+    <form method="post" class="text-center" onsubmit="return confirm('¿Quitar este servicio de tu hoja de vida y de tu plan?');">{% csrf_token %}
+      <button name="accion" value="rechazar" class="pt-enlace text-sm">No reconozco este servicio</button>
+    </form>
+    {% else %}
+    <p class="text-sm text-suave">No quedó en tu hoja de vida. Si fue un error, escríbele al taller.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

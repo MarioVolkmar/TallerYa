@@ -7,6 +7,7 @@ from django.utils import timezone
 from talleres.forms import EstiloMixin
 from talleres.models import Taller
 
+from .colores_fabrica import color_por_defecto
 from .models import COLORES, LineaMoto, Mantenimiento, Moto, TareaMantenimiento
 
 OTRA = "otra"
@@ -34,7 +35,8 @@ def validar_documento(archivo):
 
 class MotoForm(EstiloMixin, forms.ModelForm):
     linea_catalogo = forms.ChoiceField(label="Marca y línea")
-    color = forms.ChoiceField(choices=COLORES, widget=forms.RadioSelect, initial="#c62828")
+    # Sin color preseleccionado: si no elige ninguno, queda el de fábrica más común de la línea (colores_fabrica.py)
+    color = forms.ChoiceField(choices=COLORES, widget=forms.RadioSelect, required=False)
     km_actual = forms.IntegerField(
         label="Kilometraje actual", min_value=0, max_value=MAX_KM,
         error_messages={"min_value": "El kilometraje no puede ser negativo.",
@@ -142,6 +144,8 @@ class MotoForm(EstiloMixin, forms.ModelForm):
                 self.add_error("linea_catalogo", "Elige una línea de la lista.")
             self.instance.linea = linea
             datos["marca_otra"] = datos["linea_otra"] = datos["tipo_otra"] = ""
+        if "color" in self.fields and not datos.get("color"):
+            datos["color"] = color_por_defecto(str(self.instance.linea) if self.instance.linea else "")
         return datos
 
 

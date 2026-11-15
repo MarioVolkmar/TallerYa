@@ -1,0 +1,75 @@
+{
+  "linea": "Hero Hunk 150",
+  "tareas": {
+    "aceite": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: fila 'Aceite de motor' y nota 3 (cambiar cada 6.000 km y completar cada 3.000 km; primer cambio a los 500-750 km); consultado el 15-nov-2026",
+      "aproximado": true,
+      "notas": "El primer cambio es a los 500–750 km. La Hunk 150 tiene filtro centrífugo (rotor) y criba de aceite (catálogo, bloque E-8A). Tipo y cantidad de aceite: verificar en el taller."
+    },
+    "cadena-lubricar": {
+      "km": 1000,
+      "dias": null,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 4 (inspeccionar, limpiar, lubricar y ajustar la cadena cada 1.000 km); consultado el 15-nov-2026",
+      "aproximado": true,
+      "especificacion": "Cadena 428H de 120 eslabones (catálogo, bloque F-19); holgura orientativa 20–25 mm",
+      "notas": "El kit de arrastre se cambia a los 20.000 km o cuando el tensor llega al límite."
+    },
+    "kit-arrastre": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 4 (reemplazar el kit de cadena a los 20.000 km o cuando el ajuste de los tensores llegue a cuatro espacios); consultado el 15-nov-2026",
+      "aproximado": true,
+      "notas": "Piñón de 14 dientes y corona de 43 (catálogo, bloques E-10 y F-11)."
+    },
+    "filtro-aire": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 2 (reemplazar el elemento cada 15.000 km; no abrirlo entre cambios); consultado el 15-nov-2026",
+      "aproximado": true
+    },
+    "bujia": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: fila 'Bujía' (revisar, limpiar y ajustar cada 3.000 km; reemplazar a los 12.000 y 27.000 km); consultado el 15-nov-2026",
+      "aproximado": true,
+      "especificacion": "NGK CPR8EA-9 (según el catálogo de piezas de la Hunk 150, bloque E-1A)",
+      "notas": "El cuadro de la 125R pide el primer cambio a los 12.000 km y el siguiente 15.000 km después."
+    },
+    "valvulas": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: fila 'Holgura de la válvula' (inspeccionar y ajustar cada 3.000 km); consultado el 15-nov-2026",
+      "aproximado": true
+    },
+    "liquido-frenos": {
+      "km": 30000,
+      "dias": 730,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 5 (reemplazar cada 2 años o 30.000 km); consultado el 15-nov-2026",
+      "aproximado": true,
+      "especificacion": "DOT 3 o DOT 4 (no mezclarlos)",
+      "notas": "Freno delantero de disco (y trasero en la versión de disco)."
+    },
+    "suspension-del": {
+      "km": 30000,
+      "dias": 730,
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 8 (aceite de la horquilla cada 2 años o 30.000 km); consultado el 15-nov-2026",
+      "aproximado": true
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Catálogo de piezas Hero Hunk (ago-2012, HCML Colombia), copia entregada por el usuario (medidas de llanta); la presión es la de la Hunk 125R, sin dato propio; consultado el 15-nov-2026",
+      "aproximado": true,
+      "especificacion": "2.75-18; presión orientativa 27 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Catálogo de piezas Hero Hunk (ago-2012, HCML Colombia), copia entregada por el usuario (medidas de llanta); la presión es la de la Hunk 125R, sin dato propio; consultado el 15-nov-2026",
+      "aproximado": true,
+      "especificacion": "100/90-18; presión orientativa 29 psi"
+    }
+  }
+}

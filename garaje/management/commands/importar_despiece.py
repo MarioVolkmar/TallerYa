@@ -10,7 +10,7 @@ Formatos de catálogo (clave "formato" del mapa; por defecto "yamaha"):
 - auteco: catálogos de Auteco (Bajaj, KTM, TVS): "FIGURA Nº N: TÍTULO" y tabla
   FIG. Nº / REFERENCIA / DESCRIPCIÓN / CANT. en español; las columnas se leen del encabezado.
   La figura del mapa puede llevar letra ("12A"); en la base se guarda solo el número.
-- honda, hero, suzuki, fichas: ver garaje/despiece_lectores.py. En "fichas" el primer argumento es la
+- honda, hero, hero2, suzuki, fichas: ver garaje/despiece_lectores.py. En "fichas" el primer argumento es la
   carpeta con fichas.json (diagramas bajados de tiendas en línea cuando no hay catálogo en PDF).
 
 Por cada figura del mapa guarda la imagen del dibujo y la tabla de partes (ref., código,
@@ -27,7 +27,7 @@ from django.db import transaction
 from garaje.despiece_glosario import ayuda_para, traducir
 from garaje.despiece_traductor import traducir_palabras
 from garaje.despiece_variantes import nombre_por_sistema
-from garaje.despiece_lectores import FORMATOS_EXTRA
+from garaje.despiece_lectores import FORMATOS_EXTRA, quitar_marca_studocu
 from garaje.models import Despiece, Lamina, LineaMoto, ParteDespiece, TareaMantenimiento
 
 # Columnas de la tabla Yamaha (en puntos de la página A4 horizontal del catálogo).
@@ -92,8 +92,9 @@ def _filas(palabras):
 
 # ---------------- Formato Auteco (Bajaj, KTM, TVS) ----------------
 
-RE_TITULO_PAGINA = re.compile(r"FIGURA\s*(?:N\S{0,2}\s*)?(\d+[A-Z]?)", re.I)   # números de figura que aparecen en una página
-RE_FIGURA = re.compile(r"FIGURA\s*(?:N\S{0,2}\s*)?(\d+[A-Z]?)\b\s*:?\s*(.+?)(?:\s*\(\d\s*/\s*\d\s*\))?\s*$", re.I)
+# "Nº", "N°", "No." antes del número; sin dígitos, para que "N°10" no se lea como figura 0 (Raider 125)
+RE_TITULO_PAGINA = re.compile(r"FIGURA\s*(?:N[^\s\d]{0,2}\s*)?(\d+[A-Z]?)", re.I)   # números de figura que aparecen en una página
+RE_FIGURA = re.compile(r"FIGURA\s*(?:N[^\s\d]{0,2}\s*)?(\d+[A-Z]?)\b\s*:?\s*(.+?)(?:\s*\(\d\s*/\s*\d\s*\))?\s*$", re.I)
 
 
 def leer_figuras_auteco(pdf):
@@ -433,6 +434,8 @@ class Command(BaseCommand):
         tareas = {t.clave: t for t in TareaMantenimiento.objects.all()}
 
         documento = pdf if formato == "fichas" else pymupdf.open(pdf)  # fichas: carpeta con fichas.json
+        if formato != "fichas":
+            quitar_marca_studocu(documento)
         figuras = FORMATOS[formato](documento)
 
         with transaction.atomic():
@@ -476,6 +479,8 @@ class Command(BaseCommand):
                 enlazadas = 0
                 for fila in fig["filas"]:
                     if fila.get("codigo") in item.get("descripciones", {}):
+                        if fila.get("espanol") == fila["descripcion"]:   # catálogos en español (auteco): corregir también el nombre
+                            fila["espanol"] = item["descripciones"][fila["codigo"]]
                         fila["descripcion"] = item["descripciones"][fila["codigo"]]
                     texto = f"{fila['descripcion']} {fila.get('espanol', '')}".upper()
                     clave = tarea_para(item.get("reglas", {}), fila["descripcion"], fila.get("espanol", ""))

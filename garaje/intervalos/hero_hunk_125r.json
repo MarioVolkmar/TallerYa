@@ -1,0 +1,75 @@
+{
+  "linea": "Hero Hunk 125R",
+  "tareas": {
+    "aceite": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), fila 'Aceite de motor' y nota 3 (cambiar cada 6.000 km y completar cada 3.000 km; primer cambio a los 500-750 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Hero SAE 10W-30 SL, JASO MA2; 1,0 L al drenaje (1,2 L al desarmar)",
+      "notas": "El primer cambio es a los 500–750 km. El filtro de aceite se cambia cada 12.000 km y la malla se limpia a los 12.000 y 27.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 1000,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 4 (inspeccionar, limpiar, lubricar y ajustar la cadena cada 1.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Holgura 20–25 mm; aceite SAE 90",
+      "notas": "El kit de arrastre se cambia a los 20.000 km o cuando el tensor llega al límite."
+    },
+    "kit-arrastre": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 4 (reemplazar el kit de cadena a los 20.000 km o cuando el ajuste de los tensores llegue a cuatro espacios); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "filtro-aire": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 2 (reemplazar el elemento cada 15.000 km; no abrirlo entre cambios); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "bujia": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), fila 'Bujía' (revisar, limpiar y ajustar cada 3.000 km; reemplazar a los 12.000 y 27.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Federal Mogul P-RG6HCC; separación 0,8–0,9 mm",
+      "notas": "Después del primer cambio, el cuadro la vuelve a pedir 15.000 km más tarde."
+    },
+    "valvulas": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), fila 'Holgura de la válvula' (inspeccionar y ajustar cada 3.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Admisión 0,08 ± 0,02 mm; escape 0,12 ± 0,02 mm (en frío)"
+    },
+    "liquido-frenos": {
+      "km": 30000,
+      "dias": 730,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 5 (reemplazar cada 2 años o 30.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "DOT 3 o DOT 4 (no mezclarlos)"
+    },
+    "suspension-del": {
+      "km": 30000,
+      "dias": 730,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 8 (aceite de la horquilla cada 2 años o 30.000 km); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Especificaciones' pp. 4-5 y páginas de bujía, aceite y llantas; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/90-17 sin neumático (sellomática); presión en frío 27 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Especificaciones' pp. 4-5 y páginas de bujía, aceite y llantas; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "120/80-17 sin neumático (sellomática); presión en frío 29 psi"
+    }
+  }
+}

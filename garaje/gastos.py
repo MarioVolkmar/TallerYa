@@ -64,20 +64,23 @@ def _km_en(puntos, fecha):
     return max(antes) if antes else None
 
 
-def movimientos(moto):
+def _puntos(moto):
+    """(fecha, km) de las lecturas más el km con que se registró la moto, ordenados por fecha."""
+    return sorted([(timezone.localtime(moto.creado).date(), moto.km_inicial)] + list(moto.lecturas.values_list("fecha", "km")))
+
+
+def movimientos(moto, puntos=None):
     """Gastos registrados + servicios con costo de la hoja de vida, del más reciente al más viejo."""
-    puntos = sorted([(timezone.localtime(moto.creado).date(), moto.km_inicial)]
-                    + list(moto.lecturas.values_list("fecha", "km")))
+    puntos = _puntos(moto) if puntos is None else puntos
     lista = [Movimiento(g.fecha, g.tipo, g.valor, g.notas, g, km_aprox=_km_en(puntos, g.fecha)) for g in moto.gastos.all()]
     lista += [Movimiento(r.fecha, Gasto.Tipo.SERVICIO, r.costo, r.servicios, registro=r, km_aprox=r.km)
               for r in moto.hoja_vida.filter(costo__gt=0).select_related("taller", "mantenimiento__tarea")]
     return sorted(lista, key=lambda m: (m.fecha, m.gasto.creado if m.gasto else m.fecha), reverse=True)
 
 
-def km_periodo(moto, desde, hasta):
+def km_periodo(moto, desde, hasta, puntos=None):
     """Km recorridos entre dos fechas según las lecturas (y el km con que se registró la moto). None si faltan datos."""
-    puntos = sorted([(timezone.localtime(moto.creado).date(), moto.km_inicial)]
-                    + list(moto.lecturas.values_list("fecha", "km")))
+    puntos = _puntos(moto) if puntos is None else puntos
     antes = [km for f, km in puntos if f < desde]
     dentro = [km for f, km in puntos if desde <= f <= hasta]
     if not dentro or (not antes and len(dentro) < 2):
@@ -103,11 +106,12 @@ def _por_categoria(movs):
 
 def resumen(moto, hoy=None, meses=6):
     hoy = hoy or timezone.localdate()
-    movs = movimientos(moto)
+    puntos = _puntos(moto)  # las lecturas, una sola vez para la lista y el km del mes
+    movs = movimientos(moto, puntos)
     inicio_mes = hoy.replace(day=1)
     del_mes = [m for m in movs if inicio_mes <= m.fecha <= hoy]
     mes_total = sum(m.valor for m in del_mes)
-    km_mes = km_periodo(moto, inicio_mes, hoy)
+    km_mes = km_periodo(moto, inicio_mes, hoy, puntos)
     galones_mes = sum(m.galones or 0 for m in del_mes)
 
     serie = []

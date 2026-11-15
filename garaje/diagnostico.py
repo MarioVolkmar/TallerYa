@@ -513,21 +513,21 @@ RESULTADOS = {
                        "y las pastillas están untados de aceite o de líquido de frenos (de un retenedor de barra o del caliper). "
                        "Si el disco está untado, no la ruedes: se limpia con desengrasante de frenos y las pastillas contaminadas se cambian. "
                        "Es lo primero que se revisa: se cambia barato y es tu seguridad.",
-        "piezas": [r"pastilla", r"banda", r"zapata", r"disco", r"campana"],
+        "piezas": [r"past(?:illa|a)s?\b", r"banda", r"zapata", r"disco", r"campana"],
     },
     "frenos_sin_pastilla": {
         "sistema": "Frenos", "urgencia": "parar",
         "causa": "Pastillas acabadas: metal contra el disco",
         "explicacion": "El raspado metálico es la base de la pastilla rozando el disco. Ya casi no frena y cada kilómetro "
                        "raya más el disco.",
-        "piezas": [r"pastilla", r"disco", r"banda", r"campana", r"caliper"],
+        "piezas": [r"past(?:illa|a)s?\b", r"disco", r"banda", r"campana", r"caliper"],
     },
     "frenos_chillan": {
         "sistema": "Frenos", "urgencia": "pronto",
         "causa": "Pastillas cristalizadas, sucias o al límite",
         "explicacion": "El chillido suele ser polvo, pastillas cristalizadas o el aviso de desgaste. Se limpia, se lijan o "
                        "se cambian; revisa también el disco.",
-        "piezas": [r"pastilla", r"banda", r"disco", r"campana", r"caliper"],
+        "piezas": [r"past(?:illa|a)s?\b", r"banda", r"disco", r"campana", r"caliper"],
     },
     "freno_pegado": {
         "sistema": "Frenos", "urgencia": "parar",
@@ -542,7 +542,7 @@ RESULTADOS = {
         "causa": "Disco torcido o con desgaste disparejo",
         "explicacion": "Si la manigueta pulsa al frenar, el disco está alabeado (por calor o un golpe) o la campana ovalada. "
                        "Se mide y, si está fuera de límite, se cambia junto con las pastillas.",
-        "piezas": [r"disco", r"pastilla", r"campana", r"banda"],
+        "piezas": [r"disco", r"past(?:illa|a)s?\b", r"campana", r"banda"],
     },
     "fuga_frenos": {
         "sistema": "Frenos", "subgrupo": "Bomba y líquido", "urgencia": "parar",
@@ -644,7 +644,7 @@ RESULTADOS = {
                        "(tanque, llave de paso, bomba o inyector). La bujía es lo primero.",
         "revisa": "Que haya gasolina y el interruptor de apagado esté en marcha.",
         "piezas": [r"buj[ií]a", r"bobina", r"capuch[oó]n", r"cdi", r"ecu", r"bomba de gasolina", r"inyector", r"carburador"],
-        "otros_sistemas": ["Admisión"],
+        "otros_sistemas": ["Admisión", "Motor"],  # la bujía va dibujada con la culata
     },
     "corte_andando": {
         "sistema": "Eléctrico", "urgencia": "parar",
@@ -745,6 +745,26 @@ HERRAJES = re.compile(r"^(tornillo|tuerca|arandela|perno|remache|grapa|clip|pasa
 ACCESORIOS = re.compile(r"^(tirante|banda|soporte|rejilla|protector|caja de (la )?bater[ií]a|caja del filtro|tapa de la caja|cubierta)\b", re.I)
 
 
+# El freno de tambor muchas veces viene dibujado con su rueda (lámina "Rueda trasera y freno de tambor", sistema Ruedas):
+# para un diagnóstico de frenos esa lámina cuenta como Frenos de su lado.
+TAMBOR_EN_RUEDA = {"rueda_tambor"}
+_LADO_FRENO = {"Trasera": "Trasero", "Delantera": "Delantero"}
+
+
+def _lamina_del_sistema(lamina, sistema, subgrupo):
+    if lamina.get("sistema") == sistema:
+        return not (sistema == "Frenos" and subgrupo and lamina.get("subgrupo") and lamina["subgrupo"] != subgrupo)
+    if sistema == "Frenos" and lamina.get("sistema") == "Ruedas" and lamina.get("diagrama") in TAMBOR_EN_RUEDA:
+        return not subgrupo or _LADO_FRENO.get(lamina.get("subgrupo")) == subgrupo
+    return False
+
+
+def sistemas_a_armar(res):
+    """Sistemas cuyas láminas necesita el resultado (los frenos de tambor pueden estar en la lámina de la rueda)."""
+    sistemas = [res["sistema"]] + res.get("otros_sistemas", [])
+    return sistemas + (["Ruedas"] if "Frenos" in sistemas and "Ruedas" not in sistemas else [])
+
+
 def piezas_candidatas(clave, laminas, subgrupo="", limite=8):
     """Piezas del despiece de la moto (datos_despiece()['laminas']) que encajan con el resultado.
 
@@ -758,9 +778,7 @@ def piezas_candidatas(clave, laminas, subgrupo="", limite=8):
     for i_patron, patron in enumerate(patrones):
         for i_sis, sistema in enumerate(sistemas):
             for lamina in laminas:
-                if lamina.get("sistema") != sistema:
-                    continue
-                if subgrupo and lamina.get("subgrupo") and lamina["subgrupo"] != subgrupo and sistema == "Frenos":
+                if not _lamina_del_sistema(lamina, sistema, subgrupo):
                     continue
                 for parte in lamina.get("partes", []):
                     nombre = parte.get("nombre") or ""

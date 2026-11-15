@@ -1,0 +1,69 @@
+{
+  "linea": "Yamaha XTZ 150",
+  "tareas": {
+    "aceite": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Cuadro general de mantenimiento y engrase' pp. 6-4 a 6-6 (columnas 1.000 / 3.000 / 6.000 / 9.000 / 12.000 / 15.000 km; desde los 18.000 km se repite desde la de 3.000), fila 24 'Aceite de motor' (cambiar a los 1.000 km y luego cada 3.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Yamalube 10W-40, API SG o superior, JASO MA; 1,00 L en el cambio (1,10 L con cambio de filtro)",
+      "notas": "El primer cambio es a los 1.000 km. El filtro de aceite se cambia a los 1.000 km y luego cada 6.000 km (fila 25)."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Cuadro general de mantenimiento y engrase' pp. 6-4 a 6-6 (columnas 1.000 / 3.000 / 6.000 / 9.000 / 12.000 / 15.000 km; desde los 18.000 km se repite desde la de 3.000), fila 14 'Cadena de transmisión' (cada 500 km y después de lavar la moto o rodar con lluvia); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Lubricante para cadenas con juntas tóricas"
+    },
+    "filtro-aire": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Cuadro general de mantenimiento y engrase' pp. 6-4 a 6-6 (columnas 1.000 / 3.000 / 6.000 / 9.000 / 12.000 / 15.000 km; desde los 18.000 km se repite desde la de 3.000), fila 2 'Filtro de aire' (limpiar a los 3.000, 9.000 y 15.000 km; cambiar a los 6.000 y 12.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "notas": "Entre cambios se limpia cada 3.000 km; el tubo de drenaje del filtro se limpia en cada servicio."
+    },
+    "bujia": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Cuadro de mantenimiento periódico del sistema de control de emisiones' p. 6-3, fila 2 'Bujía' (revisar a los 3.000, 9.000 y 15.000 km; cambiar a los 6.000 y 12.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR8EA (según el catálogo de partes BBL1)"
+    },
+    "valvulas": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Cuadro de mantenimiento periódico del sistema de control de emisiones' p. 6-3, fila 3 'Válvulas' (revisar y ajustar cada 3.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Cuadro general de mantenimiento y engrase' pp. 6-4 a 6-6 (columnas 1.000 / 3.000 / 6.000 / 9.000 / 12.000 / 15.000 km; desde los 18.000 km se repite desde la de 3.000), fila 9 'Líquido de freno (freno de disco)': cambiar cada 2 años; consultado el 15-nov-2026",
+      "aproximado": false,
+      "notas": "Solo por tiempo. El tubo del freno se cambia cada 4 años."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Especificaciones' p. 8-1; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/90-19 M/C 52P con neumático (Cheng Shin C6017)"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Especificaciones' p. 8-1; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "110/90-17 M/C 60P con neumático (Cheng Shin C6017Y)"
+    },
+    "bateria": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario y garantía Yamaha XTZ150 (español, Incolmotos Yamaha Colombia, rev. may-2025), copia entregada por el usuario, 'Especificaciones' p. 8-2 y cuadro p. 6-4 fila 4 (comprobar voltaje en cada servicio); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "MTX5L-RS, 12 V 4,0 Ah"
+    }
+  }
+}

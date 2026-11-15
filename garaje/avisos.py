@@ -157,7 +157,14 @@ def notificar_moto(moto, hoy=None, pico_placa=True):
     avisos = avisos_documentos(moto, hoy)
     if pico_placa and moto.aviso_pico_placa and (pyp := aviso_pico_placa(moto, hoy)):
         avisos.append(pyp)
-    return sum(1 for a in avisos if notificar(usuario, a["clave"], a["titulo"], a["texto"], a["url"], a["tipo"]))
+    nuevas = 0
+    for a in avisos:
+        if notificar(usuario, a["clave"], a["titulo"], a["texto"], a["url"], a["tipo"]):
+            nuevas += 1
+            if a["tipo"] == "documento":  # SOAT / técnico-mecánica: también por correo (solo la primera vez)
+                from cuentas.correos import enviar_aviso
+                enviar_aviso(usuario, a["titulo"], a["texto"], a["url"], "Documentos de tu moto")
+    return nuevas
 
 
 def notificar_todas(hoy=None, ahora=None):

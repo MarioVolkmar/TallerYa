@@ -1,0 +1,209 @@
+{
+  "marca": "Suzuki",
+  "linea": "DR 150",
+  "version": "DR150 carburada (FA403JC100)",
+  "anio": 2022,
+  "formato": "suzuki",
+  "fuente": "Catálogo de partes Suzuki DR150 (FA403JC100, inglés, datos a ago-2022), copia de todomecanica.com",
+  "variante": "Carburador",
+  "especificaciones": {
+    "freno_trasero": "tambor"
+  },
+  "laminas": [
+    {
+      "figura": "43",
+      "titulo_es": "Caliper delantero y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "PAD": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": "44",
+      "titulo_es": "Bomba de freno delantera",
+      "pieza": "freno_del",
+      "reglas": {
+        "CAP": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": "48",
+      "titulo_es": "Rueda trasera y freno de tambor",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "TIRE": "llanta-tras",
+        "SHOE": "bandas-tras",
+        "SPROCKET": "kit-arrastre",
+        "ADJUSTER SET,CHAIN": "cadena-lubricar",
+        "ADJUSTER,CHAIN": "cadena-lubricar"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "46",
+      "titulo_es": "Basculante",
+      "pieza": "suspension_tras",
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "15",
+      "titulo_es": "Transmisión, piñón de salida y cadena",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET": "kit-arrastre",
+        "CHAIN ASSY,DRIVE": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "13",
+      "titulo_es": "Bomba de aceite",
+      "pieza": "aceite",
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "3",
+      "titulo_es": "Cárter y malla del aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "STRAINER": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "10",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTER,AIR": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "1",
+      "titulo_es": "Culata, tapa de válvulas y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "SPARK PLUG": "bujia",
+        "PLUG,SPARK": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "7",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE,INTAKE": "valvulas",
+        "VALVE,EXHAUST": "valvulas",
+        "VALVE, INTAKE": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "42",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "TIRE": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "41",
+      "titulo_es": "Dirección y suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SPRING": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "47",
+      "titulo_es": "Amortiguador trasero",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "ABSORBER": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "20",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATTERY ASSY": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "21",
+      "titulo_es": "Encendido y sistema eléctrico",
+      "pieza": "bateria",
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "5",
+      "titulo_es": "Cigüeñal, pistón y filtro centrífugo de aceite",
+      "pieza": "aceite",
+      "diagrama": "cilindro_piston",
+      "reglas": {
+        "ENGINE OIL FILTER": "aceite"
+      }
+    },
+    {
+      "figura": "8",
+      "titulo_es": "Cadenilla y tensor",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": "9",
+      "titulo_es": "Carburador",
+      "pieza": "filtro_aire",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": "11",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": "14",
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "diagrama": "clutch"
+    },
+    {
+      "figura": "4",
+      "titulo_es": "Tapas del cárter y varilla del aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "GAUGE SET,OIL LEVEL": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "16",
+      "titulo_es": "Selector de cambios",
+      "pieza": "motor",
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "19",
+      "titulo_es": "Magneto",
+      "pieza": "motor",
+      "diagrama": "encendido"
+    },
+    {
+      "figura": "45",
+      "titulo_es": "Manguera de freno delantera",
+      "pieza": "freno_del",
+      "diagrama": "bomba_freno"
+    }
+  ]
+}

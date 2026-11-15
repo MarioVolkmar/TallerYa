@@ -99,7 +99,7 @@ class VistaDiagnosticoTests(TestCase):
         r = self.client.get(self.url)  # una sola moto: se usa la suya y su transmisión (NMAX = cvt)
         self.assertEqual(r.context["paso"], "sintoma")
         self.assertContains(r, "Transmisión CVT")
-        r = self.client.get(self.url, {"s": "frena_mal", "cual": "del", "como": "poco"})
+        r = self.resultado({"s": "frena_mal", "cual": "del", "como": "poco"})
         ids = [p["id"] for p in r.context["piezas"]]
         self.assertIn(self.pastilla.pk, ids)
         self.assertEqual(len(ids), 1)  # el tornillo no entra
@@ -117,9 +117,29 @@ class VistaDiagnosticoTests(TestCase):
 
     RESULTADO_FRENO = {"s": "frena_mal", "cual": "del", "como": "poco"}
 
+    def resultado(self, params):
+        """El resultado con el esquema ya en caché: primero se pide aparte (?parte=esquema), como hace el navegador."""
+        self.client.get(self.url, {**params, "parte": "esquema"})
+        return self.client.get(self.url, params)
+
+    def test_sin_cache_el_esquema_llega_aparte_con_aviso(self):
+        datos = {"despiece": self.despiece.pk, **self.RESULTADO_FRENO}
+        r = self.client.get(self.url, datos)              # caché fría: la página sale ya, sin armar los dibujos
+        self.assertEqual(r.context["esquemas"], [])
+        self.assertContains(r, "data-diferido=")
+        self.assertContains(r, "Preparando el esquema")
+        self.assertContains(r, "garaje/js/diagnostico.js")
+        parte = self.client.get(r.context["esquema_diferido"])
+        self.assertContains(parte, 'id="diag-esquema"')
+        self.assertContains(parte, f'data-guia-pieza="{self.pastilla.pk}"')
+        self.assertNotContains(parte, "<html")
+        r = self.client.get(self.url, datos)              # ya en caché: el esquema va en la misma página
+        self.assertNotContains(r, "data-diferido=")
+        self.assertEqual(len(r.context["esquemas"]), 1)
+
     def test_motero_con_moto_ve_esquema_y_no_la_leyenda_de_agregar(self):
         self.client.force_login(self.usuario)
-        r = self.client.get(self.url, self.RESULTADO_FRENO)
+        r = self.resultado(self.RESULTADO_FRENO)
         self.assertNotContains(r, "Agrega tu moto al garaje")
         self.assertNotContains(r, "Agrega esta moto a tu garaje")
         self.assertEqual(len(r.context["esquemas"]), 1)
@@ -141,7 +161,7 @@ class VistaDiagnosticoTests(TestCase):
         r = self.client.get(self.url, {"despiece": self.despiece.pk})
         self.assertEqual(r.context["paso"], "sintoma")  # la transmisión sale de la línea (NMAX = cvt)
         self.assertContains(r, "Transmisión CVT")
-        r = self.client.get(self.url, {"despiece": self.despiece.pk, **self.RESULTADO_FRENO})
+        r = self.resultado({"despiece": self.despiece.pk, **self.RESULTADO_FRENO})
         self.assertEqual([p["id"] for p in r.context["piezas"]], [self.pastilla.pk])
         self.assertEqual(len(r.context["esquemas"]), 1)
         self.assertContains(r, "Crea tu cuenta gratis")
@@ -191,7 +211,7 @@ class VistaDiagnosticoTests(TestCase):
         # Otra fila con el mismo número (variante de código): en el esquema sale una sola vez
         ParteDespiece.objects.create(lamina=self.pastilla.lamina, ref=2, codigo="90109-08299", descripcion="BOLT")
         self.client.force_login(self.usuario)
-        r = self.client.get(self.url, self.RESULTADO_FRENO)
+        r = self.resultado(self.RESULTADO_FRENO)
         refs = [m["ref"] for m in r.context["esquemas"][0]["marcas"]]
         self.assertEqual(len(refs), len(set(refs)))
 
@@ -234,3 +254,67 @@ class SeguridadDiagnosticoTests(TestCase):
         self.assertEqual(clave, "corto_electrico")
         self.assertEqual(dx.RESULTADOS[clave]["urgencia"], "parar")
         self.assertEqual(dx.resultado("humo", {"t": "cadena", "color": "motor", "olor": "aceite"}), "aceite_en_escape")
+
+
+class EsquemaPorLaminaTests(TestCase):
+    """Freno de tambor dibujado con la rueda, nombres de taller ("pastas"), pestañas por lámina y aviso sin dibujo."""
+
+    def setUp(self):
+        self.url = reverse("garaje:diagnostico")
+        self.linea = LineaMoto.objects.get(nombre="NKD 125")
+        self.despiece = Despiece.objects.create(linea=self.linea, version="X1", anio=2022)
+
+    def lamina(self, figura, diagrama, pieza, titulo, partes):
+        lamina = Lamina.objects.create(despiece=self.despiece, figura=figura, titulo=titulo, titulo_es=titulo,
+                                       pieza=pieza, diagrama=diagrama)
+        return [ParteDespiece.objects.create(lamina=lamina, ref=i + 1, codigo=f"{figura}-{i}", descripcion=d, nombre_es=n)
+                for i, (d, n) in enumerate(partes)]
+
+    def resultado(self, params):
+        datos = {"despiece": self.despiece.pk, "t": "cadena", **params}
+        parte = self.client.get(self.url, {**datos, "parte": "esquema"})
+        return self.client.get(self.url, datos), parte
+
+    def test_freno_de_tambor_en_la_lamina_de_la_rueda(self):
+        banda, = self.lamina(30, "rueda_tambor", "llanta_tras", "Rueda trasera y freno de tambor",
+                             [("SHOE, BRAKE", "Banda de freno")])
+        r, _ = self.resultado({"s": "frena_mal", "cual": "tras", "como": "poco"})
+        self.assertEqual(len(r.context["esquemas"]), 1)
+        self.assertIn(banda.pk, [m["id"] for m in r.context["esquemas"][0]["sospechosas"]])
+
+    def test_pastas_de_freno_cuentan_como_pastillas(self):
+        pasta, = self.lamina(31, "freno_disco", "freno_del", "Caliper delantero", [("PASTAS FRENO DELANTERO", "Pastas freno delantero")])
+        r, _ = self.resultado({"s": "frena_mal", "cual": "del", "como": "poco"})
+        self.assertIn(pasta.pk, [m["id"] for m in r.context["esquemas"][0]["sospechosas"]])
+
+    def test_varias_causas_una_pestana_por_lamina_y_las_demas_al_tocarlas(self):
+        filtro, = self.lamina(40, "admision", "filtro_aire", "Filtro de aire", [("ELEMENT, AIR CLEANER", "Filtro de aire")])
+        carb, = self.lamina(41, "carburador", "", "Carburador", [("CARBURETOR ASSY", "Carburador")])
+        clave = "minimo_inestable"   # varias causas: filtro de aire, carburación, cuerpo de aceleración
+        from .vista_diagnostico import _laminas_de
+        res = dx.RESULTADOS[clave]
+        laminas = _laminas_de(self.despiece, None, dx.sistemas_a_armar(res))
+        esquemas = dx.esquemas(dx.piezas_candidatas(clave, laminas, limite=16), laminas, maximo=4)
+        self.assertEqual([e["nombre"] for e in esquemas][:2], ["Filtro de aire", "Carburador"])
+        from django.template.loader import render_to_string
+        html = render_to_string("garaje/_diag_esquema.html", {"esquemas": esquemas, "esquema_url": "/x/?parte=esquema"})
+        self.assertIn('role="tablist"', html)
+        self.assertEqual(html.count('role="tab"'), len(esquemas))
+        self.assertIn(f'data-url="/x/?parte=esquema&amp;lamina={esquemas[1]["id"]}"', html)
+        self.assertEqual(html.count("<figure"), 1)            # solo la primera viene dibujada
+
+    def test_pestana_diferida_devuelve_solo_su_dibujo(self):
+        banda, = self.lamina(30, "rueda_tambor", "llanta_tras", "Rueda trasera y freno de tambor", [("SHOE, BRAKE", "Banda de freno")])
+        datos = {"despiece": self.despiece.pk, "t": "cadena", "s": "frena_mal", "cual": "tras", "como": "poco"}
+        parte = self.client.get(self.url, {**datos, "parte": "esquema"})
+        lamina_id = parte.context["esquemas"][0]["id"]
+        sola = self.client.get(self.url, {**datos, "parte": "esquema", "lamina": lamina_id})
+        self.assertContains(sola, f'data-esquema="{lamina_id}"')
+        self.assertNotContains(sola, "Esquema del sistema")
+
+    def test_sin_dibujo_del_sistema_sale_un_aviso_y_no_un_hueco(self):
+        self.lamina(50, "admision", "filtro_aire", "Filtro de aire", [("ELEMENT, AIR CLEANER", "Filtro de aire")])
+        r, parte = self.resultado({"s": "frena_mal", "cual": "tras", "como": "poco"})
+        self.assertEqual(r.context["esquemas"], [])
+        self.assertContains(r, "no encontramos un dibujo de")
+        self.assertContains(parte, "no encontramos un dibujo de")

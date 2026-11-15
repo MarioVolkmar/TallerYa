@@ -352,3 +352,24 @@ class ArchivosIntervalosTests(TestCase):
             self.assertLessEqual(set(datos["tareas"]), claves, ruta.name)
             if not ruta.name.startswith("_"):
                 self.assertIn(ruta.stem, lineas, f"{ruta.name}: no hay una línea con ese slug")
+
+
+class AvisoPorCorreoTests(TestCase):
+    def test_vencimiento_llega_por_correo_solo_con_correo_verificado(self):
+        from django.core import mail
+        from django.test import override_settings
+        from cuentas.models import Perfil
+        vence = LUNES + timedelta(days=30)
+        moto = crear_moto(soat_vence=vence)
+        with override_settings(SITIO_URL="https://tallerya.test"):
+            notificar_moto(moto, LUNES)
+            self.assertEqual(len(mail.outbox), 0)  # correo sin verificar: no se escribe
+            Perfil.objects.update_or_create(usuario=moto.motociclista.usuario, defaults={"correo_verificado": True})
+            notificar_moto(moto, vence - timedelta(days=15))
+        self.assertEqual(len(mail.outbox), 1)
+        msg = mail.outbox[0]
+        self.assertIn("SOAT", msg.subject)
+        self.assertIn("https://tallerya.test/", msg.body)
+        self.assertEqual(msg.alternatives[0][1], "text/html")
+        notificar_moto(moto, vence - timedelta(days=14))
+        self.assertEqual(len(mail.outbox), 1)  # sin repetir

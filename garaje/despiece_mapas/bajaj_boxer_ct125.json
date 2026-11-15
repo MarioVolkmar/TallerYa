@@ -1,0 +1,199 @@
+{
+  "marca": "Auteco Bajaj",
+  "linea": "Boxer CT 125",
+  "version": "",
+  "anio": 2021,
+  "formato": "auteco",
+  "fuente": "Catálogo de partes Bajaj Boxer CT125 (español, Colombia), copia entregada por el usuario",
+  "laminas": [
+    {
+      "figura": 30,
+      "titulo_es": "Rueda y freno delantero de tambor",
+      "pieza": "freno_del",
+      "reglas": {
+        "BANDA FRENO": "bandas-del"
+      },
+      "diagrama": "freno_tambor",
+      "descripciones": {
+        "30151118": "Platina Freno"
+      }
+    },
+    {
+      "figura": 31,
+      "titulo_es": "Rueda trasera, freno de tambor y arrastre",
+      "pieza": "freno_tras",
+      "reglas": {
+        "BANDAS FRENO": "bandas-tras",
+        "SPROCKET 4": "kit-arrastre",
+        "CADENA 1": "kit-arrastre"
+      },
+      "diagrama": "rueda_tambor",
+      "descripciones": {
+        "30151081": "Platina Sprocket"
+      }
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "PIÑON SALIDA": "kit-arrastre",
+        "PIÑÓN SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 10,
+      "titulo_es": "Carcasa izquierda y cedazo de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "CEDAZO FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa",
+      "descripciones": {
+        "JA541010": "Platina Carcasa"
+      }
+    },
+    {
+      "figura": 13,
+      "titulo_es": "Cubierta del clutch y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 18,
+      "titulo_es": "Caja del filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision",
+      "descripciones": {
+        "DY401801": "Antivibrante Batería"
+      }
+    },
+    {
+      "figura": 21,
+      "titulo_es": "CDI, bobina y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "ANTIVIBRANTE": null,
+        "CAPUCHÓN": null,
+        "BUJÍA": "bujia"
+      },
+      "diagrama": "encendido",
+      "descripciones": {
+        "DD111012": "Antivibrante Capuchón Bujía",
+        "DD111011": "Antivibrante Capuchón Bujía Izquierdo"
+      }
+    },
+    {
+      "figura": 2,
+      "titulo_es": "Válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVULA ADMISION": "valvulas",
+        "VALVULA ESCAPE": "valvulas",
+        "KIT REPARACION VALVULAS": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": 29,
+      "titulo_es": "Rines y llantas",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA DEL": "llanta-del",
+        "LLANTA TRAS": "llanta-tras"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 34,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RESORTE SUSPENSIÓN": "suspension-del",
+        "RESORTE TUBO": "suspension-del",
+        "RETEN TUBO": "suspension-del"
+      },
+      "diagrama": "suspension_delantera",
+      "descripciones": {
+        "DD181205": "Platina Cabeza Espiga"
+      }
+    },
+    {
+      "figura": 25,
+      "titulo_es": "Brazo oscilante y amortiguadores",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "TUERCA": null,
+        "AMORTIGUADOR": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores",
+      "descripciones": {
+        "DM171027": "Amortiguador Trasero",
+        "39236615": "Tuerca Amortiguador"
+      }
+    },
+    {
+      "figura": 44,
+      "titulo_es": "Sistema eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERIA 12V": "bateria",
+        "BATERÍA 12V": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": 1,
+      "titulo_es": "Culata",
+      "pieza": "motor",
+      "diagrama": "culata",
+      "descripciones": {
+        "52DY0083": "Múltiple Admisión"
+      }
+    },
+    {
+      "figura": 4,
+      "titulo_es": "Cilindro, pistón y anillos",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Árbol de levas y cadenilla",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": 17,
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador",
+      "descripciones": {
+        "36DY0004": "Kit Cortina Carburador"
+      }
+    },
+    {
+      "figura": 19,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape",
+      "descripciones": {
+        "PF591045": "Platina Mofle"
+      }
+    },
+    {
+      "figura": 15,
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "diagrama": "clutch"
+    }
+  ]
+}

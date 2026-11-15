@@ -39,7 +39,8 @@ from .despiece_variantes import (quitar_modelo, datos_tecnicos, nombre_por_siste
 from .despiece_fichas import ficha_completa, tiene_guia_propia
 from .despiece_guia_mecanica import guia_mecanica
 from .despiece_sistemas import ORDEN_SUBGRUPOS, sistema_de, sistemas_de
-from .models import (COLORES, COLORES_EXTRA, COLORES_SECUNDARIOS, DISENOS_CALCA, DOCUMENTOS, HEX, Despiece, LecturaKm,
+from .colores_fabrica import paleta_personalizar
+from .models import (COLORES_SECUNDARIOS, DISENOS_CALCA, DOCUMENTOS, HEX, Despiece, LecturaKm,
                      AjusteTarea, LineaMoto, Mantenimiento, Moto, ParteDespiece, TareaMantenimiento)
 from .plan import GRAVEDAD, MARCA_SIN_IDEA, calcular_plan, es_sin_idea, fecha_de_nueva, fecha_en_km, km_en_fecha, km_es_estimado
 from .intervalos import intervalo_para
@@ -68,10 +69,13 @@ def _moto_de(request, pk):
 
 @con_motociclista
 def garaje(request):
-    motos = list(request.motociclista.motos.select_related("linea", "linea__marca"))
+    motos = list(request.motociclista.motos.select_related("linea", "linea__marca")
+                 .prefetch_related("mantenimientos", "ajustes", "lecturas"))
     if len(motos) == 1 and not request.GET.get("lista"):
         return redirect(motos[0])
-    planes = [(m, calcular_plan(m)) for m in motos]
+    tareas = list(TareaMantenimiento.objects.filter(activo=True).select_related("servicio"))  # una vez para todas
+    Despiece.precargar(motos)
+    planes = [(m, calcular_plan(m, tareas=tareas)) for m in motos]
     return render(request, "garaje/garaje.html", {"planes": planes, "puede_agregar": len(motos) < MAX_MOTOS})
 
 
@@ -81,6 +85,7 @@ def agregar(request):
         messages.info(request, f"Puedes tener hasta {MAX_MOTOS} motos en tu garaje.")
         return redirect("garaje:garaje")
     form = MotoForm(request.POST or None, request.FILES or None)
+    guia = bool(request.GET.get("guia"))  # guía de primer uso (garaje/vista_bienvenida.py): mismo formulario, 4 pasos
     filas, mostrar_paso2 = [], False
     if request.method == "POST" and form.is_valid():
         km_actual = form.cleaned_data["km_actual"]
@@ -101,10 +106,12 @@ def agregar(request):
                     m.moto = moto
                 for m in nuevos:  # uno a uno: cada mantenimiento también queda en la hoja de vida
                     m.save()
+            if guia:  # primer uso: sigue al paso 3 (su plan y su moto en 3D)
+                return redirect("garaje:bienvenida_plan", pk=moto.pk)
             messages.success(request, "¡Moto agregada! " + _mensaje_al_dia(len(nuevos)))
             return redirect(moto)
     return render(request, "garaje/form_moto.html", {
-        "form": form, "nueva": True, "documentos_form": _documentos_form(form),
+        "form": form, "nueva": True, "documentos_form": _documentos_form(form), "guia": guia,
         "filas": filas, "mostrar_paso2": mostrar_paso2, "tentativos": MESES_TENTATIVOS.items(),
         "km_actual": request.POST.get("km_actual", "") if request.method == "POST" else ""})
 
@@ -514,41 +521,8 @@ def _tablero(moto, plan):
     return {"digitos_km": digitos, "aceite": _aceite(plan), "liquidos": _liquidos(plan)}
 
 
-@con_motociclista
-def detalle(request, pk):
-    moto = Moto.objects.select_related("linea", "linea__marca").filter(pk=pk, motociclista=request.motociclista).first()
-    if not moto:
-        # Puede ser de otra cuenta o haber sido eliminada; no decimos cuál para no revelar nada.
-        messages.info(request, "Esa moto no está en tu garaje. Revisa con qué cuenta entraste.")
-        return redirect(reverse("garaje:garaje") + "?lista=1")
-    plan = calcular_plan(moto)
-
-    # Talleres sugeridos para lo que toca ya o pronto, con sus cupones disponibles.
-    pendientes = [t for t in plan.urgentes + plan.pronto if t.tarea.servicio_id]
-    # Con todo al día la sección no desaparece: sugiere talleres para lo que viene más cerca (las 3 de más progreso)
-    talleres_lo_que_viene = not pendientes
-    if talleres_lo_que_viene:
-        pendientes = sorted((t for t in plan.tareas if t.tarea.servicio_id and t.progreso is not None),
-                            key=lambda t: -t.progreso)[:3]
-    servicios = {t.tarea.servicio_id for t in pendientes}
-    talleres = []
-    if servicios:
-        marca = moto.linea.marca_id if moto.linea_id else None
-        todos, por_taller = _talleres_del_plan(plan)
-        talleres = [tl for tl in todos if servicios & {s.pk for s in tl.servicios.all()}]
-        for t in talleres:
-            ids = {s.pk for s in t.servicios.all()}
-            t.cupones_sugeridos = por_taller.get(t.pk, [])
-            # Qué de lo pendiente resuelve este taller (con su estado), y si trabaja la marca de la moto.
-            t.tareas_que_cubre = [p for p in pendientes if p.tarea.servicio_id in ids]
-            t.cubre_todo = len({p.tarea.servicio_id for p in t.tareas_que_cubre}) == len(servicios)
-            t.tu_marca = bool(marca) and any(m.pk == marca for m in t.marcas.all())
-        # Primero los que resuelven más cosas, luego los de tu marca, los destacados y los que tienen cupón.
-        talleres.sort(key=lambda t: (-len(t.tareas_que_cubre), not t.tu_marca, not t.destacado, not t.cupones_sugeridos, t.nombre))
-        # Misma tarjeta de la pestaña Talleres: reseñas, favorito, iniciales y tono del avatar
-        from talleres.views import _preparar_tarjetas
-        talleres = _preparar_tarjetas(talleres[:3], request.user)
-
+def resumen_plan(plan):
+    """(todo_al_dia, lo_urgente) para el resumen de arriba de la agenda; también lo usa la guía de bienvenida."""
     # Resumen arriba de la agenda, con el mismo diseño en los dos casos: el estado por sistema y una lista con barras.
     # Todo al día → "Lo que viene" (las 3 más cercanas, con cuánto les falta). Con pendientes → "Lo urgente" (lo vencido
     # primero y luego lo próximo, hasta 5, con cuánto se pasó o cuánto falta).
@@ -596,6 +570,47 @@ def detalle(request, pk):
             else:
                 t.texto_lu = t.etiqueta
         lo_urgente = {"lista": pendientes_lista[:5], "total": len(pendientes_lista), "sistemas": sistemas}
+    return todo_al_dia, lo_urgente
+
+
+@con_motociclista
+def detalle(request, pk):
+    # ajustes: los usan el plan y la agenda (una consulta para los dos)
+    moto = (Moto.objects.select_related("linea", "linea__marca").prefetch_related("ajustes")
+            .filter(pk=pk, motociclista=request.motociclista).first())
+    if not moto:
+        # Puede ser de otra cuenta o haber sido eliminada; no decimos cuál para no revelar nada.
+        messages.info(request, "Esa moto no está en tu garaje. Revisa con qué cuenta entraste.")
+        return redirect(reverse("garaje:garaje") + "?lista=1")
+    plan = calcular_plan(moto)
+
+    # Talleres sugeridos para lo que toca ya o pronto, con sus cupones disponibles.
+    pendientes = [t for t in plan.urgentes + plan.pronto if t.tarea.servicio_id]
+    # Con todo al día la sección no desaparece: sugiere talleres para lo que viene más cerca (las 3 de más progreso)
+    talleres_lo_que_viene = not pendientes
+    if talleres_lo_que_viene:
+        pendientes = sorted((t for t in plan.tareas if t.tarea.servicio_id and t.progreso is not None),
+                            key=lambda t: -t.progreso)[:3]
+    servicios = {t.tarea.servicio_id for t in pendientes}
+    talleres = []
+    if servicios:
+        marca = moto.linea.marca_id if moto.linea_id else None
+        todos, por_taller = _talleres_del_plan(plan)
+        talleres = [tl for tl in todos if servicios & {s.pk for s in tl.servicios.all()}]
+        for t in talleres:
+            ids = {s.pk for s in t.servicios.all()}
+            t.cupones_sugeridos = por_taller.get(t.pk, [])
+            # Qué de lo pendiente resuelve este taller (con su estado), y si trabaja la marca de la moto.
+            t.tareas_que_cubre = [p for p in pendientes if p.tarea.servicio_id in ids]
+            t.cubre_todo = len({p.tarea.servicio_id for p in t.tareas_que_cubre}) == len(servicios)
+            t.tu_marca = bool(marca) and any(m.pk == marca for m in t.marcas.all())
+        # Primero los que resuelven más cosas, luego los de tu marca, los destacados y los que tienen cupón.
+        talleres.sort(key=lambda t: (-len(t.tareas_que_cubre), not t.tu_marca, not t.destacado, not t.cupones_sugeridos, t.nombre))
+        # Misma tarjeta de la pestaña Talleres: reseñas, favorito, iniciales y tono del avatar
+        from talleres.views import _preparar_tarjetas
+        talleres = _preparar_tarjetas(talleres[:3], request.user)
+
+    todo_al_dia, lo_urgente = resumen_plan(plan)
 
     despiece = Despiece.para(moto)
     return render(request, "garaje/moto.html", {
@@ -606,7 +621,7 @@ def detalle(request, pk):
         "datos_3d": {"specs": moto.specs(), "color": moto.color, "piezas": _acciones_piezas(moto, plan),
                      "linea": moto.nombre_completo, "placa": moto.placa,
                      "color_secundario": moto.color_secundario, "calcas": moto.calcas, "estilo": moto.estilo},
-        "personalizacion": {"colores": COLORES + COLORES_EXTRA, "secundarios": COLORES_SECUNDARIOS,
+        "personalizacion": {"colores": paleta_personalizar(moto.nombre_completo), "secundarios": COLORES_SECUNDARIOS,
                             "disenos": DISENOS_CALCA,
                             "url": reverse("garaje:personalizar", args=[moto.pk])},
         "lectura_form": LecturaForm(moto=moto),
@@ -941,13 +956,36 @@ def clave_base_despiece(despiece):
             f"{huella['n']}-{huella['u']}")
 
 
-def base_despiece(despiece):
-    """Lo pesado del despiece (igual para todas las motos de esa línea), desde la caché o armado y guardado."""
+def _clave_parcial(clave, sistemas):
+    return f"{clave}:sis:{hashlib.md5('|'.join(sorted(sistemas)).encode()).hexdigest()[:10]}"
+
+
+def base_en_cache(despiece, sistemas=None):
+    """¿Lo pesado del despiece (todo, o esos sistemas) ya está armado en la caché? Sin leerlo."""
+    clave, cache = clave_base_despiece(despiece), caches["despiece"]
+    return cache.has_key(clave) or bool(sistemas) and cache.has_key(_clave_parcial(clave, sistemas))
+
+
+def base_despiece(despiece, sistemas=None):
+    """Lo pesado del despiece (igual para todas las motos de esa línea), desde la caché o armado y guardado.
+
+    Con `sistemas` (el diagnóstico, que solo muestra un sistema): si el despiece completo ya está en caché se filtra de
+    ahí; si no, se arman y guardan solo las láminas de esos sistemas (los dibujos de todo el despiece tardan segundos)."""
     clave = clave_base_despiece(despiece)
-    base = caches["despiece"].get(clave)
+    cache = caches["despiece"]
+    base = cache.get(clave)
+    if base is None and sistemas:
+        clave_parcial = _clave_parcial(clave, sistemas)
+        base = cache.get(clave_parcial)
+        if base is None:
+            base = _laminas_base(despiece, set(sistemas))
+            cache.set(clave_parcial, base, 60 * 60 * 24 * 7)
+        return base
     if base is None:
         base = _laminas_base(despiece)
-        caches["despiece"].set(clave, base, 60 * 60 * 24 * 7)
+        cache.set(clave, base, 60 * 60 * 24 * 7)
+    if sistemas:
+        base = {**base, "laminas": [l for l in base["laminas"] if l["sistema"] in sistemas]}
     return base
 
 
@@ -961,12 +999,12 @@ def km_guia(t):
                    "nivel": t.nivel or t.estado, "origen": t.origen, "texto_origen": t.texto_origen}}
 
 
-def datos_despiece(despiece, plan):
+def datos_despiece(despiece, plan, sistemas=None):
     """Láminas con sus piezas marcadas y el estado de mantenimiento de cada una, para el visor.
 
     Lo pesado (dibujos, nombres, guías: igual para todas las motos de esa línea) se guarda en caché;
-    aquí solo se pinta encima el estado de mantenimiento de esta moto."""
-    base = base_despiece(despiece)
+    aquí solo se pinta encima el estado de mantenimiento de esta moto. `sistemas`: solo las láminas de esos sistemas."""
+    base = base_despiece(despiece, sistemas)
     por_tarea = {t.tarea.pk: t for t in plan.tareas}
     piezas = plan.piezas()
     laminas = base["laminas"]
@@ -1011,8 +1049,9 @@ def datos_despiece(despiece, plan):
             "sistemas": base["sistemas"], "orden_subgrupos": ORDEN_SUBGRUPOS, "registro": registro}
 
 
-def _laminas_base(despiece):
-    """Láminas del despiece sin nada de una moto en particular (el estado se agrega en datos_despiece)."""
+def _laminas_base(despiece, sistemas=None):
+    """Láminas del despiece sin nada de una moto en particular (el estado se agrega en datos_despiece).
+    `sistemas`: arma solo las vistas de esos sistemas (lo demás ni se dibuja)."""
     laminas = []
     perfil = _perfil_motor(despiece)
     faltan, usadas_ya = _tareas_sin_pieza(despiece), set()      # piezas que el plan revisa y los planos no traen
@@ -1022,6 +1061,11 @@ def _laminas_base(despiece):
         todas_lamina = _con_rueda_fonica(lamina, todas_lamina)
         todas_lamina = _con_piezas_de_tarea(lamina, todas_lamina, faltan, usadas_ya)
         for vista_id, vista_nombre, todas in _vistas(lamina, todas_lamina):
+            pieza_vista = ("cadena" if str(vista_id).endswith("-arrastre")
+                           else "llanta_tras" if lamina.diagrama in diagramas.CON_ARRASTRE else lamina.pieza)
+            sistema, subgrupo = sistema_de(lamina.diagrama, pieza_vista, vista_nombre, vista_id)
+            if sistemas and sistema not in sistemas:
+                continue
             # Se muestra el dibujo propio de TallerYa; el plano del catálogo (solo existe en local, no se publica)
             # va como pestaña aparte, o solo si la lámina aún no tiene dibujo propio.
             con_dibujo = lamina.diagrama in diagramas.DIAGRAMAS
@@ -1214,9 +1258,6 @@ def _laminas_base(despiece):
                                                     "aplastado o rajado. Es barato: ante la duda, nuevo."}
             # Rótulo del dibujo: el sistema y la moto (como en el pie de un plano técnico)
             rotulo = f"{vista_nombre} · {despiece.linea}"[:90]
-            pieza_vista = ("cadena" if str(vista_id).endswith("-arrastre")
-                           else "llanta_tras" if lamina.diagrama in diagramas.CON_ARRASTRE else lamina.pieza)
-            sistema, subgrupo = sistema_de(lamina.diagrama, pieza_vista, vista_nombre, vista_id)
             laminas.append({
                 "id": vista_id, "figura": lamina.figura, "nombre": vista_nombre, "pieza": pieza_vista, "diagrama": lamina.diagrama, "moto": str(despiece.linea),
                 "sistema": sistema, "subgrupo": subgrupo,

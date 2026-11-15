@@ -589,10 +589,27 @@ class Despiece(models.Model):
         cercano (una Gixxer 2017 usa el de 2015, una 2021 el de 2020); si la moto es más vieja que todos, el más antiguo."""
         if not moto.linea_id:
             return None
+        # Se guarda en la moto mientras dure la petición: la ficha lo pide varias veces (specs, plan, despiece).
+        clave = (moto.linea_id, moto.modelo)
+        guardado = getattr(moto, "_despiece_para", None)
+        if guardado and guardado[0] == clave:
+            return guardado[1]
         opciones = list(cls.objects.filter(linea_id=moto.linea_id, activo=True))
-        if not opciones:
-            return None
-        return min(opciones, key=lambda d: (d.anio > moto.modelo, abs(d.anio - moto.modelo)))
+        elegido = min(opciones, key=lambda d: (d.anio > moto.modelo, abs(d.anio - moto.modelo))) if opciones else None
+        moto._despiece_para = (clave, elegido)
+        return elegido
+
+    @classmethod
+    def precargar(cls, motos):
+        """Deja elegido el catálogo de varias motos con una sola consulta (Mi garaje), para que para() no consulte."""
+        por_linea = {}
+        for d in cls.objects.filter(linea_id__in={m.linea_id for m in motos if m.linea_id}, activo=True):
+            por_linea.setdefault(d.linea_id, []).append(d)
+        for m in motos:
+            if m.linea_id:
+                opciones = por_linea.get(m.linea_id, [])
+                m._despiece_para = ((m.linea_id, m.modelo), min(
+                    opciones, key=lambda d: (d.anio > m.modelo, abs(d.anio - m.modelo))) if opciones else None)
 
 
 class Lamina(models.Model):
@@ -725,6 +742,9 @@ class RegistroServicio(models.Model):
     # del despiece o de "poner al día", o si al agregarlo aquí se eligió qué mantenimiento cubre).
     mantenimiento = models.OneToOneField("Mantenimiento", on_delete=models.SET_NULL, null=True, blank=True,
                                          editable=False, related_name="registro_hoja")
+    # Si lo registró el taller desde su panel (cita, código o placa): el servicio completo con foto y tareas.
+    servicio_taller = models.ForeignKey("ServicioTaller", on_delete=models.SET_NULL, null=True, blank=True,
+                                        editable=False, related_name="registros")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -767,6 +787,64 @@ class CodigoServicio(models.Model):
     @property
     def vigente(self):
         return self.usado is None and self.vence > timezone.now()
+
+
+def ruta_foto_servicio(instancia, nombre):
+    return f"servicios/{uuid4().hex}{Path(nombre).suffix.lower()}"
+
+
+class ServicioTaller(models.Model):
+    """Servicio que el taller registra desde su panel (al cerrar una cita, con el código/QR del dueño o por placa).
+    Con cita o código queda verificado de una vez; por placa espera a que el dueño lo confirme desde su aviso.
+    Al verificarse alimenta la hoja de vida y el plan de mantenimiento (garaje.servicio_taller.aplicar)."""
+
+    class Estado(models.TextChoices):
+        POR_CONFIRMAR = "por_confirmar", "Esperando al dueño"
+        VERIFICADO = "verificado", "Verificado"
+        RECHAZADO = "rechazado", "No reconocido por el dueño"
+
+    class Origen(models.TextChoices):
+        CITA = "cita", "Cita"
+        CODIGO = "codigo", "Código o QR del dueño"
+        PLACA = "placa", "Búsqueda por placa"
+
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="servicios_taller")
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="servicios_taller")
+    cita = models.ForeignKey("talleres.SolicitudCita", on_delete=models.SET_NULL, null=True, blank=True,
+                             related_name="servicios_hechos")
+    fecha = models.DateField(default=timezone.localdate)
+    km = models.PositiveIntegerField("kilometraje")
+    tareas = models.ManyToManyField(TareaMantenimiento, blank=True, related_name="+")
+    otros = models.CharField("otros trabajos", max_length=200, blank=True)
+    costo = models.PositiveIntegerField("valor (COP)", null=True, blank=True)
+    notas = models.CharField("nota para el dueño", max_length=300, blank=True)
+    foto = models.ImageField(upload_to=ruta_foto_servicio, blank=True)
+    estado = models.CharField(max_length=14, choices=Estado.choices, default=Estado.POR_CONFIRMAR)
+    origen = models.CharField(max_length=8, choices=Origen.choices)
+    respondido = models.DateTimeField(null=True, blank=True)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-fecha", "-creado"]
+        verbose_name = "servicio registrado por el taller"
+        verbose_name_plural = "servicios registrados por talleres"
+
+    def __str__(self):
+        return f"{self.taller} · {self.moto} · {self.fecha:%d/%m/%Y}"
+
+    def get_absolute_url(self):
+        return reverse("garaje:servicio_taller", args=[self.pk])
+
+    @property
+    def dueno(self):
+        return self.moto.motociclista.usuario
+
+    def resumen(self):
+        """Lo que se hizo en una línea: tareas del plan y otros trabajos."""
+        partes = [t.nombre for t in self.tareas.all()]
+        if self.otros:
+            partes.append(self.otros)
+        return ", ".join(partes)
 
 
 def token_enlace():

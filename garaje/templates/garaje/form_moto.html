@@ -1,17 +1,25 @@
 {% extends "base.html" %}
 {% block title %}{% if nueva %}Agregar moto{% else %}Datos de la moto{% endif %} · TallerYa{% endblock %}
 {% block content %}
-{% if moto %}{% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}{% else %}{% url 'garaje:garaje' as url_garaje %}{% include "parciales/volver.html" with url=url_garaje|add:"?lista=1" texto="Mi garaje" clase="mt-8" %}{% endif %}
+{% if guia %}<div class="mt-8"></div>{% elif moto %}{% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}{% else %}{% url 'garaje:garaje' as url_garaje %}{% include "parciales/volver.html" with url=url_garaje|add:"?lista=1" texto="Mi garaje" clase="mt-8" %}{% endif %}
 <div class="max-w-2xl mx-auto mt-4">
-  {% if nueva %}
+  {% if guia %}
+  {% if mostrar_paso2 %}{% include "garaje/_pasos_guia.html" with paso=2 %}{% else %}{% include "garaje/_pasos_guia.html" with paso=1 %}{% endif %}
+  {% elif nueva %}
   <ol class="pasos-alta mb-6" aria-label="Pasos" id="pasos-alta">
     <li class="{% if mostrar_paso2 %}hecho{% else %}actual{% endif %}" data-paso="1"><span>1</span>Datos de la moto</li>
     <li class="{% if mostrar_paso2 %}actual{% endif %}" data-paso="2"><span>2</span>Último mantenimiento</li>
   </ol>
   {% endif %}
   <div id="paso-1"{% if mostrar_paso2 %} hidden{% endif %}>
+  {% if guia %}
+  <p class="etiqueta">Bienvenido a TallerYa</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Empecemos por tu <span class="text-lava">moto</span></h1>
+  <p class="text-suave mt-2">Con la línea, el año y el kilometraje armamos su plan de mantenimiento y la vemos en 3D. Toma un minuto.</p>
+  {% else %}
   <p class="etiqueta">Mi garaje</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">{% if nueva %}Agrega tu <span class="text-lava">moto</span>{% else %}Datos de tu <span class="text-lava">{{ moto }}</span>{% endif %}</h1>
+  {% endif %}
 
   </div>
   <form method="post" enctype="multipart/form-data" id="form-moto" class="mt-6 space-y-6">
@@ -74,12 +82,14 @@
               <label title="{{ opcion.choice_label }}">{{ opcion.tag }}<span class="muestra" style="background: {{ opcion.data.value }}"></span><span class="sr-only">{{ opcion.choice_label }}</span></label>
             {% endfor %}
           </div>
+          <p class="text-sm text-suave mt-1">Si no eliges, usamos el color de fábrica más común.</p>
         </fieldset>
         {% endif %}
       </div>
     </section>
 
-    <!-- Documentos -->
+    {% if not guia %}
+    <!-- Documentos (en la guía de bienvenida se dejan para después: el paso 4 lleva a guardarlos) -->
     <section class="papel p-6 md:p-8">
       <div class="flex flex-wrap items-center gap-2"><h2 class="form-seccion">Documentos</h2><span class="chip-opcional">Opcional</span></div>
       <p class="text-sm text-suave mt-2">Guarda cuándo vencen y te avisamos con un mes de anticipación. Puedes subir un pantallazo o el PDF para tenerlos a mano.</p>
@@ -121,6 +131,7 @@
         {% endfor %}
       </div>
     </section>
+    {% endif %}
 
     {% if nueva %}
     <!-- Sin JavaScript este botón guarda directamente; con JavaScript lleva al paso 2 sin crear nada todavía. -->
@@ -144,7 +155,7 @@
       </div>
       <p class="text-xs text-suave mt-3">«Hace poco» lo registra con el kilometraje actual. Con una fecha aproximada estimamos el kilometraje. Siempre puedes corregirlo después en el plan.</p>
       <div class="flex flex-wrap items-center gap-3 mt-6">
-        <button class="btn btn-lava px-7 py-3.5 text-sm" name="guardar" value="1">Agregar al garaje</button>
+        <button class="btn btn-lava px-7 py-3.5 text-sm" name="guardar" value="1">{% if guia %}Ver mi plan{% else %}Agregar al garaje{% endif %}</button>
         <button type="button" class="boton-seccion" id="btn-atras">Atrás</button>
       </div>
     </div>

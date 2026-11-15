@@ -1,0 +1,66 @@
+{
+  "linea": "Auteco Bajaj Boxer CT 125",
+  "tareas": {
+    "aceite": {
+      "km": 5000,
+      "dias": 90,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' pp. 31-33 (revisiones a los 500-750, 4.500-5.000, 9.500-10.000 … 29.500-30.000 km y luego cada 5.000 km / 3 meses), fila 4 'Aceite de motor' (reemplazar en cada revisión) y tabla de lubricantes p. 23 ('cada 5.000 km'); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 20W-50 o 10W-30, API SN, JASO MA2; 1.000 cc en el cambio",
+      "notas": "El primer cambio es a los 500–750 km. La anotación del cuadro dice además 'reemplazar cada 10.000 km, rellene cada 5.000 km'; se toma la marca de cada revisión, que coincide con la tabla de lubricantes. El tamiz se limpia en cada cambio y el filtro centrífugo cada 10.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' pp. 31-33 (revisiones a los 500-750, 4.500-5.000, 9.500-10.000 … 29.500-30.000 km y luego cada 5.000 km / 3 meses), fila 18 'Lubricación y ajuste de cadena' (el cliente la lubrica cada 500 km y la limpia cada 2.500–3.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Holgura 20–30 mm; lubricante para cadenas o aceite SAE 90"
+    },
+    "filtro-aire": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' pp. 31-33 (revisiones a los 500-750, 4.500-5.000, 9.500-10.000 … 29.500-30.000 km y luego cada 5.000 km / 3 meses), fila 7 'Filtro de aire y o-ring' (limpiar a los 10.000 y 30.000 km; reemplazar cada 20.000 km aprox.); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "bujia": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' pp. 31-33 (revisiones a los 500-750, 4.500-5.000, 9.500-10.000 … 29.500-30.000 km y luego cada 5.000 km / 3 meses), fila 9 'Bujía y capuchón' (chequear y ajustar en cada revisión; reemplazar cada 15.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Champion P-RZ9HC o Bosch UR4AC (UR3AC en la página de la bujía); separación 0,7–0,8 mm"
+    },
+    "valvulas": {
+      "km": 5000,
+      "dias": 90,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' pp. 31-33 (revisiones a los 500-750, 4.500-5.000, 9.500-10.000 … 29.500-30.000 km y luego cada 5.000 km / 3 meses), fila 3 'Taqué de válvula' (chequear y ajustar en cada revisión); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "bandas-tras": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' p. 33, anotación de frenos ('reemplazar zapatas / pastillas cada 15.000 km aprox. o antes si se requiere'); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "pastillas-del": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Mantenimiento periódico' p. 33, anotación de frenos ('reemplazar zapatas / pastillas cada 15.000 km aprox. o antes si se requiere'); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Especificaciones' p. 11; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "2.75-17 41P con neumático; presión 25 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario y garantía Bajaj Boxer CT 125 Sport (español, Grupo UMA Colombia), copia entregada por el usuario, 'Especificaciones' p. 11; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "3.00-17 50P con neumático; presión 28,5 psi solo, 32 psi con acompañante"
+    }
+  }
+}

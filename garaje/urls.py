@@ -2,8 +2,10 @@ from django.urls import path
 
 from . import views
 from .vista_diagnostico import despiece_publico, diagnostico
+from .vista_bienvenida import bienvenida, bienvenida_listo, bienvenida_plan, bienvenida_saltar
 from .vista_gastos import gastos_moto
 from .vista_tareas import tarea
+from .vista_servicio_taller import servicio_taller
 from .vista_hoja_vida import codigo_taller, hoja_vida_moto, hoja_vida_publica, servicio_codigo
 
 app_name = "garaje"
@@ -11,6 +13,10 @@ app_name = "garaje"
 urlpatterns = [
     path("garaje/", views.garaje, name="garaje"),
     path("garaje/agregar/", views.agregar, name="agregar"),
+    path("bienvenida/", bienvenida, name="bienvenida"),
+    path("bienvenida/saltar/", bienvenida_saltar, name="bienvenida_saltar"),
+    path("bienvenida/<int:pk>/", bienvenida_plan, name="bienvenida_plan"),
+    path("bienvenida/<int:pk>/listo/", bienvenida_listo, name="bienvenida_listo"),
     path("diagnostico/", diagnostico, name="diagnostico"),
     path("diagnostico/despiece/<int:pk>.json", despiece_publico, name="diagnostico_despiece"),
     path("garaje/<int:pk>/", views.detalle, name="moto"),
@@ -30,6 +36,7 @@ urlpatterns = [
     path("garaje/<int:pk>/hoja-de-vida/", hoja_vida_moto, name="hoja_vida"),
     path("garaje/<int:pk>/codigo-taller/", codigo_taller, name="codigo_taller"),
     path("garaje/<int:pk>/gastos/", gastos_moto, name="gastos"),
+    path("garaje/servicio-taller/<int:pk>/", servicio_taller, name="servicio_taller"),
     path("garaje/servicio/<str:codigo>/", servicio_codigo, name="servicio_codigo"),
     path("tareas/<slug:nombre>/", tarea, name="tarea"),  # solo las de la lista fija vista_tareas.TAREAS
     path("hoja-de-vida/<str:token>/", hoja_vida_publica, name="hoja_vida_publica"),

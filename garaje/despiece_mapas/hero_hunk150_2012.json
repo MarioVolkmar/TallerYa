@@ -1,0 +1,185 @@
+{
+  "marca": "Hero",
+  "linea": "Hunk 150",
+  "version": "Hunk (ago-2012) tambor",
+  "anio": 2012,
+  "formato": "hero",
+  "variante": "Freno trasero de tambor",
+  "fuente": "Catálogo de piezas Hero Hunk (ago-2012, HCML Colombia), copia entregada por el usuario",
+  "especificaciones": {
+    "freno_trasero": "tambor"
+  },
+  "laminas": [
+    {
+      "figura": "F-8",
+      "titulo_es": "Caliper delantero y pastillas",
+      "pieza": "freno_del",
+      "reglas": {
+        "COJIN JUEGO DELANTERO": "pastillas-del"
+      },
+      "diagrama": "freno_disco"
+    },
+    {
+      "figura": "F-3A",
+      "titulo_es": "Bomba de freno delantera",
+      "pieza": "freno_del",
+      "reglas": {
+        "DIAFRAGMA": "liquido-frenos",
+        "TAPA M/C": "liquido-frenos"
+      },
+      "diagrama": "bomba_freno"
+    },
+    {
+      "figura": "F-10",
+      "titulo_es": "Freno trasero de tambor",
+      "pieza": "freno_tras",
+      "reglas": {
+        "ZAPATA DEL FRENO": "bandas-tras"
+      },
+      "diagrama": "freno_tambor"
+    },
+    {
+      "figura": "F-11-DRUM",
+      "titulo_es": "Rueda trasera y corona",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "LLANTA TRASERA": "llanta-tras",
+        "PIÑON CONDUCIDO": "kit-arrastre"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "F-19-DRUM",
+      "titulo_es": "Basculante y cadena",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "CADENA DE TRANSMISION": "kit-arrastre",
+        "TENSOR CADENA": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "E-10",
+      "titulo_es": "Transmisión y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "SPROCKET SALIDA": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "E-8A",
+      "titulo_es": "Bomba y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "CRIBA DEL FILTRO DE ACEITE": "aceite",
+        "ROTOR, FILTRO DE ACEITE": "aceite",
+        "EMPAQUE TAPA FILTRO DE ACEITE": "aceite"
+      },
+      "diagrama": "aceite"
+    },
+    {
+      "figura": "E-8",
+      "titulo_es": "Cárter y tapón de drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "ARANDELA TAPON DE DRENAJE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "F-15",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENTO, COMPONENTE FILTRO DE AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "E-1A",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJIA": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "E-2",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVULA DE ADMISION": "valvulas",
+        "VALVULA DE ESCAPE": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "F-9",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA DELANTERA": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "F-7",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SELLO, ACEITE": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "F-20",
+      "titulo_es": "Amortiguadores traseros",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR, ENSAMBLE TRASERO": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "F-24A",
+      "titulo_es": "Batería",
+      "pieza": "bateria",
+      "reglas": {
+        "ENSAMBLE DE BATERIA": "bateria"
+      },
+      "diagrama": "electrico"
+    },
+    {
+      "figura": "E-9",
+      "titulo_es": "Cigüeñal y pistón",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": "E-4",
+      "titulo_es": "Cadenilla y tensor",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": "E-13",
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": "F-16",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": "E-6",
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "diagrama": "clutch"
+    }
+  ]
+}

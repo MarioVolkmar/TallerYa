@@ -1,0 +1,145 @@
+{
+  "marca": "Hero",
+  "linea": "Hunk 125R",
+  "version": "Hunk 125R CBS (dic-2024)",
+  "anio": 2024,
+  "formato": "hero2",
+  "variante": "CBS",
+  "fuente": "Catálogo de repuestos Hero Hunk 125CC R (dic-2024), copia parcial entregada por el usuario (faltan freno delantero, bomba de aceite, batería y llantas)",
+  "especificaciones": {
+    "freno_trasero": "tambor"
+  },
+  "laminas": [
+    {
+      "figura": "F-10-CBS",
+      "titulo_es": "Freno trasero de tambor",
+      "pieza": "freno_tras",
+      "reglas": {
+        "SHOE COMP BRAKE": "bandas-tras"
+      },
+      "diagrama": "freno_tambor"
+    },
+    {
+      "figura": "F-11",
+      "titulo_es": "Rueda trasera y sprocket",
+      "pieza": "llanta_tras",
+      "reglas": {
+        "SPROCKET FINAL DRIVEN": "kit-arrastre",
+        "ADJUSTER CHAIN": "cadena-lubricar"
+      },
+      "diagrama": "rueda_tambor"
+    },
+    {
+      "figura": "F-19",
+      "titulo_es": "Basculante y cadena",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "CHAIN DRIVE": "kit-arrastre"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "E-10",
+      "titulo_es": "Transmisión",
+      "pieza": "cadena",
+      "diagrama": "transmision"
+    },
+    {
+      "figura": "E-8",
+      "titulo_es": "Cárter y tapón de drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "ARANDELA TAPON DRENAJE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "E-5",
+      "titulo_es": "Tapa derecha del cárter",
+      "pieza": "aceite",
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": "F-15",
+      "titulo_es": "Filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": "E-2",
+      "titulo_es": "Culata y bujía",
+      "pieza": "bujia",
+      "reglas": {
+        "SPARK PLUG": "bujia"
+      },
+      "diagrama": "culata"
+    },
+    {
+      "figura": "E-3",
+      "titulo_es": "Árbol de levas y válvulas",
+      "pieza": "motor",
+      "reglas": {
+        "VALVE, INLET": "valvulas",
+        "VALVE, EXHAUST": "valvulas"
+      },
+      "diagrama": "valvulas"
+    },
+    {
+      "figura": "F-9-CBS",
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "diagrama": "rueda"
+    },
+    {
+      "figura": "F-7-CBS",
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "SEAL OIL": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": "F-20",
+      "titulo_es": "Amortiguador trasero",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "CUSHION ASSY": "suspension-tras"
+      },
+      "diagrama": "amortiguadores"
+    },
+    {
+      "figura": "E-9",
+      "titulo_es": "Cigüeñal y pistón",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": "E-4",
+      "titulo_es": "Cadenilla y tensor",
+      "pieza": "motor",
+      "diagrama": "distribucion"
+    },
+    {
+      "figura": "E-13",
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador"
+    },
+    {
+      "figura": "F-16",
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": "E-12",
+      "titulo_es": "Selector de cambios",
+      "pieza": "motor",
+      "diagrama": "transmision"
+    }
+  ]
+}

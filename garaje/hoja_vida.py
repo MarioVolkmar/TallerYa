@@ -1,6 +1,7 @@
 """Hoja de vida verificada: códigos de un solo uso para el taller y enlaces públicos revocables.
 
-Privacidad: un taller nunca busca motos por placa; solo ve una moto cuando el dueño le muestra un código vigente.
+Privacidad: con el código vigente el taller registra verificado de una vez. Por placa (garaje.servicio_taller) solo ve
+marca/línea y nada queda en la hoja de vida hasta que el dueño lo confirma.
 """
 import re
 import secrets

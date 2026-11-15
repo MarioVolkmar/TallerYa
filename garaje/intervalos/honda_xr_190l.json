@@ -1,0 +1,64 @@
+{
+  "linea": "Honda XR 190L",
+  "tareas": {
+    "aceite": {
+      "km": 6000,
+      "dias": 365,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016, 35K79A000), 'Calendario de mantenimiento' pp. 30-31 (columnas 1.000 / 6.000 … 36.000 km, comprobación anual y sustitución normal), fila 'Aceite de motor' (cambiar a los 1.000 km, en cada columna desde los 6.000 y en la anual); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Honda 4 tiempos SAE 10W-30, API SG o superior, JASO MA; 1,0 L tras el drenaje (1,2 L tras desarmar)",
+      "notas": "El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian cada 12.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 1000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Cadena de transmisión: cada 1.000 km'; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Holgura 20–30 mm; cadena DID428V de 128 eslabones; piñones 16T / 48T",
+      "notas": "En trocha, más seguido."
+    },
+    "filtro-aire": {
+      "km": 18000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Filtro de aire' (cambiar a los 18.000 y 36.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "notas": "Con lluvia o polvo, más seguido."
+    },
+    "bujia": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Bujía' (revisar a los 6.000, 18.000 y 30.000; cambiar a los 12.000, 24.000 y 36.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR8EA-9; separación 0,80–0,90 mm"
+    },
+    "valvulas": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Holgura de las válvulas' (revisar en cada columna desde los 6.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Líquido de frenos' (revisar cada 6.000 km; sustitución normal: 2 años); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Honda DOT 3 o DOT 4",
+      "notas": "Solo por tiempo."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Especificaciones'; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/90-19 M/C 52P con cámara; presión en frío 150 kPa (22 psi); profundidad mínima 3,0 mm"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Especificaciones'; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "110/90-17 M/C 60P con cámara; presión en frío 150 kPa (22 psi), 200 kPa (29 psi) con pasajero; profundidad mínima 3,0 mm"
+    }
+  }
+}

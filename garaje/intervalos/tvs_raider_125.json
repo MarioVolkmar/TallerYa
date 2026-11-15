@@ -1,0 +1,70 @@
+{
+  "linea": "TVS Raider 125",
+  "tareas": {
+    "aceite": {
+      "km": 5000,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Aceite de motor' (remplace cada 5.000 km; primer cambio a los 1.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "TVS TRU4 Synthetic SAE 10W-30, API SL, JASO MA2; 1.000 ml en el cambio",
+      "notas": "El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian en cada cambio."
+    },
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Cadena' (limpiar, lubricar y ajustar en cada revisión de 5.000 km); consultado el 15-nov-2026",
+      "aproximado": true,
+      "especificacion": "Holgura 20–30 mm",
+      "notas": "El cronograma solo la pide en cada revisión de 5.000 km; para lubricarla en casa rige el intervalo del plan general."
+    },
+    "filtro-aire": {
+      "km": 10000,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Filtro de aire' (remplace cada 10.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "notas": "En las revisiones intermedias se limpia."
+    },
+    "bujia": {
+      "km": 10000,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Bujía' (remplace cada 10.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Bosch UR5KCW; separación 0,9–1,0 mm"
+    },
+    "valvulas": {
+      "km": 5000,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Calibración de válvulas' (inspeccionar y ajustar en cada revisión desde los 5.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "liquido-frenos": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Líquido de frenos' (inspeccionar y completar en cada revisión; remplace cada 20.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "notas": "El límite por tiempo es el del plan general."
+    },
+    "suspension-del": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Cronograma de mantenimiento periódico' (págs. 68-70 del PDF; revisiones a los 1.000, 5.000, 10.000 … 35.000 km), fila 'Aceite de suspensión delantera' (remplace cada 20.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "162 ± 3 cc por barra"
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Especificaciones técnicas del vehículo' (pág. 14 del PDF); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "80/100-17 sin neumático; presión 25 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario TVS Raider 125 FI (español, Auteco, act. 19-ago-2025), 'Especificaciones técnicas del vehículo' (pág. 14 del PDF); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "100/90-17 sin neumático; presión 28 psi (32 psi con acompañante)"
+    }
+  }
+}

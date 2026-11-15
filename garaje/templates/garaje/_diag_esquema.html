@@ -1,0 +1,23 @@
+{% comment %}Esquema del sistema en el diagnóstico (en la página o pedido aparte con ?parte=esquema).
+   Variables: esquemas, esquema_url, aviso_sistema. Varias láminas con candidatas: una pestaña por cada una; la primera
+   va abierta y las demás se piden al tocarlas (?parte=esquema&lamina=…).{% endcomment %}
+{% if esquemas %}
+  <section class="mt-8" id="diag-esquema" aria-labelledby="diag-esquema-t">
+    <h2 class="titulo text-xl" id="diag-esquema-t">Esquema del sistema</h2>
+    {% if esquemas|length > 1 %}
+    <nav class="fo-pestanas diag-pestanas" role="tablist" aria-label="Causas posibles">
+      {% for e in esquemas %}<button type="button" role="tab" id="diag-tab-{{ e.id }}" aria-controls="diag-panel-{{ e.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"{% if forloop.first %} class="activo"{% else %} tabindex="-1"{% endif %}>{{ e.nombre }}</button>{% endfor %}
+    </nav>
+    {% endif %}
+    {% for e in esquemas %}
+    <div class="diag-panel" id="diag-panel-{{ e.id }}"{% if esquemas|length > 1 %} role="tabpanel" aria-labelledby="diag-tab-{{ e.id }}"{% endif %}{% if not forloop.first %} hidden data-url="{{ esquema_url }}&amp;lamina={{ e.id }}"{% endif %}>
+      {% if forloop.first %}{% include "garaje/_diag_esquema_fig.html" %}{% else %}<p class="diag-cargando-texto"><span class="diag-giro" aria-hidden="true"></span>Cargando el dibujo…</p>{% endif %}
+    </div>
+    {% endfor %}
+  </section>
+{% elif aviso_sistema %}
+  <section class="mt-8" id="diag-esquema" aria-labelledby="diag-esquema-t">
+    <h2 class="titulo text-xl" id="diag-esquema-t">Esquema del sistema</h2>
+    <p class="diag-esquema-aviso papel">En el despiece de tu moto no encontramos un dibujo de <strong>{{ aviso_sistema }}</strong> con las piezas de este diagnóstico. El taller las revisará directamente en la moto.</p>
+  </section>
+{% endif %}

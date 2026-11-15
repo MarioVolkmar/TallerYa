@@ -1,0 +1,181 @@
+{
+  "marca": "TVS",
+  "linea": "Raider 125",
+  "version": "MY23 carburada",
+  "anio": 2023,
+  "formato": "auteco",
+  "variante": "Carburador",
+  "fuente": "https://www.auteco.com.co/wp-content/uploads/2022/02/CATALOGO-DE-PARTES-RAIDER-125-FINAL-MY23-ACT-MAYO_compressed.pdf (copia entregada por el usuario)",
+  "especificaciones": {
+    "freno_trasero": "tambor"
+  },
+  "laminas": [
+    {
+      "figura": 33,
+      "titulo_es": "Caliper y bomba de freno delantero",
+      "pieza": "freno_del",
+      "reglas": {
+        "PASTA DE FRENO": "pastillas-del",
+        "DIAFRAGMA BOMBA FRENO": "liquido-frenos"
+      },
+      "diagrama": "freno_completo",
+      "descripciones": {
+        "N9321570": "Platina Caliper"
+      }
+    },
+    {
+      "figura": 29,
+      "titulo_es": "Rueda trasera, freno de tambor y sprocket",
+      "pieza": "freno_tras",
+      "reglas": {
+        "KIT PASTAS FRENO": "bandas-tras",
+        "LLANTA TRAS": "llanta-tras",
+        "SPROCKET 4": "kit-arrastre"
+      },
+      "diagrama": "rueda_tambor",
+      "descripciones": {
+        "N6110720": "Llanta tras. 17 9000 REAR"
+      }
+    },
+    {
+      "figura": 11,
+      "titulo_es": "Transmisión, cadena y piñón de salida",
+      "pieza": "cadena",
+      "reglas": {
+        "CADENA 1": "kit-arrastre",
+        "DE SALIDA 14T": "kit-arrastre"
+      },
+      "diagrama": "transmision"
+    },
+    {
+      "figura": 8,
+      "titulo_es": "Tapa del volante y tapón de drenaje",
+      "pieza": "aceite",
+      "reglas": {
+        "ARANDELA TAPÓN DRENAJE": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 5,
+      "titulo_es": "Carcasa derecha y filtro de aceite",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO ACEITE": "aceite"
+      },
+      "diagrama": "carcasa",
+      "descripciones": {
+        "N6080460": "Platina Tope Eje De Cambios",
+        "R1080710": "Platina Base",
+        "N6030280": "Empaque Centro Motor"
+      }
+    },
+    {
+      "figura": 6,
+      "titulo_es": "Cubierta del clutch y filtro centrífugo",
+      "pieza": "aceite",
+      "reglas": {
+        "FILTRO CENTRIFUGO": "aceite"
+      },
+      "diagrama": "carcasa"
+    },
+    {
+      "figura": 12,
+      "titulo_es": "Caja del filtro de aire",
+      "pieza": "filtro_aire",
+      "reglas": {
+        "ELEMENTO FILTRO AIRE": "filtro-aire"
+      },
+      "diagrama": "admision"
+    },
+    {
+      "figura": 1,
+      "titulo_es": "Culata, bujía y válvulas",
+      "pieza": "bujia",
+      "reglas": {
+        "BUJÍA": "bujia",
+        "VÁLVULA ADMISIÓN": "valvulas",
+        "VÁLVULA ESCAPE": "valvulas"
+      },
+      "diagrama": "culata",
+      "descripciones": {
+        "P6010060": "Platina Seguro Eje Levas",
+        "N3012090": "Platina Refuerzo Eje De Levas"
+      }
+    },
+    {
+      "figura": 28,
+      "titulo_es": "Rueda delantera",
+      "pieza": "llanta_del",
+      "reglas": {
+        "LLANTA DEL": "llanta-del"
+      },
+      "diagrama": "rueda"
+    },
+    {
+      "figura": 27,
+      "titulo_es": "Suspensión delantera",
+      "pieza": "suspension_del",
+      "reglas": {
+        "RETEN SUSPENSIÓN": "suspension-del"
+      },
+      "diagrama": "suspension_delantera"
+    },
+    {
+      "figura": 32,
+      "titulo_es": "Brazo oscilante y amortiguador",
+      "pieza": "suspension_tras",
+      "reglas": {
+        "AMORTIGUADOR": "suspension-tras",
+        "TENSOR CADENA": "cadena-lubricar"
+      },
+      "diagrama": "amortiguadores",
+      "descripciones": {
+        "N6090740": "Amortiguador"
+      }
+    },
+    {
+      "figura": 30,
+      "titulo_es": "Sistema eléctrico y batería",
+      "pieza": "bateria",
+      "reglas": {
+        "BATERÍA": "bateria",
+        "BATERIA": "bateria"
+      },
+      "diagrama": "electrico",
+      "descripciones": {
+        "N9127640": "Platina Soporte Sillín"
+      }
+    },
+    {
+      "figura": 3,
+      "titulo_es": "Cilindro, pistón y cigüeñal",
+      "pieza": "motor",
+      "diagrama": "cilindro_piston"
+    },
+    {
+      "figura": 14,
+      "titulo_es": "Carburador",
+      "pieza": "motor",
+      "diagrama": "carburador",
+      "descripciones": {
+        "N6321750": "Platina Retén"
+      }
+    },
+    {
+      "figura": 15,
+      "titulo_es": "Escape y silenciador",
+      "pieza": "motor",
+      "diagrama": "escape"
+    },
+    {
+      "figura": 7,
+      "titulo_es": "Clutch",
+      "pieza": "motor",
+      "diagrama": "clutch",
+      "descripciones": {
+        "N9070120": "Platina Base Porta Resortes"
+      }
+    }
+  ]
+}

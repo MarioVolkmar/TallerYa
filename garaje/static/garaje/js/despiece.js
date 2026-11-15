@@ -43,6 +43,9 @@
   };
   window.TallerYaDespiece = puente;
 
+  // En el diagnóstico (data-bajo-demanda) las láminas solo se piden al abrir una guía: precargar todo el despiece
+  // competiría con el esquema, que es lo que la persona está esperando.
+  if (seccion.dataset.bajoDemanda) return;
   if ("IntersectionObserver" in window) {
     const vigia = new IntersectionObserver((entradas) => {
       if (entradas.some((e) => e.isIntersecting)) { vigia.disconnect(); cargar(); }

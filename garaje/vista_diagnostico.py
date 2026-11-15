@@ -2,7 +2,7 @@
 from types import SimpleNamespace
 from urllib.parse import urlencode
 
-from django.http import Http404, JsonResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
@@ -11,7 +11,7 @@ from talleres.models import Servicio, Taller
 from . import diagnostico as dx
 from .models import Despiece
 from .plan import calcular_plan
-from .views import datos_despiece
+from .views import base_en_cache, datos_despiece
 
 CLAVES_FIJAS = ("moto", "t", "s")
 
@@ -45,13 +45,14 @@ def _catalogo():
     return catalogo
 
 
-def _laminas_de(despiece, moto=None):
-    """Láminas del despiece como las ve el visor; sin moto (moto del catálogo), sin estado de mantenimiento."""
+def _laminas_de(despiece, moto=None, sistemas=None):
+    """Láminas del despiece como las ve el visor; sin moto (moto del catálogo), sin estado de mantenimiento.
+    `sistemas`: solo las del resultado (armar todo el despiece en frío tarda segundos)."""
     if moto:
-        return datos_despiece(despiece, calcular_plan(moto))["laminas"]
+        return datos_despiece(despiece, calcular_plan(moto), sistemas)["laminas"]
     sin_moto = SimpleNamespace(pk=0, km_actual=0, nombre_completo=str(despiece.linea))
     plan = SimpleNamespace(moto=sin_moto, tareas=[], piezas=lambda: {})
-    return datos_despiece(despiece, plan)["laminas"]
+    return datos_despiece(despiece, plan, sistemas)["laminas"]
 
 
 def despiece_publico(request, pk):
@@ -155,21 +156,37 @@ def diagnostico(request):
     talleres = _base_talleres()
     if servicio:
         talleres = talleres.filter(servicios=servicio)
-    piezas, esquemas, sin_despiece = [], [], False
+    piezas, esquemas, sin_despiece, esquema_diferido, aviso = [], [], False, None, None
     despiece = Despiece.para(moto) if moto else del_catalogo
     if despiece:
-        laminas = _laminas_de(despiece, moto)
-        piezas = dx.piezas_candidatas(clave, laminas, subgrupo)
-        esquemas = dx.esquemas(piezas, laminas)
-        if moto:
-            for p in piezas:
-                p["url"] = f"{moto.get_absolute_url()}?pieza={p['id']}#despiece"
+        sistemas_res = dx.sistemas_a_armar(res)
+        solo_esquema = request.GET.get("parte") == "esquema"
+        esquema_url = _url(base, **fijos, s=s, **respuestas, parte="esquema")
+        # El esquema necesita los dibujos de las láminas del sistema: si no están en caché tardan segundos en armarse,
+        # así que la página sale ya y el esquema llega aparte (?parte=esquema) con un "cargando" visible.
+        if solo_esquema or base_en_cache(despiece, sistemas_res):
+            laminas = _laminas_de(despiece, moto, sistemas_res)
+            # Una pestaña por lámina con candidatas (varias causas en sistemas distintos): hasta 4
+            piezas = dx.piezas_candidatas(clave, laminas, subgrupo, limite=16)
+            esquemas = dx.esquemas(piezas, laminas, maximo=4)
+            aviso = None if esquemas else (res["sistema"] + (f" · {subgrupo}" if subgrupo else ""))
+            if solo_esquema:
+                lamina = request.GET.get("lamina")
+                if lamina:  # una pestaña que se abre después
+                    e = next((e for e in esquemas if str(e["id"]) == lamina), None)
+                    return render(request, "garaje/_diag_esquema_fig.html", {"e": e}) if e else HttpResponse("")
+                return render(request, "garaje/_diag_esquema.html",
+                              {"esquemas": esquemas, "esquema_url": esquema_url, "aviso_sistema": aviso})
+        else:
+            esquema_diferido = esquema_url
     elif moto:
         sin_despiece = True
     ctx.update({
         "paso": "resultado", "clave": clave, "res": res, "subgrupo": subgrupo,
         "urgencia": res["urgencia"], "urgencia_info": dx.URGENCIAS[res["urgencia"]],
-        "piezas": piezas, "sin_despiece": sin_despiece, "esquemas": esquemas,
+        "piezas": piezas, "sin_despiece": sin_despiece, "esquemas": esquemas, "esquema_diferido": esquema_diferido,
+        "esquema_url": esquema_url if despiece else None,
+        "aviso_sistema": aviso if despiece and not esquema_diferido else None,
         "datos_url": (reverse("garaje:despiece_json", args=[moto.pk]) if moto and despiece
                       else reverse("garaje:diagnostico_despiece", args=[despiece.pk]) if despiece else None),
         "servicio": servicio, "nombre_servicio": nombre_servicio,

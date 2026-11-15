@@ -17,12 +17,13 @@
       {% if propia %}<form method="post" action="{% url 'garaje:hoja_vida' r.moto_id %}" data-codigo-ventana="{% url 'garaje:codigo_taller' r.moto_id %}" data-registro="{{ r.pk }}" data-taller="{{ r.taller.nombre }}" data-servicio="{{ r.servicios }}">{% csrf_token %}<input type="hidden" name="accion" value="codigo"><input type="hidden" name="registro" value="{{ r.pk }}"><button class="hv-mostrar-codigo">Mostrar código</button></form>{% endif %}
     </div>
     {% else %}
-    <p class="hv-propio">{% if r.donde %}{{ r.donde }} · {% endif %}registrado por el dueño</p>
+    <p class="hv-propio">{% if r.donde %}{{ r.donde }} · registrado por el dueño{% else %}Registrado por el dueño{% endif %}</p>
     {% endif %}
     {% if propia %}
     <div class="hv-pie">
       {% if r.costo %}<span class="hv-costo">${{ r.costo|intcomma }}</span>{% endif %}
       {% if r.notas %}<span class="hv-notas">{{ r.notas }}</span>{% endif %}
+      {% if r.servicio_taller_id %}<a href="{% url 'garaje:servicio_taller' r.servicio_taller_id %}" class="hv-notas text-lava">Ver detalle y foto</a>{% endif %}
       {% if not r.verificado %}
       <form method="post" class="ml-auto" data-confirmar="¿Eliminar este registro?">{% csrf_token %}
         <input type="hidden" name="accion" value="eliminar"><input type="hidden" name="registro" value="{{ r.pk }}">

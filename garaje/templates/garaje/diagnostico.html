@@ -80,6 +80,19 @@
   <div class="diag-opciones">
     {% for url, texto in pregunta.opciones %}<a href="{{ url }}" class="diag-opcion papel">{{ texto }}</a>{% endfor %}
   </div>
+  <script>
+    // Respuesta al instante: la opción elegida muestra que está cargando mientras llega la página siguiente
+    document.querySelectorAll(".diag-opcion").forEach(function (a) {
+      a.addEventListener("click", function () {
+        document.querySelectorAll(".diag-opcion").forEach(function (o) { o.classList.add("diag-opcion-espera"); });
+        a.classList.add("diag-opcion-cargando");
+        a.setAttribute("aria-busy", "true");
+      });
+    });
+    window.addEventListener("pageshow", function () {   // al volver atrás, sin el indicador
+      document.querySelectorAll(".diag-opcion").forEach(function (o) { o.classList.remove("diag-opcion-espera", "diag-opcion-cargando"); });
+    });
+  </script>
 
   {% elif paso == "resultado" %}
   <section class="diag-resultado papel" aria-labelledby="diag-causa">
@@ -96,36 +109,13 @@
   <p class="text-sm text-suave mt-6">{% if motos %}Elige una de tus motos arriba{% else %}Busca tu moto arriba{% endif %} para ver el esquema con las piezas a revisar.</p>
   {% endif %}
 
-  {% if esquemas %}
-  <section class="mt-8" id="diag-esquema" aria-labelledby="diag-esquema-t">
-    <h2 class="titulo text-xl" id="diag-esquema-t">Esquema del sistema</h2>
-    {% for e in esquemas %}
-    <figure class="diag-esq papel" data-esquema="{{ e.id }}">
-      <div class="diag-esq-dibujo">
-        <p class="diag-esq-pista">Toca un número para ver la pieza</p>
-        <div class="diag-esq-lienzo">
-          <img src="{{ e.imagen }}" alt="Dibujo de {{ e.nombre }}" loading="lazy" width="1000" height="1000" style="max-width:100%;height:auto">
-          <svg viewBox="0 0 1000 1000" width="100%" height="100%" style="max-width:100%" role="group" aria-label="Piezas numeradas de {{ e.nombre }}">
-            {% for m in e.marcas %}<line class="dg-linea{% if m.cand %} cand{% endif %}" data-id="{{ m.id }}" x1="{{ m.x }}" y1="{{ m.y }}" x2="{{ m.ax }}" y2="{{ m.ay }}"/>{% if m.cand %}<circle class="dg-punta dg-pulso" data-id="{{ m.id }}" cx="{{ m.ax }}" cy="{{ m.ay }}" r="22"/>{% endif %}{% endfor %}
-            {% for m in e.marcas %}<g class="dg-num{% if m.cand %} cand{% endif %}" data-id="{{ m.id }}" data-guia-lamina="{{ e.id }}" data-guia-pieza="{{ m.id }}" tabindex="0" role="button" aria-label="{{ m.ref }} {{ m.nombre }}"><circle cx="{{ m.x }}" cy="{{ m.y }}" r="{% if m.cand %}24{% else %}19{% endif %}"/><text x="{{ m.x }}" y="{{ m.y }}">{{ m.ref }}</text></g>{% endfor %}
-          </svg>
-        </div>
-      </div>
-      <figcaption class="diag-esq-panel"><div class="diag-esq-panel-in">
-        <strong class="diag-esq-titulo">{{ e.nombre }}</strong>
-        {% if e.sospechosas %}
-        <p class="diag-esq-rotulo cand">Puede ser una de estas</p>
-        <ul class="diag-esq-lista">{% for m in e.sospechosas %}<li><button type="button" class="cand" data-id="{{ m.id }}" data-guia-lamina="{{ e.id }}" data-guia-pieza="{{ m.id }}" aria-haspopup="dialog"><span class="dg-ref">{{ m.ref }}</span><span class="dg-nombre">{{ m.nombre }}</span>{% if m.cantidad %}<span class="dg-cant">×{{ m.cantidad }}</span>{% endif %}</button></li>{% endfor %}</ul>
-        {% endif %}
-        {% if e.resto %}
-        <p class="diag-esq-rotulo">Resto del sistema</p>
-        <ul class="diag-esq-lista">{% for m in e.resto %}<li><button type="button" data-id="{{ m.id }}" data-guia-lamina="{{ e.id }}" data-guia-pieza="{{ m.id }}" aria-haspopup="dialog"><span class="dg-ref">{{ m.ref }}</span><span class="dg-nombre">{{ m.nombre }}</span>{% if m.cantidad %}<span class="dg-cant">×{{ m.cantidad }}</span>{% endif %}</button></li>{% endfor %}</ul>
-        {% endif %}
-      </div></figcaption>
-    </figure>
-    {% endfor %}
+  {% if esquema_diferido %}
+  {# Los dibujos del sistema se arman aparte (tardan si no están en caché): mientras, un aviso visible #}
+  <section class="mt-8 diag-esquema-cargando" id="diag-esquema" data-diferido="{{ esquema_diferido }}" aria-live="polite" aria-busy="true">
+    <h2 class="titulo text-xl">Esquema del sistema</h2>
+    <p class="diag-cargando-texto"><span class="diag-giro" aria-hidden="true"></span>Preparando el esquema con las piezas a revisar…</p>
   </section>
-  {% endif %}
+  {% else %}{% include "garaje/_diag_esquema.html" %}{% endif %}
 
   {% if del_catalogo %}
   <p class="diag-invita papel">{% if user.is_authenticated %}<a href="{% url 'garaje:agregar' %}">Agrega esta moto a tu garaje</a> para seguir su mantenimiento y ver sus piezas con su estado.{% else %}<a href="{% url 'cuentas:registro' %}">Crea tu cuenta gratis</a> y agrega esta moto a tu garaje para seguir su mantenimiento.{% endif %}</p>
@@ -164,10 +154,10 @@
   </section>
   {% endif %}
 </div>
-{% if esquemas and datos_url %}
+{% if datos_url and esquemas or datos_url and esquema_diferido %}
 {# La guía de pieza es la del despiece (despiece.js), abierta como ventana emergente sobre el diagnóstico #}
 {% include "garaje/_visor_despiece_oculto.html" %}
-<script src="{% static 'garaje/js/despiece.js' %}?v=20261114-guia2" defer></script>
-<script src="{% static 'garaje/js/diagnostico.js' %}" defer></script>
+<script src="{% static 'garaje/js/despiece.js' %}?v=20261115-dx" defer></script>
+<script src="{% static 'garaje/js/diagnostico.js' %}?v=20261115b" defer></script>
 {% endif %}
 {% endblock %}

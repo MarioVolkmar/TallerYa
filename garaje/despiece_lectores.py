@@ -7,6 +7,7 @@ renderiza el dibujo solo cuando hace falta (así no se procesan las láminas que
 - honda: catálogos Honda por bloques ("E-2", "F-11-3"). El texto viene con una fuente desplazada
   (letras en U+F020-U+F0FF): se resta 0xF000. Bloque E-n se guarda como figura 100+n y F-n como 200+n.
 - hero: catálogos Hero, por bloques como Honda pero con texto normal y el dibujo en la misma página.
+- hero2: catálogos Hero nuevos (Hunk 125R): "E-2 : TÍTULO", códigos con cola de 5 cifras y dibujo en la página anterior.
 - suzuki: catálogos Suzuki "FIG.103A (1-B-2) TÍTULO" o "Fig. 1 / TÍTULO".
 - fichas: carpeta con fichas.json (secciones con imagen PNG y partes), bajadas de tiendas en línea.
 """
@@ -16,7 +17,8 @@ from pathlib import Path
 
 # Códigos de repuesto: los propios del modelo (13101-KYJ-900) y la tornillería estándar de Honda y Hero, que es
 # solo numérica (94109-12000 arandela del tapón de drenaje, 95701-06016-00 tornillo con pestaña)
-RE_CODIGO = re.compile(r"\d{5}-[A-Z0-9]{2,5}-[A-Z0-9]{3,4}|\d{5}-\d{5}(?:-\d{2})?")
+# El último caso son los códigos Suzuki sin guiones de los catálogos nuevos (DR150 2022: "59300H2JY10H000").
+RE_CODIGO = re.compile(r"\d{5}-[A-Z0-9]{2,5}-[A-Z0-9]{3,4}|\d{5}-\d{5}(?:-\d{2})?|(?<![\w-])\d{5}[A-Z][A-Z0-9]{9}(?![\w-])")
 RE_PUNTOS = re.compile(r"\s*([·•]{2,}|\.{3,}|[·•.]\s+[\d(-]).*$")
 # Columnas de modelo ("2TU", "7ID,8ID") o de color ("NH364M*SHEEN SILVER") que quedan en la línea de la descripción:
 # la fila es otra versión de la pieza anterior con la misma referencia
@@ -38,12 +40,13 @@ def _cantidad(texto):
     return int(m.group(1)) if m else 1
 
 
-def _filas(lineas):
+def _filas(lineas, re_codigo=None):
     """Filas de la tabla por líneas: la línea con el código trae (o va precedida de) la referencia;
     la siguiente es la descripción y la cantidad va al final de esa línea o en la línea siguiente."""
+    re_codigo = re_codigo or RE_CODIGO
     filas, ref = [], None
     for i, linea in enumerate(lineas):
-        m = RE_CODIGO.search(linea)
+        m = re_codigo.search(linea)
         if not m or i + 1 >= len(lineas):
             continue
         antes = linea[:m.start()].replace(" ", "")
@@ -61,7 +64,7 @@ def _filas(lineas):
             if fin:
                 cantidad_en_linea, en_linea = int(fin.group(1)), en_linea[:fin.start()]
             cruda = en_linea.strip()
-        if RE_CODIGO.search(cruda):
+        if re_codigo.search(cruda):
             continue
         descripcion = RE_PUNTOS.sub("", cruda).strip(" ,")
         # Letra de la columna de variante pegada al inicio ("A SWINGARM SUB ASSY."); "O RING", "C RING", "E RING"
@@ -120,7 +123,8 @@ def _zona_honda_hero(pagina, palabras):
     """
     import pymupdf
     ancho, alto = pagina.rect.width, pagina.rect.height
-    servicio = [r for t, r in palabras if t.startswith("Service") and r.y0 > alto * 0.3]
+    # "Service Item" en inglés; "Íntem/Ítem de servicio" en los catálogos de HCML Colombia (Hunk 2012)
+    servicio = [r for t, r in palabras if t.startswith(("Service", "Íntem", "Ítem")) and r.y0 > alto * 0.3]
     if servicio:                                                    # Hero
         y_s = min(r.y0 for r in servicio)
         panel = [r.x1 for t, r in palabras if r.x0 < ancho * 0.3 and r.y1 < y_s - 2 and re.search(r"[A-Za-z]", t)]
@@ -174,7 +178,7 @@ def _render(documento, numero_pagina):
     return hacer
 
 
-def _por_bloques(documento, re_encabezado, decodificar, numero):
+def _por_bloques(documento, re_encabezado, decodificar, numero, re_codigo=None, render=None):
     """Junta las páginas de cada figura. El dibujo es la página anterior a la primera tabla si esa
     página es de la misma figura (o no es de ninguna) y no tiene códigos; si no, la propia página."""
     paginas = []
@@ -194,7 +198,7 @@ def _por_bloques(documento, re_encabezado, decodificar, numero):
                 break
         if "CATALOGUE NEWS" in texto.upper():
             clave = None                                   # boletines de cambios: mencionan muchos bloques, no son de ninguno
-        paginas.append((clave, titulo, lineas, len(RE_CODIGO.findall(texto))))
+        paginas.append((clave, titulo, lineas, len((re_codigo or RE_CODIGO).findall(texto))))
 
     figuras = {}
     for n, (clave, titulo, lineas, codigos) in enumerate(paginas):
@@ -209,9 +213,9 @@ def _por_bloques(documento, re_encabezado, decodificar, numero):
                                                                        or documento[n - 1].get_drawings()):
                     dibujo = n - 1
             fig = figuras[clave] = {"titulo": " ".join(f"{clave} {titulo}".split()).upper(), "numero": numero(clave),
-                                    "filas": [], "imagen": _render(documento, dibujo)}
+                                    "filas": [], "imagen": (render or _render)(documento, dibujo)}
         vistas = {(f["ref"], f["codigo"]) for f in fig["filas"]}
-        fig["filas"].extend(f for f in _filas(lineas) if (f["ref"], f["codigo"]) not in vistas)
+        fig["filas"].extend(f for f in _filas(lineas, re_codigo) if (f["ref"], f["codigo"]) not in vistas)
     return figuras
 
 
@@ -223,8 +227,46 @@ def leer_honda(documento):
     return _por_bloques(documento, RE_BLOQUE, True, _numero_bloque)
 
 
+# Hero: además de "E-2", bloques con letra o variante ("E-1A", "F-11-DRUM", "F-19-DISC"; Hunk 2012)
+RE_BLOQUE_HERO = re.compile(r"^([EF]-\d+(?:[A-Z]|-\d+|-[A-Z]+)?)\s*$")
+
+
+def _numero_bloque_hero(clave):
+    """Como _numero_bloque, pero la letra suma 50 por posición ("E-8A" = 158) para no chocar con "E-8" (108)."""
+    m = re.match(r"[EF]-\d+([A-Z])(?![A-Z])", clave)
+    return _numero_bloque(clave) + (50 * (ord(m.group(1)) - 64) if m else 0)
+
+
 def leer_hero(documento):
-    return _por_bloques(documento, RE_BLOQUE, False, _numero_bloque)
+    return _por_bloques(documento, RE_BLOQUE_HERO, False, _numero_bloque_hero)
+
+
+# Hero nuevos (Hunk 125R, dic-2024): encabezado "E-2 : CILINDRO / CULATA" y códigos con cola de 5 cifras
+# ("12191-AAN-B0099", "14401-AAG-00099"); el dibujo va en la página anterior a la tabla. Bloques con variante: "F-7-CBS"
+RE_BLOQUE_TITULO = re.compile(r"^([EF]-\d+(?:-[0-9A-Z]+)?)\s*:\s*(.+)$")
+RE_CODIGO_HERO2 = re.compile(r"\d{5}-[A-Z0-9]{2,5}-[A-Z0-9]{3,6}(?![A-Z0-9])|\d{5}-\d{5}(?:-[A-Z0-9]{2})?")
+
+
+def _render_recortado(documento, numero_pagina):
+    """Hero nuevos: la página del dibujo es una imagen de toda la hoja con mucho blanco; se dibuja a 3x y se recorta
+    al contenido (sin el título de arriba ni el número de página de abajo, que quedan fuera del marco)."""
+    def hacer():
+        import io
+        import pymupdf
+        from PIL import Image, ImageOps
+        pix = documento[numero_pagina].get_pixmap(matrix=pymupdf.Matrix(3, 3))
+        img = Image.open(io.BytesIO(pix.tobytes("png"))).convert("L")
+        caja = ImageOps.invert(img).point(lambda v: 255 if v > 40 else 0).getbbox() or (0, 0, img.width, img.height)
+        m = 12
+        img = img.crop((max(caja[0] - m, 0), max(caja[1] - m, 0), min(caja[2] + m, img.width), min(caja[3] + m, img.height)))
+        salida = io.BytesIO()
+        img.save(salida, "PNG", optimize=True)
+        return {"image": salida.getvalue(), "width": img.width, "height": img.height, "ext": "png"}
+    return hacer
+
+
+def leer_hero2(documento):
+    return _por_bloques(documento, RE_BLOQUE_TITULO, False, _numero_bloque, RE_CODIGO_HERO2, _render_recortado)
 
 
 def leer_suzuki(documento):
@@ -317,5 +359,31 @@ def _render_izquierda(documento, numero_pagina):
     return hacer
 
 
-FORMATOS_EXTRA = {"honda": leer_honda, "hero": leer_hero, "suzuki": leer_suzuki, "fichas": leer_fichas,
+def quitar_marca_studocu(documento):
+    """Borra la marca de agua de las copias de studocu (logo, QR, "Downloaded by <nombre> (<correo>)" y el código
+    "lOMoAR…") antes de leer y dibujar las láminas: no deben quedar datos personales en las imágenes. Solo toca las
+    páginas que la tienen; el documento se modifica en memoria, no en el disco."""
+    import pymupdf
+    marcas = ("Downloaded by", "Scan to open on Studocu", "lOMoAR")
+    for pagina in documento:
+        texto = pagina.get_text()
+        if "Studocu" not in texto and "lOMoAR" not in texto:
+            continue
+        zonas = [r for m in marcas for r in pagina.search_for(m)]
+        for bloque in pagina.get_text("dict")["blocks"]:          # la línea completa, con el nombre y el correo
+            if bloque["type"] == 0 and any(m in s["text"] for l in bloque["lines"] for s in l["spans"] for m in marcas):
+                zonas.append(pymupdf.Rect(bloque["bbox"]))
+        for img in pagina.get_image_info():                        # QR (52×52) y logo (200×25), también girados
+            x0, y0, x1, y1 = img["bbox"]
+            lados = sorted((round(x1 - x0), round(y1 - y0)))
+            if all(abs(a - b) <= 3 for a, b in zip(lados, (52, 52))) or all(abs(a - b) <= 3 for a, b in zip(lados, (25, 200))):
+                zonas.append(pymupdf.Rect(img["bbox"]))
+        for zona in zonas:
+            pagina.add_redact_annot(zona, fill=(1, 1, 1))
+        if zonas:
+            pagina.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_PIXELS, graphics=pymupdf.PDF_REDACT_LINE_ART_NONE)
+    return documento
+
+
+FORMATOS_EXTRA = {"honda": leer_honda, "hero": leer_hero, "hero2": leer_hero2, "suzuki": leer_suzuki, "fichas": leer_fichas,
                   "akt": leer_akt}

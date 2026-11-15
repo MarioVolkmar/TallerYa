@@ -1,0 +1,62 @@
+{
+  "linea": "Yamaha FZ 2.0",
+  "tareas": {
+    "aceite": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro general de mantenimiento y engrase' pp. 7-3 a 7-5 (columnas 1.000 / 4.000 / 7.000 / 10.000 / 13.000 / 16.000 km; desde los 19.000 km se repite desde la de 4.000), fila 24 'Aceite de motor' (cambiar a los 1.000 km y en cada columna, cada 3.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40, API SG o superior, JASO MA; 1,00 L en el cambio (1,10 L con cambio de filtro)",
+      "notas": "El filtro de aceite se cambia en cada cambio de aceite (fila 25); el tamiz se limpia a los 1.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro general de mantenimiento y engrase' pp. 7-3 a 7-5 (columnas 1.000 / 4.000 / 7.000 / 10.000 / 13.000 / 16.000 km; desde los 19.000 km se repite desde la de 4.000), fila 13 'Cadena de transmisión' (cada 500 km y después de lavar la moto o rodar con lluvia); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Lubricante para cadenas con juntas tóricas"
+    },
+    "filtro-aire": {
+      "km": 16000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro general de mantenimiento y engrase' pp. 7-3 a 7-5 (columnas 1.000 / 4.000 / 7.000 / 10.000 / 13.000 / 16.000 km; desde los 19.000 km se repite desde la de 4.000), fila 2 'Filtro de aire' (comprobar a los 7.000 y 13.000 km; cambiar cada 16.000 km); consultado el 15-nov-2026",
+      "aproximado": false
+    },
+    "bujia": {
+      "km": 13000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro de mantenimiento periódico del sistema de control de emisiones' p. 7-2, fila 2 'Bujía' (comprobar en cada columna; cambiar a los 13.000 km; el cuadro se repite desde los 19.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR8EA-9",
+      "notas": "Después del primer cambio, el cuadro la vuelve a pedir 15.000 km más tarde."
+    },
+    "valvulas": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro de mantenimiento periódico del sistema de control de emisiones' p. 7-2, fila 3 'Válvulas' (comprobar la holgura a los 1.000 km y en cada columna, cada 3.000 km); consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro general de mantenimiento y engrase' pp. 7-3 a 7-5 (columnas 1.000 / 4.000 / 7.000 / 10.000 / 13.000 / 16.000 km; desde los 19.000 km se repite desde la de 4.000), fila 8 'Líquido de freno': cambiar cada 2 años; consultado el 15-nov-2026",
+      "aproximado": false,
+      "notas": "Solo por tiempo. El tubo del freno se cambia cada 4 años."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Especificaciones' pp. 9-1 y 9-2 y presión de neumáticos p. 7-15; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "100/80-17 M/C 52P sin cámara; presión en frío 200 kPa (29 psi)"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Especificaciones' pp. 9-1 y 9-2 y presión de neumáticos p. 7-15; consultado el 15-nov-2026",
+      "aproximado": false,
+      "especificacion": "140/60R17 M/C 63P sin cámara; presión en frío 225 kPa (33 psi)"
+    }
+  }
+}
