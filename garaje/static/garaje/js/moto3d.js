@@ -3,17 +3,27 @@
 // Este archivo es la entrada: escena, controles e interfaz. El armado y las utilidades están en moto3d/.
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
-import { DecalGeometry } from "three/addons/geometries/DecalGeometry.js";
-import { V, ETAPAS, CALIDAD, pedazos } from "./moto3d/comun.js";
+import { V, ETAPAS, CALIDAD, pedazos, medir, ceder } from "./moto3d/comun.js";
 import { cachePaneles, prepararCache, guardarCache } from "./moto3d/cache.js";
 import { construirMoto } from "./moto3d/construir.js";
 import { texturaCalca, ponerPlaca } from "./moto3d/texturas.js";
+import { unirEstaticas } from "./moto3d/geometria.js";
+import { rasgosDe } from "./moto3d/rasgos.js";
 
 
 // Línea de tiempo de la carga (ms desde que se abrió la página): __visor.info().tiempos
 const TIEMPOS = { modulo: Math.round(performance.now()) };
 const marcar = (nombre) => { TIEMPOS[nombre] ??= Math.round(performance.now()); };
+// Complementos que no hacen falta para el primer cuadro (reflejos de estudio y calcas): se piden después,
+// así no alargan la descarga inicial (con 4G cada archivo cuenta).
+let RoomEnvironment = null, DecalGeometry = null, Fabrica = null;
+function extras() {
+  // (las calcas de fábrica van aparte: si su archivo falla, se reintenta una vez y nunca tumba los reflejos ni las calcas propias)
+  extras.promesa ??= Promise.all([import("three/addons/environments/RoomEnvironment.js"), import("three/addons/geometries/DecalGeometry.js"),
+    import("./moto3d/calcas_fabrica.js").catch(() => import("./moto3d/calcas_fabrica.js?r=1")).catch(() => null)])
+    .then(([r, d, f]) => { RoomEnvironment = r.RoomEnvironment; DecalGeometry = d.DecalGeometry; Fabrica = f; });
+  return extras.promesa;
+}
 const ESTADO_COLOR = { ok: 0x3fbf6b, pronto: 0xe3a72f, vencido: 0xff5a3c, desconocido: 0x8a9096 };
 const ETIQUETA = { ok: "Al día", pronto: "Pronto", vencido: "Toca ya", desconocido: "Sin registro" };
 
@@ -105,10 +115,16 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   camara.position.copy(POS_INICIAL);
 
   // Reflejos de estudio: hacen que la pintura, el cromo y el aluminio se vean como materiales reales.
-  const pmrem = new THREE.PMREMGenerator(renderer);
-  escena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  marcar("reflejos");
-  pmrem.dispose(); // (el mapa de reflejos ya quedó hecho: el generador no se vuelve a usar)
+  // Se generan después del primer cuadro, junto con las sombras (cuestan de 0,15 a 0,7 s): mientras tanto, una luz
+  // de relleno hace sus veces para que la moto no salga oscura.
+  function generarReflejos() {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    escena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    pmrem.dispose(); // (el mapa de reflejos ya quedó hecho: el generador no se vuelve a usar)
+    marcar("reflejos");
+  }
+  const relleno = new THREE.AmbientLight(0xf4ead2, 1.2);
+  escena.add(relleno);
   const hemi = new THREE.HemisphereLight(0xf4ead2, 0x1b2a28, 0.45);
   escena.add(hemi);
   const sol = new THREE.DirectionalLight(0xfff6ea, 2.4);
@@ -122,12 +138,10 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const contraluz = new THREE.DirectionalLight(0xffe2b0, 0.55);
   contraluz.position.set(-3, 2, -2);
   escena.add(contraluz);
-  if ("vitrina" in contenedor.dataset) {
-    // En la portada el fondo es oscuro: una luz de contorno cálida separa la moto del fondo.
-    const contorno = new THREE.DirectionalLight(0xffc27a, 1.6);
-    contorno.position.set(-2.5, 2.2, -1.5);
-    escena.add(contorno);
-  }
+  // En la portada el fondo es oscuro: una luz de contorno cálida separa la moto del fondo.
+  const contorno = new THREE.DirectionalLight(0xffc27a, "vitrina" in contenedor.dataset ? 1.6 : 0);
+  contorno.position.set(-2.5, 2.2, -1.5);
+  if ("vitrina" in contenedor.dataset) escena.add(contorno);
 
   const suelo = new THREE.Mesh(new THREE.CircleGeometry(1.7, 48), new THREE.ShadowMaterial({ opacity: 0.32 }));
   suelo.rotation.x = -Math.PI / 2;
@@ -231,8 +245,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       // Al llegar: faro que destella, onda en el piso y el motor acelerando (vibración leve)
       const tras = t - dur;
       const brillo = tras > 0 ? Math.max(0, 1 - tras / 0.9) : 0;
-      luces[0].emissiveIntensity = 1.1 + 2.6 * brillo;
-      luces[1].emissiveIntensity = 0.7 + 1.5 * brillo;
+      luces[0].emissiveIntensity = baseLuces.luz + 2.6 * brillo;
+      luces[1].emissiveIntensity = baseLuces.stop + 1.5 * brillo;
       onda.material.opacity = tras > 0 && tras < 1.3 ? 0.55 * (1 - tras / 1.3) : 0;
       const escala = tras > 0 ? 0.6 + tras * 1.6 : 0.6;
       onda.scale.set(escala, escala, 1);
@@ -246,7 +260,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       const p = Math.max(0, Math.min(1, (t - recoger) / dur));
       x = baseX + 4.2 * p * p * p;                                  // acelera
       giroZ = 0.09 * Math.sin(Math.PI * Math.min(1, p * 1.6));     // caballito al arrancar
-      luces[1].emissiveIntensity = 0.7;
+      luces[1].emissiveIntensity = baseLuces.stop;
       terminado = p >= 1;
     }
     girarRuedas(x - xAnterior);
@@ -273,7 +287,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       if (e.origin !== window.location.origin) return;
       if (e.data === "salir") animar("salir", () => window.parent.postMessage("moto-fuera", window.location.origin));
       if (e.data === "entrar") { xAnterior = baseX - 3.4; moverPata(0); animar("entrar"); }
+      // Modo noche del carrusel: la portada lo manda a todas las motos
+      if (e.data === "noche" || e.data === "dia") { vivo.noche = e.data === "noche"; aplicarVivo(); }
     });
+    // Avisa a la portada que ya escucha: así le reenvía día/noche (si lo mandó antes de que cargara el modelo, se perdía)
+    if (window.parent !== window) window.parent.postMessage("moto-lista", window.location.origin);
   }
 
   // ---------- Moto viva: encenderla y verla de noche ----------
@@ -286,57 +304,198 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     if (o.isMesh && o.material.emissive && o.material.color?.getHex() === 0xffb347 && !direccionales.includes(o.material)) direccionales.push(o.material);
   });
   const brilloDireccional = direccionales.map((m) => m.emissiveIntensity);
-  function centroDe(material) {
-    // La malla más grande con ese material (p. ej. el faro principal entre todas las luces)
-    let mejor = null, tam = -1;
-    const caja = new THREE.Box3(), v = new THREE.Vector3();
-    moto.raiz.traverse((o) => {
+
+  // Dónde quedan el faro y el stop: si el constructor da las anclas (moto.anclas.faro / .stop), esas; si no, el
+  // extremo delantero (o trasero) de todo lo que usa el material de la luz (o del stop). No sirve el centro de la
+  // malla: el constructor une las mallas iguales y una luz de placa o una franja corrían el centro a media moto.
+  function extremoDe(material, sentido) {
+    const puntos = [], v = new THREE.Vector3();
+    moto.raiz.updateMatrixWorld(true);
+    const aLocal = new THREE.Matrix4().copy(moto.raiz.matrixWorld).invert();
+    moto.raiz.traverseVisible((o) => { // (solo lo visible: sin accesorios apagados, como el reflectivo del baúl)
       if (!o.isMesh || o.material !== material) return;
-      caja.setFromObject(o).getSize(v);
-      if (v.lengthSq() > tam) { tam = v.lengthSq(); mejor = caja.getCenter(new THREE.Vector3()); }
+      const m = new THREE.Matrix4().multiplyMatrices(aLocal, o.matrixWorld), pos = o.geometry.attributes.position;
+      for (let i = 0; i < pos.count; i++) puntos.push(v.fromBufferAttribute(pos, i).applyMatrix4(m).clone());
     });
-    return mejor && moto.raiz.worldToLocal(mejor);
+    if (!puntos.length) return null;
+    const borde = sentido > 0 ? Math.max(...puntos.map((p) => p.x)) : Math.min(...puntos.map((p) => p.x));
+    const cerca = puntos.filter((p) => Math.abs(p.x - borde) < 0.06);
+    return cerca.reduce((a, p) => a.add(p), new THREE.Vector3()).divideScalar(cerca.length);
   }
-  const posFaro = centroDe(moto.M.luz), posStop = centroDe(moto.M.stop);
+  // (si el único material de luz queda atrás —p. ej. solo la luz de placa—, no hay faro: sin cono ni halo en la cola)
+  // Lámparas reales (construir.js: anclas.lamparas, centro de la cara de cada lente y su normal): los efectos de
+  // noche nacen ahí. Sin ellas, como antes: el ancla del faro/stop o el extremo de su material.
+  const lamparas = moto.anclas?.lamparas || [];
+  // (a lo sumo dos conos: los dos lentes de faro más grandes; la CR4 tiene tres de tamaño parecido)
+  const lentesFaro = lamparas.filter((l) => l.tipo === "faro" && l.principal !== false)
+    .sort((a, b) => (b.ancho || 0) * (b.alto || 0) - (a.ancho || 0) * (a.alto || 0)).slice(0, 2);
+  const lentesStop = lamparas.filter((l) => l.tipo === "stop" && l.principal !== false);
+  const lentesAmbar = lamparas.filter((l) => l.tipo === "direccional");
+  const promedio = (lista) => lista.reduce((a, v) => a.add(v), new THREE.Vector3()).divideScalar(lista.length);
+  const posFaro = lentesFaro.length ? promedio(lentesFaro.map((l) => l.pos)) : moto.anclas?.faro?.clone() ?? ((p) => (p && p.x > 0 ? p : null))(extremoDe(moto.M.luz, 1));
+  const posStop = lentesStop.length ? promedio(lentesStop.map((l) => l.pos)) : moto.anclas?.stop?.clone() ?? extremoDe(moto.M.stop, -1);
+  const dirStop = lentesStop.length ? promedio(lentesStop.map((l) => l.dir)).normalize() : V(-1, 0, 0);
+  // Hacia dónde alumbra un faro: su normal llevada al piso (el haz cae unos 2,6 m adelante)
+  const haciaPiso = (pos, dir) => {
+    const plano = V(dir.x, 0, dir.z);
+    if (plano.lengthSq() < 1e-4) plano.set(1, 0, 0);
+    return plano.normalize().multiplyScalar(2.6).add(V(0, -pos.y, 0)).normalize();
+  };
+  const dirFaro = lentesFaro.length ? promedio(lentesFaro.map((l) => l.dir)).normalize() : V(1, 0, 0);
   const haz = new THREE.SpotLight(0xfff1d0, 0, 7, 0.42, 0.65, 1.4);
   const rojoTras = new THREE.PointLight(0xff2a1f, 0, 1.3, 1.6);
   if (posFaro) {
     haz.position.copy(posFaro);
-    haz.target.position.copy(posFaro).add(V(2.6, -posFaro.y, 0));
+    haz.target.position.copy(posFaro).addScaledVector(haciaPiso(posFaro, dirFaro), 2.8);
     moto.raiz.add(haz, haz.target);
   }
-  if (posStop) { rojoTras.position.copy(posStop).add(V(-0.08, 0, 0)); moto.raiz.add(rojoTras); }
-  // De noche hace falta un piso que reciba luz (el de día solo dibuja la sombra): ahí se ve el haz del faro
+  if (posStop) { rojoTras.position.copy(posStop).addScaledVector(dirStop, 0.08); moto.raiz.add(rojoTras); }
+  // De noche hace falta un piso que reciba luz (el de día solo dibuja la sombra): ahí se ve el haz del faro.
+  // Se desvanece hacia el borde (en la portada no debe verse un disco).
+  const lienzoPiso = document.createElement("canvas");
+  lienzoPiso.width = lienzoPiso.height = 128;
+  {
+    const c = lienzoPiso.getContext("2d"), g = c.createRadialGradient(64, 64, 10, 64, 64, 64);
+    g.addColorStop(0, "#fff"); g.addColorStop(0.55, "#bbb"); g.addColorStop(1, "#000");
+    c.fillStyle = g; c.fillRect(0, 0, 128, 128);
+  }
   const pisoNoche = new THREE.Mesh(new THREE.CircleGeometry(1.7, 64),
-    new THREE.MeshStandardMaterial({ color: 0x1a2124, roughness: 0.85, metalness: 0 }));
+    new THREE.MeshStandardMaterial({ color: 0x2c3539, roughness: 0.8, metalness: 0, transparent: true, opacity: 0,
+      alphaMap: new THREE.CanvasTexture(lienzoPiso), depthWrite: false }));
   pisoNoche.rotation.x = -Math.PI / 2;
   pisoNoche.position.y = -0.0005;
   pisoNoche.receiveShadow = true;
   pisoNoche.visible = false;
   escena.add(pisoNoche);
-  function aplicarVivo() {
-    const { encendida: e, noche: n } = vivo;
-    renderer.toneMappingExposure = exposicionBase * (n ? 0.42 : 1);
-    hemi.intensity = n ? 0.1 : 0.45;
-    sol.intensity = n ? 0.2 : 2.4;
-    contraluz.intensity = n ? 0.12 : 0.55;
-    moto.M.luz.emissiveIntensity = e ? (n ? 7 : 2.6) : (n ? 0.5 : 1.1);
-    moto.M.stop.emissiveIntensity = e ? (n ? 4.5 : 1.5) : (n ? 0.35 : 0.7);
-    moto.M.pantalla.emissiveIntensity = e ? (n ? 2 : 1) : (n ? 0.12 : 0.35);
-    haz.intensity = e ? (n ? 14 : 2.5) : 0;
-    rojoTras.intensity = e && n ? 1.6 : 0;
-    direccionales.forEach((m, i) => { m.emissiveIntensity = brilloDireccional[i] * (n ? 0.5 : 1); });
-    pisoNoche.visible = n;
-    contenedor.classList.toggle("noche", n);
+  // Halos (un "bloom" barato, sin posproceso): un brillo aditivo sobre el faro y el stop, solo de noche
+  const lienzoHalo = document.createElement("canvas");
+  lienzoHalo.width = lienzoHalo.height = 64;
+  {
+    const c = lienzoHalo.getContext("2d"), g = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+    g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(0.25, "rgba(255,255,255,.45)"); g.addColorStop(1, "rgba(255,255,255,0)");
+    c.fillStyle = g; c.fillRect(0, 0, 64, 64);
+  }
+  const texturaHalo = new THREE.CanvasTexture(lienzoHalo);
+  function halo(color, pos, tam) {
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: texturaHalo, color, transparent: true, opacity: 0,
+      depthWrite: false })); // (mezcla normal, no aditiva: el lienzo es transparente y lo aditivo no se veía sobre el fondo)
+    sp.scale.set(tam, tam, 1);
+    sp.position.copy(pos);
+    sp.visible = false;
+    sp.raycast = () => {};
+    moto.raiz.add(sp);
+    return sp;
+  }
+  // Cono de luz del faro: un haz visible hacia adelante y abajo (se desvanece hacia la base), además de
+  // la luz que proyecta la SpotLight en el piso. Nace en la cara de cada lente principal (dos en los faros dobles,
+  // más angostos) y cuelga de la moto (se mueve con ella).
+  const conos = [];
+  let conoEnModo = true; // (el cono solo se ve de noche, encendida y en el modo "moto")
+  if (posFaro) {
+    const lienzoCono = document.createElement("canvas");
+    lienzoCono.width = 4; lienzoCono.height = 64;
+    const cc = lienzoCono.getContext("2d"), gc = cc.createLinearGradient(0, 0, 0, 64);
+    gc.addColorStop(0, "#fff"); gc.addColorStop(0.35, "#777"); gc.addColorStop(1, "#000");
+    cc.fillStyle = gc; cc.fillRect(0, 0, 4, 64);
+    const largo = 1.6;
+    const fuentes = lentesFaro.length ? lentesFaro : [{ pos: posFaro, dir: dirFaro }];
+    const material = new THREE.MeshBasicMaterial({ color: 0xfff1d0, transparent: true, opacity: 0, alphaMap: new THREE.CanvasTexture(lienzoCono),
+      depthWrite: false, side: THREE.DoubleSide });
+    const geo = new THREE.ConeGeometry(fuentes.length > 1 ? 0.3 : 0.42, largo, 28, 1, true);
+    geo.translate(0, -largo / 2, 0); // la punta en el faro
+    // (uv.v: 1 en la punta, 0 en la base; el degradado del lienzo va de arriba = punta a abajo = base)
+    for (const l of fuentes) {
+      const cono = new THREE.Mesh(geo, material);
+      cono.quaternion.setFromUnitVectors(V(0, -1, 0), haciaPiso(l.pos, l.dir));
+      cono.position.copy(l.pos).addScaledVector(l.dir, 0.004); // (pegado a la cara del lente, sin hundirse)
+      cono.visible = false;
+      cono.raycast = () => {};
+      cono.userData.conservar = true;
+      moto.raiz.add(cono);
+      conos.push(cono);
+    }
+  }
+  // Halos chicos pegados a cada lente (a 1,5 cm de su cara, del tamaño del lente): se tapan solos cuando el lente
+  // mira para otro lado. Faro y stop de noche con la moto encendida; los ámbar solo mientras parpadean.
+  const tamHalo = (l, k, min, max) => Math.min(max, Math.max(min, Math.max(l.ancho || 0, l.alto || 0) * k));
+  const halos = [], halosAmbar = [];
+  if (lentesFaro.length) for (const l of lentesFaro) halos.push({ sp: halo(0xfff1c8, l.pos.clone().addScaledVector(l.dir, 0.015), tamHalo(l, 2.4, 0.14, 0.32)), fuerza: 0.85 });
+  else if (posFaro) halos.push({ sp: halo(0xfff1c8, posFaro.clone().add(V(0.1, 0, 0)), 0.55), fuerza: 0.85 });
+  if (lentesStop.length) for (const l of lentesStop) halos.push({ sp: halo(0xff3322, l.pos.clone().addScaledVector(l.dir, 0.015), tamHalo(l, 2.6, 0.1, 0.22)), fuerza: 0.75 });
+  else if (posStop) halos.push({ sp: halo(0xff3322, posStop.clone().add(V(-0.07, 0, 0)), 0.3), fuerza: 0.75 });
+  for (const l of lentesAmbar) halosAmbar.push(halo(0xffa531, l.pos.clone().addScaledVector(l.dir, 0.012), tamHalo(l, 2.6, 0.08, 0.16)));
+  // De noche los reflejos se marcan más (pintura y cromos lucen); se guarda el valor de día de cada material
+  const conReflejo = new Map();
+  moto.raiz.traverse((o) => {
+    for (const m of [].concat(o.material || [])) if (m.envMapIntensity !== undefined && !conReflejo.has(m)) conReflejo.set(m, m.envMapIntensity);
+  });
+  const LUNA = new THREE.Color(0x9db4ff), SOL = sol.color.clone();
+  const CIELO_DIA = hemi.color.clone(), CIELO_NOCHE = new THREE.Color(0x5d74b8);
+  const SUELO_DIA = hemi.groundColor.clone(), SUELO_NOCHE = new THREE.Color(0x0b1220);
+  const contornoDia = contorno.intensity;
+  // Valores de las luces sin animación (la entrada de la portada destella encima de estos)
+  const baseLuces = { luz: 1.1, stop: 0.7 };
+  // k: 0 = día, 1 = noche. Va hacia el objetivo en ~600 ms (al instante con "reducir movimiento")
+  const transicion = { k: 0, desde: 0, t0: 0, dur: 600 };
+  // Entrada de los reflejos de estudio y las sombras (segunda etapa de la carga): de 0 a 1 en ~300 ms
+  const fundido = { reflejo: 1, t0: 0 };
+  const mezcla = (a, b, k) => a + (b - a) * k;
+  function pintarVivo(k) {
+    // Las luces solo se prenden con la moto encendida; de noche y apagada todo queda apagado (solo el ambiente).
+    // En la portada la moto del carrusel cuenta como encendida (entra rodando).
+    const e = vivo.encendida || vitrina;
+    renderer.toneMappingExposure = exposicionBase * mezcla(1, 0.4, k);
+    hemi.intensity = mezcla(0.45, 0.16, k);
+    hemi.color.copy(CIELO_DIA).lerp(CIELO_NOCHE, k);
+    hemi.groundColor.copy(SUELO_DIA).lerp(SUELO_NOCHE, k);
+    sol.intensity = mezcla(2.4, 0.55, k); // de noche hace de luna: azulada y suave
+    sol.color.copy(SOL).lerp(LUNA, k);
+    contraluz.intensity = mezcla(0.55, 0.18, k);
+    contorno.intensity = mezcla(contornoDia, contornoDia * 0.35, k);
+    baseLuces.luz = e ? mezcla(2.6, 11, k) : mezcla(1.1, 0, k);
+    baseLuces.stop = e ? mezcla(1.5, 7, k) : mezcla(0.7, 0, k);
+    if (!anim.fase) { moto.M.luz.emissiveIntensity = baseLuces.luz; moto.M.stop.emissiveIntensity = baseLuces.stop; }
+    moto.M.pantalla.emissiveIntensity = e ? mezcla(1, 3, k) : mezcla(0.35, 0, k);
+    haz.intensity = e ? mezcla(2.5, 26, k) : 0;
+    rojoTras.intensity = e ? 2.4 * k : 0;
+    direccionales.forEach((m, i) => { m.emissiveIntensity = brilloDireccional[i] * mezcla(1, e ? 1.3 : 0, k); });
+    // (el reflejo del estudio también ilumina lo opaco: se baja en lo mate y se sube en cromos y metales)
+    for (const [m, base] of conReflejo) m.envMapIntensity = base * mezcla(1, m.metalness >= 0.6 ? 1.7 : 0.7, k) * fundido.reflejo;
+    // Luz de relleno: hace de reflejos hasta que estos llegan, y se desvanece mientras entran (ver fundido)
+    relleno.intensity = (escena.environment ? 1.2 * (1 - fundido.reflejo) : 1.2) * mezcla(1, 0.3, k);
+    suelo.material.opacity = 0.32 * (escena.environment ? fundido.reflejo : 1);
+    pisoNoche.visible = k > 0.01;
+    pisoNoche.material.opacity = k;
+    for (const h of halos) { h.sp.visible = e && k > 0.01; h.sp.material.opacity = h.fuerza * k; }
+    if (!vivo.encendida) for (const sp of halosAmbar) sp.visible = false;
+    for (const cono of conos) { cono.visible = conoEnModo && e && k > 0.01; cono.material.opacity = (conos.length > 1 ? 0.18 : 0.22) * k; }
     renderer.shadowMap.needsUpdate = true;
+  }
+  function aplicarVivo() {
+    contenedor.classList.toggle("noche", vivo.noche);
+    Object.assign(transicion, { desde: transicion.k, t0: performance.now(), dur: reducido ? 0 : 600 });
+    pasoTransicion();
     pedirCuadro();
   }
+  function pasoTransicion() {
+    const objetivo = vivo.noche ? 1 : 0;
+    const p = transicion.dur ? Math.min(1, (performance.now() - transicion.t0) / transicion.dur) : 1;
+    const suave = p * p * (3 - 2 * p);
+    const k = mezcla(transicion.desde, objetivo, suave);
+    const cambio = Math.abs(k - transicion.k) > 1e-4 || p < 1;
+    transicion.k = k;
+    pintarVivo(k);
+    return cambio;
+  }
   function pasoVivo(t) {
-    if (!vivo.encendida || modo !== "moto" || anim.fase) return false;
+    const enTransicion = transicion.k !== (vivo.noche ? 1 : 0) && pasoTransicion();
+    if (!vivo.encendida || modo !== "moto" || anim.fase) return enTransicion;
     const desde = (performance.now() - vivo.t0) / 1000;
     // Saludo: las direccionales parpadean tres veces al encender
     const parpadeo = desde < 2.1 && Math.floor(desde / 0.35) % 2 === 0;
     direccionales.forEach((m, i) => { m.emissiveIntensity = parpadeo ? 3.2 : brilloDireccional[i] * (vivo.noche ? 0.5 : 1); });
+    // (el ámbar de cada direccional brilla en su lente mientras parpadea; de día apenas se nota)
+    for (const sp of halosAmbar) { sp.visible = parpadeo && transicion.k > 0.01; sp.material.opacity = 0.9 * transicion.k; }
     if (reducido) return desde < 2.2;
     // Motor en mínimo: un temblor leve (más fuerte en el arranque)
     const arranque = desde < 0.6 ? 2.4 : 1;
@@ -363,11 +522,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
 
   // ---------- Estado de las piezas ----------
   // En la portada del inicio (data-modo="moto") se muestra la moto con su pintura, no el estado de las piezas.
-  let modo = contenedor.dataset.modo || "estado";
+  // (la vista "Estado" se unió a Rayos X: si algo aún pide "estado", cae en rayos)
+  let modo = contenedor.dataset.modo === "moto" ? "moto" : "rayos";
   let seleccionada = null;
-  const ghost = new THREE.MeshStandardMaterial({
-    color: 0xa7b0b3, transparent: true, opacity: 0.13, depthWrite: false, roughness: 1,
-  });
   const matEstado = {};
   for (const [estado, color] of Object.entries(ESTADO_COLOR)) {
     matEstado[estado] = new THREE.MeshStandardMaterial({
@@ -380,26 +537,180 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   }
 
   const matBorde = new THREE.LineBasicMaterial({ color: 0x9fd3e6, transparent: true, opacity: 0.4 });
-  const invisible = new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.02, depthWrite: false });
+  // Rayos X, piezas sin estado: no se dibujan (material.visible = false, sin call) pero siguen tocándose con el rayo
+  // (Mesh.raycast no mira el material); de ellas solo se ven sus bordes, todos juntos en una sola malla de líneas.
+  const invisible = new THREE.MeshBasicMaterial({ visible: false });
+  const bordes = { malla: null, clave: "" };
+  function actualizarBordes(lista) {
+    const clave = lista.map((o) => o.id).join(",");
+    if (bordes.clave === clave) { if (bordes.malla) bordes.malla.visible = lista.length > 0; return; }
+    bordes.clave = clave;
+    if (bordes.malla) { bordes.malla.removeFromParent(); bordes.malla.geometry.dispose(); bordes.malla = null; }
+    if (!lista.length) return;
+    moto.raiz.updateMatrixWorld(true);
+    const aLocal = moto.raiz.matrixWorld.clone().invert(), m = new THREE.Matrix4(), v = new THREE.Vector3();
+    // (las aristas de cada malla se calculan una vez y se guardan; aquí solo se llevan a la moto y se juntan)
+    const partes = lista.map((o) => (o.userData.aristas ??= new THREE.EdgesGeometry(o.geometry, 28).attributes.position.array));
+    const P = new Float32Array(partes.reduce((n, a) => n + a.length, 0));
+    let k = 0;
+    lista.forEach((o, i) => {
+      m.multiplyMatrices(aLocal, o.matrixWorld);
+      const a = partes[i];
+      for (let j = 0; j < a.length; j += 3) { v.set(a[j], a[j + 1], a[j + 2]).applyMatrix4(m); P[k++] = v.x; P[k++] = v.y; P[k++] = v.z; }
+    });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(P, 3));
+    bordes.malla = new THREE.LineSegments(geo, matBorde);
+    bordes.malla.raycast = () => {};
+    moto.raiz.add(bordes.malla);
+  }
+
+  // Rayos X, piezas con estado: se dibujan juntas, una malla por estado (y por interna o carcasa), en vez de una por
+  // pieza (bajaba de ~66 llamadas a ≤8). Las mallas de cada pieza quedan sin dibujar pero se siguen tocando; la pieza
+  // seleccionada se dibuja aparte con su material propio, para que lata.
+  const grupos = { mallas: [], clave: "", lista: [] };
+  function geometriaEnMoto(o, aLocal) {
+    // (posiciones y normales sin índice, en el espacio de la malla, calculadas una vez)
+    o.userData.plano ??= (() => {
+      const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+      if (!g.attributes.normal) g.computeVertexNormals();
+      const r = { P: g.attributes.position.array.slice(), N: g.attributes.normal.array.slice() };
+      if (g !== o.geometry) g.dispose();
+      return r;
+    })();
+    const m = new THREE.Matrix4().multiplyMatrices(aLocal, o.matrixWorld), nm = new THREE.Matrix3().getNormalMatrix(m);
+    const { P, N } = o.userData.plano, Pm = new Float32Array(P.length), Nm = new Float32Array(N.length), v = new THREE.Vector3();
+    for (let j = 0; j < P.length; j += 3) {
+      v.set(P[j], P[j + 1], P[j + 2]).applyMatrix4(m); Pm[j] = v.x; Pm[j + 1] = v.y; Pm[j + 2] = v.z;
+      v.set(N[j], N[j + 1], N[j + 2]).applyMatrix3(nm).normalize(); Nm[j] = v.x; Nm[j + 1] = v.y; Nm[j + 2] = v.z;
+    }
+    return { P: Pm, N: Nm };
+  }
+  function agruparRayos() {
+    const lista = modo === "rayos" ? grupos.lista : [];
+    // Cada malla con estado: la de la pieza seleccionada con su material (late); las demás, sin dibujar
+    for (const o of lista) o.material = piezaDe(o) === seleccionada ? o.userData.matRayos : invisible;
+    const juntas = lista.filter((o) => o.visible && piezaDe(o) !== seleccionada);
+    const clave = juntas.map((o) => o.id).join(",");
+    if (grupos.clave === clave) return;
+    grupos.clave = clave;
+    for (const g of grupos.mallas) { g.removeFromParent(); g.geometry.dispose(); }
+    grupos.mallas = [];
+    if (!juntas.length) return;
+    moto.raiz.updateMatrixWorld(true);
+    const aLocal = moto.raiz.matrixWorld.clone().invert();
+    const porMaterial = new Map();
+    for (const o of juntas) {
+      const estado = estadoDe(piezaDe(o)), interno = Boolean(o.userData.interno), k = estado + "|" + interno;
+      if (!porMaterial.has(k)) porMaterial.set(k, { material: o.userData.matRayos, partes: [] });
+      porMaterial.get(k).partes.push(geometriaEnMoto(o, aLocal));
+    }
+    for (const { material, partes } of porMaterial.values()) {
+      const n = partes.reduce((t, p) => t + p.P.length, 0), P = new Float32Array(n), N = new Float32Array(n);
+      let k = 0;
+      for (const p of partes) { P.set(p.P, k); N.set(p.N, k); k += p.P.length; }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(P, 3));
+      geo.setAttribute("normal", new THREE.BufferAttribute(N, 3));
+      // (material propio del grupo: el de las piezas sirve para que lata la seleccionada)
+      const malla = new THREE.Mesh(geo, (material.userData.deGrupo ??= Object.assign(material.clone(), { emissiveIntensity: 0.25 })));
+      malla.raycast = () => {};
+      malla.castShadow = true;
+      malla.userData.grupoRayos = true;
+      moto.raiz.add(malla);
+      grupos.mallas.push(malla);
+    }
+  }
+
+  // Vista Moto: todo lo fijo que comparte material se dibuja en una sola malla por material (sin las ruedas ni el
+  // gato, que se mueven). Las mallas originales quedan sin dibujar pero siguen ahí para pegar calcas y para los otros
+  // modos. Se rehace cuando cambia lo que se ve (accesorios, rin, retrovisores) o al volver de Rayos X.
+  const gruposMoto = { mallas: [], clave: "" };
+  let moviles = null;
+  function planoCompleto(o) {
+    return (o.userData.planoUV ??= (() => {
+      const g = o.geometry.index ? o.geometry.toNonIndexed() : o.geometry;
+      if (!g.attributes.normal) g.computeVertexNormals();
+      const r = { P: g.attributes.position.array.slice(), N: g.attributes.normal.array.slice(), U: g.attributes.uv ? g.attributes.uv.array.slice() : null };
+      if (g !== o.geometry) g.dispose();
+      return r;
+    })());
+  }
+  function agruparMoto() {
+    moviles ??= new Set([...(moto.ruedas || []).map((r) => r.pivote), moto.pata].filter(Boolean));
+    const enMovil = (o) => { for (let q = o; q && q !== moto.raiz; q = q.parent) if (moviles.has(q)) return true; return false; };
+    const porMaterial = new Map();
+    if (modo === "moto") {
+      moto.raiz.traverseVisible((o) => {
+        if (!o.isMesh || o.isInstancedMesh || o.userData.calca || o.userData.grupoRayos || o.userData.grupoMoto || conos.includes(o)) return;
+        const material = o.userData.original ?? o.material;
+        if (!material || material === invisible || Array.isArray(material) || o.morphTargetInfluences || enMovil(o)) return;
+        if (!porMaterial.has(material)) porMaterial.set(material, []);
+        porMaterial.get(material).push(o);
+      });
+    }
+    // (solo se juntan los materiales con 2 o más mallas; con textura, solo si todas traen coordenadas de textura)
+    const juntar = [...porMaterial].filter(([m, l]) => l.length > 1 && (!m.map || l.every((o) => o.geometry.attributes.uv)));
+    const clave = juntar.map(([, l]) => l.map((o) => o.id).join(".")).join("|");
+    if (gruposMoto.clave === clave) { for (const [, l] of juntar) for (const o of l) o.material = invisible; return; }
+    gruposMoto.clave = clave;
+    for (const g of gruposMoto.mallas) { g.removeFromParent(); g.geometry.dispose(); }
+    gruposMoto.mallas = [];
+    if (modo === "moto") for (const [m, l] of porMaterial) if (!juntar.some(([mj]) => mj === m)) for (const o of l) o.material = m;
+    if (!juntar.length) return;
+    moto.raiz.updateMatrixWorld(true);
+    const aLocal = moto.raiz.matrixWorld.clone().invert(), v = new THREE.Vector3(), mt = new THREE.Matrix4(), nm = new THREE.Matrix3();
+    for (const [material, lista] of juntar) {
+      const planos = lista.map(planoCompleto), conUV = planos.every((q) => q.U);
+      const n = planos.reduce((t, q) => t + q.P.length, 0);
+      const P = new Float32Array(n), N = new Float32Array(n), U = conUV ? new Float32Array((n / 3) * 2) : null;
+      let k = 0, ku = 0;
+      lista.forEach((o, i) => {
+        mt.multiplyMatrices(aLocal, o.matrixWorld); nm.getNormalMatrix(mt);
+        const q = planos[i];
+        for (let j = 0; j < q.P.length; j += 3) {
+          v.set(q.P[j], q.P[j + 1], q.P[j + 2]).applyMatrix4(mt); P[k] = v.x; P[k + 1] = v.y; P[k + 2] = v.z;
+          v.set(q.N[j], q.N[j + 1], q.N[j + 2]).applyMatrix3(nm).normalize(); N[k] = v.x; N[k + 1] = v.y; N[k + 2] = v.z;
+          k += 3;
+        }
+        if (U) { U.set(q.U, ku); ku += q.U.length; }
+        o.material = invisible;
+      });
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(P, 3));
+      geo.setAttribute("normal", new THREE.BufferAttribute(N, 3));
+      if (U) geo.setAttribute("uv", new THREE.BufferAttribute(U, 2));
+      const malla = new THREE.Mesh(geo, material);
+      malla.castShadow = true;
+      malla.receiveShadow = true;
+      malla.raycast = () => {};
+      malla.userData.grupoMoto = true;
+      moto.raiz.add(malla);
+      gruposMoto.mallas.push(malla);
+    }
+    renderer.shadowMap.needsUpdate = true;
+  }
 
   function aplicarModo() {
     contenedor.classList.toggle("rayos", modo === "rayos");
     calcas.forEach((c) => { c.visible = modo === "moto"; });
+    if (fabrica.malla) fabrica.malla.visible = modo === "moto";
     const mallas = [];
-    moto.raiz.traverse((obj) => { if (obj.isMesh && !obj.userData.calca) mallas.push(obj); });
+    // (sin el cono del faro: su visibilidad la lleva la noche; si no, quedaba visible de día con opacidad 0 y gastaba un call)
+    moto.raiz.traverse((obj) => { if (obj.isMesh && !obj.userData.calca && !obj.userData.grupoRayos && !obj.userData.grupoMoto && !conos.includes(obj)) mallas.push(obj); });
+    conoEnModo = modo === "moto";
+    for (const cono of conos) cono.visible = conoEnModo && cono.material.opacity > 0.002;
+    const conBorde = [];
+    grupos.lista = [];
     for (const obj of mallas) {
       obj.userData.original ??= obj.material;
       const pieza = piezaDe(obj);
       const estado = pieza && estadoDe(pieza);
       const interno = Boolean(obj.userData.interno);
       obj.visible = (!interno || modo === "rayos") && !obj.userData.oculto;
-      if (obj.userData.borde) obj.userData.borde.visible = modo === "rayos" && !estado;
 
       if (modo === "moto") {
         obj.material = obj.userData.original;
-      } else if (modo === "estado") {
-        // Un material propio por malla (para el pulso), creado una sola vez.
-        obj.material = estado ? (obj.userData.matEstado ??= matEstado[estado].clone()) : ghost;
       } else if (estado) {
         // Rayos X: piezas internas sólidas; sus carcasas, translúcidas para ver adentro.
         if (!obj.userData.matRayos) {
@@ -408,17 +719,16 @@ async function iniciar(lecturaCache = Promise.resolve()) {
           obj.userData.matRayos = m;
         }
         obj.material = obj.userData.matRayos;
+        grupos.lista.push(obj);
       } else {
-        if (!obj.userData.borde && !obj.isInstancedMesh) {
-          const borde = new THREE.LineSegments(new THREE.EdgesGeometry(obj.geometry, 28), matBorde);
-          obj.add(borde);
-          obj.userData.borde = borde;
-        }
-        if (obj.userData.borde) obj.userData.borde.visible = true;
+        if (obj.visible && !obj.isInstancedMesh) conBorde.push(obj);
         obj.material = invisible;
       }
       obj.castShadow = modo === "moto" || (Boolean(estado) && obj.visible);
     }
+    actualizarBordes(modo === "rayos" ? conBorde : []);
+    agruparRayos();
+    agruparMoto();
     resaltar(seleccionada);
     renderer.shadowMap.needsUpdate = true;
     pedirCuadro();
@@ -435,12 +745,13 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Mallas que laten (la pieza seleccionada); así el ciclo de dibujo no recorre toda la moto.
   let pulsando = [];
   function resaltar(pieza) {
+    if (modo === "rayos") agruparRayos(); // (la seleccionada sale del grupo para latir sola)
     pulsando = [];
     moto.raiz.traverse((obj) => {
       if (!obj.isMesh || obj.userData.calca || !obj.material.emissive) return;
       const activa = Boolean(pieza) && piezaDe(obj) === pieza;
       if (activa) pulsando.push(obj);
-      else if (modo === "estado" && piezaDe(obj) && estadoDe(piezaDe(obj))) {
+      else if (modo === "rayos" && piezaDe(obj) && estadoDe(piezaDe(obj))) {
         obj.material.emissiveIntensity = 0.25;
       }
     });
@@ -448,8 +759,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   }
 
   function seleccionar(pieza) {
-    // Si piden una pieza desde el plan o el despiece estando en Moto, se pasa a Estado para mostrarla.
-    if (pieza && modo === "moto") document.querySelector('#visor .visor-modo [data-modo="estado"]')?.click();
+    // Si piden una pieza desde el plan o el despiece estando en Moto, se pasa a Rayos X para mostrarla.
+    if (pieza && modo === "moto") document.querySelector('#visor .visor-modo [data-modo="rayos"]')?.click();
     seleccionada = pieza;
     resaltar(pieza);
     document.querySelectorAll(".tarea").forEach((el) => {
@@ -621,18 +932,53 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     return _detalles;
   }
 
+  // Recorte de la malla alrededor de la calca: DecalGeometry recorre y recorta cada triángulo de la malla, y con
+  // las mallas unidas (toda la carrocería en una) eso tomaba más de 1 s en un celular. Antes se descartan, en el
+  // espacio de la malla, los triángulos que quedan lejos (comparar distancias es mucho más barato que recortar).
+  function recorteCerca(malla, puntoMundo, radio) {
+    const geo = malla.geometry, pos = geo.attributes.position, nor = geo.attributes.normal;
+    if (!nor) return malla;
+    const c = malla.worldToLocal(puntoMundo.clone()), r2 = radio * radio;
+    const idx = geo.index ? geo.index.array : null, n = idx ? idx.length : pos.count;
+    const P = [], N = [];
+    const cerca = (i) => { const dx = pos.getX(i) - c.x, dy = pos.getY(i) - c.y, dz = pos.getZ(i) - c.z; return dx * dx + dy * dy + dz * dz < r2; };
+    for (let t = 0; t < n; t += 3) {
+      const a = idx ? idx[t] : t, b = idx ? idx[t + 1] : t + 1, d = idx ? idx[t + 2] : t + 2;
+      if (!(cerca(a) || cerca(b) || cerca(d))) continue;
+      for (const i of [a, b, d]) { P.push(pos.getX(i), pos.getY(i), pos.getZ(i)); N.push(nor.getX(i), nor.getY(i), nor.getZ(i)); }
+    }
+    const sub = new THREE.BufferGeometry();
+    sub.setAttribute("position", new THREE.Float32BufferAttribute(P, 3));
+    sub.setAttribute("normal", new THREE.Float32BufferAttribute(N, 3));
+    const m = new THREE.Mesh(sub);
+    m.matrixAutoUpdate = false;
+    m.matrixWorld.copy(malla.matrixWorld);
+    return m;
+  }
+
   function geometriasCalca(c, aspecto) {
     const { ancho, alto } = medidas(c, aspecto);
+    return geometriasCon(c, ancho, alto);
+  }
+  function geometriasCon(c, ancho, alto, profundidad = PROFUNDIDAD) {
     const geos = [];
     for (const [p, n] of lados(c)) {
       const s = superficieEn(p, n);
       if (!s) continue;
       const giro = c.giro || 0;
       const rot = orientacion(s.punto, s.normal, giro).rotation;
-      geos.push(new DecalGeometry(s.malla, s.punto, rot, V(ancho, alto, PROFUNDIDAD)));
+      // (radio: media diagonal de la calca más un margen; los paneles están subdivididos, sus triángulos son chicos)
+      const radio = Math.hypot(ancho, alto) / 2 + Math.max(0.12, profundidad / 2 + 0.02);
+      const conCalca = (malla) => {
+        const recorte = recorteCerca(malla, s.punto, radio);
+        const g = new DecalGeometry(recorte, s.punto, rot, V(ancho, alto, profundidad));
+        if (recorte !== malla) recorte.geometry.dispose();
+        return g;
+      };
+      geos.push(conCalca(s.malla));
       // Franjas y detalles pegados sobre la carrocería: la calca también pasa por encima de ellos (como un sticker real)
       for (const detalle of detallesBajoCalca()) {
-        const g = new DecalGeometry(detalle, s.punto, rot, V(ancho, alto, PROFUNDIDAD));
+        const g = conCalca(detalle);
         if (g.attributes.position.count) geos.push(g); else g.dispose();
       }
     }
@@ -708,10 +1054,15 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     }
     if (e.claveForma !== claveForma) {
       quitarMallas(e);
-      for (const geo of geometriasCalca(c, e.aspecto)) {
+      // (los dos lados y los detalles que cruza van en una sola malla: una llamada por calca)
+      moto.raiz.updateMatrixWorld(true);
+      const aLocal = moto.raiz.matrixWorld.clone().invert();
+      const partes = geometriasCalca(c, e.aspecto).filter((g) => g.attributes.position.count);
+      partes.forEach((g) => g.applyMatrix4(aLocal));
+      const unida = partes.length > 1 ? unirGeometrias(partes) : partes[0];
+      if (partes.length > 1) partes.forEach((g) => g.dispose());
+      for (const geo of unida ? [unida] : []) {
         // La calca va pegada a la moto (no a la escena): así la acompaña cuando la moto entra, frena o sale animada.
-        moto.raiz.updateMatrixWorld(true);
-        geo.applyMatrix4(moto.raiz.matrixWorld.clone().invert());
         const malla = new THREE.Mesh(geo, e.material);
         malla.userData.calca = true;
         malla.renderOrder = 2;
@@ -722,6 +1073,123 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       e.claveForma = claveForma;
     }
     e.mallas.forEach((m) => { m.userData.indice = indice; });
+  }
+
+  // ---------- Calcas de fábrica: nombre del modelo, cilindrada y franjas que la moto trae de serie ----------
+  // Todas van en una sola malla con una textura atlas (1 call). Se pueden quitar una por una (estilo.sin_fabrica).
+  const fabrica = { lista: null, regiones: null, claveColor: "", material: null, geos: {}, malla: null, claveMalla: "" };
+  function zonaParaFabrica(zonas) {
+    const mallas = [];
+    moto.raiz.traverse((o) => { if (o.isMesh && o.visible && o.userData.zonas) mallas.push(o); });
+    for (const z of zonas) {
+      let mejor = null, area = -1;
+      for (const m of mallas) {
+        if (!m.userData.zonas.includes(z)) continue;
+        const caja = new THREE.Box3().setFromObject(m), t = caja.getSize(new THREE.Vector3());
+        if (t.x * t.y > area) { area = t.x * t.y; mejor = { malla: m, caja }; }
+      }
+      if (mejor) return mejor;
+    }
+    return null;
+  }
+  // Dónde va cada calca: un rayo desde el costado (o el frente) hacia la zona, en la posición relativa de la lista
+  function ubicarFabrica(c) {
+    const z = zonaParaFabrica(c.zona);
+    if (!z) return null;
+    const { malla, caja } = z, t = caja.getSize(new THREE.Vector3()), centro = caja.getCenter(new THREE.Vector3());
+    const y = centro.y + (c.altura || 0) * t.y / 2, x = centro.x + (c.posicion || 0) * t.x / 2;
+    const disparos = c.cara === "frente" ? [[V(caja.max.x + 0.4, y, 0), V(-1, 0, 0)]]
+      : [[V(x, y, caja.max.z + 0.4), V(0, 0, -1)], [V(x, y, caja.min.z - 0.4), V(0, 0, 1)]];
+    for (const [origen, dir] of disparos) {
+      rayo.set(origen, dir);
+      const golpe = rayo.intersectObject(malla, false)[0];
+      if (!golpe) continue;
+      const normal = golpe.face.normal.clone().transformDirection(malla.matrixWorld);
+      if (normal.dot(dir) > 0) normal.negate();
+      const local = moto.raiz.worldToLocal(golpe.point.clone());
+      const nl = normal.transformDirection(moto.raiz.matrixWorld.clone().invert());
+      // (siempre del lado +z: "ambos" pone el reflejo en el otro costado)
+      if (c.cara !== "frente" && local.z < 0) { local.z = -local.z; nl.z = -nl.z; }
+      return { punto: local.toArray(), normal: nl.toArray(), ambos: c.cara !== "frente", giro: c.giro || 0 };
+    }
+    return null;
+  }
+  // Geometría de una calca de fábrica, con las coordenadas de textura llevadas a su franja del atlas (en la moto)
+  function geometriaFabrica(c) {
+    const r = fabrica.regiones[c.id], ubicada = ubicarFabrica(c);
+    if (!r || !ubicada) return [];
+    const ancho = c.ancho, alto = Math.min(0.14, ancho / r.aspecto);
+    moto.raiz.updateMatrixWorld(true);
+    const aLocal = moto.raiz.matrixWorld.clone().invert();
+    // (más hondas que las propias: van sobre carenados y tanques muy curvos, que se salían de la caja de proyección)
+    return geometriasCon(ubicada, ancho, alto, Math.min(0.3, Math.max(0.14, ancho * 0.9))).map((g) => {
+      const uv = g.attributes.uv;
+      for (let i = 0; i < uv.count; i++) uv.setXY(i, r.u0 + uv.getX(i) * (r.u1 - r.u0), r.v0 + uv.getY(i) * (r.v1 - r.v0));
+      g.applyMatrix4(aLocal);
+      return g;
+    });
+  }
+  function unirGeometrias(lista) {
+    let n = 0;
+    for (const g of lista) n += g.attributes.position.count;
+    const P = new Float32Array(n * 3), Nn = new Float32Array(n * 3), U = new Float32Array(n * 2);
+    let k = 0;
+    for (const g of lista) {
+      P.set(g.attributes.position.array, k * 3); Nn.set(g.attributes.normal.array, k * 3); U.set(g.attributes.uv.array, k * 2);
+      k += g.attributes.position.count;
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(P, 3));
+    geo.setAttribute("normal", new THREE.BufferAttribute(Nn, 3));
+    geo.setAttribute("uv", new THREE.BufferAttribute(U, 2));
+    return geo;
+  }
+  // Arma o actualiza las calcas de fábrica según la pintura y las que el usuario quitó
+  async function aplicarFabrica(cfg) {
+    if (!Fabrica || !DecalGeometry) return;
+    if (!fabrica.lista) {
+      fabrica.lista = Fabrica.calcasDeFabrica(datos.linea || "", rasgosDe(datos.linea || "", datos.specs || {}).familia);
+      fabrica.material = new THREE.MeshPhysicalMaterial({
+        transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3,
+        roughness: 0.3, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.08,
+      });
+    }
+    if (!fabrica.lista.length) return;
+    const pintura = "#" + moto.M.pintura.color.getHexString(), secundario = cfg.color_secundario || datos.color_secundario || "";
+    const elegidos = cfg.estilo?.color_fabrica || {};
+    const claveColor = pintura + secundario + JSON.stringify(elegidos);
+    fabrica.base = Fabrica.coloresFabrica(pintura, secundario);
+    if (fabrica.claveColor !== claveColor) {
+      fabrica.claveColor = claveColor;
+      const { textura, regiones } = await Fabrica.atlasFabrica(fabrica.lista, fabrica.base, elegidos);
+      if (fabrica.claveColor !== claveColor) { textura.dispose(); return; } // (llegó otro color mientras se dibujaba)
+      fabrica.material.map?.dispose();
+      fabrica.material.map = textura;
+      fabrica.material.needsUpdate = true;
+      fabrica.regiones ??= regiones; // (las franjas del atlas no cambian con el color)
+    }
+    const quitadas = new Set(cfg.estilo?.sin_fabrica || []);
+    const puestas = fabrica.lista.filter((c) => !quitadas.has(c.id));
+    const claveMalla = puestas.map((c) => c.id).join(",");
+    if (fabrica.claveMalla === claveMalla) { pedirCuadro(); return; }
+    fabrica.claveMalla = claveMalla;
+    const raiz = moto.raiz, pos = raiz.position.clone(), giro = raiz.rotation.z;
+    raiz.position.set(baseX, 0, 0); raiz.rotation.z = 0; raiz.updateMatrixWorld(true);
+    for (const c of puestas) fabrica.geos[c.id] ??= geometriaFabrica(c);
+    raiz.position.copy(pos); raiz.rotation.z = giro; raiz.updateMatrixWorld(true);
+    if (fabrica.malla) { fabrica.malla.removeFromParent(); fabrica.malla.geometry.dispose(); fabrica.malla = null; }
+    const partes = puestas.flatMap((c) => fabrica.geos[c.id]);
+    if (partes.length) {
+      const malla = new THREE.Mesh(unirGeometrias(partes), fabrica.material);
+      malla.userData.calca = true;
+      malla.userData.fabrica = true;
+      malla.renderOrder = 1; // (debajo de las calcas propias)
+      malla.visible = modo === "moto";
+      malla.raycast = () => {};
+      raiz.add(malla);
+      fabrica.malla = malla;
+    }
+    pedirCuadro();
   }
 
   // Marco punteado alrededor de la calca que se está editando.
@@ -774,6 +1242,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   function vistaAcabado(acabado, color) {
     const clave = `${acabado}|${color}`;
     if (muestrasAcabado.has(clave)) return muestrasAcabado.get(clave);
+    if (!RoomEnvironment) { extras(); return ""; } // (los reflejos aún vienen en camino)
     if (!estudio) {
       const r = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
       r.setSize(112, 112);
@@ -831,6 +1300,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       led.material.color.copy(c);
       led.material.emissive.copy(c);
       led.luz.color.copy(c);
+      led.luz.intensity = puestos.has("led") ? 0.9 : 0;
     }
     for (const v of moto.visoresFabrica) { v.userData.oculto = puestos.has("parabrisas"); v.visible = !v.userData.oculto; }
     renderer.shadowMap.needsUpdate = true;
@@ -861,6 +1331,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     });
     calcas.length = 0;
     estadoCalcas.forEach((e) => calcas.push(...e.mallas));
+    aplicarFabrica(cfg); // (las de fábrica: según la pintura y las que se quitaron)
+    agruparMoto();
     ultimaCfg = cfg;
     ponerMarco();
     pedirCuadro();
@@ -957,6 +1429,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   window.addEventListener("calca-imagen-lista", pedirCuadro);
   window.TallerYa3D = {
     aplicar: aplicarPersonalizacion,
+    // Calcas de fábrica de esta moto (para la pestaña "De fábrica" de Personalizar)
+    // (con sus colores de fábrica según la pintura actual: principal p y secundario s)
+    calcasFabrica: () => (fabrica.lista || []).map((c) => ({ id: c.id, nombre: c.nombre, original: fabrica.base ? Fabrica.coloresOriginales(c, fabrica.base) : { p: "#ffffff", s: "#000000" } })),
     miniatura,
     vistaAcabado,
     escuchar(o) { oyentes = o; },
@@ -977,8 +1452,10 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const crudo = { color: datos.color, color_secundario: datos.color_secundario || "#1c2022", calcas: datos.calcas || [], estilo: datos.estilo || {} };
   moto.raiz.updateMatrixWorld(true);
   const inicial = { ...crudo, calcas: crudo.calcas.map(migrarCalca).filter(Boolean) };
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
-    aplicarPersonalizacion(inicial);
+  Promise.all([document.fonts ? document.fonts.ready : null, extras().catch(() => {})]).then(() => {
+    medir("personalizacion", () => aplicarPersonalizacion(inicial));
+    // (los accesorios —baúl, parabrisas…— cambian el tamaño de la moto: la vitrina la vuelve a medir y encuadrar)
+    if (vitrina) { medidaMoto = null; ajustarTamano(); }
     window.TallerYa3DInicial = inicial;
     document.dispatchEvent(new CustomEvent("moto3d-listo", { detail: inicial }));
   });
@@ -1058,6 +1535,60 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     camara.aspect = w / h;
     camara.fov = w < 500 && !vitrina ? 44 : 34;
     camara.updateProjectionMatrix();
+    // Vitrina: encuadre normalizado por el tamaño real de cada modelo (todas las motos se ven del mismo tamaño).
+    // Ancho: la diagonal horizontal de la moto (lo más ancha que se ve al girar) ocupa la fracción --encuadre del
+    // lienzo; alto: la moto ocupa ≤70 % del alto. La cámara mira al
+    // centro de la caja. La portada deja el lienzo más alto que la moto para que el cono y la sombra se desvanezcan.
+    if (vitrina && w && h) {
+      const caja = tamanoMoto();
+      const tan2 = 2 * Math.tan(THREE.MathUtils.degToRad(camara.fov / 2));
+      // Qué parte del ancho del lienzo ocupa la diagonal de la moto: lo dice la portada (variable CSS --encuadre del
+      // carrusel, distinta en escritorio, tablet y celular, porque el lienzo y su columna cambian)
+      let celular = false, fraccion = 0.56;
+      try {
+        celular = window.parent.innerWidth < 768;
+        const v = parseFloat(getComputedStyle(window.frameElement.closest(".portada-carrusel")).getPropertyValue("--encuadre"));
+        if (v > 0 && v <= 1) fraccion = v;
+      } catch { /* (portada de otro origen o vista suelta: fracción por defecto) */ }
+      const d = Math.max(controles.minDistance, caja.diagonal / (fraccion * tan2 * camara.aspect), caja.alto / (0.7 * tan2));
+      controles.maxDistance = Math.max(6, d);
+      const desde = camara.position.clone().sub(controles.target);
+      controles.target.copy(caja.centro);
+      if (celular) controles.target.y -= 0.12; // (en el celular la moto va un poco más arriba: abajo se desvanecen el cono y la sombra)
+      camara.position.copy(caja.centro).add(desde.setLength(d));
+      controles.update();
+    }
+  }
+  // Tamaño de la moto para encuadrarla, medido una vez: por las ruedas (distancia entre ejes más los dos radios)
+  // y los accesorios puestos, que no cambian con calcas ni animaciones; la caja de la carrocería pesaba distinto según el momento
+  // (pata, suspensión, accesorios que llegan después). Diagonal: largo × 1,12 (manubrio y espejos al girar).
+  let medidaMoto = null;
+  function tamanoMoto() {
+    if (medidaMoto) return medidaMoto;
+    const raiz = moto.raiz, pos = raiz.position.clone(), giro = raiz.rotation.z;
+    raiz.position.set(baseX, 0, 0); raiz.rotation.z = 0;
+    raiz.updateMatrixWorld(true);
+    const ruedas = (moto.ruedas || []).map((r) => ({ x: r.pivote.getWorldPosition(new THREE.Vector3()).x, R: r.R }));
+    let largo, centroX, alto = 1.2;
+    if (ruedas.length >= 2) {
+      const del = ruedas.reduce((a, r) => (r.x > a.x ? r : a)), tras = ruedas.reduce((a, r) => (r.x < a.x ? r : a));
+      let x0 = tras.x - tras.R, x1 = del.x + del.R;
+      // Los accesorios puestos que sobresalen (baúl, parrilla…) también cuentan: si no, tapaban el texto al girar
+      for (const g of Object.values(moto.accesorios || {})) {
+        if (!g.visible) continue;
+        const c = new THREE.Box3().setFromObject(g);
+        if (!c.isEmpty()) { x0 = Math.min(x0, c.min.x); x1 = Math.max(x1, c.max.x); }
+      }
+      largo = x1 - x0;
+      centroX = (x0 + x1) / 2;
+    } else {
+      const caja = new THREE.Box3().setFromObject(raiz), t = caja.getSize(new THREE.Vector3());
+      largo = t.x; centroX = caja.getCenter(new THREE.Vector3()).x; alto = t.y;
+    }
+    raiz.position.copy(pos); raiz.rotation.z = giro;
+    raiz.updateMatrixWorld(true);
+    medidaMoto = { centro: new THREE.Vector3(centroX, 0.58, 0), diagonal: largo * 1.12, alto };
+    return medidaMoto;
   }
   new ResizeObserver(ajustarTamano).observe(contenedor);
   ajustarTamano();
@@ -1076,13 +1607,109 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   controles.addEventListener("change", pedirCuadro);
   new ResizeObserver(pedirCuadro).observe(contenedor);
 
+  // Une las mallas fijas por material (pieza por pieza): menos de la mitad de llamadas de dibujo por cuadro
+  let paginaCerrada = false;
+  // Precalentar los sombreadores: three.js lee los uniforms de cada programa la primera vez que dibuja con él, en
+  // un solo bloque (compileAsync no lo cubre); con 15–20 programas eso congelaba un celular 1–3 s. Aquí se dibuja
+  // en un solo píxel del lienzo (todavía escondido), de a pocos materiales por vez y soltando la página entre
+  // tanda y tanda. (No a un render target: ahí three.js usa otros sombreadores, sin tone mapping.)
+  async function precalentar() {
+    const t0 = performance.now();
+    const muestras = new Map();
+    escena.traverseVisible((o) => {
+      if ((o.isMesh || o.isSprite) && o.material && !Array.isArray(o.material)) {
+        const clave = o.material.uuid + (o.isInstancedMesh ? "|i" : "");
+        if (!muestras.has(clave)) muestras.set(clave, o);
+      }
+    });
+    const guardado = [];
+    escena.traverse((o) => { if (o.isMesh || o.isSprite) guardado.push([o, o.visible, o.frustumCulled]); });
+    const lista = [...muestras.values()];
+    const lienzo = renderer.domElement, visibilidad = lienzo.style.visibility;
+    const tam = renderer.getSize(new THREE.Vector2());
+    try {
+      lienzo.style.visibility = "hidden";
+      renderer.setScissorTest(true);
+      renderer.setViewport(0, 0, 1, 1);
+      renderer.setScissor(0, 0, 1, 1);
+      for (const [o] of guardado) o.visible = false;
+      for (let i = 0; i < lista.length; i += 3) {
+        const tanda = lista.slice(i, i + 3);
+        for (const o of tanda) {
+          o.frustumCulled = false; // (en la portada la moto espera fuera de cuadro: igual hay que compilarla)
+          for (let p = o; p && p !== escena; p = p.parent) if (p.isMesh || p.isSprite) p.visible = true;
+        }
+        renderer.render(escena, camara);
+        for (const o of tanda) for (let p = o; p && p !== escena; p = p.parent) if (p.isMesh || p.isSprite) p.visible = false;
+        await ceder();
+        if (paginaCerrada) return;
+      }
+    } finally {
+      for (const [o, v, f] of guardado) { o.visible = v; o.frustumCulled = f; }
+      renderer.setScissorTest(false);
+      renderer.setViewport(0, 0, tam.x, tam.y);
+      lienzo.style.visibility = visibilidad;
+      renderer.shadowMap.needsUpdate = true; // (la sombra se dibujó a pedazos: se rehace en el cuadro real)
+    }
+    ETAPAS.precalentar = (ETAPAS.precalentar || 0) + performance.now() - t0;
+  }
+  // Antes de unir, cada malla vuelve a su material original: si el modo inicial es Estado, varias llevan el mismo
+  // fantasma translúcido y se habrían unido piezas de materiales distintos (luego, en modo Moto, quedaban
+  // translúcidas o con el material de otra). Después de unir se vuelve a aplicar el modo.
+  moto.raiz.traverse((o) => { if (o.isMesh && o.userData.original) o.material = o.userData.original; });
+  const mallasUnidas = medir("unirEstaticas", () => unirEstaticas(moto.raiz, [...moto.ruedas.map((r) => r.pivote), moto.pata].filter(Boolean), !vitrina));
+  aplicarModo();
   // Compila los sombreadores antes del primer cuadro, en paralelo y sin congelar la página (si no, el primer
   // cuadro se lleva de 0,4 a 1,3 s en un computador, y bastante más en un celular, con todo quieto).
+  // Primer cuadro en dos tiempos: primero sin sombras (sombreadores más simples: la moto aparece antes) y las
+  // sombras se compilan después en segundo plano. Mientras tanto se deja quieto el último cuadro (sin tirones).
+  // En celulares y equipos modestos (calidad baja) no hay sombras proyectadas: basta la sombra de contacto bajo
+  // la moto. Ahí los reflejos se generan de una, antes del primer cuadro: una sola etapa y un solo juego de
+  // sombreadores (cambiar sombras o reflejos después obliga a rehacerlos todos, y eso traba un celular).
+  const unaEtapa = CALIDAD.nombre === "baja";
+  renderer.shadowMap.enabled = false;
+  if (unaEtapa) {
+    suelo.visible = false;
+    try { await extras(); generarReflejos(); } catch { /* sin reflejos de estudio: queda la luz de relleno */ }
+    pintarVivo(transicion.k);
+  }
   try { await renderer.compileAsync(escena, camara); } catch { /* sin compilación previa: se compila al dibujar */ }
+  if (paginaCerrada) return; // (se salió de la página mientras compilaba: el contexto ya se liberó)
+  await precalentar();
+  if (paginaCerrada) return;
   marcar("compilado");
   const reloj = new THREE.Clock();
+  const limite30 = vitrina && CALIDAD.nombre === "baja";
+  let ultimoCuadro = -1;
+  const sombras = { estado: unaEtapa ? "listas" : "pendiente", desde: 0 }; // pendiente → compilando → listas
+  async function activarSombras() {
+    sombras.estado = "compilando";
+    try { await extras(); generarReflejos(); } catch { /* sin reflejos de estudio: queda la luz de relleno */ }
+    // (la luz de relleno no se quita: se apaga de a poco; quitarla cambiaría otra vez los sombreadores)
+    fundido.reflejo = 0;
+    pintarVivo(transicion.k);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.needsUpdate = true;
+    try { await renderer.compileAsync(escena, camara); } catch { /* se compilan al dibujar */ }
+    if (paginaCerrada) return;
+    sombras.estado = "listas";
+    marcar("sombras");
+    fundido.t0 = performance.now();
+    // En la portada la moto todavía no había entrado (esperaba fuera de cuadro): la entrada arranca ahora
+    if (vitrina && anim.fase === "entrar") anim.t0 = performance.now();
+    pedirCuadro();
+  }
   renderer.setAnimationLoop(() => {
     if (!enPantalla || document.hidden) return;
+    if (sombras.estado === "compilando") return;
+    // Reflejos y sombras: un momento después del primer cuadro. En la portada, de una (la moto aún está fuera de
+    // cuadro, esperando para entrar); en la ficha, si no hay una animación en curso.
+    if (sombras.estado === "pendiente" && sombras.desde && (vitrina || (performance.now() - sombras.desde > 250 && !anim.fase))) { activarSombras(); return; }
+    if (sombras.estado === "listas" && fundido.reflejo < 1) {
+      fundido.reflejo = reducido ? 1 : Math.min(1, (performance.now() - fundido.t0) / 300);
+      pintarVivo(transicion.k);
+      necesitaCuadro = true;
+    }
     controles.update();
     if (pasoAnimacion()) necesitaCuadro = true;
     const t = reloj.getElapsedTime();
@@ -1092,10 +1719,23 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       obj.material.emissiveIntensity = 0.35 + (reducido ? 0.3 : 0.3 * (1 + Math.sin(t * 4)));
     }
     if (!necesitaCuadro && !latiendo) return;
+    // En la portada, en celulares, a 30 cuadros por segundo basta para el giro (la mitad de trabajo y de batería)
+    if (limite30 && t - ultimoCuadro < 1 / 31) return;
+    ultimoCuadro = t;
     necesitaCuadro = false;
     renderer.render(escena, camara);
     marcar("primerCuadro");
+    sombras.desde ||= performance.now();
   });
+  // Primer cuadro en este mismo momento, sin esperar al siguiente refresco de la pantalla
+  if (enPantalla && !document.hidden) {
+    pasoAnimacion(); // (en la portada, la moto ya en su punto de partida de la entrada)
+    extras(); // (ya con la moto en pantalla, se piden los complementos de reflejos y calcas)
+    renderer.render(escena, camara);
+    marcar("primerCuadro");
+    sombras.desde = performance.now();
+    necesitaCuadro = false;
+  }
   cargando?.remove();
   document.getElementById("visor-ayuda").hidden = false;
   window.__moto3dListo = true;
@@ -1104,6 +1744,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // contexto WebGL). Si el navegador la guarda para volver con "atrás" (persisted), se deja intacta.
   addEventListener("pagehide", (evento) => {
     if (evento.persisted) return;
+    paginaCerrada = true;
     renderer.setAnimationLoop(null);
     const liberados = new Set();
     const liberar = (x) => { if (x && !liberados.has(x)) { liberados.add(x); x.dispose(); } };
@@ -1124,7 +1765,22 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   window.__visor = {
     // Depuración: cuánto tarda en dibujar un cuadro (el primero incluye compilar los sombreadores)
     programas: () => renderer.info.programs.map((p) => p.name + " " + p.cacheKey.length),
-    cuadro: () => { const t = performance.now(); renderer.render(escena, camara); renderer.getContext().finish(); return Math.round(performance.now() - t); },
+    // Depuración: cajas de los accesorios y del asiento (para revisar que no se crucen)
+    _moto: moto, _esc: escena, _ren: renderer, _cam: camara, _ctl: controles,
+    fabrica: () => ({ lista: (fabrica.lista || []).map((c) => c.id), regiones: fabrica.regiones, vertices: fabrica.malla?.geometry.attributes.position.count || 0, visible: Boolean(fabrica.malla?.visible) }),
+    _medida: () => medidaMoto, _reencuadrar: () => { medidaMoto = null; ajustarTamano(); return medidaMoto; },
+    // Depuración: estado de las sombras diferidas (y forzarlas, p. ej. en una pestaña sin cuadros)
+    sombras: async (forzar = false) => { if (forzar && sombras.estado === "pendiente") await activarSombras(); return sombras.estado; },
+    cajas: () => {
+      const r = (b) => [b.min.x, b.min.y, b.min.z, b.max.x, b.max.y, b.max.z].map((n) => Math.round(n * 1000) / 1000);
+      const salida = {};
+      for (const [id, g] of Object.entries(moto.accesorios)) salida[id] = r(new THREE.Box3().setFromObject(g));
+      const asiento = new THREE.Box3();
+      moto.raiz.traverse((o) => { if (o.isMesh && o.material === moto.M.asiento) asiento.union(new THREE.Box3().setFromObject(o)); });
+      salida.asiento = r(asiento);
+      return salida;
+    },
+    cuadro: () => { pasoTransicion(); const t = performance.now(); renderer.render(escena, camara); renderer.getContext().finish(); return Math.round(performance.now() - t); },
     vista: (x, y, z) => { controles.autoRotate = false; camara.position.set(x, y, z); controles.update(); },
     // Depuración: dónde quedaron las mallas de un color (centro de su caja en coordenadas de la escena)
     mallasDeColor: (hex) => {
@@ -1144,14 +1800,15 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     // Rendimiento: tiempo de armado, mallas, triángulos y llamadas de dibujo del último cuadro
     info: () => {
       let mallas = 0, triangulos = 0;
-      escena.traverse((o) => {
-        if (o.isMesh || o.isInstancedMesh) {
+      // (solo lo que se dibuja: visible y con material visible; las originales agrupadas no cuentan)
+      escena.traverseVisible((o) => {
+        if ((o.isMesh || o.isInstancedMesh) && o.material?.visible !== false) {
           mallas++;
           const g = o.geometry;
           triangulos += (g.index ? g.index.count : g.attributes.position.count) / 3 * (o.count || 1);
         }
       });
-      return { tiempos: TIEMPOS, msArmado, etapas: Object.fromEntries(Object.entries(ETAPAS).map(([k, v]) => [k, Math.round(v)])), calidad: CALIDAD.nombre, panelesDeCache: cachePaneles.aciertos, pedazoMasLargo: Math.round(pedazos.max), panelesGuardados: Object.keys(cachePaneles.guardados).length, mallas, triangulos: Math.round(triangulos), llamadas: renderer.info.render.calls,
+      return { tiempos: TIEMPOS, msGuardarCache: cachePaneles.msGuardar, mallasUnidas, msArmado, etapas: Object.fromEntries(Object.entries(ETAPAS).map(([k, v]) => [k, Math.round(v)])), calidad: CALIDAD.nombre, panelesDeCache: cachePaneles.aciertos, pedazoMasLargo: Math.round(pedazos.max), panelesGuardados: Object.keys(cachePaneles.guardados).length, mallas, triangulos: Math.round(triangulos), llamadas: renderer.info.render.calls,
         texturas: renderer.info.memory.textures, geometrias: renderer.info.memory.geometries };
     },
     pesadas: (n = 12) => {

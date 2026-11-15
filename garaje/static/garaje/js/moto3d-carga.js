@@ -11,14 +11,12 @@
   var librerias = [
     "build/three.module.min.js",
     "examples/jsm/controls/OrbitControls.js",
-    "examples/jsm/environments/RoomEnvironment.js",
-    "examples/jsm/geometries/DecalGeometry.js",
     "examples/jsm/utils/BufferGeometryUtils.js",
   ].map(function (ruta) { return cdn + ruta; });
   // Módulos propios que importa moto3d.js (sin precarga se piden en cascada: uno, luego sus importados...).
   // Van sin huella de versión, igual que como los pide moto3d.js con su import relativo.
   var carpeta = modulo.replace(/moto3d(\.[0-9a-f]+)?\.js(\?.*)?$/, "moto3d/");
-  var propios = ["construir.js", "texturas.js", "geometria.js", "comun.js", "cache.js"].map(function (n) { return carpeta + n; });
+  var propios = ["construir.js", "rasgos.js", "texturas.js", "geometria.js", "comun.js", "cache.js"].map(function (n) { return carpeta + n; });
   var cargado = false;
 
   function precargar(url, cruzado) {

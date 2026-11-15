@@ -106,7 +106,7 @@ export function unirDecorado(grupo) {
     porMaterial.get(m.material).push(m);
   }
   for (const [material, lista] of porMaterial) {
-    if (lista.length < 3) continue;
+    if (lista.length < 2) continue; // (desde dos: cada par unido es una llamada de dibujo menos)
     const geos = lista.map((m) => {
       m.updateMatrix();
       const g = m.geometry.index ? m.geometry.toNonIndexed() : m.geometry.clone();
@@ -123,4 +123,61 @@ export function unirDecorado(grupo) {
     malla.castShadow = true;
     grupo.add(malla);
   }
+}
+
+// Une las mallas fijas que comparten material, cada una dentro de su "ancla": la raíz, cada pieza del despiece
+// (así en Estado y Rayos X se sigue tocando y pintando pieza por pieza), cada variante o accesorio que se prende y
+// apaga, y lo que se mueve en la animación (el pivote de cada rueda, el gato). Baja las llamadas de dibujo a menos
+// de la mitad. Quedan sueltas las mallas con datos propios (internas, bordes, zonas de calcas…) y las instanciadas.
+// Con piezaComoAncla = false (portada: ahí no hay modos Estado ni Rayos X) se une a través de las piezas.
+// (materiales que el visor guarda por malla para los modos: no impiden unir; se vuelven a crear al cambiar de modo)
+const MATERIALES_DE_MODO = ["original", "matEstado", "matRayos"];
+export function unirEstaticas(raiz, movibles = [], piezaComoAncla = true) {
+  const esAncla = new Set(movibles);
+  const neutras = piezaComoAncla ? ["original"] : ["original", "pieza"];
+  const anclaDe = (o) => {
+    let p = o.parent;
+    while (p && p !== raiz && !esAncla.has(p) && !Object.keys(p.userData).some((k) => !neutras.includes(k))) p = p.parent;
+    return p || raiz;
+  };
+  const libre = (m) => m.isMesh && !m.isInstancedMesh && !m.isSkinnedMesh && !m.children.length && m.geometry.attributes.position
+    && !Array.isArray(m.material) && !Object.keys(m.userData).some((k) => !MATERIALES_DE_MODO.includes(k));
+  raiz.updateMatrixWorld(true);
+  const grupos = new Map();
+  raiz.traverse((m) => {
+    if (!libre(m)) return;
+    const ancla = anclaDe(m);
+    const clave = ancla.uuid + "|" + m.material.uuid + "|" + m.visible + "|" + m.castShadow + "|" + m.receiveShadow;
+    if (!grupos.has(clave)) grupos.set(clave, { ancla, lista: [] });
+    grupos.get(clave).lista.push(m);
+  });
+  let unidas = 0;
+  const inversa = new THREE.Matrix4(), rel = new THREE.Matrix4();
+  for (const { ancla, lista } of grupos.values()) {
+    if (lista.length < 2) continue;
+    const material = lista[0].material;
+    // Atributos comunes a todas (si el material usa textura, todas deben tener uv)
+    const comunes = ["position", "normal", "uv"].filter((k) => lista.every((m) => m.geometry.attributes[k]));
+    if (material.map && !comunes.includes("uv")) continue;
+    inversa.copy(ancla.matrixWorld).invert();
+    const geos = lista.map((m) => {
+      const g = new THREE.BufferGeometry();
+      for (const k of comunes) g.setAttribute(k, m.geometry.attributes[k].clone());
+      const n = g.attributes.position.count;
+      g.setIndex(m.geometry.index ? m.geometry.index.clone() : [...Array(n).keys()]);
+      if (!g.attributes.normal) g.computeVertexNormals();
+      g.applyMatrix4(rel.multiplyMatrices(inversa, m.matrixWorld));
+      return g;
+    });
+    const unida = mergeGeometries(geos);
+    geos.forEach((g) => g.dispose());
+    if (!unida) continue;
+    const malla = new THREE.Mesh(unida, material);
+    Object.assign(malla, { castShadow: lista[0].castShadow, receiveShadow: lista[0].receiveShadow, visible: lista[0].visible });
+    if (lista[0].userData.original) malla.userData.original = lista[0].userData.original;
+    for (const m of lista) m.removeFromParent();
+    ancla.add(malla);
+    unidas += lista.length - 1;
+  }
+  return unidas;
 }

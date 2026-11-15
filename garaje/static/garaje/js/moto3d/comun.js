@@ -14,8 +14,8 @@ export const CALIDAD = (() => {
   const modesto = matchMedia("(pointer: coarse)").matches || (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
   const baja = pedida ? pedida === "baja" : modesto;
   return baja
-    ? { nombre: "baja", seg: 0.55, subdividir: 0.1, sombra: 512, pixeles: 1.5 }
-    : { nombre: "alta", seg: 1, subdividir: 0.06, sombra: 1024, pixeles: 1.75 };
+    ? { nombre: "baja", seg: 0.42, subdividir: 0.15, sombra: 512, pixeles: 1.5 }
+    : { nombre: "alta", seg: 0.72, subdividir: 0.085, sombra: 1024, pixeles: 1.75 };
 })();
 export const seg = (n, minimo = 6) => Math.max(minimo, Math.round(n * CALIDAD.seg));
 

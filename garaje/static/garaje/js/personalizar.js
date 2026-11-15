@@ -111,12 +111,103 @@
       $(`panel-${n}`).hidden = n !== cual;
     });
     if (cual !== "calcas") cancelarColocar();
-    window.TallerYa3D?.resaltar(cual === "calcas" ? sel : -1);
+    window.TallerYa3D?.resaltar(enCalcas() ? sel : -1);
   }
-  const enCalcas = () => !$("panel-calcas").hidden;
+  // (las calcas propias solo se editan con su subpestaña "Personalizadas" a la vista)
+  const enCalcas = () => !$("panel-calcas").hidden && !$("sub-panel-propias").hidden;
   $("tab-pintura").addEventListener("click", () => pestana("pintura"));
   $("tab-calcas").addEventListener("click", () => pestana("calcas"));
   $("tab-estilo").addEventListener("click", () => pestana("estilo"));
+
+  // ---------- Calcas: subpestañas "De fábrica" y "Personalizadas" ----------
+  function subpestana(cual) {
+    [["fabrica", "sub-fabrica"], ["propias", "sub-propias"]].forEach(([n, id]) => {
+      $(id).setAttribute("aria-selected", String(n === cual));
+      $(id).setAttribute("aria-pressed", String(n === cual));
+      $(`sub-panel-${n}`).hidden = n !== cual;
+    });
+    if (cual !== "propias") cancelarColocar();
+    window.TallerYa3D?.resaltar(enCalcas() ? sel : -1);
+  }
+  $("sub-fabrica").addEventListener("click", () => subpestana("fabrica"));
+  $("sub-propias").addEventListener("click", () => subpestana("propias"));
+
+  // De fábrica: cada calca de serie se quita o se vuelve a poner; lo quitado se guarda en estilo.sin_fabrica
+  function ponerQuitadas(lista) {
+    if (lista.length) estilo().sin_fabrica = [...new Set(lista)].sort();
+    else if (cfg.estilo) delete cfg.estilo.sin_fabrica;
+  }
+  function pintarFabrica() {
+    const lista = window.TallerYa3D?.calcasFabrica?.() || [];
+    const caja = $("p-fabrica");
+    caja.innerHTML = "";
+    const quitadas = new Set(cfg.estilo?.sin_fabrica || []);
+    $("p-fabrica-restaurar").hidden = !lista.length;
+    $("p-fabrica-restaurar").disabled = !lista.some((c) => quitadas.has(c.id));
+    if (!lista.length) { caja.append(el("p", "cajon-ayuda", "Esta moto no trae calcas de fábrica.")); return; }
+    for (const c of lista) {
+      const fila = el("div", "calca-fabrica-fila");
+      fila.style.cssText = "display:flex;align-items:center;justify-content:space-between;gap:.5rem";
+      const etiqueta = el("label", "calca-interruptor");
+      const casilla = el("input");
+      casilla.type = "checkbox";
+      casilla.checked = !quitadas.has(c.id);
+      casilla.addEventListener("change", () => {
+        guardarPaso();
+        const resto = (cfg.estilo?.sin_fabrica || []).filter((id) => id !== c.id);
+        ponerQuitadas(casilla.checked ? resto : [...resto, c.id]);
+        pintarFabrica();
+        aplicar();
+      });
+      etiqueta.append(casilla, el("span", "", c.nombre));
+      const color = el("button", "boton-suave text-xs", "Color");
+      color.type = "button";
+      color.setAttribute("aria-pressed", String(selFab === c.id));
+      color.setAttribute("aria-label", `Cambiar el color: ${c.nombre}`);
+      color.addEventListener("click", () => { selFab = selFab === c.id ? null : c.id; pintarFabrica(); });
+      fila.append(etiqueta, color);
+      caja.append(fila);
+    }
+    pintarEditorFabrica(lista);
+  }
+  // Editor de color de una calca de fábrica: principal y secundario (estilo.color_fabrica) y "Color original"
+  let selFab = null;
+  const fabActual = () => (window.TallerYa3D?.calcasFabrica?.() || []).find((c) => c.id === selFab);
+  const colorFab = (slot) => cfg.estilo?.color_fabrica?.[selFab]?.[slot] || fabActual()?.original[slot] || "#ffffff";
+  function ponerColorFab(slot, hex) {
+    const todos = estilo().color_fabrica ??= {};
+    const propio = (todos[selFab] ??= {});
+    if (hex.toLowerCase() === (fabActual()?.original[slot] || "").toLowerCase()) delete propio[slot]; else propio[slot] = hex.toLowerCase();
+    if (!Object.keys(propio).length) delete todos[selFab];
+    if (!Object.keys(todos).length) delete cfg.estilo.color_fabrica;
+    $("p-fab-original").disabled = !cfg.estilo?.color_fabrica?.[selFab];
+  }
+  let filaFab1 = null, filaFab2 = null; // (se crean al abrir el editor: filaDeColor usa variables de más abajo)
+  function pintarEditorFabrica(lista) {
+    const c = lista.find((x) => x.id === selFab);
+    $("p-fab-editor").hidden = !c;
+    if (!c) return;
+    $("p-fab-nombre").textContent = c.nombre;
+    $("p-fab-original").disabled = !cfg.estilo?.color_fabrica?.[selFab];
+    filaFab1 ??= filaDeColor($("p-fab-color1"), COLORES_CALCA, () => colorFab("p"), (hex) => ponerColorFab("p", hex));
+    filaFab2 ??= filaDeColor($("p-fab-color2"), COLORES_CALCA, () => colorFab("s"), (hex) => ponerColorFab("s", hex));
+    filaFab1.pintar();
+    filaFab2.pintar();
+  }
+  $("p-fab-original").addEventListener("click", () => {
+    if (!cfg.estilo?.color_fabrica?.[selFab]) return;
+    guardarPaso();
+    delete cfg.estilo.color_fabrica[selFab];
+    if (!Object.keys(cfg.estilo.color_fabrica).length) delete cfg.estilo.color_fabrica;
+    pintarFabrica();
+    aplicar();
+  });
+  $("p-fabrica-restaurar").addEventListener("click", () => {
+    guardarPaso();
+    ponerQuitadas([]);
+    pintarFabrica();
+    aplicar();
+  });
 
   // ---------- Colores: muestras con un botón arcoíris al final que abre un selector propio ----------
   function hsvAHex({ h, s, v }) {
@@ -579,6 +670,7 @@
   function repintarTodo() {
     pintarColores();
     repintarCalcas();
+    pintarFabrica();
     aplicar();
   }
   function atras() {
@@ -656,6 +748,7 @@
     conectar3D();
     pintarColores();
     repintarCalcas();
+    pintarFabrica();
     $("p-guardar").disabled = true;
     $("p-deshacer").disabled = true;
     $("p-atras").disabled = true;

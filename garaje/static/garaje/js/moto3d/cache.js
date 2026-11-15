@@ -4,7 +4,7 @@ import { CALIDAD } from "./comun.js";
 // ---------- Caché de la carrocería en el navegador (IndexedDB) ----------
 // Los paneles curvos (tanque, carenados, colín…) son lo más lento del armado. La primera visita los calcula y
 // los guarda; las siguientes los leen ya listos. Cambiar CACHE_VERSION invalida todo lo guardado.
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 6;
 export const cachePaneles = { firma: "", guardados: {}, nuevos: {}, aciertos: 0 };
 function abrirCache() {
   return new Promise((resolver, fallar) => {
@@ -34,7 +34,9 @@ export async function guardarCache() {
   try {
     const db = await abrirCache();
     const tx = db.transaction("paneles", "readwrite");
+    const t = performance.now();
     tx.objectStore("paneles").put({ ...cachePaneles.guardados, ...cachePaneles.nuevos }, cachePaneles.firma);
+    cachePaneles.msGuardar = Math.round(performance.now() - t);
     tx.oncomplete = () => db.close();
   } catch { /* sin caché: no pasa nada */ }
 }
