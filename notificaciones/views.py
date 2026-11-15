@@ -59,7 +59,7 @@ import json  # noqa: E402
 from django.conf import settings  # noqa: E402
 from django.http import HttpResponse  # noqa: E402
 from django.templatetags.static import static  # noqa: E402
-from django.views.decorators.cache import never_cache  # noqa: E402
+from django.views.decorators.cache import cache_control, never_cache  # noqa: E402
 
 from .models import SuscripcionPush  # noqa: E402
 
@@ -69,6 +69,8 @@ import time  # noqa: E402
 VERSION_SW = str(int(time.time()))  # cambia en cada arranque/despliegue: renueva la caché
 
 
+# 1 hora: el navegador lo pide en cada página; corto para que un despliegue (íconos con hash nuevo) llegue pronto.
+@cache_control(max_age=3600, public=True)
 def manifiesto(request):
     datos = {
         "name": "TallerYa", "short_name": "TallerYa",

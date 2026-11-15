@@ -2,6 +2,7 @@ Django>=5.2,<6
 Pillow>=10
 dj-database-url>=2.2
 whitenoise>=6.7
+Brotli>=1.1  # WhiteNoise crea además los .br del CSS/JS (~20 % menos que .gz)
 gunicorn>=23
 psycopg[binary]>=3.2
 redis>=5  # solo se usa si se define REDIS_URL

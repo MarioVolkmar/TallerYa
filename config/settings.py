@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "noticias",
     "logros",
     "tramites",
+    "ayuda",
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+# JS del visor 3D minificado por `npm run js` (build.sh): en producción esas copias tienen prioridad sobre los originales
+if not DEBUG and (BASE_DIR / "build_js").is_dir():
+    STATICFILES_DIRS = [BASE_DIR / "build_js"]
 MEDIA_URL = "media/"
 MEDIA_ROOT = Path(os.environ.get("DJANGO_MEDIA_ROOT", BASE_DIR / "media"))
 # Documentos personales (SOAT, técnico-mecánica): fuera de MEDIA_ROOT para que /media/ nunca los sirva.
@@ -137,7 +141,7 @@ STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage" if DEBUG
-        else "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        else "talleres.estaticos.EstaticosComprimidos",   # WhiteNoise (hash + .gz/.br) y CSS minificado
     },
 }
 

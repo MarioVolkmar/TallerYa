@@ -19,3 +19,4 @@ manual_despiece/
 
 # Dependencias de Node (solo para compilar Tailwind)
 node_modules/
+build_js/

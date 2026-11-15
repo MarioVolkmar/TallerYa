@@ -1,12 +1,14 @@
 {
   "name": "tallerya",
   "private": true,
-  "description": "Solo para compilar el CSS de Tailwind (el sitio es Django).",
+  "description": "Herramientas de build (el sitio es Django): Tailwind para el CSS y terser para minificar el JS del 3D.",
   "scripts": {
     "css": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --minify",
-    "css:vigilar": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --watch"
+    "css:vigilar": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --watch",
+    "js": "node tailwind/minificar_3d.mjs"
   },
   "devDependencies": {
-    "tailwindcss": "3.4.19"
+    "tailwindcss": "3.4.19",
+    "terser": "5.31.6"
   }
 }
