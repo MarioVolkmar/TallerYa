@@ -589,8 +589,13 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       flecha: [[fx + 0.11, fy - 0.07], [fx + 0.07, fy + 0.04], [fx + 0.02, fy + 0.1], [fx - 0.05, fy + 0.08], [fx - 0.05, fy - 0.04], [fx + 0.03, fy - 0.08]],
       gixxer: [[fx + 0.075, fy - 0.055], [fx + 0.085, fy + 0.03], [fx + 0.04, fy + 0.08], [fx - 0.05, fy + 0.065], [fx - 0.05, fy - 0.03], [fx + 0.01, fy - 0.07]],
       racing: [[fx + 0.1, fy - 0.05], [fx + 0.075, fy + 0.04], [fx + 0.0, fy + 0.1], [fx - 0.05, fy + 0.08], [fx - 0.05, fy - 0.04], [fx + 0.03, fy - 0.07]],
+      // Raider: máscara alta en flecha, punta abajo y adelante; Hunk: compacta y ancha, casi vertical
+      raider: [[fx + 0.1, fy - 0.08], [fx + 0.08, fy + 0.03], [fx + 0.03, fy + 0.11], [fx - 0.05, fy + 0.09], [fx - 0.05, fy - 0.05], [fx + 0.04, fy - 0.1]],
+      // Hunk 150: carenado tipo bikini, más alto y adelantado, del color de la moto
+      bikini: [[fx + 0.08, fy - 0.08], [fx + 0.1, fy + 0.03], [fx + 0.06, fy + 0.11], [fx - 0.05, fy + 0.1], [fx - 0.05, fy - 0.05], [fx + 0.01, fy - 0.09]],
+      hunk: [[fx + 0.08, fy - 0.065], [fx + 0.09, fy + 0.03], [fx + 0.05, fy + 0.085], [fx - 0.05, fy + 0.07], [fx - 0.05, fy - 0.04], [fx + 0.01, fy - 0.08]],
     }[formaFaro] || [[fx + 0.075, fy - 0.06], [fx + 0.085, fy + 0.03], [fx + 0.03, fy + 0.09], [fx - 0.05, fy + 0.07], [fx - 0.05, fy - 0.03], [fx + 0.01, fy - 0.08]];
-    const anchoMascara = formaFaro === "fz" ? 0.2 : formaFaro === "mt" ? 0.22 : formaFaro === "duke" ? 0.14 : 0.16;
+    const anchoMascara = formaFaro === "fz" ? 0.2 : formaFaro === "mt" ? 0.22 : formaFaro === "hunk" ? 0.19 : formaFaro === "bikini" ? 0.2 : formaFaro === "duke" ? 0.14 : 0.16;
     // Forma vista de frente (se ahúsa por altura y hacia adelante, para que no sea una caja):
     // Duke alta y estrecha en rombo; MT-03 ancha abajo y recogida arriba; las demás, recogidas hacia la punta
     const xAtras = fx - 0.05;
@@ -598,7 +603,7 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       duke: (x, y) => Math.max(0.45, 1 - Math.abs(y - fy) / 0.13 * 0.55) * Math.max(0.6, 1 - (x - xAtras) * 3),
       mt: (x, y) => (y > fy + 0.02 ? Math.max(0.7, 1 - (y - fy - 0.02) * 6) : 1) * Math.max(0.8, 1 - (x - xAtras) * 1.5),
     }[formaFaro] || ((x) => Math.max(0.6, 1 - (x - xAtras) * 2.5));
-    zona(panelAhusado(mascara, anchoMascara, formaFaro === "duke" ? M.pintura : M.oscuro, formaFrente, 0.012), "frontal");
+    zona(panelAhusado(mascara, anchoMascara, formaFaro === "duke" || formaFaro === "bikini" ? M.pintura : M.oscuro, formaFrente, 0.012), "frontal");
     // Frente de la máscara a una altura (para pegar las lentes por fuera)
     const xm = (y) => {
       let x = fx + 0.07;
@@ -627,6 +632,22 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       // CR4: dos luces rasgadas en V que se juntan hacia la punta, y una luz chica al centro abajo
       for (const lado of [1, -1]) lente(0.01, 0.014, 0.07, V(fx + 0.08, fy + 0.01, lado * 0.032), lado * 0.45, -0.75);
       lente(0.01, 0.02, 0.04, V(fx + 0.095, fy - 0.04, 0), 0, -0.7);
+    } else if (formaFaro === "raider") {
+      // Raider: proyector LED al centro y dos luces diurnas que forman una "Y" (brazos que suben hacia afuera)
+      caja(0.016, 0.05, 0.075, M.oscuro, V(xm(fy - 0.03) - 0.004, fy - 0.03, 0), decor, -0.45);
+      lente(0.01, 0.036, 0.06, V(xm(fy - 0.03) + 0.004, fy - 0.03, 0), 0, -0.45);
+      lente(0.01, 0.04, 0.012, V(xm(fy + 0.015) - 0.002, fy + 0.015, 0), 0, -0.45);
+      for (const lado of [1, -1]) lente(0.01, 0.012, 0.075, V(xm(fy + 0.05) - 0.01, fy + 0.05, lado * 0.035), lado * 0.6, -0.6);
+    } else if (formaFaro === "hunk") {
+      // Hunk 125R: faro LED rectangular ancho al centro con dos cejas diurnas en ángulo encima
+      caja(0.016, 0.05, 0.12, M.oscuro, V(xm(fy - 0.012) - 0.004, fy - 0.012, 0), decor, -0.2);
+      lente(0.01, 0.038, 0.105, V(xm(fy - 0.012) + 0.004, fy - 0.012, 0), 0, -0.2);
+      for (const lado of [1, -1]) lente(0.01, 0.011, 0.065, V(xm(fy + 0.042) - 0.006, fy + 0.042, lado * 0.05), lado * 0.35, -0.45);
+    } else if (formaFaro === "bikini") {
+      // Hunk 150: un solo faro ancho y anguloso con su marco negro y dos luces de posición chicas debajo
+      caja(0.016, 0.07, 0.13, M.oscuro, V(xm(fy + 0.01) - 0.004, fy + 0.01, 0), decor, -0.2);
+      lente(0.01, 0.058, 0.115, V(xm(fy + 0.01) + 0.004, fy + 0.01, 0), 0, -0.2);
+      for (const lado of [1, -1]) lente(0.008, 0.012, 0.03, V(xm(fy - 0.045) - 0.004, fy - 0.045, lado * 0.04), 0, -0.1);
     } else if (formaFaro === "gixxer") {
       // Gixxer: faro compacto horizontal con dos "cejas" de luz diurna encima
       lente(0.012, 0.04, 0.1, V(xm(fy - 0.015), fy - 0.015, 0), 0, -0.3);
@@ -644,7 +665,7 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       }
     }
     // Visera ahumada corta sobre la máscara (más alta en la Duke, casi nada en la FZ)
-    const alzaVisera = formaFaro === "duke" ? 0.03 : formaFaro === "fz" ? -0.03 : 0;
+    const alzaVisera = formaFaro === "duke" || formaFaro === "bikini" ? 0.03 : formaFaro === "fz" ? -0.03 : 0;
     const top = mascara.reduce((a, q) => (q[1] > a[1] ? q : a));
     perfil([[top[0] - 0.01, top[1]], [top[0] + 0.02, top[1] + 0.07 + alzaVisera], [top[0] - 0.05, top[1] + 0.09 + alzaVisera], [top[0] - 0.07, top[1] - 0.005]],
       anchoMascara - 0.03, M.vidrio, decor, 0, 0.006);
@@ -682,6 +703,22 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     const r = R.faro.r || 0.07;
     zona(disco(r + 0.012, 0.08, M.pintura, V(H.x + 0.08, H.y - 0.05, 0), decor, 24), "frontal").rotation.set(0, 0, Math.PI / 2 - 0.2);
     disco(r, 0.012, M.luz, V(H.x + 0.122, H.y - 0.04, 0), decor, 24).rotation.set(0, 0, Math.PI / 2 - 0.2);
+  } else if (tipo === "enduro" && formaFaro === "mascara") {
+    // Doble propósito con máscara alta tipo porta número (XR 190L del color de la moto, DR 150 negra): baja casi hasta
+    // el guardabarros alto, el faro rectangular adentro con su marco negro y una visera ahumada corta arriba
+    const f = R.faro, al = f.alto || 0.25, mc = f.color === "oscuro" ? M.oscuro : M.pintura;
+    // (inclinada con la horquilla y por delante de las barras, para no atravesarlas)
+    const fk = (y) => xF - (y - Rf) * Math.tan(rake) + 0.026;
+    const y0 = H.y - 0.185, y1 = y0 + al, yF = y1 - 0.06; // (abajo, justo encima del guardabarros alto)
+    const cara = [[fk(y0), y0 + 0.01], [fk(y0) + 0.055, y0], [fk(yF) + 0.075, yF], [fk(y1) + 0.03, y1], [fk(y1) - 0.005, y1 - 0.01]];
+    zona(perfil(cara, 0.2, mc, decor, 0, 0.012), "frontal"); // (tapa las barras de la horquilla por delante)
+    // Frente de la máscara (entre el 2.º y el 3.er punto del contorno) a una altura
+    const xf = (y) => cara[1][0] + (cara[2][0] - cara[1][0]) * (y - cara[1][1]) / (cara[2][1] - cara[1][1]) + 0.012;
+    const yL = y0 + (yF - y0) * 0.55, giro = Math.atan2(cara[2][0] - cara[1][0], cara[2][1] - cara[1][1]);
+    caja(0.016, 0.085, 0.115, M.oscuro, V(xf(yL) - 0.004, yL, 0), decor, -giro);
+    lente(0.01, 0.07, 0.1, V(xf(yL) + 0.002, yL, 0), 0, -giro);
+    const t = cara[3];
+    perfil([[t[0] - 0.01, t[1] - 0.005], [t[0] + 0.03, t[1] + 0.045], [t[0] - 0.02, t[1] + 0.055], [t[0] - 0.04, t[1] - 0.01]], 0.13, M.vidrio, decor, 0, 0.006);
   } else if (!scooter && !(tipo === "sport" && specs.carenado) && fam !== "semi") { // (las carenadas llevan los faros en el carenado)
     const faro = disco(tipo === "enduro" ? 0.06 : 0.085, 0.07, M.oscuro, V(H.x + 0.09, H.y - 0.06, 0), decor, 24);
     faro.rotation.set(0, 0, Math.PI / 2);
@@ -706,7 +743,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       : [[mx + 0.12, my - 0.06], [mx + 0.11, my + 0.02], [mx + 0.03, my + 0.06], [mx - 0.09, my + 0.045], [mx - 0.1, my - 0.03], [mx + 0.0, my - 0.09]];
     const tapaM = zona(panelAhusado(tapa, an + 0.12, M.pintura, (x) => (x > mx + 0.04 ? Math.max(0.55, 1 - (x - mx - 0.04) * 3.5) : 1), 0.025), "frontal");
     const en = sobre(tapaM, my - 0.03, 0);
-    if (en) {
+    // (la Dio actual lleva el faro en el escudo: su tapa de manubrio solo cubre los relojes)
+    if (en && !R.scooter?.faroEscudo) {
       pegar(caja(0.016, 0.06, an * 0.78, M.oscuro, V(), decor), en, V(1, 0, 0), 0.004);
       pegar(caja(0.008, 0.05, an * 0.7, M.luz, V(), decor), en, V(1, 0, 0), 0.012);
     }
@@ -1275,38 +1313,52 @@ export async function construirMoto(specs, colorPintura, linea = "") {
   // Tanque angosto, aletas grandes a los lados (como tomas de aire), asiento largo y plano, tapas laterales tipo
   // porta número bajo el asiento y colín largo y levantado con su stop. El guardabarros delantero alto es el común.
   function carroceriaEnduro(modelo) {
-    const xtz = modelo === "xtz";
     const aA = alturaAsiento;
+    const xtz = modelo === "xtz";
     const tx = H.x - (xtz ? 0.22 : 0.2), ty = aA + (xtz ? 0.05 : 0.06);
-    // Tanque: XTZ redondeado y bajo; TT más alto y cuadrado
-    zona(panelAhusado(xtz
-      ? [[tx + 0.2, ty - 0.04], [tx + 0.18, ty + 0.07], [tx + 0.06, ty + 0.1], [tx - 0.12, ty + 0.07], [tx - 0.2, ty - 0.02], [tx - 0.1, ty - 0.09], [tx + 0.12, ty - 0.09]]
-      : [[tx + 0.19, ty - 0.05], [tx + 0.19, ty + 0.09], [tx + 0.08, ty + 0.12], [tx - 0.12, ty + 0.1], [tx - 0.19, ty - 0.01], [tx - 0.1, ty - 0.1], [tx + 0.12, ty - 0.1]],
-    xtz ? 0.22 : 0.24, pintura, (x, y) => (x < tx - 0.04 ? Math.max(0.6, 1 - (tx - 0.04 - x) * 2) : 1) * (y < ty - 0.03 ? 0.75 : 1), 0.03), "tanque");
-    disco(0.028, 0.012, M.oscuro, V(tx + 0.02, ty + (xtz ? 0.1 : 0.12) + 0.03, 0), decor, 20);
-    disco(0.02, 0.016, M.cromo, V(tx + 0.02, ty + (xtz ? 0.1 : 0.12) + 0.036, 0), decor, 20);
+    // Contornos por modelo (desde el tanque tx/ty y la pipa H): tanque, aleta, ribete oscuro de la aleta y colín.
+    // XTZ: tanque redondeado y bajo; TT: más alto y cuadrado; XR 190L: aletas grandes que bajan hasta el frente del
+    // motor (estilo CRF); DR 150: tanque ancho arriba y aleta con la mitad de abajo negra
+    const E = {
+      xtz: { ancho: 0.22, tapa: 0.1, cola: [0.22, 0.05],
+        tanque: [[tx + 0.2, ty - 0.04], [tx + 0.18, ty + 0.07], [tx + 0.06, ty + 0.1], [tx - 0.12, ty + 0.07], [tx - 0.2, ty - 0.02], [tx - 0.1, ty - 0.09], [tx + 0.12, ty - 0.09]],
+        aleta: [[tx + 0.21, ty + 0.03], [H.x + 0.0, H.y - 0.08], [H.x - 0.03, H.y - 0.24], [tx + 0.02, ty - 0.2], [tx - 0.04, ty - 0.06]],
+        ribete: [[H.x - 0.02, H.y - 0.18], [H.x - 0.04, H.y - 0.25], [tx + 0.04, ty - 0.19], [tx + 0.09, ty - 0.14]] },
+      tt: { ancho: 0.24, tapa: 0.12, cola: [0.18, 0.04],
+        tanque: [[tx + 0.19, ty - 0.05], [tx + 0.19, ty + 0.09], [tx + 0.08, ty + 0.12], [tx - 0.12, ty + 0.1], [tx - 0.19, ty - 0.01], [tx - 0.1, ty - 0.1], [tx + 0.12, ty - 0.1]],
+        aleta: [[tx + 0.2, ty + 0.06], [H.x + 0.02, H.y - 0.05], [H.x - 0.01, H.y - 0.3], [tx + 0.0, ty - 0.24], [tx - 0.06, ty - 0.04]],
+        ribete: [[H.x - 0.0, H.y - 0.22], [H.x - 0.02, H.y - 0.31], [tx + 0.02, ty - 0.23], [tx + 0.08, ty - 0.17]] },
+      xr: { ancho: 0.23, tapa: 0.1, cola: [0.25, 0.065],
+        tanque: [[tx + 0.19, ty - 0.05], [tx + 0.18, ty + 0.075], [tx + 0.07, ty + 0.1], [tx - 0.12, ty + 0.075], [tx - 0.2, ty - 0.02], [tx - 0.1, ty - 0.1], [tx + 0.12, ty - 0.1]],
+        aleta: [[tx + 0.21, ty + 0.05], [H.x + 0.03, H.y - 0.05], [H.x + 0.01, H.y - 0.33], [tx - 0.02, ty - 0.29], [tx - 0.09, ty - 0.06]],
+        ribete: [[H.x + 0.0, H.y - 0.26], [H.x - 0.01, H.y - 0.34], [tx - 0.01, ty - 0.29], [tx + 0.06, ty - 0.22]] },
+      dr: { ancho: 0.27, tapa: 0.13, cola: [0.21, 0.05],
+        tanque: [[tx + 0.2, ty - 0.04], [tx + 0.2, ty + 0.1], [tx + 0.09, ty + 0.13], [tx - 0.12, ty + 0.1], [tx - 0.2, ty - 0.0], [tx - 0.1, ty - 0.1], [tx + 0.12, ty - 0.1]],
+        aleta: [[tx + 0.22, ty + 0.07], [H.x + 0.02, H.y - 0.05], [H.x - 0.01, H.y - 0.3], [tx + 0.0, ty - 0.25], [tx - 0.06, ty - 0.03]],
+        ribete: [[H.x + 0.0, H.y - 0.16], [H.x - 0.01, H.y - 0.3], [tx + 0.0, ty - 0.25], [tx - 0.05, ty - 0.1], [tx + 0.1, ty - 0.08]] },
+    };
+    const D = E[modelo] || E.tt; // (modelo desconocido: el de la TT)
+    const oscuras = R.enduro?.tapas === "oscuro"; // tapas laterales y colín negros (DR 150)
+    zona(panelAhusado(D.tanque, D.ancho, pintura, (x, y) => (x < tx - 0.04 ? Math.max(0.6, 1 - (tx - 0.04 - x) * 2) : 1) * (y < ty - 0.03 ? 0.75 : 1), 0.03), "tanque");
+    disco(0.028, 0.012, M.oscuro, V(tx + 0.02, ty + D.tapa + 0.03, 0), decor, 20);
+    disco(0.02, 0.016, M.cromo, V(tx + 0.02, ty + D.tapa + 0.036, 0), decor, 20);
     // Aletas laterales grandes, con un ribete oscuro abajo
     for (const lado of [1, -1]) {
-      const aleta = xtz
-        ? [[tx + 0.21, ty + 0.03], [H.x + 0.0, H.y - 0.08], [H.x - 0.03, H.y - 0.24], [tx + 0.02, ty - 0.2], [tx - 0.04, ty - 0.06]]
-        : [[tx + 0.2, ty + 0.06], [H.x + 0.02, H.y - 0.05], [H.x - 0.01, H.y - 0.3], [tx + 0.0, ty - 0.24], [tx - 0.06, ty - 0.04]];
-      zona(perfil(aleta, 0.016, pintura, decor, lado * 0.128, 0.006, true), "tanque");
-      perfil(xtz
-        ? [[H.x - 0.02, H.y - 0.18], [H.x - 0.04, H.y - 0.25], [tx + 0.04, ty - 0.19], [tx + 0.09, ty - 0.14]]
-        : [[H.x - 0.0, H.y - 0.22], [H.x - 0.02, H.y - 0.31], [tx + 0.02, ty - 0.23], [tx + 0.08, ty - 0.17]],
-      0.006, M.oscuro, decor, lado * 0.139, 0.003, true);
+      zona(perfil(D.aleta, 0.016, pintura, decor, lado * 0.128, 0.006, true), "tanque");
+      perfil(D.ribete, 0.006, M.oscuro, decor, lado * 0.139, 0.003, true);
     }
     // Asiento largo y plano, de la parte de atrás del tanque hasta la cola
     panelAhusado([[tx - 0.08, ty + 0.02], [tx - 0.02, ty + 0.06], [xR + 0.04, aA + 0.05], [xR - 0.02, aA + 0.025],
       [xR + 0.0, aA - 0.02], [tx - 0.06, ty - 0.03]], 0.19, M.asiento, (x) => (x > tx - 0.12 ? 0.8 : 1), 0.025);
     // Tapas laterales tipo porta número (segundo tono) bajo el asiento
     zona(panelAhusado([[P.x + 0.05, aA - 0.02], [xR + 0.12, aA - 0.0], [xR + 0.2, aA - 0.11], [P.x + 0.0, aA - 0.17]],
-      0.2, pintura, () => 1, 0.02), "lateral", "cola");
+      0.2, oscuras ? M.oscuro : pintura, () => 1, 0.02), "lateral", "cola");
     // Colín largo y levantado (guardabarros trasero de enduro) con su stop en la punta
-    zona(panelAhusado([[xR + 0.16, aA - 0.04], [xR - 0.04, aA + 0.03], [xR - (xtz ? 0.22 : 0.18), aA + (xtz ? 0.05 : 0.04)],
-      [xR - (xtz ? 0.21 : 0.17), aA + 0.015], [xR + 0.0, aA - 0.04], [xR + 0.12, aA - 0.09]], 0.16, pintura,
+    const [cl, ca] = D.cola;
+    zona(panelAhusado([[xR + 0.16, aA - 0.04], [xR - 0.04, aA + 0.03], [xR - cl, aA + ca],
+      [xR - cl + 0.01, aA + 0.015], [xR + 0.0, aA - 0.04], [xR + 0.12, aA - 0.09]], 0.16, oscuras ? M.oscuro : pintura,
     (x) => (x < xR ? Math.max(0.6, 1 - (xR - x) * 1.6) : 1), 0.015), "cola");
-    const posStop = V(xR - (xtz ? 0.2 : 0.16), aA + 0.03, 0);
+    const posStop = V(xR - cl + 0.02, aA + Math.max(0.03, ca - 0.02), 0);
     caja(0.022, 0.034, 0.08, M.oscuro, posStop.clone().add(V(0.008, 0, 0)), decor, 0.25);
     caja(0.012, 0.026, 0.07, M.stop, posStop, decor, 0.25);
   }
@@ -1318,8 +1370,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     carroceriaNmax(esAerox);
   } else if (scooter) {
     carroceriaScooter();
-  } else if (tipo === "enduro" && (esXtz || esTt)) {
-    carroceriaEnduro(esXtz ? "xtz" : "tt");
+  } else if (tipo === "enduro" && (esXtz || esTt || R.enduro?.modelo)) {
+    carroceriaEnduro(R.enduro?.modelo || (esXtz ? "xtz" : "tt"));
   } else if (fam === "semi") {
     carroceriaSemi();
   } else {
@@ -1340,12 +1392,17 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     }
     // Guardabarros delantero
     if (tipo === "enduro") {
-      perfil([[-0.2, 0], [0.25, 0.03], [0.24, -0.02], [-0.18, -0.05]], 0.1, pintura, decor, 0, 0.01)
-        .position.set(H.x - 0.04, H.y - 0.22, 0);
+      // Alto, de doble propósito: hoja larga unos 7 cm sobre la llanta, con la punta delantera levantada; pasa entre las
+      // barras de la horquilla y se sujeta a ellas con dos platinas (antes quedaba metido en el chasís, sin verse)
+      const yG = 2 * Rf + 0.075, xBarraG = xF - (yG - Rf) * Math.tan(rake);
+      const matG = R.enduro?.guarda === "oscuro" ? M.oscuro : pintura;
+      perfil([[-0.26, -0.035], [-0.02, 0.0], [0.2, 0.045], [0.235, 0.03], [0.21, 0.0], [-0.02, -0.03], [-0.25, -0.06]], 0.11, matG, decor, 0, 0.012)
+        .position.set(xF, yG, 0);
+      for (const lado of [1, -1]) tubo(V(xBarraG + 0.02, yG - 0.005, lado * 0.05), V(xBarraG, yG - 0.005, lado * zBarra), 0.008, M.oscuro, decor, 6);
     } else {
       // Cromado en las de trabajo (las que llevan parrilla) y en las semiautomáticas; negro en las naked; del color de
       // la moto en las commuter deportivas y las carenadas
-      const guardaMat = (fam === "clasica" && R.parrilla) || fam === "semi" ? M.cromo : naked ? M.oscuro : pintura;
+      const guardaMat = R.guardaPintado ? pintura : (fam === "clasica" && R.parrilla) || fam === "semi" ? M.cromo : naked ? M.oscuro : pintura;
       const guarda = malla(new THREE.TorusGeometry(Rf + 0.025, 0.012, 6, 24, Math.PI * (naked ? 0.42 : 0.5)), guardaMat, decor);
       guarda.position.set(xF, Rf, 0);
       guarda.rotation.z = Math.PI * (naked ? 0.28 : 0.22);
@@ -1782,7 +1839,17 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     const frenteEscudo = (y) => F1[0] + (F2[0] - F1[0]) * (y - F1[1]) / (F2[1] - F1[1]) + 0.03;
     const ambarEscudo = M.ambar;
     const giro = Math.atan2(F2[0] - F1[0], F2[1] - F1[1]);
-    if (!Sc.faroManubrio) {
+    if (Sc.faroEscudo) {
+      // Dio (fotos en manual_despiece/honda-dio-110): faro en V en el escudo, bajo la tapa del manubrio,
+      // con las direccionales ámbar a cada lado, más arriba y hacia afuera
+      const yF = H.y - 0.12;
+      const en = sobre(escudoM, yF, 0);
+      if (en) pegar(caja(0.018, 0.07, 0.15, M.oscuro, V(), decor), en, V(1, 0, 0), 0.004);
+      for (const lado of [1, -1]) {
+        const f = sobre(escudoM, yF - 0.008, lado * 0.035);
+        if (f) pegar(caja(0.008, 0.045, 0.075, M.luz, V(), decor), f, V(1, 0, 0), 0.012).rotateX(-lado * 0.35);
+      }
+    } else if (!Sc.faroManubrio) {
       // Dynamic Pro (fotos en manual_despiece/akt-dynamic-pro-125): dos faros lado a lado en el escudo, sobre un marco negro
       const yF = H.y - 0.13;
       const en = sobre(escudoM, yF, 0);
@@ -1793,6 +1860,11 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       }
     }
     for (const lado of [1, -1]) {
+      if (Sc.faroEscudo) {
+        const a = sobre(escudoM, H.y - 0.07, lado * 0.095);
+        if (a) pegar(caja(0.012, 0.04, 0.04, ambarEscudo, V(), decor), a, V(1, 0, 0), 0.007);
+        continue;
+      }
       const yA = redonda ? H.y - 0.02 : H.y - 0.21;
       caja(0.014, 0.025, 0.05, ambarEscudo, V(frenteEscudo(yA) - 0.01, yA, lado * (redonda ? 0.11 : 0.1)), decor, -giro);
     }
@@ -1937,6 +2009,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       const c = V(H.x - 0.06, H.y + altoManubrio + 0.06, z), n = V(-Math.sin(0.6), Math.cos(0.6), 0);
       disco(0.043, 0.045, aroMat, c, decor, 20).rotation.z = 0.6;
       disco(0.036, 0.004, M.pantalla, c.clone().addScaledVector(n, 0.024), decor, 20).rotation.z = 0.6;
+      // Soporte desde la tija superior (con manubrio alto, como la GN, los relojes quedaban sueltos en el aire)
+      tubo(V(H.x, H.y + 0.02, z * 0.4), c.clone().addScaledVector(n, -0.02), 0.009, M.oscuro, decor);
     }
   } else {
   const tablero = caja(0.07, 0.05, 0.14, M.tablero, V(H.x - 0.07, H.y + altoManubrio + 0.05, 0), decor);

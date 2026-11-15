@@ -35,7 +35,8 @@ const LINEAS = [
   // ----- Naked modernas -----
   [/duke/i, { faro: { forma: "duke" }, direccionales: { tipo: "led" }, stop: "led", escape: { forma: "bajo" }, horquillaInv: true, chasisColor: 0xf06a12, rinColor: 0xf06a12,
     tanque: { alto: 0.15, ancho: 0.32, largo: 0.21, nariz: 0.09 }, aleta: { largo: 0.16, baja: 0.12 }, colin: { alto: 0.2, largo: 0.17 } }],
-  [/mt-?03/i, { faro: { forma: "mt" }, direccionales: { tipo: "led" }, stop: "led", escape: { forma: "bajo", lata: 0.05 }, horquillaInv: true, tomasAire: true,
+  [/mt-?03/i, { faro: { forma: "mt" }, direccionales: { tipo: "redondas" }, // (fotos: direccionales redondas pequeñas, stop LED en la cola)
+    stop: "led", escape: { forma: "bajo", lata: 0.05 }, horquillaInv: true, tomasAire: true,
     tanque: { alto: 0.16, ancho: 0.4, largo: 0.24, nariz: 0.06 }, aleta: { largo: 0.26, baja: 0.2 }, colin: { alto: 0.15, largo: 0.2 } }],
   [/fz\s*25/i, { faro: { forma: "fz" }, tanque: { alto: 0.11, ancho: 0.46, largo: 0.29, nariz: 0.02 },
     aleta: { largo: 0.22, baja: 0.24 }, colin: { alto: 0.11, largo: 0.26 } }],
@@ -46,13 +47,41 @@ const LINEAS = [
   // (la NS 200 de 2017 en adelante lleva el silenciador bajo el motor, con las dos puntas junto al basculante)
   [/pulsar\s*ns/i, { faro: { forma: "ns" }, escape: { forma: "bajo", puntas: true },
     tanque: { alto: 0.135, ancho: 0.36, largo: 0.26, nariz: 0.08 }, aleta: { largo: 0.32, baja: 0.24 }, colin: { alto: 0.17, largo: 0.22 } }],
+  // Naked de 125–150 que por cilindraje caerían en "clásica" (fotos en manual_despiece/<moto>/fotos)
+  // Raider 125 (Auteco 2024–2026): tanque anguloso con aletas plateadas, faro LED en flecha con luces diurnas en "Y",
+  // mofle corto con protector, stop LED en la punta del colín, rines de aleación
+  [/raider/i, { familia: "naked", faro: { forma: "raider" }, stop: "led", rines: "aleacion", direccionales: { tipo: "led" },
+    tanque: { alto: 0.135, ancho: 0.36, largo: 0.25, nariz: 0.07 }, aleta: { largo: 0.22, baja: 0.17 }, escalon: 0.05,
+    colin: { alto: 0.16, largo: 0.21 }, escape: { forma: "corto", sube: 18 } }],
+  // Hunk 125R (Hero 2024–2026): tanque musculoso con aletas grandes que llegan hasta la horquilla, faro LED compacto
+  // con dos cejas diurnas, guardabarros delantero del color de la moto, colín alto con stop LED
+  // Hunk 150 (Hero Honda, 2007–2014; fotos de Commons): tanque grande con aletas, faro en carenado tipo bikini del
+  // color de la moto con visera, amortiguadores dobles con resorte rojo, mofle subido con protector, aleación
+  [/hunk\s*150/i, { familia: "naked", faro: { forma: "bikini" }, rines: "aleacion",
+    tanque: { alto: 0.14, ancho: 0.4, largo: 0.27, nariz: 0.05 }, aleta: { largo: 0.24, baja: 0.2 }, escalon: 0.03,
+    colin: { alto: 0.12, largo: 0.2 }, escape: { forma: "corto", sube: 12 } }],
+  [/hunk/i, { familia: "naked", faro: { forma: "hunk" }, stop: "led", rines: "aleacion", guardaPintado: true,
+    tanque: { alto: 0.145, ancho: 0.4, largo: 0.25, nariz: 0.08 }, aleta: { largo: 0.3, baja: 0.21 }, escalon: 0.06,
+    colin: { alto: 0.18, largo: 0.2 }, escape: { forma: "corto", sube: 24 } }],
+  // FZ 2.0 (FZ-S FI V2, B6U1): tanque ancho y bajo con aletas (antecesora de la FZ25), faro en trapecio con las dos
+  // luces de posición arriba, colín largo, mofle corto
+  [/\bfz\s*2|\bfz-?s\b|\bfz\s*16|\bfz\s*150/i, { familia: "naked", faro: { forma: "fz" }, rines: "aleacion", guardaPintado: true,
+    tanque: { alto: 0.12, ancho: 0.44, largo: 0.28, nariz: 0.03 }, aleta: { largo: 0.2, baja: 0.21 },
+    colin: { alto: 0.12, largo: 0.25 }, escape: { forma: "corto", sube: 14 } }],
+  // ----- Doble propósito (enduro) con carrocería propia -----
+  // XR 190L (Honda 2020–2026, inspirada en la CRF): aletas rojas grandes que bajan hasta el frente del motor, máscara
+  // alta del color de la moto con el faro adentro, guardabarros alto, asiento largo y plano, colín largo
+  [/\bxr\s*190/i, { enduro: { modelo: "xr" }, faro: { forma: "mascara", color: "pintura", alto: 0.21 } }],
+  // DR 150 (Suzuki 2021–2026): tanque más ancho arriba en el color de la versión, aletas con la mitad baja negra,
+  // tapas laterales y colín negros, máscara negra angulosa
+  [/\bdr\s*150/i, { enduro: { modelo: "dr", tapas: "oscuro", guarda: "oscuro" }, faro: { forma: "mascara", color: "oscuro", alto: 0.2 } }],
   // ----- Carenadas -----
   [/pulsar\s*rs/i, { carenado: { cupula: 0.24, cubre: 0.78, dobleFaro: true, quilla: true }, manubrio: "sobreTija",
     colin: { alto: 0.13, largo: 0.22 }, escape: { forma: "corto", sube: 22 } }],
   [/\brc\s*200/i, { carenado: { cupula: 0.12, cubre: 0.82, quilla: true }, manubrio: "clipon", estriberasAtras: true,
     colin: { alto: 0.19, largo: 0.24 }, escalon: 0.08, asientoPartido: true, escape: { forma: "bajo" } }],
   // ----- Scooters -----
-  [/dio/i, { scooter: { estilo: "redonda", faroManubrio: true } }],
+  [/dio/i, { scooter: { estilo: "redonda", faroManubrio: true, faroEscudo: true } }],
   [/dynamic/i, { scooter: { estilo: "angulosa", faroManubrio: false } }],
   // ----- Semiautomáticas -----
   [/wave/i, { faro: { forma: "manubrio", ancho: 0.15 }, semi: { escudo: "curvo", asientoLargo: 0.62 } }],
@@ -60,12 +89,18 @@ const LINEAS = [
   [/best/i, { faro: { forma: "redondo", r: 0.07, enHorquilla: true }, semi: { escudo: "curvo", asientoLargo: 0.58 } }],
   // ----- Clásicas y commuter -----
   [/\bgn\s*125/i, { tanque: { forma: "gota", alto: 0.1, ancho: 0.3, largo: 0.22 }, faro: { forma: "redondo", r: 0.095, cuba: true },
-    relojes: "dos", direccionales: { tipo: "redondas", cromo: true }, stop: "redondo", rines: "radios", asientoEscalonado: 0.07, colin: { forma: "corto", alto: 0.07, largo: 0.06 }, manubrio: "alto",
+    relojes: "dos", direccionales: { tipo: "redondas", cromo: true }, stop: "redondo", rines: "aleacion", // (GN 125 ABS actual: rines de aleación negros, fotos en manual_despiece/suzuki-gn-125)
+    asientoEscalonado: 0.07, colin: { forma: "corto", alto: 0.07, largo: 0.06 }, manubrio: "alto",
     escape: { forma: "clasico", sube: 9 }, parrilla: true, agarradera: null, guardaTrasCromo: true }],
+  // Boxer CT 125 (fotos Auteco 2024–2026): a diferencia de la CT 100, faro dentro de un carenado en trapecio con
+  // visera, tanque más anguloso, tapa lateral grande, colín largo con el stop en la punta y rines de aleación
+  [/boxer\s*ct\s*125|\bct\s*125/i, { tanque: { forma: "cuadrado", alto: 0.115, ancho: 0.32, largo: 0.26 }, faro: { forma: "trapecio", visera: true },
+    rines: "aleacion", direccionales: { tipo: "redondas" }, colin: { forma: "largo", alto: 0.02, largo: 0.16 }, parrilla: true,
+    agarradera: null, tapaRectangular: true, guardaPintado: true }],
   [/boxer/i, { tanque: { forma: "gota", alto: 0.09, ancho: 0.32, largo: 0.24 }, faro: { forma: "redondo", r: 0.085, visera: true },
     relojes: "uno", direccionales: { tipo: "redondas" }, stop: "guardabarros",
     colin: { forma: "plano", alto: -0.01, largo: 0.15 }, parrilla: true, agarradera: null, fuelles: true }],
-  [/discover/i, { tanque: { forma: "clasico", alto: 0.115, ancho: 0.33, largo: 0.27, aletas: true }, faro: { forma: "trapecio", visera: true },
+  [/discover/i, { tanque: { forma: "clasico", alto: 0.115, ancho: 0.33, largo: 0.27, aletas: true }, faro: { forma: "trapecio", visera: true }, rines: "aleacion",
     colin: { forma: "largo", alto: 0.02, largo: 0.16 }, parrilla: true, agarradera: null, tapaLarga: true }],
   [/eco\s*deluxe/i, { tanque: { forma: "cuadrado", alto: 0.135, ancho: 0.32, largo: 0.28 }, faro: { forma: "rectangular" }, relojes: "uno",
     // (fotos de la HF Deluxe/HF 100 en manual_despiece/hero-eco-deluxe-100: rines de aleación de 5 brazos, direccionales de bombillo)

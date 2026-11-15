@@ -540,7 +540,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Rayos X, piezas sin estado: no se dibujan (material.visible = false, sin call) pero siguen tocándose con el rayo
   // (Mesh.raycast no mira el material); de ellas solo se ven sus bordes, todos juntos en una sola malla de líneas.
   const invisible = new THREE.MeshBasicMaterial({ visible: false });
-  const bordes = { malla: null, clave: "" };
+  const bordes = { malla: null, clave: "", listos: false };
   function actualizarBordes(lista) {
     const clave = lista.map((o) => o.id).join(",");
     if (bordes.clave === clave) { if (bordes.malla) bordes.malla.visible = lista.length > 0; return; }
@@ -691,6 +691,10 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     renderer.shadowMap.needsUpdate = true;
   }
 
+  // Oculta por un padre (accesorio no puesto, estilo de rin o espejo sin usar, escape de fábrica cambiado…): en Rayos X
+  // los bordes y los grupos se juntan en mallas colgadas de la raíz, así que hay que mirar toda la cadena.
+  const ocultaArriba = (o) => { for (let p = o.parent; p && p !== moto.raiz; p = p.parent) if (!p.visible) return true; return false; };
+
   function aplicarModo() {
     contenedor.classList.toggle("rayos", modo === "rayos");
     calcas.forEach((c) => { c.visible = modo === "moto"; });
@@ -708,6 +712,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       const estado = pieza && estadoDe(pieza);
       const interno = Boolean(obj.userData.interno);
       obj.visible = (!interno || modo === "rayos") && !obj.userData.oculto;
+      const seVe = obj.visible && !ocultaArriba(obj);
 
       if (modo === "moto") {
         obj.material = obj.userData.original;
@@ -719,14 +724,15 @@ async function iniciar(lecturaCache = Promise.resolve()) {
           obj.userData.matRayos = m;
         }
         obj.material = obj.userData.matRayos;
-        grupos.lista.push(obj);
+        if (seVe) grupos.lista.push(obj);
       } else {
-        if (obj.visible && !obj.isInstancedMesh) conBorde.push(obj);
+        if (seVe && !obj.isInstancedMesh) conBorde.push(obj);
         obj.material = invisible;
       }
-      obj.castShadow = modo === "moto" || (Boolean(estado) && obj.visible);
+      obj.castShadow = modo === "moto" || (Boolean(estado) && seVe);
     }
-    actualizarBordes(modo === "rayos" ? conBorde : []);
+    // (al abrir, las aristas de Rayos X se calculan después del primer cuadro: costaban ~0,1 s antes de verlo)
+    if (bordes.listos) actualizarBordes(modo === "rayos" ? conBorde : []);
     agruparRayos();
     agruparMoto();
     resaltar(seleccionada);
@@ -1332,7 +1338,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     calcas.length = 0;
     estadoCalcas.forEach((e) => calcas.push(...e.mallas));
     aplicarFabrica(cfg); // (las de fábrica: según la pintura y las que se quitaron)
-    agruparMoto();
+    // (en Rayos X, los bordes y grupos se rehacen con los accesorios que quedaron puestos)
+    if (modo === "rayos" && bordes.listos) aplicarModo(); else agruparMoto();
     ultimaCfg = cfg;
     ponerMarco();
     pedirCuadro();
@@ -1593,7 +1600,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   new ResizeObserver(ajustarTamano).observe(contenedor);
   ajustarTamano();
 
-  aplicarModo();
+  medir("modo1", aplicarModo);
   // Al abrir, selecciona lo más urgente para que se vea de una vez qué toca.
   const urgente = Object.entries(datos.piezas).find(([, p]) => p.estado === "vencido");
   if (urgente && contenedor.clientWidth >= 640) seleccionar(urgente[0]);
@@ -1658,7 +1665,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // translúcidas o con el material de otra). Después de unir se vuelve a aplicar el modo.
   moto.raiz.traverse((o) => { if (o.isMesh && o.userData.original) o.material = o.userData.original; });
   const mallasUnidas = medir("unirEstaticas", () => unirEstaticas(moto.raiz, [...moto.ruedas.map((r) => r.pivote), moto.pata].filter(Boolean), !vitrina));
-  aplicarModo();
+  medir("modo2", aplicarModo);
+  marcar("unido");
   // Compila los sombreadores antes del primer cuadro, en paralelo y sin congelar la página (si no, el primer
   // cuadro se lleva de 0,4 a 1,3 s en un computador, y bastante más en un celular, con todo quieto).
   // Primer cuadro en dos tiempos: primero sin sombras (sombreadores más simples: la moto aparece antes) y las
@@ -1673,7 +1681,35 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     try { await extras(); generarReflejos(); } catch { /* sin reflejos de estudio: queda la luz de relleno */ }
     pintarVivo(transicion.k);
   }
+  // Boceto en la ficha: compilar los sombreadores reales tarda ~0,6 s en un computador (varios segundos en un
+  // celular). Mientras tanto se muestra un cuadro hecho con materiales simples (un solo sombreador Lambert, con el
+  // color de cada pieza), congelado como imagen sobre el lienzo, hasta que llega el primer cuadro real.
+  let boceto = null;
+  if (!vitrina && enPantalla && !document.hidden) {
+    const simples = new Map(), cambiados = [];
+    escena.traverseVisible((o) => {
+      if (!o.isMesh || !o.material || Array.isArray(o.material) || o.material.visible === false) return;
+      const m = o.material;
+      if (!simples.has(m)) simples.set(m, new THREE.MeshLambertMaterial({ color: m.color ?? 0x8a8f94, transparent: m.transparent, opacity: m.opacity, side: m.side, depthWrite: m.depthWrite }));
+      cambiados.push([o, m]);
+      o.material = simples.get(m);
+    });
+    try {
+      renderer.render(escena, camara);
+      boceto = document.createElement("canvas");
+      boceto.width = renderer.domElement.width;
+      boceto.height = renderer.domElement.height;
+      boceto.getContext("2d").drawImage(renderer.domElement, 0, 0);
+      boceto.style.cssText = "position:absolute;inset:0;width:100%;height:100%;pointer-events:none";
+      renderer.domElement.after(boceto);
+      cargando?.remove();
+    } catch { boceto = null; }
+    for (const [o, m] of cambiados) o.material = m;
+    for (const s of simples.values()) s.dispose();
+    marcar("boceto");
+  }
   try { await renderer.compileAsync(escena, camara); } catch { /* sin compilación previa: se compila al dibujar */ }
+  marcar("compilaAsync");
   if (paginaCerrada) return; // (se salió de la página mientras compilaba: el contexto ya se liberó)
   await precalentar();
   if (paginaCerrada) return;
@@ -1736,6 +1772,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     sombras.desde = performance.now();
     necesitaCuadro = false;
   }
+  // (el cuadro real ya se dibujó: se quita el boceto en el próximo refresco, para que no parpadee)
+  if (boceto) requestAnimationFrame(() => boceto.remove());
+  // Las aristas de Rayos X, en cuanto la página quede libre
+  const conAristas = () => { if (paginaCerrada) return; bordes.listos = true; aplicarModo(); pedirCuadro(); };
+  if (window.requestIdleCallback) requestIdleCallback(conAristas, { timeout: 600 }); else setTimeout(conAristas, 200);
   cargando?.remove();
   document.getElementById("visor-ayuda").hidden = false;
   window.__moto3dListo = true;

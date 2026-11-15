@@ -16,6 +16,8 @@ export const FUENTES = {
   akt: { familia: "Orbitron", peso: 900, cursiva: false, sesgo: -0.12, espaciado: 0.03, ancho: 1 },
   tvs: { familia: "Racing Sans One", peso: 400, cursiva: false, sesgo: -0.04, espaciado: 0.02, ancho: 1 },
   hero: { familia: "Rajdhani", peso: 700, cursiva: false, sesgo: -0.12, espaciado: 0.02, ancho: 1 },
+  tvs_script: { familia: "Kanit", peso: 600, cursiva: true, sesgo: -0.3, espaciado: 0, ancho: 1.05 },
+  cuadrada: { familia: "Orbitron", peso: 800, cursiva: false, sesgo: -0.18, espaciado: 0.06, ancho: 1.1 },
   generica: { familia: "Oswald", peso: 700, cursiva: false, sesgo: -0.1, espaciado: 0.04, ancho: 1 },
 };
 const MARCAS = [[/yamaha/i, "yamaha"], [/ktm/i, "ktm"], [/bajaj|pulsar|boxer|discover|dominar/i, "bajaj"], [/suzuki|gixxer|\bgn\b/i, "suzuki"],
@@ -41,41 +43,143 @@ const LINEAS = [
     F(["lateral"], { id: "rayas", nombre: "Rayas traseras", forma: "rayas", posicion: -0.6, altura: 0.15, ancho: 0.13, giro: 0, color: "vivo:#35c4ef", color2: "letra" }),
     F(["lateral"], { id: "filete", nombre: "Filete", forma: "filete", posicion: -0.05, altura: -0.6, ancho: 0.62, giro: 5, color: "vivo:#35c4ef", color2: "gris" }),
     { id: "abs", nombre: "ABS", tipo: "texto", texto: "ABS", zona: ["lateral"], cara: "lado", posicion: -0.72, altura: 0.45, ancho: 0.05, color: "gris" }]],
-  [/fz\s*25/i, () => [N("FZ25", ["tanque"], { ancho: 0.2 }), F(["tanque"], { altura: -0.5 })]],
+  // FZ25 (fotos 2024–2026): sobria; "FZ" plateado en la cubierta negra del tanque, "25" del color de la versión
+  // debajo y "ABS" chico en el guardabarros
+  [/fz\s*25/i, () => [N("FZ", ["tanque"], { posicion: 0.55, altura: -0.45, ancho: 0.09, color: "gris" }),
+    C("25", ["tanque"], { posicion: 0.6, altura: -0.75, ancho: 0.05, color: "vivo:#3a5bd9", color2: "contorno" }),
+    { id: "abs", nombre: "ABS", tipo: "texto", texto: "ABS", zona: ["frontal"], cara: "lado", posicion: 0.6, altura: -0.6, ancho: 0.04, color: "gris" }]],
+  // FZ 2.0 (FZ-S FI V2, fotos de Commons): "FZ-S" plateado grande en la aleta, barra del color de la versión encima
+  // y "FI" chico en la tapa lateral
+  [/\bfz\s*2(?!5)|\bfz-?s\b|\bfz\s*1[56]/i, () => [N("FZ-S", ["tanque"], { posicion: 0.3, altura: -0.35, ancho: 0.13, giro: 4, color: "gris" }),
+    F(["tanque"], { id: "barra", nombre: "Barra de la aleta", forma: "barra", angosto: 0.6, posicion: 0.3, altura: 0.05, ancho: 0.17, giro: 6, color: "vivo:#2a8fd6" }),
+    C("FI", ["lateral", "cola"], { posicion: 0, altura: -0.2, ancho: 0.05, color: "gris", color2: "contorno" })]],
   [/\bfz/i, () => [N("FZ", ["tanque"], { ancho: 0.16 }), F(["tanque"], { altura: -0.5 })]],
-  [/xtz\s*250/i, () => [N("XTZ", ["tanque"], { ancho: 0.2 }), C("250", ["lateral", "cola"], { ancho: 0.11 })]],
-  [/xtz\s*150/i, () => [N("XTZ", ["tanque"], { ancho: 0.2 }), C("150", ["lateral", "cola"], { ancho: 0.11 })]],
-  [/xtz/i, () => [N("XTZ", ["tanque"], { ancho: 0.2 }), C("125", ["lateral", "cola"], { ancho: 0.11 })]],
-  [/mt-?03/i, () => [N("MT-03", ["tanque"], { ancho: 0.22 }), F(["tanque"], { altura: -0.5 })]],
-  [/crypton/i, () => [N("CRYPTON", ["lateral"], { ancho: 0.3, altura: 0.2 }), F(["lateral"], { altura: -0.3 })]],
+  // XTZ (fotos XTZ150 2024–2026): "XTZ150" plateado arriba en la cubierta del tanque, bloques inclinados del
+  // color de la versión debajo y una barra en la cola
+  [/xtz/i, (l) => [N("XTZ" + ((l.match(/\b(125|150|250)\b/) || [, "125"])[1]), ["tanque"], { posicion: 0.05, altura: 0.1, ancho: 0.16, giro: 6, color: "gris" }),
+    F(["tanque"], { id: "rayas", nombre: "Bloques del tanque", forma: "rayas", rayas: 4, posicion: 0.1, altura: -0.15, ancho: 0.11, color: "vivo:#2f5fd6", color2: "vivo:#2f5fd6" }),
+    F(["cola", "lateral"], { id: "barra", nombre: "Barra de la cola", forma: "barra", angosto: 0.6, posicion: 0, altura: 0, ancho: 0.2, giro: 8, color: "vivo:#2f5fd6" })]],
+  // MT-03 (fotos 2025): en la cubierta delantera del tanque, una barra inclinada del color de la versión y "MT-03"
+  // oscuro de letra cuadrada debajo
+  [/mt-?03/i, () => [F(["tanque"], { id: "barra", nombre: "Barra del tanque", forma: "barra", angosto: 0.55, posicion: 0.2, altura: 0.1, ancho: 0.2, giro: -18, color: "vivo:#29a8e8" }),
+    N("MT-03", ["tanque"], { fuente: "cuadrada", posicion: 0.3, altura: -0.45, ancho: 0.11, giro: -12, color: "letra" })]],
+  // Crypton FI (fotos 2026): filete morado a lo largo de la cola, "CRYPTON" chico arriba, "115" oscuro atrás y una
+  // franja morada en el escudo
+  [/crypton/i, () => [F(["lateral"], { id: "filete", nombre: "Filete", forma: "filete", posicion: -0.25, altura: 0.05, ancho: 0.5, giro: -8, color: "vivo:#7b4fb0", color2: "vivo:#7b4fb0" }),
+    N("CRYPTON", ["lateral"], { posicion: -0.5, altura: 0.5, ancho: 0.13, giro: -5, color: "vivo:#7b4fb0" }),
+    C("115", ["lateral"], { posicion: -0.7, altura: 0.25, ancho: 0.06, color: "letra", color2: "contorno" }),
+    F(["frontal"], { id: "barra", nombre: "Franja del escudo", forma: "barra", angosto: 0.5, posicion: 0, altura: 0, ancho: 0.14, giro: 60, color: "vivo:#7b4fb0" })]],
   [/bws/i, () => [N("BWS", ["lateral"], { ancho: 0.24, altura: 0.2 }), F(["lateral"], { altura: -0.3 })]],
-  [/duke/i, (l) => [N("DUKE", ["tanque"], { ancho: 0.24 }), C((l.match(/\b(125|200|250|390)\b/) || [, "200"])[1], ["lateral", "cola"], { ancho: 0.1 }),
-    F(["tanque"], { altura: -0.5, giro: -8 })]],
-  [/\brc\s*200/i, () => [N("RC", ["frontal"], { posicion: -0.2, altura: 0.05, ancho: 0.2 }), C("200", ["lateral", "cola"], { ancho: 0.11 }),
-    F(["frontal"], { posicion: -0.1, altura: -0.45, ancho: 0.4, giro: -6 })]],
+  // Duke (fotos 200 de 2024–2026): "200" naranja enorme y ladeado en la cubierta blanca del tanque, filete naranja
+  // y "DUKE" chico oscuro en la cola
+  [/duke/i, (l) => [C((l.match(/\b(125|200|250|390)\b/) || [, "200"])[1], ["tanque"], { posicion: 0.15, altura: -0.25, ancho: 0.22, giro: 10, color: "vivo:#f26a1b", color2: "contorno", estirar: 1.2 }),
+    F(["tanque"], { id: "filete", nombre: "Filete", forma: "filete", posicion: 0.1, altura: 0.3, ancho: 0.3, giro: 6, color: "vivo:#f26a1b", color2: "gris" }),
+    N("DUKE", ["lateral", "cola"], { posicion: -0.2, altura: -0.1, ancho: 0.1, color: "letra" })]],
+  // RC 200 (fotos 2024–2026): en el costado del carenado, cortes angulares claros, "RC" grande claro con "200"
+  // naranja debajo, y un filete naranja en la cola
+  [/\brc\s*200/i, () => [F(["frontal"], { id: "rayas", nombre: "Cortes del carenado", forma: "rayas", rayas: 3, posicion: -0.45, altura: -0.05, ancho: 0.14, color: "letra", color2: "letra" }),
+    N("RC", ["frontal"], { posicion: 0.05, altura: 0.15, ancho: 0.13, color: "letra" }),
+    C("200", ["frontal"], { posicion: 0.1, altura: -0.25, ancho: 0.07, color: "vivo:#f26a1b", color2: "contorno" }),
+    F(["cola", "lateral"], { id: "barra", nombre: "Barra de la cola", forma: "barra", angosto: 0.6, posicion: 0, altura: 0, ancho: 0.2, giro: 8, color: "vivo:#f26a1b" })]],
   [/\brc\s*390/i, () => [N("RC", ["frontal"], { posicion: -0.2, altura: 0.05, ancho: 0.2 }), C("390", ["lateral", "cola"], { ancho: 0.11 })]],
-  [/pulsar\s*ns/i, (l) => [N("PULSAR", ["tanque"], { ancho: 0.28 }), C("NS" + ((l.match(/\b(125|160|200)\b/) || [, "200"])[1]), ["lateral", "cola"], { ancho: 0.14 }),
-    F(["tanque"], { altura: -0.5, giro: -5 })]],
-  [/pulsar\s*rs/i, () => [N("PULSAR", ["frontal"], { posicion: -0.15, altura: 0.05, ancho: 0.3 }), C("RS200", ["lateral", "cola"], { ancho: 0.15 }),
-    F(["frontal"], { posicion: -0.1, altura: -0.45, ancho: 0.42 })]],
+  // Pulsar NS (fotos NS200 2024–2026): "200" grande con borde rojo en la cubierta del tanque, rayas rojas y azules
+  // que suben hacia atrás y "NS" chico en la cola
+  [/pulsar\s*ns/i, (l) => [C((l.match(/\b(125|160|200)\b/) || [, "200"])[1], ["tanque"], { posicion: 0.2, altura: -0.35, ancho: 0.17, giro: 8, color: "vivo:#1f3a8a", color2: "#c4161c" }),
+    F(["tanque"], { id: "rayas", nombre: "Rayas del tanque", forma: "rayas", posicion: -0.4, altura: 0.1, ancho: 0.1, color: "#c4161c", color2: "vivo:#1f3a8a" }),
+    N("NS", ["cola", "lateral"], { posicion: 0, altura: 0.1, ancho: 0.06, color: "gris" })]],
+  // Pulsar RS 200 (fotos 2024–2026): carenado sobrio; "RS200" claro abajo en el carenado, sobre la quilla, y
+  // "PULSAR" chico gris arriba
+  [/pulsar\s*rs/i, () => [C("RS200", ["frontal"], { posicion: -0.1, altura: -0.5, ancho: 0.14, color: "letra", color2: "contorno" }),
+    N("PULSAR", ["frontal"], { posicion: -0.3, altura: 0.35, ancho: 0.12, color: "gris" })]],
   [/pulsar/i, () => [N("PULSAR", ["tanque"], { ancho: 0.28 }), F(["tanque"], { altura: -0.5 })]],
-  [/boxer/i, () => [N("BOXER", ["tanque"], { ancho: 0.24 }), F(["tanque"], { altura: -0.5 })]],
-  [/discover/i, () => [N("DISCOVER", ["tanque"], { ancho: 0.3 }), F(["tanque"], { altura: -0.5 })]],
+  // Boxer CT 100 (fotos pocas y dudosas): cuña azul y blanca en el tanque con "CT" grande cursivo encima y "BOXER"
+  // chico en la tapa lateral
+  // Boxer CT 125 (fotos Galgo 2024–2026): cuña lima y negra en el tanque, "CT125" lima en cursiva encima y "BOXER"
+  // chico en la tapa lateral
+  [/boxer\s*ct\s*125|\bct\s*125/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.4, posicion: 0.05, altura: -0.3, ancho: 0.26, color: "vivo:#b5e61d", color2: "#1b1e20" }),
+    N("CT125", ["tanque"], { posicion: 0.0, altura: 0.1, ancho: 0.11, color: "vivo:#b5e61d", color2: "contorno" }),
+    N("BOXER", ["lateral", "cola"], { id: "modelo", nombre: "BOXER", posicion: 0, altura: -0.2, ancho: 0.1, color: "gris" })]],
+  [/boxer/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.4, posicion: 0, altura: -0.25, ancho: 0.26, color: "vivo:#2a4bd0", color2: "#ffffff" }),
+    N("CT", ["tanque"], { id: "ct", nombre: "CT", posicion: -0.05, altura: 0.1, ancho: 0.08, color: "letra" }),
+    N("BOXER", ["lateral", "cola"], { posicion: 0, altura: -0.2, ancho: 0.1, color: "gris" })]],
+  // Discover 125 (fotos pocas): sobria; barra amarilla fina en la cubierta del tanque y "DISCOVER" chico gris
+  [/discover/i, () => [F(["tanque"], { id: "barra", nombre: "Barra del tanque", forma: "barra", angosto: 0.6, posicion: 0.2, altura: -0.3, ancho: 0.16, giro: 4, color: "vivo:#e2d21f" }),
+    N("DISCOVER", ["tanque"], { posicion: 0.15, altura: -0.6, ancho: 0.13, color: "gris" })]],
   [/gixxer\s*sf/i, () => [N("GIXXER SF", ["frontal"], { posicion: -0.15, altura: 0.05, ancho: 0.34 }), F(["frontal"], { posicion: -0.1, altura: -0.45, ancho: 0.42 })]],
-  [/gixxer/i, () => [N("GIXXER", ["tanque"], { ancho: 0.28 }), F(["tanque"], { altura: -0.5, giro: -5 })]],
-  [/\bgn\s*125/i, () => [N("GN125", ["lateral", "cola"], { ancho: 0.14 }), F(["tanque"], { altura: 0.05, ancho: 0.36 })]],
-  [/nkd/i, () => [N("NKD", ["tanque"], { ancho: 0.2 }), C("125", ["lateral", "cola"], { ancho: 0.1 }), F(["tanque"], { altura: -0.5, giro: -6 })]],
-  [/cr4/i, () => [N("CR4", ["tanque"], { ancho: 0.2 }), C("125", ["lateral", "cola"], { ancho: 0.1 }), F(["tanque"], { altura: -0.5, giro: -6 })]],
+  // Gixxer 150 (fotos 2024–2026): en la cubierta del tanque, una fila de trazos claros hacia adelante, un filete
+  // claro y "GIXXER" del color de la versión abajo; barra del mismo color en la cola
+  [/gixxer/i, () => [F(["tanque"], { id: "trazos", nombre: "Trazos del tanque", forma: "trazos", angosto: 0.7, posicion: 0.15, altura: -0.15, ancho: 0.15, color: "letra" }),
+    N("GIXXER", ["tanque"], { posicion: 0.35, altura: -0.6, ancho: 0.15, giro: 6, color: "vivo:#1f6fd1" }),
+    F(["cola", "lateral"], { id: "barra", nombre: "Barra de la cola", forma: "barra", angosto: 0.6, posicion: 0, altura: 0, ancho: 0.18, giro: 10, color: "vivo:#1f6fd1" })]],
+  // GN 125 (fotos 2024–2026): "GN" grande rojo con borde oscuro en el tanque sobre una cuña roja; en la tapa lateral,
+  // barra roja y "GN125F" chico
+  [/\bgn\s*125/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.4, posicion: -0.05, altura: -0.15, ancho: 0.24, color: "#c4161c", color2: "#141414" }),
+    N("GN", ["tanque"], { posicion: 0.05, altura: -0.1, ancho: 0.11, color: "#c4161c", color2: "#141414" }),
+    F(["lateral", "cola"], { id: "barra", nombre: "Barra lateral", forma: "barra", angosto: 0.6, posicion: 0, altura: 0.1, ancho: 0.13, color: "#c4161c" }),
+    N("GN125F", ["lateral", "cola"], { id: "modelo", nombre: "Modelo GN125F", posicion: 0, altura: -0.45, ancho: 0.08, color: "gris" })]],
+  // NKD (fotos AKT 2026): tanque liso con un bloque oscuro adelante arriba y una barra lima detrás; barra lima y
+  // "NKD" chico en la tapa lateral
+  [/nkd/i, () => [F(["tanque"], { id: "flecha", nombre: "Flecha del tanque", forma: "flecha", angosto: 0.4, posicion: 0.35, altura: 0.1, ancho: 0.17, color: "vivo:#c6e23a", color2: "#1b1e20" }),
+    F(["lateral", "cola"], { id: "barra", nombre: "Barra lateral", forma: "barra", angosto: 0.6, posicion: 0.1, altura: -0.3, ancho: 0.14, color: "vivo:#c6e23a" }),
+    N("NKD", ["lateral", "cola"], { posicion: 0, altura: -0.52, ancho: 0.07, color: "gris" })]],
+  // CR4 (fotos AKT 2026): "125" lima enorme en el costado del tanque, "CR4" hueco gris en la tapa del tanque y un
+  // filete lima en la cola
+  [/cr4/i, () => [C("125", ["tanque"], { posicion: -0.1, altura: -0.1, ancho: 0.22, color: "vivo:#b5e61d", color2: "contorno", estirar: 1.25 }),
+    N("CR4", ["tanque"], { posicion: 0.6, altura: -0.05, ancho: 0.15, giro: 22, contorno: true, color: "gris" }),
+    F(["cola"], { id: "filete", nombre: "Filete de la cola", forma: "filete", posicion: 0, altura: 0.1, ancho: 0.32, giro: 8, color: "vivo:#b5e61d", color2: "gris" })]],
   [/ttr/i, () => [N("TTR", ["tanque"], { ancho: 0.2 }), C("125", ["lateral", "cola"], { ancho: 0.1 })]],
-  [/dynamic/i, () => [N("DYNAMIC", ["lateral"], { ancho: 0.3, altura: 0.2 }), F(["lateral"], { altura: -0.3 })]],
-  [/\bdio\b/i, () => [N("Dio", ["lateral"], { ancho: 0.2, altura: 0.2 }), F(["lateral"], { altura: -0.3 })]],
-  [/cb\s*125/i, () => [N("CB125F", ["tanque"], { ancho: 0.24 }), F(["tanque"], { altura: -0.5 })]],
+  // Dynamic Pro (fotos AKT 2026): "DYNAMIC" claro subiendo en la tapa trasera, filete lima por el borde del
+  // carenado y "125" chico en el escudo
+  [/dynamic/i, () => [N("DYNAMIC", ["lateral"], { posicion: -0.5, altura: 0.35, ancho: 0.27, giro: 12, color: "letra" }),
+    F(["lateral"], { id: "filete", nombre: "Filete", forma: "filete", posicion: -0.3, altura: -0.1, ancho: 0.38, giro: 10, color: "vivo:#c6e23a", color2: "vivo:#c6e23a" }),
+    C("125", ["frontal"], { posicion: 0.2, altura: 0.2, ancho: 0.06, color: "gris", color2: "contorno" })]],
+  // Dio (fotos 2024–2026): muy sobria; solo "Dio" chico en cursiva gris en el costado trasero
+  [/\bdio\b/i, () => [N("Dio", ["lateral"], { fuente: "tvs_script", posicion: -0.4, altura: 0.3, ancho: 0.08, color: "gris" })]],
+  // CB125F (fotos 2024–2026): "CB" grande claro en la cubierta del tanque con rayas rojas detrás y "CB125F" chico
+  // en la tapa lateral
+  [/cb\s*125/i, () => [F(["tanque"], { id: "rayas", nombre: "Rayas del tanque", forma: "rayas", rayas: 5, posicion: -0.15, altura: -0.2, ancho: 0.13, color: "vivo:#d0202a", color2: "vivo:#d0202a" }),
+    N("CB", ["tanque"], { posicion: 0.25, altura: -0.1, ancho: 0.1, contorno: true, color: "letra" }),
+    N("CB125F", ["lateral", "cola"], { id: "modelo", nombre: "Modelo CB125F", posicion: 0, altura: -0.3, ancho: 0.08, color: "gris" })]],
   [/cb\s*1[69]0/i, (l) => [N("CB" + (l.match(/\b(160|190)\b/) || [, "190"])[1], ["tanque"], { ancho: 0.24 }), F(["tanque"], { altura: -0.5 })]],
-  [/\bxr\s*\d/i, (l) => [N("XR" + (l.match(/\b(125|150|190)\b/) || [, "150"])[1] + "L", ["tanque"], { ancho: 0.22 }), F(["lateral", "cola"], { altura: 0, ancho: 0.3 })]],
-  [/wave/i, () => [N("WAVE", ["lateral"], { ancho: 0.24, altura: 0.2 }), F(["lateral"], { altura: -0.3 })]],
-  [/apache/i, () => [N("APACHE", ["tanque"], { ancho: 0.26 }), C("RTR", ["lateral", "cola"], { ancho: 0.11 }), F(["tanque"], { altura: -0.5, giro: -6 })]],
-  [/eco\s*deluxe/i, () => [N("ECO DELUXE", ["tanque"], { ancho: 0.3 }), F(["tanque"], { altura: -0.5 })]],
-  [/\bbest\b/i, () => [N("BEST", ["lateral", "cola"], { ancho: 0.16 }), F(["tanque"], { altura: -0.5 })]],
+  // XR 190L (fotos Galgo 2020–2026): cuña blanca y negra grande en la aleta con "XR190L" blanco de borde negro encima
+  [/\bxr\s*190/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña de la aleta", angosto: 0.45, posicion: 0.0, altura: -0.25, ancho: 0.28, color: "#f2f2f2", color2: "#141414" }),
+    N("XR190L", ["tanque"], { posicion: 0.05, altura: 0.05, ancho: 0.17, giro: 8, color: "#f4f4f2", color2: "#141414" })]],
+  // DR 150 (fotos Galgo 2025): filete del color de la versión a lo largo de la tapa lateral negra y "DR150" claro
+  [/\bdr\s*150/i, () => [F(["lateral", "cola"], { id: "filete", nombre: "Filete lateral", forma: "filete", posicion: 0, altura: -0.1, ancho: 0.3, giro: 6, color: "vivo:#d6e02a", color2: "vivo:#d6e02a" }),
+    N("DR150", ["tanque"], { posicion: -0.05, altura: -0.45, ancho: 0.11, color: "#e8e8e8" })]],
+  // Raider 125 (fotos Auteco 2024–2026): rayas finas en la aleta, "125" con borde en el tanque y "RAIDER" en la tapa
+  [/raider/i, () => [F(["tanque"], { id: "rayas", nombre: "Rayas de la aleta", forma: "rayas", rayas: 3, posicion: 0.2, altura: -0.35, ancho: 0.1, color: "letra", color2: "vivo:#e23b2e" }),
+    C("125", ["tanque"], { posicion: -0.2, altura: 0.0, ancho: 0.07, color: "vivo:#e23b2e", color2: "contorno" }),
+    N("RAIDER", ["lateral", "cola"], { posicion: 0, altura: -0.2, ancho: 0.12, color: "letra" })]],
+  // Hunk 150 (Hero Honda 2007–2014, fotos de Commons): "Hunk" grande en cursiva en el tanque, franja del color de la
+  // gráfica en la aleta y "150" chico en la tapa lateral
+  [/hunk\s*150/i, () => [N("Hunk", ["tanque"], { fuente: "tvs_script", posicion: 0.05, altura: 0.0, ancho: 0.17, giro: 6, color: "letra" }),
+    F(["tanque"], { id: "franja", nombre: "Franja de la aleta", forma: "barra", angosto: 0.6, posicion: 0.3, altura: -0.45, ancho: 0.16, giro: 4, color: "vivo:#c4161c" }),
+    C("150", ["lateral", "cola"], { posicion: 0, altura: -0.1, ancho: 0.06, color: "gris", color2: "contorno" })]],
+  // Hunk 125R (fotos Galgo 2024–2026): flecha del color de la versión sobre negro en la aleta, "HUNK" claro y "125R"
+  // chico en la cola
+  [/hunk/i, () => [F(["tanque"], { id: "flecha", nombre: "Flecha de la aleta", forma: "flecha", angosto: 0.4, posicion: 0.3, altura: -0.15, ancho: 0.18, color: "vivo:#d0202a", color2: "#1b1e20" }),
+    N("HUNK", ["tanque"], { posicion: -0.1, altura: 0.15, ancho: 0.13, color: "letra" }),
+    C("125R", ["cola", "lateral"], { posicion: 0, altura: 0, ancho: 0.07, color: "gris", color2: "contorno" })]],
+  // XR150L (fotos 2024–2026): cuña doble clara y oscura grande en la cubierta del tanque y "XR150L" chico en la cola
+  [/\bxr\s*\d/i, (l) => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.45, posicion: 0.1, altura: -0.2, ancho: 0.26, color: "#f2f2f2", color2: "#141414" }),
+    N("XR" + (l.match(/\b(125|150|190)\b/) || [, "150"])[1] + "L", ["cola", "lateral"], { posicion: 0, altura: 0, ancho: 0.11, color: "letra" })]],
+  // Wave 110 S (fotos pocas): filete azul y blanco por el costado trasero y "WAVE" chico encima
+  [/wave/i, () => [F(["lateral"], { id: "filete", nombre: "Filete", forma: "filete", posicion: -0.3, altura: 0, ancho: 0.4, giro: -6, color: "vivo:#2a4bd0", color2: "#ffffff" }),
+    N("WAVE", ["lateral"], { posicion: -0.5, altura: 0.4, ancho: 0.1, color: "letra" })]],
+  // Apache RTR 160 (fotos 2024–2026): tres zarpazos del color de la versión atrás en el tanque, "Apache" en letra
+  // cursiva clara en el panel bajo el asiento y "RTR" chico en la cola
+  [/apache/i, () => [F(["tanque"], { id: "rayas", nombre: "Zarpazos del tanque", forma: "rayas", posicion: -0.3, altura: -0.1, ancho: 0.09, giro: -10, color: "vivo:#2c5fd8", color2: "#141414" }),
+    N("Apache", ["lateral", "cola"], { fuente: "tvs_script", posicion: 0.1, altura: -0.45, ancho: 0.13, giro: 8, color: "gris" }),
+    C("RTR", ["cola", "lateral"], { posicion: -0.3, altura: 0.2, ancho: 0.06, color: "vivo:#2c5fd8", color2: "contorno" })]],
+  // Eco Deluxe (fotos de la HF 100, la misma moto): cuña doble plata y roja en el tanque con la punta adelante;
+  // en la tapa lateral, otra cuña igual encima del nombre
+  [/eco\s*deluxe/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.35, posicion: 0.05, altura: -0.05, ancho: 0.32, color: "#c9cdd1", color2: "#c4161c" }),
+    F(["lateral", "cola"], { id: "cuna_lateral", nombre: "Cuña lateral", angosto: 0.5, posicion: 0, altura: -0.3, ancho: 0.13, color: "#c9cdd1", color2: "#c4161c" }),
+    N("ECO DELUXE", ["lateral", "cola"], { posicion: 0, altura: -0.6, ancho: 0.15, color: "letra" })]],
+  // Best 125 (fotos pocas): filete oscuro y claro por el costado trasero y "Best" cursivo
+  [/\bbest\b/i, () => [F(["lateral", "cola"], { id: "filete", nombre: "Filete", forma: "filete", posicion: -0.2, altura: 0, ancho: 0.4, giro: -6, color: "#141414", color2: "#f2f2f2" }),
+    N("Best", ["lateral", "cola"], { fuente: "tvs_script", posicion: -0.45, altura: 0.4, ancho: 0.1, color: "letra" })]],
 ];
 
 // Por familia, cuando la línea no está en la lista: el nombre del modelo (lo que sigue a la marca) y una franja
@@ -206,6 +310,10 @@ function dibujarForma(ctx, c, y0, col) {
   };
   ctx.save();
   ctx.translate(0, y0);
+  // angosto (0–1): la forma ocupa esa fracción del ancho, así queda más alta para el mismo ancho sobre la moto
+  const angosto = c.forma === "rayas" ? 1 : c.angosto || 1;
+  ctx.translate((W * (1 - angosto)) / 2, 0);
+  ctx.scale(angosto, 1);
   let usado = W - 40;
   if (c.forma === "rayas") {
     // Rayas paralelas inclinadas (3 por defecto), la última en el color secundario
@@ -220,13 +328,29 @@ function dibujarForma(ctx, c, y0, col) {
     // Filete fino que sigue la línea del carenado y se quiebra hacia arriba al final
     poli([[16, H * 0.6], [W * 0.72, H * 0.52], [W - 16, H * 0.22], [W - 16, H * 0.32], [W * 0.73, H * 0.6], [16, H * 0.68]], col.p);
     poli([[W * 0.3, H * 0.76], [W * 0.7, H * 0.7], [W * 0.71, H * 0.74], [W * 0.3, H * 0.8]], col.s);
+  } else if (c.forma === "flecha") {
+    // Bloque oscuro en punta hacia adelante con una barra inclinada de color detrás (como la del tanque de la NKD)
+    poli([[W * 0.42, H * 0.08], [W - 16, H * 0.08], [W - 16, H * 0.5], [W * 0.6, H * 0.92], [W * 0.5, H * 0.92]], col.s);
+    poli([[W * 0.2, H * 0.08], [W * 0.38, H * 0.08], [W * 0.26, H * 0.92], [W * 0.08, H * 0.92]], col.p);
+    usado = W * 0.94;
+  } else if (c.forma === "trazos") {
+    // Fila de trazos inclinados que se alargan hacia adelante y terminan en una barra larga
+    const n = 5;
+    for (let i = 0; i < n; i++) {
+      const x = 16 + i * W * 0.11, largo = W * (0.04 + i * 0.012);
+      poli([[x + H * 0.2, H * 0.3], [x + H * 0.2 + largo, H * 0.3], [x + largo, H * 0.7], [x, H * 0.7]], col.p);
+    }
+    poli([[W * 0.62 + H * 0.2, H * 0.3], [W - 16, H * 0.3], [W - 16 - H * 0.2, H * 0.7], [W * 0.62, H * 0.7]], col.p);
+  } else if (c.forma === "barra") {
+    // Barra fina inclinada, con la punta trasera cortada en diagonal
+    poli([[16, H * 0.72], [W - 90, H * 0.28], [W - 16, H * 0.28], [90, H * 0.72]], col.p);
   } else {
     // Cuña doble: una gruesa con la punta hacia adelante y una fina debajo
     poli([[20, H * 0.32], [W - 120, H * 0.22], [W - 20, H * 0.42], [60, H * 0.56]], col.p);
     poli([[120, H * 0.66], [W - 60, H * 0.54], [W - 40, H * 0.6], [150, H * 0.74]], col.s);
   }
   ctx.restore();
-  return usado;
+  return usado * angosto;
 }
 
 // Dibuja el atlas de las calcas de fábrica. Devuelve la textura y, por calca, su franja de la textura (v0, v1),
