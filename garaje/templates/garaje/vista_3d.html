@@ -29,17 +29,11 @@
   <div id="visor-ficha" hidden></div>
 </div>
 {{ datos_3d|json_script:"datos-moto" }}
-<script type="importmap">
-  { "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-  } }
-</script>
+{% include "garaje/_importmap_3d.html" %}
 {# Después del importmap: descarga las librerías 3D en paralelo (si no, se piden una tras otra) #}
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js" crossorigin>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js" crossorigin>
-<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/utils/BufferGeometryUtils.js" crossorigin>
+<link rel="modulepreload" href="{% static 'garaje/vendor/three-0.160.0/build/three.module.min.js' %}">
+<link rel="modulepreload" href="{% static 'garaje/vendor/three-0.160.0/examples/jsm/controls/OrbitControls.js' %}">
+<link rel="modulepreload" href="{% static 'garaje/vendor/three-0.160.0/examples/jsm/utils/BufferGeometryUtils.js' %}">
 {# Los módulos propios también en paralelo (si no, se descubren uno tras otro). Sin huella de versión: así los pide moto3d.js con su import relativo. #}
 <link rel="modulepreload" href="{% static 'garaje/js/moto3d.js' %}">
 <link rel="modulepreload" href="{% get_static_prefix %}garaje/js/moto3d/construir.js">

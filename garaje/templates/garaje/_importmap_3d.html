@@ -1,0 +1,13 @@
+{% load static %}{# three.js 0.160.0 servido desde nuestros estáticos (copia fija del paquete de npm, verificada con su sha512): #}
+{# sin conexión extra a otro dominio, con Brotli y caché "para siempre" (nombre con huella en producción). #}
+{# Los addons que usamos van uno por uno con su huella; el prefijo queda de respaldo. #}
+<script type="importmap">
+  { "imports": {
+    "three": "{% static 'garaje/vendor/three-0.160.0/build/three.module.min.js' %}",
+    "three/addons/controls/OrbitControls.js": "{% static 'garaje/vendor/three-0.160.0/examples/jsm/controls/OrbitControls.js' %}",
+    "three/addons/utils/BufferGeometryUtils.js": "{% static 'garaje/vendor/three-0.160.0/examples/jsm/utils/BufferGeometryUtils.js' %}",
+    "three/addons/environments/RoomEnvironment.js": "{% static 'garaje/vendor/three-0.160.0/examples/jsm/environments/RoomEnvironment.js' %}",
+    "three/addons/geometries/DecalGeometry.js": "{% static 'garaje/vendor/three-0.160.0/examples/jsm/geometries/DecalGeometry.js' %}",
+    "three/addons/": "{% get_static_prefix %}garaje/vendor/three-0.160.0/examples/jsm/"
+  } }
+</script>

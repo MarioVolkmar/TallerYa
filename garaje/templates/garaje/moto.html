@@ -70,14 +70,12 @@
   </section>
 {# Justo después del visor (no al final): three.js empieza a bajar mientras el resto de la página se lee. #}
 {# moto3d-carga.js lo descarga solo si el visor está por verse y arranca la moto cuando la página terminó de cargar. #}
-<script type="importmap">
-  {"imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
-  }}
-</script>
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+{% include "garaje/_importmap_3d.html" %}
+{# Los tres módulos pesados empiezan a bajar en paralelo mientras se lee el resto de la página (si no, se descubren en cadena: #}
+{# importmap → moto3d.js → construir.js). construir.js va sin huella, como lo pide moto3d.js con su import relativo. #}
+<link rel="modulepreload" href="{% static 'garaje/vendor/three-0.160.0/build/three.module.min.js' %}">
+<link rel="modulepreload" href="{% static 'garaje/js/moto3d.js' %}">
+<link rel="modulepreload" href="{% get_static_prefix %}garaje/js/moto3d/construir.js">
 <script src="{% static 'garaje/js/moto3d-carga.js' %}" data-modulo="{% static 'garaje/js/moto3d.js' %}"></script>
 
   <!-- Odómetro, aceite y documentos -->

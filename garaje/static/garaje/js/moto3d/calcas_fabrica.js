@@ -121,7 +121,7 @@ const LINEAS = [
   // "NKD" chico en la tapa lateral
   [/nkd/i, () => [F(["tanque"], { id: "flecha", nombre: "Flecha del tanque", forma: "flecha", angosto: 0.4, posicion: 0.35, altura: 0.1, ancho: 0.17, color: "vivo:#c6e23a", color2: "#1b1e20" }),
     F(["lateral", "cola"], { id: "barra", nombre: "Barra lateral", forma: "barra", angosto: 0.6, posicion: 0.1, altura: -0.3, ancho: 0.14, color: "vivo:#c6e23a" }),
-    N("NKD", ["lateral", "cola"], { posicion: 0, altura: -0.52, ancho: 0.07, color: "gris" })]],
+    N("NKD", ["lateral", "cola"], { posicion: 0, altura: -0.52, ancho: 0.1, color: "gris" })]],
   // CR4 (fotos AKT 2026): "125" lima enorme en el costado del tanque, "CR4" hueco gris en la tapa del tanque y un
   // filete lima en la cola
   [/cr4/i, () => [C("125", ["tanque"], { posicion: -0.1, altura: -0.1, ancho: 0.22, color: "vivo:#b5e61d", color2: "contorno", estirar: 1.25 }),
@@ -150,7 +150,7 @@ const LINEAS = [
   // Raider 125 (fotos Auteco 2024–2026): rayas finas en la aleta, "125" con borde en el tanque y "RAIDER" en la tapa
   [/raider/i, () => [F(["tanque"], { id: "rayas", nombre: "Rayas de la aleta", forma: "rayas", rayas: 3, posicion: 0.2, altura: -0.35, ancho: 0.1, color: "letra", color2: "vivo:#e23b2e" }),
     C("125", ["tanque"], { posicion: -0.2, altura: 0.0, ancho: 0.07, color: "vivo:#e23b2e", color2: "contorno" }),
-    N("RAIDER", ["lateral", "cola"], { posicion: 0, altura: -0.2, ancho: 0.12, color: "letra" })]],
+    N("RAIDER", ["lateral", "cola"], { posicion: 0, altura: -0.2, ancho: 0.16, color: "letra" })]],
   // Hunk 150 (Hero Honda 2007–2014, fotos de Commons): "Hunk" grande en cursiva en el tanque, franja del color de la
   // gráfica en la aleta y "150" chico en la tapa lateral
   [/hunk\s*150/i, () => [N("Hunk", ["tanque"], { fuente: "tvs_script", posicion: 0.05, altura: 0.0, ancho: 0.17, giro: 6, color: "letra" }),
@@ -159,14 +159,14 @@ const LINEAS = [
   // Hunk 125R (fotos Galgo 2024–2026): flecha del color de la versión sobre negro en la aleta, "HUNK" claro y "125R"
   // chico en la cola
   [/hunk/i, () => [F(["tanque"], { id: "flecha", nombre: "Flecha de la aleta", forma: "flecha", angosto: 0.4, posicion: 0.3, altura: -0.15, ancho: 0.18, color: "vivo:#d0202a", color2: "#1b1e20" }),
-    N("HUNK", ["tanque"], { posicion: -0.1, altura: 0.15, ancho: 0.13, color: "letra" }),
+    N("HUNK", ["tanque"], { posicion: -0.1, altura: 0.15, ancho: 0.17, color: "letra" }),
     C("125R", ["cola", "lateral"], { posicion: 0, altura: 0, ancho: 0.07, color: "gris", color2: "contorno" })]],
   // XR150L (fotos 2024–2026): cuña doble clara y oscura grande en la cubierta del tanque y "XR150L" chico en la cola
   [/\bxr\s*\d/i, (l) => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.45, posicion: 0.1, altura: -0.2, ancho: 0.26, color: "#f2f2f2", color2: "#141414" }),
     N("XR" + (l.match(/\b(125|150|190)\b/) || [, "150"])[1] + "L", ["cola", "lateral"], { posicion: 0, altura: 0, ancho: 0.11, color: "letra" })]],
   // Wave 110 S (fotos pocas): filete azul y blanco por el costado trasero y "WAVE" chico encima
   [/wave/i, () => [F(["lateral"], { id: "filete", nombre: "Filete", forma: "filete", posicion: -0.3, altura: 0, ancho: 0.4, giro: -6, color: "vivo:#2a4bd0", color2: "#ffffff" }),
-    N("WAVE", ["lateral"], { posicion: -0.5, altura: 0.4, ancho: 0.1, color: "letra" })]],
+    N("WAVE", ["lateral"], { posicion: -0.5, altura: 0.4, ancho: 0.14, color: "letra" })]],
   // Apache RTR 160 (fotos 2024–2026): tres zarpazos del color de la versión atrás en el tanque, "Apache" en letra
   // cursiva clara en el panel bajo el asiento y "RTR" chico en la cola
   [/apache/i, () => [F(["tanque"], { id: "rayas", nombre: "Zarpazos del tanque", forma: "rayas", posicion: -0.3, altura: -0.1, ancho: 0.09, giro: -10, color: "vivo:#2c5fd8", color2: "#141414" }),

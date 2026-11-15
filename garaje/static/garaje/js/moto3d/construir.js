@@ -24,6 +24,7 @@ export async function construirMoto(specs, colorPintura, linea = "") {
   const scooter = tipo === "scooter";
   // Rasgos de silueta de la familia y de la línea (tanque, colín, faro, escape, carenado…): ver rasgos.js
   const R = rasgosDe(linea, specs);
+  const R_ = R; // (dentro de llanta() la R es el radio de la rueda)
   const fam = R.familia;
 
   // ----- Materiales -----
@@ -349,18 +350,22 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       },
       aleacion(v) {
         buje(v);
-        // Maza robusta y 5 radios dobles curvos (como los rines de fábrica)
+        // Maza robusta y radios de aleación con el diseño de fábrica de la línea (rasgos.js `rinDiseno`): por defecto
+        // 5 radios dobles curvos; `n` radios, `dobles` (en V) o sencillos más gruesos, `rectos` o curvos, `abre` (cuánto
+        // se separan las dos ramas en el aro)
+        const D = { n: 5, dobles: true, rectos: false, abre: 0.24, ...(R_.rinDiseno || {}) };
         disco(rinR * 0.3, ancho * 0.72, M.rin, centro, v, 28);
-        for (let i = 0; i < 5; i++) {
-          const a = (i / 5) * Math.PI * 2 + 0.3;
-          for (const d of [-1, 1]) {
+        for (let i = 0; i < D.n; i++) {
+          const a = (i / D.n) * Math.PI * 2 + 0.3;
+          for (const d of D.dobles ? [-1, 1] : [0]) {
+            const giro = D.rectos ? 0.6 : 1; // (recto: el punto medio sobre la línea entre la maza y el aro)
             const curva = new THREE.QuadraticBezierCurve3(
               V(x + Math.cos(a) * rinR * 0.26, R + Math.sin(a) * rinR * 0.26, 0),
-              V(x + Math.cos(a + d * 0.16) * rinR * 0.62, R + Math.sin(a + d * 0.16) * rinR * 0.62, 0),
-              V(x + Math.cos(a + d * 0.24) * rinR * 0.96, R + Math.sin(a + d * 0.24) * rinR * 0.96, 0),
+              V(x + Math.cos(a + d * D.abre * 0.66 * giro) * rinR * 0.62, R + Math.sin(a + d * D.abre * 0.66 * giro) * rinR * 0.62, 0),
+              V(x + Math.cos(a + d * D.abre) * rinR * 0.96, R + Math.sin(a + d * D.abre) * rinR * 0.96, 0),
             );
-            const radio = malla(new THREE.TubeGeometry(curva, 14, 0.009, 8), M.rin, v);
-            radio.scale.z = 1.8; // radio ovalado: más ancho que grueso
+            const radio = malla(new THREE.TubeGeometry(curva, D.rectos ? 6 : 14, D.dobles ? 0.009 : 0.012, 8), M.rin, v);
+            radio.scale.z = D.dobles ? 1.8 : 2.2; // radio ovalado: más ancho que grueso
           }
         }
         tuercas(v);
@@ -395,7 +400,15 @@ export async function construirMoto(specs, colorPintura, linea = "") {
       if (g.userData.pivoteRueda) g.userData.pivoteRueda.attach(v);
       return v;
     };
-    g.userData.armarRin(radios ? "radios" : "aleacion");
+    g.userData.armarRin(rinFabrica);
+    if (R_.cintaRin) {
+      // Cinta de color en el borde del rin, por ambas caras (CR4, Gixxer): un aro fino pegado a la pestaña
+      M.cinta ??= new THREE.MeshStandardMaterial({ color: R_.cintaRin, roughness: 0.35, metalness: 0.2 });
+      for (const lado of [1, -1]) {
+        const cinta = malla(new THREE.TorusGeometry(rinR - 0.006, 0.0035, 4, seg(48)), M.cinta, g);
+        cinta.position.set(x, R, lado * ancho * 0.41);
+      }
+    }
     // Freno (al lado izquierdo, +z)
     const f = grupo(idFreno);
     const zFreno = ancho * 0.55 + 0.02;
@@ -448,6 +461,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
   }
   const radios = R.rines ? R.rines === "radios"
     : tipo === "enduro" || tipo === "semi" || (specs.freno_delantero === "tambor" && tipo !== "scooter");
+  // Estilo de rin de fábrica: radios, aleación (con el diseño de la línea) o estrella (7 radios rectos)
+  const rinFabrica = radios ? "radios" : R.rines === "estrella" ? "estrella" : "aleacion";
   const centroDel = medir("llantas", () => llanta(xF, Rf, anchoF, specs.rin_delantero, "llanta_del", "freno_del", specs.freno_delantero, radios));
   await ceder();
   const centroTras = medir("llantas", () => llanta(xR, Rr, anchoR, specs.rin_trasero, "llanta_tras", "freno_tras", specs.freno_trasero, radios));
@@ -2480,5 +2495,5 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     g.userData.led = { material: ledMat, luz: resplandor };
   });
 
-  return { raiz, piezas, M, ruedas, pata, placa, accesorios, visoresFabrica, espejos, escapeFabrica, anclas, rinFabrica: radios ? "radios" : "aleacion" };
+  return { raiz, piezas, M, ruedas, pata, placa, accesorios, visoresFabrica, espejos, escapeFabrica, anclas, rinFabrica, rinColor: R.rinColor ?? null };
 }

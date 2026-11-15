@@ -1315,7 +1315,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   function aplicarPersonalizacion(cfg) {
     moto.M.pintura.color.set(cfg.color);
     aplicarEstilo(cfg.estilo);
-    moto.M.rin.color.set(cfg.color_secundario);
+    // (con el secundario por defecto, los rines conservan su color de fábrica: Duke naranja, NS rojo, MT-03 cian)
+    const rinPorDefecto = String(cfg.color_secundario).toLowerCase() === "#1c2022" && moto.rinColor != null;
+    moto.M.rin.color.set(rinPorDefecto ? moto.rinColor : cfg.color_secundario);
     if (moto.M.acento) moto.M.acento.color.set(cfg.color_secundario);
     moto.raiz.updateMatrixWorld(true);
     const lista = cfg.calcas || [];

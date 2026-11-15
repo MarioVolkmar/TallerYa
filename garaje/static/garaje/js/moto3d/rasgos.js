@@ -36,7 +36,7 @@ const LINEAS = [
   [/duke/i, { faro: { forma: "duke" }, direccionales: { tipo: "led" }, stop: "led", escape: { forma: "bajo" }, horquillaInv: true, chasisColor: 0xf06a12, rinColor: 0xf06a12,
     tanque: { alto: 0.15, ancho: 0.32, largo: 0.21, nariz: 0.09 }, aleta: { largo: 0.16, baja: 0.12 }, colin: { alto: 0.2, largo: 0.17 } }],
   [/mt-?03/i, { faro: { forma: "mt" }, direccionales: { tipo: "redondas" }, // (fotos: direccionales redondas pequeñas, stop LED en la cola)
-    stop: "led", escape: { forma: "bajo", lata: 0.05 }, horquillaInv: true, tomasAire: true,
+    stop: "led", escape: { forma: "bajo", lata: 0.05 }, horquillaInv: true, tomasAire: true, rinColor: 0x1fa3e0, // (fotos 2025: rines cian)
     tanque: { alto: 0.16, ancho: 0.4, largo: 0.24, nariz: 0.06 }, aleta: { largo: 0.26, baja: 0.2 }, colin: { alto: 0.15, largo: 0.2 } }],
   [/fz\s*25/i, { faro: { forma: "fz" }, tanque: { alto: 0.11, ancho: 0.46, largo: 0.29, nariz: 0.02 },
     aleta: { largo: 0.22, baja: 0.24 }, colin: { alto: 0.11, largo: 0.26 } }],
@@ -45,30 +45,36 @@ const LINEAS = [
   [/gixxer/i, { faro: { forma: "gixxer" }, colin: { alto: 0.14, largo: 0.2, partido: true },
     tanque: { alto: 0.14, ancho: 0.4, largo: 0.24, nariz: 0.05 }, aleta: { largo: 0.2, baja: 0.17 } }],
   // (la NS 200 de 2017 en adelante lleva el silenciador bajo el motor, con las dos puntas junto al basculante)
-  [/pulsar\s*ns/i, { faro: { forma: "ns" }, escape: { forma: "bajo", puntas: true },
+  [/pulsar\s*ns/i, { faro: { forma: "ns" }, escape: { forma: "bajo", puntas: true }, rinColor: 0xc4161c, // (fotos 2024–2026: rines rojos)
     tanque: { alto: 0.135, ancho: 0.36, largo: 0.26, nariz: 0.08 }, aleta: { largo: 0.32, baja: 0.24 }, colin: { alto: 0.17, largo: 0.22 } }],
   // Naked de 125–150 que por cilindraje caerían en "clásica" (fotos en manual_despiece/<moto>/fotos)
   // Raider 125 (Auteco 2024–2026): tanque anguloso con aletas plateadas, faro LED en flecha con luces diurnas en "Y",
   // mofle corto con protector, stop LED en la punta del colín, rines de aleación
   [/raider/i, { familia: "naked", faro: { forma: "raider" }, stop: "led", rines: "aleacion", direccionales: { tipo: "led" },
-    tanque: { alto: 0.135, ancho: 0.36, largo: 0.25, nariz: 0.07 }, aleta: { largo: 0.22, baja: 0.17 }, escalon: 0.05,
-    colin: { alto: 0.16, largo: 0.21 }, escape: { forma: "corto", sube: 18 } }],
-  // Hunk 125R (Hero 2024–2026): tanque musculoso con aletas grandes que llegan hasta la horquilla, faro LED compacto
-  // con dos cejas diurnas, guardabarros delantero del color de la moto, colín alto con stop LED
+    // (aletas largas y afiladas, asiento largo casi plano, colín largo; rines de 5 radios en V rectos)
+    tanque: { alto: 0.135, ancho: 0.36, largo: 0.25, nariz: 0.07 }, aleta: { largo: 0.27, baja: 0.19 }, escalon: 0.03,
+    colin: { alto: 0.13, largo: 0.25 }, escape: { forma: "corto", sube: 18 }, rinDiseno: { n: 5, dobles: true, rectos: true, abre: 0.16 } }],
   // Hunk 150 (Hero Honda, 2007–2014; fotos de Commons): tanque grande con aletas, faro en carenado tipo bikini del
   // color de la moto con visera, amortiguadores dobles con resorte rojo, mofle subido con protector, aleación
   [/hunk\s*150/i, { familia: "naked", faro: { forma: "bikini" }, rines: "aleacion",
-    tanque: { alto: 0.14, ancho: 0.4, largo: 0.27, nariz: 0.05 }, aleta: { largo: 0.24, baja: 0.2 }, escalon: 0.03,
-    colin: { alto: 0.12, largo: 0.2 }, escape: { forma: "corto", sube: 12 } }],
+    // (generación anterior: asiento largo y plano, colín bajo con agarradera de tubo, mofle largo subido)
+    tanque: { alto: 0.14, ancho: 0.4, largo: 0.27, nariz: 0.05 }, aleta: { largo: 0.24, baja: 0.2 }, escalon: 0,
+    colin: { alto: 0.06, largo: 0.22 }, escape: { forma: "clasico", sube: 12 }, agarradera: "tubo" }],
+  // Hunk 125R (Hero 2024–2026): tanque musculoso con aletas grandes que llegan hasta la horquilla, faro LED compacto
+  // con dos cejas diurnas, guardabarros delantero del color de la moto, asiento partido y colín alto con stop LED
   [/hunk/i, { familia: "naked", faro: { forma: "hunk" }, stop: "led", rines: "aleacion", guardaPintado: true,
-    tanque: { alto: 0.145, ancho: 0.4, largo: 0.25, nariz: 0.08 }, aleta: { largo: 0.3, baja: 0.21 }, escalon: 0.06,
-    colin: { alto: 0.18, largo: 0.2 }, escape: { forma: "corto", sube: 24 } }],
+    tanque: { alto: 0.145, ancho: 0.4, largo: 0.25, nariz: 0.08 }, aleta: { largo: 0.3, baja: 0.21 }, escalon: 0.08,
+    asientoPartido: true, colin: { alto: 0.2, largo: 0.17 }, escape: { forma: "corto", sube: 24 } }],
   // FZ 2.0 (FZ-S FI V2, B6U1): tanque ancho y bajo con aletas (antecesora de la FZ25), faro en trapecio con las dos
   // luces de posición arriba, colín largo, mofle corto
   [/\bfz\s*2|\bfz-?s\b|\bfz\s*16|\bfz\s*150/i, { familia: "naked", faro: { forma: "fz" }, rines: "aleacion", guardaPintado: true,
-    tanque: { alto: 0.12, ancho: 0.44, largo: 0.28, nariz: 0.03 }, aleta: { largo: 0.2, baja: 0.21 },
-    colin: { alto: 0.12, largo: 0.25 }, escape: { forma: "corto", sube: 14 } }],
+    // (aletas con inserto negro de toma de aire, asiento casi plano, colín largo y bajo)
+    tanque: { alto: 0.12, ancho: 0.44, largo: 0.28, nariz: 0.03 }, aleta: { largo: 0.2, baja: 0.21 }, tomasAire: true, escalon: 0.02,
+    colin: { alto: 0.1, largo: 0.27 }, escape: { forma: "corto", sube: 10 } }],
   // ----- Doble propósito (enduro) con carrocería propia -----
+  // XTZ 150 (fotos Galgo/Incolmotos): sobre la XTZ, máscara negra con el faro adentro, tapas laterales, colín y
+  // guardabarros delantero negros (la XTZ 125 es toda del color de la moto, con faro redondo)
+  [/\bxtz\s*150/i, { enduro: { modelo: "xtz", tapas: "oscuro", guarda: "oscuro" }, faro: { forma: "mascara", color: "oscuro", alto: 0.21 } }],
   // XR 190L (Honda 2020–2026, inspirada en la CRF): aletas rojas grandes que bajan hasta el frente del motor, máscara
   // alta del color de la moto con el faro adentro, guardabarros alto, asiento largo y plano, colín largo
   [/\bxr\s*190/i, { enduro: { modelo: "xr" }, faro: { forma: "mascara", color: "pintura", alto: 0.21 } }],
@@ -114,9 +120,11 @@ const LINEAS = [
   // redondos; direccionales de bombillo en vástagos negros; stop sobre el guardabarros; rines de radios
   [/nkd/i, { familia: "naked", faro: { forma: "redondo", r: 0.09, orejas: true }, relojes: "dos", direccionales: { tipo: "redondas" },
     stop: "guardabarros", rines: "radios", tanque: { alto: 0.12, ancho: 0.34, largo: 0.24, nariz: 0.04 },
-    aleta: { largo: 0.18, baja: 0.13 }, escalon: 0.04, colin: { alto: 0.1, largo: 0.21 }, escape: { forma: "corto", sube: 16 } }],
+    // (urbana retro: aletas chicas, asiento largo y plano, colín bajo con agarradera de tubo)
+    aleta: { largo: 0.12, baja: 0.09 }, escalon: 0, colin: { alto: 0.06, largo: 0.18 }, escape: { forma: "corto", sube: 10 }, agarradera: "tubo" }],
   [/cr4/i, { familia: "naked", faro: { forma: "racing" }, tanque: { alto: 0.13, ancho: 0.34, largo: 0.23, nariz: 0.07 },
-    aleta: { largo: 0.22, baja: 0.15 }, escalon: 0.065, colin: { alto: 0.19, largo: 0.18 }, escape: { forma: "corto", sube: 24 } }],
+    // (fotos AKT 2026: cinta lima en el borde de los rines)
+    aleta: { largo: 0.22, baja: 0.15 }, escalon: 0.065, colin: { alto: 0.19, largo: 0.18 }, escape: { forma: "corto", sube: 24 }, cintaRin: 0xb5e61d }],
 ];
 
 function mezclar(a, b) {

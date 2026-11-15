@@ -1,18 +1,16 @@
-// Carga diferida del visor 3D: three.js (~670 KB) y moto3d.js se descargan solo cuando el visor está por
-// aparecer en pantalla. Si ya se ve al abrir la página, se piden de una y todos en paralelo.
-// Este script va justo después del visor: la descarga empieza mientras el navegador sigue leyendo el resto
-// de la página, y la moto se arma cuando la página terminó de cargar (moto3d.js lee datos que vienen al final).
+// Arranque del visor 3D. Va con `defer` (no frena la lectura del HTML): three.js, moto3d.js y construir.js ya
+// empezaron a bajar por los <link rel="modulepreload"> de la plantilla; aquí se precargan los demás módulos y,
+// cuando el visor está a la vista (o por aparecer), se arranca moto3d.js.
 (function () {
   var visor = document.getElementById("visor");
   if (!visor) return;
   var script = document.currentScript;
   var modulo = script.dataset.modulo;
-  var cdn = "https://cdn.jsdelivr.net/npm/three@0.160.0/";
-  var librerias = [
-    "build/three.module.min.js",
-    "examples/jsm/controls/OrbitControls.js",
-    "examples/jsm/utils/BufferGeometryUtils.js",
-  ].map(function (ruta) { return cdn + ruta; });
+  // three.js y sus addons salen del importmap de la página (nuestros estáticos, con su huella en producción)
+  var mapa = {};
+  try { mapa = JSON.parse(document.querySelector('script[type="importmap"]').textContent).imports || {}; } catch (e) {}
+  var librerias = ["three", "three/addons/controls/OrbitControls.js", "three/addons/utils/BufferGeometryUtils.js"]
+    .map(function (k) { return mapa[k]; }).filter(Boolean);
   // Módulos propios que importa moto3d.js (sin precarga se piden en cascada: uno, luego sus importados...).
   // Van sin huella de versión, igual que como los pide moto3d.js con su import relativo.
   var carpeta = modulo.replace(/moto3d(\.[0-9a-f]+)?\.js(\?.*)?$/, "moto3d/");
@@ -35,7 +33,7 @@
   function cargar() {
     if (cargado) return;
     cargado = true;
-    librerias.forEach(function (url) { precargar(url, true); });
+    librerias.forEach(function (url) { precargar(url, false); });
     precargar(modulo, false);
     propios.forEach(function (url) { precargar(url, false); });
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arrancar);
