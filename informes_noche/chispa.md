@@ -33,13 +33,13 @@ Se activan con `chispa_escena=True` en el `include` de `talleres/inicio.html`. E
 
 La intro se ve completa en cada carga o recarga y no se repite sola mientras se mira. Después queda un reposo en bucle. No hay capas oscuras: el fondo es siempre el de la página.
 
-**1) Portada sin sesión (intro de 12,3 s):**
+**1) Portada sin sesión (intro de unos 10 s; la lámpara prende a los 7,4 s y el saludo termina a los 9,8 s):**
 1. La escena arranca oscura, con la lámpara apagada: campana oscurecida (`brightness`), bombillo gris, sin cono, charco, motas ni halos.
 2. La moto entra desde la izquierda en penumbra (`filter: brightness(.22)`), sin farola ni haz, y se estaciona.
-3. Chispa entra también en penumbra (mismo filtro) desde la derecha, barriendo con polvo (4–6 s). Solo brillan sus ojos, mediante una capa aparte fuera del filtro y se detiene a la derecha de la rueda delantera.
-4. Da un último barrido y apoya la escoba contra la pared, entre la rueda y ella, con un movimiento visible (6,4–7,1 s): la escoba se levanta, se endereza, se asienta con un pequeño rebote y Chispa se inclina hacia ella.
-5. Carga (anillo y vibración), lanza el rayo doble con ramas, hay destello y chispas, y la lámpara parpadea blanco → ámbar → fijo (8,8–9,8 s). Al prender (9,4 s), Chispa, la escoba, la moto y el tablero recuperan su color juntos en 0,4 s y aparecen el cono y el polvo.
-6. Chispa saluda (9,8–11,8 s) con la escoba apoyada. A los 10 s la moto enciende: destello del faro, stop, direccionales, sacudida y bocanada. Sigue con su ralentí y su arranque cada 6 s.
+3. Chispa entra también en penumbra (mismo filtro) desde la derecha, barriendo con polvo (2,6–4,2 s, mientras la moto termina de asentarse). Solo brillan sus ojos, mediante una capa aparte fuera del filtro y se detiene a la derecha de la rueda delantera.
+4. Da un último barrido y apoya la escoba contra la pared, entre la rueda y ella, con un movimiento visible (4,5–5,2 s): la escoba se levanta, se endereza, se asienta con un pequeño rebote y Chispa se inclina hacia ella.
+5. Carga (anillo y vibración), lanza el rayo doble con ramas, hay destello y chispas, y la lámpara parpadea blanco → ámbar → fijo (6,8–7,8 s). Al prender (7,4 s), Chispa, la escoba, la moto y el tablero recuperan su color juntos en 0,4 s y aparecen el cono y el polvo.
+6. Chispa saluda (7,8–9,8 s) con la escoba apoyada. A los 8 s la moto enciende: destello del faro, stop, direccionales, sacudida y bocanada. Sigue con su ralentí y su arranque cada 6 s.
 7. En reposo, cada 14 s, Chispa saluda y luego toma la escoba con el mismo movimiento al revés, barre un rato y la vuelve a apoyar.
 
 En escritorio la moto va al 90 % y el tablero y el letrero al 85 %. En celular la moto (con su haz, farola, halos, humo y sombra) va al 78 % y un poco a la izquierda, y el tablero al 67 %, con la base cerca del asiento de la moto y por encima de Chispa, y Chispa se corre 85 unidades: queda entre la rueda delantera y el borde, con la escoba apoyada y el saludo a la vista.

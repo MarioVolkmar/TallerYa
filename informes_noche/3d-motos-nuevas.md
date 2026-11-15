@@ -66,9 +66,9 @@ circula. *Aprox.* = sin lista oficial encontrada.
 | Línea | Colores (el primero es el de por defecto) | Fuente |
 |---|---|---|
 | NKD 125 | Negro, Gris, Blanco | Galgo CO928 (blanco, gris, negro); fotos AKT 2026 |
-| CR4 125 | Negro con lima, Gris | fotos AKT 2026; *aprox.* (aktmotos.com no deja leer la lista) |
-| TT 125 DS | Negro, Blanco, Rojo | *aprox.*, sin fotos ni ficha |
-| Dynamic Pro 125 | Negro con lima, Gris, Blanco | fotos AKT 2026; *aprox.* |
+| CR4 125 | Negro con lima, Gris grafito (genérico) | fotos AKT 2026 confirman el negro con lima; sin lista oficial |
+| TT 125 DS | Negro, Gris grafito (genéricos) | sin fotos ni ficha: paleta neutra |
+| Dynamic Pro 125 | Negro con lima, Gris grafito (genérico) | fotos AKT 2026 confirman el negro con lima |
 | Boxer CT 100 | Negro y azul, Rojo, Azul, Verde | Galgo CO1032 (azul, negro, rojo, verde); fotos |
 | Discover 125 | Negro, Rojo, Azul, Gris, Amarillo | Galgo CO1039 (amarillo, azul, gris, negro); fotos (roja, negra) |
 | Pulsar NS 200 | Negro, Azul, Gris | Galgo CO3108 |
@@ -81,13 +81,13 @@ circula. *Aprox.* = sin lista oficial encontrada.
 | Gixxer 150 | Azul, Negro, Rojo, Blanco | suzuki.com.co (negra, azul, roja, blanca); fotos (azul) |
 | Best 125 | Rojo y negro, Negro | fotos suzuki.com.co (afiche "New Best FI") |
 | NMAX 155 | Gris, Negro, Blanco, Rojo | Galgo CO2995 |
-| XTZ 125 | Azul, Blanco, Negro | fotos Incolmotos; *aprox.* |
+| XTZ 125 | Azul, Negro, Gris grafito (genéricos) | fotos Incolmotos confirman el azul |
 | FZ 25 | Azul y negro, Negro mate, Verde y negro | incolmotos-yamaha.com.co (nombres de las imágenes) y Galgo CO1027 |
 | Crypton FI 115 | Gris, Blanco, Verde, Amarillo | Galgo CO3158 (amarillo, gris, verde); fotos Incolmotos (blanca, gris) |
 | MT-03 | Gris, Azul, Negro | Galgo CO1366; Incolmotos 2026 (gris) |
 | Apache RTR 160 | Gris, Azul, Negro | Galgo CO736 (azul, gris); negro *aprox.* |
-| Duke 200 | Blanco y naranja, Naranja, Negro | fotos KTM 2024–2026; *aprox.* |
-| RC 200 | Negro y naranja, Blanco y naranja | fotos KTM; *aprox.* |
+| Duke 200 | Blanco y naranja, Negro, Gris grafito (genéricos) | fotos KTM 2024–2026 confirman blanco y naranja |
+| RC 200 | Negro y naranja, Gris grafito (genérico) | fotos KTM confirman negro y naranja |
 | Eco Deluxe 100 | Negro, Gris | Galgo CO1119 (negro); fotos |
 | Aerox 155 | Gris, Azul, Negro | Galgo CO1388 (gris); fotos Incolmotos 2021–2025 (azul, negra) |
 
@@ -96,7 +96,72 @@ También con lo de Galgo se completaron XR 190L (+ negro), DR 150 (+ azul, rojo)
 Registro: bajo el campo de color, «Si no eliges, usamos el color de fábrica más común.»
 
 ## Pendiente / para decidir
-- Confirmar con concesionarios los colores marcados *aprox.* (TT 125, CR4, Dynamic, XTZ 125, Duke, RC).
+- Decisión del usuario (15-11): en TT 125, CR4, Dynamic, XTZ 125, Duke y RC 200 solo quedan los colores que las fotos confirman; el resto es una paleta neutra genérica (negro, gris grafito #3a3d40). La TT, sin fotos, queda en negro.
 - XR 190L: las tapas laterales blancas de la moto real van en el color de la pintura (un material más = 1 call).
 - XTZ 150: misma geometría que la XTZ 125; la máscara de la 150 es algo más grande (no tocada).
 - Scripts de medición: `informes_noche/relevos/scripts-3d-nuevas/` (Chrome sin ventana con una sesión local).
+
+## Motos que se veían casi iguales (4.ª ronda, 15-11, sin commit)
+Revisadas las 33 de perfil (hojas antes/después en el scratchpad; comparación de 4 pares en
+`informes_noche/relevos/3d-parecidas-antes-despues.jpg`). Las más parecidas eran las naked de 125–160 (misma silueta
+y todas en rojo), las enduro 125–190 y, en menor grado, las scooters (tres grises) y las semiautomáticas.
+
+Cambios generales:
+- El visor de prueba y las capturas usan el color de fábrica por defecto de cada línea (antes todo en rojo).
+- Rines: `rinDiseno` por línea (número de radios, en V o sencillos, rectos o curvos) y `cintaRin` (cinta de color en
+  el borde). El color de rin de fábrica (`rinColor`: Duke naranja, NS 200 rojo, MT-03 cian) ya no lo tapa el color
+  secundario por defecto (#1c2022); si el usuario elige otro secundario, manda el suyo (moto3d.js).
+- Calcas de modelo más grandes donde la moto real las trae grandes: HUNK, RAIDER, NKD, WAVE.
+
+| Par que se confundía | Qué los distingue ahora |
+|---|---|
+| Raider 125 / Hunk 125R | Raider gris California, aletas más largas, asiento largo casi plano, colín largo, rines de 5 radios en V rectos; Hunk negra con flecha roja, asiento partido, colín alto y corto, guardafango pintado |
+| NKD 125 / Hunk 150 | NKD retro: faro redondo con orejas, aletas chicas, asiento plano, colín bajo, agarradera de tubo, rines de radios; Hunk 150: carenado bikini, aletas grandes, mofle largo subido, aleación, amortiguadores dobles |
+| Hunk 125R / Hunk 150 | asiento partido y colín alto vs. asiento plano y colín bajo; faro LED con cejas vs. bikini con visera; mofle corto vs. largo |
+| CR4 125 / Gixxer 150 / Apache 160 | CR4 negra con cinta lima en los rines y "125" lima; Gixxer azul con colín partido; Apache gris con doble salida de escape y faro en flecha |
+| FZ 2.0 / FZ25 | FZ 2.0 azul claro con insertos negros en las aletas y colín largo y bajo; FZ25 azul y negro con tanque más ancho |
+| Pulsar NS 200 / MT-03 | NS negra con rines rojos y escape bajo de dos puntas; MT-03 gris con rines cian y horquilla invertida |
+| XTZ 125 / XTZ 150 | XTZ 125 toda azul con faro redondo; XTZ 150 con máscara negra, tapas laterales, colín y guardafango negros |
+| XR 150L / XR 190L / TT 125 / DR 150 | XR roja con cuña blanca (190L con máscara roja alta y aletas tipo CRF); TT negra; DR gris con mitad baja negra |
+| NMAX / Aerox / Dio | ya no las tres grises: NMAX gris, Aerox azul, Dio azul (formas propias: maxi, deportiva, redonda) |
+| Wave / Crypton / Best | Wave roja con faro en el manubrio; Crypton gris con faro agudo; Best roja y negra con faro redondo en la horquilla |
+| Boxer CT 100 / CT 125 / Discover | CT 100 negra y azul con faro redondo y visera; CT 125 blanca con carenado de faro en trapecio; Discover negra con tapa larga |
+
+Presupuesto de las líneas tocadas: alta ≤47,0k tri (MT-03), baja ≤27,0k, 39–42 calls (la cinta de la CR4 suma 2).
+Flotantes, llantas, luces y anclas: 9/9 ok. Pruebas de colores: 7 OK.
+
+## Carga más rápida del 3D (5.ª ronda, 15-11, sin commit)
+Hecho:
+1. **three.js propio**: copia fija de three 0.160.0 en `garaje/static/garaje/vendor/three-0.160.0/` (solo lo que usamos:
+   `build/three.module.min.js` + OrbitControls, BufferGeometryUtils, RoomEnvironment, DecalGeometry y la LICENSE),
+   sacada del paquete de npm y verificada con su sha512 del registro. Importmap común en
+   `garaje/templates/garaje/_importmap_3d.html` (ficha y vitrina): cada addon con su huella, prefijo de respaldo. Sin
+   preconnect ni dns-prefetch a jsdelivr (la ficha ya no usa jsdelivr; solo lo siguen usando los QR de cupones).
+2. **modulepreload** en la ficha (`moto.html`) para three.js, `moto3d.js` y `moto3d/construir.js`, justo después del
+   visor; `moto3d-carga.js` toma three y los addons del importmap (antes tenía la URL de jsdelivr escrita).
+3. **Minificado en producción**: `npm run js` (`tailwind/minificar_3d.mjs`, terser 5.31.6, devDependency exacta) escribe
+   copias minificadas de `moto3d.js`, `moto3d-carga.js` y `moto3d/*.js` en `build_js/` (en .gitignore). `build.sh` lo
+   corre después de `npm run css`; en producción `config/settings.py` pone `build_js/` en STATICFILES_DIRS, así
+   collectstatic toma la copia minificada (los originales no se tocan; en desarrollo se sirven sin minificar). Si
+   terser falla, el build sigue sin minificar. 332 KB → 156 KB sin comprimir.
+   Comandos: `npm ci && npm run js` y luego `python manage.py collectstatic`.
+4. **`defer` en moto3d-carga.js**: probado; no rompe el boceto, pero no ganó nada (el módulo arranca después del
+   análisis igual y en las mediciones armó más tarde), así que queda sin `defer` (2 KB, en caché para siempre).
+- Brotli ya estaba en requirements.txt (Render ya hace los .br); faltaba solo en el venv local para medir.
+
+Medición: servidor local en modo producción (DEBUG=0, WhiteNoise con huella y .br), Chrome sin cabeza con perfil nuevo
+en cada carga, 4G rápida simulada (9 Mbps, 60 ms), cargas alternadas antes/después (la máquina estaba muy cargada por
+otras sesiones: los tiempos absolutos están inflados; vale la comparación).
+
+| Ficha de la moto (mediana de 5) | Antes (jsdelivr, sin minificar) | Ahora |
+|---|---|---|
+| JS transferido | 274–329 KB (three 181 KB desde jsdelivr) | 239 KB (three 148 KB, construir 21 KB, moto3d 15 KB) |
+| three.js termina de llegar | 3,1 s | 1,6 s |
+| arranca el módulo 3D | 3,1 s | 2,9 s |
+| FCP | 3,1 s | 2,9 s |
+Imagen: renders de Raider, NMAX y XR 190L en producción (minificado) idénticos a desarrollo (0 % de píxeles distintos).
+
+Presupuestos propuestos para los auditores (sin bajar la calidad): se mantienen ≤60 llamadas y ≤60k triángulos en alta
+(≤35k en baja); nuevo **JS del 3D transferido ≤300 KB** (hoy 239 KB); primer cuadro en escritorio con GPU real y 4G
+rápida: boceto ≤1,5 s y cuadro real ≤2,5 s (≤3 s en Render). En Chrome sin cabeza (GPU por software) los tiempos de
+compilación salen 3–5 veces más altos: no comparar contra esos topes.
