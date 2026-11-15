@@ -1,0 +1,46 @@
+{
+  "linea": "Suzuki GN 125",
+  "tareas": {
+    "aceite": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "El filtro de aceite se cambia con el aceite, cada 4.000 km."
+    },
+    "bujia": {
+      "km": 8000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true
+    },
+    "valvulas": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "filtro-aire": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Es limpieza cada 4.000 km; se cambia según su estado."
+    },
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "El manual la atiende cada 1.000 km; se deja el intervalo general de lubricación, más corto."
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Solo por tiempo."
+    }
+  }
+}

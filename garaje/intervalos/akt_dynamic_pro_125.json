@@ -1,0 +1,40 @@
+{
+  "linea": "AKT Dynamic Pro 125",
+  "tareas": {
+    "aceite": {
+      "km": 2000,
+      "dias": null,
+      "fuente": "Manual de usuario AKT Dynamic Pro CBS (may-2021), copia entregada por el usuario, sección de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 20W-50 o 10W-40"
+    },
+    "filtro-aire": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual de usuario AKT Dynamic Pro CBS (may-2021), copia entregada por el usuario, sección 'Filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Se revisa en cada servicio."
+    },
+    "correa-cvt": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual de usuario AKT Dynamic Pro CBS (may-2021), copia entregada por el usuario, sección 'Correa (banda)'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Es revisión: la primera a los 3.000 km y luego cada 6.000."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT Dynamic Pro CBS (may-2021), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "120/70-12; presión en frío 26 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT Dynamic Pro CBS (may-2021), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "130/70-12; presión en frío 28 psi (32 psi con pasajero)"
+    }
+  }
+}

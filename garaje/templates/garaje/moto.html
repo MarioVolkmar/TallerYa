@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static humanize garaje_extras %}
+{% load static humanize garaje_extras tramites %}
 {% block title %}{{ moto }} · Mi garaje · TallerYa{% endblock %}
 
 {% block content %}
@@ -11,17 +11,17 @@
     <span class="miga-actual">{{ moto.linea.get_tipo_display|default:moto.get_tipo_otra_display }}{% if moto.linea %} · {{ moto.linea.cilindraje }} cc{% endif %}</span>
   </nav>
   <div class="flex flex-wrap items-center gap-3 mt-3">
-    <h1 class="titulo text-4xl md:text-5xl">{{ moto }}</h1>
+    {# Igual que la tarjeta del garaje: grande el nombre corto (la línea o el apodo) y debajo el nombre completo #}
+    <h1 class="titulo text-4xl md:text-5xl" title="{{ moto.nombre_completo }}">{{ moto.nombre_corto }}</h1>
     {% if moto.placa %}<span class="placa-moto" title="Placa (solo la ves tú)">{{ moto.placa }}</span>{% endif %}
   </div>
-  {% if moto.apodo %}<p class="text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
+  <p class="text-suave mt-1">{{ moto.nombre_completo }}</p>
 </header>
 <nav class="moto-accesos mt-4" aria-label="Más de tu moto">
-  <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="moto-acceso"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Hoja de vida</a>
-  <a href="{% url 'garaje:gastos' moto.pk %}" class="moto-acceso"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Gastos y consumo</a>
-  <a href="{% url 'garaje:diagnostico' %}?moto={{ moto.pk }}" class="moto-acceso"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v3M11 14h.01"/></svg>¿Qué le pasa a tu moto?</a>
+  <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="moto-acceso acceso-hv"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Hoja de vida</a>
+  <a href="{% url 'garaje:gastos' moto.pk %}" class="moto-acceso acceso-gastos"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Gastos y consumo</a>
+  <a href="{% url 'garaje:diagnostico' %}?moto={{ moto.pk }}" class="moto-acceso acceso-diag"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v3M11 14h.01"/></svg>¿Qué le pasa a tu moto?</a>
 </nav>
-<div class="mt-4">{% include "garaje/_avisos.html" %}</div>
 
 <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mt-6 moto-par">
   <!-- Modelo 3D -->
@@ -31,8 +31,7 @@
       <div class="visor-aviso" id="visor-cargando">Armando tu moto…</div>
       <div class="visor-controles">
         <div class="visor-modo" role="group" aria-label="Vista del modelo">
-          <button type="button" data-modo="estado" aria-pressed="true">Estado</button>
-          <button type="button" data-modo="rayos" aria-pressed="false">Rayos X</button>
+          <button type="button" data-modo="rayos" aria-pressed="true">Rayos X</button>
           <button type="button" data-modo="moto" aria-pressed="false">Moto</button>
         </div>
         <div class="flex gap-2">
@@ -163,7 +162,7 @@
         <div class="doc-cabeza">
           <span class="doc-icono" aria-hidden="true">{% if doc.clave == "soat" %}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>{% else %}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11h6M9 15h4"/></svg>{% endif %}</span>
           <span class="doc-nombre">{{ doc.nombre }}</span>
-          <span class="doc-estado">{% if not doc.vence %}Sin fecha{% elif doc.estado == "vencido" %}Vencido{% elif doc.estado == "pronto" %}Vence pronto{% else %}Al día{% endif %}</span>
+          <span class="doc-estado">{% if not doc.vence %}Sin fecha{% elif doc.estado == "vencido" %}Vencido{% elif doc.estado == "urgente" %}{{ doc.texto }}{% elif doc.estado == "pronto" %}Vence pronto{% else %}Al día{% endif %}</span>
         </div>
         <p class="doc-cuenta">
           {% if not doc.vence %}<strong>—</strong><span>Agrega la fecha de vencimiento</span>
@@ -175,23 +174,21 @@
         {% if doc.vence %}<p class="doc-fecha">Vence el {{ doc.vence|date:"j \\d\\e F \\d\\e Y"|lower }}</p>{% endif %}
         <div class="doc-acciones">
         {% if doc.clave == "soat" %}
-          {% if soat_en_curso %}
-          <span class="doc-solicitado" title="Solicitud del {{ soat_en_curso.creado|date:'j M' }} · {{ soat_en_curso.get_estado_display }}">✓ Cotización solicitada</span>
-          {% elif doc.estado == "pronto" or doc.estado == "vencido" or not doc.vence %}
-          <button type="button" class="doc-agendar" data-cotizar-soat>
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
-            Cotizar
-          </button>
-          {% endif %}
+          {% soat_ficha moto doc %}
         {% endif %}
-        {% if doc.clave == "tecno" and servicio_tecno and doc.estado == "pronto" or doc.clave == "tecno" and servicio_tecno and doc.estado == "vencido" %}
-        <a href="{% url 'talleres:inicio' %}?servicio={{ servicio_tecno }}" class="doc-agendar" title="Talleres que hacen la revisión técnico-mecánica">
+        {% if doc.clave == "tecno" and doc.estado != "ok" and doc.estado != "desconocido" %}
+        <a href="{% url 'tramites:tecnomecanica' %}?moto={{ moto.pk }}" class="doc-agendar" title="CDA para la revisión técnico-mecánica">
           <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
           Agendar
         </a>
         {% endif %}
         {% if doc.archivo %}<a href="{% url 'garaje:documento' moto.pk doc.clave %}" target="_blank" rel="noopener" class="doc-abrir">Ver archivo</a>
-        {% else %}<a href="{% url 'garaje:editar' moto.pk %}" class="doc-abrir">{% if doc.vence %}Subir foto{% else %}Agregar fecha{% endif %}</a>{% endif %}
+        {% elif doc.vence %}{# Sube la foto aquí mismo: elegir el archivo lo envía #}
+        <form method="post" enctype="multipart/form-data" action="{% url 'garaje:subir_documento' moto.pk doc.clave %}" class="doc-subir-rapido">
+          {% csrf_token %}
+          <label class="doc-abrir">Subir foto<input type="file" name="archivo" accept="image/jpeg,image/png,image/webp,application/pdf" class="sr-only" onchange="this.form.requestSubmit ? this.form.requestSubmit() : this.form.submit(); this.parentElement.textContent = 'Subiendo…'"></label>
+        </form>
+        {% else %}<a href="{% url 'garaje:editar' moto.pk %}" class="doc-abrir">Agregar fecha</a>{% endif %}
         </div>
       </li>
       {% endfor %}
@@ -201,7 +198,7 @@
       <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 10h5M7 14h3M15 10.5h2M15 14h2"/></svg>
       Datos de la moto
     </a>
-    <button type="button" class="eliminar-enlace" data-eliminar="{% url 'garaje:eliminar' moto.pk %}" data-nombre="{{ moto }}"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v6M14 11v6"/></svg>Eliminar esta moto</button>
+    {# Eliminar la moto vive en "Datos de la moto" (zona de peligro con confirmación), lejos de las acciones diarias #}
     </div>
   </section>
 </div>
@@ -230,13 +227,21 @@
     };
   })();
 </script>
+<script src="{% static 'garaje/js/codigo_taller.js' %}" defer></script>
 <script src="{% static 'garaje/js/tablero.js' %}" defer></script>
 <script>
-  // "Otro taller": muestra el campo para escribir su nombre.
+  // "Otro taller": muestra el campo para escribir su nombre; con cualquier taller, el precio (opcional).
   document.addEventListener("change", function (e) {
     if (!e.target.matches || !e.target.matches(".selector-taller")) return;
-    var campo = e.target.closest("form").querySelector(".taller-otro");
+    var form = e.target.closest("form"), campo = form.querySelector(".taller-otro"), precio = form.querySelector(".campo-precio");
     if (campo) campo.hidden = e.target.value !== "otro";
+    if (precio) { precio.hidden = !e.target.value; if (precio.hidden) precio.querySelector("input").value = ""; }
+  });
+  // Precio en pesos con separador de miles al escribir (85000 → 85.000); el servidor acepta ambos.
+  document.addEventListener("input", function (e) {
+    if (!e.target.matches || !e.target.matches('input[name="precio"]')) return;
+    var d = e.target.value.replace(/\D/g, "").slice(0, 9);
+    e.target.value = d ? Number(d).toLocaleString("es-CO") : "";
   });
 </script>
 
@@ -308,6 +313,26 @@
 
     <!-- Calcas -->
     <section id="panel-calcas" role="tabpanel" aria-labelledby="tab-calcas" hidden>
+      <div class="visor-modo calcas-subpestanas" role="tablist" aria-label="Qué calcas ver">
+        <button type="button" role="tab" id="sub-fabrica" aria-controls="sub-panel-fabrica" aria-selected="true" aria-pressed="true">De fábrica</button>
+        <button type="button" role="tab" id="sub-propias" aria-controls="sub-panel-propias" aria-selected="false" aria-pressed="false">Personalizadas</button>
+      </div>
+      <div id="sub-panel-fabrica" role="tabpanel" aria-labelledby="sub-fabrica">
+        <p class="cajon-ayuda">Las calcas que tu moto trae de serie. Quita las que no quieras y vuelve a ponerlas cuando quieras.</p>
+        <div class="calcas-fabrica" id="p-fabrica"></div>
+        <button type="button" class="boton-suave mt-3" id="p-fabrica-restaurar">Restaurar todas</button>
+        <div class="calca-editor" id="p-fab-editor" hidden>
+          <div class="calca-editor-cabeza">
+            <span class="calca-editor-nombre" id="p-fab-nombre"></span>
+          </div>
+          <p class="cajon-etiqueta !mt-1 !mb-1.5">Color principal</p>
+          <div class="muestras muestras-chicas" id="p-fab-color1"></div>
+          <p class="cajon-etiqueta !mt-3 !mb-1.5">Color secundario</p>
+          <div class="muestras muestras-chicas" id="p-fab-color2"></div>
+          <button type="button" class="boton-suave mt-3" id="p-fab-original">Color original</button>
+        </div>
+      </div>
+      <div id="sub-panel-propias" role="tabpanel" aria-labelledby="sub-propias" hidden>
       <p class="cajon-etiqueta"><span class="paso">1</span> Elige un diseño</p>
       <div class="calcas-catalogo" id="p-catalogo"></div>
       <p class="calcas-limite" id="p-limite" hidden>
@@ -344,6 +369,7 @@
           <span>Ponerla en ambos lados</span>
         </label>
       </div>
+      </div>
     </section>
   </div>
 
@@ -378,7 +404,11 @@
   </div>
   <div class="separador mt-4 mb-6"></div>
   <div class="seccion-cuerpo" id="despiece-cuerpo">
-  <p class="despiece-aviso" id="despiece-aviso" role="status">Cargando las piezas de tu moto…</p>
+  <p class="sr-only" id="despiece-aviso" role="status">Cargando las piezas de tu moto…</p>
+  <div class="despiece-error papel" id="despiece-error" role="alert" hidden>
+    <p><strong>No pudimos cargar las piezas.</strong> Revisa tu conexión e inténtalo de nuevo.</p>
+    <button type="button" class="btn btn-lava text-xs px-4 py-2.5" id="despiece-reintentar">Reintentar</button>
+  </div>
 
   <div class="despiece">
     <nav class="despiece-sistemas papel" aria-label="Sistemas de la moto">
@@ -387,11 +417,13 @@
         <span><span class="sistemas-cabeza-titulo">Sistemas</span><span class="sistemas-cabeza-sub">Elige uno para ver sus piezas</span></span>
       </div>
       <div class="sistemas-lista" id="sistemas"></div>
+      <div class="esq-sistemas" aria-hidden="true"><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span></div>
     </nav>
 
     <div class="despiece-visor papel">
       <div class="visor-barra">
         <div class="min-w-0">
+          <span class="esq-titulo" aria-hidden="true"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span>
           <p class="titulo text-lg leading-tight" id="lamina-titulo"></p>
           <p class="text-xs text-suave" id="lamina-resumen"></p>
         </div>
@@ -408,6 +440,10 @@
       </div>
       <div class="plano" id="plano" tabindex="0" aria-label="Dibujo del despiece. Usa los botones para acercar.">
         <div class="plano-escena" id="plano-escena"><img id="plano-img" alt="" draggable="false"></div>
+        <div class="esq-plano" aria-hidden="true">
+          <svg class="esq-engranaje" viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.6M12 18.9v2.6M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12h2.6M18.9 12h2.6M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/><circle cx="12" cy="12" r="6.6"/></svg>
+          <span>Armando el esquema</span>
+        </div>
         <div class="plano-zoom" role="group" aria-label="Zoom">
           <button type="button" data-zoom="mas" aria-label="Acercar">+</button>
           <button type="button" data-zoom="menos" aria-label="Alejar">−</button>
@@ -419,6 +455,7 @@
     </div>
 
     <aside class="despiece-panel">
+      <div class="esq-ficha papel" aria-hidden="true"><i class="esq esq-barra esq-corta"></i><i class="esq esq-bloque"></i><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></div>
       <div class="parte-ficha papel" id="parte-ficha" aria-live="polite"></div>
       <!-- En escritorio esta caja se mueve dentro del sistema abierto (acordeón); en celular se queda aquí -->
       <div class="caja-partes papel p-4 mt-4" id="caja-partes">
@@ -431,120 +468,93 @@
             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
           </button>
         </div>
+        <div class="esq-partes" aria-hidden="true"><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span><span class="esq-fila"><i class="esq esq-circulo"></i><span class="esq-textos"><i class="esq esq-barra"></i><i class="esq esq-barra esq-corta"></i></span></span></div>
         <ul class="partes-lista mt-3" id="partes-lista"></ul>
       </div>
     </aside>
   </div>
   </div>
 </section>
-<script src="{% static 'garaje/js/despiece.js' %}" defer></script>
+<script src="{% static 'garaje/js/despiece.js' %}?v=20261114-guia2" defer></script>
 {% endif %}
 
 {% include "garaje/_agenda.html" %}
 
 {% if talleres %}
 <section id="talleres" class="mt-10 scroll-mt-24" data-plegable>
-  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="talleres-cuerpo"><span class="numero">02</span>Talleres para lo que toca<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
+  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="talleres-cuerpo"><span class="numero">02</span>Talleres para lo que {% if talleres_lo_que_viene %}viene{% else %}toca{% endif %}<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
   <div class="separador mt-4 mb-6"></div>
   <div class="seccion-cuerpo" id="talleres-cuerpo">
   <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-    {% for t in talleres %}
-    <article class="papel taller-sugerido">
-      <div class="flex flex-wrap items-center gap-2 min-h-[1.6rem]">
-        {% if t.cubre_todo %}<span class="insignia insignia-lava">Resuelve todo lo pendiente</span>{% endif %}
-        {% if t.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
-        {% if t.tu_marca %}<span class="insignia taller-marca">Trabaja {{ moto.linea.marca }}</span>{% endif %}
-      </div>
-      <a href="{{ t.get_absolute_url }}" class="taller-sugerido-nombre titulo text-xl mt-3 block">{{ t.nombre }}</a>
-      <ul class="taller-datos">
-        <li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 19 9.5C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>{{ t.direccion }} · {{ t.barrio }}</span></li>
-        {% if t.horario %}<li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>{{ t.horario }}</span></li>{% endif %}
-      </ul>
-
-      <p class="taller-rotulo">Te resuelve</p>
-      <ul class="taller-resuelve">
-        {% for p in t.tareas_que_cubre %}<li><span class="punto-mini punto-{{ p.estado }}" aria-hidden="true"></span><span title="{{ p.etiqueta }}">{{ p.tarea.nombre }}</span></li>{% endfor %}
-      </ul>
-
-      {% for c in t.cupones_sugeridos|slice:":1" %}
-      <div class="taller-cupon">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a3 3 0 0 0 0 6v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a3 3 0 0 0 0-6z"/><path d="M14 5v14" stroke-dasharray="2 2"/></svg>
-        <span class="min-w-0"><strong>{{ c.titulo }}</strong>{% if c.valido_hasta %}<small>Válido hasta el {{ c.valido_hasta|date:"j M Y"|lower }}</small>{% endif %}</span>
-        {% if t.cupones_sugeridos|length > 1 %}<em>+{{ t.cupones_sugeridos|length|add:"-1" }}</em>{% endif %}
-      </div>
-      {% endfor %}
-
-      <div class="taller-acciones">
-        <a href="{{ t.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-lava text-xs px-4 py-2.5">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .3-3.4-.7-2.9-1.1-4.7-4.1-4.9-4.3-.1-.2-1.2-1.5-1.2-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.6-.1 1.2z"/></svg>
-          Escribir por WhatsApp
-        </a>
-        <a href="{{ t.como_llegar }}" target="_blank" rel="noopener" class="boton-seccion">Cómo llegar</a>
-        <a href="{{ t.get_absolute_url }}" class="taller-ver">Ver taller →</a>
-      </div>
-    </article>
-    {% endfor %}
+    {% for t in talleres %}{% include "garaje/_taller_sugerido.html" %}{% endfor %}
   </div>
   </div>
 </section>
 {% endif %}
 
-<!-- Historial: bitácora de mantenimientos y lecturas de kilometraje (con filtros y "Ver más") -->
+<!-- Historial: hoja de vida (cada mantenimiento queda ahí), gastos del mes e historia del kilometraje -->
 <section id="historial" class="mt-10 scroll-mt-24" data-plegable>
-  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="historial-cuerpo"><span class="numero">03</span>Historial<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
+  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="historial-cuerpo"><span class="numero">{% if talleres %}03{% else %}02{% endif %}</span>Historial<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
   <div class="separador mt-4 mb-6"></div>
-  <div class="seccion-cuerpo grid grid-cols-1 gap-6 lg:grid-cols-2 items-start" id="historial-cuerpo">
-  <!-- Bitácora: lo que ya se le hizo -->
-  <div class="papel p-6">
-    <h3 class="titulo text-xl">Mantenimientos</h3>
-    <div class="agenda-bitacora">
-      {% if historial %}
-      {% regroup historial|dictsort:"tarea.nombre" by tarea.nombre as por_tarea %}
-      <div class="lista-filtros" data-filtros-de="bitacora">
-        <div class="visor-modo filtro-chips" role="group" aria-label="Dónde se hizo">
-          <button type="button" data-filtro="lugar" data-valor="" aria-pressed="true">Todos</button>
-          <button type="button" data-filtro="lugar" data-valor="taller" aria-pressed="false">En taller</button>
-          <button type="button" data-filtro="lugar" data-valor="yo" aria-pressed="false">Lo hice yo</button>
-        </div>
-        <div class="lista-filtros-selects">
-        {% if por_tarea|length > 1 %}
-        <select class="campo filtro-chico" data-filtro="tarea" aria-label="Filtrar por mantenimiento">
-          <option value="">Todos los mantenimientos</option>
-          {% for g in por_tarea %}<option value="{{ g.grouper }}">{{ g.grouper }}</option>{% endfor %}
-        </select>
-        {% endif %}
-        <select class="campo filtro-chico" data-filtro="dias" aria-label="Filtrar por fecha">
-          <option value="">Cualquier fecha</option>
-          <option value="30">Últimos 30 días</option>
-          <option value="90">Últimos 3 meses</option>
-          <option value="180">Últimos 6 meses</option>
-          <option value="365">Último año</option>
-        </select>
-        </div>
-      </div>
-      <ol id="bitacora" data-paginar="6">
-        {% for m in historial %}
-        <li data-lugar="{% if m.donde %}taller{% else %}yo{% endif %}" data-tarea="{{ m.tarea.nombre }}" data-fecha="{{ m.fecha|date:'Y-m-d' }}">
-          <span class="bitacora-fecha">{{ m.fecha|date:"j M"|lower }}<small>{{ m.fecha|date:"Y" }}</small></span>
-          <span class="min-w-0">
-            <span class="bitacora-nombre">{{ m.tarea.nombre }}</span>
-            <span class="bitacora-meta servicio-detalle">
-              <span>{{ m.km|intcomma }} km</span>
-              {% if m.taller %}<a href="{{ m.taller.get_absolute_url }}" class="servicio-taller">{{ m.taller.nombre }}</a>
-              {% elif m.donde %}<span class="servicio-taller sin-enlace">{{ m.donde }}</span>
-              {% else %}<span class="servicio-yo">Lo hice yo</span>{% endif %}
-            </span>
-          </span>
-        </li>
-        {% endfor %}
-      </ol>
-      <p class="text-sm text-suave lista-vacia" hidden>No hay registros con esos filtros.</p>
-      {% else %}
-      <p class="text-sm text-suave">Aún no has registrado mantenimientos. Cada vez que registres uno, quedará aquí.</p>
-      {% endif %}
+  <div class="seccion-cuerpo grid grid-cols-1 gap-6 lg:grid-cols-3 historial-grilla" id="historial-cuerpo">
+  <!-- Hoja de vida: los últimos servicios (verificados por taller o anotados por el dueño) -->
+  <div class="papel p-6 historial-tarjeta">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h3 class="titulo text-xl">Hoja de vida</h3>
+      {% if hv_resumen.total %}<span class="historial-chapa">{{ hv_resumen.verificados }} de {{ hv_resumen.total }} verificado{{ hv_resumen.total|pluralize }}</span>{% endif %}
     </div>
+    {% if registros_hv %}
+    {# Filas compactas: fecha, qué se le hizo y si lo confirmó el taller #}
+    <ol class="hv-mini">
+      {% for r in registros_hv %}
+      <li>
+        <span class="bitacora-fecha">{{ r.fecha|date:"j M"|lower }}<small>{{ r.fecha|date:"Y" }}</small></span>
+        <span class="min-w-0">
+          <span class="hv-mini-nombre" title="{{ r.servicios }}">{{ r.servicios }}</span>
+          <span class="hv-mini-meta">{{ r.km|intcomma }} km ·
+            {% if r.verificado %}<em class="hv-mini-ok">Verificado{% if r.taller %} · {{ r.taller.nombre }}{% endif %}</em>
+            {% elif r.taller %}<em class="hv-mini-pend">Pendiente · {{ r.taller.nombre }}</em>
+            {% else %}{% if r.donde %}{{ r.donde }}{% else %}Registrado por ti{% endif %}{% endif %}</span>
+        </span>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <p class="text-sm text-suave mt-3">Aún no hay servicios en la hoja de vida. Cada mantenimiento que registres queda aquí, y si lo hace un taller de TallerYa, verificado.</p>
+    {% endif %}
+    <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="historial-ver">Ver hoja de vida <span aria-hidden="true">→</span></a>
   </div>
-  <div class="papel p-6">
+  <!-- Gastos: lo del mes y los últimos meses -->
+  <div class="papel p-6 historial-tarjeta">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h3 class="titulo text-xl">Gastos</h3>
+      <span class="historial-chapa">{{ gastos.mes_nombre }}</span>
+    </div>
+    <p class="gasto-mes mt-3">${{ gastos.mes_total|intcomma }}<small>este mes</small></p>
+    <div class="gasto-datos">
+      {% if gastos.costo_km %}<span><strong>${{ gastos.costo_km|intcomma }}</strong> por km</span>{% endif %}
+      {% if gastos.km_galon %}<span><strong>{{ gastos.km_galon }}</strong> km/galón</span>{% endif %}
+      {% if gastos.km_mes %}<span><strong>{{ gastos.km_mes|intcomma }}</strong> km recorridos</span>{% endif %}
+    </div>
+    {% if gastos.tope %}
+    <div class="gasto-barras" aria-label="Gasto de los últimos meses">
+      {% for m in gastos.serie %}<span class="gasto-barra" title="{{ m.etiqueta }}: ${{ m.total|intcomma }}"><i style="height: {{ m.alto }}%"></i><small>{{ m.etiqueta }}</small></span>{% endfor %}
+    </div>
+    {% if gastos.categorias %}
+    <p class="taller-rotulo mt-4">En qué se va</p>
+    <ul class="gasto-cats">
+      {% for c in gastos.categorias|slice:":4" %}
+      <li style="--c: {{ c.color }}"><span class="gasto-cat-nombre">{{ c.nombre }}</span><span class="gasto-cat-barra"><i style="width: {{ c.pct }}%"></i></span><span class="gasto-cat-pct">{{ c.pct }}%</span></li>
+      {% endfor %}
+      {% if gastos.categorias|length > 4 %}<li class="gasto-cats-mas">+{{ gastos.categorias|length|add:"-4" }} categoría{{ gastos.categorias|length|add:"-4"|pluralize }} más</li>{% endif %}
+    </ul>
+    {% endif %}
+    {% else %}
+    <p class="text-sm text-suave mt-3">Aún no hay gastos. Anota tanqueadas, repuestos y servicios para ver en qué se te va la plata.</p>
+    {% endif %}
+    <a href="{% url 'garaje:gastos' moto.pk %}" class="historial-ver">Ver gastos y consumo <span aria-hidden="true">→</span></a>
+  </div>
+  <div class="papel p-6 historial-tarjeta">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h3 class="titulo text-xl">Kilometraje</h3>
       {% if lecturas %}
@@ -573,6 +583,11 @@
         {% endfor %}
       </ol>
       <p class="text-sm text-suave lista-vacia" hidden>No hay lecturas en ese periodo.</p>
+    </div>
+    {# Resumen al pie: el ritmo y lo recorrido entre la primera y la última lectura de la lista #}
+    <div class="km-resumen">
+      {% if plan.km_por_dia %}<span><strong>{% if plan.ritmo_estimado %}≈ {% endif %}{{ plan.km_por_dia|floatformat:0 }}</strong> km/día</span>{% endif %}
+      {% if km_recorridos %}<span><strong>+{{ km_recorridos.km|intcomma }}</strong> km desde el {{ km_recorridos.desde|date:"j M"|lower }}</span>{% endif %}
     </div>
     {% else %}<p class="text-sm text-suave mt-3">Aún no hay lecturas.</p>{% endif %}
   </div>
@@ -603,39 +618,4 @@
     if (controles) controles.style.display = "none";
   }, 9000);
 </script>
-<!-- Cotizar SOAT -->
-<dialog id="dialogo-soat" class="dialogo-eliminar dialogo-registrar">
-  <form method="post" action="{% url 'garaje:cotizar_soat' moto.pk %}" class="space-y-4">
-    {% csrf_token %}
-    <div class="flex items-start justify-between gap-3">
-      <p class="titulo text-2xl">Cotiza tu <span class="text-lava">SOAT</span></p>
-      <button type="button" class="dialogo-cerrar" data-cerrar-soat aria-label="Cerrar">×</button>
-    </div>
-    <p class="text-sm text-suave">Te ayudamos a conseguirlo: un asesor de TallerYa te escribe por WhatsApp con opciones para tu moto. No pagas nada por pedir la cotización.</p>
-    <div class="soat-moto">
-      <span class="soat-moto-icono" aria-hidden="true">🏍️</span>
-      <span class="min-w-0"><strong class="block">{{ moto.nombre_completo }}</strong><span class="text-xs text-suave">{{ datos_3d.specs.cilindraje }} cc{% if moto.placa %} · {{ moto.placa }}{% endif %}{% for doc in moto.documentos %}{% if doc.clave == "soat" and doc.vence %} · SOAT vence el {{ doc.vence|date:"j M Y" }}{% endif %}{% endfor %}</span></span>
-    </div>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <label class="campo-label">Placa<input type="text" name="placa" maxlength="8" class="campo uppercase" placeholder="ABC12D" autocomplete="off" value="{{ moto.placa }}"></label>
-      <label class="campo-label">Celular (WhatsApp)<input type="tel" name="celular" class="campo" value="{{ request.motociclista.celular }}" inputmode="tel" required></label>
-    </div>
-    <label class="campo-label">Comentario (opcional)<input type="text" name="comentario" maxlength="300" class="campo" placeholder="Ej: prefiero que me contacten en la tarde"></label>
-    <p class="text-xs text-suave">Usamos estos datos solo para gestionar tu cotización.</p>
-    <div class="flex flex-wrap justify-end gap-3">
-      <button type="button" class="boton-seccion" data-cerrar-soat>Cancelar</button>
-      <button class="btn btn-lava text-xs px-6 py-3">Pedir cotización</button>
-    </div>
-  </form>
-</dialog>
-<script>
-  (function () {
-    var d = document.getElementById("dialogo-soat");
-    document.addEventListener("click", function (e) {
-      if (e.target.closest("[data-cotizar-soat]")) { d.showModal(); return; }
-      if (e.target.closest("[data-cerrar-soat]") || e.target === d) d.close();
-    });
-  })();
-</script>
-{% include "garaje/_eliminar_moto.html" %}
 {% endblock %}

@@ -1,0 +1,33 @@
+{
+  "linea": "AKT CR4 125",
+  "tareas": {
+    "aceite": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT CR4 125 (2017; sin cuadro de mantenimiento, remite al manual de garantía), copia entregada por el usuario; leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 20W-50, API SG o superior",
+      "notas": "El manual no trae intervalo: rige el del plan general."
+    },
+    "filtro-aire": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual de usuario AKT CR4 125 (2017; sin cuadro de mantenimiento, remite al manual de garantía), copia entregada por el usuario; leído a ojo por el Auditor mecánico, sección 'Filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": false
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT CR4 125 (2017; sin cuadro de mantenimiento, remite al manual de garantía), copia entregada por el usuario; leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "80/90-17; presión en frío 26 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT CR4 125 (2017; sin cuadro de mantenimiento, remite al manual de garantía), copia entregada por el usuario; leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "110/80-17; presión en frío 28 psi (32 psi con pasajero)"
+    }
+  }
+}

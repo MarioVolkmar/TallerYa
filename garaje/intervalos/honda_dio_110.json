@@ -1,0 +1,62 @@
+{
+  "linea": "Honda Dio 110",
+  "tareas": {
+    "aceite": {
+      "km": 4000,
+      "dias": 365,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Aceite del motor' (cambiar a los 1.000 km, en cada columna desde los 4.000 y en la anual); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-30, JASO MB, API SG o superior (no del tipo Energy Conserving)",
+      "notas": "El primer cambio es a los 1.000 km. El filtro tamiz se limpia cada 12.000 km."
+    },
+    "aceite-caja": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Aceite del grupo final' (sustitución normal: 2 años); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Solo por tiempo."
+    },
+    "correa-cvt": {
+      "km": 24000,
+      "dias": 0,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Correa de transmisión' (revisar a los 8.000 y 16.000 km; cambiar a los 24.000); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Se revisa cada 8.000 km y se cambia a los 24.000."
+    },
+    "filtro-aire": {
+      "km": 16000,
+      "dias": null,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Filtro de aire' (cambiar a los 16.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Con polvo o lluvia, más seguido."
+    },
+    "bujia": {
+      "km": 8000,
+      "dias": null,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Bujía' (revisar a los 4.000, 12.000 y 20.000; cambiar a los 8.000, 16.000 y 24.000); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK MR7C-9N; separación 0,8–0,9 mm"
+    },
+    "valvulas": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Holgura de las válvulas' (a los 1.000 km y en cada columna); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/100-10; presión en frío 22 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de mantenimiento Honda Dio SCV110, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/100-10; presión en frío 29 psi (36 psi con pasajero)"
+    }
+  }
+}

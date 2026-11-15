@@ -1,0 +1,65 @@
+{
+  "linea": "Yamaha Aerox 155",
+  "tareas": {
+    "aceite": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, sección 'Aceite del motor' (indicador OIL) y cuadro de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40, JASO MA o MB; 0,90 L",
+      "notas": "El primer cambio es a los 1.000 km, luego a los 3.000 y después cada 3.000 km (lo avisa el indicador OIL). El depurador (tamiz) del aceite se limpia a los 1.000 km."
+    },
+    "aceite-caja": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento periódico (cap. 10; columnas 1.000 / 4.000 / 7.000 / 10.000 km, que se repiten cada 12.000 km desde los 13.000), fila 'Aceite de la transmisión final: cámbielo' (a los 1.000 km y cada 12.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "El primer cambio es a los 1.000 km."
+    },
+    "correa-cvt": {
+      "km": 25000,
+      "dias": 0,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento y sección 'Correa trapezoidal' (indicador V-BELT); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Es cambio, no revisión: el indicador V-BELT parpadea a los 25.000 km. Se revisa a los 7.000 km y luego cada 3.000; el filtro de la caja de la correa se revisa desde los 4.000 km."
+    },
+    "filtro-aire": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento periódico (cap. 10; columnas 1.000 / 4.000 / 7.000 / 10.000 km, que se repiten cada 12.000 km desde los 13.000), fila 'Filtro de aire: cámbielo. A los 13.000 km y cada 12.000 km en adelante'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "El primer cambio es a los 13.000 km."
+    },
+    "bujia": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento periódico (cap. 10; columnas 1.000 / 4.000 / 7.000 / 10.000 km, que se repiten cada 12.000 km desde los 13.000), fila 'Bujía' (limpiar y ajustar a los 4.000 y 10.000 km; cambiar a los 7.000, y el ciclo se repite cada 12.000); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR8EA-9; separación de electrodos 0,8–0,9 mm",
+      "notas": "El primer cambio es a los 7.000 km y después cada 12.000; entre cambios se limpia y se ajusta."
+    },
+    "valvulas": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento periódico (cap. 10; columnas 1.000 / 4.000 / 7.000 / 10.000 km, que se repiten cada 12.000 km desde los 13.000), fila 'Válvulas: revise la holgura' (a los 7.000 km, y el ciclo se repite cada 12.000); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller",
+      "notas": "La primera revisión es a los 7.000 km."
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento y sección 'Líquido de frenos'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "DOT 4",
+      "notas": "Solo por tiempo."
+    },
+    "refrigerante": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Aerox 155 (BVT-F8199-S0, el de la Aerox colombiana), copia entregada por el usuario, cuadro de mantenimiento periódico (cap. 10; columnas 1.000 / 4.000 / 7.000 / 10.000 km, que se repiten cada 12.000 km desde los 13.000), fila 'Sistema de refrigeración: cambie el líquido refrigerante. A los 13.000 km y cada 12.000 km en adelante'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "El primer cambio es a los 13.000 km. El límite por tiempo es el del plan general."
+    }
+  }
+}

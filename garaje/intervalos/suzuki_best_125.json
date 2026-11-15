@@ -1,0 +1,44 @@
+{
+  "linea": "Suzuki Best 125",
+  "tareas": {
+    "aceite": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki Best 125 (FD125XSD), copia entregada por el usuario, sección de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40, API SF/SG; 800 ml",
+      "notas": "El primer cambio es a los 1.000 km y luego cada 3.000."
+    },
+    "bujia": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki Best 125 (FD125XSD), copia entregada por el usuario, sección 'Bujía'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK C6HS o Denso U20FS-U; separación 0,6–0,8 mm",
+      "notas": "Se limpia cada 3.000 km."
+    },
+    "valvulas": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki Best 125 (FD125XSD), copia entregada por el usuario, sección de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller",
+      "notas": "La primera revisión es a los 1.000 km."
+    },
+    "filtro-aire": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki Best 125 (FD125XSD), copia entregada por el usuario, sección 'Filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "El texto dice 'filtro de aire cada 4000 km': es limpieza; el cambio depende del estado."
+    },
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Suzuki Best 125 (FD125XSD), copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Engrasar con aceite SAE 40–50",
+      "notas": "El manual la revisa, limpia, engrasa y ajusta cada 1.000 km; se deja el intervalo general de lubricación, más corto, para uso diario con lluvia."
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "linea": "TVS Apache RTR 160",
+  "tareas": {
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Owner's Manual TVS Apache RTR 160 4V (la línea es la 2V de carburador: solo se usa lo que no depende del motor), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Lubricar con spray para cadena."
+    },
+    "liquido-frenos": {
+      "km": 30000,
+      "dias": null,
+      "fuente": "Owner's Manual TVS Apache RTR 160 4V (la línea es la 2V de carburador: solo se usa lo que no depende del motor), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "DOT 3 o DOT 4",
+      "notas": "El límite por tiempo es el de 2 años del plan general."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual TVS Apache RTR 160 4V (la línea es la 2V de carburador: solo se usa lo que no depende del motor), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Presión en frío 25 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual TVS Apache RTR 160 4V (la línea es la 2V de carburador: solo se usa lo que no depende del motor), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Presión en frío 28 psi (32 psi con pasajero)"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "linea": "AKT TT 125 DS",
+  "tareas": {
+    "aceite": {
+      "km": 2000,
+      "dias": null,
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario, sección 'Mantenimiento periódico (cada 2000 km)'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 20W-50, JASO MA, API SG"
+    },
+    "filtro-aire": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario, sección 'Filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "En trocha o con polvo, cada 3.000 km."
+    },
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Juego de la cadena 1,5–2,5 cm"
+    },
+    "liquido-frenos": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "DOT 4"
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/90-19; presión en frío 26 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "110/90-17; presión en frío 28 psi (32 psi con pasajero)"
+    }
+  }
+}

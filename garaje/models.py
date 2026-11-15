@@ -1,3 +1,4 @@
+import re
 import secrets
 from pathlib import Path
 from uuid import uuid4
@@ -110,6 +111,7 @@ COLORES = [
 ]
 # Más tonos para personalizar el modelo 3D (no aparecen en el formulario de registro).
 COLORES_EXTRA = [("#c0c4c8", "Plata"), ("#5b3a8c", "Morado"), ("#e86fa6", "Rosa"), ("#1f9aa0", "Turquesa")]
+ID_CALCA_FABRICA = re.compile(r"[a-z][a-z0-9_]{0,23}")  # ids de las calcas de fábrica (moto3d/calcas_fabrica.js)
 # Opciones de estilo del modelo 3D (el navegador muestra solo las que le quedan a cada tipo de moto)
 ACABADOS_3D = ("brillante", "mate", "satinado", "metalizado", "perlado")
 RINES_3D = ("fabrica", "radios", "aleacion", "estrella")
@@ -203,11 +205,27 @@ class Moto(models.Model):
         return f"{base} {self.modelo}"
 
     @property
+    def nombre_corto(self):
+        """Solo la línea ("Pulsar NS 200"), sin marca ni año, para espacios estrechos como la ficha de la portada."""
+        if self.apodo:
+            return self.apodo
+        return (self.linea.nombre if self.linea else self.linea_otra or self.marca_otra) or self.nombre_completo
+
+    @property
     def tipo(self):
         return self.linea.tipo if self.linea else (self.tipo_otra or Tipo.CALLE)
 
     def specs(self):
-        return self.linea.specs() if self.linea else {"tipo": self.tipo, **SPECS_POR_TIPO[self.tipo]}
+        if not self.linea:
+            return {"tipo": self.tipo, **SPECS_POR_TIPO[self.tipo]}
+        specs = self.linea.specs()
+        # Una versión de la línea puede diferir de la ficha general (la Gixxer 150 2015 traía tambor atrás; la 2020, disco):
+        # manda la del despiece que corresponde al año de la moto
+        if self.modelo:
+            despiece = Despiece.para(self)
+            if despiece and despiece.especificaciones:
+                specs = {**specs, **despiece.especificaciones}
+        return specs
 
     def get_absolute_url(self):
         return reverse("garaje:moto", args=[self.pk])
@@ -220,7 +238,8 @@ class Moto(models.Model):
         return "#111517" if claridad > 0.6 else "#ede3cc"
 
     def documentos(self, hoy=None):
-        """Estado de SOAT y técnico-mecánica para mostrar y recordar."""
+        """Estado de SOAT y técnico-mecánica para mostrar y recordar (escala única de garaje.avisos)."""
+        from .avisos import nivel_documento, texto_vence
         hoy = hoy or timezone.localdate()
         lista = []
         for clave, nombre in DOCUMENTOS.items():
@@ -232,16 +251,9 @@ class Moto(models.Model):
                 if primera >= hoy:
                     vence, estimado = primera, True
             dias = (vence - hoy).days if vence else None
-            if dias is None:
-                estado = "desconocido"
-            elif dias < 0:
-                estado = "vencido"
-            elif dias <= DIAS_AVISO_DOCUMENTO:
-                estado = "pronto"
-            else:
-                estado = "ok"
+            estado = nivel_documento(dias)
             lista.append({"clave": clave, "nombre": nombre, "vence": vence, "dias": dias, "estado": estado,
-                          "estimado": estimado,
+                          "estimado": estimado, "texto": texto_vence(dias),
                           "dias_abs": abs(dias) if dias is not None else None,
                           # Vigencia que le queda sobre un año (para la barra)
                           "pct": max(0, min(100, round(dias * 100 / 365))) if dias is not None else 0,
@@ -254,7 +266,7 @@ class Moto(models.Model):
         vencidos = [d["nombre"] for d in docs if d["estado"] == "vencido"]
         if vencidos:
             return {"estado": "vencido", "texto": f"{' y '.join(vencidos)} vencido{'s' if len(vencidos) > 1 else ''}"}
-        pronto = sorted((d for d in docs if d["estado"] == "pronto"), key=lambda d: d["dias"])
+        pronto = sorted((d for d in docs if d["estado"] in ("urgente", "pronto")), key=lambda d: d["dias"])
         if pronto:
             d = pronto[0]
             cuando = "hoy" if d["dias"] == 0 else f"en {d['dias']} día{'s' if d['dias'] != 1 else ''}"
@@ -296,6 +308,29 @@ class Moto(models.Model):
             raise ValueError("Accesorio inválido.")
         if accesorios:
             limpio["accesorios"] = sorted(set(accesorios))
+        # Calcas de fábrica que el usuario quitó (ids cortos: "nombre", "cilindrada", "franja"…)
+        sin_fabrica = estilo.get("sin_fabrica") or []
+        if (not isinstance(sin_fabrica, list) or len(sin_fabrica) > 8
+                or any(not isinstance(i, str) or not ID_CALCA_FABRICA.fullmatch(i) for i in sin_fabrica)):
+            raise ValueError("Calcas de fábrica inválidas.")
+        if sin_fabrica:
+            limpio["sin_fabrica"] = sorted(set(sin_fabrica))
+        # Colores que el usuario le puso a cada calca de fábrica: {id: {"p": principal, "s": secundario}}
+        colores = estilo.get("color_fabrica") or {}
+        if not isinstance(colores, dict) or len(colores) > 8:
+            raise ValueError("Colores de calcas de fábrica inválidos.")
+        limpios = {}
+        for clave, par in colores.items():
+            if not ID_CALCA_FABRICA.fullmatch(str(clave)) or not isinstance(par, dict) or set(par) - {"p", "s"}:
+                raise ValueError("Colores de calcas de fábrica inválidos.")
+            propio = {}
+            for slot, valor in par.items():
+                HEX(str(valor))
+                propio[slot] = str(valor).lower()
+            if propio:
+                limpios[clave] = propio
+        if limpios:
+            limpio["color_fabrica"] = limpios
         return limpio
 
     @staticmethod
@@ -533,6 +568,10 @@ class Despiece(models.Model):
     version = models.CharField(max_length=20, help_text="Código de versión del catálogo. Ej: BBE4")
     anio = models.PositiveSmallIntegerField("año")
     fuente = models.URLField(blank=True, help_text="De dónde salió el catálogo")
+    variante = models.CharField(max_length=40, blank=True,
+                                help_text="Cómo se distingue de otra versión de la misma línea (ej: Carburador, FI ABS)")
+    especificaciones = models.JSONField(default=dict, blank=True,
+                                        help_text='Lo que esta versión cambia de la ficha de la línea, ej: {"freno_trasero": "tambor"}')
     activo = models.BooleanField(default=True)
     creado = models.DateTimeField(auto_now_add=True)
 
@@ -546,7 +585,8 @@ class Despiece(models.Model):
 
     @classmethod
     def para(cls, moto):
-        """Elige el catálogo más cercano al año de la moto (prefiere el de su año o anterior)."""
+        """Entre los catálogos activos de la línea, el que corresponde al año de la moto: el de año igual o anterior más
+        cercano (una Gixxer 2017 usa el de 2015, una 2021 el de 2020); si la moto es más vieja que todos, el más antiguo."""
         if not moto.linea_id:
             return None
         opciones = list(cls.objects.filter(linea_id=moto.linea_id, activo=True))
@@ -681,6 +721,10 @@ class RegistroServicio(models.Model):
     taller_otro = models.CharField("otro taller", max_length=80, blank=True)
     # Solo lo marca el sistema cuando lo registra un taller con el código del dueño.
     verificado = models.BooleanField(default=False, editable=False)
+    # Una sola fuente de historial: el mantenimiento del plan que este registro representa (si viene de la ficha,
+    # del despiece o de "poner al día", o si al agregarlo aquí se eligió qué mantenimiento cubre).
+    mantenimiento = models.OneToOneField("Mantenimiento", on_delete=models.SET_NULL, null=True, blank=True,
+                                         editable=False, related_name="registro_hoja")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -690,6 +734,11 @@ class RegistroServicio(models.Model):
 
     def __str__(self):
         return f"{self.moto} · {self.fecha:%d/%m/%Y} · {self.servicios[:40]}"
+
+    @property
+    def estado_verificacion(self):
+        """verificado · pendiente (con un taller de TallerYa que aún no lo confirma) · propio."""
+        return "verificado" if self.verificado else "pendiente" if self.taller_id else "propio"
 
     @property
     def donde(self):
@@ -702,6 +751,10 @@ class CodigoServicio(models.Model):
     codigo = models.CharField(max_length=8, unique=True)
     vence = models.DateTimeField()
     usado = models.DateTimeField(null=True, blank=True)
+    # Registro pendiente que este código va a verificar (el motero lo anotó con ese taller): el taller lo verifica
+    # a él en vez de crear otro.
+    registro = models.ForeignKey("RegistroServicio", on_delete=models.SET_NULL, null=True, blank=True,
+                                 related_name="codigos")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -742,18 +795,26 @@ class EnlaceHojaVida(models.Model):
 # Gastos y consumo (los servicios con costo de la hoja de vida se suman aparte, sin duplicarlos)
 # ---------------------------------------------------------------------------
 class Gasto(models.Model):
-    class Tipo(models.TextChoices):
-        TANQUEO = "tanqueo", "Tanqueo"
-        SERVICIO = "servicio", "Servicio"
-        REPUESTO = "repuesto", "Repuesto"
+    class Tipo(models.TextChoices):  # íconos y colores: garaje.gastos.CATEGORIAS
+        GASOLINA = "gasolina", "Gasolina"
+        ACEITE = "aceite", "Aceite y lubricantes"
+        SERVICIO = "servicio", "Servicio en taller"
+        REPUESTO = "repuesto", "Repuestos"
+        LLANTAS = "llantas", "Llantas"
+        LAVADA = "lavada", "Lavada"
+        ACCESORIOS = "accesorios", "Accesorios y equipo"
         SOAT = "soat", "SOAT"
         TECNO = "tecno", "Técnico-mecánica"
+        PARQUEADERO = "parqueadero", "Parqueadero"
+        MULTA = "multa", "Multas"
         OTRO = "otro", "Otro"
 
     moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="gastos")
     fecha = models.DateField(default=timezone.localdate)
-    tipo = models.CharField(max_length=10, choices=Tipo.choices, default=Tipo.TANQUEO)
+    tipo = models.CharField("categoría", max_length=12, choices=Tipo.choices, default=Tipo.GASOLINA)
     valor = models.PositiveIntegerField("valor (COP)")
+    # Ya no se piden en el formulario (los km salen de las lecturas y los galones se estiman con el precio);
+    # se conservan para no perder lo que se registró antes.
     galones = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     km = models.PositiveIntegerField("kilometraje", null=True, blank=True)
     tanque_lleno = models.BooleanField("tanque lleno", default=False)

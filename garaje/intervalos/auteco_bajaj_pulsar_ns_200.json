@@ -1,0 +1,58 @@
+{
+  "linea": "Bajaj Pulsar NS 200",
+  "tareas": {
+    "aceite": {
+      "km": 5000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193, feb-2023), Bajaj Auto India, cuadro de mantenimiento y sección de aceite; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "SAE 20W-50, JASO MA2, API SN (alterno 10W-50)",
+      "notas": "El manual indio da 10.000 km, pero solo con el aceite 'Bajaj DTS-i 10000' de la garantía india, y con relleno de nivel a los 5.000. Con aceite corriente, lo prudente es 5.000 km. El filtro de aceite se cambia cada 10.000 km y el tamiz se limpia en cada cambio. Versión india con inyección; la NS 200 de Auteco tiene el mismo motor."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Lubricar con spray para cadena."
+    },
+    "filtro-aire": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Es de tipo viscoso: no se limpia ni se sopla, se cambia."
+    },
+    "bujia": {
+      "km": 30000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento, fila 8 'Spark plug clean & check gap' (CL,A a los 10.000 y 20.000 km; R a los 30.000); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "3 bujías; separación de electrodos 0,8–0,9 mm",
+      "notas": "A los 10.000 y 20.000 km se limpian y se calibran; a los 30.000 km se cambian."
+    },
+    "valvulas": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento, fila 9 'Valve tappet clearance' (C,A a los 15.000 y 30.000 km); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "refrigerante": {
+      "km": 30000,
+      "dias": 1095,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Refrigerante Bajaj Koolex o equivalente",
+      "notas": "Las mangueras del radiador también se cambian a los 30.000 km o 3 años."
+    },
+    "liquido-frenos": {
+      "km": 30000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "DOT 4",
+      "notas": "Bajaj lo cambia a los 30.000 km junto con los sellos de la bomba y el caliper. El límite por tiempo es el de 2 años del plan general, más prudente con la humedad."
+    }
+  }
+}

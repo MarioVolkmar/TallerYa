@@ -11,6 +11,9 @@ from talleres.models import Barrio, Servicio, Taller
 from .models import LecturaKm, LineaMoto, Mantenimiento, Moto, TareaMantenimiento
 from .plan import calcular_plan
 
+
+from .utiles_pruebas import usar_intervalos_generales  # noqa: E402
+
 User = get_user_model()
 
 
@@ -68,7 +71,9 @@ class GarajeTests(TestCase):
         moto = Moto.objects.create(motociclista=self.perfil, linea=self.nkd, modelo=2021, km_inicial=0, km_actual=0)
         url = reverse("garaje:eliminar", args=[moto.pk])
         self.assertContains(self.client.get(reverse("garaje:garaje") + "?lista=1"), f'data-eliminar="{url}"')
-        self.assertContains(self.client.get(moto.get_absolute_url()), f'data-eliminar="{url}"')
+        # En la ficha ya no hay botón: se elimina desde la zona de peligro de "Datos de la moto".
+        self.assertNotContains(self.client.get(moto.get_absolute_url()), f'data-eliminar="{url}"')
+        self.assertContains(self.client.get(reverse("garaje:editar", args=[moto.pk])), f'action="{url}"')
         self.assertContains(self.client.get(reverse("cuentas:mi_cuenta")), f'data-eliminar="{url}"')
         r = self.client.post(url)
         self.assertRedirects(r, reverse("garaje:garaje") + "?lista=1", fetch_redirect_response=False)
@@ -171,7 +176,7 @@ class GarajeTests(TestCase):
         moto.save()
         r = self.client.get(moto.get_absolute_url())
         self.assertContains(r, 'id="datos-moto"')
-        self.assertContains(r, '"rin_delantero": 17')
+        self.assertContains(r, '"rin_delantero": 18')  # NKD 125: rines de 18 (migración 0026)
         self.assertContains(r, "Llantas Ya")
         # Al tocar la llanta en el 3D se ofrece el taller recomendado y el directorio filtrado por su servicio
         llanta = r.context["datos_3d"]["piezas"]["llanta_tras"]["acciones"]
@@ -210,6 +215,22 @@ class DespieceTests(TestCase):
     def tearDown(self):
         self.override.disable()
 
+    def test_precalentar_despiece_es_idempotente(self):
+        from io import StringIO
+        from unittest import mock
+        from django.core.cache import caches
+        from django.core.management import call_command
+        from . import views
+        caches["despiece"].clear()
+        primera, segunda = StringIO(), StringIO()
+        call_command("precalentar_despiece", "--max-segundos", "0", stdout=primera)
+        call_command("precalentar_despiece", stdout=segunda)
+        self.assertIn("Armados 1, ya estaban 0, faltan 0", primera.getvalue())   # solo el catálogo con láminas
+        self.assertIn("Armados 0, ya estaban 1, faltan 0", segunda.getvalue())
+        self.client.force_login(self.usuario)
+        with mock.patch.object(views, "_laminas_base", side_effect=AssertionError("debía salir de la caché")):
+            self.assertEqual(self.client.get(reverse("garaje:despiece_json", args=[self.moto.pk])).status_code, 200)
+
     def test_elige_el_catalogo_del_anio_mas_cercano(self):
         from .models import Despiece
         self.assertEqual(Despiece.para(self.moto), self.d2024)
@@ -227,6 +248,26 @@ class DespieceTests(TestCase):
         pastillas = next(p for p in partes if p["ref"] == 9)
         self.assertEqual(pastillas["estado"], "desconocido")  # moto usada sin registro
         self.assertEqual(datos["laminas"][0]["estado"], "desconocido")
+
+    def test_a_400_km_es_roja_en_plan_3d_despiece_y_campana(self):
+        """Un solo criterio de color: pastillas (cada 6.000 km) a 400 km es "urgente" → roja en todas partes."""
+        from garaje.avisos import es_urgente
+        from notificaciones.servicios import generar_para
+        from .views import _grupos_agenda, datos_despiece
+        pastillas = TareaMantenimiento.objects.get(clave="pastillas-del")
+        Mantenimiento.objects.create(moto=self.moto, tarea=pastillas, km=30000 - 5600, fecha=timezone.localdate())
+        plan = calcular_plan(self.moto)
+        t = next(t for t in plan.tareas if t.tarea == pastillas)
+        self.assertEqual((t.estado, t.nivel, t.color, t.km_restantes), ("pronto", "urgente", "vencido", 400))
+        self.assertIn(t, _grupos_agenda(plan)["atencion"])                       # plan: Requiere atención
+        self.assertEqual(plan.piezas()["freno_del"]["estado"], "vencido")         # 3D
+        datos = datos_despiece(self.d2024, plan)                                   # despiece
+        lamina = datos["laminas"][0]
+        self.assertEqual((lamina["estado"], lamina["inicial"]), ("vencido", self.parte.pk))
+        self.assertEqual(next(p for p in lamina["partes"] if p["ref"] == 9)["estado"], "vencido")
+        generar_para(self.usuario)                                                 # campana
+        claves = list(self.usuario.notificaciones.values_list("clave", flat=True))
+        self.assertTrue(any(c.startswith(f"plan:{self.moto.pk}:vencido:") and es_urgente(c) for c in claves))
 
     def test_pagina_de_la_moto_muestra_el_despiece(self):
         self.client.force_login(self.usuario)
@@ -605,9 +646,26 @@ class PersonalizacionTests(TestCase):
         self.moto.refresh_from_db()
         self.assertEqual(self.moto.estilo, {"led": "#ff00aa", "espejos": "puntas", "accesorios": ["escape", "led", "protector"]})
 
+    def test_guarda_calcas_de_fabrica_quitadas(self):
+        r = self.enviar({"estilo": {"sin_fabrica": ["franja", "nombre", "franja"]}})
+        self.assertEqual(r.status_code, 200)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.estilo, {"sin_fabrica": ["franja", "nombre"]})
+        self.assertEqual(self.enviar({"estilo": {"sin_fabrica": []}}).status_code, 200)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.estilo, {})
+
+    def test_guarda_colores_de_calcas_de_fabrica(self):
+        r = self.enviar({"estilo": {"color_fabrica": {"franja": {"p": "#FF0000", "s": "#00ff00"}, "nombre": {}}}})
+        self.assertEqual(r.status_code, 200)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.estilo, {"color_fabrica": {"franja": {"p": "#ff0000", "s": "#00ff00"}}})
+
     def test_rechaza_estilo_invalido(self):
         for estilo in ({"acabado": "neon"}, {"rin": "madera"}, {"accesorios": ["cohete"]}, {"chasis": "azul"}, ["mate"],
-                       {"espejos": "gigantes"}, {"led": "rosa"}):
+                       {"espejos": "gigantes"}, {"led": "rosa"}, {"sin_fabrica": "nombre"}, {"sin_fabrica": ["<b>"]},
+                       {"sin_fabrica": ["x"] * 9}, {"color_fabrica": {"franja": {"p": "rojo"}}},
+                       {"color_fabrica": {"franja": {"q": "#ffffff"}}}, {"color_fabrica": ["#fff"]}):
             self.assertEqual(self.enviar({"estilo": estilo}).status_code, 400, estilo)
 
     def test_rechaza_datos_invalidos(self):
@@ -763,6 +821,7 @@ class DocumentosTests(TestCase):
 
 class KilometrajeSinRecargarTests(TestCase):
     def setUp(self):
+        usar_intervalos_generales(self)
         self.usuario = User.objects.create_user("k@x.com", "k@x.com", "x")
         perfil = Motociclista.objects.create(nombre="K", celular="573001118888", usuario=self.usuario)
         self.moto = Moto.objects.create(motociclista=perfil, linea=LineaMoto.objects.get(nombre="NMAX 155"),
@@ -800,6 +859,7 @@ class KilometrajeSinRecargarTests(TestCase):
 
 class RegistroDesdeDespieceTests(TestCase):
     def setUp(self):
+        usar_intervalos_generales(self)
         self.usuario = User.objects.create_user("r@x.com", "r@x.com", "x")
         perfil = Motociclista.objects.create(nombre="R", celular="573001119999", usuario=self.usuario)
         self.moto = Moto.objects.create(motociclista=perfil, linea=LineaMoto.objects.get(nombre="NMAX 155"),
@@ -882,7 +942,8 @@ class PonerAlDiaTests(TestCase):
         m_filtro = Mantenimiento.objects.get(moto=moto, tarea=filtro)
         self.assertEqual(m_aceite.km, 18000)
         self.assertEqual(m_filtro.km, 15500)
-        self.assertEqual((timezone.localdate() - m_filtro.fecha).days, 100)  # 2.500 km a 25 km/día
+        from .plan import fecha_en_km
+        self.assertEqual(m_filtro.fecha, fecha_en_km(moto, 15500))  # 2.500 km al ritmo estimado de la moto
         self.assertEqual(Mantenimiento.objects.filter(moto=moto).count(), 2)  # lo demás quedó en "No sé"
 
     def test_pendientes_y_actualizar_todo(self):
@@ -922,34 +983,9 @@ class PonerAlDiaTests(TestCase):
                          {f"estado_{aceite.pk}": "nose", f"hace_{aceite.pk}": "3", f"estado_{bujia.pk}": "nose", f"hace_{bujia.pk}": ""})
         m = Mantenimiento.objects.get(moto=moto, tarea=aceite)
         self.assertEqual((timezone.localdate() - m.fecha).days, 90)
-        self.assertEqual(m.km, 18000 - 90 * 25)
+        from .plan import km_en_fecha
+        self.assertEqual(m.km, km_en_fecha(moto, m.fecha))  # al ritmo de la moto (aquí, estimado por su modelo)
         self.assertFalse(Mantenimiento.objects.filter(moto=moto, tarea=bujia).exists())  # "Ni idea": sin registro
-
-
-class CotizarSoatTests(TestCase):
-    def setUp(self):
-        self.usuario = User.objects.create_user("soat@x.com", "soat@x.com", "x")
-        self.perfil = Motociclista.objects.create(nombre="Sol", celular="573006667777", usuario=self.usuario)
-        self.moto = Moto.objects.create(motociclista=self.perfil, linea=LineaMoto.objects.get(nombre="NKD 125"),
-                                        modelo=2020, km_inicial=0, km_actual=0)
-        self.client.force_login(self.usuario)
-        User.objects.create_user("admin@x.com", "admin@x.com", "x", is_staff=True)
-
-    def test_pide_cotizacion_una_sola_vez_y_avisa_al_equipo(self):
-        from garaje.models import SolicitudSoat
-        from notificaciones.models import Notificacion
-        url = reverse("garaje:cotizar_soat", args=[self.moto.pk])
-        self.client.post(url, {"placa": "abc-12d", "celular": "573006667777"})
-        self.client.post(url, {"placa": "XYZ99Z", "celular": "573006667777"})  # ya hay una en curso
-        s = SolicitudSoat.objects.get()
-        self.assertEqual(s.placa, "ABC12D")
-        self.assertTrue(Notificacion.objects.filter(usuario__is_staff=True, titulo="Nueva cotización de SOAT").exists())
-        self.assertContains(self.client.get(self.moto.get_absolute_url()), "Cotización solicitada")
-
-    def test_exige_celular(self):
-        from garaje.models import SolicitudSoat
-        self.client.post(reverse("garaje:cotizar_soat", args=[self.moto.pk]), {"placa": "ABC12D", "celular": "12"})
-        self.assertFalse(SolicitudSoat.objects.exists())
 
 
 class PlacaTests(TestCase):
@@ -1105,3 +1141,279 @@ class PuestosFijosTests(TestCase):
         for clave, fijos in diagramas.PUESTOS_FIJOS.items():
             dibujados = {q.puesto for q in diagramas.DIAGRAMAS[clave][1]()[0] if q.puesto}
             self.assertEqual(fijos, dibujados, clave)
+
+
+class PiezaPorPrimeraPalabraTests(TestCase):
+    def test_primera_palabra_y_tapon_con_varilla(self):
+        from . import diagramas as d
+        self.assertEqual(d.puesto_para("carcasa", "PLUG, OIL LEVEL"), "tapon_llenado")   # NMAX: tapón con varilla, no visor
+        self.assertEqual(d.puesto_para("carcasa", "LENS,OIL LEVEL CHECK"), "visor")
+        self.assertEqual(d.puesto_para("aceite", "O-RING, OIL PUMP"), "oring")           # el o-ring de la bomba, no la bomba
+        self.assertEqual(d.puesto_para("culata", "GASKET, CYLINDER HEAD"), "empaque_culata")
+        self.assertEqual(d.puesto_para("freno_trasero", "Resorte Pedal Freno"), "h_resorte")
+
+    def test_la_tarea_pasa_al_empaque_del_tapon(self):
+        from types import SimpleNamespace as N
+        from .management.commands.importar_despiece import tarea_al_sello
+        tapon, oring = N(ref=14, descripcion="PLUG, OIL LEVEL", tarea_id=7), N(ref=15, descripcion="O-RING", tarea_id=None)
+        filtro, sello = N(ref=3, descripcion="FILTER, OIL", tarea_id=7), N(ref=4, descripcion="O-RING", tarea_id=None)
+        tarea_al_sello([tapon, oring, filtro, sello])
+        self.assertEqual((tapon.tarea_id, oring.tarea_id), (None, 7))
+        self.assertEqual((filtro.tarea_id, sello.tarea_id), (7, 7))
+
+    def test_nombre_del_empaque_por_su_tapon(self):
+        from .despiece_variantes import nombres_de_sellos
+        partes = [{"ref": 14, "nombre": "Tapón con varilla del aceite"}, {"ref": 15, "nombre": "O ring"}]
+        self.assertEqual(nombres_de_sellos(partes), {1: "Empaque del tapón con varilla del aceite"})
+
+
+class LoteCriteriosTests(TestCase):
+    def test_tapones_bujias_y_franja_por_primera_palabra(self):
+        from . import diagramas as d
+        self.assertEqual(d.puesto_para("culata", "PLUG,SPARK (CPR7EA-9)"), "bujia")
+        self.assertEqual(d.puesto_para("electrico", "PLUG CAP ASSY"), "capuchon")
+        self.assertEqual(d.puesto_para("carcasa", "CAP, OIL FILTER"), "tapa_filtro")
+        self.assertEqual(d.puesto_para("freno_disco", "PLUG, PIN"), "h_tapa")
+        self.assertEqual(d.puesto_para("freno_disco", "CAP, BLEEDER"), "purgador")
+        self.assertEqual(d.puesto_para("distribucion", "O-RING TORNILLO TENSOR"), "h_empaque")
+
+    def test_tarea_al_sello_anterior_y_tapa_del_filtro(self):
+        from types import SimpleNamespace as N
+        from .management.commands.importar_despiece import tarea_al_sello
+        arandela, tornillo = N(ref=9, descripcion="Arandela Tapón Drenaje", tarea_id=None), N(ref=10, descripcion="Tornillo Drenaje", tarea_id=5)
+        tapa, oring = N(ref=3, descripcion="TAPA FILTRO ACEITE", tarea_id=5), N(ref=4, descripcion="O-RING TAPA 52X2.4", tarea_id=None)
+        sola = N(ref=17, descripcion="Cubierta Filtro Aceite", tarea_id=5)
+        tarea_al_sello([arandela, tornillo, tapa, oring])
+        tarea_al_sello([sola])
+        self.assertEqual((arandela.tarea_id, tornillo.tarea_id), (5, None))
+        self.assertEqual((tapa.tarea_id, oring.tarea_id), (None, 5))
+        self.assertIsNone(sola.tarea_id)
+
+    def test_empaques_con_dueno(self):
+        from .despiece_variantes import nombres_de_empaques
+        partes = [{"ref": 1, "nombre": "Culata", "descripcion": "CYLINDER HEAD", "_puesto": "culata"},
+                  {"ref": 2, "nombre": "O ring", "descripcion": "O-RING", "_puesto": "h_empaque"},
+                  {"ref": 3, "nombre": "Empaque culata", "descripcion": "Empaque Culata", "_puesto": "empaque_culata"}]
+        self.assertEqual(nombres_de_empaques(partes, "Culata"), {1: "Empaque de la culata", 2: "Empaque de la culata"})
+
+
+class PiezaInicialTests(TestCase):
+    """El visor abre cada sistema en la pieza que explica su estado (vencida > pronto > más avanzada > menor número)."""
+
+    def test_estado_del_sistema_sale_de_sus_piezas_y_abre_en_la_que_lo_explica(self):
+        from types import SimpleNamespace as N
+        from unittest import mock
+        from . import views
+        t1, t2 = N(pk=1, nombre="A", clave="a", servicio_id=None, hazlo_tu=False), N(pk=2, nombre="B", clave="b", servicio_id=None, hazlo_tu=False)
+        base = {"laminas": [
+            {"id": 1, "pieza": "motor", "partes": [{"id": 10, "ref": 1, "_tarea": None}, {"id": 11, "ref": 4, "_tarea": 2},
+                                                   {"id": 12, "ref": 7, "_tarea": 1}]},
+            {"id": 2, "pieza": "motor", "partes": [{"id": 20, "ref": 1, "_tarea": None}]},   # sin piezas con tarea
+        ], "sistemas": []}
+        plan = N(moto=N(pk=1, km_actual=0, nombre_completo="x"), piezas=lambda: {"motor": {"estado": "vencido"}}, tareas=[
+            N(tarea=t1, estado="vencido", color="vencido", etiqueta="", detalle="", progreso=120, porcentaje=100),
+            N(tarea=t2, estado="pronto", color="pronto", etiqueta="", detalle="", progreso=80, porcentaje=80)])
+        with mock.patch.object(views, "_laminas_base", return_value=base), mock.patch.object(views.caches["despiece"], "get", return_value=None), \
+                mock.patch.object(views.caches["despiece"], "set"), mock.patch.object(views, "intervalo_texto", return_value=""):
+            datos = views.datos_despiece(views.Despiece(pk=1, version="", anio=0), plan)
+        motor, sin_tareas = sorted(datos["laminas"], key=lambda l: l["id"])
+        self.assertEqual((motor["estado"], motor["inicial"]), ("vencido", 12))
+        self.assertEqual((sin_tareas["estado"], sin_tareas["inicial"]), (None, None))  # no hereda el estado de la zona
+
+
+class DespiecePorAnioTests(TestCase):
+    """Una línea con despieces de varios años: cada moto usa el de su año (o el anterior más cercano)."""
+
+    def test_elige_el_catalogo_del_anio_de_la_moto(self):
+        from talleres.models import Marca
+        from .models import Despiece
+        marca = Marca.objects.get_or_create(nombre="Suzuki")[0]
+        linea = LineaMoto.objects.create(marca=marca, nombre="Prueba 150", cilindraje=150)
+        d2015 = Despiece.objects.create(linea=linea, version="CARB", anio=2015, variante="Carburador")
+        d2020 = Despiece.objects.create(linea=linea, version="FI", anio=2020, variante="FI ABS")
+        Despiece.objects.create(linea=linea, version="VIEJO-INACTIVO", anio=2010, activo=False)
+        moto = lambda anio: Moto(linea=linea, modelo=anio)
+        self.assertEqual(Despiece.para(moto(2017)), d2015)
+        self.assertEqual(Despiece.para(moto(2021)), d2020)
+        self.assertEqual(Despiece.para(moto(2020)), d2020)
+        self.assertEqual(Despiece.para(moto(2012)), d2015)   # más vieja que todos los activos: el más antiguo
+
+
+class EstimacionKmTests(TestCase):
+    """Registros sin kilometraje exacto: fecha sin km, "hace unos meses" y "no sé" (criterio en garaje/plan.py)."""
+
+    def setUp(self):
+        usar_intervalos_generales(self)  # aceite: 2.500 km o 120 días
+        self.usuario = User.objects.create_user("e@x.com", "e@x.com", "x")
+        self.perfil = Motociclista.objects.create(nombre="E", celular="573001117777", usuario=self.usuario)
+        self.client.force_login(self.usuario)
+        self.aceite = TareaMantenimiento.objects.get(clave="aceite")
+        self.hoy = timezone.localdate()
+
+    def _moto(self, km_inicial=10000, km_actual=10000, lecturas=(), **extra):
+        moto = Moto.objects.create(motociclista=self.perfil, linea=LineaMoto.objects.get(nombre="NKD 125"), modelo=2022,
+                                   km_inicial=km_inicial, km_actual=km_actual, **extra)
+        for dias, km in lecturas:
+            LecturaKm.objects.create(moto=moto, km=km, fecha=self.hoy - timedelta(days=dias))
+        return moto
+
+    def _aceite(self, moto):
+        return next(t for t in calcular_plan(moto).tareas if t.tarea == self.aceite)
+
+    def test_fecha_entre_lecturas_se_interpola(self):
+        from .plan import km_en_fecha
+        moto = self._moto(km_actual=12000, lecturas=((60, 10000), (20, 11000), (0, 12000)))
+        self.assertEqual(km_en_fecha(moto, self.hoy - timedelta(days=40)), 10500)
+        self.assertEqual(km_en_fecha(moto, self.hoy - timedelta(days=10)), 11500)
+
+    def test_fecha_antes_de_las_lecturas_sigue_el_ritmo_y_no_baja_de_cero(self):
+        from .plan import km_en_fecha
+        moto = self._moto(km_actual=12000, lecturas=((60, 10000), (20, 11000), (0, 12000)))  # ≈ 33 km/día
+        km = km_en_fecha(moto, self.hoy - timedelta(days=90))
+        self.assertAlmostEqual(km, 10000 - 30 * 33.3, delta=60)
+        self.assertEqual(km_en_fecha(moto, self.hoy - timedelta(days=5000)), 0)
+
+    def test_registrar_con_fecha_y_sin_km_lo_estima(self):
+        moto = self._moto(km_actual=12000, lecturas=((60, 10000), (20, 11000), (0, 12000)))
+        fecha = (self.hoy - timedelta(days=40)).isoformat()
+        r = self.client.post(reverse("garaje:registrar_mantenimiento", args=[moto.pk]),
+                             {"tarea": self.aceite.pk, "km": "", "fecha": fecha}, HTTP_X_REQUESTED_WITH="fetch")
+        self.assertEqual(r.status_code, 200, r.content)
+        m = Mantenimiento.objects.get(moto=moto)
+        self.assertEqual(m.km, 10500)
+        self.assertIn("km estimado", m.notas)
+        datos = r.json()
+        self.assertIn("estimados por la fecha", datos["mensaje"])
+        self.assertEqual(datos["tarea"]["km"]["origen"], "aproximado")
+        self.assertEqual(datos["tarea"]["km"]["desde"], 1500)
+        self.assertIn("Estimado", datos["tarea"]["km"]["texto_origen"])
+
+    def test_sin_km_ni_fecha_pide_uno_de_los_dos(self):
+        moto = self._moto()
+        r = self.client.post(reverse("garaje:registrar_mantenimiento", args=[moto.pk]),
+                             {"tarea": self.aceite.pk, "km": "", "fecha": ""}, HTTP_X_REQUESTED_WITH="fetch")
+        self.assertEqual(r.status_code, 400)
+        self.assertFalse(Mantenimiento.objects.exists())
+
+    def test_hace_unos_meses_usa_las_lecturas_y_no_25_km_por_dia(self):
+        moto = self._moto(km_inicial=8000, km_actual=11000, lecturas=((100, 8000), (0, 11000)))  # 30 km/día
+        r = self.client.post(reverse("garaje:poner_al_dia", args=[moto.pk]),
+                             {f"estado_{self.aceite.pk}": "nose", f"hace_{self.aceite.pk}": "3"})
+        self.assertEqual(r.status_code, 302)
+        m = Mantenimiento.objects.get(moto=moto, tarea=self.aceite)
+        self.assertEqual(m.fecha, self.hoy - timedelta(days=90))
+        self.assertEqual(m.km, 8300)                       # 25 km/día habría dado 8.750
+        self.assertEqual(self._aceite(moto).origen, "aproximado")
+
+    def test_no_se_cuenta_desde_nueva_pero_solo_marca_pronto(self):
+        moto = self._moto(km_inicial=300, km_actual=5000)  # el doble del intervalo (2.500), sin ningún registro
+        t = self._aceite(moto)
+        self.assertTrue(t.supuesto)
+        self.assertEqual(t.origen, "supuesto")
+        self.assertEqual(t.km_desde, 5000)
+        self.assertEqual((t.estado, t.nivel), ("pronto", "pronto"))  # no "Toca ya": la única evidencia es la edad
+        self.assertIn("revísalo pronto", t.detalle)
+        self.assertIn("era nueva", t.texto_origen)
+
+    def test_interpolacion_sin_las_correcciones_del_odometro(self):
+        from .plan import km_en_fecha
+        # 900 km por tramo y, el último día, una corrección del odómetro de 4.000 km (no son km rodados)
+        moto = self._moto(km_actual=15800, lecturas=((60, 10000), (30, 10900), (1, 11800), (1, 15800)))
+        km = km_en_fecha(moto, self.hoy - timedelta(days=15))
+        self.assertEqual(km, 15366)                        # hoy menos lo rodado desde entonces (≈ 434 km)
+        self.assertEqual(km_en_fecha(moto, self.hoy - timedelta(days=60)), 15800 - 1800)
+
+
+class RegistrarCuandoTests(TestCase):
+    """Diálogo "Registrar mantenimiento": Hace poco · A los … km · No sé, guardado igual que "Poner al día"."""
+
+    def setUp(self):
+        usar_intervalos_generales(self)
+        self.usuario = User.objects.create_user("c@x.com", "c@x.com", "x")
+        perfil = Motociclista.objects.create(nombre="C", celular="573001116666", usuario=self.usuario)
+        self.moto = Moto.objects.create(motociclista=perfil, linea=LineaMoto.objects.get(nombre="NKD 125"), modelo=2022,
+                                        km_inicial=11000, km_actual=11000)
+        self.hoy = timezone.localdate()
+        for dias, km in ((100, 8000), (0, 11000)):  # 30 km/día
+            LecturaKm.objects.create(moto=self.moto, km=km, fecha=self.hoy - timedelta(days=dias))
+        self.aceite = TareaMantenimiento.objects.get(clave="aceite")
+        self.url = reverse("garaje:registrar_mantenimiento", args=[self.moto.pk])
+        self.client.force_login(self.usuario)
+
+    def enviar(self, **datos):
+        return self.client.post(self.url, {"tarea": self.aceite.pk, **datos}, HTTP_X_REQUESTED_WITH="fetch")
+
+    def registro(self):
+        return Mantenimiento.objects.get(moto=self.moto, tarea=self.aceite)
+
+    def test_el_dialogo_trae_las_opciones_y_el_km_vacio(self):
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertContains(r, 'name="cuando" value="nose"')
+        self.assertContains(r, 'name="km" min="0"')       # sin value: sale vacío, con placeholder
+        self.assertContains(r, 'value="sin_idea"')
+        html = r.content.decode()
+        # Un solo campo por dato: el km solo en "A los … km"; en "No sé", una sola fecha (desplegable) y ningún km
+        nose = html[html.index('data-panel-cuando="nose"'):html.index('registrar-taller')]
+        km = html[html.index('data-panel-cuando="km"'):html.index('data-panel-cuando="nose"')]
+        self.assertNotIn('name="km"', nose)
+        self.assertEqual((nose.count('name="fecha"'), km.count('name="fecha"'), km.count('name="km"')), (1, 1, 1))
+        dialogo = html[html.index('id="dialogo-registrar"'):]
+        self.assertEqual(dialogo[:dialogo.index("</dialog>")].count('name="km" '), 1)
+
+    def test_hace_poco(self):
+        self.assertEqual(self.enviar(cuando="poco").status_code, 200)
+        self.assertEqual((self.registro().km, self.registro().fecha), (11000, self.hoy))
+
+    def test_a_los_km_sin_fecha_la_estima(self):
+        from .plan import fecha_en_km
+        self.enviar(cuando="km", km="10100")
+        self.assertEqual(self.registro().fecha, fecha_en_km(self.moto, 10100))
+        self.assertIn("fecha estimada", self.registro().notas)
+
+    def test_no_se_hace_unos_meses_igual_que_poner_al_dia(self):
+        self.enviar(cuando="nose", hace="3", notas="Aceite 20W-50")
+        m = self.registro()
+        self.assertEqual((m.fecha, m.km), (self.hoy - timedelta(days=90), 8300))
+        self.assertEqual(m.notas, "Aceite 20W-50 (fecha y km estimados)")
+
+    def test_no_se_con_fecha_estima_el_km(self):
+        self.enviar(cuando="nose", fecha=(self.hoy - timedelta(days=50)).isoformat())
+        self.assertEqual(self.registro().km, 9500)
+
+    def test_no_se_sin_nada_pide_cuando(self):
+        r = self.enviar(cuando="nose")
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("hace cuánto", r.json()["error"])
+        self.assertFalse(Mantenimiento.objects.exists())
+
+    def test_sin_idea_cuenta_desde_la_matricula_como_supuesto(self):
+        from .models import RegistroServicio
+        self.moto.matricula = self.hoy - timedelta(days=400)
+        self.moto.save(update_fields=["matricula"])
+        r = self.enviar(cuando="nose", hace="sin_idea")
+        self.assertEqual(r.status_code, 200)
+        self.assertIn("desde que la moto era nueva", r.json()["mensaje"])
+        m = self.registro()
+        self.assertEqual((m.km, m.fecha), (0, self.moto.matricula))
+        self.assertFalse(RegistroServicio.objects.filter(moto=self.moto).exists())  # no es un servicio hecho
+        t = next(t for t in calcular_plan(self.moto).tareas if t.tarea == self.aceite)
+        self.assertEqual((t.supuesto, t.origen, t.km_desde), (True, "supuesto", 11000))
+        self.assertEqual((t.estado, t.nivel, t.etiqueta), ("pronto", "pronto", "Pronto (estimado)"))  # nunca "Toca ya"
+
+    def test_sin_idea_sin_matricula_usa_el_anio_del_modelo(self):
+        self.enviar(cuando="nose", hace="sin_idea")
+        self.assertEqual(self.registro().fecha, date(2021, 7, 1))
+
+
+class RitmoMatriculaTests(TestCase):
+    def test_sin_lecturas_ni_registro_usa_la_matricula_antes_que_el_modelo(self):
+        from .plan import ritmo_km
+        dueno = Motociclista.objects.create(nombre="M", celular="573009991111")
+        hoy = timezone.localdate()
+        moto = Moto.objects.create(motociclista=dueno, modelo=2015, km_inicial=20000, km_actual=20000,
+                                   matricula=hoy - timedelta(days=1000))
+        ritmo, estimado = ritmo_km(moto, hoy)
+        self.assertTrue(estimado)
+        self.assertAlmostEqual(ritmo, 20)
+        moto.matricula = None
+        self.assertLess(ritmo_km(moto, hoy)[0], 20)          # por el año del modelo (2015): más días, menos km/día

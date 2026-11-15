@@ -1,0 +1,68 @@
+{
+  "linea": "KTM Duke 200",
+  "tareas": {
+    "aceite": {
+      "km": 7500,
+      "dias": 365,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, cap. 10 'Programa de servicio' (columnas a 1.000 km · cada 7.500 km · cada 15.000 km · cada 12 / 24 / 48 meses; leído por la posición de los símbolos ● y ○), fila 'Sustituir el aceite del motor y el filtro de aceite, limpiar el tamiz'; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "SAE 10W-40 o 15W-50, JASO MA2; 1,5 L",
+      "notas": "Con el aceite se cambia el filtro y se limpia el tamiz. El primer servicio es a los 1.000 km."
+    },
+    "bujia": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, cap. 10 'Programa de servicio' (columnas a 1.000 km · cada 7.500 km · cada 15.000 km · cada 12 / 24 / 48 meses; leído por la posición de los símbolos ● y ○), fila 'Comprobar el juego de la válvula, cambiar la bujía'; consultado el 14-nov-2026",
+      "aproximado": true
+    },
+    "valvulas": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, cap. 10 'Programa de servicio' (columnas a 1.000 km · cada 7.500 km · cada 15.000 km · cada 12 / 24 / 48 meses; leído por la posición de los símbolos ● y ○), fila 'Comprobar el juego de la válvula, cambiar la bujía'; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "filtro-aire": {
+      "km": 7500,
+      "dias": null,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, cap. 10 'Programa de servicio' (columnas a 1.000 km · cada 7.500 km · cada 15.000 km · cada 12 / 24 / 48 meses; leído por la posición de los símbolos ● y ○), fila 'Sustituir el filtro de aire, limpiar la caja del filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": true
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, cap. 10 'Programa de servicio' (columnas a 1.000 km · cada 7.500 km · cada 15.000 km · cada 12 / 24 / 48 meses; leído por la posición de los símbolos ● y ○), filas 'Sustituir el líquido de frenos' (cada 24 meses); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "DOT 4 / DOT 5.1",
+      "notas": "Solo por tiempo; aplica a los dos frenos."
+    },
+    "refrigerante": {
+      "km": 0,
+      "dias": 1460,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, cap. 10 'Programa de servicio' (columnas a 1.000 km · cada 7.500 km · cada 15.000 km · cada 12 / 24 / 48 meses; leído por la posición de los símbolos ● y ○), fila 'Sustituir el líquido refrigerante' (cada 48 meses); consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Solo por tiempo. La protección anticongelante se revisa cada 7.500 km."
+    },
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, sección 'Tensión de la cadena'; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Tensión de la cadena 5–7 mm (medida KTM)"
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Presión en frío 29 psi; las llantas se cambian a más tardar a los 5 años"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario KTM Duke 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Presión en frío 29 psi (32 psi con pasajero); las llantas se cambian a más tardar a los 5 años"
+    }
+  }
+}

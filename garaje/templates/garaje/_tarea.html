@@ -1,7 +1,7 @@
 {% load humanize %}{# Una tarea de la agenda. Al tocarla se despliega su "ficha de acción": por qué importa, qué necesitas y cómo resolverlo. #}
-<article class="tarea tarea-{{ t.estado }}{% if proximo %} tarea-proximo{% endif %}" data-pieza="{{ t.tarea.pieza }}" data-tarea-id="{{ t.tarea.pk }}" id="tarea-{{ t.tarea.clave }}">
+<article class="tarea tarea-{{ t.nivel|default:t.estado }}{% if proximo %} tarea-proximo{% endif %}" data-pieza="{{ t.tarea.pieza }}" data-tarea-id="{{ t.tarea.pk }}" id="tarea-{{ t.tarea.clave }}">
   <button type="button" class="tarea-cabeza" aria-expanded="false" aria-controls="tarea-mas-{{ t.tarea.pk }}">
-    <span class="punto-mini punto-{{ t.estado }}" aria-hidden="true"></span>
+    <span class="punto-mini punto-{{ t.nivel|default:t.estado }}" aria-hidden="true"></span>
     <span class="min-w-0 flex-1">
       <span class="tarea-nombre">{{ t.tarea.nombre }}</span>
       <span class="tarea-detalle">
@@ -14,11 +14,11 @@
 
   <div class="tarea-mas" id="tarea-mas-{{ t.tarea.pk }}" hidden>
     {% if t.progreso is not None %}
-    <div class="barra barra-{{ t.estado }}" role="progressbar" aria-valuenow="{{ t.porcentaje }}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia el próximo {{ t.tarea.nombre|lower }}"><span style="width: {{ t.porcentaje }}%"></span></div>
+    <div class="barra barra-{{ t.nivel|default:t.estado }}" role="progressbar" aria-valuenow="{{ t.porcentaje }}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia el próximo {{ t.tarea.nombre|lower }}"><span style="width: {{ t.porcentaje }}%"></span></div>
     {% endif %}
     <p class="tarea-meta">
       {% if t.ultimo_km is not None %}Último: {{ t.ultimo_km|intcomma }} km · {{ t.ultima_fecha|date:"j M Y"|lower }}{% elif t.supuesto %}Contamos desde que la moto era nueva.{% else %}Sin registros todavía.{% endif %}
-      {% if t.tarea.intervalo_km %} · Cada {{ t.tarea.intervalo_km|intcomma }} km{% endif %}{% if t.tarea.intervalo_dias %} · o {{ t.tarea.intervalo_dias }} días{% endif %}
+      {% if t.tarea.intervalo_km %} · Cada {{ t.tarea.intervalo_km|intcomma }} km{% endif %}{% if t.tarea.intervalo_dias %} · o {{ t.tarea.intervalo_dias }} días{% endif %}{% if t.tarea.fuente_intervalo %} · <span class="tarea-fuente" title="{{ t.tarea.fuente_intervalo }}">{% if t.tarea.intervalo_aproximado %}Aproximado{% else %}Según el manual{% if t.tarea.especificacion %}: {{ t.tarea.especificacion }}{% endif %}{% endif %}</span>{% endif %}
     </p>
 
     <div class="accion-grid">
@@ -43,6 +43,8 @@
       {% endif %}
     </div>
 
+    {# Lo que está al día no necesita taller ni "Ya lo hice": solo el detalle y los repuestos #}
+    {% if t.nivel|default:t.estado != "ok" %}
     <h4 class="accion-titulo mt-4">Cómo resolverlo</h4>
     <div class="accion-caminos">
       {% if t.tarea.hazlo_tu %}
@@ -98,5 +100,6 @@
       </form>
       {% endif %}
     </div>
+    {% endif %}
   </div>
 </article>

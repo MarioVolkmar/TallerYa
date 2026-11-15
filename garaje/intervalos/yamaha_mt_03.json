@@ -1,0 +1,69 @@
+{
+  "linea": "Yamaha MT-03",
+  "tareas": {
+    "aceite": {
+      "km": 5000,
+      "dias": null,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000) y sección 'Engine oil'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40, JASO MA; 1,80 L (2,10 L con cambio de filtro)",
+      "notas": "El primer cambio es a los 1.000 km y luego cada 5.000."
+    },
+    "cadena-lubricar": {
+      "km": 800,
+      "dias": null,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Drive chain' (cada 800 km); consultado el 14-nov-2026",
+      "aproximado": false
+    },
+    "bujia": {
+      "km": 10000,
+      "dias": 365,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Spark plugs: Replace at 7000 mi (11000 km) or 12 months and thereafter every 6000 mi (10000 km) or 12 months'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "2 bujías NGK CR8E",
+      "notas": "El primer cambio es a los 11.000 km; se cambian las dos juntas."
+    },
+    "valvulas": {
+      "km": 42000,
+      "dias": null,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Valve clearance: every 26600 mi (42000 km)'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "filtro-aire": {
+      "km": 20000,
+      "dias": 730,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Air filter element: Replace' (columna de 21.000 km o 24 meses); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "El primer cambio es a los 21.000 km y después, con el ciclo, cada 20.000 km o 2 años."
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000) y sección 'Brake fluid'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Solo por tiempo."
+    },
+    "refrigerante": {
+      "km": 20000,
+      "dias": 730,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Cooling system: Change coolant' (columna de 21.000 km o 24 meses); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "El primer cambio es a los 21.000 km o 24 meses y después, con el ciclo, cada 20.000 km o 2 años."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Presión en frío 29 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Presión en frío 36 psi"
+    }
+  }
+}

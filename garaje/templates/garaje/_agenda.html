@@ -37,6 +37,76 @@
   </a>
   {% endif %}
 
+  {% if todo_al_dia %}
+  <!-- Todo al día: lo que viene (las 3 más cercanas) y el estado por sistema -->
+  <div class="papel todo-al-dia">
+    <div class="tad-viene">
+      <div class="flex items-center justify-between gap-3">
+        <h3 class="titulo text-xl">Lo que viene</h3>
+        <span class="tad-chapa"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Todo al día</span>
+      </div>
+      <ul class="tad-lista">
+        {% for t in todo_al_dia.viene %}
+        <li>
+          <div class="flex items-baseline justify-between gap-3">
+            <span class="tad-nombre">{{ t.tarea.nombre }}</span>
+            <span class="tad-falta">{% if t.km_restantes is not None and t.km_restantes > 0 %}faltan {{ t.km_restantes|intcomma }} km{% elif t.dias_restantes %}faltan {{ t.dias_restantes }} día{{ t.dias_restantes|pluralize }}{% else %}{{ t.etiqueta }}{% endif %}</span>
+          </div>
+          <span class="tad-barra{% if t.pct_vida >= 75 %} cerca{% endif %}"><i style="width: {{ t.pct_vida }}%"></i></span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <ul class="tad-sistemas" aria-label="Estado por sistema">
+      {% for s in todo_al_dia.sistemas %}
+      <li class="{% if s.ok == s.total %}completo{% endif %}">
+        <span class="tad-sis-nombre">{{ s.nombre }}</span>
+        <span class="tad-sis-dato">{{ s.ok }} de {{ s.total }} al día</span>
+        <span class="tad-barra"><i style="width: {{ s.pct }}%"></i></span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  {% if lo_urgente %}
+  <!-- Lo urgente: mismo diseño que "Todo al día", con lo vencido y lo próximo (hasta 5) y el estado por sistema -->
+  <div class="papel todo-al-dia lo-urgente">
+    <div class="tad-viene">
+      <div class="flex items-center justify-between gap-3">
+        <h3 class="titulo text-xl">Lo urgente</h3>
+        <span class="tad-chapa lu-chapa">{{ lo_urgente.total }} por atender</span>
+      </div>
+      <ul class="tad-lista">
+        {% for t in lo_urgente.lista %}
+        <li>
+          <a href="#tarea-{{ t.tarea.clave }}" class="lu-item" data-ir-tarea="tarea-{{ t.tarea.clave }}">
+            <span class="flex items-baseline justify-between gap-3">
+              <span class="tad-nombre">{{ t.tarea.nombre }}</span>
+              <span class="tad-falta lu-{{ t.color }}">{{ t.texto_lu }}</span>
+            </span>
+            <span class="tad-barra lu-barra-{{ t.color }}"><i style="width: {{ t.pct_vida }}%"></i></span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="flex flex-wrap items-center gap-3 mt-5">
+        <button type="button" class="btn btn-lava text-xs px-5 py-2.5" data-registrar="">Registrar lo que hice</button>
+        {% if lo_urgente.total > lo_urgente.lista|length %}<a href="#plan" class="lu-mas" data-ir-grupo="atencion">Ver los {{ lo_urgente.total }}</a>{% endif %}
+      </div>
+    </div>
+    <ul class="tad-sistemas" aria-label="Estado por sistema">
+      {% for s in lo_urgente.sistemas %}
+      <li class="lu-sis-{{ s.nivel }}">
+        <span class="tad-sis-nombre">{{ s.nombre }}</span>
+        <span class="tad-sis-dato">{{ s.ok }} de {{ s.total }} al día{% if s.sin_dato %} · {{ s.sin_dato }} sin registro{% endif %}</span>
+        <span class="tad-barra lu-barra-{{ s.nivel }}"><i style="width: {{ s.pct|default:4 }}%"></i></span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
   <!-- Grupos (todos plegables) -->
   <div class="space-y-4">
   {% if agenda.atencion %}
@@ -78,7 +148,7 @@
 
 <!-- Ventana única para registrar un mantenimiento -->
 <dialog id="dialogo-registrar" class="dialogo-eliminar dialogo-registrar">
-  <form method="post" action="{% url 'garaje:registrar_mantenimiento' moto.pk %}" class="space-y-4">
+  <form method="post" action="{% url 'garaje:registrar_mantenimiento' moto.pk %}" class="space-y-4" data-codigo-url="{% url 'garaje:codigo_taller' moto.pk %}">
     {% csrf_token %}
     <div class="flex items-start justify-between gap-3">
       <p class="titulo text-2xl">Registrar <span class="text-lava">mantenimiento</span></p>
@@ -93,15 +163,50 @@
         {% if agenda.al_dia %}<optgroup label="Al día">{% for t in agenda.al_dia %}<option value="{{ t.tarea.pk }}">{{ t.tarea.nombre }}</option>{% endfor %}</optgroup>{% endif %}
       </select>
     </label>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <label class="campo-label">Kilometraje<input type="number" name="km" value="{{ moto.km_actual }}" min="0" max="{{ moto.km_actual }}" class="campo" inputmode="numeric" required></label>
-      <label class="campo-label">Fecha<input type="date" name="fecha" value="{% now 'Y-m-d' %}" max="{% now 'Y-m-d' %}" class="campo" required></label>
+    {# ¿Cuándo? Las mismas opciones que "Poner al día" y se guardan igual (views.leer_cuando). Un solo campo por dato. #}
+    <fieldset class="registrar-bloque">
+      <legend class="registrar-rotulo">¿Cuándo lo hiciste?</legend>
+      <div class="registrar-segmento" role="radiogroup" aria-label="Cuándo lo hiciste">
+        <label><input type="radio" name="cuando" value="poco" checked><span>Hace poco</span></label>
+        <label><input type="radio" name="cuando" value="km"><span>A los … km</span></label>
+        <label><input type="radio" name="cuando" value="nose"><span>No sé</span></label>
+      </div>
+    </fieldset>
+    <div class="registrar-panel" data-panel-cuando="poco">
+      <p class="registrar-nota">Lo guardamos con la fecha de hoy y {{ moto.km_actual|intcomma }} km.</p>
     </div>
+    <div class="registrar-panel" data-panel-cuando="km" hidden>
+      <label class="campo-label">Kilometraje<input type="number" name="km" min="0" max="{{ moto.km_actual }}" class="campo" inputmode="numeric" placeholder="Ej: 4500"></label>
+      <button type="button" class="registrar-enlace" data-desplegar>+ Agregar fecha</button>
+      <label class="campo-label" data-desplegable hidden>Fecha <span class="font-normal text-suave">(opcional)</span><input type="date" name="fecha" max="{% now 'Y-m-d' %}" class="campo"></label>
+    </div>
+    <div class="registrar-panel" data-panel-cuando="nose" hidden>
+      <p class="registrar-rotulo">¿Más o menos hace cuánto?</p>
+      <div class="al-dia-chips registrar-chips">
+        <label class="al-dia-chip"><input type="radio" name="hace" value="1"><span>Hace 1 mes</span></label>
+        <label class="al-dia-chip"><input type="radio" name="hace" value="3"><span>3 meses</span></label>
+        <label class="al-dia-chip"><input type="radio" name="hace" value="6"><span>6 meses</span></label>
+        <label class="al-dia-chip"><input type="radio" name="hace" value="12"><span>Más de un año</span></label>
+        <label class="al-dia-chip"><input type="radio" name="hace" value="sin_idea"><span>Sin idea</span></label>
+      </div>
+      <p class="registrar-nota" data-nota-sin-idea hidden>Contamos todo el kilometraje de la moto, desde nueva: lo marcaremos como estimado.</p>
+      <button type="button" class="registrar-enlace" data-desplegar>¿Sabes la fecha exacta?</button>
+      <label class="campo-label" data-desplegable hidden>Fecha exacta<input type="date" name="fecha" max="{% now 'Y-m-d' %}" class="campo"></label>
+      <p class="registrar-nota" data-nota-estimado>El kilometraje lo estimamos con tus lecturas y tu ritmo de uso.</p>
+    </div>
+    <div class="registrar-bloque registrar-taller">
+    <p class="registrar-rotulo">¿Quién lo hizo?</p>
     <label class="campo-label">Taller (opcional)
       <select name="taller" class="campo selector-taller"><option value="">Lo hice yo / sin taller</option>{% for tl in talleres_activos %}<option value="{{ tl.pk }}">{{ tl.nombre }}</option>{% endfor %}<option value="otro">Otro taller (fuera de TallerYa)</option></select>
     </label>
     <label class="campo-label taller-otro" hidden>Nombre del taller (opcional)
       <input type="text" name="taller_otro" maxlength="80" class="campo" placeholder="Ej: Motos El Paisa"></label>
+    {# Solo si lo hizo un taller: el precio entra a Gastos y consumo (una sola vez, desde la hoja de vida) #}
+    <label class="campo-label campo-precio" hidden>Precio (opcional)
+      <input type="text" name="precio" inputmode="numeric" maxlength="12" class="campo" placeholder="Ej: 85.000" autocomplete="off"></label>
+    {# Taller de TallerYa: "Aún no está verificado" con el QR del código (garaje/js/codigo_taller.js) #}
+    <div data-verificar hidden></div>
+    </div>
     <a href="{% url 'garaje:poner_al_dia' moto.pk %}" class="registrar-varios">
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="m3 6 1 1 2-2M3 12l1 1 2-2M3 18l1 1 2-2"/></svg>
       <span><strong>¿Hiciste varios?</strong> Actualiza tus mantenimientos de una vez</span>
@@ -135,10 +240,57 @@
       el.classList.add("resaltada");
       el.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+    // ¿Cuándo?: muestra solo los campos de la opción elegida; lo oculto (o la fecha sin desplegar) no se envía
+    function cuando() {
+      var elegido = dialogo.querySelector('[name="cuando"]:checked').value;
+      dialogo.querySelectorAll("[data-panel-cuando]").forEach(function (p) {
+        var activo = p.dataset.panelCuando === elegido;
+        p.hidden = !activo;
+        p.querySelectorAll("input").forEach(function (i) {
+          var plegado = i.closest("[data-desplegable]");
+          i.disabled = !activo || (plegado && plegado.hidden);
+        });
+      });
+      dialogo.querySelector('[name="km"]').required = elegido === "km";
+      var sinIdea = dialogo.querySelector('[name="hace"][value="sin_idea"]');
+      // Un solo texto: "Sin idea" cuenta todo desde nueva; lo demás se estima con las lecturas
+      dialogo.querySelector("[data-nota-sin-idea]").hidden = !sinIdea.checked;
+      dialogo.querySelector("[data-nota-estimado]").hidden = sinIdea.checked;
+    }
+    function plegar() {
+      dialogo.querySelectorAll("[data-desplegable]").forEach(function (d) { d.hidden = true; d.querySelector("input").value = ""; });
+      dialogo.querySelectorAll("[data-desplegar]").forEach(function (b) { b.hidden = false; });
+      dialogo.querySelectorAll('[name="hace"]').forEach(function (r) { r.checked = false; });
+      dialogo.querySelector('[name="km"]').value = "";
+    }
+    dialogo.querySelectorAll('[name="cuando"]').forEach(function (r) { r.addEventListener("change", cuando); });
+    dialogo.querySelectorAll("[data-desplegar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var d = b.parentElement.querySelector("[data-desplegable]");
+        d.hidden = false;
+        b.hidden = true;
+        cuando();
+        d.querySelector("input").focus();
+      });
+    });
+    // En "No sé": elegir una fecha exacta desmarca el "hace cuánto" (y al revés)
+    var fechaNose = dialogo.querySelector('[data-panel-cuando="nose"] [name="fecha"]');
+    fechaNose.addEventListener("input", function () {
+      if (fechaNose.value) dialogo.querySelectorAll('[name="hace"]').forEach(function (r) { r.checked = false; });
+      cuando();
+    });
+    dialogo.querySelectorAll('[name="hace"]').forEach(function (r) {
+      r.addEventListener("change", function () { fechaNose.value = ""; cuando(); });
+    });
+    cuando();
     function registrar(id) {
       select.value = id || "";
+      select.dispatchEvent(new Event("change", { bubbles: true }));  // el selector personalizado muestra la tarea elegida
+      dialogo.querySelector('[name="cuando"][value="poco"]').checked = true;
+      plegar();
+      cuando();
       dialogo.showModal();
-      (id ? dialogo.querySelector('[name="km"]') : select).focus();
+      (id ? dialogo.querySelector('[name="cuando"]:checked') : select).focus();
     }
     window.TallerYaPlan = {
       mostrar: function (piezaOElemento) {
@@ -152,6 +304,8 @@
       if (e.target.closest("[data-cerrar]")) { dialogo.close(); return; }
       var cabeza = e.target.closest(".tarea-cabeza");
       if (cabeza) { abrirTarea(cabeza.closest(".tarea")); return; }
+      var irTarea = e.target.closest("[data-ir-tarea]");
+      if (irTarea) { e.preventDefault(); mostrar(document.getElementById(irTarea.dataset.irTarea)); return; }
       var ir = e.target.closest("[data-ir-grupo]");
       if (ir) {
         e.preventDefault();

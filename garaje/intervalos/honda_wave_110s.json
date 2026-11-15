@@ -1,0 +1,56 @@
+{
+  "linea": "Honda Wave 110S",
+  "tareas": {
+    "aceite": {
+      "km": 6000,
+      "dias": 365,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 6.000 / 12.000 … 36.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Aceite del motor' (cambiar a los 1.000 km, en cada columna desde los 6.000 y en la anual); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-30, JASO MA",
+      "notas": "El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian cada 12.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 6.000 / 12.000 … 36.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 500 km'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Juego de la cadena 20–30 mm"
+    },
+    "filtro-aire": {
+      "km": 18000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 6.000 / 12.000 … 36.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Filtro de aire' (cambiar a los 18.000 y 36.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Con polvo o lluvia, más seguido."
+    },
+    "bujia": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 6.000 / 12.000 … 36.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Bujía' (revisar a los 6.000, 18.000 y 30.000; cambiar a los 12.000, 24.000 y 36.000); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR6EA-9S",
+      "notas": "A mitad del intervalo (cada 6.000 km) se revisa."
+    },
+    "valvulas": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 6.000 / 12.000 … 36.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Holgura de las válvulas' (en cada columna desde los 6.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Presión en frío 29 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Honda Wave 110S (2020, misma generación que el catálogo 2019), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Presión en frío 33 psi (41 psi con pasajero)"
+    }
+  }
+}

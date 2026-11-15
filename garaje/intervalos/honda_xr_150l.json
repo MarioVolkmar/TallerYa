@@ -1,0 +1,63 @@
+{
+  "linea": "Honda XR 150L",
+  "tareas": {
+    "aceite": {
+      "km": 4000,
+      "dias": 365,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Aceite del motor' (cambiar a los 1.000 km, en cada columna desde los 4.000 y en la anual); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-30, JASO MA, API SJ o superior; 1,0 L tras el drenaje",
+      "notas": "El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian cada 12.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 1000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 1.000 km'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Juego de la cadena 20–30 mm"
+    },
+    "filtro-aire": {
+      "km": 16000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Filtro de aire' (cambiar a los 16.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "En trocha o con polvo, más seguido."
+    },
+    "bujia": {
+      "km": 8000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Bujía' (revisar a los 4.000, 12.000 y 20.000; cambiar a los 8.000, 16.000 y 24.000); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR8EA-9 (CPR9EA-9 para alta velocidad sostenida); separación 0,8–0,9 mm"
+    },
+    "valvulas": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Holgura de las válvulas' (a los 1.000 km y en cada columna); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Líquido de frenos' (sustitución normal: 2 años); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Honda DOT 3 o DOT 4",
+      "notas": "Solo por tiempo."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "90/90-19; presión en frío 22 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "110/90-17; presión en frío 22 psi (29 psi con pasajero)"
+    }
+  }
+}

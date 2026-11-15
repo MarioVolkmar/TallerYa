@@ -1,0 +1,71 @@
+{
+  "linea": "Yamaha Crypton FI 115",
+  "tareas": {
+    "aceite": {
+      "km": 2000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento (cap. 7; columnas 1.000 km o 1 mes, 3.000 o 4, 5.000 o 7, 7.000 o 10, 9.000 o 13; después se repite el ciclo cada 2.000 km), fila 20 'Aceite de motor: cambiar. En los primeros 1000 km y cada 2000 km'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40; 0,80 L en el cambio",
+      "notas": "El primer cambio es a los 1.000 km y después cada 2.000. El cartucho del filtro de aceite se cambia a los 1.000, 5.000 y 9.000 km (cada 4.000)."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento, fila 12 'Cadena de transmisión'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Juego de la cadena 30–40 mm",
+      "notas": "Cada 500 km y también después de lavarla o rodar con lluvia."
+    },
+    "filtro-aire": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento y sección 'Filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": false
+    },
+    "bujia": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, sección 'Bujía' y cuadro de mantenimiento (limpiar y ajustar en cada servicio desde los 3.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CR6HSA; separación de electrodos 0,6–0,7 mm",
+      "notas": "Se limpia y se ajusta en cada servicio; se cambia cada 6.000 km."
+    },
+    "valvulas": {
+      "km": 4000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento (cap. 7; columnas 1.000 km o 1 mes, 3.000 o 4, 5.000 o 7, 7.000 o 10, 9.000 o 13; después se repite el ciclo cada 2.000 km), fila 3 'Válvulas: comprobar y ajustar la holgura' (a los 5.000 y 9.000 km); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller",
+      "notas": "La primera revisión es a los 5.000 km y luego cada 4.000."
+    },
+    "suspension-del": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento (cap. 7; columnas 1.000 km o 1 mes, 3.000 o 4, 5.000 o 7, 7.000 o 10, 9.000 o 13; después se repite el ciclo cada 2.000 km), fila 18 'Horquilla delantera: cambiar el aceite. Cada 20000 km'; consultado el 14-nov-2026",
+      "aproximado": false
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento y sección 'Líquido de frenos'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "DOT 3 o DOT 4",
+      "notas": "Solo por tiempo."
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, sección 'Neumáticos'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "70/90-17; presión en frío 29 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, sección 'Neumáticos'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "80/90-17; presión en frío 33 psi hasta 90 kg de carga y 41 psi con más carga"
+    }
+  }
+}

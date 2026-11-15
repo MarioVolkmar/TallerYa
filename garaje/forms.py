@@ -165,7 +165,30 @@ class LecturaForm(EstiloMixin, forms.Form):
         return km
 
 
+MAX_COSTO = 50_000_000  # COP: más que esto es casi seguro un error de digitación
+
+
+def leer_pesos(texto):
+    """'85.000', '$ 85 000' o '85000' → 85000. None si está vacío. Error si es negativo, no es número o es enorme."""
+    texto = (texto or "").strip()
+    if not texto:
+        return None
+    if "-" in texto:
+        raise forms.ValidationError("El precio no puede ser negativo.")
+    digitos = "".join(c for c in texto.split(",")[0] if c.isdigit())
+    if not digitos or any(c.isalpha() for c in texto):
+        raise forms.ValidationError("Escribe el precio en pesos, solo números.")
+    valor = int(digitos)
+    if valor > MAX_COSTO:
+        raise forms.ValidationError("Ese valor es demasiado alto. Revisa el número.")
+    return valor
+
+
 class MantenimientoForm(EstiloMixin, forms.ModelForm):
+    # Precio (opcional, COP): solo si lo hizo un taller. Se guarda en el registro de la hoja de vida → Gastos lo suma una vez.
+    precio = forms.CharField(label="Precio (opcional)", required=False, max_length=20,
+                             widget=forms.TextInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 85.000"}))
+
     class Meta:
         model = Mantenimiento
         fields = ["tarea", "km", "fecha", "taller", "taller_otro", "notas"]
@@ -189,10 +212,12 @@ class MantenimientoForm(EstiloMixin, forms.ModelForm):
         self.moto = moto
         self.fields["taller"].queryset = Taller.objects.filter(activo=True)
         self.fields["tarea"].queryset = TareaMantenimiento.objects.filter(activo=True)
+        # Con fecha pero sin kilometraje: lo estimamos con las lecturas de la moto (ver clean)
+        self.fields["km"].required = False
 
     def clean_km(self):
         km = self.cleaned_data["km"]
-        if self.moto and km > self.moto.km_actual:
+        if km is not None and self.moto and km > self.moto.km_actual:
             raise forms.ValidationError(f"No puede ser mayor que el kilometraje actual ({self.moto.km_actual} km). "
                                         "Actualiza primero el kilometraje.")
         return km
@@ -203,8 +228,21 @@ class MantenimientoForm(EstiloMixin, forms.ModelForm):
             raise forms.ValidationError("La fecha no puede ser futura.")
         return fecha
 
+    def clean_precio(self):
+        return leer_pesos(self.cleaned_data.get("precio"))
+
     def clean(self):
         datos = super().clean()
         if datos.get("taller"):
             datos["taller_otro"] = ""  # si eligió un taller de TallerYa, el nombre libre sobra
+        if not datos.get("taller") and not datos.get("taller_otro"):
+            datos["precio"] = None  # "Lo hice yo": no se guarda precio
+        if datos.get("km") is None and "km" not in self.errors:
+            if not (self.moto and datos.get("fecha")):
+                self.add_error("km", "Escribe el kilometraje, o al menos la fecha para estimarlo.")
+            else:
+                from .plan import MARCA_KM_ESTIMADO, km_en_fecha
+                datos["km"] = km_en_fecha(self.moto, datos["fecha"])
+                marca = f"({MARCA_KM_ESTIMADO}o por la fecha)"
+                datos["notas"] = f"{(datos.get('notas') or '')[:200 - len(marca) - 1]} {marca}".strip()
         return datos

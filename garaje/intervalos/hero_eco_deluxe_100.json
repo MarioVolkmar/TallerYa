@@ -1,0 +1,70 @@
+{
+  "linea": "Hero Eco Deluxe 100",
+  "tareas": {
+    "aceite": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Aceite del motor'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "4T Plus SAE 10W-30 SJ, JASO MA; 1,05 L",
+      "notas": "Se completa el nivel cada 3.000 km. La malla del aceite y el filtro centrífugo se limpian cada 6.000 km."
+    },
+    "bujia": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Bujía'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CR7HSA (o Bosch UR4AC, Champion P-RZ9HC); separación 0,6–0,7 mm",
+      "notas": "Se limpia en cada servicio."
+    },
+    "filtro-aire": {
+      "km": 12000,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Filtro de aire'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Es de papel seco: se sopla con aire desde adentro hacia afuera y nunca se lava."
+    },
+    "valvulas": {
+      "km": 3000,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección de mantenimiento periódico (revisar la holgura en cada servicio); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Revisar y ajustar en frío, en taller",
+      "notas": "El manual dice 'en cada servicio'; los servicios son cada 3.000 km aproximadamente."
+    },
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Lubricar con aceite SAE 90",
+      "notas": "El manual dice inspeccionar, limpiar, lubricar y ajustar cada 2.000 km; para uso diario con lluvia se deja el intervalo general de lubricación, más corto."
+    },
+    "liquido-frenos": {
+      "km": 30000,
+      "dias": 730,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Líquido de frenos' (versión con disco); consultado el 14-nov-2026",
+      "aproximado": false
+    },
+    "suspension-del": {
+      "km": 30000,
+      "dias": 730,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Suspensión delantera' (cambio del aceite); consultado el 14-nov-2026",
+      "aproximado": false
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "2.75-18; presión en frío 25 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "2.75-18; presión en frío 28 psi (40 psi con pasajero)"
+    }
+  }
+}

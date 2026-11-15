@@ -11,7 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import caches
 from django.db import transaction
-from django.db.models import Count, Max
+from django.db.models import Count, Max, Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -20,7 +20,11 @@ from django.views.decorators.http import require_POST
 from cupones.models import Cupon
 from talleres.models import Servicio, Taller
 
-from .forms import LecturaForm, MantenimientoForm, MotoForm
+from django.core.exceptions import ValidationError
+
+from . import hoja_vida, intervalos
+from .gastos import resumen as resumen_gastos
+from .forms import LecturaForm, MantenimientoForm, MotoForm, validar_documento
 import json
 
 from django.core.exceptions import ValidationError
@@ -29,14 +33,16 @@ from django.views.decorators.cache import cache_control
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 
 from . import diagramas, pico_placa
-from .avisos import avisos_moto
-from .despiece_variantes import quitar_modelo, datos_tecnicos, nombre_por_sistema, nombres_distintos, separar_nombre, texto_tecnico
+from .despiece_variantes import (quitar_modelo, datos_tecnicos, nombre_por_sistema, nombres_de_empaques, nombres_de_sellos,
+                                 nombres_distintos,
+                                 separar_nombre, texto_tecnico)
 from .despiece_fichas import ficha_completa, tiene_guia_propia
 from .despiece_guia_mecanica import guia_mecanica
 from .despiece_sistemas import ORDEN_SUBGRUPOS, sistema_de, sistemas_de
 from .models import (COLORES, COLORES_EXTRA, COLORES_SECUNDARIOS, DISENOS_CALCA, DOCUMENTOS, HEX, Despiece, LecturaKm,
-                     AjusteTarea, LineaMoto, Mantenimiento, Moto, ParteDespiece, SolicitudSoat, TareaMantenimiento)
-from .plan import GRAVEDAD, calcular_plan
+                     AjusteTarea, LineaMoto, Mantenimiento, Moto, ParteDespiece, TareaMantenimiento)
+from .plan import GRAVEDAD, MARCA_SIN_IDEA, calcular_plan, es_sin_idea, fecha_de_nueva, fecha_en_km, km_en_fecha, km_es_estimado
+from .intervalos import intervalo_para
 
 MAX_MOTOS = 5
 
@@ -66,9 +72,7 @@ def garaje(request):
     if len(motos) == 1 and not request.GET.get("lista"):
         return redirect(motos[0])
     planes = [(m, calcular_plan(m)) for m in motos]
-    avisos = [{**a, "moto": m} for m in motos for a in avisos_moto(m)]
-    return render(request, "garaje/garaje.html", {"planes": planes, "puede_agregar": len(motos) < MAX_MOTOS,
-                                                  "avisos": avisos})
+    return render(request, "garaje/garaje.html", {"planes": planes, "puede_agregar": len(motos) < MAX_MOTOS})
 
 
 @con_motociclista
@@ -81,7 +85,8 @@ def agregar(request):
     if request.method == "POST" and form.is_valid():
         km_actual = form.cleaned_data["km_actual"]
         tareas = _tareas_principales(form.instance)
-        nuevos, errores = _leer_al_dia(request.POST, tareas, km_actual)
+        form.instance.km_inicial = form.instance.km_actual = km_actual
+        nuevos, errores = _leer_al_dia(request.POST, tareas, form.instance)
         if errores:
             filas, mostrar_paso2 = _filas_al_dia(tareas, request.POST, errores), True
         else:
@@ -94,7 +99,8 @@ def agregar(request):
                 LecturaKm.objects.create(moto=moto, km=moto.km_actual)
                 for m in nuevos:
                     m.moto = moto
-                Mantenimiento.objects.bulk_create(nuevos)
+                for m in nuevos:  # uno a uno: cada mantenimiento también queda en la hoja de vida
+                    m.save()
             messages.success(request, "¡Moto agregada! " + _mensaje_al_dia(len(nuevos)))
             return redirect(moto)
     return render(request, "garaje/form_moto.html", {
@@ -128,6 +134,32 @@ def editar(request, pk):
         messages.success(request, "Datos actualizados.")
         return redirect(moto)
     return render(request, "garaje/form_moto.html", {"form": form, "moto": moto, "documentos_form": _documentos_form(form, moto)})
+
+
+@con_motociclista
+@require_POST
+def subir_documento(request, pk, clave):
+    """Sube la foto o el PDF del SOAT o la técnico-mecánica desde la ficha, sin pasar por "Datos de la moto"."""
+    if clave not in DOCUMENTOS:
+        raise Http404
+    moto = _moto_de(request, pk)
+    archivo = request.FILES.get("archivo")
+    if not archivo:
+        messages.error(request, "Elige una foto o un PDF.")
+        return redirect(f"{moto.get_absolute_url()}#documentos")
+    try:
+        validar_documento(archivo)
+    except ValidationError as e:
+        messages.error(request, e.messages[0])
+        return redirect(f"{moto.get_absolute_url()}#documentos")
+    campo = f"{clave}_archivo"
+    anterior = getattr(moto, campo)
+    if anterior:
+        anterior.delete(save=False)   # el reemplazado no se queda en el disco
+    setattr(moto, campo, archivo)
+    moto.save(update_fields=[campo])
+    messages.success(request, f"{DOCUMENTOS[clave]}: archivo guardado.")
+    return redirect(f"{moto.get_absolute_url()}#documentos")
 
 
 @con_motociclista
@@ -197,7 +229,7 @@ def _talleres_del_plan(plan):
     if not hasattr(plan, "_talleres"):
         servicios = {t.tarea.servicio_id for t in plan.tareas if t.tarea.servicio_id}
         talleres = list(Taller.objects.filter(activo=True, servicios__in=servicios).distinct()
-                        .select_related("barrio").prefetch_related("servicios", "marcas")) if servicios else []
+                        .select_related("barrio", "usuario__perfil").prefetch_related("servicios", "marcas")) if servicios else []
         cupones = {}
         for c in Cupon.objects.disponibles().filter(taller__in=talleres):
             cupones.setdefault(c.taller_id, []).append(c)
@@ -217,7 +249,7 @@ def _acciones_piezas(moto, plan):
     filtrado por ese servicio. Así, al tocar una pieza en el 3D se puede ir directo a resolverla."""
     piezas = plan.piezas()
     servicio_de = {}
-    for t in sorted(plan.tareas, key=lambda t: -GRAVEDAD[t.estado]):
+    for t in sorted(plan.tareas, key=lambda t: -GRAVEDAD[t.color]):
         if t.tarea.servicio_id:
             servicio_de.setdefault(t.tarea.pieza, t.tarea)
     if not servicio_de:
@@ -249,27 +281,48 @@ def _whatsapp_para(taller, tarea, moto):
     return f"https://wa.me/{taller.whatsapp}?text={quote(texto)}"
 
 
-def _grupos_agenda(plan, ajustes):
-    """Los cuatro grupos de la agenda (los mismos que cuenta la leyenda bajo el 3D)."""
-    def pospuesta(t):
-        a = ajustes.get(t.tarea.pk)
-        return bool(a and a.pospuesta)
-    def cerca(t):
-        return ((t.km_restantes is not None and t.km_restantes <= 3000) or
-                (t.dias_restantes is not None and t.dias_restantes <= 60))
-    pendientes = [t for t in plan.tareas if t.estado in ("vencido", "pronto")]
-    al_dia = sorted(plan.al_dia, key=lambda t: (t.fecha_estimada or date.max, t.km_restantes if t.km_restantes is not None else 10**9))
+def _grupos_agenda(plan, ajustes=None):
+    """Los cuatro grupos de la agenda (los mismos que cuenta la leyenda bajo el 3D), por el nivel de color de cada tarea:
+    rojo = Requiere atención, amarillo = Próximos (incluye lo pospuesto), verde = Al día."""
+    al_dia = sorted(plan.por_nivel("ok"),
+                    key=lambda t: (t.fecha_estimada or date.max, t.km_restantes if t.km_restantes is not None else 10**9))
     return {
-        "atencion": [t for t in pendientes if not pospuesta(t)],
-        "proximos": [t for t in pendientes if pospuesta(t)] + [t for t in al_dia if cerca(t)],
+        "atencion": plan.urgentes,
+        "proximos": plan.pronto,
         "sin_registro": plan.sin_registro,
-        "al_dia": [t for t in al_dia if not cerca(t)],
+        "al_dia": al_dia,
     }
 
 
 def _conteos_agenda(moto, plan):
     grupos = _grupos_agenda(plan, {a.tarea_id: a for a in moto.ajustes.all()})
     return {clave: len(lista) for clave, lista in grupos.items()}
+
+
+# "Qué necesitas" de la agenda: solo lo que se compra en ese mantenimiento. La pieza que la tarea marca en el despiece
+# (la válvula en la calibración, el radiador en el refrigerante) explica el trabajo, pero no siempre se reemplaza.
+_SE_COMPRA = {
+    "valvulas": r"EMPAQ|GASKET|O-?\s?RING|ORING|ANILLO (EN )?O\b|JUNTA",           # el empaque de la tapa; las válvulas solo se ajustan
+    "refrigerante": r"WASHER|ARANDELA|GASKET|EMPAQ|JUNTA",                            # el líquido; si acaso, la arandela del drenaje
+    "liquido-frenos": r"WASHER|ARANDELA",                                             # el líquido; si acaso, arandelas de cobre del banjo
+    "cadena-lubricar": r"$^",                                                         # solo lubricante: ningún repuesto
+    "suspension-del": r"OIL SEAL|SEAL,\s*(OIL|DUST)|DUST SEAL|RET[EÉ]N|RETENEDOR|GUARDAP",  # retenes y guardapolvos (y el aceite)
+    "bateria": r"BATTERY|BATER",
+    "aceite-caja": r"WASHER|ARANDELA|GASKET|EMPAQ|O-?\s?RING|ORING|ANILLO (EN )?O\b|JUNTA",
+}
+_NO_SE_COMPRA = {"aceite": r"ROTOR|CENTRIFUG|EMPAQUE (CARCASA|CUBIERTA)|GASKET,? (CRANKCASE|CLUTCH COVER)",
+                 "kit-arrastre": r"TOPE|CAUCHO|SLIDER|DESLIZ|BUFFER|STOPPER"}                                                   # el filtro centrífugo se limpia, no se compra
+
+
+def _se_compra(clave, descripcion):
+    texto = descripcion.upper()
+    if clave in _SE_COMPRA and not re.search(_SE_COMPRA[clave], texto):
+        return False
+    if clave in _NO_SE_COMPRA and re.search(_NO_SE_COMPRA[clave], texto):
+        return False
+    if clave == "bateria" and re.match(r"(CAJA|CASE|BOX|HOLDER|SOPORTE|BANDA|BAND|CORREA|BASE)", texto):
+        return False
+    return True
 
 
 def _agenda(moto, plan, despiece=None):
@@ -283,7 +336,9 @@ def _agenda(moto, plan, despiece=None):
     # Repuestos de cada tarea (si la moto tiene despiece) y por qué importa (de la guía de la pieza).
     repuestos, por_que = {}, {}
     if despiece:
-        for p in ParteDespiece.objects.filter(lamina__despiece=despiece, tarea__isnull=False).select_related("lamina"):
+        for p in ParteDespiece.objects.filter(lamina__despiece=despiece, tarea__isnull=False).select_related("lamina", "tarea"):
+            if not _se_compra(p.tarea.clave, p.descripcion):
+                continue      # la pieza explica la tarea en el despiece, pero en ese mantenimiento no se cambia
             lista = repuestos.setdefault(p.tarea_id, [])
             if all(r["codigo"] != p.codigo for r in lista):
                 lista.append({"nombre": p.nombre, "codigo": p.codigo, "cantidad": p.cantidad})
@@ -315,10 +370,11 @@ def _agenda(moto, plan, despiece=None):
     grupos = _grupos_agenda(plan, ajustes)
     atencion = grupos["atencion"]
 
-    # ¿Un solo taller resuelve varias cosas de las que tocan? Se sugiere una sola visita.
+    # ¿Un solo taller resuelve varias cosas de las pendientes (lo que toca ya y lo próximo)? Se sugiere una sola visita.
     visita = None
+    por_hacer = atencion + grupos.get("proximos", [])
     for tl in talleres:
-        cubre = [t for t in atencion if t.tarea.servicio_id in servicios_de[tl.pk]]
+        cubre = [t for t in por_hacer if t.tarea.servicio_id in servicios_de[tl.pk]]
         if len(cubre) >= 2 and (not visita or len(cubre) > len(visita["tareas"])):
             visita = {"taller": tl, "tareas": cubre, "cupon": cupones.get(tl.pk),
                       "whatsapp": f"https://wa.me/{tl.whatsapp}?text=" + quote(
@@ -391,7 +447,7 @@ def _aceite(plan):
         detalle = "Contamos desde que la moto era nueva"
     detalle += f" · cada {_miles(t.tarea.intervalo_km)} km"
     uso = min(1.0, t.progreso or 0) if t.estado != "desconocido" else 0
-    return {"estado": t.estado, "dato": dato, "detalle": detalle, "pct": round(uso * 100), "giro": round(-90 + uso * 180)}
+    return {"estado": t.color, "dato": dato, "detalle": detalle, "pct": round(uso * 100), "giro": round(-90 + uso * 180)}
 
 
 LIQUIDOS = [("aceite-caja", "Aceite de la caja"), ("refrigerante", "Refrigerante"), ("liquido-frenos", "Líquido de frenos")]
@@ -445,7 +501,7 @@ def _liquidos(plan):
         if cada:
             detalle += " · cada " + " o ".join(cada)
         uso = min(1.0, t.progreso or 0) if t.estado != "desconocido" else 0
-        avisos.append({"clave": clave, "nombre": nombre, "estado": t.estado, "dato": dato, "detalle": detalle,
+        avisos.append({"clave": clave, "nombre": nombre, "estado": t.color, "dato": dato, "detalle": detalle,
                        "pct": round(uso * 100), "ancla": f"tarea-{clave}"})
     return avisos
 
@@ -469,6 +525,11 @@ def detalle(request, pk):
 
     # Talleres sugeridos para lo que toca ya o pronto, con sus cupones disponibles.
     pendientes = [t for t in plan.urgentes + plan.pronto if t.tarea.servicio_id]
+    # Con todo al día la sección no desaparece: sugiere talleres para lo que viene más cerca (las 3 de más progreso)
+    talleres_lo_que_viene = not pendientes
+    if talleres_lo_que_viene:
+        pendientes = sorted((t for t in plan.tareas if t.tarea.servicio_id and t.progreso is not None),
+                            key=lambda t: -t.progreso)[:3]
     servicios = {t.tarea.servicio_id for t in pendientes}
     talleres = []
     if servicios:
@@ -484,10 +545,62 @@ def detalle(request, pk):
             t.tu_marca = bool(marca) and any(m.pk == marca for m in t.marcas.all())
         # Primero los que resuelven más cosas, luego los de tu marca, los destacados y los que tienen cupón.
         talleres.sort(key=lambda t: (-len(t.tareas_que_cubre), not t.tu_marca, not t.destacado, not t.cupones_sugeridos, t.nombre))
-        talleres = talleres[:3]
+        # Misma tarjeta de la pestaña Talleres: reseñas, favorito, iniciales y tono del avatar
+        from talleres.views import _preparar_tarjetas
+        talleres = _preparar_tarjetas(talleres[:3], request.user)
+
+    # Resumen arriba de la agenda, con el mismo diseño en los dos casos: el estado por sistema y una lista con barras.
+    # Todo al día → "Lo que viene" (las 3 más cercanas, con cuánto les falta). Con pendientes → "Lo urgente" (lo vencido
+    # primero y luego lo próximo, hasta 5, con cuánto se pasó o cuánto falta).
+    SISTEMAS = [("Motor", "engine", {"aceite", "motor", "filtro_aire", "bujia", "refrigeracion"}),
+                ("Transmisión", "link", {"cadena", "correa"}), ("Frenos", "disc", {"freno_del", "freno_tras"}),
+                ("Llantas", "circle", {"llanta_del", "llanta_tras"}),
+                ("Suspensión", "spring", {"suspension_del", "suspension_tras"}), ("Eléctrico", "bolt", {"bateria"})]
+    sistemas = []
+    for nombre, icono, piezas in SISTEMAS:
+        del_sistema = [t for t in plan.tareas if t.tarea.pieza in piezas]
+        if del_sistema:
+            ok = sum(t.estado == "ok" for t in del_sistema)
+            niveles = {t.nivel or t.estado for t in del_sistema}
+            sin_dato = sum(t.estado == "desconocido" for t in del_sistema)
+            nivel = ("vencido" if niveles & {"vencido", "urgente"} else "pronto" if "pronto" in niveles
+                     else "desconocido" if not ok else "ok")
+            sistemas.append({"nombre": nombre, "icono": icono, "ok": ok, "total": len(del_sistema), "sin_dato": sin_dato,
+                             "pct": round(ok * 100 / len(del_sistema)), "nivel": nivel})
+    todo_al_dia = lo_urgente = None
+    if not plan.urgentes and not plan.pronto and plan.tareas:
+        viene = sorted((t for t in plan.tareas if t.progreso is not None), key=lambda t: -t.progreso)[:3]
+        for t in viene:
+            t.pct_vida = min(100, round(t.progreso * 100))
+        todo_al_dia = {"viene": viene, "sistemas": sistemas}
+    elif plan.urgentes or plan.pronto:
+        pendientes_lista = sorted(plan.urgentes, key=lambda t: -(t.progreso or 0)) +             sorted(plan.pronto, key=lambda t: -(t.progreso or 0))
+        from django.contrib.humanize.templatetags.humanize import intcomma
+        for t in pendientes_lista:
+            t.pct_vida = min(100, round((t.progreso or 0) * 100))
+            km, dias = t.km_restantes, t.dias_restantes
+            # Un texto corto y creíble: primero los km (es lo que manda en una moto); los días solo si no hay km
+            # o si vencen antes. Sin registro no se dan cifras de vencido: solo "revísalo".
+            if t.supuesto:
+                t.texto_lu = f"≈ faltan {intcomma(km)} km · estimado" if km and km > 0 else "Sin registro · revísalo"
+            elif km is not None and km < 0:
+                t.texto_lu = f"pasado {intcomma(-km)} km"
+            elif dias is not None and dias < 0:
+                t.texto_lu = f"vencido hace {-dias} día{'s' if dias != -1 else ''}"
+            elif km == 0 or dias == 0:
+                t.texto_lu = "Toca ya"
+            elif km is not None and (dias is None or dias > 60):
+                t.texto_lu = f"faltan {intcomma(km)} km"
+            elif dias is not None:
+                t.texto_lu = f"faltan {dias} día{'s' if dias != 1 else ''}"
+            else:
+                t.texto_lu = t.etiqueta
+        lo_urgente = {"lista": pendientes_lista[:5], "total": len(pendientes_lista), "sistemas": sistemas}
 
     despiece = Despiece.para(moto)
     return render(request, "garaje/moto.html", {
+        "todo_al_dia": todo_al_dia,
+        "lo_urgente": lo_urgente,
         "moto": moto,
         "plan": plan,
         "datos_3d": {"specs": moto.specs(), "color": moto.color, "piezas": _acciones_piezas(moto, plan),
@@ -499,19 +612,22 @@ def detalle(request, pk):
         "lectura_form": LecturaForm(moto=moto),
         "talleres_activos": Taller.objects.filter(activo=True).only("nombre"),
         "talleres": talleres,
-        "lecturas": _lecturas_con_diferencia(moto),
+        "talleres_lo_que_viene": talleres_lo_que_viene,
+        "lecturas": (lecturas := _lecturas_con_diferencia(moto)),
+        # Lo recorrido entre la primera y la última lectura de la lista (resumen al pie de la caja de kilometraje)
+        "km_recorridos": {"km": lecturas[0].km - lecturas[-1].km, "desde": lecturas[-1].fecha}
+                         if len(lecturas) > 1 and lecturas[0].km > lecturas[-1].km else None,
         **_tablero(moto, plan),
-        "historial": moto.mantenimientos.select_related("tarea", "taller")[:LIMITE_HISTORIAL],
+        # Historial: la hoja de vida (cada mantenimiento queda ahí) y los gastos del mes
+        "registros_hv": list(moto.hoja_vida.select_related("taller")[:5]),
+        "hv_resumen": moto.hoja_vida.aggregate(total=Count("id"), verificados=Count("id", filter=Q(verificado=True))),
+        "gastos": resumen_gastos(moto),
         "agenda": _agenda(moto, plan, despiece),
         "leyenda": [("atencion", "Requiere atención", "Toca ya o le falta muy poco", "--vencido"),
                     ("proximos", "Próximos", "Le toca en las próximas semanas", "--pronto"),
                     ("al_dia", "Al día", "No necesita nada por ahora", "--ok"),
                     ("sin_registro", "Sin registro", "No sabemos cuándo se hizo", "--desconocido")],
-        "soat_en_curso": moto.solicitudes_soat.exclude(estado=SolicitudSoat.Estado.CERRADA).first(),
         "pyp": pico_placa.resumen(moto),
-        "avisos": avisos_moto(moto),
-        # Para el botón "Agendar" de la técnico-mecánica cuando está por vencer.
-        "servicio_tecno": Servicio.objects.filter(nombre__icontains="técnico").values_list("pk", flat=True).first(),
         "otras_motos": request.motociclista.motos.exclude(pk=moto.pk),
         "despiece": despiece,
         # Las láminas pesan cientos de KB: el visor las pide aparte (despiece_json) para no frenar la página ni el 3D.
@@ -532,11 +648,11 @@ def despiece_json(request, pk):
 def _svg_guardado(request, generar):
     """El dibujo SVG desde la caché en disco (dibujarlo cuesta hasta medio segundo); si no está, se dibuja y se guarda."""
     clave = "svg:" + hashlib.md5(f"{request.get_full_path()}|{_version_codigo_despiece()}".encode()).hexdigest()
-    svg = caches["despiece"].get(clave)
+    svg = caches["despiece_svg"].get(clave)
     if svg is None:
         svg = generar()
         if svg is not None:
-            caches["despiece"].set(clave, svg, 60 * 60 * 24 * 7)
+            caches["despiece_svg"].set(clave, svg, 60 * 60 * 24 * 7)
     return svg
 
 
@@ -684,19 +800,50 @@ def _posiciones_en_diagrama(lamina, partes, dibujo=None):
 
 
 def intervalo_texto(tarea):
-    partes = []
-    if tarea.intervalo_km:
-        partes.append(f"cada {tarea.intervalo_km:,} km".replace(",", "."))
-    if tarea.intervalo_dias:
-        dias = tarea.intervalo_dias
-        if dias < 45:
-            partes.append(f"cada {dias} días")
-        elif dias < 700:
-            meses = round(dias / 30)
-            partes.append(f"cada {meses} mes{'es' if meses != 1 else ''}")
-        else:
-            partes.append(f"cada {round(dias / 365)} años")
-    return (" o ".join(partes)).capitalize() if partes else ""
+    """Texto del intervalo de una tarea (ya con el de su línea si viene del plan): un solo formateador."""
+    return intervalos.texto(tarea.intervalo_km, tarea.intervalo_dias)
+
+
+# Piezas que la moto tiene y que el plan revisa, pero que el catálogo de la marca no vende con su número (la batería,
+# las llantas, la bujía, los amortiguadores...). Si ninguna pieza del despiece lleva esa tarea, se agrega en la lámina
+# que dibuja la pieza, con la tarea y el aviso "No viene en el catálogo de esta moto": nunca se pone la tarea en un
+# accesorio (la correa de la batería, un caucho). (tarea, diagramas, piezas de la lámina o None, descripción, nombre)
+PIEZAS_DE_TAREA = [
+    ("bateria", ("electrico",), None, "BATTERY", "Batería"),
+    ("suspension-tras", ("amortiguadores",), None, "SHOCK ABSORBER, RR", "Amortiguadores traseros"),
+    ("suspension-del", ("suspension_delantera",), None, "FORK, FR", "Barras de la suspensión delantera"),
+    ("llanta-del", ("rueda",), ("llanta_del",), "TIRE, FR", "Llanta delantera"),
+    ("llanta-tras", ("rueda_trasera", "rueda_tambor", "rueda"), ("llanta_tras", "cadena", "freno_tras"), "TIRE, RR", "Llanta trasera"),
+    ("bujia", ("culata", "encendido"), None, "PLUG, SPARK", "Bujía"),
+    ("bandas-tras", ("rueda_tambor", "freno_tambor"), ("llanta_tras", "freno_tras", "cadena"), "SHOE SET, BRAKE", "Bandas del freno trasero"),
+]
+FUERA_DE_CATALOGO = ("No aparece en los planos que usamos para este esquema: la dibujamos porque tu moto sí la tiene. "
+                     "Se compra por su referencia (el tipo y la medida están en el manual o en la pieza actual).")
+
+
+def _tareas_sin_pieza(despiece):
+    """Tareas del plan que aplican a la línea y que ninguna pieza del despiece lleva: {clave: tarea}."""
+    from .models import Moto
+    specs = Moto(linea=despiece.linea).specs()
+    enlazadas = set(ParteDespiece.objects.filter(lamina__despiece=despiece, tarea__isnull=False).values_list("tarea_id", flat=True))
+    return {t.clave: t for t in TareaMantenimiento.objects.filter(activo=True) if t.aplica_a(specs) and t.pk not in enlazadas}
+
+
+def _con_piezas_de_tarea(lamina, partes, faltan, usadas_ya):
+    """Agrega a la lámina las piezas fuera del catálogo cuyas tareas faltan (una sola vez por despiece)."""
+    from types import SimpleNamespace
+    if not partes:
+        return partes
+    extra = []
+    for clave, diags, piezas, descripcion, nombre in PIEZAS_DE_TAREA:
+        tarea = faltan.get(clave)
+        if not tarea or clave in usadas_ya or lamina.diagrama not in diags or (piezas and lamina.pieza not in piezas):
+            continue
+        usadas_ya.add(clave)
+        extra.append(SimpleNamespace(pk=f"fuera-{lamina.pk}-{clave}", ref=max(p.ref for p in partes + extra) + 1, codigo="",
+                                     descripcion=descripcion, nombre=nombre, nombre_es=nombre, cantidad=1, tarea_id=tarea.pk,
+                                     ayuda="", x=None, y=None, virtual=True, contexto=FUERA_DE_CATALOGO))
+    return list(partes) + extra
 
 
 def _con_rueda_fonica(lamina, partes):
@@ -705,7 +852,7 @@ def _con_rueda_fonica(lamina, partes):
     if lamina.diagrama not in ("rueda", "rueda_trasera") or not partes:
         return partes
     puestos = {diagramas.puesto_para(lamina.diagrama, p.descripcion) for p in partes}
-    if "sensor_cable" not in puestos or "sensor_abs" in puestos:
+    if "sensor_cable" not in puestos or "sensor_abs" in puestos or any("ROTOR" in p.descripcion.upper() for p in partes):
         return partes
     from types import SimpleNamespace
     disco = SimpleNamespace(pk=f"fonica-{lamina.pk}", ref=max(p.ref for p in partes) + 1, codigo="", descripcion="ROTOR, SENSOR",
@@ -744,19 +891,82 @@ def _version_codigo_despiece():
     return hashlib.md5("|".join(huella).encode()).hexdigest()[:12]
 
 
+# Tipo de filtro de aire por línea, según su manual (la marca solo es el respaldo)
+_FILTRO_AIRE_POR_LINEA = {"NMAX 155": "viscoso", "Aerox 155": "viscoso", "FZ 25": "viscoso", "Crypton FI 115": "viscoso",
+                          "CB 125F": "viscoso", "Pulsar NS 200": "viscoso", "Pulsar RS 200": "viscoso", "XTZ 125": "espuma",
+                          "Boxer CT 100": "seco", "Eco Deluxe 100": "seco", "Apache RTR 160": "espuma"}
+# Cuidado del filtro de aire según su tipo (Auditor mecánico): el consejo de uno daña a los otros
+_CUIDADO_FILTRO_AIRE = {
+    "seco": {"como_revisar": ["Míralo a contraluz: si casi no pasa luz o está negro, cámbialo.",
+                              "Puedes soplarlo con aire suave desde adentro hacia afuera; nunca lo mojes."],
+             "tips": ["Es de papel seco: no se lava ni se aceita", "Revisa que quede bien asentado: si entra aire sin filtrar, desgasta el motor"]},
+    "viscoso": {"como_revisar": ["Mira que no esté roto ni lleno de barro; es normal que no deje pasar luz, ni nuevo."],
+                "tips": ["Es de papel viscoso (con aceite): no se limpia, no se sopla y no se moja; se cambia cuando lo pide el plan",
+                         "Revisa que quede bien asentado: si entra aire sin filtrar, desgasta el motor"]},
+    "sin_confirmar": {"como_revisar": ["Mira de qué es tu filtro: papel seco, papel aceitoso o espuma."],
+                      "tips": ["Si es de papel seco, puedes soplarlo con aire suave desde adentro. Si el papel se siente aceitoso o "
+                               "pegajoso, es viscoso: no se limpia, se cambia. Si es de espuma, se lava, se seca y se aceita.",
+                               "Revisa que quede bien asentado: si entra aire sin filtrar, desgasta el motor"]},
+    "espuma": {"como_revisar": ["Sácalo y mira si la espuma está sucia, dura o rota."],
+               "tips": ["Es de espuma: se lava con agua y jabón o desengrasante, se seca sin retorcerlo y se aceita con aceite para filtro de espuma",
+                        "Si la espuma está rota o se desmorona, cámbialo"]},
+}
+
+
+# Respaldo cuando el archivo de intervalos de la línea no trae la especificación: nunca una cifra igual para todas las motos
+_CONCEPTO_TAREA = [
+    (r"FILTRO (DE |DEL )?AIRE|AIR (CLEANER|FILTER)|ELEMENT,? AIR|ELEMENTO (DEL )?FILTRO", "filtro-aire"),
+    (r"^(DRIVE CHAIN|CHAIN|CADENA)\b(?!.*(GUIDE|GUIA|TENSOR|ADJUST|CASE|CAJA|DISTRIBU|CAM))", "cadena-lubricar"),
+    (r"BATTERY|BATER", "bateria"),
+]
+_ESPECIFICACION_GENERICA = {
+    "aceite": "Usa el aceite (viscosidad y norma) que indica el manual de tu moto.",
+    "aceite-caja": "Usa el aceite de transmisión que indica el manual de tu moto.",
+    "bujia": "Usa la referencia de bujía que indica el manual de tu moto.",
+    "llanta-del": "Infla a la presión que indica el manual o la etiqueta de tu moto.",
+    "llanta-tras": "Infla a la presión que indica el manual o la etiqueta de tu moto.",
+    "liquido-frenos": "Usa el líquido que indica la tapa del depósito (no mezcles tipos).",
+    "refrigerante": "Usa el refrigerante que indica el manual de tu moto.",
+}
+
+
+_TORNILLERIA = re.compile(r"(?i)^(kit )?(tornillos?|tuercas?|arandelas?|pernos?|seguros?|pines?|empaques?)\b")
+
+
+def clave_base_despiece(despiece):
+    """Clave de caché de lo pesado del despiece. Lo que cambie en los datos (también las cargas masivas del importador,
+    que no avisan) o en el código del despiece cambia la clave."""
+    huella = ParteDespiece.objects.filter(lamina__despiece=despiece).aggregate(n=Count("pk"), u=Max("pk"))
+    return (f"despiece:{despiece.pk}:{_version_codigo_despiece()}:{caches['despiece'].get('generacion', 0)}:"
+            f"{huella['n']}-{huella['u']}")
+
+
+def base_despiece(despiece):
+    """Lo pesado del despiece (igual para todas las motos de esa línea), desde la caché o armado y guardado."""
+    clave = clave_base_despiece(despiece)
+    base = caches["despiece"].get(clave)
+    if base is None:
+        base = _laminas_base(despiece)
+        caches["despiece"].set(clave, base, 60 * 60 * 24 * 7)
+    return base
+
+
+def km_guia(t):
+    """Bloque "Kilometraje estimado" de la guía de una pieza: km desde el último cambio, cuánto falta, color (el mismo
+    nivel de la agenda) y de dónde sale la cuenta. Todo sale del plan; sin cuenta por km, vacío."""
+    if getattr(t, "km_desde", None) is None or not t.tarea.intervalo_km:
+        return {"km": None}
+    return {"km": {"desde": t.km_desde, "restantes": t.km_restantes, "intervalo": t.tarea.intervalo_km,
+                   "porcentaje": min(100, round(100 * t.km_desde / t.tarea.intervalo_km)),
+                   "nivel": t.nivel or t.estado, "origen": t.origen, "texto_origen": t.texto_origen}}
+
+
 def datos_despiece(despiece, plan):
     """Láminas con sus piezas marcadas y el estado de mantenimiento de cada una, para el visor.
 
     Lo pesado (dibujos, nombres, guías: igual para todas las motos de esa línea) se guarda en caché;
     aquí solo se pinta encima el estado de mantenimiento de esta moto."""
-    # Lo que cambie en los datos (también cargas masivas del importador, que no avisan) cambia la clave
-    huella = ParteDespiece.objects.filter(lamina__despiece=despiece).aggregate(n=Count("pk"), u=Max("pk"))
-    clave = (f"despiece:{despiece.pk}:{_version_codigo_despiece()}:{caches['despiece'].get('generacion', 0)}:"
-             f"{huella['n']}-{huella['u']}")
-    base = caches["despiece"].get(clave)
-    if base is None:
-        base = _laminas_base(despiece)
-        caches["despiece"].set(clave, base, 60 * 60 * 24 * 7)
+    base = base_despiece(despiece)
     por_tarea = {t.tarea.pk: t for t in plan.tareas}
     piezas = plan.piezas()
     laminas = base["laminas"]
@@ -766,7 +976,7 @@ def datos_despiece(despiece, plan):
             estado_tarea = por_tarea.get(parte.pop("_tarea", None))
             if not estado_tarea:
                 continue
-            parte["estado"] = estado_tarea.estado
+            parte["estado"] = estado_tarea.color  # mismo nivel que la agenda (urgente = rojo)
             parte["tarea"] = {
                 "id": estado_tarea.tarea.pk,
                 "nombre": estado_tarea.tarea.nombre, "etiqueta": estado_tarea.etiqueta,
@@ -776,16 +986,26 @@ def datos_despiece(despiece, plan):
                 "intervalo": intervalo_texto(estado_tarea.tarea),
                 "ancla": f"tarea-{estado_tarea.tarea.clave}",
                 "hazlo_tu": estado_tarea.tarea.hazlo_tu,
+                **km_guia(estado_tarea),
             }
-            if peor is None or GRAVEDAD[estado_tarea.estado] > GRAVEDAD[peor]:
-                peor = estado_tarea.estado
-        lamina["estado"] = peor or piezas.get(lamina["pieza"], {}).get("estado")
+            if peor is None or GRAVEDAD[estado_tarea.color] > GRAVEDAD[peor]:
+                peor = estado_tarea.color
+        # El estado del sistema sale solo de sus piezas con tarea: así siempre hay una pieza que lo explica, y el visor
+        # abre en ella (vencida > pronto > la más avanzada en su intervalo > la de menor número). Sin piezas con tarea, sin estado.
+        lamina["estado"] = peor
+        motivo = [p for p in lamina["partes"] if p.get("estado") in ("vencido", "pronto", "desconocido")]
+        # Con igual urgencia, la pieza principal antes que su tornillería ("Kit de arrastre" antes que "Kit tornillos")
+        motivo.sort(key=lambda p: (-GRAVEDAD[p["estado"]], -((p["tarea"] or {}).get("porcentaje") or 0),
+                                   bool(_TORNILLERIA.search(p.get("nombre", ""))), p["ref"]))
+        lamina["inicial"] = motivo[0]["id"] if motivo else None
     laminas.sort(key=lambda l: -GRAVEDAD.get(l["estado"] or "ok", 0))
     moto = plan.moto
     registro = {
         "url": reverse("garaje:registrar_mantenimiento", args=[moto.pk]),
         "km": moto.km_actual, "hoy": timezone.localdate().isoformat(),
         "talleres": [[t.pk, t.nombre] for t in Taller.objects.filter(activo=True).only("nombre")],
+        # Al elegir un taller de TallerYa se muestra ya el QR del código (reutiliza el vigente) para que lo verifique
+        "codigo_url": reverse("garaje:codigo_taller", args=[moto.pk]),
     }
     return {"version": despiece.version, "anio": despiece.anio, "moto": moto.nombre_completo, "laminas": laminas,
             "sistemas": base["sistemas"], "orden_subgrupos": ORDEN_SUBGRUPOS, "registro": registro}
@@ -795,9 +1015,12 @@ def _laminas_base(despiece):
     """Láminas del despiece sin nada de una moto en particular (el estado se agrega en datos_despiece)."""
     laminas = []
     perfil = _perfil_motor(despiece)
+    faltan, usadas_ya = _tareas_sin_pieza(despiece), set()      # piezas que el plan revisa y los planos no traen
+    tareas_por_pk = {t.pk: t for t in TareaMantenimiento.objects.all()}
     for lamina in despiece.laminas.prefetch_related("partes__tarea__servicio"):
         todas_lamina, alternos = _unir_variantes(list(lamina.partes.all()))
         todas_lamina = _con_rueda_fonica(lamina, todas_lamina)
+        todas_lamina = _con_piezas_de_tarea(lamina, todas_lamina, faltan, usadas_ya)
         for vista_id, vista_nombre, todas in _vistas(lamina, todas_lamina):
             # Se muestra el dibujo propio de TallerYa; el plano del catálogo (solo existe en local, no se publica)
             # va como pestaña aparte, o solo si la lámina aún no tiene dibujo propio.
@@ -832,7 +1055,61 @@ def _laminas_base(despiece):
                         mecanica = guia_mecanica(lamina.diagrama, diagramas.herraje_para(p.descripcion), None, p.descripcion)
                     if mecanica:
                         guia.update(mecanica)
-                if getattr(p, "virtual", False):
+                # Tapa de la transmisión de una automática (fig. de la tapa de la CVT): no es la tapa del clutch de una moto de cambios
+                if lamina.pieza == "correa" and lamina.diagrama == "carcasa" and re.match(r"(CUBIERTA DE CARTER|COVER, CRANKCASE)", p.descripcion.upper()):
+                    guia["que_hace"] = ("Es la tapa de la transmisión: cubre el variador, la correa y el clutch, y trae la entrada de aire "
+                                        "con su filtro para enfriar la correa.")
+                    guia["cada_cuanto"] = "Se quita para revisar la correa y el variador; revisa que sus tornillos y su empaque cierren bien."
+                # En una automática no hay piñón de salida ni palanca de cambios: el retén sella el cigüeñal o el eje de la rueda
+                if lamina.despiece.linea.transmision == "cvt" and re.search(r"pi[ñn][oó]n de salida|palanca de cambios", guia.get("que_hace", ""), re.I):
+                    guia["que_hace"] = ("Es un retén: sella donde un eje sale del cárter (el cigüeñal del lado del variador o del generador, "
+                                        "o el eje de la rueda) para que no se escape el aceite.")
+                if lamina.diagrama != "cvt" and lamina.pieza != "correa" and re.search(r"\bcorrea\b", guia.get("cada_cuanto", ""), re.I):
+                    guia["cada_cuanto"] = "Se revisa si la moto patina o tiembla al arrancar, o cuando se abre el motor."
+                # Filtro de aire: tres tipos con cuidados distintos (espuma se lava; papel viscoso no deja pasar luz ni se limpia)
+                if lamina.pieza == "filtro_aire" and re.search(r"ELEMENT|FILTR|ESPUMA|SPONGE|FOAM", p.descripcion.upper()) \
+                        and not re.search(r"CASE|CAJA|CAP\b|TAPA|COVER|CUBIERTA|JOINT|DUCT|CONDUCTO|HOLDER|SOPORTE", p.descripcion.upper()):
+                    linea_nombre = lamina.despiece.linea.nombre
+                    tipo = ("espuma" if re.search(r"ESPUMA|SPONGE|FOAM", p.descripcion.upper()) else
+                            _FILTRO_AIRE_POR_LINEA.get(linea_nombre)
+                            or ("viscoso" if lamina.despiece.linea.marca.nombre.lower() in ("yamaha", "honda") else "sin_confirmar"))
+                    guia.update(_CUIDADO_FILTRO_AIRE[tipo])
+                # Una sola fuente para los intervalos: si la pieza lleva una tarea del plan, el "cada cuánto" sale del intervalo de
+                # esa tarea para esta línea (su manual, o el general), y la ficha no repite cifras que podrían contradecirlo
+                # Filas sin tarea de una pieza del plan (otra variante del filtro de aire, la cadena, la batería): toman la
+                # tarea por el concepto, solo para el texto, si su ficha trae cifras de ese mantenimiento
+                clave_concepto = None
+                if not p.tarea_id and re.search(r"\d[\d.]*\s*(km|mes|meses)\b", guia.get("cada_cuanto", ""), re.I):
+                    clave_concepto = next((c for patron, c in _CONCEPTO_TAREA if re.search(patron, f"{p.descripcion} {p.nombre}".upper())), None)
+                    if not clave_concepto and lamina.pieza == "filtro_aire" and re.search(r"\bfiltro\b", guia.get("cada_cuanto", "") + guia.get("que_hace", ""), re.I):
+                        clave_concepto = "filtro-aire"        # "ELEMENT AIR/C", "GUARD, ELEMENT": piezas del filtro de aire
+                    if not clave_concepto and lamina.pieza == "bateria" and re.search(r"^12\s*V|\bGEL\b", p.descripcion.upper()):
+                        clave_concepto = "bateria"            # "12V (Gel)": la batería misma, nombrada por su tipo
+                    # Accesorios de la batería (base, banda, caucho, caja): no tienen el intervalo de la batería
+                    if clave_concepto == "bateria" and re.match(r"(BASE|BANDA|BAND|CAJA|CASE|BOX|HOLDER|SOPORTE|ANTIVIBRANTE|CAUCHO|CABLE|MANGUERA|"
+                                                                r"HOSE|TERMINAL|TAPA|CAP|CORREA)", p.descripcion.upper()):
+                        clave_concepto = None
+                        guia["cada_cuanto"] = "No tiene cambio por kilometraje: revísalo cuando revises la batería y cámbialo si está roto."
+                tarea_texto = (tareas_por_pk.get(p.tarea_id) if p.tarea_id else
+                               next((t for t in tareas_por_pk.values() if t.clave == clave_concepto), None))
+                if tarea_texto:
+                    intervalo = intervalo_para(tarea_texto.clave, lamina.despiece.linea, anio=lamina.despiece.anio)
+                    if intervalo and intervalo.get("texto"):
+                        consejo = " ".join(f for f in re.split(r"(?<=[.;])\s+", guia.get("cada_cuanto", ""))
+                                           if f and f[:1].isupper()
+                                           and not re.search(r"\d[\d.]*\s*(km|kil[oó]metros|mes|meses|años?|días?|semanas?)\b", f, re.I))
+                        guia["cada_cuanto"] = f"{intervalo['texto']}, según el plan de tu moto." + (f" {consejo}" if consejo else "")
+                    # La especificación (viscosidad y norma del aceite, referencia de bujía, presión de llantas) también es de
+                    # cada moto: sale del mismo archivo; si no está, un consejo prudente en vez de una cifra para todas
+                    clave_tarea = tarea_texto.clave
+                    especificacion = (intervalo or {}).get("especificacion")
+                    if especificacion:
+                        guia["cada_cuanto"] += f" Especificación de tu moto: {especificacion}."
+                    elif clave_tarea in _ESPECIFICACION_GENERICA:
+                        guia["cada_cuanto"] += f" {_ESPECIFICACION_GENERICA[clave_tarea]}"
+                if getattr(p, "contexto", None):
+                    guia["contexto"] = p.contexto
+                elif getattr(p, "virtual", False):
                     guia["contexto"] = ("En esta moto no se vende aparte: viene con la manzana o con el disco de freno. "
                                         "Igual vale la pena revisarlo, porque de él depende la lectura de velocidad.")
                 return guia
@@ -902,6 +1179,9 @@ def _laminas_base(despiece):
                     "dibujo": dibujo_guia(p),
                     "xo": p.x if hay_original else None, "yo": p.y if hay_original else None,
                     "_tarea": p.tarea_id,
+                    "_puesto": posiciones[p.pk][2] if con_dibujo and p.pk in posiciones else "",
+                    # Pieza que la moto tiene pero los planos de la marca no traen (la dibujamos para su tarea)
+                    "fuera_planos": bool(getattr(p, "contexto", None)),
                 }
                 partes.append(parte)
             if not partes:
@@ -913,6 +1193,25 @@ def _laminas_base(despiece):
                 partes[i]["nombre"] = nombre
             for i, pieza in va_con.items():
                 partes[i]["va_con"] = pieza
+            # Empaques: primero el del tapón (con su guía propia), después los demás sin dueño ("O ring" → "Empaque de la culata")
+            sellos_tapon = nombres_de_sellos(partes)
+            for i, nombre in nombres_de_empaques(partes, lamina.nombre).items():
+                if i not in sellos_tapon:
+                    partes[i]["nombre"] = nombre
+            for parte in partes:
+                parte.pop("_puesto", None)
+            for i, nombre in sellos_tapon.items():
+                partes[i]["nombre"] = nombre
+                tapon = partes[i - 1]["nombre"][:1].lower() + partes[i - 1]["nombre"][1:]
+                plan_texto = ""
+                if partes[i].get("_tarea") in tareas_por_pk:
+                    intervalo = intervalo_para(tareas_por_pk[partes[i]["_tarea"]].clave, despiece.linea, anio=despiece.anio)
+                    plan_texto = f"{intervalo['texto']}, según el plan de tu moto. " if intervalo and intervalo.get("texto") else ""
+                partes[i]["guia"] = {**(partes[i]["guia"] or {}),
+                                     "que_hace": f"Es el empaque del {tapon}: sella el tapón para que no haya fugas ni "
+                                                 "entre mugre. Es lo que se cambia; el tapón se vuelve a usar.",
+                                     "cada_cuanto": plan_texto + "Revísalo cada vez que quites el tapón y cámbialo si está duro, "
+                                                    "aplastado o rajado. Es barato: ante la duda, nuevo."}
             # Rótulo del dibujo: el sistema y la moto (como en el pie de un plano técnico)
             rotulo = f"{vista_nombre} · {despiece.linea}"[:90]
             pieza_vista = ("cadena" if str(vista_id).endswith("-arrastre")
@@ -985,7 +1284,7 @@ def registrar_km(request, pk):
         messages.error(request, error)
         return redirect(moto)
 
-    antes = {t.tarea.pk: t.estado for t in calcular_plan(moto).tareas}
+    antes = {t.tarea.pk: t.color for t in calcular_plan(moto).tareas}
     with transaction.atomic():
         moto.km_actual = form.cleaned_data["km"]
         moto.save(update_fields=["km_actual"])
@@ -1005,7 +1304,7 @@ def registrar_km(request, pk):
         "liquidos": _liquidos(plan),
         "conteos": _conteos_agenda(moto, plan),
         # Si algún sistema cambió de estado, el modelo 3D y el plan de abajo quedan desactualizados.
-        "cambiaron": sorted(t.tarea.nombre for t in plan.tareas if antes.get(t.tarea.pk) != t.estado),
+        "cambiaron": sorted(t.tarea.nombre for t in plan.tareas if antes.get(t.tarea.pk) != t.color),
     })
 
 
@@ -1013,25 +1312,50 @@ def registrar_km(request, pk):
 @require_POST
 def registrar_mantenimiento(request, pk):
     moto = _moto_de(request, pk)
-    form = MantenimientoForm(request.POST, moto=moto)
     sin_recargar = request.headers.get("X-Requested-With") == "fetch"
-    if form.is_valid():
+    datos, error_cuando = request.POST, None
+    if request.POST.get("cuando"):
+        # Diálogo "Registrar mantenimiento": las mismas opciones que "Poner al día" (Hace poco · A los … km · No sé)
+        datos = request.POST.copy()
+        tarea = TareaMantenimiento.objects.filter(pk=datos.get("tarea") or 0, activo=True).first()
+        try:
+            fecha = date.fromisoformat(datos.get("fecha", "")) if datos.get("fecha") else None
+        except ValueError:
+            fecha = None
+        if fecha and fecha > timezone.localdate():
+            fecha = None
+        m, error_cuando = (leer_cuando(tarea, moto, datos["cuando"], datos.get("km", ""), datos.get("hace", ""), fecha, origen="")
+                           if tarea else (None, None))
+        if tarea and not m and not error_cuando:
+            error_cuando = "Elige más o menos hace cuánto lo hiciste, o la fecha."
+        if m:
+            datos["km"], datos["fecha"] = str(m.km), m.fecha.isoformat()
+            datos["notas"] = f"{(datos.get('notas') or '')[:200 - len(m.notas) - 1]} {m.notas}".strip()
+    form = MantenimientoForm(datos, moto=moto)
+    if not error_cuando and form.is_valid():
         registro = form.save(commit=False)
         registro.moto = moto
         registro.save()
         AjusteTarea.objects.filter(moto=moto, tarea=registro.tarea).delete()
-        mensaje = f"Registrado: {registro.tarea.nombre} a los {_miles(registro.km)} km."
+        # Ya quedó en la hoja de vida (señal); el precio, si lo hizo un taller, va en ese mismo registro → Gastos lo suma una vez.
+        # "Sin idea" no es un servicio hecho: no va a la hoja de vida.
+        if not es_sin_idea(registro):
+            hoja_vida.desde_mantenimiento(registro, costo=form.cleaned_data.get("precio"))
+        url_hoja = reverse("garaje:hoja_vida", args=[moto.pk])
+        mensaje = (f"Listo: {registro.tarea.nombre} cuenta desde que la moto era nueva (estimado)." if es_sin_idea(registro) else
+                   f"Registrado: {registro.tarea.nombre} a los ≈ {_miles(registro.km)} km (estimados por la fecha)."
+                   if km_es_estimado(registro) else f"Registrado: {registro.tarea.nombre} a los {_miles(registro.km)} km.")
         if sin_recargar:
             # Nuevo estado de esa tarea, para actualizar la ficha y los números del despiece sin recargar.
             t = next((t for t in calcular_plan(moto).tareas if t.tarea.pk == registro.tarea_id), None)
-            return JsonResponse({"ok": True, "mensaje": mensaje, "tarea": t and {
-                "id": t.tarea.pk, "estado": t.estado, "etiqueta": t.etiqueta, "detalle": t.detalle,
-                "porcentaje": t.porcentaje if t.progreso is not None else None,
+            return JsonResponse({"ok": True, "mensaje": mensaje, "hoja_vida": url_hoja, "tarea": t and {
+                "id": t.tarea.pk, "estado": t.color, "etiqueta": t.etiqueta, "detalle": t.detalle,
+                "porcentaje": t.porcentaje if t.progreso is not None else None, **km_guia(t),
             }})
-        messages.success(request, mensaje)
+        messages.success(request, f"{mensaje} Guardado también en tu hoja de vida.")
     else:
         errores = [e for lista in form.errors.values() for e in lista]
-        error = " ".join(errores) or "Revisa los datos del mantenimiento."
+        error = error_cuando or " ".join(errores) or "Revisa los datos del mantenimiento."
         if sin_recargar:
             return JsonResponse({"ok": False, "error": error}, status=400)
         messages.error(request, error)
@@ -1042,17 +1366,46 @@ def registrar_mantenimiento(request, pk):
 # ---------------- Poner al día el plan (al agregar una moto) ----------------
 PIEZAS_PRINCIPALES = ["aceite", "filtro_aire", "bujia", "cadena", "correa", "freno_del", "freno_tras", "llanta_del", "llanta_tras",
                       "refrigeracion", "bateria"]
-KM_POR_DIA_SUPUESTO = 25  # para estimar la fecha de un mantenimiento del que solo se sabe el kilometraje
 MESES_TENTATIVOS = {"1": "Hace 1 mes", "3": "Hace 3 meses", "6": "Hace 6 meses", "12": "Hace más de un año"}
 
 
 def _tareas_principales(moto):
     specs = moto.specs()
-    tareas = [t for t in TareaMantenimiento.objects.filter(activo=True, pieza__in=PIEZAS_PRINCIPALES) if t.aplica_a(specs)]
+    tareas = [intervalos.aplicar(t, moto.linea, anio=moto.modelo) if moto.linea_id else t  # con el intervalo del manual de la línea
+              for t in TareaMantenimiento.objects.filter(activo=True, pieza__in=PIEZAS_PRINCIPALES) if t.aplica_a(specs)]
     return sorted(tareas, key=lambda t: (PIEZAS_PRINCIPALES.index(t.pieza), t.orden))
 
 
-def _leer_al_dia(datos, tareas, km_actual, previos=None):
+def leer_cuando(tarea, moto, eleccion, km_texto="", hace="", fecha=None, hoy=None, origen="Registrado al agregar la moto"):
+    """Una respuesta de "¿cuándo se hizo?" (Hace poco · A los … km · No sé), la misma en "Poner al día" y en el diálogo
+    "Registrar mantenimiento". Devuelve (Mantenimiento sin guardar, o None si no hay nada que registrar; error).
+    Lo que no trae km o fecha se estima con las lecturas y el ritmo de la moto (plan.km_en_fecha / fecha_en_km)."""
+    hoy = hoy or timezone.localdate()
+    notas = lambda marca="": " ".join(p for p in (origen, marca) if p)
+    if eleccion == "poco":
+        return Mantenimiento(tarea=tarea, km=moto.km_actual, fecha=hoy, notas=notas()), None
+    if eleccion == "km":
+        texto = (km_texto or "").strip()
+        if not texto.isdigit() or int(texto) > moto.km_actual:
+            return None, f"Escribe un kilometraje entre 0 y {_miles(moto.km_actual)} km."
+        km = int(texto)
+        if fecha:
+            return Mantenimiento(tarea=tarea, km=km, fecha=fecha, notas=notas()), None
+        return Mantenimiento(tarea=tarea, km=km, fecha=fecha_en_km(moto, km, hoy), notas=notas("(fecha estimada)")), None
+    if eleccion == "nose":
+        if fecha:  # sabe la fecha pero no el kilometraje
+            return Mantenimiento(tarea=tarea, km=km_en_fecha(moto, fecha, hoy), fecha=fecha,
+                                 notas=notas("(km estimado por la fecha)")), None
+        if hace == "sin_idea":  # no sabe si alguna vez se cambió: desde nueva (cuenta como supuesto en el plan)
+            return Mantenimiento(tarea=tarea, km=0, fecha=fecha_de_nueva(moto, hoy), notas=notas(MARCA_SIN_IDEA)), None
+        if hace in MESES_TENTATIVOS:  # "hace unos meses": el km de esa fecha sale de las lecturas o del ritmo de la moto
+            fecha = hoy - timedelta(days=int(hace) * 30)
+            return Mantenimiento(tarea=tarea, km=km_en_fecha(moto, fecha, hoy), fecha=fecha,
+                                 notas=notas("(fecha y km estimados)")), None
+    return None, None
+
+
+def _leer_al_dia(datos, tareas, moto, previos=None):
     """Lee las respuestas de "último mantenimiento". Devuelve (mantenimientos sin moto, errores por tarea).
     `previos` = {tarea_id: km del último registro}: si la respuesta es ese mismo kilometraje, no se crea nada."""
     previos = previos or {}
@@ -1060,27 +1413,13 @@ def _leer_al_dia(datos, tareas, km_actual, previos=None):
     nuevos, errores = [], {}
     for t in tareas:
         eleccion = datos.get(f"estado_{t.pk}", "")
-        if eleccion == "nose":
-            # Fecha tentativa: estimamos fecha y kilometraje con un uso típico de 25 km al día.
-            meses = datos.get(f"hace_{t.pk}", "")
-            if meses in MESES_TENTATIVOS:
-                dias = int(meses) * 30
-                nuevos.append(Mantenimiento(tarea=t, km=max(0, km_actual - dias * KM_POR_DIA_SUPUESTO),
-                                            fecha=hoy - timedelta(days=dias),
-                                            notas="Registrado al agregar la moto (fecha y km estimados)"))
-        elif eleccion == "poco":
-            nuevos.append(Mantenimiento(tarea=t, km=km_actual, fecha=hoy, notas="Registrado al agregar la moto"))
-        elif eleccion == "km":
-            texto = datos.get(f"km_{t.pk}", "").strip()
-            if not texto.isdigit() or int(texto) > km_actual:
-                errores[t.pk] = f"Escribe un kilometraje entre 0 y {_miles(km_actual)} km."
-                continue
-            km = int(texto)
-            if previos.get(t.pk) == km:
-                continue  # sin cambios: se conserva el registro que ya tenía
-            dias = min(730, round((km_actual - km) / KM_POR_DIA_SUPUESTO))
-            nuevos.append(Mantenimiento(tarea=t, km=km, fecha=hoy - timedelta(days=dias),
-                                        notas="Registrado al agregar la moto (fecha estimada)"))
+        if eleccion == "km" and (datos.get(f"km_{t.pk}") or "").strip() == str(previos.get(t.pk)):
+            continue  # sin cambios: se conserva el registro que ya tenía
+        m, error = leer_cuando(t, moto, eleccion, datos.get(f"km_{t.pk}", ""), datos.get(f"hace_{t.pk}", ""), hoy=hoy)
+        if error:
+            errores[t.pk] = error
+        elif m:
+            nuevos.append(m)
     return nuevos, errores
 
 
@@ -1126,11 +1465,12 @@ def poner_al_dia(request, pk):
     previos = {t.pk: ultimos[t.pk] for t in tareas if t.pk in ultimos}
     errores = {}
     if request.method == "POST":
-        nuevos, errores = _leer_al_dia(request.POST, tareas, moto.km_actual, previos)
+        nuevos, errores = _leer_al_dia(request.POST, tareas, moto, previos)
         if not errores:
             for m in nuevos:
                 m.moto = moto
-            Mantenimiento.objects.bulk_create(nuevos)
+            for m in nuevos:  # uno a uno: cada mantenimiento también queda en la hoja de vida
+                m.save()
             AjusteTarea.objects.filter(moto=moto, tarea__in=[m.tarea for m in nuevos]).delete()
             messages.success(request, ("¡Listo! " if nuevos else "Listo. ") + _mensaje_al_dia(len(nuevos)))
             return redirect(reverse("garaje:moto", args=[moto.pk]) + "#plan")
@@ -1143,37 +1483,6 @@ def poner_al_dia(request, pk):
     return render(request, "garaje/poner_al_dia.html", {
         "moto": moto, "filas": _filas_al_dia(tareas, datos, errores, previos), "pendientes": pendientes,
         "nueva": False, "tentativos": MESES_TENTATIVOS.items()})
-
-
-
-@con_motociclista
-@require_POST
-def cotizar_soat(request, pk):
-    """Guarda el pedido de cotización de SOAT y avisa al equipo de TallerYa."""
-    moto = _moto_de(request, pk)
-    destino = reverse("garaje:moto", args=[moto.pk])
-    if moto.solicitudes_soat.exclude(estado=SolicitudSoat.Estado.CERRADA).exists():
-        messages.info(request, "Ya tienes una cotización de SOAT en curso para esta moto. Te contactaremos pronto.")
-        return redirect(destino)
-    placa = "".join(c for c in request.POST.get("placa", "").upper() if c.isalnum())[:8]
-    celular = "".join(c for c in request.POST.get("celular", "") if c.isdigit())[:15]
-    if len(celular) < 10:
-        messages.error(request, "Escribe un celular válido para que podamos contactarte.")
-        return redirect(destino)
-    if placa and not moto.placa:
-        moto.placa = placa
-        moto.save(update_fields=["placa"])
-    solicitud = SolicitudSoat.objects.create(moto=moto, placa=placa, celular=celular,
-                                             comentario=request.POST.get("comentario", "").strip()[:300])
-    from django.contrib.auth import get_user_model
-    from notificaciones.models import Notificacion
-    from notificaciones.servicios import notificar
-    for admin_ in get_user_model().objects.filter(is_staff=True, is_active=True):
-        notificar(admin_, f"soat:{solicitud.pk}", "Nueva cotización de SOAT", f"{moto} · {placa or 'sin placa'}",
-                  reverse("admin:garaje_solicitudsoat_change", args=[solicitud.pk]), Notificacion.Tipo.GENERAL)
-    messages.success(request, "¡Listo! Recibimos tu solicitud de SOAT. Te contactaremos por WhatsApp con opciones.")
-    return redirect(destino)
-
 
 
 @xframe_options_sameorigin

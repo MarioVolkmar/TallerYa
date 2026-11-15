@@ -1,0 +1,63 @@
+{
+  "linea": "Bajaj Pulsar RS 200",
+  "tareas": {
+    "aceite": {
+      "km": 5000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart – Pulsar RS200' (columna de observaciones); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Bajaj DTS-i SAE 20W-50; 1.400 ml en reparación",
+      "notas": "El manual da 10.000 km solo con el aceite especial Bajaj DTS-i 10000 (con relleno a los 5.000). Con aceite corriente, lo prudente es 5.000 km."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Juego de la cadena 15–25 mm"
+    },
+    "bujia": {
+      "km": 40000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart – Pulsar RS200' (columna de observaciones), fila 5 'Spark plug: C&A at 20,000 Kms. Replace after 40,000 Kms'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "3 bujías (2 Bosch UR6CE y 1 Bosch YR5NEO); separación 0,7–0,9 mm",
+      "notas": "Revisar y calibrar cada 10.000 km; si el motor falla o prende difícil, cámbialas antes. Son 3 bujías: se cambian juntas."
+    },
+    "filtro-aire": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart – Pulsar RS200' (columna de observaciones), fila 6 'Air cleaner element: Replace after every 20,000 kms. Cleaning not required'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "No se limpia: se cambia."
+    },
+    "valvulas": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart – Pulsar RS200' (columna de observaciones), fila 9 'Valve tappet clearance: Check & adjust at every 20,000 kms'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller"
+    },
+    "liquido-frenos": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart – Pulsar RS200' (columna de observaciones), fila 16; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "DOT 4"
+    },
+    "llanta-del": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "100/80-17 sin neumático; presión en frío 25 psi"
+    },
+    "llanta-tras": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "130/70-17 sin neumático; presión en frío 28 psi (32 psi con pasajero)"
+    }
+  }
+}

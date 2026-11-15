@@ -1,0 +1,41 @@
+{
+  "linea": "Bajaj Boxer CT 100",
+  "tareas": {
+    "cadena-lubricar": {
+      "km": null,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, cuadro de mantenimiento, fila 22 (limpiar, lubricar y ajustar en cada servicio de 5.000 km); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Juego de la cadena 20–30 mm; lubricar con aceite SAE 90",
+      "notas": "Bajaj la atiende en cada servicio (5.000 km), pero es una cadena sin O-ring y para uso diario con lluvia eso es poco: se deja el intervalo general de lubricación (600 km o 15 días)."
+    },
+    "bujia": {
+      "km": 30000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento, fila 8 'Spark plug clean & check gap' (CL,A a los 10.000 y 20.000 km; R a los 30.000); consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "A los 10.000 y 20.000 km se revisa y se calibra a 0,7–0,8 mm; a los 30.000 km se cambia. Si el motor falla o prende difícil, cámbiala antes. Versión india de carburador; la Boxer de Auteco tiene el mismo motor de 102 cc."
+    },
+    "valvulas": {
+      "km": 5000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento, fila 9 'Valve tappet clearance' (C,A en todas las columnas: 750, 5.000 … 30.000 km); consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "Revisar y ajustar en frío, en taller",
+      "notas": "La primera revisión es a los 750 km y después cada 5.000."
+    },
+    "filtro-aire": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": true
+    },
+    "suspension-del": {
+      "km": 30000,
+      "dias": null,
+      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento (aceite de la horquilla con retenedores); consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "El aceite de la horquilla se cambia junto con los retenedores."
+    }
+  }
+}

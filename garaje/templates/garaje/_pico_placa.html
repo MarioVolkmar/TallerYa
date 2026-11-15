@@ -32,7 +32,11 @@
     </li>
     {% endfor %}
   </ol>
-  <p class="pyp-nota"><strong class="pyp-placa">{{ pyp.placa }}</strong><span>Dígito <strong>{{ pyp.digito }}</strong></span><span>{{ pyp.dias_mios|join:" y "|capfirst }}</span><span>{{ pyp.regla.horario }}</span></p>
+  {# Tu placa y tu restricción en una fila (el día ya se ve resaltado arriba en la semana; el horario, si es hoy, ya va en el estado) #}
+  <div class="pyp-tuyo">
+    <strong class="pyp-placa pyp-placa-real">{{ pyp.placa }}</strong>
+    <p class="min-w-0">{% if pyp.hoy %}Restringido hoy{% else %}Restringido de{% endif %}{% if not pyp.hoy %}<span class="pyp-hora"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{{ pyp.regla.horario }}</span>{% endif %}</p>
+  </div>
   <form method="post" action="{% url 'garaje:pico_placa' moto.pk %}" class="pyp-avisos" id="pyp-avisos">
     {% csrf_token %}
     <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>Avisarme en TallerYa</span>

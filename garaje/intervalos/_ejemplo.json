@@ -1,0 +1,19 @@
+{
+  "linea": "Yamaha NMAX 155 (EJEMPLO DE FORMATO: no se lee; los valores no son del manual)",
+  "tareas": {
+    "aceite": {
+      "km": 3000,
+      "dias": 180,
+      "fuente": "Manual del propietario Yamaha NMAX 155, página X",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40, API SG o superior, JASO MB",
+      "notas": "Opcional: lo que conviene saber al hacerlo"
+    },
+    "correa-cvt": {
+      "km": 20000,
+      "dias": null,
+      "fuente": "https://url-del-manual-o-del-fabricante (dias null = usa el general; 0 = sin límite)",
+      "aproximado": true
+    }
+  }
+}

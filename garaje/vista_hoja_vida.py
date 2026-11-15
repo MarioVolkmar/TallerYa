@@ -3,9 +3,15 @@ from django.contrib import messages
 from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import NoReverseMatch, reverse
+from django.http import JsonResponse
+from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.safestring import mark_safe
+from django.views.decorators.http import require_POST
 
 from . import hoja_vida, qr
+from logros.reglas import INSIGNIAS
+
 from .forms_hoja_vida import RegistroPropioForm
 from .models import EnlaceHojaVida
 from .views import _moto_de, con_motociclista
@@ -20,13 +26,18 @@ def hoja_vida_moto(request, pk):
         if accion == "agregar":
             form = RegistroPropioForm(request.POST, moto=moto)
             if form.is_valid():
-                registro = form.save(commit=False)
-                registro.moto = moto
-                registro.save()
+                hoja_vida.registrar_propio(moto, form.save(commit=False), form.cleaned_data.get("tarea"))
                 messages.success(request, "Servicio agregado a la hoja de vida.")
                 return redirect("garaje:hoja_vida", moto.pk)
         elif accion == "codigo":
-            hoja_vida.generar_codigo(moto)
+            # "Mostrar código" de un registro pendiente (o solo_si_falta): reutiliza el vigente y lo liga a ese registro;
+            # "Generar otro" sí crea uno nuevo.
+            pendiente = moto.hoja_vida.filter(pk=request.POST.get("registro") or 0, verificado=False,
+                                              taller__isnull=False).first()
+            if pendiente or request.POST.get("solo_si_falta"):
+                hoja_vida.codigo_para(moto, pendiente)
+            else:
+                hoja_vida.generar_codigo(moto)
             return redirect(reverse("garaje:hoja_vida", args=[moto.pk]) + "#codigo")
         elif accion == "compartir":
             hoja_vida.crear_enlace(moto)
@@ -37,8 +48,8 @@ def hoja_vida_moto(request, pk):
             return redirect(reverse("garaje:hoja_vida", args=[moto.pk]) + "#compartir")
         elif accion == "eliminar":
             # Solo los propios: lo verificado por un taller no se borra desde aquí.
-            borrados, _ = moto.hoja_vida.filter(pk=request.POST.get("registro"), verificado=False).delete()
-            if borrados:
+            # Si venía del plan, también se quita del plan (es el mismo mantenimiento).
+            if hoja_vida.eliminar_propio(moto, request.POST.get("registro")):
                 messages.success(request, "Registro eliminado.")
             return redirect("garaje:hoja_vida", moto.pk)
 
@@ -54,6 +65,27 @@ def hoja_vida_moto(request, pk):
         contexto["url_enlace"] = request.build_absolute_uri(enlace.get_absolute_url())
         contexto["qr_enlace"] = mark_safe(qr.svg(contexto["url_enlace"], "QR de la hoja de vida"))
     return render(request, "garaje/hoja_vida.html", contexto)
+
+
+@con_motociclista
+@require_POST
+def codigo_taller(request, pk):
+    """Código de taller para mostrar ya mismo (aviso del despiece): reutiliza el vigente; JSON con QR y vencimiento."""
+    moto = _moto_de(request, pk)
+    # registro: "Mostrar código" de un pendiente → el código queda ligado a ese registro (se verifica ese mismo)
+    pendiente = moto.hoja_vida.filter(pk=request.POST.get("registro") or 0, verificado=False, taller__isnull=False).first()
+    if request.POST.get("nuevo"):
+        codigo = hoja_vida.generar_codigo(moto, pendiente)
+    else:
+        codigo = hoja_vida.codigo_para(moto, pendiente)
+    vence = timezone.localtime(codigo.vence)
+    return JsonResponse({
+        "codigo": codigo.codigo, "vence": vence.isoformat(),
+        "vence_texto": date_format(vence, "g:i a").replace("a.m.", "a. m.").replace("p.m.", "p. m."),
+        "qr": qr.svg(request.build_absolute_uri(reverse("garaje:servicio_codigo", args=[codigo.codigo])),
+                     "QR del código para el taller"),
+        "puntos": INSIGNIAS["servicio"].puntos,
+    })
 
 
 def hoja_vida_publica(request, token):

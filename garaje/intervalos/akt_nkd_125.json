@@ -1,0 +1,20 @@
+{
+  "linea": "AKT NKD 125",
+  "tareas": {
+    "aceite": {
+      "km": null,
+      "dias": null,
+      "fuente": "Manual del propietario AKT NKD 125 (escaneado, sin cuadro de intervalos por km), copia entregada por el usuario; lectura del Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "especificacion": "SAE 20W-50, JASO MA2, API SN",
+      "notas": "El manual no trae intervalo por kilómetros: rige el del plan general."
+    },
+    "cadena-lubricar": {
+      "km": 500,
+      "dias": null,
+      "fuente": "Manual del propietario AKT NKD 125 (escaneado, sin cuadro de intervalos por km), copia entregada por el usuario; lectura del Auditor mecánico; consultado el 14-nov-2026",
+      "aproximado": true,
+      "notas": "Lubricarla cada 500 km, y también después de lavarla o rodar con lluvia."
+    }
+  }
+}

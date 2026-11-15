@@ -14,7 +14,6 @@
   </div>
 </div>
 
-<div class="mt-6">{% include "garaje/_avisos.html" %}</div>
 
 <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8 lista-editable" id="lista-motos">
   {% for moto, plan in planes %}
@@ -25,13 +24,14 @@
       <div class="flex items-start justify-between gap-3">
         <div class="flex items-center gap-3 min-w-0">
           <span class="w-4 h-4 rounded-full shrink-0 border border-white/20" style="background: {{ moto.color }}"></span>
-          <h2 class="titulo text-2xl truncate">{{ moto }}</h2>
+          <h2 class="titulo text-2xl truncate" title="{{ moto.nombre_completo }}">{{ moto.nombre_corto }}</h2>
         </div>
         {% if plan.urgentes %}<span class="estado estado-vencido">{{ plan.urgentes|length }} por hacer</span>
         {% elif plan.pronto %}<span class="estado estado-pronto">{{ plan.pronto|length }} pronto</span>
         {% else %}<span class="estado estado-ok">Al día</span>{% endif %}
       </div>
-      {% if moto.apodo %}<p class="text-sm text-suave mt-1">{{ moto.nombre_completo }}</p>{% endif %}
+      {# Siempre hay una segunda línea, para que todas las tarjetas midan lo mismo: el nombre completo (marca, línea y año) y el cilindraje #}
+      <p class="text-sm text-suave mt-1 truncate">{{ moto.nombre_completo }}{% if moto.linea %} · {{ moto.linea.cilindraje }} cc{% endif %}</p>
       <div class="flex flex-wrap items-end justify-between gap-3 mt-5">
         <p class="km-grande">{{ moto.km_actual|intcomma }} <span class="text-lg text-suave">km</span></p>
         {% if moto.placa %}<span class="placa-moto placa-chica" title="Placa">{{ moto.placa }}</span>{% endif %}
@@ -45,7 +45,7 @@
               title="{% if not doc.vence %}{{ doc.nombre }}: agrega la fecha de vencimiento en Datos de la moto{% elif doc.estado == 'vencido' %}{{ doc.nombre }} vencido{% else %}{{ doc.nombre }} vence el {{ doc.vence|date:'j M Y' }}{% endif %}">
             <span class="doc-chip-punto" aria-hidden="true"></span>
             {% if doc.clave == "tecno" %}Tecno{% else %}SOAT{% endif %}
-            <span class="doc-chip-estado">{% if not doc.vence %}sin fecha{% elif doc.estado == "vencido" %}vencido{% elif doc.estado == "pronto" %}{% if doc.dias == 0 %}hoy{% else %}{{ doc.dias }} día{{ doc.dias|pluralize }}{% endif %}{% else %}al día{% endif %}</span>
+            <span class="doc-chip-estado">{% if not doc.vence %}sin fecha{% elif doc.estado == "vencido" %}vencido{% elif doc.estado == "urgente" or doc.estado == "pronto" %}{% if doc.dias == 0 %}hoy{% elif doc.dias == 1 %}mañana{% else %}{{ doc.dias }} días{% endif %}{% else %}al día{% endif %}</span>
           </li>
           {% endfor %}
         </ul>

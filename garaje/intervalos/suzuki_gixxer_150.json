@@ -1,0 +1,133 @@
+{
+  "linea": "Suzuki Gixxer 150",
+  "tareas": {},
+  "versiones": [
+    {
+      "nombre": "Carburador (GSX150L6)",
+      "desde": 2015,
+      "hasta": 2019,
+      "tareas": {
+        "aceite": {
+          "km": 3000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "notas": "El filtro de aceite se cambia cada 6.000 km."
+        },
+        "bujia": {
+          "km": 6000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "especificacion": "NGK CPR7EA-9; separación 0,8–0,9 mm"
+        },
+        "valvulas": {
+          "km": 3000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "especificacion": "Revisar y ajustar en frío, en taller"
+        },
+        "filtro-aire": {
+          "km": 12000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false
+        },
+        "cadena-lubricar": {
+          "km": null,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "especificacion": "Juego de la cadena 20–30 mm",
+          "notas": "El manual la atiende cada 1.000 km; se deja el intervalo general de lubricación, más corto, para uso diario con lluvia."
+        },
+        "liquido-frenos": {
+          "km": 0,
+          "dias": 730,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "notas": "Solo por tiempo."
+        },
+        "llanta-del": {
+          "km": null,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "especificacion": "Presión en frío 29 psi"
+        },
+        "llanta-tras": {
+          "km": null,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "aproximado": false,
+          "especificacion": "Presión en frío 33 psi"
+        }
+      }
+    },
+    {
+      "nombre": "FI ABS",
+      "desde": 2020,
+      "hasta": null,
+      "tareas": {
+        "aceite": {
+          "km": 3000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "notas": "El filtro de aceite se cambia cada 6.000 km. En la FI ABS 2020 se usan las mismas cifras de la 2015 como referencia."
+        },
+        "bujia": {
+          "km": 6000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "especificacion": "NGK CPR7EA-9; separación 0,8–0,9 mm",
+          "notas": "En la FI ABS 2020 se usan las mismas cifras de la 2015 como referencia."
+        },
+        "valvulas": {
+          "km": 3000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "especificacion": "Revisar y ajustar en frío, en taller"
+        },
+        "filtro-aire": {
+          "km": 12000,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true
+        },
+        "cadena-lubricar": {
+          "km": null,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "especificacion": "Juego de la cadena 20–30 mm",
+          "notas": "El manual la atiende cada 1.000 km; se deja el intervalo general de lubricación, más corto, para uso diario con lluvia."
+        },
+        "liquido-frenos": {
+          "km": 0,
+          "dias": 730,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "notas": "Solo por tiempo; aplica a los dos frenos de disco de la FI ABS."
+        },
+        "llanta-del": {
+          "km": null,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "especificacion": "Presión en frío 29 psi"
+        },
+        "llanta-tras": {
+          "km": null,
+          "dias": null,
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "aproximado": true,
+          "especificacion": "Presión en frío 33 psi"
+        }
+      }
+    }
+  ]
+}

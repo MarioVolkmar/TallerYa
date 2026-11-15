@@ -1,0 +1,67 @@
+{
+  "linea": "Yamaha NMAX 155",
+  "tareas": {
+    "aceite": {
+      "km": 6000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, secciones 'Aceite del motor' y 'Especificaciones'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "SAE 10W-40, API SG o superior, JASO MA o MB; 0,90 L en el cambio",
+      "notas": "El primer cambio es a los 1.000 km y después cada 6.000 km (lo avisa el indicador OIL). No lleva filtro de papel: el tamiz se limpia cada 12.000 km. Con uso severo (calor, trancón, lomas) muchos talleres lo cambian a la mitad. El manual solo da kilómetros; el límite por tiempo es el del plan general, porque el aceite envejece aunque la moto ruede poco. Misma plataforma que la NMAX BBE4 de Colombia."
+    },
+    "aceite-caja": {
+      "km": 12000,
+      "dias": 365,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, cuadro general de mantenimiento (pág. 9-2 a 9-6; cada columna es 'X km o N meses'), fila 'Aceite de la transmisión final: cambiar'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Aceite de motor SAE 10W-40 SG; 0,10 L",
+      "notas": "El primer cambio es a los 1.000 km."
+    },
+    "correa-cvt": {
+      "km": 18000,
+      "dias": 0,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, sección 'Correa trapezoidal' (indicador V-BELT); consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Es cambio, no revisión: el indicador V-BELT del tablero parpadea cada 18.000 km. El filtro de aire de la caja de la correa se revisa cada 6.000 km."
+    },
+    "filtro-aire": {
+      "km": 15000,
+      "dias": null,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, sección 'Filtro de aire' y cuadro general de mantenimiento; consultado el 14-nov-2026",
+      "aproximado": false,
+      "notas": "Es de papel con aceite: no se sopla ni se lava, se cambia. El filtro de la caja de la correa se revisa cada 6.000 km y se cambia si hace falta."
+    },
+    "bujia": {
+      "km": 10000,
+      "dias": 365,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, cuadro general de mantenimiento (pág. 9-2 a 9-6; cada columna es 'X km o N meses'), fila 'Bujía': 'Cambiar. Cada 10000 km o 12 meses'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "NGK CPR8EA-9; separación de electrodos 0,8–0,9 mm",
+      "notas": "En cada servicio de 6.000 km se revisa y se ajusta la separación."
+    },
+    "valvulas": {
+      "km": 6000,
+      "dias": 180,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, cuadro general de mantenimiento (pág. 9-2 a 9-6; cada columna es 'X km o N meses'), fila 'Holgura de las válvulas' (marca en todas las columnas); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Revisar y ajustar en frío, en taller",
+      "notas": "Yamaha pide revisarla en cada servicio, desde los 1.000 km."
+    },
+    "liquido-frenos": {
+      "km": 0,
+      "dias": 730,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, cuadro general de mantenimiento y sección 'Líquido de frenos'; consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "DOT 4",
+      "notas": "Solo por tiempo (el manual no da kilómetros). Las mangueras de freno se cambian cada 4 años."
+    },
+    "refrigerante": {
+      "km": 24000,
+      "dias": 730,
+      "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, cuadro general de mantenimiento (pág. 9-2 a 9-6; cada columna es 'X km o N meses'), fila 'Cambiar refrigerante' (marca en 24.000 km o 24 meses); consultado el 14-nov-2026",
+      "aproximado": false,
+      "especificacion": "Depósito 0,13 L; radiador y circuito 0,46 L",
+      "notas": "Se revisa el nivel del depósito con el motor frío."
+    }
+  }
+}

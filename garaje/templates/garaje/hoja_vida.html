@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Hoja de vida · {{ moto }} · TallerYa{% endblock %}
 {% block content %}
 {% include "parciales/volver.html" with url=moto.get_absolute_url texto=moto clase="mt-8" %}
@@ -9,7 +10,7 @@
   <p class="hv-resumen mt-4"><span><strong>{{ resumen.total }}</strong> servicio{{ resumen.total|pluralize }}</span><span><strong>{{ resumen.verificados }}</strong> verificado{{ resumen.verificados|pluralize }}</span></p>
 
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-6">
-    <section class="papel p-5" id="codigo">
+    <section class="papel p-5 hv-tarjeta" id="codigo">
       <h2 class="titulo text-lg">Código para el taller</h2>
       {% if codigo %}
       <p class="hv-codigo" aria-label="Código {{ codigo.codigo }}">{{ codigo.codigo }}</p>
@@ -18,23 +19,25 @@
       {% else %}
       <p class="text-sm text-suave mt-2">Cuando te hagan un servicio, muéstrale al taller este código (o su QR) para que lo registre como verificado. Vence en {{ minutos_codigo }} minutos y nadie puede buscar tu moto por la placa.</p>
       {% endif %}
-      <form method="post" class="mt-3">{% csrf_token %}<input type="hidden" name="accion" value="codigo">
+      <form method="post" class="hv-acciones">{% csrf_token %}<input type="hidden" name="accion" value="codigo">
         <button class="btn {% if codigo %}btn-borde{% else %}btn-lava{% endif %} text-xs px-5 py-3">{% if codigo %}Generar otro{% else %}Generar código{% endif %}</button></form>
     </section>
 
-    <section class="papel p-5" id="compartir">
+    <section class="papel p-5 hv-tarjeta" id="compartir">
       <h2 class="titulo text-lg">Compartir</h2>
       {% if enlace %}
-      <p class="text-sm text-suave mt-2">Cualquiera con este enlace ve los servicios, sin tu nombre y con la placa oculta.</p>
-      <input class="campo mt-3 hv-url" value="{{ url_enlace }}" readonly aria-label="Enlace para compartir">
+      {# Estado del enlace (no es un código para escribir: lo que sirve es el QR o "Copiar enlace") #}
+      <p class="hv-codigo hv-activo"><span class="hv-activo-punto" aria-hidden="true"></span>Enlace activo</p>
       <div class="hv-qr">{{ qr_enlace }}</div>
-      <div class="flex flex-wrap gap-2 mt-3">
-        <button type="button" class="btn btn-lava text-xs px-5 py-3" data-copiar="{{ url_enlace }}">Copiar enlace</button>
-        <form method="post">{% csrf_token %}<input type="hidden" name="accion" value="revocar"><button class="btn btn-borde text-xs px-5 py-3">Desactivar enlace</button></form>
+      <p class="text-xs text-suave mt-2">Cualquiera con este enlace ve los servicios, sin tu nombre y con la placa oculta.</p>
+      <input type="hidden" id="hv-url" value="{{ url_enlace }}">
+      <div class="hv-acciones">
+        <button type="button" class="btn btn-borde text-xs px-5 py-3" data-copiar="{{ url_enlace }}">Copiar enlace</button>
+        <form method="post">{% csrf_token %}<input type="hidden" name="accion" value="revocar"><button class="hv-desactivar">Desactivar</button></form>
       </div>
       {% else %}
       <p class="text-sm text-suave mt-2">Útil para vender la moto: un enlace con su historial, sin tu nombre y con la placa oculta. Lo puedes desactivar cuando quieras.</p>
-      <form method="post" class="mt-3">{% csrf_token %}<input type="hidden" name="accion" value="compartir"><button class="btn btn-lava text-xs px-5 py-3">Crear enlace</button></form>
+      <form method="post" class="hv-acciones">{% csrf_token %}<input type="hidden" name="accion" value="compartir"><button class="btn btn-lava text-xs px-5 py-3">Crear enlace</button></form>
       {% endif %}
     </section>
   </div>
@@ -44,7 +47,7 @@
     <form method="post" class="grid grid-cols-1 gap-3 sm:grid-cols-2 mt-3" novalidate>{% csrf_token %}
       <input type="hidden" name="accion" value="agregar">
       {% for campo in form %}
-      <label class="campo-label{% if campo.name == 'servicios' or campo.name == 'notas' %} sm:col-span-2{% endif %}">{{ campo.label|capfirst }}{{ campo }}
+      <label class="campo-label{% if campo.name == 'servicios' or campo.name == 'notas' or campo.name == 'tarea' %} sm:col-span-2{% endif %}" data-campo="{{ campo.name }}"{% if campo.name == 'costo' and not form.taller.value and not form.taller_otro.value %} hidden{% endif %}>{{ campo.label|capfirst }}{{ campo }}
         {% for e in campo.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
       {% endfor %}
       <div class="sm:col-span-2"><button class="btn btn-lava text-xs px-6 py-3">Guardar</button></div>
@@ -53,16 +56,47 @@
 
   <section class="mt-8">
     <h2 class="titulo text-xl">Servicios</h2>
-    <div class="mt-3">{% include "garaje/_hoja_vida_lista.html" with propia=True %}</div>
+    {% if registros|length > 1 %}
+    {# Filtros (los aplica talleres/js/paginar.js): quién lo registró y cuándo #}
+    <div class="lista-filtros mt-3" data-filtros-de="servicios-hv">
+      <div class="visor-modo filtro-chips" role="group" aria-label="Quién lo registró">
+        <button type="button" data-filtro="origen" data-valor="" aria-pressed="true">Todos</button>
+        <button type="button" data-filtro="origen" data-valor="verificado" aria-pressed="false">Verificados</button>
+        <button type="button" data-filtro="origen" data-valor="pendiente" aria-pressed="false">Pendientes</button>
+        <button type="button" data-filtro="origen" data-valor="propio" aria-pressed="false">Registrados por mí</button>
+      </div>
+      <div class="lista-filtros-selects">
+        <select class="campo filtro-chico" data-filtro="dias" aria-label="Periodo">
+          <option value="">Todo el tiempo</option><option value="90">Últimos 3 meses</option><option value="180">Últimos 6 meses</option><option value="365">Último año</option>
+        </select>
+      </div>
+    </div>
+    {% endif %}
+    <div class="mt-3">{% include "garaje/_hoja_vida_lista.html" with propia=True lista_id="servicios-hv" %}
+      <p class="text-sm text-suave lista-vacia" hidden>No hay servicios con esos filtros.</p></div>
   </section>
 </div>
+<script src="{% static 'garaje/js/codigo_taller.js' %}" defer></script>
 <script>
   document.querySelectorAll("[data-copiar]").forEach(function (b) {
     b.addEventListener("click", function () {
-      if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copiar).then(function () { b.textContent = "¡Copiado!"; });
+      if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copiar).then(function () { b.textContent = "Enlace copiado"; });
     });
   });
-  document.querySelectorAll(".hv-url").forEach(function (c) { c.addEventListener("focus", function () { c.select(); }); });
+  // El costo solo se pide si lo hizo un taller (de la lista o escrito); si lo hizo el mismo motero, se oculta.
+  (function () {
+    var form = document.querySelector("#agregar form"), costo = form && form.querySelector('[data-campo="costo"]');
+    if (!costo) return;
+    var taller = form.querySelector('[name="taller"]'), otro = form.querySelector('[name="taller_otro"]');
+    function ver() { costo.hidden = !taller.value && !otro.value.trim(); if (costo.hidden) costo.querySelector("input").value = ""; }
+    taller.addEventListener("change", ver); otro.addEventListener("input", ver);
+  })();
+  // Pesos con separador de miles al escribir (85000 → 85.000); el servidor acepta ambos.
+  document.addEventListener("input", function (e) {
+    if (!e.target.matches || !e.target.matches('[name="costo"], [name="precio"]')) return;
+    var d = e.target.value.replace(/\D/g, "").slice(0, 9);
+    e.target.value = d ? Number(d).toLocaleString("es-CO") : "";
+  });
   document.querySelectorAll("form[data-confirmar]").forEach(function (f) {
     f.addEventListener("submit", function (e) { if (!confirm(f.dataset.confirmar)) e.preventDefault(); });
   });

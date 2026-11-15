@@ -5,11 +5,9 @@ from django.utils import timezone
 from talleres.forms import EstiloMixin
 from talleres.models import Taller
 
-from .forms import MAX_KM
+from .forms import MAX_COSTO, MAX_KM, leer_pesos
 from .hoja_vida import CodigoInvalido, buscar_codigo, registrar_verificado
 from .models import RegistroServicio
-
-MAX_COSTO = 50_000_000
 
 
 def _fecha_no_futura(fecha):
@@ -19,16 +17,20 @@ def _fecha_no_futura(fecha):
 
 
 class RegistroPropioForm(EstiloMixin, forms.ModelForm):
-    """Lo registra el dueño: queda como no verificado."""
+    """Lo registra el dueño: queda como no verificado. Si elige qué mantenimiento del plan cubre, el plan se pone al día."""
+
+    tarea = forms.ModelChoiceField(queryset=None, required=False, label="¿Qué mantenimiento del plan cubre? (opcional)",
+                                   empty_label="Ninguno (solo anotarlo aquí)")
+    costo = forms.CharField(label="Costo (opcional)", required=False, max_length=20,
+                            widget=forms.TextInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 85.000"}))
 
     class Meta:
         model = RegistroServicio
-        fields = ["fecha", "km", "servicios", "costo", "taller", "taller_otro", "notas"]
+        fields = ["tarea", "fecha", "km", "servicios", "costo", "taller", "taller_otro", "notas"]
         widgets = {
             "fecha": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
             "km": forms.NumberInput(attrs={"inputmode": "numeric", "min": 0, "max": MAX_KM}),
             "servicios": forms.TextInput(attrs={"placeholder": "Ej: cambio de aceite y filtro, ajuste de cadena"}),
-            "costo": forms.NumberInput(attrs={"inputmode": "numeric", "min": 0, "placeholder": "Opcional. Ej: 85000"}),
             "taller_otro": forms.TextInput(attrs={"placeholder": "Si no está en la lista"}),
             "notas": forms.TextInput(attrs={"placeholder": "Opcional"}),
         }
@@ -40,6 +42,12 @@ class RegistroPropioForm(EstiloMixin, forms.ModelForm):
         self.fields["fecha"].widget.attrs["max"] = timezone.localdate().isoformat()
         if moto and not self.is_bound:
             self.fields["km"].initial = moto.km_actual
+        self.moto = moto
+        self.fields["servicios"].required = False  # basta con elegir el mantenimiento del plan
+        from .models import TareaMantenimiento
+        from .plan import calcular_plan
+        ids = [t.tarea.pk for t in calcular_plan(moto).tareas] if moto else []
+        self.fields["tarea"].queryset = TareaMantenimiento.objects.filter(pk__in=ids).order_by("orden", "nombre")
 
     def clean_fecha(self):
         return _fecha_no_futura(self.cleaned_data.get("fecha"))
@@ -51,10 +59,23 @@ class RegistroPropioForm(EstiloMixin, forms.ModelForm):
         return km
 
     def clean_costo(self):
-        costo = self.cleaned_data.get("costo")
-        if costo is not None and costo > MAX_COSTO:
-            raise forms.ValidationError("Ese valor es demasiado alto. Revisa el número.")
-        return costo
+        return leer_pesos(self.cleaned_data.get("costo"))
+
+    def clean(self):
+        datos = super().clean()
+        tarea = datos.get("tarea")
+        if not datos.get("servicios"):
+            if not tarea:
+                self.add_error("servicios", "Escribe qué se le hizo o elige el mantenimiento del plan.")
+            else:
+                datos["servicios"] = self.instance.servicios = tarea.nombre[:300]
+        if not datos.get("taller") and not datos.get("taller_otro"):
+            datos["costo"] = self.instance.costo = None  # lo hizo el mismo motero: sin costo (los repuestos van en Gastos)
+        km = datos.get("km")
+        if tarea and self.moto and km is not None and km > self.moto.km_actual:
+            self.add_error("km", f"Para poner al día el plan, no puede ser mayor que el kilometraje actual "
+                                 f"({self.moto.km_actual:,} km). Actualiza primero el kilometraje.".replace(",", "."))
+        return datos
 
 
 class ServicioTallerForm(EstiloMixin, forms.Form):

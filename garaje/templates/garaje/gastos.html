@@ -6,25 +6,34 @@
 <div class="max-w-3xl mx-auto mt-4">
   <p class="etiqueta">Bolsillo</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">Gastos y <span class="text-lava">consumo</span></h1>
-  <p class="text-suave mt-2">Tanqueos, repuestos y papeles de tu {{ moto }}. Los servicios con costo de la <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="underline">hoja de vida</a> ya cuentan aquí.</p>
+  <p class="text-suave mt-2">Cuánto gastas y cuánto recorres con tu {{ moto }}. Los servicios con costo de la
+    <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="gs-hv"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/></svg>hoja de vida</a> ya cuentan aquí.</p>
 
+  {% url 'garaje:moto' moto.pk as url_moto %}
   <ul class="gs-cifras mt-6">
-    <li><span>Este mes ({{ mes_nombre }})</span><strong>${{ mes_total|intcomma }}</strong></li>
-    <li><span>Rendimiento</span><strong>{% if consumo.promedio %}{{ consumo.promedio }} <small>km/gal</small>{% else %}—{% endif %}</strong>
-      <em>{% if consumo.ultimo %}Último tanque: {{ consumo.ultimo }} km/gal{% else %}Registra dos tanqueos llenos con km y galones{% endif %}</em></li>
-    <li><span>Costo por km</span><strong>{% if costo_km %}${{ costo_km|intcomma }}{% else %}—{% endif %}</strong>
-      <em>{% if combustible_km %}Gasolina: ${{ combustible_km|intcomma }}/km{% elif km_recorridos %}En {{ km_recorridos|intcomma }} km{% else %}Falta saber cuántos km llevas{% endif %}</em></li>
-    <li><span>Total registrado</span><strong>${{ total|intcomma }}</strong></li>
+    <li><span>Gasto de {{ mes_nombre }}</span><strong>${{ mes_total|intcomma }}</strong></li>
+    <li><span>Km en {{ mes_nombre }}</span>
+      {% if km_mes %}<strong>{{ km_mes|intcomma }} <small>km</small></strong>
+      {% else %}<strong>—</strong><a href="{{ url_moto }}#form-km" class="gs-falta">Registra el kilometraje para calcularlo</a>{% endif %}</li>
+    <li><span>Costo por km</span>
+      {% if costo_km %}<strong>${{ costo_km|intcomma }}</strong><em>Gasto ÷ km del mes</em>
+      {% elif not km_mes %}<strong>—</strong><a href="{{ url_moto }}#form-km" class="gs-falta">Registra el kilometraje para calcularlo</a>
+      {% else %}<strong>—</strong><em>Registra lo que gastas este mes</em>{% endif %}</li>
+    <li><span>Rendimiento</span>
+      {% if km_galon %}<strong>≈ {{ km_galon }} <small>km/gal</small></strong><em>Estimado con lo que tanqueas</em>
+      {% elif not km_mes %}<strong>—</strong><a href="{{ url_moto }}#form-km" class="gs-falta">Registra el kilometraje para calcularlo</a>
+      {% else %}<strong>—</strong><em>Registra tus tanqueos de gasolina</em>{% endif %}</li>
   </ul>
 
   {% if total %}
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-6">
     <section class="papel p-5">
       <h2 class="titulo text-lg">Últimos 6 meses</h2>
-      <svg class="gs-barras" viewBox="0 0 300 135" role="img" aria-label="Gasto por mes">
+      <svg class="gs-barras" viewBox="0 -12 300 147" role="img" aria-label="Gasto por mes">
         <line x1="0" y1="110.5" x2="300" y2="110.5" class="gs-eje"/>
         {% for s in serie %}
-        <g{% if forloop.last %} class="gs-actual"{% endif %}>
+        <g class="gs-mes-g{% if forloop.last %} gs-actual{% endif %}"{% if s.total %} data-periodo="{{ forloop.counter0 }}" role="button" tabindex="0" aria-pressed="false" aria-label="Ver en qué se fue lo de {{ s.etiqueta }}"{% endif %}>
+          <rect x="{{ s.x|add:-8 }}" y="0" width="46" height="135" class="gs-zona"/>
           <rect x="{{ s.x }}" y="{{ s.y }}" width="30" height="{{ s.alto }}" rx="3"><title>{{ s.etiqueta }}: ${{ s.total|intcomma }}</title></rect>
           {% if s.total %}<text x="{{ s.x|add:15 }}" y="{{ s.y|add:-4 }}" class="gs-valor">{{ s.corto }}</text>{% endif %}
           <text x="{{ s.x|add:15 }}" y="127" class="gs-mes">{{ s.etiqueta }}</text>
@@ -33,58 +42,164 @@
       </svg>
     </section>
     <section class="papel p-5">
-      <h2 class="titulo text-lg">En qué se va</h2>
-      <ul class="gs-tipos mt-3">
-        {% for t in tipos %}
-        <li class="gs-tipo-{{ t.clave }}"><span class="gs-tipo-nombre">{{ t.nombre }}</span><span class="gs-tipo-valor">${{ t.total|intcomma }} · {{ t.pct }} %</span>
-          <span class="gs-tipo-barra" aria-hidden="true"><i style="width: {{ t.pct }}%"></i></span></li>
-        {% endfor %}
-      </ul>
+      <div class="gs-reparto-cabeza">
+        <h2 class="titulo text-lg">En qué se va</h2>
+        <span class="gs-periodo" data-periodo-nombre>Todo el historial</span>
+        <button type="button" class="gs-ver-todo" data-ver-todo hidden>Ver todo</button>
+      </div>
+      {% include "garaje/_gastos_categorias.html" with categorias=categorias periodo="todo" oculto=False %}
+      {% for s in serie %}{% if s.total %}{% include "garaje/_gastos_categorias.html" with categorias=s.categorias periodo=forloop.counter0 oculto=True %}{% endif %}{% endfor %}
+      <p class="gs-pista">Toca un mes de la gráfica para ver su reparto.</p>
     </section>
   </div>
   {% endif %}
 
   <section class="papel p-5 mt-6" id="agregar">
-    <h2 class="titulo text-lg">Registrar un gasto</h2>
-    <form method="post" class="grid grid-cols-1 gap-3 sm:grid-cols-2 mt-3" id="form-gasto" novalidate>{% csrf_token %}
+    <h2 class="titulo text-lg">{% if editando %}Editar gasto{% else %}Registrar un gasto{% endif %}</h2>
+    <form method="post" action="{% url 'garaje:gastos' moto.pk %}" class="grid grid-cols-1 gap-3 sm:grid-cols-2 mt-3" novalidate>{% csrf_token %}
+      {% if editando %}<input type="hidden" name="gasto" value="{{ editando.pk }}">{% endif %}
       {% for campo in form %}
-      {% if campo.name == "tanque_lleno" %}
-      <label class="dir-switch sm:col-span-2" data-solo-tanqueo><span class="dir-switch-texto">Llené el tanque</span>{{ campo }}</label>
-      {% else %}
-      <label class="campo-label{% if campo.name == 'notas' %} sm:col-span-2{% endif %}"{% if campo.name == "galones" %} data-solo-tanqueo{% endif %}>{{ campo.label|capfirst }}{{ campo }}
-        {% if campo.help_text %}<span class="text-xs text-suave">{{ campo.help_text }}</span>{% endif %}
+      <label class="campo-label{% if campo.name == 'notas' %} sm:col-span-2{% endif %}">{{ campo.label|capfirst }}{% if campo.name == "notas" %} <span class="text-suave">(opcional)</span>{% endif %}{{ campo }}
         {% for e in campo.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
-      {% endif %}
       {% endfor %}
-      <div class="sm:col-span-2"><button class="btn btn-lava text-xs px-6 py-3">Guardar</button></div>
+      <div class="sm:col-span-2 flex flex-wrap items-center gap-4"><button class="btn btn-lava text-xs px-6 py-3">{% if editando %}Guardar cambios{% else %}Guardar{% endif %}</button>
+        {% if editando %}<a href="{% url 'garaje:gastos' moto.pk %}" class="boton-seccion">Cancelar</a>{% endif %}</div>
     </form>
+    <p class="text-xs text-suave mt-3" data-solo-gasolina>Los galones de gasolina se estiman con el precio de referencia de ${{ precio_galon|intcomma }} por galón (corriente en Medellín, desde el {{ precio_fecha|date:"j \d\e F" }}{% if precio_por_verificar %}, por verificar{% elif precio_fuente %}, fuente: {% if precio_fuente_url %}<a href="{{ precio_fuente_url }}" target="_blank" rel="noopener" class="underline">{{ precio_fuente }}</a>{% else %}{{ precio_fuente }}{% endif %}{% endif %}). Cada estación cobra un poco distinto.</p>
   </section>
 
   <section class="mt-8">
     <h2 class="titulo text-xl">Movimientos</h2>
-    <ul class="gs-lista mt-3">
+    {% if movimientos|length > 1 %}
+    {# Filtros (los aplica talleres/js/paginar.js): categoría, origen y periodo #}
+    <div class="lista-filtros mt-3" data-filtros-de="movimientos-gs">
+      <div class="visor-modo filtro-chips" role="group" aria-label="Origen">
+        <button type="button" data-filtro="origen" data-valor="" aria-pressed="true">Todos</button>
+        <button type="button" data-filtro="origen" data-valor="gasto" aria-pressed="false">Gastos</button>
+        <button type="button" data-filtro="origen" data-valor="servicio" aria-pressed="false">De la hoja de vida</button>
+      </div>
+      <div class="lista-filtros-selects">
+        <select class="campo filtro-chico" data-filtro="categoria" aria-label="Categoría">
+          <option value="">Todas las categorías</option>
+          {% for c in categorias %}<option value="{{ c.clave }}">{{ c.nombre }}</option>{% endfor %}
+        </select>
+        <select class="campo filtro-chico" data-filtro="dias" aria-label="Periodo">
+          <option value="">Todo el tiempo</option><option value="30">Último mes</option><option value="90">Últimos 3 meses</option><option value="365">Último año</option>
+        </select>
+      </div>
+    </div>
+    {% endif %}
+    <ul class="gs-lista mt-3" id="movimientos-gs">
+      {% url 'garaje:hoja_vida' moto.pk as url_hoja %}
       {% for m in movimientos %}
-      <li>
-        <span class="gs-punto gs-tipo-{{ m.tipo }}" aria-hidden="true"></span>
-        <span class="min-w-0"><strong>{{ m.tipo_nombre }}</strong>{% if m.descripcion %} · {{ m.descripcion }}{% endif %}
-          <small>{{ m.fecha|date:"j M Y" }}{% if m.km %} · {{ m.km|intcomma }} km{% endif %}{% if not m.gasto %} · de la hoja de vida{% endif %}</small></span>
-        <span class="gs-monto">${{ m.valor|intcomma }}</span>
-        {% if m.gasto %}<form method="post" data-confirmar="¿Eliminar este gasto?">{% csrf_token %}<input type="hidden" name="accion" value="eliminar"><input type="hidden" name="gasto" value="{{ m.gasto.pk }}"><button class="gs-borrar" aria-label="Eliminar">×</button></form>{% endif %}
+      <li style="--c: {{ m.categoria.color }}" data-categoria="{{ m.categoria.clave }}" data-origen="{% if m.gasto %}gasto{% else %}servicio{% endif %}" data-fecha="{{ m.fecha|date:'Y-m-d' }}">
+        {# Toda la fila abre el detalle (ventana emergente; en móvil, hoja que sube desde abajo) #}
+        <button type="button" class="gs-fila" data-detalle="gs-mov-{{ forloop.counter }}" aria-haspopup="dialog">
+          <span class="gs-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ m.categoria.icono }}"/></svg></span>
+          <span class="min-w-0"><strong>{{ m.categoria.nombre }}</strong>{% if m.descripcion %} · {{ m.descripcion }}{% endif %}
+            <small>{{ m.fecha|date:"j M Y" }}{% if m.galones_texto %} · {{ m.galones_texto }}{% endif %}{% if not m.gasto %} · de la hoja de vida{% endif %}</small></span>
+          <span class="gs-monto">${{ m.valor|intcomma }}</span>
+          <svg class="gs-chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </button>
+        <template id="gs-mov-{{ forloop.counter }}">
+          <div class="gs-det-cabeza" style="--c: {{ m.categoria.color }}">
+            <span class="gs-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ m.categoria.icono }}"/></svg></span>
+            <div class="min-w-0"><p class="gs-det-cat">{{ m.categoria.nombre }}</p><p class="gs-det-valor">${{ m.valor|intcomma }}</p></div>
+          </div>
+          {% if m.descripcion %}<p class="gs-det-desc">{{ m.descripcion }}</p>{% endif %}
+          <dl class="gs-det-datos">
+            <div><dt>Fecha</dt><dd>{{ m.fecha|date:"j \d\e F \d\e Y" }}</dd></div>
+            {% if m.km_aprox %}<div><dt>Kilometraje</dt><dd>{% if m.gasto %}≈ {% endif %}{{ m.km_aprox|intcomma }} km</dd></div>{% endif %}
+            {% if m.galones_texto %}<div><dt>Gasolina</dt><dd>{{ m.galones_texto }}</dd></div>{% endif %}
+            <div><dt>Origen</dt><dd>{% if m.gasto %}Gasto registrado por ti{% else %}Hoja de vida{% endif %}</dd></div>
+            {% if m.registro %}
+            {% if m.registro.donde %}<div><dt>Taller</dt><dd>{{ m.registro.donde }}</dd></div>{% endif %}
+            {% if m.registro.mantenimiento %}<div><dt>Del plan</dt><dd>{{ m.registro.mantenimiento.tarea.nombre }}</dd></div>{% endif %}
+            {% if m.registro.notas %}<div><dt>Notas</dt><dd>{{ m.registro.notas }}</dd></div>{% endif %}
+            {% endif %}
+          </dl>
+          {% if m.registro.verificado %}<p class="hv-sello"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Hecho en {{ m.registro.taller.nombre }} · verificado</p>{% endif %}
+          <div class="gs-det-acciones">
+            {% if m.gasto %}
+            <a href="?editar={{ m.gasto.pk }}#agregar" class="btn btn-borde text-xs px-5 py-3">Editar</a>
+            <form method="post" data-confirmar="¿Eliminar este gasto?">{% csrf_token %}<input type="hidden" name="accion" value="eliminar"><input type="hidden" name="gasto" value="{{ m.gasto.pk }}"><button class="hv-borrar">Eliminar</button></form>
+            {% else %}
+            <a href="{{ url_hoja }}" class="btn btn-borde text-xs px-5 py-3">Ver en la hoja de vida</a>
+            <p class="text-xs text-suave">Se edita en la hoja de vida.</p>
+            {% endif %}
+          </div>
+        </template>
       </li>
       {% empty %}
       <li class="hv-vacio">Aún no hay gastos. Empieza por tu próximo tanqueo.</li>
       {% endfor %}
     </ul>
+    <p class="text-sm text-suave lista-vacia mt-3" hidden>No hay movimientos con esos filtros.</p>
   </section>
 </div>
+<dialog class="gs-dialogo" aria-labelledby="gs-dialogo-titulo">
+  <div class="gs-dialogo-caja">
+    <div class="gs-dialogo-barra"><h2 id="gs-dialogo-titulo" class="titulo text-lg">Detalle</h2>
+      <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
+    <div data-contenido></div>
+  </div>
+</dialog>
 <script>
+  // Detalle de un movimiento: la fila abre la ventana; cierra con ×, Escape (nativo de <dialog>) o clic afuera.
   (function () {
-    var tipo = document.querySelector("#form-gasto [name=tipo]");
-    function mostrar() { document.querySelectorAll("[data-solo-tanqueo]").forEach(function (e) { e.hidden = tipo.value !== "tanqueo"; }); }
-    if (tipo) { tipo.addEventListener("change", mostrar); mostrar(); }
-    document.querySelectorAll("form[data-confirmar]").forEach(function (f) {
-      f.addEventListener("submit", function (e) { if (!confirm(f.dataset.confirmar)) e.preventDefault(); });
+    var dialogo = document.querySelector(".gs-dialogo");
+    if (!dialogo || !dialogo.showModal) return;
+    var contenido = dialogo.querySelector("[data-contenido]"), origen = null;
+    document.querySelectorAll(".gs-fila[data-detalle]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        contenido.replaceChildren(document.getElementById(b.dataset.detalle).content.cloneNode(true));
+        contenido.querySelectorAll("form[data-confirmar]").forEach(function (f) {
+          f.addEventListener("submit", function (e) { if (!confirm(f.dataset.confirmar)) e.preventDefault(); });
+        });
+        origen = b;
+        dialogo.showModal();
+      });
     });
+    dialogo.querySelector("[data-cerrar]").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); });
+    dialogo.addEventListener("close", function () { if (origen) origen.focus(); });
   })();
+  // Gráfica de 6 meses: tocar una barra muestra a la derecha el reparto de ese mes; tocarla otra vez (o "Ver todo") vuelve al total.
+  (function () {
+    var barras = [].slice.call(document.querySelectorAll(".gs-mes-g[data-periodo]"));
+    var listas = [].slice.call(document.querySelectorAll("[data-reparto]"));
+    var nombre = document.querySelector("[data-periodo-nombre]"), todo = document.querySelector("[data-ver-todo]");
+    if (!barras.length || !nombre) return;
+    var actual = "todo";
+    function elegir(p) {
+      actual = p;
+      listas.forEach(function (l) { l.hidden = l.dataset.reparto !== p; });
+      barras.forEach(function (b) {
+        var si = b.dataset.periodo === p;
+        b.classList.toggle("gs-elegido", si);
+        b.setAttribute("aria-pressed", String(si));
+      });
+      var b = barras.filter(function (x) { return x.dataset.periodo === p; })[0];
+      nombre.textContent = b ? b.querySelector(".gs-mes").textContent : "Todo el historial";
+      todo.hidden = p === "todo";
+      document.querySelector(".gs-barras").classList.toggle("gs-con-eleccion", p !== "todo");
+    }
+    barras.forEach(function (b) {
+      function tocar() { elegir(actual === b.dataset.periodo ? "todo" : b.dataset.periodo); }
+      b.addEventListener("click", tocar);
+      b.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tocar(); } });
+    });
+    todo.addEventListener("click", function () { elegir("todo"); });
+  })();
+  // La nota del precio de la gasolina solo se ve cuando la categoría elegida es Gasolina.
+  (function () {
+    var tipo = document.querySelector("#agregar select[name=tipo]"), nota = document.querySelector("[data-solo-gasolina]");
+    if (!tipo || !nota) return;
+    function ver() { nota.hidden = tipo.value !== "gasolina"; }
+    tipo.addEventListener("change", ver); ver();
+  })();
+  document.querySelectorAll("form[data-confirmar]").forEach(function (f) {
+    f.addEventListener("submit", function (e) { if (!confirm(f.dataset.confirmar)) e.preventDefault(); });
+  });
 </script>
 {% endblock %}
