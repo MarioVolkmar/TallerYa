@@ -35,12 +35,12 @@
           "aproximado": false
         },
         "cadena-lubricar": {
-          "km": null,
+          "km": 600,
           "dias": null,
-          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
           "aproximado": false,
           "especificacion": "Juego de la cadena 20–30 mm",
-          "notas": "El manual la atiende cada 1.000 km; se deja el intervalo general de lubricación, más corto, para uso diario con lluvia."
+          "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
         },
         "liquido-frenos": {
           "km": 0,
@@ -99,12 +99,12 @@
           "aproximado": true
         },
         "cadena-lubricar": {
-          "km": null,
+          "km": 600,
           "dias": null,
-          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio)",
+          "fuente": "Manual de servicio Suzuki Gixxer 150 2015 (GSX150L6, carburador), copia entregada por el usuario; cuadro leído a ojo por el Auditor mecánico; consultado el 14-nov-2026; usado como referencia para la FI ABS 2020 (modelo hermano, sin manual propio); TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
           "aproximado": true,
           "especificacion": "Juego de la cadena 20–30 mm",
-          "notas": "El manual la atiende cada 1.000 km; se deja el intervalo general de lubricación, más corto, para uso diario con lluvia."
+          "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
         },
         "liquido-frenos": {
           "km": 0,

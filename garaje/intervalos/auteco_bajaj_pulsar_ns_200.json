@@ -10,11 +10,11 @@
       "notas": "El manual indio da 10.000 km, pero solo con el aceite 'Bajaj DTS-i 10000' de la garantía india, y con relleno de nivel a los 5.000. Con aceite corriente, lo prudente es 5.000 km. El filtro de aceite se cambia cada 10.000 km y el tamiz se limpia en cada cambio. Versión india con inyección; la NS 200 de Auteco tiene el mismo motor."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento; consultado el 14-nov-2026",
+      "fuente": "Owner's Manual Bajaj Pulsar NS200 BS VI (Doc. 71120193), cuadro de mantenimiento; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
-      "notas": "Lubricar con spray para cadena."
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día. Con spray para cadena."
     },
     "filtro-aire": {
       "km": 20000,

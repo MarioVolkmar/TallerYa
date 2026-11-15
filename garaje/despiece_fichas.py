@@ -64,12 +64,12 @@ FICHAS = {
         ["Si el nivel baja mucho, revisa las pastillas: al gastarse, el nivel baja", "No mezcles tipos de líquido (DOT 4 con DOT 5)"],
         "taller"),
     "RR. MASTER CYLINDER ASSY": _f(
-        "Es la bomba del freno trasero: empuja el líquido cuando aprietas la manigueta izquierda.",
+        "Es la bomba del freno trasero: empuja el líquido cuando pisas el pedal (o aprietas la manigueta izquierda, en las scooter).",
         "Revisa el nivel cada semana. El líquido se cambia cada 2 años.",
         ["Manigueta esponjosa", "Fugas en el depósito o la manigueta"], ["Usa el líquido que indica la tapa del depósito"], "taller"),
     "CAP, RESERVOIR": _f(
         "Cierra el depósito del líquido de frenos y lo protege del polvo y la humedad.",
-        "El líquido de frenos se cambia cada 2 años o 20.000 km, porque absorbe humedad y pierde eficacia.",
+        "El líquido de frenos se cambia cada 2 años (o lo que diga el plan de tu moto), porque absorbe humedad y pierde eficacia.",
         ["Líquido oscuro en la mirilla (debería verse claro)", "Freno que se siente largo o esponjoso"],
         ["Revisa el nivel con la moto derecha y el manubrio recto", "El líquido de frenos daña la pintura: límpialo de inmediato si cae",
          "No abras el depósito en días de lluvia"],
@@ -95,20 +95,20 @@ FICHAS = {
     # ---------------- Transmisión CVT y clutch ----------------
     "V-BELT": _f(
         "Es la correa de la transmisión automática: lleva la fuerza del motor hasta la rueda trasera.",
-        "Revísala cada 6.000 km y cámbiala cada 12.000 a 20.000 km o antes si está cuarteada o delgada.",
+        "Se revisa y se cambia cuando lo pide el plan de tu moto (según el modelo, entre 12.000 y 25.000 km), o antes si está cuarteada o delgada.",
         ["La moto arranca con tirones o le cuesta salir", "Pierde velocidad máxima", "Chillido al acelerar", "Olor a caucho quemado"],
         ["Si se revienta te deja varado: no la lleves al límite", "Cambia la correa junto con los rodillos si están gastados",
          "Mantén limpia la caja del variador"],
         "taller"),
     "WEIGHT SET": _f(
         "Son los rodillos del variador. Con la velocidad se abren y hacen que la moto cambie de relación, como si pasara cambios sola.",
-        "Revísalos cada 6.000 km y cámbialos cada 12.000 km aprox. o si están ovalados.",
+        "Se revisan con la correa, cuando lo pide el plan de tu moto, y se cambian si están ovalados o con partes planas.",
         ["Arranque lento o con tirones", "La moto no alcanza su velocidad normal", "Ruido de golpeteo en el variador"],
         ["Se cambian todos a la vez", "Usa el peso correcto: rodillos más pesados o livianos cambian cómo responde la moto"],
         "taller"),
     "SLIDER": _f(
         "Son guías plásticas que ayudan a que la polea del variador se deslice suave.",
-        "Se revisan junto con los rodillos, cada 12.000 km aprox.",
+        "Se revisan junto con los rodillos, cuando se revisa la correa.",
         ["Ruido en el variador", "Desgaste visible en las guías"], ["Se cambian junto con los rodillos"], "taller"),
     "CAM, BRAKE": _f(
         "Es la leva del freno de tambor: gira con el pedal o la palanca y abre las bandas contra el tambor.",
@@ -131,13 +131,13 @@ FICHAS = {
         ["Surcos donde roza la correa", "Arranque irregular"], ["Límpiala de polvo de correa en cada revisión del variador"], "taller"),
     "CLUTCH WEIGHT SHOE SET": _f(
         "Son las zapatas del clutch automático: se abren con las revoluciones y hacen que la moto empiece a andar suavemente.",
-        "Revísalas cada 12.000 km. Se cambian cuando el material está delgado o vidriado.",
+        "Se revisan junto con la correa, cuando lo pide el plan de tu moto. Se cambian cuando el material está delgado o vidriado.",
         ["La moto vibra o tiembla al arrancar", "Patina al salir", "Arranca de golpe"],
         ["Evita salir siempre acelerando a fondo: las gasta más rápido", "Revisa también la campana del clutch"],
         "taller"),
     "CLUTCH CARRIER ASSY": _f(
         "Es el clutch automático completo: une el motor con la rueda cuando aceleras.",
-        "Se revisa cada 12.000 km junto con la correa.", ["Vibración al arrancar", "La moto patina"], ["Muchas veces solo hay que cambiar las zapatas"], "taller"),
+        "Se revisa junto con la correa, cuando lo pide el plan de tu moto.", ["Vibración al arrancar", "La moto patina"], ["Muchas veces solo hay que cambiar las zapatas"], "taller"),
     "CLUTCH HOUSING": _f(
         "Es la campana del clutch: las zapatas se abren y la agarran para mover la rueda.",
         "Se revisa al cambiar zapatas.", ["Vibración al arrancar", "Superficie interior rayada o con escalón"], ["Si está muy marcada, las zapatas nuevas no agarran bien"], "taller"),
@@ -148,24 +148,24 @@ FICHAS = {
     # ---------------- Motor ----------------
     "PLUG, SPARK": _f(
         "Produce la chispa que enciende la mezcla de aire y gasolina dentro del motor.",
-        "Revísala cada 4.000 km y cámbiala cada 8.000 km aprox.",
+        "Se cambia cuando lo pide el plan de tu moto (según el modelo, entre 6.000 y 15.000 km, y en algunas más); antes, si la moto prende mal.",
         ["La moto prende con dificultad", "Se apaga en ralentí o tiene tirones", "Consume más gasolina"],
         ["Usa siempre la referencia indicada para tu moto", "El color de la punta dice mucho: café claro es lo normal; negra indica mezcla rica",
          "Aprieta con la mano y luego un cuarto de vuelta con la llave"],
         "facil", "Lo puedes hacer tú con una llave de bujías"),
     "VALVE, INTAKE": _f(
         "Abre y cierra el paso de la mezcla de aire y gasolina hacia el cilindro.",
-        "La calibración se revisa cada 6.000 km aprox. La válvula como tal solo se cambia si se daña.",
+        "La calibración (ajustar la holgura) se hace cuando lo pide el plan de tu moto; varía mucho según el modelo. La válvula como tal solo se cambia si se daña.",
         ["Golpeteo metálico en el motor (\"suena a máquina de coser\")", "Pérdida de fuerza", "Arranque difícil en frío"],
-        ["La calibración se hace con el motor frío", "Una válvula muy apretada se puede quemar"], "taller"),
+        ["La calibración se hace con el motor frío", "Una válvula sin holgura (muy apretada) no cierra del todo y se puede quemar"], "taller"),
     "VALVE, EXHAUST": _f(
         "Abre y cierra la salida de los gases quemados del cilindro.",
-        "La calibración se revisa cada 6.000 km aprox.",
+        "La calibración (ajustar la holgura) se hace cuando lo pide el plan de tu moto; varía mucho según el modelo.",
         ["Golpeteo en el motor", "Pérdida de fuerza", "Explosiones por el exosto"],
         ["Es la válvula que más calor soporta: una mala calibración la daña"], "taller"),
     "SCREW, VALVE ADJUSTING": _f(
         "Es el tornillo con el que se calibra la holgura de las válvulas.",
-        "Se usa en cada calibración de válvulas (cada 6.000 km aprox.).",
+        "Se usa en cada calibración de válvulas, cuando lo pide el plan de tu moto.",
         ["Golpeteo en la culata"], ["Se ajusta con calibrador de láminas y el motor frío"], "taller"),
     "SEAL, VALVE STEM": _f(
         "Es un pequeño caucho que evita que el aceite baje por la válvula hacia la cámara de combustión.",
@@ -190,7 +190,7 @@ FICHAS = {
     # ---------------- Lubricación ----------------
     "PLUG,DRAIN": _f(
         "Es el tapón por donde se saca el aceite viejo del motor.",
-        "Se quita en cada cambio de aceite (cada 2.500 km o 4 meses aprox.).",
+        "Se quita en cada cambio de aceite. Lo que se cambia es su arandela o empaque, no el tapón.",
         ["Goteo de aceite debajo del motor"],
         ["Cambia su arandela de sello si está aplastada", "No lo aprietes de más: puedes dañar la rosca del cárter",
          "Saca el aceite con el motor tibio: sale mejor"],
@@ -209,9 +209,9 @@ FICHAS = {
     # ---------------- Admisión e inyección ----------------
     "ELEMENT, AIR CLEANER": _f(
         "Filtra el aire que entra al motor para que no le llegue polvo ni tierra.",
-        "Revísalo cada 3.000 km y cámbialo cada 6.000 km aprox. Si ruedas por destapado o con mucho polvo, más seguido.",
+        "Se revisa y se cambia cuando lo pide el plan de tu moto. Si ruedas por destapado o con mucho polvo, más seguido.",
         ["La moto pierde fuerza", "Gasta más gasolina", "El filtro se ve negro o con tierra"],
-        ["Los filtros de papel no se lavan ni se soplan con aire a presión: se cambian", "Revisa que quede bien asentado: si entra aire sin filtrar, desgasta el motor"],
+        ["El cuidado depende del tipo: el de espuma se lava y se aceita; el de papel con aceite (viscoso) no se limpia, se cambia; el de papel seco solo se sopla suave desde adentro", "Revisa que quede bien asentado: si entra aire sin filtrar, desgasta el motor"],
         "facil", "Lo puedes hacer tú con un destornillador"),
     "CASE, AIR CLEANER": _f(
         "Es la caja que contiene el filtro de aire.", "Límpiala por dentro cada vez que cambies el filtro.",
@@ -231,12 +231,12 @@ FICHAS = {
     # ---------------- Refrigeración ----------------
     "RADIATOR ASSY": _f(
         "Enfría el líquido refrigerante que circula por el motor.",
-        "Revisa el nivel de refrigerante cada semana en el tanque auxiliar. El refrigerante se cambia cada 2 años.",
+        "Revisa el nivel de refrigerante cada semana en el tanque auxiliar. El refrigerante se cambia cuando lo pide el plan de tu moto (en muchas, cada 2 a 4 años).",
         ["Temperatura alta en el tablero", "Fugas o manchas verdes/rosadas", "Ventilador prendido todo el tiempo"],
         ["Limpia el panal con agua a baja presión", "Usa refrigerante, nunca solo agua"], "taller"),
     "CAP, RADIATOR": _f(
         "Mantiene el sistema de refrigeración a la presión correcta.",
-        "Revísala al cambiar el refrigerante (cada 2 años).",
+        "Revísala cada vez que se cambie el refrigerante.",
         ["Pérdida de refrigerante", "Recalentamiento"], ["Nunca la abras con el motor caliente: el líquido sale hirviendo"], "facil"),
     "THERMOSTAT ASSY": _f(
         "Abre o cierra el paso del refrigerante para que el motor llegue rápido a su temperatura ideal.",
@@ -274,7 +274,7 @@ FICHAS = {
     # ---------------- Suspensión y dirección ----------------
     "FRONT FORK ASSY": _f(
         "Es la suspensión delantera: absorbe los huecos y mantiene la llanta pegada al piso.",
-        "El aceite de las barras se cambia cada 20.000 km aprox.; los retenedores, si hay fugas.",
+        "El aceite de las barras se cambia cuando lo pide el plan de tu moto (según el modelo, entre 10.000 y 30.000 km); los retenedores, si botan aceite.",
         ["Aceite en las barras", "Se hunde mucho al frenar", "Rebota o golpea en los huecos"],
         ["Limpia las barras después de rodar en barro o polvo"], "taller"),
     "INNER TUBE": _f(
@@ -289,7 +289,7 @@ FICHAS = {
         "Se cambia junto con los retenedores.", ["Guardapolvo roto o salido"], ["Límpialo después de rodar en destapado"], "taller"),
     "SPRING, FRONT FORK": _f(
         "Es el resorte que sostiene el peso de la moto adelante.",
-        "Se revisa cuando se cambia el aceite de las barras (cada 20.000 km aprox.).",
+        "Se revisa cuando se cambia el aceite de las barras.",
         ["La moto se hunde mucho al frenar", "Queda más baja adelante"], ["Si llevas parrillero seguido, puede convenir un resorte más firme"], "taller"),
     "SHOCK ABSORBER": _f(
         "Es el amortiguador trasero: absorbe los golpes y controla que la moto no rebote.",
@@ -311,11 +311,11 @@ FICHAS = {
 
     # ---------------- Eléctrico ----------------
     "BATTERY ASSY": _f(
-        "Guarda la energía para el arranque, la inyección y las luces.",
+        "Guarda la energía para el arranque, las luces y (si la moto es de inyección) la inyección.",
         "Revisa sus bornes cada 6 meses. Suele durar entre 2 y 3 años.",
         ["Arranque lento o sin fuerza", "Luces débiles con el motor apagado", "Tablero que se reinicia al prender"],
         ["Si no vas a usar la moto por semanas, desconéctala o usa un mantenedor de carga", "Mantén los bornes limpios y apretados",
-         "Las baterías de gel no se les echa agua"],
+         "A las baterías de gel o selladas no se les echa agua"],
         "facil", "La puedes cambiar tú; quita primero el borne negativo"),
     "FUSE": _f(
         "Protege los circuitos eléctricos: se quema antes de que se dañe algo más caro.",
@@ -474,7 +474,7 @@ EXTRAS = {
         ["Mira el color del líquido por la mirilla: claro está bien; oscuro o turbio toca cambiarlo.",
          "Revisa que el nivel esté entre las marcas MIN y MAX."],
         "El líquido viejo absorbe humedad: con el calor de frenadas largas puede hervir y el freno se queda sin fuerza.",
-        ["Usa el tipo de líquido que dice la tapa (normalmente DOT 4).",
+        ["Usa el tipo de líquido que dice la tapa (DOT 3 o DOT 4, según la moto).",
          "Compra un envase nuevo y sellado: uno abierto hace tiempo ya absorbió humedad."]),
     "HOSE, BRAKE": _x(
         ["Recorre la manguera con la vista buscando grietas, hinchazones o roces.",
@@ -511,12 +511,12 @@ EXTRAS = {
          "Negra y con hollín indica mezcla rica o filtro sucio; blanca, mezcla pobre o recalentamiento.",
          "Revisa que el electrodo no esté redondeado ni demasiado separado."],
         "Una bujía gastada hace que la moto prenda mal, pierda fuerza y gaste más gasolina.",
-        ["Pide la referencia exacta de tu moto (en la NMAX viene en la descripción del catálogo).",
+        ["Pide la referencia exacta de tu moto (a veces viene en la descripción del catálogo o en el plan de tu moto).",
          "No cambies a una bujía más caliente o más fría sin consultar."]),
     "VALVE, INTAKE": _x(
         ["Escucha el motor en frío: un golpeteo metálico rítmico suele ser válvulas descalibradas.",
          "La calibración se mide con calibrador de láminas, con el motor frío."],
-        "Una válvula muy ajustada no cierra bien: pierde compresión, se calienta y se puede quemar.",
+        "Una válvula sin holgura (muy ajustada) no cierra bien: pierde compresión, se calienta y se puede quemar. Con demasiada holgura, suena y pierde fuerza.",
         ["Normalmente solo se calibra; cambiar la válvula es una reparación mayor."]),
     "VALVE, EXHAUST": _x(
         ["Escucha el motor en frío por golpeteos.", "Pérdida de fuerza o explosiones en el exosto pueden indicar mala calibración."],
@@ -533,7 +533,7 @@ EXTRAS = {
         "Si se tapa, el aceite circula menos y el motor se desgasta más rápido.",
         ["Normalmente se limpia y se reutiliza; se cambia si está rota o deformada."]),
     "ELEMENT, AIR CLEANER": _x(
-        ["Abre la caja del filtro y míralo a contraluz: si no pasa luz o está negro, cámbialo.",
+        ["Abre la caja y mira de qué es tu filtro (espuma, papel seco o papel con aceite): cada uno se cuida distinto.",
          "Revisa que no tenga roturas ni que entre tierra por los bordes."],
         "Un filtro tapado ahoga el motor: pierde fuerza y gasta más. Uno roto deja entrar polvo que desgasta el cilindro.",
         ["Usa la medida exacta para tu moto; uno que no sella bien es peor que uno sucio."]),
@@ -564,7 +564,7 @@ EXTRAS = {
          "Busca los testigos de desgaste (pequeños topes en el labrado): si el labrado llegó a ellos, toca cambiarla.",
          "Revisa grietas en los costados y la fecha de fabricación (4 números en el costado: semana y año)."],
         "Una llanta lisa o con poca presión pierde agarre, sobre todo con lluvia, y aumenta el riesgo de caída.",
-        ["Respeta la medida original (en la NMAX viene en la descripción).",
+        ["Respeta la medida original (viene escrita en el costado de la llanta y en el plan de tu moto).",
          "No mezcles llantas muy diferentes adelante y atrás.",
          "Evita llantas con más de 5 años de fabricación aunque estén nuevas."]),
     "CAST WHEEL": _x(
@@ -723,18 +723,18 @@ QUE_HACE = {
     "BUZZER": _q("Es el pito de alerta del sistema eléctrico: suena con algunos avisos, como los de la llave inteligente.", "No tiene mantenimiento."),
     "CASE, FAN": _q("Es la carcasa que rodea el ventilador del radiador y dirige el aire a través del panal.", "Se revisa al limpiar el radiador."),
     "COCK, DRAIN": _q("Es el tornillo de drenaje del sistema de refrigeración: por ahí se saca el refrigerante viejo.",
-                      "Se usa en cada cambio de refrigerante (cada 2 años aprox.)."),
+                      "Se usa en cada cambio de refrigerante."),
     "COVER, BALL RACE": _q("Es el guardapolvo de la dirección: protege los rodamientos de la dirección del agua y la tierra.",
                            "Se revisa cuando se engrasa la dirección (cada 10.000 a 15.000 km)."),
     "COVER, CYLINDER HEAD": _q("Es la tapa de válvulas: cierra la parte de arriba del motor y protege el mecanismo de las válvulas.",
-                               "Se destapa para calibrar las válvulas (cada 6.000 km aprox.)."),
+                               "Se destapa para calibrar las válvulas, cuando lo pide el plan de tu moto."),
     "COVER, MAIN SWITCH": _q("Es la tapa que protege el switch de encendido del agua y la suciedad."),
     "COVER, RADIATOR": _q("Es la rejilla que protege el radiador de piedras e insectos sin bloquear el paso del aire.", "Límpiala cada vez que laves la moto."),
     "COVER, UNDER": _q("Es una tapa inferior que cubre y protege la parte baja de la dirección."),
     "CYLINDER": _q("Es el cilindro del motor: por dentro sube y baja el pistón, y ahí ocurre la combustión.",
                    "No tiene cambio periódico; se revisa si el motor pierde fuerza o empieza a consumir aceite."),
     "CYLINDER COMP., FRONT FORK": _q("Es el cilindro amortiguador dentro de la barra: usando el aceite, controla qué tan rápido se hunde y regresa la suspensión.",
-                                     "Se revisa cuando se cambia el aceite de las barras (cada 20.000 km aprox.)."),
+                                     "Se revisa cuando se cambia el aceite de las barras."),
     "CYLINDER KIT, MASTER": _q("Es el kit de reparación de la bomba de freno: trae el pistón y los empaques internos.",
                                "Se usa cuando la bomba pierde presión o tiene fugas."),
     "DAMPER ASSY": _q("Es el conjunto amortiguador de una de las barras de la suspensión delantera (izquierda o derecha).",
@@ -782,7 +782,7 @@ QUE_HACE = {
     "SPINDLE, TAPER": _q("Es el eje de la dirección: une la tijera inferior con la superior y permite que el manubrio gire.",
                          "Se revisa y se engrasa junto con los rodamientos de la dirección."),
     "SPRING, CLUTCH WEIGHT": _q("Son los resortes que mantienen cerradas las zapatas del clutch hasta que el motor sube de revoluciones.",
-                                "Se revisan junto con las zapatas (cada 12.000 km aprox.)."),
+                                "Se revisan junto con las zapatas, cuando se revisa la correa."),
     "SPRING, COIL": _q("Es un resorte del mecanismo de las válvulas."),
     "SPRING, COMPRESSION": _q("Es el resorte que mantiene la malla del aceite apretada en su lugar.", "Se revisa al limpiar la malla en el cambio de aceite."),
     "SPRING, PLUNGER": _q("Es un resorte del émbolo del cuerpo de aceleración."),
@@ -793,15 +793,15 @@ QUE_HACE = {
     "SUPT. BRKT. ASSY": _q("Es el soporte del caliper: lo fija a la barra de la suspensión o al basculante."),
     "TERMINAL COMP": _q("Es un terminal eléctrico: la punta metálica que conecta un cable con un componente."),
     "TUBE, OUTER": _q("Es la botella de la suspensión: el tubo externo donde se desliza la barra cromada y donde va el aceite de la barra.",
-                      "El aceite de las barras se cambia cada 20.000 km aprox."),
+                      "El aceite de las barras se cambia cuando lo pide el plan de tu moto."),
     "UNDER BRACKET COMP": _q("Es la tijera inferior: une las dos barras de la suspensión con el eje de la dirección."),
     "VALVE ROCKER ARM ASSY": _q("Es el balancín: la palanca que empuja la válvula para abrirla cuando el árbol de levas la acciona.",
-                                "Se revisa al calibrar las válvulas (cada 6.000 km aprox.)."),
+                                "Se revisa al calibrar las válvulas."),
     "WIRE HARNESS ASSY": _q("Es el arnés eléctrico: el conjunto de cables que conecta todos los componentes eléctricos de la moto.",
                             "No tiene cambio; revisa que no esté pelado ni aplastado, sobre todo después de una caída."),
     "BOOT": _q("Es el guardapolvo de caucho de los pasadores del caliper: evita que entre agua y que se oxiden.", "Se revisa en cada cambio de pastillas."),
     "BRACKET, MASTER CYLINDER": _q("Es la abrazadera que sujeta la bomba de freno al manubrio."),
-    "CAP, CLEANER CASE": _q("Es la tapa de la caja del filtro de aire: se quita para revisar o cambiar el filtro.", "Se abre cada 3.000 km para revisar el filtro."),
+    "CAP, CLEANER CASE": _q("Es la tapa de la caja del filtro de aire: se quita para revisar o cambiar el filtro.", "Se abre cada vez que se revisa o se cambia el filtro."),
     "BAND": _q("Es una abrazadera plástica que mantiene los cables organizados y sujetos al chasis."),
     "BOLT, STUD": _q("Es un espárrago: una varilla roscada en los dos extremos que une el cilindro y la culata con el cárter.",
                      "No tiene cambio; se revisa la rosca cuando se desarma el motor."),

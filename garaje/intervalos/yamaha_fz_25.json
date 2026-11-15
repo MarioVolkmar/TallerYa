@@ -10,11 +10,12 @@
       "notas": "El primero a los 1.000 km y luego cada 5.000. El filtro de aceite (cartucho) se cambia a los 1.000 km y después cada 10.000; el tamiz se limpia a los 1.000 km y luego cada 15.000."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Yamaha FZ25 2018, sección 'Cadena de transmisión'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Yamaha FZ25 2018, sección 'Cadena de transmisión'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Juego de la cadena 40–45 mm"
+      "especificacion": "Juego de la cadena 40–45 mm",
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día."
     },
     "filtro-aire": {
       "km": 15000,

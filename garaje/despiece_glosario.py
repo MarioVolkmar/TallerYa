@@ -235,13 +235,13 @@ _AYUDAS = {
     "DISK, REAR BRAKE": "Gira con la rueda y las pastillas lo aprietan para frenar. Se cambia si está muy delgado o torcido.",
     "CALIPER ASSY": "Sostiene las pastillas y las empuja contra el disco cuando frenas.",
     "MASTER CYLINDER ASSY": "Empuja el líquido de frenos cuando aprietas la manigueta.",
-    "RR. MASTER CYLINDER ASSY": "Empuja el líquido de frenos cuando aprietas la manigueta izquierda.",
+    "RR. MASTER CYLINDER ASSY": "Empuja el líquido de frenos cuando pisas el pedal (en las scooter, cuando aprietas la manigueta izquierda).",
     "CAP, RESERVOIR": "Cierra el depósito del líquido de frenos. Revisa el nivel por la mirilla y cámbialo cada 2 años.",
     "DIAPHRAGM, RESERVOIR": "Evita que entre humedad al líquido de frenos. Se revisa al cambiar el líquido.",
     "V-BELT": "Lleva la fuerza del motor a la rueda trasera. Si patina, chilla o la moto pierde fuerza al arrancar, revísala.",
     "WEIGHT SET": "Hacen que el variador cambie de relación. Gastados causan tirones o que la moto no alcance velocidad.",
     "CLUTCH WEIGHT SHOE SET": "Hacen que la moto arranque suave. Gastadas, la moto vibra o patina al salir.",
-    "ELEMENT, AIR CLEANER": "Evita que entre polvo al motor. Sucio, la moto gasta más gasolina y pierde fuerza.",
+    "ELEMENT, AIR CLEANER": "Evita que entre polvo al motor. Sucio, la moto gasta más gasolina y pierde fuerza. Si es de papel con aceite, no se limpia: se cambia.",
     "PLUG, SPARK": "Da la chispa que enciende la gasolina. Gastada, la moto prende mal y consume más.",
     "PLUG,DRAIN": "Se quita para sacar el aceite viejo en cada cambio. Cambia su arandela si está aplastada.",
     "STRAINER, OIL": "Atrapa partículas del aceite. Se limpia en cada cambio de aceite.",
@@ -253,8 +253,8 @@ _AYUDAS = {
     "SHOCK ABSORBER ASSY, REAR": "Absorbe los golpes atrás. Si rebota mucho o bota aceite, hay que revisarlo.",
     "OIL SEAL": "Evita que se salga el aceite. Si ves aceite en la barra o alrededor, toca cambiarlo.",
     "SPRING, FRONT FORK": "Sostiene el peso adelante. Con los años pierde firmeza y la moto se hunde al frenar.",
-    "FRONT FORK ASSY": "La suspensión delantera completa. Su aceite y retenedores se cambian cada 20.000 km aprox.",
-    "BATTERY ASSY": "Da energía para el arranque y la inyección. Suele durar entre 2 y 3 años.",
+    "FRONT FORK ASSY": "La suspensión delantera completa. Su aceite se cambia cuando lo pide el plan de tu moto; los retenedores, si botan aceite.",
+    "BATTERY ASSY": "Da energía para el arranque y las luces (y la inyección, si la tiene). Suele durar entre 2 y 3 años.",
 }
 
 _LADO_DER, _LADO_IZQ = "lado derecho", "lado izquierdo"

@@ -10,12 +10,12 @@
       "notas": "El primer cambio es a los 1.000 km y después cada 2.000. El cartucho del filtro de aceite se cambia a los 1.000, 5.000 y 9.000 km (cada 4.000)."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento, fila 12 'Cadena de transmisión'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento, fila 12 'Cadena de transmisión'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
       "especificacion": "Juego de la cadena 30–40 mm",
-      "notas": "Cada 500 km y también después de lavarla o rodar con lluvia."
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día."
     },
     "filtro-aire": {
       "km": 15000,

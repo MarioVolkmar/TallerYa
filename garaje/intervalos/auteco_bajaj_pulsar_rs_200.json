@@ -10,11 +10,12 @@
       "notas": "El manual da 10.000 km solo con el aceite especial Bajaj DTS-i 10000 (con relleno a los 5.000). Con aceite corriente, lo prudente es 5.000 km."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "fuente": "Owner's Manual Bajaj Pulsar RS200, copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Juego de la cadena 15–25 mm"
+      "especificacion": "Juego de la cadena 15–25 mm",
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día."
     },
     "bujia": {
       "km": 40000,

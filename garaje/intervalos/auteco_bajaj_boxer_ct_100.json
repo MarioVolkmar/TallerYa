@@ -2,12 +2,12 @@
   "linea": "Bajaj Boxer CT 100",
   "tareas": {
     "cadena-lubricar": {
-      "km": null,
+      "km": 600,
       "dias": null,
-      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, cuadro de mantenimiento, fila 22 (limpiar, lubricar y ajustar en cada servicio de 5.000 km); consultado el 14-nov-2026",
+      "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, cuadro de mantenimiento, fila 22 (limpiar, lubricar y ajustar en cada servicio de 5.000 km); consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
       "especificacion": "Juego de la cadena 20–30 mm; lubricar con aceite SAE 90",
-      "notas": "Bajaj la atiende en cada servicio (5.000 km), pero es una cadena sin O-ring y para uso diario con lluvia eso es poco: se deja el intervalo general de lubricación (600 km o 15 días)."
+      "notas": "Manual: en cada servicio (5.000 km). Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "bujia": {
       "km": 30000,

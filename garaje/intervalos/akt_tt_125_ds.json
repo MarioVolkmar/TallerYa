@@ -16,11 +16,12 @@
       "notas": "En trocha o con polvo, cada 3.000 km."
     },
     "cadena-lubricar": {
-      "km": null,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "fuente": "Manual de usuario AKT AK 125/150 TTR, copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Juego de la cadena 1,5–2,5 cm"
+      "especificacion": "Juego de la cadena 1,5–2,5 cm",
+      "notas": "Manual: sin cifra fija de km. Usamos 600 km para todas las motos."
     },
     "liquido-frenos": {
       "km": null,

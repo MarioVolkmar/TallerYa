@@ -249,7 +249,12 @@ _ABREVIATURAS = [(r"\bdel\.", "delantera"), (r"\btras\.", "trasera"), (r"\bder\.
                  (r"\bkit piston\b", "kit de pistón"), (r"\bkit anillos\b", "juego de anillos"), (r"\bjgo\b\.?", "juego de"),
                  (r"\bpiston\b", "pistón"), (r"\bvalvula\b", "válvula"), (r"\bvalvulas\b", "válvulas"), (r"\breten\b", "retén"),
                  (r"\bciguenal\b", "cigüeñal"), (r"\bbalancin\b", "balancín"), (r"\bbujia\b", "bujía"),
-                 (r"\brodamiento bolas\b", "rodamiento de bolas"), (r"\s*\b(std|standard)\b\.?", "")]
+                 (r"\brodamiento bolas\b", "rodamiento de bolas"), (r"\s*\b(std|standard)\b\.?", ""),
+                 # Erratas de catálogo (y la ligadura "ti" que el PDF convierte en un signo raro o en un espacio)
+                 (r"[ɵƟ]\s?", "ti"), (r"\bcanas lla\b", "canastilla"), (r"\bcor na\b", "cortina"),
+                 (r"\bflashaer\b", "flasher"), (r"\bpiñó\b", "piñón"), (r"\bgurda polvo\b", "guardapolvo"),
+                 (r"\bwasa\b", "arandela"), (r"\bcomponete\b", "componente"), (r"\btuerda\b", "tuerca"),
+                 (r"\bprenza\b", "prensa"), (r"\btesor\b", "tensor"), (r"\bmeditor\b", "canastilla")]
 
 
 def limpiar_nombre(nombre):
@@ -407,9 +412,46 @@ NOMBRES_POR_SISTEMA = {
 }
 
 
+# Revisión de esquemas (nov. 2026): nombres claros para piezas que el catálogo nombra mal o en inglés.
+# Una clave que empieza por "=" vale solo si la descripción es exactamente esa ("=ADJUSTER", no "SCREW, ADJUSTER").
+for _sistema, _nombres in {
+    "suspension_delantera": [("CAJA DE LA BATERIA DELANTERA INFERIOR DER", "Botella derecha de la suspensión"),
+                             ("CAJA DE LA BATERIA DELANTERA INFERIOR IZQ", "Botella izquierda de la suspensión"),
+                             ("OIL LOCK", "Copa de bloqueo del aceite"), ("PIECE.OIL", "Copa de bloqueo del aceite"),
+                             ("METAL,SLIDE", "Buje deslizante de la barra"), ("METAL, SLIDE", "Buje deslizante de la barra"),
+                             ("STEEL BALL", "Balín de la dirección"), ("=BALL", "Balín de la dirección"),
+                             # Dentro de la barra: no son el neumático, el pistón ni el eje de la dirección
+                             ("TUBE, INNER", "Barra cromada (tubo interior)"), ("BUSH, INNER TUBE", "Buje deslizante de la barra"),
+                             ("BUSH, OUTER TUBE", "Buje deslizante de la botella"), ("SPINDLE, TAPER", "Cono del amortiguador de la barra"),
+                             ("=CYLINDER", "Cilindro amortiguador de la barra")],
+    "freno_disco": [("CONJUNTO DE LA PRENZA", "Caliper completo"), ("COJIN JUEGO", "Juego de pastillas"),
+                    ("PAD COMP", "Pastilla"), ("BOTA", "Guardapolvo del caliper")],
+    "bomba_freno": [("M/C SUB ENSAMBLE", "Cuerpo de la bomba de freno"), ("MEDIDOR COMPONENTE DE NIVEL", "Visor del nivel del líquido"),
+                    ("=WINDOW", "Visor del nivel del líquido"), ("BOTA COMPONENTE", "Guardapolvo del pistón"),
+                    ("ENSAMBLE DE PARADA", "Interruptor del stop")],
+    "freno_tambor": [("COMPONETE AJUSTADOR FRENO", "Tuerca de ajuste del freno")],
+    "rueda_tambor": [("TUERDA, VASTAGO", "Tuerca de la varilla del freno"), ("BRIDA, FINAL ACCIONADA", "Porta sprocket"),
+                     ("KIT PASTAS FRENO", "Juego de bandas del freno")],
+    "rueda": [("PESO, BALANCE", "Contrapeso de balanceo")],
+    "carburador": [("=ADJUSTER", "Ajustador de la guaya"), ("FLOTA, JUEGO", "Flotador"), ("MARCO, COMPONENTE DEL CUERPO", "Cuerpo del carburador"),
+                   ("CARBURETTOR ASSY", "Carburador completo"), ("=PLUNGER", "Émbolo del cebador")],
+    "electrico": [("SISTEMA ELECTRIC", "Arnés eléctrico completo"), ("YTX", "Batería de gel"), ("=TCI", "Módulo de encendido (TCI)")],
+    "encendido": [("PLATOBOBI", "Plato de bobinas (estator)"), ("VOLANCGR", "Volante del magneto")],
+    "admision": [("SPONGE,FILTER", "Espuma del filtro de aire"), ("TRAP COMP,FLAME", "Arrestallamas"), ("=FILTER", "Filtro de aire"),
+                 ("CROSS RECESSED HEAD TAPPING", "Tornillo autorroscante")],
+    "cilindro_piston": [("BODY,ENGINE OIL FILTER", "Cuerpo del filtro de aceite"), ("BRG. BALL RADIAL", "Rodamiento del cigüeñal"),
+                        ("WOODRUFF", "Cuña del cigüeñal")],
+    "escape": [("BODY SET,MUF", "Silenciador")],
+    "clutch": [("=CAGE", "Canastilla (rodamiento de agujas)"), ("EMBRAGUE COMPONENTE EXTERNO", "Canasta del clutch")],
+    "distribucion": [("ELEVADOR ENSAMBLE TESOR", "Tensor de la cadenilla")],
+}.items():
+    NOMBRES_POR_SISTEMA[_sistema] = _nombres + NOMBRES_POR_SISTEMA.get(_sistema, [])
+
+
 def nombre_por_sistema(diagrama, descripcion):
-    texto = (descripcion or "").upper()
-    return next((n for clave, n in NOMBRES_POR_SISTEMA.get(diagrama, []) if clave in texto), None)
+    texto = (descripcion or "").upper().strip()
+    return next((n for clave, n in NOMBRES_POR_SISTEMA.get(diagrama, [])
+                 if (clave[1:] == texto if clave.startswith("=") else clave in texto)), None)
 
 
 # Lo que no es el nombre de la pieza: colores, normas y versiones (van en el catálogo, no en el nombre)

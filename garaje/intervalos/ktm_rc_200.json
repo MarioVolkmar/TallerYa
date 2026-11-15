@@ -44,11 +44,12 @@
       "notas": "Solo por tiempo. La protección anticongelante se revisa cada 7.500 km."
     },
     "cadena-lubricar": {
-      "km": null,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario KTM RC 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, sección 'Tensión de la cadena'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario KTM RC 200 2024 (mismo motor y llantas que el catálogo 2019), copia entregada por el usuario, sección 'Tensión de la cadena'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
-      "especificacion": "Tensión de la cadena 5–7 mm (medida KTM)"
+      "especificacion": "Tensión de la cadena 5–7 mm (medida KTM)",
+      "notas": "Manual: sin cifra fija de km. Usamos 600 km para todas las motos."
     },
     "llanta-del": {
       "km": null,

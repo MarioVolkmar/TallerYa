@@ -10,12 +10,12 @@
       "notas": "El primer cambio es a los 500–750 km. El filtro de aceite se cambia cada 12.000 km y la malla se limpia a los 12.000 y 27.000 km."
     },
     "cadena-lubricar": {
-      "km": 1000,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 4 (inspeccionar, limpiar, lubricar y ajustar la cadena cada 1.000 km); consultado el 15-nov-2026",
+      "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 4 (inspeccionar, limpiar, lubricar y ajustar la cadena cada 1.000 km); consultado el 15-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
       "especificacion": "Holgura 20–25 mm; aceite SAE 90",
-      "notas": "El kit de arrastre se cambia a los 20.000 km o cuando el tensor llega al límite."
+      "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario. El kit de arrastre se cambia a los 20.000 km o cuando el tensor llega al límite."
     },
     "kit-arrastre": {
       "km": 20000,
@@ -27,7 +27,8 @@
       "km": 15000,
       "dias": null,
       "fuente": "Manual de usuario Hero Hunk 125R (español, Hero Motos Perú, may-2025), 'Programa de mantenimiento' pp. 58-60 (servicios a los 500-750, 3.000, 6.000 … 30.000 km; cada 90 días), nota 2 (reemplazar el elemento cada 15.000 km; no abrirlo entre cambios); consultado el 15-nov-2026",
-      "aproximado": false
+      "aproximado": false,
+      "notas": "Es de papel viscoso plegado: nunca se lava ni se limpia y no se abre entre cambios, salvo que la moto falle (manual, sección 'Filtro de aire', p. 65). Con polvo, cambiarlo antes."
     },
     "bujia": {
       "km": 12000,

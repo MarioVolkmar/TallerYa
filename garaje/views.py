@@ -36,7 +36,8 @@ from . import diagramas, pico_placa
 from .despiece_variantes import (quitar_modelo, datos_tecnicos, nombre_por_sistema, nombres_de_empaques, nombres_de_sellos,
                                  nombres_distintos,
                                  separar_nombre, texto_tecnico)
-from .despiece_fichas import ficha_completa, tiene_guia_propia
+from .despiece_fichas import CATEGORIAS as _CATEGORIAS_FICHA, ficha_completa, tiene_guia_propia
+_GUIA_GENERICA = _CATEGORIAS_FICHA["general"]["que_hace"]    # "Es una pieza del conjunto...": sin explicación propia
 from .despiece_guia_mecanica import guia_mecanica
 from .despiece_sistemas import ORDEN_SUBGRUPOS, sistema_de, sistemas_de
 from .colores_fabrica import paleta_personalizar
@@ -909,7 +910,12 @@ def _version_codigo_despiece():
 # Tipo de filtro de aire por línea, según su manual (la marca solo es el respaldo)
 _FILTRO_AIRE_POR_LINEA = {"NMAX 155": "viscoso", "Aerox 155": "viscoso", "FZ 25": "viscoso", "Crypton FI 115": "viscoso",
                           "CB 125F": "viscoso", "Pulsar NS 200": "viscoso", "Pulsar RS 200": "viscoso", "XTZ 125": "espuma",
-                          "Boxer CT 100": "seco", "Eco Deluxe 100": "seco", "Apache RTR 160": "espuma"}
+                          "Boxer CT 100": "seco", "Eco Deluxe 100": "seco", "Apache RTR 160": "espuma",
+                          # Su plan pide limpiarlo entre cambios: no es viscoso (el respaldo por marca diría que no se limpia)
+                          "XTZ 150": "sin_confirmar",
+                          # Confirmados en sus manuales (revisión mecánica, 15-nov-2026)
+                          "Hunk 125R": "viscoso", "XR 190L": "viscoso", "FZ 2.0": "viscoso", "DR 150": "viscoso",
+                          "Best 125": "seco"}
 # Cuidado del filtro de aire según su tipo (Auditor mecánico): el consejo de uno daña a los otros
 _CUIDADO_FILTRO_AIRE = {
     "seco": {"como_revisar": ["Míralo a contraluz: si casi no pasa luz o está negro, cámbialo.",
@@ -1091,12 +1097,15 @@ def _laminas_base(despiece, sistemas=None):
                 """Guía de la pieza: la propia si existe; si no, la de su papel mecánico en el sistema (su puesto)."""
                 guia = ficha_completa(p.descripcion, lamina.pieza)
                 guia["contexto"] = ""                 # "En tu moto hace parte de..." no aporta: se quita
-                if not tiene_guia_propia(p.descripcion):
+                # Sin ficha propia, o con una que no vale en este sistema ("CAM" es de la CVT; en el freno quedaba el
+                # texto genérico): la guía de su papel mecánico en el dibujo o por su nombre de taller
+                if not tiene_guia_propia(p.descripcion) or guia.get("que_hace") == _GUIA_GENERICA:
                     if con_dibujo and p.pk in posiciones:
                         kit = diagramas.puestos_kit(lamina.diagrama, p.descripcion)
-                        mecanica = guia_mecanica(lamina.diagrama, posiciones[p.pk][2], kit, p.descripcion)
+                        mecanica = guia_mecanica(lamina.diagrama, posiciones[p.pk][2], kit, p.descripcion, (nombre_por_sistema(lamina.diagrama, p.descripcion) or getattr(p, "nombre", "")))
                     else:
-                        mecanica = guia_mecanica(lamina.diagrama, diagramas.herraje_para(p.descripcion), None, p.descripcion)
+                        mecanica = guia_mecanica(lamina.diagrama, diagramas.herraje_para(p.descripcion), None, p.descripcion,
+                                                 (nombre_por_sistema(lamina.diagrama, p.descripcion) or getattr(p, "nombre", "")))
                     if mecanica:
                         guia.update(mecanica)
                 # Tapa de la transmisión de una automática (fig. de la tapa de la CVT): no es la tapa del clutch de una moto de cambios
@@ -1140,7 +1149,7 @@ def _laminas_base(despiece, sistemas=None):
                     intervalo = intervalo_para(tarea_texto.clave, lamina.despiece.linea, anio=lamina.despiece.anio)
                     if intervalo and intervalo.get("texto"):
                         consejo = " ".join(f for f in re.split(r"(?<=[.;])\s+", guia.get("cada_cuanto", ""))
-                                           if f and f[:1].isupper()
+                                           if f and f[:1].isupper() and "plan de tu moto" not in f
                                            and not re.search(r"\d[\d.]*\s*(km|kil[oó]metros|mes|meses|años?|días?|semanas?)\b", f, re.I))
                         guia["cada_cuanto"] = f"{intervalo['texto']}, según el plan de tu moto." + (f" {consejo}" if consejo else "")
                     # La especificación (viscosidad y norma del aceite, referencia de bujía, presión de llantas) también es de

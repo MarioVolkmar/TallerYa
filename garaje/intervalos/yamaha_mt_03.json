@@ -10,10 +10,11 @@
       "notas": "El primer cambio es a los 1.000 km y luego cada 5.000."
     },
     "cadena-lubricar": {
-      "km": 800,
+      "km": 600,
       "dias": null,
-      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Drive chain' (cada 800 km); consultado el 14-nov-2026",
-      "aproximado": false
+      "fuente": "Owner's Manual Yamaha MT-03 (B5W, 2021, 321 cc), copia entregada por el usuario, periodic maintenance chart (columnas 1.000 / 6.000 / 11.000 / 16.000 / 21.000 / 26.000 km, o 1 / 6 / 12 / 18 / 24 / 30 meses; desde los 31.000 km se repite desde los 11.000), fila 'Drive chain' (cada 800 km); consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
+      "aproximado": false,
+      "notas": "Manual: cada 800 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "bujia": {
       "km": 10000,

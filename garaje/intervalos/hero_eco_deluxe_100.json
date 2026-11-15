@@ -33,12 +33,12 @@
       "notas": "El manual dice 'en cada servicio'; los servicios son cada 3.000 km aproximadamente."
     },
     "cadena-lubricar": {
-      "km": null,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Hero Eco Deluxe (español), copia entregada por el usuario, sección 'Cadena'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
       "especificacion": "Lubricar con aceite SAE 90",
-      "notas": "El manual dice inspeccionar, limpiar, lubricar y ajustar cada 2.000 km; para uso diario con lluvia se deja el intervalo general de lubricación, más corto."
+      "notas": "Manual: cada 2.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "liquido-frenos": {
       "km": 30000,

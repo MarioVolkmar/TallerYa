@@ -287,7 +287,7 @@ RESULTADOS = {
         "sistema": "Motor", "subgrupo": "Válvulas y distribución", "urgencia": "pronto",
         "causa": "Válvulas descalibradas",
         "explicacion": "El tic parejo que sube con las revoluciones suele ser holgura de más entre el balancín y la válvula. "
-                       "Se calibra con galgas; si se deja, se gastan el árbol de levas y los balancines.",
+                       "Se calibra con calibrador de láminas (galgas), cuando lo pide el plan de tu moto; si se deja, se gastan el árbol de levas y los balancines.",
         "piezas": [r"v[aá]lvula de (admisi|escape)", r"balanc[ií]n", r"taqu[eé]", r"[aá]rbol de levas", r"tornillo de ajuste", r"v[aá]lvula"],
         "excluir": r"tapa|empaque|sello|gu[ií]a|resorte|cu[nñ]a|platillo|base",
     },
@@ -431,7 +431,7 @@ RESULTADOS = {
         "causa": "Clutch patinando: discos gastados, resortes vencidos o cable sin juego",
         "explicacion": "Si sube de vueltas y no empuja, los discos de fricción ya no agarran. Primero se revisa el juego del "
                        "cable; si está bien, toca cambiar discos y resortes. Un aceite que no es para moto también lo hace patinar.",
-        "revisa": "Que la manigueta del clutch tenga 10 a 20 mm de juego libre.",
+        "revisa": "Que la manigueta del clutch tenga juego libre (en la mayoría, 10 a 20 mm en la punta).",
         "piezas": [r"disco", r"separador", r"resorte (del |de )?(clutch|embrague)", r"plato", r"cable del clutch", r"canasta", r"centro"],
     },
     "clutch_no_suelta": {
@@ -462,9 +462,9 @@ RESULTADOS = {
     "kit_arrastre": {
         "sistema": "Kit de arrastre", "urgencia": "pronto",
         "causa": "Cadena floja, seca o kit de arrastre gastado",
-        "explicacion": "Una cadena que golpea o chasquea está floja, seca o estirada. Si los dientes del sprocket están en "
-                       "punta, se cambia el kit completo (cadena, piñón y sprocket). Una cadena muy floja se puede salir.",
-        "revisa": "Que la cadena tenga 2 a 3 cm de juego (en las doble propósito como la XTZ, más: mira el manual) y esté lubricada.",
+        "explicacion": "Una cadena que golpea o chasquea está floja, seca o estirada. Si los dientes de la corona (sprocket) están en "
+                       "punta, se cambia el kit completo (cadena, piñón y corona). Una cadena muy floja se puede salir.",
+        "revisa": "Que la cadena tenga 2 a 3 cm de juego (cada moto trae su medida en el plan; en las doble propósito como la XTZ o la DR, más) y esté lubricada.",
         "piezas": [r"cadena", r"pi[nñ][oó]n", r"sprocket", r"corona", r"tensor", r"gu[ií]a", r"deslizador"],
     },
     # ---------- Transmisión CVT y final (automáticas) ----------
@@ -472,7 +472,7 @@ RESULTADOS = {
         "sistema": "Transmisión CVT", "urgencia": "pronto",
         "causa": "Correa gastada o rodillos planos",
         "explicacion": "La correa se angosta con el uso y los rodillos se aplanan: la moto sube de vueltas y no corre, o chilla. "
-                       "Se cambian por kilometraje; si la correa se revienta, la moto se queda.",
+                       "Se cambian cuando lo pide el plan de tu moto, o antes si fallan; si la correa se revienta, la moto se queda.",
         "piezas": [r"correa", r"rodillo", r"polea", r"resorte", r"clutch", r"campana", r"filtro"],
     },
     "cvt_clutch": {

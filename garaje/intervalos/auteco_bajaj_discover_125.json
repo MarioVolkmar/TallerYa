@@ -33,12 +33,12 @@
       "notas": "La primera revisión es a los 750 km."
     },
     "cadena-lubricar": {
-      "km": null,
+      "km": 600,
       "dias": null,
-      "fuente": "Owner's Manual Bajaj Discover 125 (versión india), copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart' (1.er servicio 500–750 km, 2.º 4.500–5.000, 3.º 9.500–10.000 y luego cada 5.000 km), fila 16 'Non-Sealed drive chain' (CL,L,A en cada servicio); consultado el 14-nov-2026",
+      "fuente": "Owner's Manual Bajaj Discover 125 (versión india), copia entregada por el usuario, cuadro 'Periodic Maintenance & Lubrication Chart' (1.er servicio 500–750 km, 2.º 4.500–5.000, 3.º 9.500–10.000 y luego cada 5.000 km), fila 16 'Non-Sealed drive chain' (CL,L,A en cada servicio); consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
       "especificacion": "Juego de la cadena 25–35 mm; lubricar con aceite SAE 90",
-      "notas": "Bajaj la atiende en cada servicio (5.000 km); para una cadena sin O-ring y uso diario con lluvia se deja el intervalo general de lubricación."
+      "notas": "Manual: en cada servicio (5.000 km). Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "liquido-frenos": {
       "km": 30000,

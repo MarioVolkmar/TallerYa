@@ -10,11 +10,12 @@
       "notas": "El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian cada 12.000 km."
     },
     "cadena-lubricar": {
-      "km": 1000,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 1.000 km'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Honda XR150L (español), copia entregada por el usuario, cuadro de mantenimiento (columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 1.000 km'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Juego de la cadena 20–30 mm"
+      "especificacion": "Juego de la cadena 20–30 mm",
+      "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "filtro-aire": {
       "km": 16000,

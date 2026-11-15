@@ -10,11 +10,12 @@
       "notas": "El primer cambio es a los 1.000 km y luego cada 4.000 km o cada año. El filtro tamiz y el filtro centrífugo se revisan y se limpian cada 12.000 km."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 500 km'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 500 km'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Juego de la cadena 25–35 mm"
+      "especificacion": "Juego de la cadena 25–35 mm",
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día."
     },
     "filtro-aire": {
       "km": 16000,

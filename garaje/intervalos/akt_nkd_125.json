@@ -10,11 +10,11 @@
       "notas": "El manual no trae intervalo por kilómetros: rige el del plan general."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario AKT NKD 125 (escaneado, sin cuadro de intervalos por km), copia entregada por el usuario; lectura del Auditor mecánico; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario AKT NKD 125 (escaneado, sin cuadro de intervalos por km), copia entregada por el usuario; lectura del Auditor mecánico; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
-      "notas": "Lubricarla cada 500 km, y también después de lavarla o rodar con lluvia."
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día."
     }
   }
 }

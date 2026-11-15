@@ -180,7 +180,7 @@ GUIA = {
                  "Revísala con la cadena; se cambia con todo el kit.", ["Dientes en punta o torcidos (como aleta de tiburón)", "La cadena salta"],
                  ["Mira los dientes: deben ser parejos, no puntiagudos."], "Gastada, gasta la cadena nueva en poco tiempo.", ["Corona, piñón y cadena se cambian juntos"]),
     "cadena": _g("Es la cadena: lleva la fuerza del motor (piñón) a la rueda trasera (corona).",
-                 "Límpiala y lubrícala cada 500 km; tensiónala cada 1.000 km.", ["Cadena seca, oxidada o que suena", "Mucho juego o eslabones duros"],
+                 "Límpiala, lubrícala y revisa su tensión cuando lo pide el plan de tu moto (cada 600 km) y siempre después de lluvia o de lavarla.", ["Cadena seca, oxidada o que suena", "Mucho juego o eslabones duros"],
                  ["En la parte de abajo, entre piñón y corona, debe subir y bajar unos 2 a 3 cm."],
                  "Una cadena seca o floja se gasta, se puede salir o romper.", ["Lubrícala después de lavar la moto o andar en lluvia"], "facil"),
     "porta_sprocket": _g("Es el porta corona: la pieza donde va atornillada la corona, que transmite la fuerza a la rueda a través de los cauchos.",
@@ -224,20 +224,20 @@ GUIA = {
     "empaque_tapa": _g("Es el empaque de la tapa de válvulas: no deja salir aceite por arriba del motor.", "Se cambia si gotea o al calibrar válvulas si está duro.",
                        ["Aceite alrededor de la tapa de válvulas"], ["Mira si hay humedad de aceite alrededor de la tapa."], "Con fuga, el motor se ensucia y pierde aceite.", ["Aprieta la tapa en cruz, sin exagerar"], "media"),
     "tapa_valvulas": _g("Es la tapa de válvulas: cierra la parte de arriba del motor; se quita para calibrar las válvulas.",
-                        "Se destapa para calibrar válvulas (cada 6.000 a 12.000 km según la moto).", ["Fuga de aceite"], ["Revisa que no gotee."],
+                        "Se destapa para calibrar válvulas, cuando lo pide el plan de tu moto.", ["Fuga de aceite"], ["Revisa que no gotee."],
                         "Mal cerrada, bota aceite.", ["Cambia su empaque si está duro"]),
     "bujia": _g("Es la bujía: hace la chispa que enciende la mezcla de aire y gasolina.",
-                "Revísala cada 6.000 km y cámbiala cada 12.000 km (o según el manual).", ["Le cuesta prender", "Tirones o pérdida de fuerza", "Más consumo de gasolina"],
+                "Se cambia cuando lo pide el plan de tu moto; antes, si la moto prende mal.", ["Le cuesta prender", "Tirones o pérdida de fuerza", "Más consumo de gasolina"],
                 ["Sácala: la punta debe estar color café claro, no negra ni blanca."], "Una bujía vencida hace que la moto prenda mal y gaste más.", ["Usa la referencia que pide tu moto"], "facil"),
     "esparragos": _g("Son los espárragos: tornillos largos que atraviesan el cilindro y aprietan la culata contra el cárter.", _SIN_CAMBIO,
                      ["Fuga por la culata", "Rosca dañada"], ["Se revisan al destapar el motor."], "Flojos, la culata pierde compresión.", ["Se aprietan con torque exacto y en cruz"]),
     "guias": _g("Son los pines guía: centran una pieza sobre la otra al armar (culata, cilindro o tapas).", _SIN_CAMBIO, ["Piezas que no asientan bien"],
                 ["Al armar, que estén en su sitio."], "Si faltan, las piezas quedan corridas y hay fugas.", ["No los pierdas al desarmar"]),
     "valvula_admision": _g("Es la válvula de admisión: se abre para dejar entrar la mezcla de aire y gasolina al cilindro.",
-                           "Se calibra su juego cada 6.000 a 12.000 km según la moto.", ["Motor que suena a 'tic tic'", "Pérdida de fuerza", "Mal arranque en frío"],
-                           ["Un mecánico mide el juego con calibrador de lainas."], "Sin calibrar, la válvula puede quedar abierta y quemarse.", ["Se calibra con el motor frío"]),
+                           "Su juego (holgura) se calibra cuando lo pide el plan de tu moto; varía mucho según el modelo.", ["Motor que suena a 'tic tic'", "Pérdida de fuerza", "Mal arranque en frío"],
+                           ["Un mecánico mide el juego con calibrador de lainas."], "Sin holgura, la válvula no cierra del todo y se quema; con demasiada, suena y quita fuerza.", ["Se calibra con el motor frío"]),
     "valvula_escape": _g("Es la válvula de escape: se abre para dejar salir los gases quemados hacia el exosto.",
-                         "Se calibra su juego cada 6.000 a 12.000 km según la moto.", ["Ruido de 'tic tic'", "Pérdida de fuerza"],
+                         "Su juego (holgura) se calibra cuando lo pide el plan de tu moto; varía mucho según el modelo.", ["Ruido de 'tic tic'", "Pérdida de fuerza"],
                          ["Un mecánico mide el juego con calibrador de lainas."], "Sin juego, se quema por el calor de los gases.", ["Se calibra con el motor frío"]),
     "resortes": _g("Son los resortes de válvula: cierran las válvulas después de que la leva las abre.", _SIN_CAMBIO, ["Pérdida de fuerza en altas revoluciones"],
                    ["Se miden en el taller al desarmar la culata."], "Vencidos, las válvulas no cierran a tiempo y el motor pierde fuerza.", ["Se cambian en juego"]),
@@ -292,7 +292,7 @@ GUIA = {
                       "Si se daña, la bomba deja de girar.", ["Revisa su seguro al armar"]),
     # ---------------- Transmisión ----------------
     "correa": _g("Es la correa del variador: lleva la fuerza del motor a la rueda y cambia de 'marcha' sola al subir y bajar en las poleas.",
-                 "Revísala cada 6.000 km y cámbiala cada 12.000 a 20.000 km según el manual.", ["La moto pierde fuerza o 'patina'", "Correa agrietada o deshilachada"],
+                 "Se revisa y se cambia cuando lo pide el plan de tu moto (según el modelo, entre 12.000 y 25.000 km).", ["La moto pierde fuerza o 'patina'", "Correa agrietada o deshilachada"],
                  ["El taller mide su ancho."], "Si se revienta, la moto queda varada.", ["Cambia también los rodillos si están planos"]),
     "rodillos": _g("Son los rodillos del variador: con la fuerza centrífuga se abren y hacen que la correa suba en la polea (como subir de marcha).",
                    "Revísalos con la correa.", ["La moto acelera raro o vibra al arrancar"], ["Deben estar redondos, no con caras planas."], "Planos, la moto pierde arranque.", ["Se cambian todos a la vez"]),
@@ -372,8 +372,8 @@ GUIA = {
     "bujes": _g("Son los bujes del basculante o del amortiguador: dejan que giren sin juego.", "Se engrasan cada 10.000 km.", ["Juego o ruido atrás"],
                 ["Mueve la rueda de lado."], "Gastados, la parte de atrás tiene juego.", ["Engrásalos con grasa resistente al agua"]),
     # ---------------- Admisión, escape, refrigeración, eléctrico ----------------
-    "admision:filtro": _g("Es el filtro de aire: limpia el aire que respira el motor.", "Revísalo cada 3.000 km y cámbialo cada 6.000 a 12.000 km (más seguido en polvo).",
-                          ["Pérdida de fuerza", "Más consumo de gasolina"], ["Sácalo y míralo contra la luz: si no pasa luz, está sucio."], "Sucio, el motor se ahoga y gasta más.", ["En zonas de polvo, revísalo más seguido"], "facil"),
+    "admision:filtro": _g("Es el filtro de aire: limpia el aire que respira el motor.", "Se revisa y se cambia cuando lo pide el plan de tu moto (más seguido en polvo).",
+                          ["Pérdida de fuerza", "Más consumo de gasolina"], ["Sácalo y mira si está negro, roto o con tierra. Si es de papel con aceite, es normal que no pase luz: no se limpia, se cambia."], "Sucio, el motor se ahoga y gasta más.", ["En zonas de polvo, revísalo más seguido"], "facil"),
     "caja": _g("Es la caja del filtro de aire.", _SIN_CAMBIO, ["Caja rota o tapa mal cerrada"], ["Debe cerrar bien."], "Rota, entra polvo al motor.", ["Revisa sus cauchos"], "facil"),
     "silenciador": _g("Es el silenciador (exosto): baja el ruido de los gases que salen del motor.", _SIN_CAMBIO, ["Ruido más fuerte", "Golpeteos o fugas"],
                       ["Mira que esté firme y sin huecos."], "Roto, hace ruido y la moto pierde fuerza.", ["Revisa sus soportes y tornillos"]),
@@ -386,10 +386,10 @@ GUIA = {
                               ["Soplido en la unión"], ["Busca hollín en la unión."], "Con fuga, la moto suena más.", ["Siempre nuevo"], "media"),
     "protector": _g("Es el protector de calor: evita que te quemes con el escape.", _SIN_CAMBIO, ["Protector suelto o que vibra"],
                     ["Revisa sus tornillos."], "Suelto, vibra y se puede perder.", ["Sus tornillos se aflojan con el calor: revísalos"], "facil"),
-    "radiador": _g("Es el radiador: enfría el refrigerante que viene caliente del motor.", "Revisa el nivel de refrigerante cada mes y cámbialo cada 2 años.",
+    "radiador": _g("Es el radiador: enfría el refrigerante que viene caliente del motor.", "Revisa el nivel de refrigerante cada semana; se cambia cuando lo pide el plan de tu moto (en muchas, cada 2 a 4 años).",
                    ["Temperatura alta", "Fuga de refrigerante"], ["Mira el nivel en el depósito con el motor frío."], "Sin refrigerante, el motor se recalienta y se daña.", ["Nunca lo destapes con el motor caliente"], "facil"),
     "bateria": _g("Es la batería: da la energía para prender la moto y para las luces cuando el motor está apagado.",
-                  "Revisa sus bornes cada 3 meses; dura unos 2 a 3 años.", ["La moto no prende o prende débil", "Luces débiles"],
+                  "Revisa sus bornes cada 6 meses; dura unos 2 a 3 años.", ["La moto no prende o prende débil", "Luces débiles"],
                   ["Con multímetro debe marcar más de 12,4 V apagada."], "Descargada, la moto no prende.", ["Si la moto va a estar quieta, desconéctala"], "facil"),
 }
 
@@ -603,7 +603,7 @@ GUIA.update({
     "sensor_oxigeno": _g("Es el sensor de oxígeno (sonda lambda): mide los gases de escape para que la ECU ajuste la mezcla.", _SIN_CAMBIO,
                          ["Testigo de motor prendido", "Más consumo"], ["El taller lo revisa con escáner."], "Si falla, la moto gasta más.", ["No lo golpees al quitar el escape"]),
     "barra_completa": _g("Es la barra completa de la suspensión delantera: botella, barra cromada, resorte y amortiguación por aceite, todo armado.",
-                         "Cambia el aceite de la suspensión cada 15.000 a 20.000 km.", ["Aceite en la barra", "La moto rebota adelante", "Golpe al frenar"],
+                         "El aceite de la suspensión se cambia cuando lo pide el plan de tu moto (según el modelo, entre 10.000 y 30.000 km).", ["Aceite en la barra", "La moto rebota adelante", "Golpe al frenar"],
                          ["Presiona el manubrio hacia abajo: debe bajar y subir suave una sola vez."], "Sin aceite o con retenes rotos, la suspensión no amortigua.", ["Cambia el aceite de las dos barras a la vez"]),
     "cilindro_amortiguador": _g("Es el cilindro amortiguador dentro de la barra: con el aceite, controla qué tan rápido se hunde y regresa la suspensión.", _SIN_CAMBIO,
                                 ["La moto rebota", "Golpe seco al final del recorrido"], ["El taller lo revisa al cambiar el aceite."], "Gastado, la suspensión rebota.", ["Aceite de la viscosidad indicada"]),
@@ -841,8 +841,9 @@ def guia_por_palabras(descripcion, diagrama=""):
     return None
 
 
-def guia_mecanica(diagrama, puesto, kit=None, descripcion=""):
-    """Guía de la pieza según su papel en el sistema; None si no hay una."""
+def guia_mecanica(diagrama, puesto, kit=None, descripcion="", nombre=""):
+    """Guía de la pieza según su papel en el sistema; None si no hay una. `nombre`: el nombre en español del catálogo
+    (Suzuki, Hero y TVS traen la descripción en inglés y el nombre aparte), por si la descripción no se reconoce."""
     base = (diagrama or "").split("__")[0]
     if kit:
         nombres = [GUIA.get(f"{base}:{p}") or GUIA.get(p) for p in kit]
@@ -857,9 +858,158 @@ def guia_mecanica(diagrama, puesto, kit=None, descripcion=""):
     # El filtro de la tapa de la transmisión (scooter) no es el de aceite: es el de aire de la caja de la correa
     if base == "carcasa" and puesto == "filtro" and re.match(r"ELEMENT(O)?\b(?!.*(OIL|ACEITE))", (descripcion or "").upper()):
         return GUIA["filtro_correa"]
-    por_nombre = guia_por_palabras(descripcion, diagrama)
+    por_nombre = guia_por_palabras(descripcion, diagrama) or (guia_por_palabras(nombre, diagrama) if nombre else None)
     if por_nombre and (puesto.startswith("h_") or not puesto):
         return por_nombre                               # el nombre de taller dice más que su grupo de tornillería
     if puesto.startswith("h_"):
         return guia_herraje(puesto, diagrama, descripcion)
     return GUIA.get(f"{base}:{puesto}") or GUIA.get(puesto)
+
+
+# ---------------- Revisión de esquemas (nov. 2026): piezas que se quedaban con la explicación genérica ----------------
+GUIA.update({
+    "descompresor": _g("Es la leva del descompresor: al arrancar, abre un poquito una válvula para que el pistón suba sin tanta "
+                       "compresión y el motor prenda más fácil (con menos esfuerzo del pedal o del arranque).", _SIN_CAMBIO,
+                       ["La moto cuesta mucho para prender", "El pedal de arranque se devuelve con fuerza"],
+                       ["La revisa el taller al calibrar las válvulas."], "Si falla, el motor cuesta para arrancar.",
+                       ["Se revisa junto con la calibración de válvulas"]),
+    "paso_aceite": _g("Es un paso (conducto) de aceite: lleva el aceite a presión hacia la culata para lubricar el árbol de levas y las válvulas.",
+                      _SIN_CAMBIO, ["Ruido en la culata", "Fuga de aceite en sus uniones"], ["Al desarmar, que esté limpio y sin obstrucciones."],
+                      "Tapado, la culata se queda sin aceite y se daña.", ["Cambia sus empaques u O-rings al desarmarlo"]),
+    "rotor_filtro": _g("Es el filtro centrífugo de aceite: un rotor que gira con el cigüeñal y, por la fuerza del giro, deja pegada la mugre "
+                       "del aceite en sus paredes.", "Se limpia por dentro cuando el taller abre la tapa del clutch (según el plan de tu moto).",
+                       ["Aceite muy sucio poco después del cambio"], ["El taller lo destapa y le saca la mugre acumulada."],
+                       "Lleno de mugre, deja de limpiar el aceite.", ["Pregunta en el mantenimiento grande si lo limpiaron"]),
+    "arranque_pedal": _g("Es una pieza del arranque de pedal (patada): al pisar el pedal, engrana y hace girar el motor para prenderlo; "
+                         "cuando el motor prende, se suelta sola.", _SIN_CAMBIO,
+                         ["El pedal patina o baja sin hacer girar el motor", "Ruido al pisar el pedal"],
+                         ["Pisa el pedal suave: debe sentirse que engrana."], "Gastada, el pedal patina y no prende la moto con patada.",
+                         ["No patees con el motor andando"]),
+    "cuna": _g("Es la cuña (chaveta media luna): una pieza pequeña que va encajada en el eje y asegura que la pieza montada encima "
+               "(el volante o un piñón) gire con él sin patinar.", _SIN_CAMBIO, ["Encendido o tiempo del motor corrido"],
+               ["Al desarmar, que no esté cortada ni gastada."], "Si se corta, la pieza patina y el motor pierde el tiempo de encendido.",
+               ["Es barata: si está marcada, cámbiala"]),
+    "contrapeso_rueda": _g("Es un contrapeso de balanceo: una pesita que se pega en el rin para que la rueda gire pareja y no vibre.",
+                           "Se revisa cada vez que se cambia la llanta: se balancea de nuevo.", ["Vibración en el manubrio a cierta velocidad"],
+                           ["Mira que no falte ninguna pesita en el rin."], "Sin él, la rueda vibra a alta velocidad.",
+                           ["Pide balanceo al cambiar la llanta"], "facil"),
+    "ajustador_guaya": _g("Es el ajustador de la guaya: una tuerca con rosca que estira o afloja la guaya para dejarle el juego correcto.",
+                          "Se ajusta en cada mantenimiento o si la guaya queda muy floja o muy tensa.",
+                          ["La guaya tiene mucho juego", "El acelerador no regresa solo"],
+                          ["Mueve el puño: debe tener un juego pequeño, de pocos milímetros."],
+                          "Mal ajustado, el acelerador queda duro, flojo o no regresa.",
+                          ["Después de ajustarlo, gira el manubrio a ambos lados: las revoluciones no deben subir"], "facil"),
+    "ajuste_freno": _g("Es la tuerca de ajuste del freno de tambor: al girarla se acerca o se aleja la banda del tambor para quitarle "
+                       "el juego al pedal o a la manigueta.", "Se ajusta cuando el freno tiene mucho recorrido.",
+                       ["El pedal baja mucho antes de frenar"], ["Deja un juego de 2 a 3 cm en el pedal y que la rueda gire libre."],
+                       "Muy floja, frenas tarde; muy apretada, el freno se calienta.",
+                       ["Si ya no da más ajuste, las bandas están gastadas"], "facil"),
+    "horquilla_varilla": _g("Es la horquilla de la varilla del freno: une la varilla con el pedal o con la bomba trasera, con su pasador.",
+                            _SIN_CAMBIO, ["Juego o ruido en el pedal del freno"], ["Revisa que su pasador tenga el pin de seguridad."],
+                            "Si se suelta, el pedal deja de frenar.", ["Su pasador lleva pin de seguridad: nunca lo dejes sin él"], "media"),
+    "visor_freno": _g("Es el visor de la bomba de freno: una ventanita para ver el nivel del líquido sin destapar la bomba.", _SIN_CAMBIO,
+                      ["Visor opaco o con fuga"], ["Con la moto derecha, el líquido debe verse por encima de la marca."],
+                      "Con fuga, se pierde líquido de frenos.", ["Si el nivel baja, revisa las pastillas: al gastarse bajan el nivel"], "facil"),
+    "pito": _g("Es el pito (bocina o zumbador): suena para avisar a los demás.", _SIN_CAMBIO, ["No suena o suena débil"],
+               ["Pruébalo antes de salir."], "Sin pito no puedes avisar y te pueden poner comparendo.",
+               ["Si suena débil, revisa la batería y su conector"], "facil"),
+    "cargador_usb": _g("Es el cargador USB: toma corriente de la moto para cargar el celular.", _SIN_CAMBIO, ["No carga"],
+                       ["Mantenlo con su tapa puesta: el agua lo daña."], "Con agua adentro, puede hacer corto.",
+                       ["Tápalo cuando no lo uses y al lavar la moto"], "facil"),
+    "arrestallamas": _g("Es el arrestallamas: una rejilla en la caja del filtro que no deja salir una llamarada si el motor devuelve "
+                        "una explosión por la admisión.", _SIN_CAMBIO, ["Rejilla tapada o rota"], ["Revísala al cambiar el filtro de aire."],
+                        "Tapada, el motor respira mal.", ["Límpiala cuando cambies el filtro"], "facil"),
+})
+
+# Palabras de taller nuevas: van primero (son nombres exactos de catálogo que antes no se reconocían)
+_PALABRAS[:0] = [
+    (r"DECOMPRESS", "descompresor"), (r"THROUGH, ?OIL|ACEITE, CANAL|PASO DE ACEITE", "paso_aceite"),
+    (r"ROTOR,? OIL FILTER|OIL FILTER ROTOR", "rotor_filtro"),
+    (r"^(BODY,ENGINE OIL FILTER|FILTER SET,ENGINE OIL)", "filtro"),
+    (r"RATCHET, ?STARTER|KICK STARTER|KICK ?START|PEDAL ARRANQUE", "arranque_pedal"),
+    (r"WOODRUFF|^CUNA\b", "cuna"), (r"^PESO, BALANCE|BALANCE WEIGHT, WHEEL", "contrapeso_rueda"),
+    (r"^ADJUSTER$|AJUSTADOR (DE )?(LA )?GUAYA", "ajustador_guaya"), (r"AJUSTADOR FRENO", "ajuste_freno"),
+    (r"^YOKE\b", "horquilla_varilla"), (r"^WINDOW\b", "visor_freno"),
+    (r"BOCINA|ZUMBADOR|\bPITO\b|\bHORN\b|BUZZER", "pito"), (r"CARGADOR USB|\bUSB\b", "cargador_usb"),
+    (r"TRAP,? ?(COMP,)?FLAME|FLAME TRAP|ARRESTALLAMAS", "arrestallamas"),
+    (r"\bCDI\b|\bTCI\b", "modulo"), (r"REG\.? ?REC|RECTIF", "regulador"), (r"SOLENOIDE|STARTER RELAY", "rele"),
+    (r"SISTEMA ELECTRIC|WIRE HARNESS|\bARNES\b", "arnes"), (r"TERMOSTATO|THERMOSTAT", "termostato"),
+    (r"INSULATOR.*(THROTTLE|CARB)|AISLANTE.*(CARB|ACELERACI)", "multiple"),
+    (r"SPROCKET,? ?TIMING|TIMING SPROCKET|SPROCKET DE SINCRONIZACION", "pinon_ciguenal"),
+    (r"^CAGE\b|CANAS ?LLA", "canastilla"), (r"SLIDER,? CHAIN", "deslizador"),
+    (r"^CAM\s*,?\s*(RR|FR|REAR|FRONT)?\.?\s*,?\s*BRAKE", "leva"), (r"^CAM,? ?GEAR SHIFT", "tambor_selector"),
+    (r"^SHOE COMP|ZAPATA", "bandas"), (r"^CAMPANA", "campana"), (r"^RIN\b", "rin"), (r"^RUEDA (DELANTERA|TRASERA)", "rueda_completa"),
+    (r"^\d{2}/\d{2}X\d{3}", "kit_arrastre"), (r"FLASHAER", "flasher"), (r"PLATO ?BOBI", "estator"), (r"^VOLAN", "magneto"),
+    (r"MUDGUARD", "guardabarro"), (r"G[UA]+RDA ?POLVO BUJ", "capuchon"), (r"^CARTER\b", "carter"),
+    (r"PI[NÑ]ON? DE SALIDA", "pinon"), (r"^(PULLER|ADJUSTER),? CHAIN|^END\s*\d*$", "tensores"),
+    (r"^(BRIDA|PRESILLA|GRAMPA)\b(?! REDONDA)", "h_abrazadera"), (r"^PRESILLA REDONDA", "h_seguro"),
+    (r"BALIN|^BRG\b|^\d{4,5}[ -]?2RS", "h_rodamiento"), (r"^TAPE,? ?WHEEL", "h_etiqueta"),
+    (r"TAPPING|CROSS RECESSED", "h_tornillo"), (r"^WASA\b", "h_arandela"), (r"^TUERDA\b", "h_tuerca"),
+]
+
+
+# Catálogos en español (AKT, Bajaj, Hero, Suzuki, TVS): piezas principales que el dibujo no tiene en un puesto propio y que
+# quedaban con la guía de su grupo de tornillería ("Es un componente eléctrico de...", "Es un piñón de..."). Por su nombre
+# de taller van a la guía de la pieza (sin tildes, en mayúsculas, desde el comienzo del nombre: la primera palabra manda).
+GUIA.update({
+    "motor_arranque": _g("Es el motor de arranque: un motor eléctrico que, al oprimir el botón, hace girar el motor de la moto para prenderla.",
+                         _SIN_CAMBIO, ["Al oprimir el botón suena 'clic' pero no gira", "Gira lento o hace ruido de piñones"],
+                         ["Primero descarta la batería: con la batería buena, el motor debe girar con fuerza."],
+                         "Si falla, toca prender con pedal o empujando.", ["Si gira lento, revisa la batería y los bornes antes de cambiarlo"], "taller"),
+    "arranque_mecanismo": _g("Es parte del mecanismo del arranque eléctrico: pasa el giro del motor de arranque al cigüeñal y se suelta cuando el motor prende.",
+                             _SIN_CAMBIO, ["El motor de arranque gira pero el motor no", "Ruido metálico al arrancar"],
+                             ["Lo revisa el taller al abrir la tapa del motor."], "Gastado, el arranque patina o suena.",
+                             ["No mantengas oprimido el botón más de 5 segundos seguidos"], "taller"),
+    "guaya": _g("Es una guaya (cable): un cable de acero dentro de una funda que lleva el movimiento de una palanca o del puño a la pieza que acciona.",
+                "Lubrícala y revisa su juego en cada mantenimiento.", ["Se siente dura o se traba", "Hilos reventados en las puntas"],
+                ["Muévela: debe correr suave y regresar sola."], "Si se revienta andando, pierdes el clutch, el acelerador o el freno.",
+                ["Si un hilo está roto, cámbiala: no esperes a que se reviente"], "facil"),
+    "guaya_clutch": _g("Es la guaya del clutch: lleva la fuerza de la manigueta izquierda al mecanismo que separa los discos del clutch.",
+                       "Lubrícala y ajusta su juego en cada mantenimiento.", ["Manigueta dura", "Los cambios entran duro o la moto se arrastra en neutro"],
+                       ["La manigueta debe tener un juego de 10 a 20 mm antes de empezar a halar."], "Si se revienta, no puedes desembragar para cambiar.",
+                       ["Ajusta el juego con el tensor de la manigueta"], "facil"),
+    "sensor_gasolina": _g("Es el sensor de la gasolina (flotador del tanque): mide cuánta gasolina queda y mueve la aguja o las rayitas del tablero.",
+                          _SIN_CAMBIO, ["El indicador marca mal o se queda quieto"], ["Compara lo que marca con lo que echas al tanquear."],
+                          "Si falla, no sabes cuánta gasolina te queda.", ["Mientras lo cambias, lleva la cuenta con el cuentakilómetros"], "media"),
+    "tapa_tanque": _g("Es la tapa del tanque de gasolina: cierra el tanque con llave y deja respirar el tanque para que la gasolina baje.",
+                      _SIN_CAMBIO, ["Olor a gasolina", "La moto se apaga andando con el tanque lleno (respiradero tapado)"],
+                      ["Su empaque debe estar entero y cerrar firme."], "Con el empaque roto, se sale gasolina y entra agua.",
+                      ["Si al abrirla suena un 'pff' fuerte, su respiradero está tapado"], "facil"),
+    "tapon_inspeccion": _g("Es el tapón de inspección: se quita para ver las marcas del tiempo del motor o girar el cigüeñal al calibrar las válvulas.",
+                           "Se quita al calibrar válvulas; revisa su O-ring.", ["Fuga de aceite por el tapón"], ["Debe cerrar firme con su O-ring."],
+                           "Con el O-ring vencido, bota aceite.", ["No lo aprietes de más: la tapa es de aluminio"], "media"),
+    "pinon_primario": _g("Es el piñón primario: va en el cigüeñal y mueve la canasta del clutch; es el primer paso de la fuerza del motor hacia la caja.",
+                         _SIN_CAMBIO, ["Zumbido que sube con las revoluciones"], ["Lo revisa el taller al abrir la tapa del clutch."],
+                         "Gastado, hace ruido.", ["Aceite limpio lo protege"]),
+    "guia_valvula": _g("Es la guía de la válvula: un tubito metido en la culata por donde se desliza el vástago de la válvula para que abra y cierre derecha.",
+                       _SIN_CAMBIO, ["Humo azul al acelerar después de bajar una loma (quema aceite)"], ["La revisa el taller al rectificar la culata."],
+                       "Gastada, la válvula cabecea y el motor quema aceite.", ["Se cambia con su sello (cauchito) de válvula"]),
+    "balanceador": _g("Es parte del eje balanceador: un contrapeso que gira con el cigüeñal, al revés de su vibración, para que el motor vibre menos.",
+                      _SIN_CAMBIO, ["Vibración fuerte del motor"], ["Lo revisa el taller; se arma con las marcas alineadas."],
+                      "Mal sincronizado, el motor vibra mucho.", ["Al armar, sus marcas deben coincidir con las del cigüeñal"]),
+})
+
+_PALABRAS[:0] = [
+    (r"^BOBINA (DE )?(ALTA|ENCENDIDO)", "bobina"), (r"^MOTOR (DE )?ARRANQUE", "motor_arranque"),
+    (r"^(PI[NÑ]ON|EJE|CLUTCH|EMBRAGUE) (DEL )?(MOTOR )?(DE )?ARRANQUE", "arranque_mecanismo"),
+    (r"^VALVULA (DE )?(ADMISION|ADM)\b", "valvula_admision"), (r"^VALVULA (DE |DEL )?(ESCAPE|ESC)\b", "valvula_escape"),
+    (r"^RESORTES? (DE )?VALVULA", "resortes"), (r"^GUIA (DE )?VALVULA", "guia_valvula"),
+    (r"^BALANCIN", "balancin"), (r"^EJE (DE(L)? )?BALA?N?CIN", "eje_balancin"),
+    (r"^(EJE|ARBOL) (DE )?LEVAS", "arbol_levas"), (r"^PI[NÑ]ON (DEL )?(EJE DE |ARBOL DE )?LEVAS|^PI[NÑ]ON (DE )?DISTRIBUCION", "pinon_levas"),
+    (r"^PI[NÑ]ON (DEL )?CIGUE", "pinon_ciguenal"), (r"^CADENILLA", "cadenilla"), (r"^TENSOR (DE )?(LA )?CADENILLA", "tensor"),
+    (r"^EJE PRINCIPAL", "eje_principal"), (r"^EJE (SECUNDARIO|DE SALIDA)", "eje_salida"),
+    (r"^PI[NÑ]ON PRIMARIO|IMPULSOR PRIMARIO", "pinon_primario"),
+    (r"^(PORTADISCOS|PORTA DISCOS|MANZANA DEL CLUTCH)", "clutch:centro"), (r"^DISCOS? (DEL )?CLUTCH|^DISCO,? FRICCION", "clutch:discos_friccion"),
+    (r"^(SEPARADOR DEL CLUTCH|DISCO SEPARADOR)", "clutch:separadores"), (r"^RESORTES? (DEL )?CLUTCH", "clutch:resortes"),
+    (r"^(PRESIONAD|PLATO (DE )?PRESION)", "clutch:plato_presion"), (r"^LEVA (DEL )?CLUTCH|^POLE,? ?CLUTCH PUSH", "clutch:levantador"),
+    (r"^GUAYA (DEL )?CLUTCH", "guaya_clutch"), (r"^GUAYA\b", "guaya"), (r"^CAPUCHON", "capuchon"),
+    (r"^SENSOR (DE )?(LA )?GASOLINA|^FLOTADOR (DEL )?TANQUE", "sensor_gasolina"),
+    (r"^BOTELLA", "botella"), (r"^TUBO INTERIOR DE LA BARRA", "barra_cromada"), (r"^NEUMATICO", "neumatico"),
+    (r"^(AMORTIGUADOR RUEDA|CAUCHO AMORTIGUADOR TRASERO DE LA CAMPANA)", "cauchos"),
+    (r"^TAPA (DEL )?TANQUE", "tapa_tanque"), (r"^TAPON (DEL )?ACEITE", "tapon_llenado"),
+    (r"^(TAPA DE INSPECCION|TAPON (DE )?TIEMPO)", "tapon_inspeccion"),
+    (r"^CARCASA CENTRAL DERECH", "carcasa_der"), (r"^CARCASA CENTRAL IZQUIERD", "carcasa_izq"), (r"^MOTOR DE RALENTI", "motor_ralenti"),
+    (r"^EJE (DE (LA )?)?RUEDA?|^EJE RUED", "eje"), (r"^EJE (DE LA )?LEVA DEL FRENO", "leva"),
+    (r"BALANCEADOR", "balanceador"),
+    (r"^(MANGUERA (DE(L)? )?(DESFOGUE|RESPIRADERO)|TUBO,? VENTEO|TUBO RESPIRADOR)", "respiradero"),
+]

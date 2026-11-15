@@ -29,11 +29,11 @@
       "notas": "Es limpieza cada 4.000 km; se cambia según su estado."
     },
     "cadena-lubricar": {
-      "km": null,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Suzuki GN 125 (Suzuki Colombia, escaneado en baja resolución), copia entregada por el usuario; tabla leída a ojo por el Auditor mecánico; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
-      "notas": "El manual la atiende cada 1.000 km; se deja el intervalo general de lubricación, más corto."
+      "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "liquido-frenos": {
       "km": 0,

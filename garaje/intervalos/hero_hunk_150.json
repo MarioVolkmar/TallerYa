@@ -9,12 +9,12 @@
       "notas": "El primer cambio es a los 500–750 km. La Hunk 150 tiene filtro centrífugo (rotor) y criba de aceite (catálogo, bloque E-8A). Tipo y cantidad de aceite: verificar en el taller."
     },
     "cadena-lubricar": {
-      "km": 1000,
+      "km": 600,
       "dias": null,
-      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 4 (inspeccionar, limpiar, lubricar y ajustar la cadena cada 1.000 km); consultado el 15-nov-2026",
+      "fuente": "Sin manual del propietario de la Hunk 150: intervalo tomado del manual de la Hero Hunk 125R (Hero Motos Perú, may-2025), misma marca y motor monocilíndrico de aire; en el manual de la 125R: nota 4 (inspeccionar, limpiar, lubricar y ajustar la cadena cada 1.000 km); consultado el 15-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
       "especificacion": "Cadena 428H de 120 eslabones (catálogo, bloque F-19); holgura orientativa 20–25 mm",
-      "notas": "El kit de arrastre se cambia a los 20.000 km o cuando el tensor llega al límite."
+      "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario. El kit de arrastre se cambia a los 20.000 km o cuando el tensor llega al límite."
     },
     "kit-arrastre": {
       "km": 20000,

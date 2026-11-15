@@ -10,12 +10,12 @@
       "notas": "El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian cada 12.000 km."
     },
     "cadena-lubricar": {
-      "km": 1000,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Cadena de transmisión: cada 1.000 km'; consultado el 15-nov-2026",
+      "fuente": "Manual del propietario Honda XR190L (español, Honda Latinoamérica, ed. 2016), 'Calendario de mantenimiento', fila 'Cadena de transmisión: cada 1.000 km'; consultado el 15-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
       "especificacion": "Holgura 20–30 mm; cadena DID428V de 128 eslabones; piñones 16T / 48T",
-      "notas": "En trocha, más seguido."
+      "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario. En trocha, más seguido."
     },
     "filtro-aire": {
       "km": 18000,

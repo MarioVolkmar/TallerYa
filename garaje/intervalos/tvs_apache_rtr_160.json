@@ -2,11 +2,11 @@
   "linea": "TVS Apache RTR 160",
   "tareas": {
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Owner's Manual TVS Apache RTR 160 4V (la línea es la 2V de carburador: solo se usa lo que no depende del motor), copia entregada por el usuario; consultado el 14-nov-2026",
+      "fuente": "Owner's Manual TVS Apache RTR 160 4V (la línea es la 2V de carburador: solo se usa lo que no depende del motor), copia entregada por el usuario; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": true,
-      "notas": "Lubricar con spray para cadena."
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día. Con spray para cadena."
     },
     "liquido-frenos": {
       "km": 30000,

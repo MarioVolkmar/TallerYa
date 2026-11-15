@@ -10,11 +10,12 @@
       "notas": "El filtro de aceite se cambia en cada cambio de aceite (fila 25); el tamiz se limpia a los 1.000 km."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro general de mantenimiento y engrase' pp. 7-3 a 7-5 (columnas 1.000 / 4.000 / 7.000 / 10.000 / 13.000 / 16.000 km; desde los 19.000 km se repite desde la de 4.000), fila 13 'Cadena de transmisión' (cada 500 km y después de lavar la moto o rodar con lluvia); consultado el 15-nov-2026",
+      "fuente": "Manual del propietario Yamaha FZ-S FI V3.0 (FZN150D, español, Yamaha Motor Argentina, 2022; el catálogo de Colombia B6U1 tiene las mismas llantas y frenos), 'Cuadro general de mantenimiento y engrase' pp. 7-3 a 7-5 (columnas 1.000 / 4.000 / 7.000 / 10.000 / 13.000 / 16.000 km; desde los 19.000 km se repite desde la de 4.000), fila 13 'Cadena de transmisión' (cada 500 km y después de lavar la moto o rodar con lluvia); consultado el 15-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Lubricante para cadenas con juntas tóricas"
+      "especificacion": "Lubricante para cadenas con juntas tóricas",
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día."
     },
     "filtro-aire": {
       "km": 16000,

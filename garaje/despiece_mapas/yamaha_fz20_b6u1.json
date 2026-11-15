@@ -58,7 +58,7 @@
         "PULLER,CHAIN": "cadena-lubricar",
         "ADJUSTER, CHAIN": "cadena-lubricar"
       },
-      "diagrama": "rueda"
+      "diagrama": "rueda_trasera"
     },
     {
       "figura": 12,

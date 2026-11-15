@@ -10,11 +10,12 @@
       "notas": "El primer cambio es a los 1.000 km. La malla del sumidero y el filtro centrífugo se cambian cada 12.000 km o 18 meses."
     },
     "cadena-lubricar": {
-      "km": 1000,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual de servicio Suzuki DR150 carburada (español, Suzuki Motor de Colombia), copia entregada por el usuario, 'Tabla de mantenimiento periódico' p. 2-1 (columnas: primeros 1.000 km / 2 meses, cada 3.000 km / 6 meses, cada 6.000 km / 12 meses), fila 'Cadena de transmisión: limpiar y lubricar cada 1.000 km'; consultado el 15-nov-2026",
+      "fuente": "Manual de servicio Suzuki DR150 carburada (español, Suzuki Motor de Colombia), copia entregada por el usuario, 'Tabla de mantenimiento periódico' p. 2-1 (columnas: primeros 1.000 km / 2 meses, cada 3.000 km / 6 meses, cada 6.000 km / 12 meses), fila 'Cadena de transmisión: limpiar y lubricar cada 1.000 km'; consultado el 15-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
-      "especificacion": "Holgura 20–30 mm en el punto medio"
+      "especificacion": "Holgura 20–30 mm en el punto medio",
+      "notas": "Manual: cada 1.000 km. Usamos 600 km, más seguido, por la lluvia y el uso diario."
     },
     "filtro-aire": {
       "km": 12000,
@@ -22,7 +23,7 @@
       "fuente": "Manual de servicio Suzuki DR150 carburada (español, Suzuki Motor de Colombia), copia entregada por el usuario, 'Tabla de mantenimiento periódico' p. 2-1 (columnas: primeros 1.000 km / 2 meses, cada 3.000 km / 6 meses, cada 6.000 km / 12 meses), fila 'Filtro de aire' (limpiar cada 3.000 km; 'cada 18 meses o 12.000 km'); consultado el 15-nov-2026",
       "aproximado": false,
       "especificacion": "Filtro de papel engrasado",
-      "notas": "La tabla pide además limpiarlo cada 3.000 km; con polvo o trocha, más seguido."
+      "notas": "Es de papel engrasado (viscoso): el mismo manual, p. 2-5, dice no limpiarlo ni soplarlo con aire; si está sucio, se cambia. La 'limpieza' cada 3.000 km de la tabla es revisarlo y limpiar la caja por dentro y su tapón de drenaje. Con polvo o trocha, revísalo más seguido."
     },
     "bujia": {
       "km": 10000,
@@ -44,7 +45,7 @@
       "fuente": "Manual de servicio Suzuki DR150 carburada (español, Suzuki Motor de Colombia), copia entregada por el usuario, 'Tabla de mantenimiento periódico' p. 2-1 (columnas: primeros 1.000 km / 2 meses, cada 3.000 km / 6 meses, cada 6.000 km / 12 meses), fila 'Líquido de frenos' (revisar cada 3.000 km, cambiar cada 2 años); consultado el 15-nov-2026",
       "aproximado": false,
       "especificacion": "DOT 3",
-      "notas": "Solo por tiempo. La manguera del freno se cambia cada 10.000 km según la misma tabla."
+      "notas": "Solo por tiempo. La manguera del freno: la tabla de la p. 2-1 dice 'cambiar cada 10.000 km', pero el texto de frenos del mismo manual dice 'cambiar cada 4 años' (inspeccionarla cada 3.000 km); lo que llegue primero."
     },
     "llanta-del": {
       "km": null,

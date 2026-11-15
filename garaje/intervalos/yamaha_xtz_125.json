@@ -10,12 +10,12 @@
       "notas": "La fila del cuadro tiene 'cambiar' y 'comprobar nivel' juntos, con una sola serie de marcas; se lee como cambio en cada servicio, a los 1.000 km y luego cada 3.000. OJO: va con 20W-50, no con 10W-40."
     },
     "cadena-lubricar": {
-      "km": 500,
+      "km": 600,
       "dias": null,
-      "fuente": "Manual del propietario Yamaha XTZ125 (BX5-F8199-S0), Yamaha Motor Argentina, cuadro de mantenimiento y sección 'Cadena de transmisión'; consultado el 14-nov-2026",
+      "fuente": "Manual del propietario Yamaha XTZ125 (BX5-F8199-S0), Yamaha Motor Argentina, cuadro de mantenimiento y sección 'Cadena de transmisión'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026)",
       "aproximado": false,
       "especificacion": "Juego de la cadena 25–40 mm",
-      "notas": "Se revisa, se ajusta y se lubrica cada 500 km, y también después de lavarla o rodar con lluvia. Mismo motor que la XTZ 125 de Colombia (2MD6)."
+      "notas": "Manual: cada 500 km. Usamos 600 km para todas las motos; si llueve o la lavas, lubrícala ese mismo día. Mismo motor que la XTZ 125 de Colombia (2MD6)."
     },
     "bujia": {
       "km": 6000,

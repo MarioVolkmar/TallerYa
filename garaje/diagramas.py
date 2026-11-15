@@ -2454,6 +2454,47 @@ for _clave in ("rueda", "rueda_trasera", "rueda_tambor"):
     REGLAS[_clave] = _RUEDAS + REGLAS.get(_clave, [])
     REGLAS_ES[_clave] = _RUEDAS + REGLAS_ES.get(_clave, [])
 
+# Revisión de esquemas (nov. 2026): piezas principales que quedaban en "Otras piezas" sin marcarse en el dibujo.
+# Antes de las demás reglas (los nombres de catálogo exactos); al final, las palabras sueltas (solo si nada más aplicó).
+_ANTES = {
+    "suspension_delantera": [("CASE, R. BOTTOM", "botella"), ("CASE, L. BOTTOM", "botella"), ("FR. BOTTOM", "botella"),
+                             ("FR BOTTOM", "botella"), ("OIL LOCK", "cilindro_amortiguador"), ("PIECE.OIL", "cilindro_amortiguador"),
+                             ("METAL,SLIDE", "bujes"), ("METAL, SLIDE", "bujes"), ("STEM,STEERING", "eje_direccion"),
+                             ("STEEL BALL", "rodamientos_direccion"), ("BALL", "rodamientos_direccion"), ("TUBE, INNER", "barra_cromada"),
+                             ("BUSH, INNER TUBE", "bujes"), ("BUSH, OUTER TUBE", "bujes"), ("SPINDLE, TAPER", "cilindro_amortiguador"), ("CYLINDER", "cilindro_amortiguador"),
+                             ("CAJA DE LA BATERIA DELANTERA INFERIOR", "botella")],   # así tradujo el catálogo la botella
+    "freno_disco": [("PAD COMP", "pastillas"), ("COJIN JUEGO", "pastillas"), ("PRENZA", "caliper"), ("BOTA", "guardapolvo")],
+    "bomba_freno": [("M/C SUB", "bomba"), ("ENSAMBLE DE PARADA", "interruptor"), ("INTERRUP. DE PARADA", "interruptor"),
+                    ("MEDIDOR COMPONENTE DE NIVEL", "bomba"), ("BOTA COMPONENTE", "kit_reparacion"), ("PISTON", "kit_reparacion")],
+    "freno_tambor": [("ZAPATA", "bandas"), ("BRAZO DEL FRENO", "palanca")],
+    "rueda_tambor": [("ARM, RR. BRAKE", "palanca"), ("SLEEVE RR. WHEEL", "buje"), ("FINAL ACCIONADA", "porta_sprocket"),
+                     ("KIT PASTAS FRENO", "bandas"), ("RUEDA TRASERA (COMPONENTE)", "rin"), ("WHEEL, REAR", "rin"), ("WHEEL,REAR", "rin")],
+    "rueda": [("SLEEVE FR WHEEL", "buje"), ("WHEEL, FRONT", "rin"), ("WHEEL,FRONT", "rin"),
+              ("NEUMA", "neumatico"), ("NEUMÁ", "neumatico")],
+    "rueda_trasera": [("WHEEL, REAR", "rin"), ("WHEEL,REAR", "rin")],
+    "carburador": [("CARBURETTOR ASSY", "cuerpo"), ("FLOTA, JUEGO", "flotador"), ("PLUNGER", "cebador"),
+                   ("MARCO, COMPONENTE DEL CUERPO", "cuerpo")],
+    "cilindro_piston": [("BRG. BALL RADIAL", "rodamientos_ciguenal"), ("WOODRUFF", "ciguenal")],
+    "inyeccion": [("BODY ASSY, THROTTLE", "cuerpo")],
+    "electrico": [("LLAVE DE IGNICION", "llave"), ("YTX", "bateria"), ("CDI", "modulo"), ("TCI", "modulo"), ("SOLENOIDE", "rele"),
+                  ("SISTEMA ELECTRIC", "arnes")],
+    "clutch": [("EMBRAGUE COMPONENTE EXTERNO", "canasta")],
+    "cvt": [("BOSS, DRIVE FACE", "polea_fija"), ("FIN, DRIVE FACE", "polea_fija"), ("FACE, DRIVE", "polea_fija"),
+            ("PIECE SET, SLIDE", "deslizadores"), ("ROLLER SET, WEIGHT", "rodillos")],
+    "distribucion": [("ELEVADOR ENSAMBLE TESOR", "tensor")],
+    "escape": [("BODY SET,MUF", "silenciador")],
+}
+_AL_FINAL = {
+    "admision": [("CASE COMP", "caja"), ("CASE SUB", "caja"), ("CAJA", "caja"), ("FILTER", "filtro"), ("SPONGE", "filtro"), ("MOTOR", "motor_ralenti")],
+    "electrico": [("GEL", "bateria")],
+}
+for _clave, _reglas in _ANTES.items():
+    REGLAS[_clave] = _reglas + REGLAS.get(_clave, [])
+    REGLAS_ES[_clave] = _reglas + REGLAS_ES.get(_clave, [])
+for _clave, _reglas in _AL_FINAL.items():
+    REGLAS[_clave] = REGLAS.get(_clave, []) + _reglas
+    REGLAS_ES[_clave] = REGLAS_ES.get(_clave, []) + _reglas
+
 
 
 def _sin_tildes(texto):
