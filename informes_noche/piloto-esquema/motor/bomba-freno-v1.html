@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bombas de freno NMAX (v1)</title>
+<meta name="description" content="Esquema piloto de TallerYa: bombas de freno delantera y trasera de la Yamaha NMAX 155 (lámina 26: bombas, mangueras, uniones y soportes), armado, despiece animado, funcionamiento y fichas de falla por pieza. Prototipo local.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="esquema.css">
+</head>
+<body>
+<div id="esquema"></div>
+<script src="datos/nmax-fig26-arte.js"></script>
+<script src="esquema3d.js"></script>
+<script src="piezas-comunes.js"></script>
+<script src="esquema.js"></script>
+<script>
+// Los datos se leen del JSON; si la página trae <script type="application/json" id="esq-datos"> (archivo único), se usan esos.
+(async()=>{const el=document.getElementById("esq-datos");
+ const D=el?JSON.parse(el.textContent):await (await fetch("datos/nmax-fig26-v1.json")).json();
+ Esquema.iniciar(D,ESQ_ARTE[D.arte]);})();
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+/* Prototipo UX v3: estilos que se suman a esquema.css sin cambiarlo. Clases con prefijo p3-. */
+
+/* 3. «¿Varado?»: enlace de texto discreto, con área de toque de 44 px */
+/* va en la esquina superior derecha de la cabecera, a la altura de la cinta: no agrega alto ni empuja el dibujo */
+.esq-cabeza{position:relative}
+.p3-varado{position:absolute;top:-12px;right:0;display:inline-flex;align-items:center;min-height:44px;padding:0 2px 0 12px;
+  font-size:13px;font-weight:600;color:#e3a72f;text-decoration:none;opacity:.9}
+.p3-varado .p3-largo{display:none}
+@media(min-width:700px){.p3-varado .p3-largo{display:inline}}
+.p3-varado:hover{opacity:1;text-decoration:underline;text-decoration-color:rgba(227,167,47,.5);text-underline-offset:3px}
+
+/* 2. Resumen de una línea */
+.p3-resumen{margin:6px 0 2px;font-size:14px;line-height:1.4;color:rgba(237,227,204,.78)}
+.p3-resumen b{font-weight:700}
+.p3-resumen .p3-rep{color:#8fd19e}
+.p3-resumen .p3-cam{color:#f2a06b}
+.p3-resumen .p3-pt{color:rgba(237,227,204,.4)}
+.esq-h2-txt .p3-resumen{margin:2px 0 0;font-size:13px}
+
+/* 1. Resultados por síntoma: la frase que coincide, en gris */
+.p3-frase{display:block;margin-top:2px;font-size:13px;font-weight:400;line-height:1.35;color:rgba(237,227,204,.62);text-transform:none;letter-spacing:0}
+.esq-v2-item.p3-sint{align-items:flex-start;flex-wrap:wrap;text-align:left;height:auto;padding-top:8px;padding-bottom:8px}
+.p3-diag{margin:8px 2px;font-size:14px;color:rgba(237,227,204,.78)}
+.p3-diag a{color:#e3a72f;text-decoration:none;font-weight:600}
+
+/* 5. La pieza elegida late una vez */
+@keyframes p3-late{0%{filter:drop-shadow(0 0 0 rgba(242,97,29,0))}40%{filter:drop-shadow(0 0 7px rgba(242,97,29,.95))}100%{filter:drop-shadow(0 0 0 rgba(242,97,29,0))}}
+.esq-pz.esq-sel .esq-arte{animation:p3-late .45s ease-out 1}
+@media (prefers-reduced-motion:reduce){.esq-pz.esq-sel .esq-arte{animation:none}}
+
+/* 5. Región de avisos para lector de pantalla (oculta a la vista) */
+.p3-vivo{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 6. Foco visible, sin cambiar lo que se ve con el dedo */
+.esq-envoltura button:focus-visible,.esq-envoltura a:focus-visible,.esq-envoltura summary:focus-visible,.esq-envoltura input:focus-visible{outline:2px solid #e3a72f;outline-offset:2px}
+.esq-marca:focus-visible{outline:none}
+.esq-marca:focus-visible .esq-pildora{stroke:#e3a72f;stroke-width:3}

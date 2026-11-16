@@ -23,6 +23,7 @@ Al correr `manage.py test` ya son rápidas por defecto: hash MD5 de contraseñas
 Cada resultado de herramienta se queda en el contexto y se vuelve a pagar en cada turno siguiente.
 - **Leer poco**: Grep antes que Read; Read con `offset`/`limit` en archivos grandes; no releer un archivo ya leído ni tras editarlo.
 - **Salida corta**: limitar comandos (`| tail -20`, `| head -40`, `grep -c`, `-q`); pruebas con `-v 1`; nunca volcar JSON/SVG/HTML enteros, mostrar solo la parte relevante.
+- **PDF de catálogos y manuales** (`despiece_local/`, `manual_despiece/`): son las fuentes de la página, así que **solo se leen; nunca se editan, mueven ni borran**. Leer solo lo necesario: primero ubicar la página (índice o búsqueda) y luego `Read` con `pages` solo de esa lámina y su tabla. Nunca el PDF entero: cada página es una imagen cara.
 - **Imágenes = lo más caro** (~1.500 tokens c/u): para verificar texto o estructura usar `read_page`/`get_page_text`/`javascript_tool`, no capturas. Si hace falta ver: captura con `scale: 0.5` o `zoom` a la región; renders PNG de dibujos a ≤900 px de ancho o recortados a la zona cambiada. Una captura final como prueba, no una por iteración.
 - **Navegador**: no repetir `resize_window`; agrupar pasos en `browser_batch` sin capturas intermedias.
 - **Scripts repetidos**: si un script de verificación se usa más de 2 veces, guardarlo en el scratchpad y reutilizarlo en vez de reescribir heredocs.

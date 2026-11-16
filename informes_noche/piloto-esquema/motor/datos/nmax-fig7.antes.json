@@ -1,0 +1,880 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 7",
+  "titulo": "Bomba de aceite y drenaje · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la lámina 7 del catálogo de partes (NMAX BBE4)."
+ },
+ "visor": {
+  "titulo": "Bomba de aceite, tapón de drenaje y tamiz",
+  "sub": "Lámina 7 · 6 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la lubricación",
+  "laminaAria": "Dibujo de la bomba de aceite y del tapón de drenaje con su tamiz, en el cárter de la NMAX 155. Cada grupo abre sus piezas.",
+  "introFunciona": "Cómo llega el aceite del fondo del cárter a todo el motor.",
+  "introCadenas": "El aceite viejo no falla solo: se lleva la bomba y el motor.",
+  "introCuando": "Lo que pide el manual para el aceite y el tamiz, y cada cuánto."
+ },
+ "pie": "TallerYa · piloto de esquema v2 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  244,
+  168,
+  508,
+  395
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 480 870",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Moto apagada.</b> El aceite está quieto en el fondo del cárter. La bomba no gira y el manómetro marca 0 bar. Aceite nuevo: color miel, 0 km.",
+    "s": {
+     "rpm": 0,
+     "flujo": 0,
+     "bar": 0,
+     "km": 0
+    }
+   },
+   {
+    "t": "<b>2 · Arrancas.</b> El cigüeñal mueve el piñón de la [[1|bomba]]. Sus dos rotores giran descentrados: del lado de entrada el hueco crece y chupa aceite por el [[4|tamiz]]; del de salida se achica y lo empuja. Ralentí: 1 bar, aprox.",
+    "s": {
+     "rpm": 1600,
+     "flujo": 0.45,
+     "bar": 1,
+     "km": 0
+    }
+   },
+   {
+    "t": "<b>3 · A presión.</b> El aceite sube al cigüeñal y la biela, y por un ducto a las levas de la culata. Después baja solo al cárter. Con más rpm la bomba gira más rápido y la presión sube (unos 3 bar, aprox.).",
+    "s": {
+     "rpm": 7000,
+     "flujo": 1,
+     "bar": 3,
+     "km": 0
+    }
+   },
+   {
+    "t": "<b>4 · Se ensucia con los km.</b> El aceite arrastra hollín y limaduras: se oscurece y el tamiz atrapa lo grueso antes de que llegue a la bomba. A mitad del intervalo ya no es color miel.",
+    "s": {
+     "rpm": 7000,
+     "flujo": 1,
+     "bar": 3,
+     "km": 3000,
+     "sucio": 0.4
+    }
+   },
+   {
+    "t": "<b>5 · Tamiz tapado.</b> Con la malla llena de mugre la bomba chupa poco: baja la presión y al cigüeñal, la biela y las levas llega poco aceite. Se calientan y se gastan rápido.",
+    "s": {
+     "rpm": 7000,
+     "flujo": 0.2,
+     "bar": 0.5,
+     "km": 6000,
+     "sucio": 1,
+     "calor": true
+    }
+   },
+   {
+    "t": "<b>6 · Cambio de aceite.</b> Tibio y apagado, sacas el [[3|tapón B]]: salen el aceite viejo, el resorte y el tamiz. <b>Quema:</b> usa guantes. Lava el tamiz y llena con 0,90 L de SAE 10W-40. Cada 6.000 km.",
+    "s": {
+     "rpm": 0,
+     "flujo": 0,
+     "bar": 0,
+     "km": 6000,
+     "sucio": 1,
+     "drena": true,
+     "vacio": true
+    }
+   },
+   {
+    "t": "<b>7 · Aceite nuevo.</b> Con el tamiz limpio y aceite nuevo, la bomba vuelve a dar presión normal y el aceite llega a todas partes. El color vuelve a ser miel: así arranca otra vez la cuenta.",
+    "s": {
+     "rpm": 1600,
+     "flujo": 0.45,
+     "bar": 1,
+     "km": 0
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidades: catálogo de piezas Yamaha NMAX 155 (BBE4), fig. 7 «Oil pump».",
+   "Aceite SAE 10W-40, API SG o superior, JASO MA o MB, 0,90 L; tapones A y B a 20 N·m; junta tórica y junta nuevas; tamiz lavado con disolvente (manual del propietario, págs. 9-12, 9-13 y 11-1).",
+   "Cambio a los 1.000 km y cada 6.000 km; tamiz cada 12.000 km (plan de la NMAX en TallerYa, del cuadro del manual)."
+  ],
+  "aproximado": [
+   "Cómo va movida la bomba y su recorrido de aceite; fallas y síntomas: práctica de taller.",
+   "Torque de los tornillos de la bomba: no lo tenemos (manual de servicio)."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 7 «Oil pump». Copia local, solo referencia.",
+   "Manual del propietario Yamaha NM-X 2022 B6Y4 (Yamaha Motor Argentina): cuadro de mantenimiento págs. 9-4 a 9-6; aceite y tamiz págs. 9-12 y 9-13; especificaciones pág. 11-1. Copia local."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "nmax-fig7",
+ "moto": "nmax-bbe4",
+ "figura": 7,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-fig7",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6"
+ ],
+ "nombres": {
+  "1": "Bomba de aceite",
+  "2": "Tornillos de la bomba",
+  "3": "Tapón de drenaje B",
+  "4": "Tamiz de aceite",
+  "5": "Resorte del tamiz",
+  "6": "Junta tórica del tapón"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "aceite"
+ ],
+ "ocultas": [
+  "4",
+  "5",
+  "6"
+ ],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    640,
+    250
+   ],
+   "et": [
+    60,
+    -50
+   ],
+   "vis": "arm",
+   "arte": "arteBomba"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    676,
+    262
+   ],
+   "et": [
+    54,
+    10
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 7,
+    "largo": 22,
+    "d": 5,
+    "x": 676,
+    "y": 262,
+    "copias": [
+     [
+      -14,
+      70
+     ]
+    ]
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    330,
+    380
+   ],
+   "et": [
+    -64,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteTamiz"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    330,
+    430
+   ],
+   "et": [
+    -60,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteResorteV"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    357,
+    458
+   ],
+   "et": [
+    60,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteJunta"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    330,
+    500
+   ],
+   "et": [
+    -64,
+    24
+   ],
+   "vis": "arm",
+   "arte": "arteTapon"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Tapón de drenaje B.</b> Calienta el motor unos minutos y apágalo, con la moto en el gato central y una bandeja debajo. Quita el tapón de llenado y afloja el tapón B. <b>Cuidado:</b> el aceite y el escape queman; usa guantes. Al salir el tapón caen la junta tórica, el resorte y el tamiz: no los pierdas.",
+   "m": {
+    "3": [
+     0,
+     240
+    ],
+    "6": [
+     0,
+     170
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte.</b> Sale detrás del tapón. Es el que aprieta el tamiz contra su asiento.",
+   "m": {
+    "5": [
+     0,
+     158
+    ]
+   }
+  },
+  {
+   "t": "<b>Tamiz.</b> Sácalo, lávalo con disolvente y mira que la malla no esté rota. Saca también el perno de drenaje A con su junta (lámina 10) para vaciar todo. <b>Al armar:</b> tamiz, resorte, junta tórica nueva y tapón B a 20 N·m; perno A con junta nueva a 20 N·m; 0,90 L de aceite 10W-40. Prende el motor un par de minutos, mira que no gotee, apágalo y revisa el nivel con la varilla.",
+   "m": {
+    "4": [
+     0,
+     130
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos de la bomba.</b> La bomba va por dentro del cárter: para llegar a ella hay que abrir el motor. Es trabajo de taller.",
+   "m": {
+    "2": [
+     40,
+     -40
+    ]
+   }
+  },
+  {
+   "t": "<b>Bomba de aceite.</b> Sale con su piñón. Viene armada: si está gastada se cambia completa.",
+   "m": {
+    "1": [
+     120,
+     -60
+    ]
+   }
+  }
+ ],
+ "textoArmado": "<b>Armado.</b> Abajo ves el tapón de drenaje B en el fondo del cárter; el tamiz, el resorte y la junta tórica van adentro. A la derecha, la bomba con su piñón, por dentro del motor.",
+ "fichas": {
+  "1": {
+   "nombre": "Bomba de aceite",
+   "cat": "OIL PUMP ASSY · 1 pieza",
+   "que": "La bomba que va por dentro del cárter, con un piñón que la mueve desde el cigüeñal.",
+   "sirve": "Aspira el aceite del fondo del cárter por el [[4|tamiz]] y lo manda a presión al cigüeñal, a la biela y a la culata.",
+   "sintomas": [
+    "Suena un golpeteo metálico en la culata, sobre todo al arrancar en frío.",
+    "El motor se calienta más de lo normal.",
+    "El aceite viejo sale con brillo metálico."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta por dentro si el aceite está sucio o el [[4|tamiz]] tapado."
+    ],
+    [
+     "maluso",
+     "Con poco aceite aspira aire y trabaja en seco."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "No se repara por partes: viene armada y si está gastada se cambia completa. Para llegar a ella hay que abrir el motor: trabajo de taller.",
+   "dif": "dificil",
+   "cuando": "No tiene mantenimiento propio: dura si cambias el aceite y limpias el tamiz a tiempo.",
+   "arrastra": [
+    "Bomba gastada → llega poco aceite → se funden la biela y el árbol de levas."
+   ],
+   "conecta": [
+    "2",
+    "4",
+    "aceite"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 7."
+    ],
+    [
+     "ap",
+     "Cómo va movida y su recorrido de aceite: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E3300-01"
+  },
+  "2": {
+   "nombre": "Tornillos de la bomba",
+   "cat": "SCREW, PAN HEAD · 2 piezas",
+   "que": "Dos tornillos de cabeza redonda que sujetan la [[1|bomba]] al cárter.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad (2): catálogo nmax-bbe4, fig. 7."
+    ],
+    [
+     "ap",
+     "No damos torque: no tenemos el manual de servicio."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "98502-05020"
+  },
+  "3": {
+   "nombre": "Tapón de drenaje B",
+   "cat": "PLUG,DRAIN 1 · 1 pieza",
+   "que": "El tapón grande del fondo del cárter. El manual lo llama perno de drenaje del aceite del motor B.",
+   "sirve": "Cierra el orificio de drenaje y, con el [[5|resorte]], sostiene el [[4|tamiz]] en su sitio. Al quitarlo sale el aceite viejo.",
+   "sintomas": [
+    "Gotea aceite por el tapón.",
+    "La cabeza está redondeada de tanto meterle llave."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más barre la rosca del cárter; flojo, gotea."
+    ],
+    [
+     "edad",
+     "Sin [[6|junta tórica]] nueva, gotea."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si la rosca está sana, siempre con [[6|junta tórica]] nueva y apretado a 20 N·m (manual). Con la cabeza o la rosca dañadas, va nuevo.",
+   "dif": "facil",
+   "cuando": "Se quita en cada cambio de aceite: a los 1.000 km y luego cada 6.000 km (manual).",
+   "arrastra": [
+    "Tapón barrido → fuga de aceite → el nivel baja y el motor se daña."
+   ],
+   "conecta": [
+    "4",
+    "5",
+    "6",
+    "aceite"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 7."
+    ],
+    [
+     "ok",
+     "Torque 20 N·m y junta tórica nueva (manual del propietario, págs. 9-12 y 9-13)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "54P-E5351-01"
+  },
+  "4": {
+   "nombre": "Tamiz de aceite",
+   "cat": "STRAINER, OIL · 1 pieza",
+   "que": "Una malla en forma de vaso con su ceja de plástico, dentro del orificio del [[3|tapón B]].",
+   "sirve": "Atrapa los pedazos grandes de mugre y de metal antes de que la [[1|bomba]] aspire el aceite.",
+   "sintomas": [
+    "La malla sale tapada con lodo negro o con limallas.",
+    "La malla está rota o despegada de la ceja."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "Con aceite viejo se tapa y la bomba aspira poco."
+    ],
+    [
+     "maluso",
+     "Se rompe si se limpia con un cepillo duro."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se lava con disolvente y se revisa (manual). Si la malla está rota, se cambia: deja pasar la mugre a la bomba.",
+   "dif": "facil",
+   "cuando": "Límpialo cada 12.000 km (plan de la NMAX en TallerYa, del cuadro del manual) y siempre que saques el tapón B.",
+   "arrastra": [
+    "Tamiz tapado → la bomba aspira poco → el motor se lubrica mal."
+   ],
+   "conecta": [
+    "1",
+    "3",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 7."
+    ],
+    [
+     "ok",
+     "Limpiar con disolvente y cambiar si está dañado (manual, pág. 9-13); cada 12.000 km (plan de la NMAX en TallerYa)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "54P-E3411-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "oscuro",
+      "perfil": [
+       [
+        0,
+        0
+       ],
+       [
+        24,
+        0
+       ],
+       [
+        24,
+        58
+       ],
+       [
+        20,
+        58
+       ],
+       [
+        20,
+        4
+       ],
+       [
+        0,
+        4
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "rodillo",
+      "perfil": [
+       [
+        14,
+        58
+       ],
+       [
+        32,
+        58
+       ],
+       [
+        32,
+        68
+       ],
+       [
+        14,
+        68
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "5": {
+   "nombre": "Resorte del tamiz",
+   "cat": "SPRING, COMPRESSION · 1 pieza",
+   "que": "Un resorte corto entre el [[3|tapón B]] y el [[4|tamiz]].",
+   "sirve": "Aprieta el tamiz contra su asiento para que todo el aceite pase por la malla.",
+   "sintomas": [
+    "Falta al armar: el tamiz queda suelto."
+   ],
+   "fallas": [
+    [
+     "perdida",
+     "Cae al sacar el tapón y se va con el aceite viejo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si no está partido ni oxidado.",
+   "dif": "facil",
+   "cuando": "Míralo en cada cambio de aceite.",
+   "arrastra": [
+    "Sin resorte → el tamiz se corre → la mugre pasa por un lado."
+   ],
+   "conecta": [
+    "3",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 7."
+    ],
+    [
+     "ok",
+     "Se suelta al quitar el tapón B (manual, pág. 9-12)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90501-16004"
+  },
+  "6": {
+   "nombre": "Junta tórica del tapón",
+   "cat": "O-RING · 1 pieza",
+   "que": "El anillo de caucho que sella el [[3|tapón B]] contra el cárter.",
+   "sirve": "No deja salir el aceite por la rosca del tapón.",
+   "sintomas": [
+    "Gotea aceite por el tapón aunque esté bien apretado."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece con el calor: ya no sella."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nueva en cada cambio de aceite (manual): una aplastada gotea.",
+   "dif": "facil",
+   "cuando": "Nueva en cada cambio de aceite.",
+   "arrastra": [
+    "Junta vieja → gotea → baja el nivel de aceite."
+   ],
+   "conecta": [
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 7."
+    ],
+    [
+     "ok",
+     "Junta tórica nueva en cada cambio (manual, pág. 9-13)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "93210-29800"
+  },
+  "aceite": {
+   "ctx": true,
+   "nombre": "Aceite de motor",
+   "cat": "Consumible (no está en la lámina)",
+   "que": "Aceite SAE 10W-40, API SG o superior, norma JASO MA o MB. En el cambio lleva 0,90 L.",
+   "sirve": "Lubrica, enfría y limpia el motor. Lo mueve la [[1|bomba]].",
+   "sintomas": [
+    "El indicador de cambio de aceite del tablero parpadea: toca cambio.",
+    "En la varilla, el nivel está por debajo de la punta."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con los kilómetros pierde su viscosidad y se ensucia."
+    ],
+    [
+     "maluso",
+     "Un aceite de carro (sin JASO MA) hace patinar el embrague en otras motos y no protege igual."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "No se completa para siempre: se cambia completo a los 1.000 km y luego cada 6.000 km, con el tamiz limpio y juntas nuevas.",
+   "dif": "facil",
+   "cuando": "Revisa el nivel antes de rodar; cámbialo a los 1.000 km y luego cada 6.000 km (manual).",
+   "arrastra": [
+    "Aceite viejo → tamiz tapado → bomba y motor gastados."
+   ],
+   "conecta": [
+    "1",
+    "3",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Tipo, norma y 0,90 L (manual del propietario, págs. 9-13 y 11-1)."
+    ],
+    [
+     "ok",
+     "Cambio a los 1.000 km y cada 6.000 km (manual)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Aceite sin cambiar",
+   "p": [
+    [
+     "aceite",
+     "Se ensucia y pierde viscosidad."
+    ],
+    [
+     "4",
+     "El tamiz se tapa."
+    ],
+    [
+     "1",
+     "La bomba aspira poco: el motor se lubrica mal y se gasta."
+    ]
+   ]
+  },
+  {
+   "t": "Junta tórica reutilizada",
+   "p": [
+    [
+     "6",
+     "Aplastada, ya no sella."
+    ],
+    [
+     "3",
+     "El tapón gotea."
+    ],
+    [
+     "aceite",
+     "El nivel baja sin que lo notes."
+    ]
+   ]
+  },
+  {
+   "t": "Tapón apretado de más",
+   "p": [
+    [
+     "3",
+     "La rosca del cárter se barre."
+    ],
+    [
+     "6",
+     "La junta no asienta y gotea."
+    ],
+    [
+     "aceite",
+     "La fuga sigue: arreglar la rosca del cárter sale caro."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Aceite de motor: cambiar",
+   "cuando": "A los <b>1.000 km</b> y después cada <b>6.000 km</b> (lo avisa el indicador de cambio de aceite).",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento y «Aceite del motor y tamiz de aceite» (pág. 9-12). <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "aceite"
+  },
+  {
+   "que": "Nivel de aceite: revisar",
+   "cuando": "Antes de cada salida, con la moto en el gato central.",
+   "fuente": "manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), pág. 9-12. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Tamiz de aceite: limpiar",
+   "cuando": "Cada <b>12.000 km</b>.",
+   "fuente": "Plan de la NMAX en TallerYa (notas de la tarea de aceite), según el cuadro del manual (pág. 9-6). <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Tamiz: mirarlo de paso",
+   "cuando": "Siempre que saques el tapón B, aunque no toque limpiarlo.",
+   "fuente": "Práctica de taller. <span class=\"esq-s-ap\">Aproximado</span>"
+  },
+  {
+   "que": "Junta tórica del tapón B y junta del perno A",
+   "cuando": "Nuevas en cada cambio de aceite.",
+   "fuente": "manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), pág. 9-13. <span class=\"esq-s-ok\">Seguro</span>"
+  }
+ ],
+ "sujeta": {
+  "3": [
+   "6",
+   "5",
+   "4"
+  ],
+  "2": [
+   "1"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "drenaje",
+    "nombre": "Tapón de drenaje y tamiz",
+    "corto": "Drenaje",
+    "piezas": [
+     "3",
+     "4",
+     "5",
+     "6"
+    ],
+    "torn": [],
+    "pasos": [
+     0,
+     1,
+     2
+    ],
+    "marca": [
+     330,
+     528
+    ]
+   },
+   {
+    "id": "bomba",
+    "nombre": "Bomba de aceite",
+    "corto": "Bomba",
+    "piezas": [
+     "1"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la bomba",
+      "corto": "Tornillos",
+      "ids": [
+       "2"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     3,
+     4
+    ],
+    "marca": [
+     600,
+     380
+    ]
+   }
+  ],
+  "con3d": [
+   "4"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas de la lubricación"
+ },
+ "sistema": "Lubricación",
+ "contexto": [
+  {
+   "arte": "arteCarter",
+   "alPrincipio": true,
+   "clase": "esq-ctx-barra"
+  }
+ ],
+ "carcasas": [
+  {
+   "id": "3",
+   "transparente": 0.3,
+   "rayosx": 0.2,
+   "brillo": true
+  },
+  {
+   "id": "1",
+   "transparente": 0.42,
+   "rayosx": 0.2
+  }
+ ]
+}

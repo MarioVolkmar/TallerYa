@@ -1,0 +1,6170 @@
+{
+ "moto": "nmax-bbe4",
+ "fuente": "N-MAX-BBE4-2024.pdf",
+ "figuras": {
+  "1": {
+   "titulo": "CYLINDER",
+   "paginas": [
+    6,
+    7
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CYLINDER HEAD ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E1102-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".GUIDE, VALVE 1",
+     "cantidad": 4,
+     "codigo": "2DP-E1133-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".PLUG, STRAIGHT SCREW",
+     "cantidad": 1,
+     "codigo": "90340-12813",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06010",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-06803",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "BOLT, STUD",
+     "cantidad": 2,
+     "codigo": "95612-08618",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "COVER, CYLINDER HEAD 1",
+     "cantidad": 1,
+     "codigo": "2DP-E1191-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "PLATE, BREATHER",
+     "cantidad": 1,
+     "codigo": "2DP-E1165-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "GASKET, BREATHER COVER",
+     "cantidad": 1,
+     "codigo": "2DP-E1169-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "SCREW",
+     "cantidad": 4,
+     "codigo": "90149-05801",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95E32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-08012",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "ROD 1",
+     "cantidad": 1,
+     "codigo": "2DP-E132G-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-08800",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "GASKET, HEAD COVER 1",
+     "cantidad": 1,
+     "codigo": "B3F-E1193-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "NUT",
+     "cantidad": 4,
+     "codigo": "95332-08600",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-08859",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "BOLT, STUD 1",
+     "cantidad": 2,
+     "codigo": "2DP-E1391-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "BOLT, STUD 2",
+     "cantidad": 2,
+     "codigo": "2DP-E1392-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "PLUG, SPARK (NGK CPR8EA)",
+     "cantidad": 1,
+     "codigo": "94700-00415",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "GASKET, CYLINDER HEAD 1",
+     "cantidad": 1,
+     "codigo": "2DP-E1181-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-10114",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-10114",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "90110-06378",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "CYLINDER 1",
+     "cantidad": 1,
+     "codigo": "B6H-E1311-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "GASKET, CYLINDER",
+     "cantidad": 1,
+     "codigo": "B6H-E1351-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06010",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-06803",
+     "nota": ""
+    }
+   ]
+  },
+  "2": {
+   "titulo": "CRANKSHAFT & PISTON",
+   "paginas": [
+    8
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CRANKSHAFT ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E1400-40",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".PIN, CRANK 1",
+     "cantidad": 1,
+     "codigo": "B63-E1681-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".BEARING",
+     "cantidad": 1,
+     "codigo": "93310-528YK",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".ROD, CONNECTING",
+     "cantidad": 1,
+     "codigo": "2DP-E1651-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "KEY, WOODRUFF",
+     "cantidad": 1,
+     "codigo": "90280-03017",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PISTON (STD)",
+     "cantidad": 1,
+     "codigo": "BK6-E1631-10",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "PIN, PISTON",
+     "cantidad": 1,
+     "codigo": "2DP-E1633-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "CIRCLIP",
+     "cantidad": 2,
+     "codigo": "93450-16115",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "PISTON RING SET (STD)",
+     "cantidad": 1,
+     "codigo": "B63-E1603-00",
+     "nota": ""
+    }
+   ]
+  },
+  "3": {
+   "titulo": "VALVE",
+   "paginas": [
+    9
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "VALVE, INTAKE",
+     "cantidad": 2,
+     "codigo": "BK6-E2111-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "VALVE, EXHAUST",
+     "cantidad": 2,
+     "codigo": "B3F-E2121-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "SEAL, VALVE STEM",
+     "cantidad": 4,
+     "codigo": "54P-E2119-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "SPRING, VALVE INNER",
+     "cantidad": 4,
+     "codigo": "BB8-E2113-01",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "LOCK, VALVE SPRING RETAINER",
+     "cantidad": 8,
+     "codigo": "5TL-E2118-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "RETAINER, VALVE SPRING",
+     "cantidad": 4,
+     "codigo": "2DP-E2117-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "7",
+     "descripcion": "SEAT, VALVE SPRING 2",
+     "cantidad": 4,
+     "codigo": "50C-E2126-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "VALVE ROCKER ARM ASSY",
+     "cantidad": 1,
+     "codigo": "2DP-E2150-01",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".SCREW, VALVE ADJUSTING",
+     "cantidad": 2,
+     "codigo": "33S-E2159-01",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".NUT",
+     "cantidad": 2,
+     "codigo": "90170-05803",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "SPRING, COIL",
+     "cantidad": 1,
+     "codigo": "BB8-E2226-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "PLATE",
+     "cantidad": 1,
+     "codigo": "2DP-E2279-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "13",
+     "descripcion": "VALVE ROCKER ARM ASSY 2",
+     "cantidad": 1,
+     "codigo": "B6H-E2160-01",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".SCREW, VALVE ADJUSTING",
+     "cantidad": 2,
+     "codigo": "33S-E2159-01",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": ".NUT",
+     "cantidad": 2,
+     "codigo": "90170-05803",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "SHAFT, ROCKER 2",
+     "cantidad": 2,
+     "codigo": "B65-E2156-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "91312-05016",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "PLATE",
+     "cantidad": 1,
+     "codigo": "2DP-E111F-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "19",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06014",
+     "nota": ""
+    }
+   ]
+  },
+  "4": {
+   "titulo": "CAMSHAFT & CHAIN",
+   "paginas": [
+    10
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CAMSHAFT ASSY 1",
+     "cantidad": 1,
+     "codigo": "B6H-E2170-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "93210-09806",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-001YG",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "DECOMPRESSION ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E2280-10",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "CAM, DECOMPRESSION",
+     "cantidad": 1,
+     "codigo": "B6H-E2288-01",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "6",
+     "descripcion": "BOLT",
+     "cantidad": 1,
+     "codigo": "5YP-E2157-01",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "7",
+     "descripcion": "CHAIN (DID SCR-0404 SV)",
+     "cantidad": 1,
+     "codigo": "94568-F9096",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "GUIDE, STOPPER 1",
+     "cantidad": 1,
+     "codigo": "B65-E2231-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "GUIDE, STOPPER 2",
+     "cantidad": 1,
+     "codigo": "B6H-E2241-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT",
+     "cantidad": 1,
+     "codigo": "1DB-E2228-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TENSIONER ASSY, CAM CHAIN",
+     "cantidad": 1,
+     "codigo": "2PV-E2210-01",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "GASKET, TENSIONER CASE",
+     "cantidad": 1,
+     "codigo": "B6H-E2213-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06020",
+     "nota": ""
+    }
+   ]
+  },
+  "5": {
+   "titulo": "WATER PUMP",
+   "paginas": [
+    11
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "COVER, HOUSING",
+     "cantidad": 1,
+     "codigo": "B6H-E2422-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "2",
+     "descripcion": "SEAL",
+     "cantidad": 1,
+     "codigo": "B6H-E2223-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "B6H-E2439-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "COVER, CYLINDER HEAD SIDE 3",
+     "cantidad": 1,
+     "codigo": "B6H-E1185-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "IMPELLER SHAFT ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E2450-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99009-08400",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BEARING",
+     "cantidad": 2,
+     "codigo": "93300-608X0",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 3,
+     "codigo": "95027-06020",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-06803",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-08012",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-39803",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06025",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06045",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-19809",
+     "nota": ""
+    }
+   ]
+  },
+  "6": {
+   "titulo": "RADIATOR & HOSE",
+   "paginas": [
+    12,
+    13
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "THERMOSTAT ASSY",
+     "cantidad": 1,
+     "codigo": "2DP-E2410-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "52S-12439-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "RADIATOR ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E240A-01",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".CAP, RADIATOR",
+     "cantidad": 1,
+     "codigo": "B65-E2462-02",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "B63-E22A2-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "B63-E2439-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "B63-E2843-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".COCK, DRAIN",
+     "cantidad": 1,
+     "codigo": "5ST-E2615-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "5ST-E2843-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "COLLAR",
+     "cantidad": 4,
+     "codigo": "90387-08823",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "GROMMET",
+     "cantidad": 4,
+     "codigo": "90480-14833",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95D32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-20806",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CLIP",
+     "cantidad": 3,
+     "codigo": "90467-19803",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "CLIP",
+     "cantidad": 2,
+     "codigo": "90467-19803",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "PIPE 1",
+     "cantidad": 1,
+     "codigo": "B6H-E2481-10",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "PIPE 2",
+     "cantidad": 1,
+     "codigo": "B6H-E2482-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "PIPE 3",
+     "cantidad": 1,
+     "codigo": "B6H-E2483-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "CLAMP 1",
+     "cantidad": 1,
+     "codigo": "B6H-E2491-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "CASE, FAN",
+     "cantidad": 1,
+     "codigo": "B6H-E2621-01",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-10853",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-10855",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 5,
+     "codigo": "95E32-06050",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "COVER, RADIATOR",
+     "cantidad": 1,
+     "codigo": "B6H-E2467-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 3,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "FAN",
+     "cantidad": 1,
+     "codigo": "B65-E2611-00",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 3,
+     "codigo": "95D32-06016",
+     "nota": ""
+    }
+   ]
+  },
+  "7": {
+   "titulo": "OIL PUMP",
+   "paginas": [
+    14
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "OIL PUMP ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E3300-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "SCREW, PAN HEAD",
+     "cantidad": 2,
+     "codigo": "98502-05020",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PLUG,DRAIN 1",
+     "cantidad": 1,
+     "codigo": "54P-E5351-01",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "STRAINER, OIL",
+     "cantidad": 1,
+     "codigo": "54P-E3411-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SPRING, COMPRESSION",
+     "cantidad": 1,
+     "codigo": "90501-16004",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-29800",
+     "nota": ""
+    }
+   ]
+  },
+  "8": {
+   "titulo": "INTAKE",
+   "paginas": [
+    15,
+    16
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MANIFOLD",
+     "cantidad": 1,
+     "codigo": "B6H-E3585-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "B6H-E4199-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "91332-06025",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "INJECTOR ASSY",
+     "cantidad": 1,
+     "codigo": "BB8-E3770-10",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".INJECTOR",
+     "cantidad": 1,
+     "codigo": "BB8-E3761-10",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "..O-RING",
+     "cantidad": 1,
+     "codigo": "54P-E4147-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "..O-RING",
+     "cantidad": 1,
+     "codigo": "5CA-E4147-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".PIPE",
+     "cantidad": 1,
+     "codigo": "54P-E3938-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".CLIP",
+     "cantidad": 1,
+     "codigo": "54P-E4137-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "GASKET, MANIFOLD",
+     "cantidad": 1,
+     "codigo": "2DP-E3556-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "THROTTLE BODY ASSY",
+     "cantidad": 1,
+     "codigo": "B65-E3750-11",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".SCREW, PAN HEAD",
+     "cantidad": 1,
+     "codigo": "98502-06012",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".PLATE",
+     "cantidad": 1,
+     "codigo": "54P-E4243-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": ".SPRING, PLUNGER",
+     "cantidad": 1,
+     "codigo": "54P-E4335-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": ".STEPPING MOTOR",
+     "cantidad": 1,
+     "codigo": "B63-H5801-01",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "..O-RING",
+     "cantidad": 1,
+     "codigo": "54P-E416A-00",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "90110-06846",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "CASE, AIR CLEANER 1",
+     "cantidad": 1,
+     "codigo": "B6H-E4411-10",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "CAP, CLEANER CASE 1",
+     "cantidad": 1,
+     "codigo": "B6H-E4412-10",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "DUCT",
+     "cantidad": 1,
+     "codigo": "B6H-E4437-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "JOINT, AIR CLEANER 1",
+     "cantidad": 1,
+     "codigo": "B6H-E4453-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "ELEMENT, AIR CLEANER",
+     "cantidad": 1,
+     "codigo": "B6H-E4451-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "SEAL",
+     "cantidad": 2,
+     "codigo": "B6H-E4452-10",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "SCREW, TAPPING",
+     "cantidad": 9,
+     "codigo": "97707-50025",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "PIPE, DRAIN",
+     "cantidad": 1,
+     "codigo": "5TL-E443E-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "PIPE, DRAIN 2",
+     "cantidad": 1,
+     "codigo": "B5D-E443G-00",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-12809",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "COLLAR",
+     "cantidad": 2,
+     "codigo": "B74-E4449-00",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "GROMMET",
+     "cantidad": 2,
+     "codigo": "B6H-E4435-00",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-15816",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "HOSE CLAMP ASSY",
+     "cantidad": 1,
+     "codigo": "90450-43805",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "PIPE, BREATHER 1",
+     "cantidad": 1,
+     "codigo": "B6H-E1166-00",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-11825",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-12052",
+     "nota": ""
+    },
+    {
+     "ref": "37",
+     "descripcion": "PLATE",
+     "cantidad": 1,
+     "codigo": "B6H-E4146-00",
+     "nota": ""
+    }
+   ]
+  },
+  "9": {
+   "titulo": "EXHAUST",
+   "paginas": [
+    17
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MUFFLER 1",
+     "cantidad": 1,
+     "codigo": "BBE-E4711-20",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "PROTECTOR, MUFFLER 1",
+     "cantidad": 1,
+     "codigo": "BBE-E4718-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BOLT, HEXAGON SOCKET BUTTON",
+     "cantidad": 2,
+     "codigo": "90111-06860",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "GASKET, EXHAUST PIPE",
+     "cantidad": 1,
+     "codigo": "2DP-E4613-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "5",
+     "descripcion": "NUT, FLANGE",
+     "cantidad": 2,
+     "codigo": "95702-08500",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-10045",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-10060",
+     "nota": ""
+    }
+   ]
+  },
+  "10": {
+   "titulo": "CRANKCASE",
+   "paginas": [
+    18,
+    19
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CRANKCASE ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-E5150-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "PIN",
+     "cantidad": 1,
+     "codigo": "99480-03012",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BUSH",
+     "cantidad": 2,
+     "codigo": "54P-F7121-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "DAMPER",
+     "cantidad": 2,
+     "codigo": "90388-10808",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "DAMPER",
+     "cantidad": 1,
+     "codigo": "90388-08803",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-10114",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 9,
+     "codigo": "95E32-06060",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06110",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-22829",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT, STRAIGHT SCREW",
+     "cantidad": 1,
+     "codigo": "90340-12816",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-12803",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-08035",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-08804",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "PLUG, OIL LEVEL",
+     "cantidad": 1,
+     "codigo": "2DP-E5362-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "5LW-E3769-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "PLUG, OIL",
+     "cantidad": 1,
+     "codigo": "5LW-E5363-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-14816",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "COVER 2",
+     "cantidad": 1,
+     "codigo": "B65-E5423-01",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-24802",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "O-RING",
+     "cantidad": 1,
+     "codigo": "93211-28800",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-10114",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "COVER, CRANKCASE 2",
+     "cantidad": 1,
+     "codigo": "B6H-E5421-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "GASKET, CRANKCASE COVER 2",
+     "cantidad": 1,
+     "codigo": "B6H-E5461-10",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "99530-10114",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 5,
+     "codigo": "95E32-08045",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-08035",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "BREATHER",
+     "cantidad": 1,
+     "codigo": "B6H-E5371-00",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "PIPE, BREATHER",
+     "cantidad": 1,
+     "codigo": "B6H-E5373-00",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-10008",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-11825",
+     "nota": ""
+    }
+   ]
+  },
+  "11": {
+   "titulo": "CRANKCASE COVER 1",
+   "paginas": [
+    20
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "COVER, CRANKCASE 1",
+     "cantidad": 1,
+     "codigo": "B6H-E5411-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "GASKET, CRANKCASE COVER 1",
+     "cantidad": 1,
+     "codigo": "B6H-E5451-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PIN, DOWEL",
+     "cantidad": 1,
+     "codigo": "99530-10114",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 10,
+     "codigo": "95E32-06035",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "BREATHER",
+     "cantidad": 1,
+     "codigo": "5LW-E5371-01",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PIPE, DRAIN",
+     "cantidad": 1,
+     "codigo": "4ST-E443E-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-11106",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "COVER, CRANKCASE 3",
+     "cantidad": 1,
+     "codigo": "B6H-E5431-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "RUBBER SEAL",
+     "cantidad": 1,
+     "codigo": "2DP-E5495-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "SEAL, AIR DUCT",
+     "cantidad": 1,
+     "codigo": "B65-E5472-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "ELEMENT 1",
+     "cantidad": 1,
+     "codigo": "2DP-E5407-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT 1",
+     "cantidad": 6,
+     "codigo": "B63-E5481-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "SEAL, AIR DUCT",
+     "cantidad": 1,
+     "codigo": "2DP-E5474-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "DAMPER 1",
+     "cantidad": 1,
+     "codigo": "B6H-E5316-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "DAMPER 2",
+     "cantidad": 1,
+     "codigo": "B6H-E5326-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-10856",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-40801",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-10851",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-50801",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "DAMPER 7",
+     "cantidad": 1,
+     "codigo": "B6H-E533C-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-40800",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "DAMPER 9",
+     "cantidad": 1,
+     "codigo": "B6H-E533E-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-10855",
+     "nota": ""
+    }
+   ]
+  },
+  "12": {
+   "titulo": "CLUTCH",
+   "paginas": [
+    21,
+    22
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "PRIMARY SLIDING SHEAVE COMP.",
+     "cantidad": 1,
+     "codigo": "BBP-E7620-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "WEIGHT SET",
+     "cantidad": 1,
+     "codigo": "BBP-WE763-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "CAM",
+     "cantidad": 1,
+     "codigo": "2DP-E7623-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "SLIDER",
+     "cantidad": 3,
+     "codigo": "44D-E7653-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "COLLAR, GUIDE",
+     "cantidad": 1,
+     "codigo": "B6H-E7674-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "SHEAVE, PRIMARY FIXED",
+     "cantidad": 1,
+     "codigo": "2DP-E7611-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CLUTCH CARRIER ASSY",
+     "cantidad": 1,
+     "codigo": "BBP-E6620-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".CLUTCH WEIGHT SHOE SET",
+     "cantidad": 1,
+     "codigo": "B65-WE662-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".DAMPER, CLUTCH WEIGHT",
+     "cantidad": 3,
+     "codigo": "54P-E6629-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".SPRING, CLUTCH WEIGHT 1",
+     "cantidad": 3,
+     "codigo": "B65-E6626-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".CIRCLIP, CLUTCH",
+     "cantidad": 3,
+     "codigo": "54P-E6819-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "SECONDARY FIXED SHEAVE COMP.",
+     "cantidad": 1,
+     "codigo": "B6H-E7660-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "SECONDARY SLIDING SHEAVE",
+     "cantidad": 1,
+     "codigo": "BBP-E7670-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "SEAL",
+     "cantidad": 2,
+     "codigo": "2DP-E7465-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "SEAL",
+     "cantidad": 2,
+     "codigo": "2DP-E7465-10",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "PIN, GUIDE",
+     "cantidad": 3,
+     "codigo": "B74-E7664-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "COLLAR, GUIDE",
+     "cantidad": 3,
+     "codigo": "2DP-E7674-10",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SPRING, SECONDARY",
+     "cantidad": 1,
+     "codigo": "BBP-E7683-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "SEAT, SECONDARY SPRING",
+     "cantidad": 1,
+     "codigo": "2DP-E7684-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "NUT",
+     "cantidad": 1,
+     "codigo": "2DP-E7668-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "B6H-E7678-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "2DP-E5744-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "2DP-E7678-10",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "CLUTCH HOUSING COMP.",
+     "cantidad": 1,
+     "codigo": "BBP-E6611-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "V-BELT",
+     "cantidad": 1,
+     "codigo": "B8R-E7641-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-16819",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-15849",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-12004",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "NUT",
+     "cantidad": 1,
+     "codigo": "90170-12802",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "933A6-202Y0",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "BUSH, SOLID",
+     "cantidad": 1,
+     "codigo": "90380-10800",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99009-35700",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-15847",
+     "nota": ""
+    }
+   ]
+  },
+  "13": {
+   "titulo": "TRANSMISSION",
+   "paginas": [
+    23
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MAIN AXLE COMP. (12T/56T)",
+     "cantidad": 1,
+     "codigo": "2DP-E7410-02",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "2",
+     "descripcion": "BEARING",
+     "cantidad": 2,
+     "codigo": "93306-302YU",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "AXLE, DRIVE",
+     "cantidad": 1,
+     "codigo": "B6H-E7421-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "GEAR, 1ST WHEEL (35T)",
+     "cantidad": 1,
+     "codigo": "2DP-E7211-01",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "5",
+     "descripcion": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99009-25400",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-303YW",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-255YA",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-32807",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "GEAR, PRIMARY DRIVE (16T)",
+     "cantidad": 1,
+     "codigo": "B65-E6111-01",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "10",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-204XR",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-20815",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-351Y8",
+     "nota": ""
+    }
+   ]
+  },
+  "14": {
+   "titulo": "FRAME",
+   "paginas": [
+    24,
+    25
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "FRAME COMP.",
+     "cantidad": 1,
+     "codigo": "BBE-F1110-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BRACKET, MAIN SWITCH",
+     "cantidad": 1,
+     "codigo": "B6H-H251P-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "90109-068D5",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "SEAL",
+     "cantidad": 3,
+     "codigo": "5D9-F414G-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ENGINE BRACKET COMP.",
+     "cantidad": 1,
+     "codigo": "B6H-F1410-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PROTECTOR",
+     "cantidad": 1,
+     "codigo": "B65-F117G-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "DAMPER",
+     "cantidad": 2,
+     "codigo": "90388-10818",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-10857",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "DAMPER",
+     "cantidad": 1,
+     "codigo": "B65-F113B-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-108C9",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "95602-10200",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-10283",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "NUT, SELF-LOCKING",
+     "cantidad": 2,
+     "codigo": "95602-10200",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "STOPPER, MAIN STAND",
+     "cantidad": 2,
+     "codigo": "44D-F7114-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-08821",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-088E3",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "NUT, U FLANGE",
+     "cantidad": 2,
+     "codigo": "95602-08200",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "STAY 1",
+     "cantidad": 1,
+     "codigo": "B6H-F8356-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "STAY 1",
+     "cantidad": 1,
+     "codigo": "B6H-F116A-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "SEAL",
+     "cantidad": 1,
+     "codigo": "5D9-F414G-10",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-08055",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "NUT",
+     "cantidad": 4,
+     "codigo": "90179-05003",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "GROMMET",
+     "cantidad": 3,
+     "codigo": "90480-14229",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "COLLAR",
+     "cantidad": 3,
+     "codigo": "90387-068N8",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-068C5",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "GROMMET",
+     "cantidad": 1,
+     "codigo": "90480-17802",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "HOLDER, BRAKE HOSE 5",
+     "cantidad": 1,
+     "codigo": "B6H-F588F-00",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06012",
+     "nota": ""
+    }
+   ]
+  },
+  "15": {
+   "titulo": "FENDER",
+   "paginas": [
+    26
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "FENDER, FRONT",
+     "cantidad": 1,
+     "codigo": "BK3-F1511-00-P4",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "2",
+     "descripcion": "SEAL",
+     "cantidad": 1,
+     "codigo": "5D9-F414G-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BOLT",
+     "cantidad": 4,
+     "codigo": "90109-068A4",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "FENDER, INNER",
+     "cantidad": 1,
+     "codigo": "B6H-F1552-01",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "RIVET",
+     "cantidad": 8,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "FENDER, REAR",
+     "cantidad": 1,
+     "codigo": "BBE-F1611-20",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "90109-068C6",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "FENDER 2",
+     "cantidad": 1,
+     "codigo": "B6H-F162R-01",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "CAP, ROTOR",
+     "cantidad": 1,
+     "codigo": "B5D-F465B-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "ROTOR COMP.",
+     "cantidad": 1,
+     "codigo": "B65-F465E-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "STAY, LOCK",
+     "cantidad": 1,
+     "codigo": "B65-F117K-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "95022-06020",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-06818",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "GRAPHIC, 3",
+     "cantidad": 2,
+     "codigo": "BBE-F843G-00",
+     "nota": ""
+    }
+   ]
+  },
+  "16": {
+   "titulo": "SIDE COVER",
+   "paginas": [
+    27,
+    28
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "COVER, SIDE 1",
+     "cantidad": 1,
+     "codigo": "BBE-F1711-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "2",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-01559",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "COVER, SIDE 2",
+     "cantidad": 1,
+     "codigo": "BBE-F1721-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "6",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-01559",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "COVER, SIDE 5",
+     "cantidad": 1,
+     "codigo": "B6H-F171E-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-06815",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "COVER, SIDE 6",
+     "cantidad": 1,
+     "codigo": "B6H-F171X-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-06815",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "COVER, TAILLIGHT",
+     "cantidad": 1,
+     "codigo": "B6H-H4716-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "SCREW, TRUSS HEAD TAPPING",
+     "cantidad": 2,
+     "codigo": "97707-50016",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "COVER, REAR FENDER",
+     "cantidad": 1,
+     "codigo": "BBE-F1651-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "16",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-07018",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "COVER, SIDE 3",
+     "cantidad": 1,
+     "codigo": "BBE-F1731-00-P0",
+     "nota": "SMX FOR MBL2,PGD,MDBNM4"
+    },
+    {
+     "ref": "19",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 3,
+     "codigo": "90160-05810",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-10854",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "COVER, SIDE 4",
+     "cantidad": 1,
+     "codigo": "BBE-F1741-00-P0",
+     "nota": "SMX FOR MBL2,PGD,MDBNM4"
+    },
+    {
+     "ref": "22",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 3,
+     "codigo": "90160-05810",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-15817",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "TANK, RECOVERY",
+     "cantidad": 1,
+     "codigo": "B65-F1871-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "DAMPER",
+     "cantidad": 1,
+     "codigo": "B6H-F1746-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "BOLT",
+     "cantidad": 1,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "GROMMET",
+     "cantidad": 1,
+     "codigo": "90480-14808",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "CAP",
+     "cantidad": 1,
+     "codigo": "1S7-F1875-01",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "PIPE 1",
+     "cantidad": 1,
+     "codigo": "B6H-F1816-10",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-30001",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "PIPE 2",
+     "cantidad": 1,
+     "codigo": "B6H-F1817-10",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "CLIP",
+     "cantidad": 2,
+     "codigo": "90467-08003",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-07805",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "EMBLEM 3D",
+     "cantidad": 2,
+     "codigo": "BK3-F173B-30",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "35",
+     "descripcion": "GRAPHIC 1",
+     "cantidad": 2,
+     "codigo": "BK3-F173E-20",
+     "nota": "EXCEPT FOR PGD"
+    }
+   ]
+  },
+  "17": {
+   "titulo": "REAR ARM & SUSPENSION",
+   "paginas": [
+    29
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "ARM, REAR 1",
+     "cantidad": 1,
+     "codigo": "B6H-F2171-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "DAMPER",
+     "cantidad": 1,
+     "codigo": "90388-08803",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "OIL SEAL",
+     "cantidad": 2,
+     "codigo": "93106-28801",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-303YX",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-17807",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "CAP",
+     "cantidad": 1,
+     "codigo": "2DP-F2117-10",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 3,
+     "codigo": "95D37-06016",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "HOLDER, BRAKE HOSE 6",
+     "cantidad": 1,
+     "codigo": "B6H-F588G-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-17808",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-10060",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "HOLDER, BRAKE HOSE",
+     "cantidad": 1,
+     "codigo": "B6H-F5886-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06012",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-16006",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "SHOCK ABSORBER ASSY, REAR",
+     "cantidad": 2,
+     "codigo": "BBB-F2210-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-088E8",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-108C1",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-10853",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "NUT, HEXAGON",
+     "cantidad": 2,
+     "codigo": "95302-10600",
+     "nota": ""
+    }
+   ]
+  },
+  "18": {
+   "titulo": "STEERING",
+   "paginas": [
+    30,
+    31
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "FRONT FORK ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-F3100-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".DAMPER ASSY. (L)",
+     "cantidad": 1,
+     "codigo": "B6H-F3102-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "..TUBE, OUTER (L.H)",
+     "cantidad": 1,
+     "codigo": "2DP-F3126-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "...OIL SEAL",
+     "cantidad": 1,
+     "codigo": "3HB-F3145-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "...RING, SNAP",
+     "cantidad": 1,
+     "codigo": "3V3-F3156-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "...SEAL, DUST",
+     "cantidad": 1,
+     "codigo": "3HB-F3144-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "..INNER TUBE COMP.1",
+     "cantidad": 1,
+     "codigo": "2DP-F3110-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "..CYLINDER COMP., FRONT FORK",
+     "cantidad": 1,
+     "codigo": "2DP-F3170-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "...SPRING, SUB",
+     "cantidad": 1,
+     "codigo": "2K5-23152-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "...RING, PISTON",
+     "cantidad": 1,
+     "codigo": "2DP-F3157-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "..SPINDLE, TAPER",
+     "cantidad": 1,
+     "codigo": "2DP-F3173-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "..GASKET",
+     "cantidad": 1,
+     "codigo": "2BU-F3158-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "..BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 1,
+     "codigo": "278-F3181-50",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "..SPRING, FRONT FORK",
+     "cantidad": 1,
+     "codigo": "B6H-F3141-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "..GASKET",
+     "cantidad": 1,
+     "codigo": "3Y6-23114-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "..BOLT, CAP",
+     "cantidad": 1,
+     "codigo": "2DP-F3111-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "..RING, SNAP",
+     "cantidad": 1,
+     "codigo": "2DP-F3153-00",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": ".DAMPER ASSY. (R)",
+     "cantidad": 1,
+     "codigo": "B6H-F3103-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "..TUBE, OUTER",
+     "cantidad": 1,
+     "codigo": "2DP-F3136-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "...OIL SEAL",
+     "cantidad": 1,
+     "codigo": "3HB-F3145-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "...RING, SNAP",
+     "cantidad": 1,
+     "codigo": "3V3-F3156-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "...SEAL, DUST",
+     "cantidad": 1,
+     "codigo": "3HB-F3144-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "..INNER TUBE COMP.1",
+     "cantidad": 1,
+     "codigo": "2DP-F3110-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "..CYLINDER COMP., FRONT FORK",
+     "cantidad": 1,
+     "codigo": "2DP-F3170-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "...SPRING, SUB",
+     "cantidad": 1,
+     "codigo": "2K5-23152-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "...RING, PISTON",
+     "cantidad": 1,
+     "codigo": "2DP-F3157-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "..SPINDLE, TAPER",
+     "cantidad": 1,
+     "codigo": "2DP-F3173-00",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "..GASKET",
+     "cantidad": 1,
+     "codigo": "2BU-F3158-00",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "..BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 1,
+     "codigo": "278-F3181-50",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "..SPRING, FRONT FORK",
+     "cantidad": 1,
+     "codigo": "B6H-F3141-00",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "..GASKET",
+     "cantidad": 1,
+     "codigo": "3Y6-23114-00",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "..BOLT, CAP",
+     "cantidad": 1,
+     "codigo": "2DP-F3111-00",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "..RING, SNAP",
+     "cantidad": 1,
+     "codigo": "2DP-F3153-00",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": ".UNDER BRACKET COMP",
+     "cantidad": 1,
+     "codigo": "B6H-F2403-00",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "..SEAL, DUST",
+     "cantidad": 1,
+     "codigo": "B63-F3462-00",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "..BEARING, STEERING LOWER",
+     "cantidad": 1,
+     "codigo": "2TD-F3875-00",
+     "nota": ""
+    },
+    {
+     "ref": "37",
+     "descripcion": ".BOLT 1",
+     "cantidad": 4,
+     "codigo": "5YW-F3346-10",
+     "nota": ""
+    },
+    {
+     "ref": "38",
+     "descripcion": "RACE, BALL 2",
+     "cantidad": 1,
+     "codigo": "1KL-F3412-10",
+     "nota": ""
+    },
+    {
+     "ref": "39",
+     "descripcion": "RETAINER, BALL BEARING",
+     "cantidad": 1,
+     "codigo": "5VL-F341E-10",
+     "nota": ""
+    },
+    {
+     "ref": "40",
+     "descripcion": "RACE, BALL 2",
+     "cantidad": 1,
+     "codigo": "4RT-F3412-10",
+     "nota": ""
+    },
+    {
+     "ref": "41",
+     "descripcion": "RACE, BALL 1",
+     "cantidad": 1,
+     "codigo": "4RT-F3411-10",
+     "nota": ""
+    },
+    {
+     "ref": "42",
+     "descripcion": "RETAINER, BALL BEARING",
+     "cantidad": 1,
+     "codigo": "1P6-F341E-10",
+     "nota": ""
+    },
+    {
+     "ref": "43",
+     "descripcion": "COVER, BALL RACE 2",
+     "cantidad": 1,
+     "codigo": "3AY-F3416-00",
+     "nota": ""
+    },
+    {
+     "ref": "44",
+     "descripcion": "COVER, BALL RACE 1",
+     "cantidad": 1,
+     "codigo": "B65-F3415-00",
+     "nota": ""
+    },
+    {
+     "ref": "45",
+     "descripcion": "NUT",
+     "cantidad": 3,
+     "codigo": "90179-25810",
+     "nota": ""
+    },
+    {
+     "ref": "46",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90202-26142",
+     "nota": ""
+    },
+    {
+     "ref": "47",
+     "descripcion": "WASHER, SPECIAL",
+     "cantidad": 1,
+     "codigo": "1SK-F3418-00",
+     "nota": ""
+    },
+    {
+     "ref": "48",
+     "descripcion": "PLUG, HOLE",
+     "cantidad": 1,
+     "codigo": "B6H-F312G-00",
+     "nota": ""
+    },
+    {
+     "ref": "49",
+     "descripcion": "COVER, UNDER 1",
+     "cantidad": 1,
+     "codigo": "B65-F3123-00",
+     "nota": ""
+    },
+    {
+     "ref": "50",
+     "descripcion": "HOLDER, BRAKE HOSE 1",
+     "cantidad": 1,
+     "codigo": "B6H-F5875-00",
+     "nota": ""
+    },
+    {
+     "ref": "51",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-06012",
+     "nota": ""
+    },
+    {
+     "ref": "52",
+     "descripcion": "HOLDER, BRAKE HOSE 2",
+     "cantidad": 1,
+     "codigo": "B6H-F5876-00",
+     "nota": ""
+    },
+    {
+     "ref": "53",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-06012",
+     "nota": ""
+    }
+   ]
+  },
+  "19": {
+   "titulo": "FUEL TANK",
+   "paginas": [
+    32
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "FUEL TANK COMP.",
+     "cantidad": 1,
+     "codigo": "BBE-F4110-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BOLT, WITH WASHER",
+     "cantidad": 4,
+     "codigo": "90119-068B7",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-15803",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PIPE, FUEL 1",
+     "cantidad": 1,
+     "codigo": "B6H-E3971-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "FUEL PUMP COMP.",
+     "cantidad": 1,
+     "codigo": "B6H-E3907-01",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".FILTER, FUEL SUCTION",
+     "cantidad": 1,
+     "codigo": "54P-E3915-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".SENDER",
+     "cantidad": 1,
+     "codigo": "BK6-H5752-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "SEAL",
+     "cantidad": 1,
+     "codigo": "54P-F414G-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "BRACKET, FUEL PUMP",
+     "cantidad": 1,
+     "codigo": "B6H-F4491-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 4,
+     "codigo": "91312-05010",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "CAP ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-F4610-01",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "COVER, FILLER",
+     "cantidad": 1,
+     "codigo": "B6H-F414A-01",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".COVER",
+     "cantidad": 1,
+     "codigo": "B6H-F4217-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".PIPE, OVERFLOW",
+     "cantidad": 1,
+     "codigo": "B6H-F4318-01",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-30001",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "HOLDER",
+     "cantidad": 1,
+     "codigo": "B6H-F419A-10",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E37-06012",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-14002",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "SEAL",
+     "cantidad": 1,
+     "codigo": "5D9-F414G-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "DAMPER",
+     "cantidad": 1,
+     "codigo": "5TP-F139X-00",
+     "nota": ""
+    }
+   ]
+  },
+  "20": {
+   "titulo": "SEAT",
+   "paginas": [
+    33,
+    34
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "DOUBLE SEAT ASSY",
+     "cantidad": 1,
+     "codigo": "BBE-F4730-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".SEAT COVER COMP.",
+     "cantidad": 1,
+     "codigo": "BBE-F470F-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".PAD, SEAT",
+     "cantidad": 2,
+     "codigo": "5BP-F4741-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".PAD, SEAT",
+     "cantidad": 1,
+     "codigo": "45D-F4741-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".SEAL",
+     "cantidad": 1,
+     "codigo": "B6H-F475M-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "NUT, FLANGE",
+     "cantidad": 3,
+     "codigo": "95702-06500",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "BOX 1",
+     "cantidad": 1,
+     "codigo": "BBE-F473R-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-04806",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "BOLT",
+     "cantidad": 4,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 4,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "PLUG, BLIND",
+     "cantidad": 1,
+     "codigo": "4US-F6199-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "HINGE, SEAT",
+     "cantidad": 1,
+     "codigo": "B6H-F4769-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90468-08086",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "HOOK, STRING",
+     "cantidad": 1,
+     "codigo": "B6H-F4811-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "SPRING, TENSION",
+     "cantidad": 2,
+     "codigo": "90506-23815",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "PIN, SEAT FITTING",
+     "cantidad": 1,
+     "codigo": "B74-F4727-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "CLIP",
+     "cantidad": 1,
+     "codigo": "90468-18121",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SUPT. ,BATTERY",
+     "cantidad": 1,
+     "codigo": "B6H-F472A-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "HOSE 3",
+     "cantidad": 2,
+     "codigo": "B6H-F247C-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "BOLT, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90119-06212",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "CABLE, SEAT LOCK",
+     "cantidad": 1,
+     "codigo": "B6H-F478E-10",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "SEAT LOCK ASSY",
+     "cantidad": 1,
+     "codigo": "B65-F4780-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06012",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "STOPPER",
+     "cantidad": 1,
+     "codigo": "1S7-F4768-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "COVER, SEAT LOCK",
+     "cantidad": 1,
+     "codigo": "B6H-F472T-01",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "HANDLE, SEAT",
+     "cantidad": 1,
+     "codigo": "BBE-F4773-00-P1",
+     "nota": "MBL2"
+    },
+    {
+     "ref": "28",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95D32-08035",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-08884",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-08847",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-10867",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "GROMMET",
+     "cantidad": 4,
+     "codigo": "90480-19802",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "COVER, BATTERY",
+     "cantidad": 1,
+     "codigo": "B6H-H2129-11",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "SCREW, TRUSS HEAD TAPPING",
+     "cantidad": 2,
+     "codigo": "97707-50012",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "FLAP",
+     "cantidad": 1,
+     "codigo": "B6H-F1621-10",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "RIVET",
+     "cantidad": 3,
+     "codigo": "90269-06812",
+     "nota": ""
+    },
+    {
+     "ref": "37",
+     "descripcion": "COVER 2",
+     "cantidad": 1,
+     "codigo": "B6H-F842N-00",
+     "nota": ""
+    },
+    {
+     "ref": "38",
+     "descripcion": "BOLT, HEXAGON SOCKET BUTTON",
+     "cantidad": 1,
+     "codigo": "90111-05816",
+     "nota": ""
+    },
+    {
+     "ref": "39",
+     "descripcion": "WIRE, SEAT LOCK 2",
+     "cantidad": 1,
+     "codigo": "B6H-F479D-00",
+     "nota": ""
+    },
+    {
+     "ref": "40",
+     "descripcion": "BOX, SPARK PLUG",
+     "cantidad": 1,
+     "codigo": "2DP-F814F-00",
+     "nota": ""
+    },
+    {
+     "ref": "41",
+     "descripcion": "DRIVER",
+     "cantidad": 1,
+     "codigo": "3AY-F8152-00",
+     "nota": ""
+    },
+    {
+     "ref": "42",
+     "descripcion": "LABEL, TIRE",
+     "cantidad": 1,
+     "codigo": "BK3-F1668-00",
+     "nota": ""
+    }
+   ]
+  },
+  "21": {
+   "titulo": "FRONT WHEEL",
+   "paginas": [
+    35
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CAST WHEEL, FRONT",
+     "cantidad": 1,
+     "codigo": "B6H-F5168-00-33",
+     "nota": "YB EXCEPT FOR S3"
+    },
+    {
+     "ref": "2",
+     "descripcion": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-10839",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "OIL SEAL",
+     "cantidad": 2,
+     "codigo": "93106-20816",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BEARING",
+     "cantidad": 2,
+     "codigo": "93306-300YN",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ROTOR, SENSOR",
+     "cantidad": 1,
+     "codigo": "2DP-F517G-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "SCREW",
+     "cantidad": 3,
+     "codigo": "90149-05030",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TIRE (110/70-13M/C 48P)",
+     "cantidad": 1,
+     "codigo": "94111-13803",
+     "nota": "INOUE"
+    },
+    {
+     "ref": "8",
+     "descripcion": "VALVE, RIM",
+     "cantidad": 1,
+     "codigo": "93900-00824",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-10277",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "AXLE, WHEEL",
+     "cantidad": 1,
+     "codigo": "2DP-F5181-10",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "90185-10012",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-10831",
+     "nota": ""
+    }
+   ]
+  },
+  "22": {
+   "titulo": "FRONT BRAKE CALIPER",
+   "paginas": [
+    36
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "DISK, BRAKE (RIGHT)",
+     "cantidad": 1,
+     "codigo": "2DP-F582U-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BOLT",
+     "cantidad": 3,
+     "codigo": "90109-08232",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "CALIPER ASSY (RIGHT)",
+     "cantidad": 1,
+     "codigo": "B6H-F580U-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".PISTON ASSY, CALIPER",
+     "cantidad": 1,
+     "codigo": "2BM-F5802-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "..CALIPER SEAL KIT",
+     "cantidad": 1,
+     "codigo": "5YP-F5803-50",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".BOOT, CALIPER",
+     "cantidad": 1,
+     "codigo": "2BM-F5917-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".BOOT 2",
+     "cantidad": 1,
+     "codigo": "5YP-F5937-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".BLEED SCREW KIT",
+     "cantidad": 1,
+     "codigo": "4C9-W0048-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".BRAKE PAD KIT",
+     "cantidad": 1,
+     "codigo": "2DP-F5805-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".CLIP",
+     "cantidad": 2,
+     "codigo": "5YP-F5925-01",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".SUPPORT, PAD",
+     "cantidad": 1,
+     "codigo": "2BM-F5919-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".PIN, PAD",
+     "cantidad": 1,
+     "codigo": "5YP-F5924-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".SUPT. BRKT. ASSY.",
+     "cantidad": 1,
+     "codigo": "2DP-F5920-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".SHIM, CALIPER",
+     "cantidad": 1,
+     "codigo": "B8A-F5827-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "SCREW",
+     "cantidad": 2,
+     "codigo": "90149-10805",
+     "nota": ""
+    }
+   ]
+  },
+  "23": {
+   "titulo": "REAR WHEEL",
+   "paginas": [
+    37
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CAST WHEEL, REAR",
+     "cantidad": 1,
+     "codigo": "B6H-F5338-00-33",
+     "nota": "YB EXCEPT FOR S3"
+    },
+    {
+     "ref": "2",
+     "descripcion": "ROTOR, SENSOR",
+     "cantidad": 1,
+     "codigo": "2DP-F517G-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "SCREW",
+     "cantidad": 3,
+     "codigo": "90149-05030",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "TIRE (130/70-13M/C 63P)",
+     "cantidad": 1,
+     "codigo": "94113-13809",
+     "nota": "INOUE"
+    },
+    {
+     "ref": "5",
+     "descripcion": "VALVE, RIM",
+     "cantidad": 1,
+     "codigo": "93900-00824",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "90185-16800",
+     "nota": ""
+    }
+   ]
+  },
+  "24": {
+   "titulo": "REAR BRAKE CALIPER",
+   "paginas": [
+    38
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "DISK, REAR BRAKE 2",
+     "cantidad": 1,
+     "codigo": "2DP-F582W-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BOLT",
+     "cantidad": 3,
+     "codigo": "90109-08232",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "CALIPER ASSY, REAR 2",
+     "cantidad": 1,
+     "codigo": "B6H-F580W-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".PISTON ASSY, CALIPER",
+     "cantidad": 1,
+     "codigo": "5P0-F5802-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "..CALIPER SEAL KIT",
+     "cantidad": 1,
+     "codigo": "5YP-F5803-50",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".BOOT, CALIPER",
+     "cantidad": 1,
+     "codigo": "5YP-F5917-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".BOOT 2",
+     "cantidad": 1,
+     "codigo": "5YP-F5937-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".BLEED SCREW KIT",
+     "cantidad": 1,
+     "codigo": "4C9-W0048-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".BRAKE PAD KIT",
+     "cantidad": 1,
+     "codigo": "B6H-F5805-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".CLIP",
+     "cantidad": 2,
+     "codigo": "5YP-F5925-01",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".SUPPORT, PAD",
+     "cantidad": 1,
+     "codigo": "5P0-F5919-01",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".PIN, PAD",
+     "cantidad": 1,
+     "codigo": "5YP-F5924-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".SUPT. BRKT. ASSY.",
+     "cantidad": 1,
+     "codigo": "2DP-F5920-50",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".SHIM, CALIPER",
+     "cantidad": 2,
+     "codigo": "5P0-F5827-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "95812-10030",
+     "nota": ""
+    }
+   ]
+  },
+  "25": {
+   "titulo": "STEERING HANDLE & CABLE",
+   "paginas": [
+    39
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "HANDLE COMP.",
+     "cantidad": 1,
+     "codigo": "B6H-F6110-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-108B0",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "90185-10011",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "GRIP ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-F6240-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "GRIP",
+     "cantidad": 1,
+     "codigo": "2DP-F6241-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "END, GRIP",
+     "cantidad": 2,
+     "codigo": "2PH-F6246-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "REAR VIEW MIRROR ASSY (LEFT)",
+     "cantidad": 1,
+     "codigo": "2DP-F6280-10",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "REAR VIEW MIRROR ASSY (RIGHT)",
+     "cantidad": 1,
+     "codigo": "2DP-F6290-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "THROTTLE CABLE ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-F6301-10",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-08009",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "BOLT, BUTTON HEAD",
+     "cantidad": 1,
+     "codigo": "92017-05016",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "91312-05010",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-16808",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-24230",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-07807",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "COVER, HANDLE UPPER 1",
+     "cantidad": 1,
+     "codigo": "B6H-F6143-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-06818",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-02849",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "EMBLEM",
+     "cantidad": 1,
+     "codigo": "BBE-F6219-00-P0",
+     "nota": "MNM3"
+    },
+    {
+     "ref": "20",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-02014",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "SCREW",
+     "cantidad": 1,
+     "codigo": "90149-06104",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "COVER, HANDLEBAR LOWER 1",
+     "cantidad": 1,
+     "codigo": "B6H-F6144-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "SCREW, WITH WASHER",
+     "cantidad": 1,
+     "codigo": "90159-05032",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 2,
+     "codigo": "90160-05014",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "EMBLEM",
+     "cantidad": 1,
+     "codigo": "BK3-F1737-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "EMBLEM",
+     "cantidad": 1,
+     "codigo": "BK3-F1737-10",
+     "nota": ""
+    }
+   ]
+  },
+  "26": {
+   "titulo": "FRONT MASTER CYLINDER",
+   "paginas": [
+    40,
+    41
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MASTER CYLINDER ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-F583T-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".CYLINDER KIT, MASTER",
+     "cantidad": 1,
+     "codigo": "2DP-F5807-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".CAP, RESERVOIR",
+     "cantidad": 1,
+     "codigo": "2DP-F5852-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".PLATE, DIAPHRAGM",
+     "cantidad": 1,
+     "codigo": "5HV-F585B-10",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".DIAPHRAGM, RESERVOIR",
+     "cantidad": 1,
+     "codigo": "5HV-F5854-10",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".SCREW, FLAT HEAD",
+     "cantidad": 2,
+     "codigo": "98707-04012",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".LEVER 2",
+     "cantidad": 1,
+     "codigo": "2DP-H3922-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".BOLT, LEVER",
+     "cantidad": 1,
+     "codigo": "2DP-F589F-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "95602-06100",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".BRACKET, MASTER CYLINDER",
+     "cantidad": 1,
+     "codigo": "2DP-F5867-10",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".BOLT",
+     "cantidad": 2,
+     "codigo": "1S9-F6332-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".FRONT STOP SWITCH ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H3980-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".SCREW, PAN HEAD WITH WASHER",
+     "cantidad": 1,
+     "codigo": "97602-04312",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "STOPPER",
+     "cantidad": 1,
+     "codigo": "B6H-F6257-10",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "HOSE, BRAKE 1",
+     "cantidad": 1,
+     "codigo": "B6H-F5872-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "BOLT, UNION",
+     "cantidad": 2,
+     "codigo": "90401-10812",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-10118",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "HOSE, BRAKE 2",
+     "cantidad": 1,
+     "codigo": "B6H-F5873-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "BOLT, UNION",
+     "cantidad": 2,
+     "codigo": "90401-10812",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-10118",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "RR. MASTER CYLINDER ASSY.",
+     "cantidad": 1,
+     "codigo": "B6H-F583V-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": ".CYLINDER KIT, MASTER",
+     "cantidad": 1,
+     "codigo": "2DP-F5807-10",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": ".CAP, RESERVOIR",
+     "cantidad": 1,
+     "codigo": "2DP-F5852-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": ".PLATE, DIAPHRAGM",
+     "cantidad": 1,
+     "codigo": "5HV-F585B-10",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": ".DIAPHRAGM, RESERVOIR",
+     "cantidad": 1,
+     "codigo": "5HV-F5854-10",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": ".SCREW, FLAT HEAD",
+     "cantidad": 2,
+     "codigo": "98707-04012",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": ".LEVER 1",
+     "cantidad": 1,
+     "codigo": "2DP-H3912-00",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": ".BOLT, LEVER",
+     "cantidad": 1,
+     "codigo": "2DP-F589F-00",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": ".NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "95602-06100",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": ".BRACKET, MASTER CYLINDER",
+     "cantidad": 1,
+     "codigo": "2DP-F5867-00",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": ".BOLT",
+     "cantidad": 2,
+     "codigo": "1S9-F6332-00",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": ".STOP SWITCH ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H2530-00",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": ".SCREW, PAN HEAD WITH WASHER",
+     "cantidad": 1,
+     "codigo": "97602-04312",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "HOSE, BRAKE 3",
+     "cantidad": 1,
+     "codigo": "B6H-F5874-00",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "BOLT, UNION",
+     "cantidad": 2,
+     "codigo": "90401-10812",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-10118",
+     "nota": ""
+    },
+    {
+     "ref": "37",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-07014",
+     "nota": ""
+    },
+    {
+     "ref": "38",
+     "descripcion": "HOSE, BRAKE 4",
+     "cantidad": 1,
+     "codigo": "B6H-F581J-10",
+     "nota": ""
+    },
+    {
+     "ref": "39",
+     "descripcion": "BOLT, UNION",
+     "cantidad": 2,
+     "codigo": "90401-10812",
+     "nota": ""
+    },
+    {
+     "ref": "40",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-10118",
+     "nota": ""
+    },
+    {
+     "ref": "41",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-16808",
+     "nota": ""
+    },
+    {
+     "ref": "42",
+     "descripcion": "HOLDER, BRAKE HOSE 3",
+     "cantidad": 1,
+     "codigo": "B6H-F5887-00",
+     "nota": ""
+    },
+    {
+     "ref": "43",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-06012",
+     "nota": ""
+    },
+    {
+     "ref": "44",
+     "descripcion": "HOLDER",
+     "cantidad": 1,
+     "codigo": "B6H-F5522-00",
+     "nota": ""
+    },
+    {
+     "ref": "45",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-07805",
+     "nota": ""
+    },
+    {
+     "ref": "46",
+     "descripcion": "STAY, IGNITION COIL",
+     "cantidad": 1,
+     "codigo": "B6H-F194U-00",
+     "nota": ""
+    },
+    {
+     "ref": "47",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06012",
+     "nota": ""
+    },
+    {
+     "ref": "48",
+     "descripcion": "HOLDER, BRAKE HOSE 4",
+     "cantidad": 1,
+     "codigo": "B6H-F587A-00",
+     "nota": ""
+    },
+    {
+     "ref": "49",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06012",
+     "nota": ""
+    }
+   ]
+  },
+  "27": {
+   "titulo": "STAND & FOOTREST",
+   "paginas": [
+    42,
+    43,
+    44
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "STAND, MAIN",
+     "cantidad": 1,
+     "codigo": "BBE-F7111-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "SHAFT, MAIN STAND",
+     "cantidad": 1,
+     "codigo": "B6H-F7112-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99002-09600",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "STOPPER, MAIN STAND",
+     "cantidad": 1,
+     "codigo": "54P-F7114-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SPRING, TENSION",
+     "cantidad": 1,
+     "codigo": "90506-40806",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "HOSE 1",
+     "cantidad": 1,
+     "codigo": "B6H-F247A-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "HOOK",
+     "cantidad": 1,
+     "codigo": "1LB-F7254-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "STAND, SIDE",
+     "cantidad": 1,
+     "codigo": "BBE-F7311-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "BOLT",
+     "cantidad": 1,
+     "codigo": "B65-F7217-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "95602-10200",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "SPRING, TENSION",
+     "cantidad": 1,
+     "codigo": "90506-20818",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "HOSE 2",
+     "cantidad": 1,
+     "codigo": "B6H-F247B-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "STOPPER, MAIN STAND",
+     "cantidad": 1,
+     "codigo": "54P-F7114-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "BOARD, FOOTREST",
+     "cantidad": 1,
+     "codigo": "B6H-F7481-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "GROMMET",
+     "cantidad": 4,
+     "codigo": "90480-01559",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "BOLT, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90119-06051",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "BOLT",
+     "cantidad": 1,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 1,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 3,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-02849",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "BOARD, FOOTREST 2",
+     "cantidad": 1,
+     "codigo": "B6H-F7488-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "GROMMET",
+     "cantidad": 4,
+     "codigo": "90480-01559",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "BOLT, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90119-06051",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "BOLT",
+     "cantidad": 1,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 1,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 3,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-02849",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "COVER",
+     "cantidad": 1,
+     "codigo": "2DP-F172W-01",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "MOLE, SIDE COVER 1",
+     "cantidad": 1,
+     "codigo": "BBE-F171L-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "30",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "MOLE, SIDE COVER 2",
+     "cantidad": 1,
+     "codigo": "BBE-F171M-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "32",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "COVER, LOWER",
+     "cantidad": 1,
+     "codigo": "B6H-F8385-01",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "RIVET",
+     "cantidad": 8,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "MAT 1",
+     "cantidad": 1,
+     "codigo": "B6H-F7483-00",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "MAT 2",
+     "cantidad": 1,
+     "codigo": "B6H-F7484-00",
+     "nota": ""
+    },
+    {
+     "ref": "37",
+     "descripcion": "MAT 3",
+     "cantidad": 1,
+     "codigo": "B6H-F7493-00",
+     "nota": ""
+    },
+    {
+     "ref": "38",
+     "descripcion": "MAT 4",
+     "cantidad": 1,
+     "codigo": "B6H-F7494-00",
+     "nota": ""
+    },
+    {
+     "ref": "39",
+     "descripcion": "REAR FOOTREST ASSY 1",
+     "cantidad": 1,
+     "codigo": "BBE-F7430-00",
+     "nota": ""
+    },
+    {
+     "ref": "40",
+     "descripcion": ".BRACKET 4",
+     "cantidad": 1,
+     "codigo": "BBE-F741L-00",
+     "nota": ""
+    },
+    {
+     "ref": "41",
+     "descripcion": ".FOOTREST, REAR 1",
+     "cantidad": 1,
+     "codigo": "BK3-F7431-00",
+     "nota": ""
+    },
+    {
+     "ref": "42",
+     "descripcion": ".PIN, COTTER",
+     "cantidad": 1,
+     "codigo": "91402-20012",
+     "nota": ""
+    },
+    {
+     "ref": "43",
+     "descripcion": ".PIN, CLEVIS",
+     "cantidad": 1,
+     "codigo": "91702-06038",
+     "nota": ""
+    },
+    {
+     "ref": "44",
+     "descripcion": ".SPRING, COMPRESSION",
+     "cantidad": 1,
+     "codigo": "90501-12743",
+     "nota": ""
+    },
+    {
+     "ref": "45",
+     "descripcion": ".BALL",
+     "cantidad": 1,
+     "codigo": "93501-04830",
+     "nota": ""
+    },
+    {
+     "ref": "46",
+     "descripcion": ".COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-064H8",
+     "nota": ""
+    },
+    {
+     "ref": "47",
+     "descripcion": ".WASHER, SPECIAL",
+     "cantidad": 1,
+     "codigo": "2DP-F7437-01",
+     "nota": ""
+    },
+    {
+     "ref": "48",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-08020",
+     "nota": ""
+    },
+    {
+     "ref": "49",
+     "descripcion": "REAR FOOTREST ASSY 2",
+     "cantidad": 1,
+     "codigo": "BBE-F7440-00",
+     "nota": ""
+    },
+    {
+     "ref": "50",
+     "descripcion": ".BRACKET 5",
+     "cantidad": 1,
+     "codigo": "BBE-F742L-00",
+     "nota": ""
+    },
+    {
+     "ref": "51",
+     "descripcion": ".FOOTREST, REAR 2",
+     "cantidad": 1,
+     "codigo": "BK3-F7441-00",
+     "nota": ""
+    },
+    {
+     "ref": "52",
+     "descripcion": ".PIN, COTTER",
+     "cantidad": 1,
+     "codigo": "91402-20012",
+     "nota": ""
+    },
+    {
+     "ref": "53",
+     "descripcion": ".PIN, CLEVIS",
+     "cantidad": 1,
+     "codigo": "91702-06038",
+     "nota": ""
+    },
+    {
+     "ref": "54",
+     "descripcion": ".SPRING, COMPRESSION",
+     "cantidad": 1,
+     "codigo": "90501-12743",
+     "nota": ""
+    },
+    {
+     "ref": "55",
+     "descripcion": ".BALL",
+     "cantidad": 1,
+     "codigo": "93501-04830",
+     "nota": ""
+    },
+    {
+     "ref": "56",
+     "descripcion": ".COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-064H8",
+     "nota": ""
+    },
+    {
+     "ref": "57",
+     "descripcion": ".WASHER, SPECIAL",
+     "cantidad": 1,
+     "codigo": "2DP-F7437-01",
+     "nota": ""
+    },
+    {
+     "ref": "58",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-08020",
+     "nota": ""
+    }
+   ]
+  },
+  "28": {
+   "titulo": "LEG SHIELD",
+   "paginas": [
+    45,
+    46,
+    47
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "COVER, FRONT 2",
+     "cantidad": 1,
+     "codigo": "BBE-F286F-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "2",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "COWLING",
+     "cantidad": 1,
+     "codigo": "BBE-F8351-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "4",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "COWLING",
+     "cantidad": 1,
+     "codigo": "BBE-F8377-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "7",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "PANEL 1",
+     "cantidad": 1,
+     "codigo": "B6H-F835U-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 7,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 1,
+     "codigo": "90160-05009",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "PANEL 2",
+     "cantidad": 1,
+     "codigo": "B6H-F835V-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 7,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 1,
+     "codigo": "90160-05009",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-16808",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "LEG SHIELD 1",
+     "cantidad": 1,
+     "codigo": "B6H-F8311-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "GROMMET",
+     "cantidad": 1,
+     "codigo": "90480-14825",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-07391",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 8,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "PANEL, INNER 1",
+     "cantidad": 1,
+     "codigo": "B6H-F836K-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 4,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "LID",
+     "cantidad": 1,
+     "codigo": "B6H-F177E-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "STAY 1",
+     "cantidad": 1,
+     "codigo": "B6H-F8321-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "BOX 1",
+     "cantidad": 1,
+     "codigo": "B6H-F838K-01",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 4,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "SEAL, BOX 1",
+     "cantidad": 1,
+     "codigo": "B6H-F838M-00",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "SCREW, TRUSS HEAD TAPPING",
+     "cantidad": 2,
+     "codigo": "97707-50012",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-06817",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "HINGE",
+     "cantidad": 1,
+     "codigo": "B6H-F1796-01",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "KNOB, 1",
+     "cantidad": 1,
+     "codigo": "B6H-F836X-00",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "SPRING, TORSION",
+     "cantidad": 1,
+     "codigo": "90508-12800",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "PIN",
+     "cantidad": 1,
+     "codigo": "90249-03017",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06025",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "LEG SHIELD 2",
+     "cantidad": 1,
+     "codigo": "BBE-F8312-00-P0",
+     "nota": "MNM3"
+    },
+    {
+     "ref": "37",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "38",
+     "descripcion": "COVER 1",
+     "cantidad": 1,
+     "codigo": "B6H-F842M-00",
+     "nota": ""
+    },
+    {
+     "ref": "39",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 4,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "40",
+     "descripcion": "LID, FUEL",
+     "cantidad": 1,
+     "codigo": "B6H-F74A8-00",
+     "nota": ""
+    },
+    {
+     "ref": "41",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "42",
+     "descripcion": "SPRING, RETURN",
+     "cantidad": 1,
+     "codigo": "B6H-F7426-01",
+     "nota": ""
+    },
+    {
+     "ref": "43",
+     "descripcion": "WIRE, PULL",
+     "cantidad": 1,
+     "codigo": "B6H-F4494-10",
+     "nota": ""
+    },
+    {
+     "ref": "44",
+     "descripcion": "LID 1",
+     "cantidad": 1,
+     "codigo": "B6H-F839K-01",
+     "nota": ""
+    },
+    {
+     "ref": "45",
+     "descripcion": "BAR LOCK",
+     "cantidad": 1,
+     "codigo": "B6H-F131C-00",
+     "nota": ""
+    },
+    {
+     "ref": "46",
+     "descripcion": "SPRING, RETURN",
+     "cantidad": 1,
+     "codigo": "B6H-F7456-00",
+     "nota": ""
+    },
+    {
+     "ref": "47",
+     "descripcion": "SCREW, TRUSS HEAD TAPPING",
+     "cantidad": 1,
+     "codigo": "97707-50012",
+     "nota": ""
+    },
+    {
+     "ref": "48",
+     "descripcion": "PLUG",
+     "cantidad": 2,
+     "codigo": "90338-07018",
+     "nota": ""
+    },
+    {
+     "ref": "49",
+     "descripcion": "EMBLEM",
+     "cantidad": 2,
+     "codigo": "BK3-F413B-00",
+     "nota": ""
+    },
+    {
+     "ref": "50",
+     "descripcion": "LABEL, WARNING",
+     "cantidad": 1,
+     "codigo": "BBE-F1568-00",
+     "nota": ""
+    }
+   ]
+  },
+  "29": {
+   "titulo": "WINDSHIELD",
+   "paginas": [
+    48
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "VISOR",
+     "cantidad": 1,
+     "codigo": "B1T-F61AA-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "SCREW, ROUND HEAD",
+     "cantidad": 4,
+     "codigo": "90150-05008",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-02849",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "COVER, METER",
+     "cantidad": 1,
+     "codigo": "BBE-H3559-00-P0",
+     "nota": "MNM3"
+    },
+    {
+     "ref": "5",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 2,
+     "codigo": "90520-02850",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "PANEL, CONSOLE 1",
+     "cantidad": 1,
+     "codigo": "B6H-F837L-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-20800",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-16808",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "RIVET",
+     "cantidad": 2,
+     "codigo": "90269-06816",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 6,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 2,
+     "codigo": "90160-05009",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "SEAL 1",
+     "cantidad": 2,
+     "codigo": "B6H-F8428-10",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "PANEL, CONSOLE 2",
+     "cantidad": 1,
+     "codigo": "B6H-F837M-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SCREW, ROUND TAPPING",
+     "cantidad": 2,
+     "codigo": "90160-05009",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "SEAL 1",
+     "cantidad": 1,
+     "codigo": "B6H-F8428-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "COVER, FRONT",
+     "cantidad": 1,
+     "codigo": "BBE-F2865-00-P1",
+     "nota": "UR FOR MBL2"
+    },
+    {
+     "ref": "21",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    }
+   ]
+  },
+  "30": {
+   "titulo": "GENERATOR",
+   "paginas": [
+    49
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "ROTOR ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H1450-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "STATOR ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H1410-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 3,
+     "codigo": "90110-06880",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12688",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-12004",
+     "nota": ""
+    }
+   ]
+  },
+  "31": {
+   "titulo": "FLASHER LIGHT",
+   "paginas": [
+    50
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "FRONT FLASHER LIGHT ASSY 1",
+     "cantidad": 1,
+     "codigo": "B6H-H3310-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".BULB, FLASHER (12V-10W)",
+     "cantidad": 1,
+     "codigo": "2CB-H3311-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".LENS, FLASHER",
+     "cantidad": 1,
+     "codigo": "B6H-H3312-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".GASKET, TAIL LENS",
+     "cantidad": 1,
+     "codigo": "B6H-H4723-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".SOCKET CORD ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H4140-01",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "SCREW, TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50014",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "SCREW, TRUSS HEAD TAPPING",
+     "cantidad": 1,
+     "codigo": "97707-50016",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "FRONT FLASHER LIGHT ASSY 2",
+     "cantidad": 1,
+     "codigo": "B6H-H3320-01",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".BULB, FLASHER (12V-10W)",
+     "cantidad": 1,
+     "codigo": "2CB-H3311-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".LENS, FLASHER 2",
+     "cantidad": 1,
+     "codigo": "B6H-H3322-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".GASKET, TAIL LENS",
+     "cantidad": 1,
+     "codigo": "B6H-H4723-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".SOCKET CORD ASSY 2",
+     "cantidad": 1,
+     "codigo": "B6H-H4150-01",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "SCREW, TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50014",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "SCREW, TRUSS HEAD TAPPING",
+     "cantidad": 1,
+     "codigo": "97707-50016",
+     "nota": ""
+    }
+   ]
+  },
+  "32": {
+   "titulo": "METER",
+   "paginas": [
+    51
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "SPEEDOMETER ASSY",
+     "cantidad": 1,
+     "codigo": "B6Y-H3510-25",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".CASE, SPEEDOMETER LOWER",
+     "cantidad": 1,
+     "codigo": "B6H-H3572-04",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".SCREW,TAPPING",
+     "cantidad": 5,
+     "codigo": "97702-30016",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".SCREW, TAPPING",
+     "cantidad": 6,
+     "codigo": "97707-30014",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".LENS, SPEEDOMETER",
+     "cantidad": 1,
+     "codigo": "B6H-H3511-02",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    }
+   ]
+  },
+  "33": {
+   "titulo": "HEADLIGHT",
+   "paginas": [
+    52
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "HEADLIGHT ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H4300-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-13018",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".GROMMET",
+     "cantidad": 4,
+     "codigo": "50C-F6326-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SCREW, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90159-06817",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-06828",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 6,
+     "codigo": "97702-50016",
+     "nota": ""
+    }
+   ]
+  },
+  "34": {
+   "titulo": "TAILLIGHT",
+   "paginas": [
+    53
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "TAILLIGHT UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H4710-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".BULB, FLASHER (12V-10W)",
+     "cantidad": 2,
+     "codigo": "2CB-H3311-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".NUT, SPRING",
+     "cantidad": 4,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-06818",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "90109-068B2",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "95822-06016",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-068T3",
+     "nota": ""
+    }
+   ]
+  },
+  "35": {
+   "titulo": "HANDLE SWITCH & LEVER",
+   "paginas": [
+    54
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "SWITCH, HANDLE 4",
+     "cantidad": 1,
+     "codigo": "B6H-H3972-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".SCREW, PAN HEAD",
+     "cantidad": 2,
+     "codigo": "98507-05025",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "SWITCH, HANDLE 3",
+     "cantidad": 1,
+     "codigo": "B3F-H3973-02",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".SCREW, PAN HEAD",
+     "cantidad": 2,
+     "codigo": "98507-05025",
+     "nota": ""
+    }
+   ]
+  },
+  "36": {
+   "titulo": "ELECTRICAL 1",
+   "paginas": [
+    55,
+    56
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "BATTERY ASSY (YUASA YTZ6V)",
+     "cantidad": 1,
+     "codigo": "BN1-H2100-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "MAIN SWITCH STEERING LOCK",
+     "cantidad": 1,
+     "codigo": "B6H-H2501-03",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "KNOB COMP.",
+     "cantidad": 1,
+     "codigo": "B6H-H276E-10",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BOLT",
+     "cantidad": 2,
+     "codigo": "90109-068D5",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-09806",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "COVER, MAIN SWITCH",
+     "cantidad": 1,
+     "codigo": "B6H-H2568-01",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "WIRE HARNESS ASSY",
+     "cantidad": 1,
+     "codigo": "BBE-H2590-10",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".FUSE (2A)",
+     "cantidad": 3,
+     "codigo": "1WD-H2151-80",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".FUSE (5A)",
+     "cantidad": 2,
+     "codigo": "1WD-H2151-90",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".FUSE (7.5A BL)",
+     "cantidad": 6,
+     "codigo": "1WD-H2151-20",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".FUSE (15A-BL)",
+     "cantidad": 2,
+     "codigo": "1WD-H2151-10",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".FUSE (30A)",
+     "cantidad": 3,
+     "codigo": "1WD-H2151-30",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".DIODE ASSY",
+     "cantidad": 1,
+     "codigo": "3WP-81980-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 3,
+     "codigo": "95E32-06012",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-16808",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-30001",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-65801",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SWITCH, SIDE STAND",
+     "cantidad": 1,
+     "codigo": "B8A-H2566-01",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-07805",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "CLAMP",
+     "cantidad": 2,
+     "codigo": "90464-13249",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 1,
+     "codigo": "90110-06881",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "RELAY ASSY",
+     "cantidad": 1,
+     "codigo": "BK6-H1950-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "23",
+     "descripcion": "RELAY ASSY",
+     "cantidad": 1,
+     "codigo": "B3F-H1950-10",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "24",
+     "descripcion": "TERMINAL COMP.",
+     "cantidad": 1,
+     "codigo": "B6H-H254B-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "REMOTE CONTROL UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "B2T-H6260-04",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": ".XMTR. COMP.",
+     "cantidad": 1,
+     "codigo": "B2T-H6261-03",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "BAND",
+     "cantidad": 1,
+     "codigo": "B65-H5546-00",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "BUZZER",
+     "cantidad": 1,
+     "codigo": "B3F-H3383-00",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "SCREW,TAPPING",
+     "cantidad": 1,
+     "codigo": "97702-50016",
+     "nota": ""
+    }
+   ]
+  },
+  "37": {
+   "titulo": "ELECTRICAL 2",
+   "paginas": [
+    57
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "STARTER GEN. CONT. UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "B6Y-H594A-20",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "IGNITION COIL ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H2310-01",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-14809",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "PLUG CAP ASSY",
+     "cantidad": 1,
+     "codigo": "BK6-H2370-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "SENSOR, OXYGEN",
+     "cantidad": 1,
+     "codigo": "2DP-H592A-20",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "SOLENOID",
+     "cantidad": 1,
+     "codigo": "BK6-H6110-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".O-RING",
+     "cantidad": 1,
+     "codigo": "BK6-H1847-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-06016",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "2DP-H1861-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "THERMO UNIT",
+     "cantidad": 1,
+     "codigo": "52B-H3591-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-10806",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "GUIDE 1",
+     "cantidad": 1,
+     "codigo": "B6H-E5142-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E37-06012",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "GUIDE 2",
+     "cantidad": 1,
+     "codigo": "B6H-E5143-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E37-06012",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "HORN",
+     "cantidad": 1,
+     "codigo": "B6Y-H3371-01",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-06012",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "REAR REFLECTOR ASSY",
+     "cantidad": 1,
+     "codigo": "54P-H5130-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "LICENSE LIGHT ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H4740-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": ".BULB (12V-5W)",
+     "cantidad": 1,
+     "codigo": "2ND-H4744-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": ".SCREW",
+     "cantidad": 2,
+     "codigo": "1CK-H4726-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "SCREW, BIND",
+     "cantidad": 1,
+     "codigo": "98907-04014",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "NUT, SPRING",
+     "cantidad": 1,
+     "codigo": "90183-04039",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "REFLECTOR, 1",
+     "cantidad": 2,
+     "codigo": "2FC-H5111-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "NUT, FLANGE",
+     "cantidad": 2,
+     "codigo": "95707-05500",
+     "nota": ""
+    }
+   ]
+  },
+  "38": {
+   "titulo": "ELECTRICAL 3",
+   "paginas": [
+    58
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "WHEEL SENSOR ASSY, FRONT",
+     "cantidad": 1,
+     "codigo": "B6H-H5970-00",
+     "nota": "UR EITHER CAN USE"
+    },
+    {
+     "ref": "2",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06016",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "CLAMP",
+     "cantidad": 7,
+     "codigo": "90464-14803",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "HYDRAULIC UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "B6H-H5930-08",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "WHEEL SENSOR ASSY, REAR",
+     "cantidad": 1,
+     "codigo": "B6H-H5980-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06016",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "COMMUNICATION CONT. UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "B6Y-H5810-10",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "BAND",
+     "cantidad": 1,
+     "codigo": "B6Y-H5546-00",
+     "nota": ""
+    }
+   ]
+  }
+ }
+}

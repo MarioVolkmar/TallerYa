@@ -59,13 +59,13 @@ FICHAS = {
         ["Mantén su tapita de caucho puesta para que no entre mugre", "No lo aprietes de más: se puede romper"], "taller"),
     "MASTER CYLINDER ASSY": _f(
         "Es la bomba del freno: cuando aprietas la manigueta, empuja el líquido hacia el caliper.",
-        "Revisa el nivel de líquido cada semana por la mirilla. El líquido se cambia cada 2 años.",
+        "Revisa el nivel de líquido por la mirilla antes de cada salida. El líquido se cambia cada 2 años.",
         ["Manigueta esponjosa o que se va al fondo", "Fugas en la manigueta o en el depósito", "El nivel de líquido baja sin razón"],
         ["Si el nivel baja mucho, revisa las pastillas: al gastarse, el nivel baja", "No mezcles tipos de líquido (DOT 4 con DOT 5)"],
         "taller"),
     "RR. MASTER CYLINDER ASSY": _f(
         "Es la bomba del freno trasero: empuja el líquido cuando pisas el pedal (o aprietas la manigueta izquierda, en las scooter).",
-        "Revisa el nivel cada semana. El líquido se cambia cada 2 años.",
+        "Revisa el nivel antes de cada salida. El líquido se cambia cada 2 años.",
         ["Manigueta esponjosa", "Fugas en el depósito o la manigueta"], ["Usa el líquido que indica la tapa del depósito"], "taller"),
     "CAP, RESERVOIR": _f(
         "Cierra el depósito del líquido de frenos y lo protege del polvo y la humedad.",

@@ -177,7 +177,7 @@ class HojaVidaTests(TestCase):
         self.assertNotContains(r, enlace.token[:6].upper() + "</p>")  # no parece un código para escribir
         self.assertContains(r, 'aria-label="QR de la hoja de vida"')
         self.assertContains(r, 'type="hidden" id="hv-url"')  # la URL larga ya no se ve
-        self.assertContains(r, 'class="hv-desactivar">Desactivar')
+        self.assertContains(r, "hv-desactivar text-xs px-5 py-3\">Desactivar")
         self.assertNotContains(r, 'class="campo mt-3 hv-url"')
 
 

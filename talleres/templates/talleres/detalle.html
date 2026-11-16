@@ -196,7 +196,7 @@
 <dialog id="dialogo-cita" class="dialogo-eliminar dialogo-registrar" aria-labelledby="dialogo-cita-titulo">
   <form method="post" class="space-y-4">
     {% csrf_token %}<input type="hidden" name="accion" value="cita">
-    <div class="flex items-start justify-between gap-3">
+    <div class="flex items-start justify-between gap-3 dialogo-cabeza">
       <p class="titulo text-2xl" id="dialogo-cita-titulo">Pedir cita en <span class="text-lava">{{ taller.nombre }}</span></p>
       <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
     </div>
@@ -221,7 +221,7 @@
       </div>
       {% endfor %}
     </div>
-    <div class="flex flex-wrap justify-end gap-3">
+    <div class="flex flex-wrap justify-end gap-3 dialogo-pie">
       <button type="button" class="boton-seccion" data-cerrar>Cancelar</button>
       <button class="btn btn-lava text-xs px-6 py-3">{% if taller.agenda_activa %}Reservar{% else %}Enviar solicitud{% endif %}</button>
     </div>
@@ -299,12 +299,16 @@
           var sel = d.querySelector('select[name="servicio"]');
           if (sel) { sel.value = b.dataset.servicio; sel.dispatchEvent(new Event("change", { bubbles: true })); }
         }
-        d.showModal();
+        // Nunca dos ventanas a la vez (doble clic o una ya abierta)
+        var otra = document.querySelector("dialog[open]");
+        if (otra && otra !== d) otra.close();
+        if (!d.open) { d.showModal(); d.abiertoEn = Date.now(); }
         return;
       }
       var abierto = e.target.closest("dialog[open]");
       if (e.target.closest("[data-cerrar]") && abierto) { abierto.close(); return; }
-      if (e.target.tagName === "DIALOG") e.target.close();
+      // Clic en el fondo cierra, salvo justo después de abrir (el 2.º clic de un doble clic cae en el fondo)
+      if (e.target.tagName === "DIALOG" && Date.now() - (e.target.abiertoEn || 0) > 500) e.target.close();
     });
     // Moto de la cita: una de tus motos o "Otra moto" (entonces se escribe).
     var elegir = document.getElementById("cita-moto-elegir");

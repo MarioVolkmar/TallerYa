@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prototipo UX v3 · bombas de freno NMAX</title>
+<meta name="description" content="Prototipo UX v3 de TallerYa sobre la lámina 26 (bombas de freno de la Yamaha NMAX 155): búsqueda por síntoma, resumen en la ficha, ayuda si estás varado y enlaces a talleres. Envuelve el motor del esquema sin cambiarlo. Prototipo local.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../esquema.css">
+<link rel="stylesheet" href="prototipo.css">
+</head>
+<body>
+<div id="esquema"></div>
+<script src="../datos/nmax-fig26-arte.js"></script>
+<script src="../esquema3d.js"></script>
+<script src="../piezas-comunes.js"></script>
+<script src="../esquema.js"></script>
+<script>window.P3_CFG={servicio:"frenos"};</script>
+<script src="prototipo.js"></script>
+<script>
+(async()=>{const el=document.getElementById("esq-datos");
+ const D=el?JSON.parse(el.textContent):await (await fetch("../datos/nmax-fig26.json")).json();
+ Esquema.iniciar(D,ESQ_ARTE[D.arte]);})();
+</script>
+</body>
+</html>

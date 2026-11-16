@@ -1,0 +1,4 @@
+Cuenta de prueba local (sin motos) para revisar el primer uso
+Correo: primeruso@tallerya.test
+Clave: Prueba-1807f19a
+Entrar: http://localhost:8001/cuenta/entrar/

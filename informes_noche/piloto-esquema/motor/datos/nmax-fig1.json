@@ -1,0 +1,3181 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 1",
+  "titulo": "Cilindro, culata y bujía · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la lámina 1 del catálogo de partes (NMAX BBE4)."
+ },
+ "visor": {
+  "titulo": "Cilindro, culata y bujía",
+  "sub": "Lámina 1 · 28 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del cilindro y la culata",
+  "laminaAria": "Dibujo simplificado, visto desde arriba, de la tapa de la culata, la culata con la bujía y el cilindro de la NMAX 155. Cada grupo abre sus piezas.",
+  "introFunciona": "Aquí se quema la mezcla: el pistón sube y baja en el cilindro, la culata abre y cierra las válvulas y la bujía da la chispa.",
+  "introCadenas": "Una bujía vieja o un empaque cansado se notan primero al prender y al acelerar.",
+  "introCuando": "Lo que pide el manual para la bujía, las válvulas y el refrigerante, y cada cuánto."
+ },
+ "pie": "TallerYa · piloto de esquema v2 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  266,
+  266,
+  340,
+  264.44
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 480 870",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Admisión (0–180°, ideal).</b> El cigüeñal da media vuelta y el pistón baja. La leva empuja la válvula de admisión y la abre: el pistón chupa aire con gasolina al cilindro.",
+    "s": {
+     "ang": 100
+    }
+   },
+   {
+    "t": "<b>2 · Compresión (180–360°, ideal).</b> Las dos válvulas cierran y el pistón sube apretando la mezcla contra la culata. Mientras más apretada, más fuerza dará al quemarse.",
+    "s": {
+     "ang": 300
+    }
+   },
+   {
+    "t": "<b>3 · Chispa.</b> Un poco antes de que el pistón llegue arriba, la [[20|bujía]] salta la chispa entre sus electrodos y la mezcla se enciende. Al armar: NGK CPR8EA-9 · 0,8–0,9 mm.",
+    "s": {
+     "ang": 350
+    }
+   },
+   {
+    "t": "<b>4 · Fuerza (360–540°, ideal).</b> Los gases calientes empujan el pistón hacia abajo y la biela hace girar el cigüeñal: esa es la fuerza que mueve la moto. Es el único tiempo que empuja.",
+    "s": {
+     "ang": 450
+    }
+   },
+   {
+    "t": "<b>5 · Escape (540–720°, ideal).</b> La leva abre la válvula de escape y el pistón, al subir, saca los gases quemados. Antes de cerrar, ya abre la admisión: un instante quedan las dos abiertas (el cruce). En 720° el cigüeñal dio dos vueltas y la leva una.",
+    "s": {
+     "ang": 630
+    }
+   },
+   {
+    "t": "<b>6 · Refrigeración.</b> El refrigerante corre alrededor del [[25|cilindro]] y la [[1|culata]] y lleva el calor al radiador. Revisa el nivel con el motor frío y nunca abras el radiador caliente.",
+    "s": {
+     "ang": 700,
+     "agua": true
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, cantidades y códigos: catálogo de piezas Yamaha NMAX 155 (BBE4), fig. 1 «Cylinder».",
+   "Bujía NGK CPR8EA-9, separación 0,8–0,9 mm, 13 N·m, cambio cada 10.000 km o 12 meses (manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), págs. 9-10, 9-11 y cuadro de mantenimiento).",
+   "Holgura de válvulas en frío cada 6.000 km; refrigerante cada 24.000 km o 24 meses; tapón del radiador nunca con el motor caliente (manual, págs. 9-2 a 9-6, 9-16 y 9-37)."
+  ],
+  "aproximado": [
+   "Dibujo simplificado y visto desde arriba, con el cilindro de pie como en el catálogo; en la moto va casi acostado hacia adelante.",
+   "Función de la varilla de la tapa, del tapón y de los tornillos con arandela de sello; ubicación de los pasadores; fallas, síntomas y decisiones: práctica de taller.",
+   "Torques de la culata, de la tapa y de los demás tornillos: no están en el manual del propietario (manual de servicio)."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 1. Copia local.",
+   "Manual del propietario Yamaha NM-X 2022 B6Y4 (Yamaha Motor Argentina): cuadro de mantenimiento págs. 9-2 a 9-6; bujía págs. 9-10 y 9-11; refrigerante pág. 9-16; recalentamiento pág. 9-37. Copia local."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#c1Sombra)",
+  "colores": {
+   "acero": "url(#c1Acero)",
+   "cromo": "url(#c1Acero)",
+   "rosca": "url(#c1AlumOsc)",
+   "plast": "url(#c1Negro)"
+  }
+ },
+ "lamina": "nmax-fig1",
+ "moto": "nmax-bbe4",
+ "figura": 1,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-fig1",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28"
+ ],
+ "nombres": {
+  "1": "Culata",
+  "2": "Guía de válvula",
+  "3": "Tapón roscado de la culata",
+  "4": "Tornillo de la culata",
+  "5": "Arandela de sello del tornillo",
+  "6": "Espárrago del escape",
+  "7": "Tapa de la culata",
+  "8": "Placa del respiradero",
+  "9": "Empaque de la placa del respiradero",
+  "10": "Tornillo de la placa del respiradero",
+  "11": "Tornillo de la tapa de la culata",
+  "12": "Pasador guía de la culata",
+  "13": "Varilla de la tapa",
+  "14": "Retén de la varilla",
+  "15": "Empaque de la tapa de la culata",
+  "16": "Tuerca de la culata",
+  "17": "Arandela de la tuerca de la culata",
+  "18": "Espárrago largo del cilindro",
+  "19": "Espárrago corto del cilindro",
+  "20": "Bujía",
+  "21": "Empaque de culata",
+  "22": "Pasador guía del cilindro",
+  "23": "Pasador guía de culata",
+  "24": "Tornillo allen de la culata",
+  "25": "Cilindro",
+  "26": "Empaque de la base del cilindro",
+  "27": "Tornillo de drenaje del refrigerante",
+  "28": "Arandela del drenaje del refrigerante"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "18",
+   "n": "18",
+   "comun": "pasador",
+   "p": {
+    "x": 403,
+    "y": 357.6,
+    "r": 4,
+    "largo": 70,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      104,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    403,
+    357.6
+   ],
+   "et": [
+    -26,
+    -16
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "comun": "pasador",
+   "p": {
+    "x": 403,
+    "y": 437.6,
+    "r": 4,
+    "largo": 60,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      104,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    403,
+    437.6
+   ],
+   "et": [
+    -26,
+    16
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "comun": "placa",
+   "p": {
+    "x": 505,
+    "y": 365.6,
+    "contorno": [
+     [
+      -62,
+      -44
+     ],
+     [
+      -48,
+      -56
+     ],
+     [
+      48,
+      -56
+     ],
+     [
+      62,
+      -44
+     ],
+     [
+      62,
+      -22
+     ],
+     [
+      76,
+      -18
+     ],
+     [
+      76,
+      18
+     ],
+     [
+      62,
+      22
+     ],
+     [
+      62,
+      44
+     ],
+     [
+      48,
+      56
+     ],
+     [
+      -48,
+      56
+     ],
+     [
+      -62,
+      44
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      34
+     ],
+     [
+      -52,
+      -42,
+      5
+     ],
+     [
+      52,
+      -42,
+      5
+     ],
+     [
+      -52,
+      42,
+      5
+     ],
+     [
+      52,
+      42,
+      5
+     ],
+     [
+      68,
+      0,
+      9
+     ]
+    ],
+    "material": "fibra"
+   },
+   "anc": [
+    505,
+    365.6
+   ],
+   "et": [
+    70,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "arte": "arteCilindro",
+   "anc": [
+    566,
+    350
+   ],
+   "et": [
+    18,
+    -12
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "28",
+   "n": "28",
+   "comun": "arandela",
+   "p": {
+    "x": 562,
+    "y": 410,
+    "r": 7,
+    "ri": 3.5
+   },
+   "anc": [
+    562,
+    410
+   ],
+   "et": [
+    24,
+    14
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "27",
+   "n": "27",
+   "comun": "tornillo",
+   "p": {
+    "x": 562,
+    "y": 410,
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 12,
+    "d": 6
+   },
+   "anc": [
+    562,
+    410
+   ],
+   "et": [
+    26,
+    -6
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "comun": "pasador",
+   "p": {
+    "x": 440,
+    "y": 380,
+    "r": 5,
+    "largo": 12,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      30,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    440,
+    380
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "comun": "placa",
+   "p": {
+    "x": 455,
+    "y": 397.6,
+    "contorno": [
+     [
+      -62,
+      -44
+     ],
+     [
+      -48,
+      -56
+     ],
+     [
+      48,
+      -56
+     ],
+     [
+      62,
+      -44
+     ],
+     [
+      62,
+      -22
+     ],
+     [
+      76,
+      -18
+     ],
+     [
+      76,
+      18
+     ],
+     [
+      62,
+      22
+     ],
+     [
+      62,
+      44
+     ],
+     [
+      48,
+      56
+     ],
+     [
+      -48,
+      56
+     ],
+     [
+      -62,
+      44
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      34
+     ],
+     [
+      -52,
+      -42,
+      5
+     ],
+     [
+      52,
+      -42,
+      5
+     ],
+     [
+      -52,
+      42,
+      5
+     ],
+     [
+      52,
+      42,
+      5
+     ],
+     [
+      68,
+      0,
+      9
+     ]
+    ],
+    "material": "acero"
+   },
+   "anc": [
+    455,
+    397.6
+   ],
+   "et": [
+    64,
+    -40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "comun": "pasador",
+   "p": {
+    "x": 480,
+    "y": 370,
+    "r": 5,
+    "largo": 12,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      30,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    480,
+    370
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteCulata",
+   "anc": [
+    470,
+    370
+   ],
+   "et": [
+    10,
+    -34
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "comun": "buje",
+   "p": {
+    "x": 380,
+    "y": 420,
+    "r": 5,
+    "ri": 3,
+    "largo": 30,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      24,
+      0
+     ],
+     [
+      48,
+      0
+     ],
+     [
+      72,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    380,
+    420
+   ],
+   "et": [
+    -10,
+    -22
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "comun": "pasador",
+   "p": {
+    "x": 360,
+    "y": 395,
+    "r": 5,
+    "largo": 12,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      30,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    360,
+    395
+   ],
+   "et": [
+    -22,
+    -18
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "pasador",
+   "p": {
+    "x": 400,
+    "y": 474,
+    "r": 4,
+    "largo": 40,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    400,
+    474
+   ],
+   "et": [
+    0,
+    26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "comun": "tornillo",
+   "p": {
+    "x": 486,
+    "y": 456,
+    "tipo": "allen",
+    "cabeza": 7,
+    "largo": 8,
+    "d": 12
+   },
+   "anc": [
+    486,
+    456
+   ],
+   "et": [
+    24,
+    6
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "arandela",
+   "p": {
+    "x": 476,
+    "y": 372,
+    "r": 7,
+    "ri": 3.5
+   },
+   "anc": [
+    476,
+    372
+   ],
+   "et": [
+    22,
+    -14
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "comun": "tornillo",
+   "p": {
+    "x": 476,
+    "y": 372,
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 12,
+    "d": 6
+   },
+   "anc": [
+    476,
+    372
+   ],
+   "et": [
+    24,
+    -8
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "comun": "tornillo",
+   "p": {
+    "x": 478,
+    "y": 396,
+    "tipo": "allen",
+    "cabeza": 6,
+    "largo": 60,
+    "d": 6,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      48
+     ]
+    ]
+   },
+   "anc": [
+    478,
+    396
+   ],
+   "et": [
+    26,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "comun": "arandela",
+   "p": {
+    "x": 368,
+    "y": 378,
+    "r": 9,
+    "ri": 4.5,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      104,
+      0
+     ],
+     [
+      0,
+      84
+     ],
+     [
+      104,
+      84
+     ]
+    ]
+   },
+   "anc": [
+    368,
+    378
+   ],
+   "et": [
+    -24,
+    -10
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "comun": "tuerca",
+   "p": {
+    "x": 368,
+    "y": 378,
+    "r": 8,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      104,
+      0
+     ],
+     [
+      0,
+      84
+     ],
+     [
+      104,
+      84
+     ]
+    ]
+   },
+   "anc": [
+    368,
+    378
+   ],
+   "et": [
+    -24,
+    8
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "arte": "arteBujia",
+   "anc": [
+    300,
+    405
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "comun": "placa",
+   "p": {
+    "x": 420,
+    "y": 420,
+    "contorno": [
+     [
+      -46,
+      -43
+     ],
+     [
+      46,
+      -43
+     ],
+     [
+      54,
+      -35
+     ],
+     [
+      54,
+      35
+     ],
+     [
+      46,
+      43
+     ],
+     [
+      -46,
+      43
+     ],
+     [
+      -54,
+      35
+     ],
+     [
+      -54,
+      -35
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      36
+     ]
+    ],
+    "material": "caucho"
+   },
+   "anc": [
+    420,
+    420
+   ],
+   "et": [
+    -60,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "placa",
+   "p": {
+    "x": 397.5,
+    "y": 434.4,
+    "contorno": [
+     [
+      -28,
+      -17
+     ],
+     [
+      28,
+      -17
+     ],
+     [
+      28,
+      17
+     ],
+     [
+      -28,
+      17
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      6
+     ]
+    ],
+    "material": "fibra"
+   },
+   "anc": [
+    397.5,
+    434.4
+   ],
+   "et": [
+    -30,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "comun": "placa",
+   "p": {
+    "x": 397.5,
+    "y": 434.4,
+    "contorno": [
+     [
+      -28,
+      -17
+     ],
+     [
+      28,
+      -17
+     ],
+     [
+      28,
+      17
+     ],
+     [
+      -28,
+      17
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      6
+     ]
+    ],
+    "material": "acero"
+   },
+   "anc": [
+    397.5,
+    434.4
+   ],
+   "et": [
+    30,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "tornillo",
+   "p": {
+    "x": 362,
+    "y": 434.4,
+    "cabeza": 5,
+    "largo": 14,
+    "d": 5,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      24,
+      0
+     ],
+     [
+      48,
+      0
+     ],
+     [
+      72,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    362,
+    434.4
+   ],
+   "et": [
+    -24,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteTapa",
+   "anc": [
+    397.5,
+    470
+   ],
+   "et": [
+    0,
+    46
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "comun": "reten",
+   "p": {
+    "x": 372,
+    "y": 398,
+    "r": 9,
+    "ri": 5,
+    "ancho": 4
+   },
+   "anc": [
+    372,
+    398
+   ],
+   "et": [
+    -22,
+    16
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "pasador",
+   "p": {
+    "x": 372,
+    "y": 398,
+    "r": 5,
+    "largo": 30
+   },
+   "anc": [
+    372,
+    398
+   ],
+   "et": [
+    -28,
+    -18
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "tornillo",
+   "p": {
+    "x": 353.5,
+    "y": 401.4,
+    "cabeza": 7,
+    "brida": 9,
+    "largo": 30,
+    "d": 6,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      88,
+      0
+     ],
+     [
+      0,
+      66
+     ],
+     [
+      88,
+      66
+     ]
+    ]
+   },
+   "anc": [
+    353.5,
+    401.4
+   ],
+   "et": [
+    -24,
+    -6
+   ],
+   "vis": "exp"
+  }
+ ],
+ "pasos": [
+  {
+   "m": {
+    "20": [
+     -67,
+     -29
+    ]
+   },
+   "t": "<b>Bujía.</b> Con el <b>motor frío</b>, hala del capuchón (no del cable), sopla el pozo y suelta la bujía con la llave. <b>Al armar:</b> NGK CPR8EA-9 · 0,8–0,9 mm · rosca a mano · 13 N·m."
+  },
+  {
+   "m": {
+    "11": [
+     -14,
+     10
+    ]
+   },
+   "t": "<b>Tornillos de la tapa.</b> Con el motor frío, quita las piezas de plástico que la tapan (otra lámina) y suelta los cuatro tornillos en cruz."
+  },
+  {
+   "m": {
+    "7": [
+     -228,
+     166
+    ],
+    "13": [
+     -228,
+     166
+    ],
+    "14": [
+     -228,
+     166
+    ],
+    "8": [
+     -228,
+     166
+    ],
+    "9": [
+     -228,
+     166
+    ],
+    "10": [
+     -228,
+     166
+    ],
+    "11": [
+     -210,
+     134
+    ]
+   },
+   "t": "<b>Tapa de la culata.</b> Levántala derecha: debajo quedan el árbol de levas y los balancines (otra lámina). Con ella salen la varilla, su retén y la placa del respiradero."
+  },
+  {
+   "m": {
+    "15": [
+     -114,
+     125
+    ],
+    "8": [
+     -20,
+     -180
+    ],
+    "9": [
+     -110,
+     -130
+    ],
+    "10": [
+     -20,
+     -220
+    ],
+    "13": [
+     -5,
+     -68
+    ],
+    "14": [
+     -73,
+     -65
+    ]
+   },
+   "t": "<b>Empaque, respiradero y varilla.</b> El empaque de la tapa sale de su canal. La placa del respiradero y su empaque se sueltan por dentro de la tapa con sus cuatro tornillos. <b>Al armar:</b> empaque nuevo si está duro o aplastado."
+  },
+  {
+   "m": {
+    "16": [
+     16,
+     119
+    ],
+    "17": [
+     -22,
+     89
+    ],
+    "24": [
+     82,
+     104
+    ]
+   },
+   "t": "<b>Tuercas de la culata.</b> Taller, <b>motor frío</b>. Antes: escape, admisión y mangueras; en el PMS de compresión con las marcas alineadas, levas y cadena (otras láminas). Vacía el refrigerante por el [[27|drenaje]]: <b>nunca abras el radiador caliente</b>. Afloja en cruz. <b>Al armar:</b> orden y torque del manual de servicio."
+  },
+  {
+   "m": {
+    "1": [
+     -10,
+     -40
+    ],
+    "2": [
+     -10,
+     -40
+    ],
+    "3": [
+     -10,
+     -40
+    ],
+    "4": [
+     -10,
+     -40
+    ],
+    "5": [
+     -10,
+     -40
+    ],
+    "6": [
+     -10,
+     -40
+    ],
+    "12": [
+     -10,
+     -40
+    ]
+   },
+   "t": "<b>Culata.</b> Sácala derecha por los espárragos, sin hacer palanca entre las caras: se rayan y luego no sellan."
+  },
+  {
+   "m": {
+    "2": [
+     -155,
+     -130
+    ],
+    "3": [
+     4,
+     190
+    ],
+    "4": [
+     -165,
+     -68
+    ],
+    "5": [
+     -167,
+     0
+    ],
+    "6": [
+     -10,
+     166
+    ],
+    "12": [
+     -113,
+     -46
+    ]
+   },
+   "t": "<b>Piezas de la culata.</b> Las guías de válvula van a presión: se cambian en el taller con herramienta, junto con las válvulas (otra lámina). Los espárragos del escape solo salen si están dañados. Tapón y tornillo: arandela de sello nueva al armar."
+  },
+  {
+   "m": {
+    "21": [
+     120,
+     -80
+    ],
+    "23": [
+     80,
+     40
+    ]
+   },
+   "t": "<b>Empaque de culata y pasadores.</b> El empaque es metálico y se aplasta al apretar: va siempre nuevo. Limpia las caras sin rayarlas y revisa que no estén torcidas."
+  },
+  {
+   "m": {
+    "25": [
+     260,
+     -173
+    ],
+    "27": [
+     260,
+     -173
+    ],
+    "28": [
+     260,
+     -173
+    ],
+    "22": [
+     220,
+     -40
+    ],
+    "26": [
+     255,
+     104
+    ]
+   },
+   "t": "<b>Cilindro.</b> Trabajo de taller. Sube el cilindro derecho y sostén el pistón (otra lámina) para que no golpee el cárter; tapa la boca del cárter con un trapo limpio. <b>Al armar:</b> empaque de base nuevo y pasadores en su sitio."
+  },
+  {
+   "m": {
+    "27": [
+     48,
+     44
+    ],
+    "28": [
+     -2,
+     56
+    ],
+    "18": [
+     237,
+     262
+    ],
+    "19": [
+     237,
+     222
+    ]
+   },
+   "t": "<b>Tornillo del cilindro y espárragos.</b> El tornillo lleva su arandela de sello nueva al armar. Los espárragos quedan en el cárter: solo se sacan si la rosca está dañada."
+  }
+ ],
+ "textoArmado": "Armado, visto desde arriba: la tapa de la culata adelante, la culata con la bujía al lado y el cilindro al fondo. Toca un grupo para ver sus piezas.",
+ "fichas": {
+  "1": {
+   "nombre": "Culata",
+   "cat": "CYLINDER HEAD ASSY · 1 pieza",
+   "que": "La tapa de aluminio del cilindro: arriba guarda las válvulas y el árbol de levas, abajo forma la cámara donde se quema la mezcla, y por dentro pasa el refrigerante.",
+   "sirve": "Cierra el cilindro, deja entrar la mezcla y salir los gases, y sostiene la [[20|bujía]].",
+   "sintomas": [
+    "Humo blanco y baja el refrigerante sin fugas por fuera.",
+    "Pierde fuerza y le cuesta prender.",
+    "Aceite por la unión con el [[25|cilindro]]."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Si el motor se recalienta, se tuerce y deja de sellar contra el [[21|empaque]]."
+    ],
+    [
+     "maluso",
+     "Una bujía apretada de más o torcida le daña la rosca."
+    ],
+    [
+     "desgaste",
+     "Las [[2|guías]] y los asientos de las válvulas se gastan con los km."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Una cara torcida se rectifica y una rosca de bujía dañada lleva inserto; si está rajada, va nueva. Abrirla es trabajo de taller: antes salen el escape, la admisión y las mangueras del refrigerante, y, con el pistón en el PMS de compresión y las marcas alineadas, el árbol de levas y la cadena (otras láminas). <b>No quites nunca el tapón del radiador con el motor caliente</b>: sale líquido hirviendo a presión.",
+   "dif": "taller",
+   "cuando": "Holgura de válvulas a los 1.000 km y después cada 6.000 km, en frío y en el taller.",
+   "arrastra": [
+    "Recalentamiento → culata torcida → el [[21|empaque]] se quema → refrigerante en el [[25|cilindro]]."
+   ],
+   "conecta": [
+    "21",
+    "25",
+    "7",
+    "20",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ],
+    [
+     "ok",
+     "Holgura de válvulas en frío, en cada servicio (manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento)."
+    ],
+    [
+     "ok",
+     "Tapón del radiador: nunca con el motor caliente (manual, págs. 9-16 y 9-37)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "B6H-E1102-00",
+   "rodar": "no"
+  },
+  "2": {
+   "nombre": "Guía de válvula",
+   "cat": "GUIDE, VALVE 1 · 4 piezas",
+   "que": "El tubito metálico metido a presión en la culata por donde corre el vástago de cada válvula; hay cuatro.",
+   "sirve": "Mantiene la válvula centrada sobre su asiento para que cierre bien.",
+   "sintomas": [
+    "Humo azul al acelerar después de un rato en mínimo.",
+    "Gasta aceite sin goteras."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Con los km se agranda el agujero y la válvula cabecea."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una guía gastada no se repara: se cambia con herramienta en el taller y se ajusta el asiento de la válvula.",
+   "dif": "taller",
+   "cuando": "Se mide cuando la [[1|culata]] está abierta.",
+   "arrastra": [
+    "Guía gastada → la válvula no asienta → pierde compresión y quema aceite."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E1133-10",
+   "rodar": "no"
+  },
+  "3": {
+   "nombre": "Tapón roscado de la culata",
+   "cat": "PLUG, STRAIGHT SCREW · 1 pieza",
+   "que": "Un tapón con rosca que cierra un conducto de fábrica de la [[1|culata]].",
+   "sirve": "Tapa el agujero de fábrica que queda al mecanizar un conducto.",
+   "sintomas": [
+    "Humedad de aceite alrededor del tapón."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más, barre la rosca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana se vuelve a poner, con su sello limpio.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando la culata esté abierta.",
+   "arrastra": [
+    "Tapón flojo → fuga de aceite → nivel bajo."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90340-12813",
+   "rodar": "pronto"
+  },
+  "4": {
+   "nombre": "Tornillo de la culata",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "Un tornillo con brida que va en la [[1|culata]] con su [[5|arandela de sello]].",
+   "sirve": "Tapa un conducto de fábrica de la culata; usa el mismo tornillo y la misma arandela que el drenaje del cilindro.",
+   "sintomas": [
+    "Humedad alrededor de la cabeza."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más, se barre la rosca de aluminio."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana se reutiliza; la arandela va nueva. Torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando la culata esté abierta.",
+   "arrastra": [
+    "Arandela vieja → fuga por el tornillo."
+   ],
+   "conecta": [
+    "5",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95E32-06010",
+   "rodar": "no"
+  },
+  "5": {
+   "nombre": "Arandela de sello del tornillo",
+   "cat": "GASKET · 1 pieza",
+   "que": "La arandela que sella bajo el [[4|tornillo]] de la culata.",
+   "sirve": "Se aplasta al apretar y no deja salir líquido.",
+   "sintomas": [
+    "Humedad bajo la cabeza del tornillo."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Ya aplastada no vuelve a sellar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barata y sella una sola vez: va nueva cada vez que se suelta el tornillo.",
+   "dif": "taller",
+   "cuando": "Nueva al armar.",
+   "arrastra": [
+    "Arandela reutilizada → fuga."
+   ],
+   "conecta": [
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90430-06803",
+   "rodar": "pronto"
+  },
+  "6": {
+   "nombre": "Espárrago del escape",
+   "cat": "BOLT, STUD · 2 piezas",
+   "que": "Los dos tornillos sin cabeza fijos en la [[1|culata]] donde se aprieta el tubo de escape.",
+   "sirve": "Sujetan la boca del escape contra la culata.",
+   "sintomas": [
+    "Ruido de escape (como un soplido) al prender en frío.",
+    "El escape queda flojo."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "El calor del escape los oxida y se parten al soltar las tuercas."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana se quedan; uno partido se saca en el taller.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando quites el escape.",
+   "arrastra": [
+    "Espárrago partido → escape flojo → fuga de gases."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95612-08618",
+   "rodar": "pronto"
+  },
+  "7": {
+   "nombre": "Tapa de la culata",
+   "cat": "COVER, CYLINDER HEAD 1 · 1 pieza",
+   "que": "La tapa de arriba de la [[1|culata]]: cubre el árbol de levas y los balancines y guarda el aceite que los lubrica.",
+   "sirve": "Encierra el aceite de la parte alta del motor y lleva el respiradero.",
+   "sintomas": [
+    "Aceite por la orilla de la tapa.",
+    "Ruido metálico más fuerte en esa zona si un tornillo quedó flojo."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se raja en una caída."
+    ],
+    [
+     "maluso",
+     "Tornillos apretados de más deforman la orilla y el [[15|empaque]] deja de sellar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sana se vuelve a poner con su empaque en buen estado; rajada va nueva.",
+   "dif": "taller",
+   "cuando": "Se quita para la holgura de válvulas, cada 6.000 km.",
+   "arrastra": [
+    "Orilla deformada → el [[15|empaque]] no sella → aceite en el pozo de la [[20|bujía]]."
+   ],
+   "conecta": [
+    "15",
+    "11",
+    "8",
+    "13",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "2DP-E1191-00",
+   "rodar": "pronto"
+  },
+  "8": {
+   "nombre": "Placa del respiradero",
+   "cat": "PLATE, BREATHER · 1 pieza",
+   "que": "Una placa metálica atornillada por dentro de la [[7|tapa]].",
+   "sirve": "Hace de laberinto: separa el aceite de los gases antes de que salgan por el respiradero.",
+   "sintomas": [
+    "Aceite en la manguera del respiradero o en la caja del filtro."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El [[9|empaque]] se endurece y deja pasar aceite."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "La placa casi no se daña; revisa su empaque.",
+   "dif": "taller",
+   "cuando": "Revísala cuando la tapa esté afuera.",
+   "arrastra": [
+    "Empaque viejo → aceite por el respiradero → filtro de aire sucio."
+   ],
+   "conecta": [
+    "9",
+    "10",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E1165-00",
+   "rodar": "pronto"
+  },
+  "9": {
+   "nombre": "Empaque de la placa del respiradero",
+   "cat": "GASKET, BREATHER COVER · 1 pieza",
+   "que": "El empaque fino entre la [[8|placa del respiradero]] y la [[7|tapa]].",
+   "sirve": "Sella la placa para que el aceite no se salte el laberinto.",
+   "sintomas": [
+    "Aceite en la manguera del respiradero."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece con el calor y los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barato y no vuelve a sellar igual: nuevo si sueltas la placa.",
+   "dif": "taller",
+   "cuando": "Nuevo cuando sueltes la placa.",
+   "arrastra": [
+    "Empaque duro → aceite al respiradero."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E1169-00",
+   "rodar": "pronto"
+  },
+  "10": {
+   "nombre": "Tornillo de la placa del respiradero",
+   "cat": "SCREW · 4 piezas",
+   "que": "Los cuatro tornillos chicos que sujetan la [[8|placa del respiradero]] por dentro de la tapa.",
+   "sirve": "Mantienen la placa apretada contra su [[9|empaque]].",
+   "sintomas": [
+    "Una placa floja suena por dentro."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretados de más, barren la rosca de la tapa."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando la tapa esté afuera.",
+   "arrastra": [
+    "Tornillo flojo → placa suelta → aceite al respiradero."
+   ],
+   "conecta": [
+    "8",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90149-05801",
+   "rodar": "pronto"
+  },
+  "11": {
+   "nombre": "Tornillo de la tapa de la culata",
+   "cat": "BOLT, FLANGE DEEP RECESS · 4 piezas",
+   "que": "Los cuatro tornillos con brida que sujetan la [[7|tapa]] contra la culata.",
+   "sirve": "Aprietan la tapa contra su [[15|empaque]], parejo.",
+   "sintomas": [
+    "Aceite por la orilla de la tapa.",
+    "Un tornillo flojo o con la cabeza dañada."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretados de más, deforman la tapa o barren la rosca de la culata."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si están sanos se vuelven a poner. Apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "taller",
+   "cuando": "Revísalos cada vez que quites la tapa.",
+   "arrastra": [
+    "Tornillo flojo → la tapa no aprieta parejo → fuga de aceite."
+   ],
+   "conecta": [
+    "7",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95E32-06030",
+   "rodar": "pronto"
+  },
+  "12": {
+   "nombre": "Pasador guía de la culata",
+   "cat": "PIN, DOWEL · 2 piezas",
+   "que": "Dos tubitos cortos que centran una pieza sobre la [[1|culata]].",
+   "sirve": "Hacen que la pieza calce siempre en el mismo sitio.",
+   "sintomas": [
+    "Una pieza que no asienta derecha al armar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden al desarmar si no los buscas."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Casi nunca se dañan; no los olvides al armar.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando la culata esté abierta.",
+   "arrastra": [
+    "Pasador perdido → pieza descentrada → fuga."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "99530-08012",
+   "rodar": "pronto"
+  },
+  "13": {
+   "nombre": "Varilla de la tapa",
+   "cat": "ROD 1 · 1 pieza",
+   "que": "Una varilla corta que atraviesa la [[7|tapa de la culata]], sellada por su [[14|retén]]. El catálogo no dice para qué sirve: confírmalo en el manual de servicio.",
+   "sirve": "Pasa a través de la tapa sin dejar salir el aceite.",
+   "sintomas": [
+    "Aceite alrededor de la varilla."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Si se raya, el [[14|retén]] deja de sellar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sana se reutiliza; rayada va nueva con su retén.",
+   "dif": "taller",
+   "cuando": "Revísala cuando la tapa esté afuera.",
+   "arrastra": [
+    "Varilla rayada → el retén gotea → aceite por la tapa."
+   ],
+   "conecta": [
+    "14",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E132G-00",
+   "rodar": "pronto"
+  },
+  "14": {
+   "nombre": "Retén de la varilla",
+   "cat": "OIL SEAL · 1 pieza",
+   "que": "El retén de caucho alojado en la [[7|tapa]] alrededor de la [[13|varilla]].",
+   "sirve": "Sella la varilla para que no salga aceite.",
+   "sintomas": [
+    "Aceite alrededor de la varilla."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se endurece con el calor."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Un retén que goteó no vuelve a sellar: va nuevo.",
+   "dif": "taller",
+   "cuando": "Nuevo si gotea o si sacas la varilla.",
+   "arrastra": [
+    "Retén duro → fuga de aceite por la tapa."
+   ],
+   "conecta": [
+    "13",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "93102-08800",
+   "rodar": "pronto"
+  },
+  "15": {
+   "nombre": "Empaque de la tapa de la culata",
+   "cat": "GASKET, HEAD COVER 1 · 1 pieza",
+   "que": "El empaque de caucho que va en el canal de la [[7|tapa]], entre ella y la [[1|culata]].",
+   "sirve": "Sella la tapa para que el aceite de arriba no salga.",
+   "sintomas": [
+    "Aceite por la orilla de la tapa.",
+    "Olor a aceite quemado si gotea sobre el escape."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor se endurece y se aplasta."
+    ],
+    [
+     "maluso",
+     "Se pellizca si la tapa se monta torcida."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Duro, aplastado o pellizcado ya no sella: va nuevo. Si está blando y entero, se puede reutilizar.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que quites la tapa.",
+   "arrastra": [
+    "Empaque duro → aceite en el pozo de la [[20|bujía]] → falla la chispa."
+   ],
+   "conecta": [
+    "7",
+    "1",
+    "20"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B3F-E1193-00",
+   "rodar": "pronto"
+  },
+  "16": {
+   "nombre": "Tuerca de la culata",
+   "cat": "NUT · 4 piezas",
+   "que": "Las cuatro tuercas que aprietan la [[1|culata]] y el [[25|cilindro]] contra el cárter por los espárragos.",
+   "sirve": "Aprietan parejo la culata sobre su [[21|empaque]].",
+   "sintomas": [
+    "Humo blanco o refrigerante que baja si quedaron flojas.",
+    "Fuga entre culata y cilindro."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin el orden de apriete, la culata se tuerce."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sanas se reutilizan. Al armar: en cruz, de a poco, con el orden de apriete y el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Solo cuando se abre la culata.",
+   "arrastra": [
+    "Tuerca floja → el [[21|empaque]] se sopla → pierde compresión."
+   ],
+   "conecta": [
+    "17",
+    "1",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95332-08600",
+   "rodar": "no"
+  },
+  "17": {
+   "nombre": "Arandela de la tuerca de la culata",
+   "cat": "WASHER, PLATE · 4 piezas",
+   "que": "Las cuatro arandelas planas bajo las [[16|tuercas]] de la culata.",
+   "sirve": "Reparten la presión de la tuerca sobre el aluminio.",
+   "sintomas": [
+    "Marcas hundidas bajo la tuerca."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si falta, la tuerca se clava en el aluminio y el apriete no queda parejo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sanas se reutilizan; no las olvides al armar.",
+   "dif": "taller",
+   "cuando": "Solo cuando se abre la culata.",
+   "arrastra": [
+    "Arandela olvidada → apriete disparejo → fuga por el [[21|empaque]]."
+   ],
+   "conecta": [
+    "16",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90201-08859",
+   "rodar": "no"
+  },
+  "18": {
+   "nombre": "Espárrago largo del cilindro",
+   "cat": "BOLT, STUD 1 · 2 piezas",
+   "que": "Dos varillas roscadas largas fijas en el cárter que pasan por el [[25|cilindro]] y la [[1|culata]].",
+   "sirve": "Sostienen todo el conjunto apretado por las [[16|tuercas]].",
+   "sintomas": [
+    "Una tuerca que no aprieta o da vueltas sin parar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Un apriete de más estira la rosca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se quedan en el cárter; solo se cambian si la rosca está dañada.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando el cilindro esté afuera.",
+   "arrastra": [
+    "Rosca estirada → la tuerca no aprieta → fuga por el [[21|empaque]]."
+   ],
+   "conecta": [
+    "16",
+    "25"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E1391-00",
+   "rodar": "no"
+  },
+  "19": {
+   "nombre": "Espárrago corto del cilindro",
+   "cat": "BOLT, STUD 2 · 2 piezas",
+   "que": "Las otras dos varillas roscadas del cárter, un poco más cortas, que pasan por el [[25|cilindro]].",
+   "sirve": "Sostienen el conjunto junto con los [[18|espárragos largos]].",
+   "sintomas": [
+    "Una tuerca que no aprieta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Un apriete de más estira la rosca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se quedan en el cárter; solo se cambian si la rosca está dañada.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando el cilindro esté afuera.",
+   "arrastra": [
+    "Rosca estirada → apriete disparejo → fuga."
+   ],
+   "conecta": [
+    "18",
+    "25"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E1392-00",
+   "rodar": "no"
+  },
+  "20": {
+   "nombre": "Bujía",
+   "cat": "PLUG, SPARK (NGK CPR8EA) · 1 pieza",
+   "que": "La pieza que hace la chispa dentro de la [[1|culata]]: un electrodo central aislado en cerámica y otro de masa, separados por una ranura. En esta moto es la NGK CPR8EA-9.",
+   "sirve": "Enciende la mezcla en cada vuelta de trabajo del motor.",
+   "sintomas": [
+    "Le cuesta prender, sobre todo en frío.",
+    "Tironea o se apaga al acelerar.",
+    "Gasta más gasolina."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los electrodos se gastan y la separación pasa de 0,9 mm: la chispa se debilita."
+    ],
+    [
+     "calor",
+     "Una mezcla pobre o una bujía de otro grado la recalienta."
+    ],
+    [
+     "maluso",
+     "Apretada de más o torcida daña la rosca de la culata."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cada 10.000 km va nueva. A los 6.000 km se revisa: color canela claro es lo normal y la separación se ajusta a 0,8–0,9 mm. Trabaja con el <b>motor frío</b>. Al armar: rosca a mano y 13 N·m.",
+   "dif": "facil",
+   "cuando": "Cambio cada 10.000 km o 12 meses; revisión y ajuste de la separación en cada servicio de 6.000 km.",
+   "arrastra": [
+    "Separación abierta → chispa débil → la mezcla no prende bien → pierde fuerza."
+   ],
+   "conecta": [
+    "1",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ],
+    [
+     "ok",
+     "NGK CPR8EA-9, separación 0,8–0,9 mm, 13 N·m o 1/4–1/2 vuelta tras apretarla a mano, color canela claro (manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), págs. 9-10 y 9-11)."
+    ],
+    [
+     "ok",
+     "Cambio cada 10.000 km o 12 meses (manual, cuadro de mantenimiento)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "94700-00415",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@bujia",
+      "color": "acero"
+     },
+     {
+      "tipo": "prisma",
+      "contorno": {
+       "n": 6,
+       "r": 8,
+       "giro": 0
+      },
+      "z": [
+       -10,
+       -4
+      ],
+      "color": "acero"
+     },
+     {
+      "tipo": "cilindro",
+      "r": 3.7,
+      "z": [
+       -24,
+       -10
+      ],
+      "color": "#f2f4f5"
+     }
+    ]
+   },
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave de bujía de 16 mm y calibrador de láminas",
+    "min": 15
+   }
+  },
+  "21": {
+   "nombre": "Empaque de culata",
+   "cat": "GASKET, CYLINDER HEAD 1 · 1 pieza",
+   "que": "El empaque metálico delgado entre la [[1|culata]] y el [[25|cilindro]], con el hueco del pistón y los pasos de agua y aceite.",
+   "sirve": "Sella la compresión, el refrigerante y el aceite entre las dos piezas.",
+   "sintomas": [
+    "Humo blanco con olor dulce por el escape.",
+    "Baja el refrigerante sin goteras.",
+    "Burbujas en el depósito del refrigerante.",
+    "Pierde fuerza."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Un recalentamiento lo quema."
+    ],
+    [
+     "maluso",
+     "Apretar la culata sin el orden de apriete lo deja disparejo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se aplasta al apretar y sella una sola vez: va nuevo cada vez que se abre la culata. <b>No quites nunca el tapón del radiador con el motor caliente</b>: sale líquido hirviendo a presión.",
+   "dif": "taller",
+   "cuando": "Nuevo cada vez que se abre la culata.",
+   "arrastra": [
+    "Empaque soplado → refrigerante al cilindro → humo blanco y recalentamiento."
+   ],
+   "conecta": [
+    "1",
+    "25",
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ],
+    [
+     "ok",
+     "Tapón del radiador: nunca con el motor caliente (manual, págs. 9-16 y 9-37)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E1181-00",
+   "rodar": "no"
+  },
+  "22": {
+   "nombre": "Pasador guía del cilindro",
+   "cat": "PIN, DOWEL · 2 piezas",
+   "que": "Dos tubitos cortos entre el [[25|cilindro]] y el cárter.",
+   "sirve": "Centran el cilindro sobre el cárter.",
+   "sintomas": [
+    "El cilindro no asienta derecho al armar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se caen al cárter si no tapas la boca con un trapo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Casi nunca se dañan; búscalos al desarmar.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando el cilindro esté afuera.",
+   "arrastra": [
+    "Pasador perdido → cilindro descentrado → fuga por el [[26|empaque]]."
+   ],
+   "conecta": [
+    "25",
+    "26"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "99530-10114",
+   "rodar": "pronto"
+  },
+  "23": {
+   "nombre": "Pasador guía de culata",
+   "cat": "PIN, DOWEL · 2 piezas",
+   "que": "Dos tubitos cortos entre el [[25|cilindro]] y la [[1|culata]].",
+   "sirve": "Centran la culata sobre el cilindro y el [[21|empaque]].",
+   "sintomas": [
+    "La culata no asienta derecha al armar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden si no los buscas al desarmar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Casi nunca se dañan; ponlos antes del empaque.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando la culata esté abierta.",
+   "arrastra": [
+    "Pasador olvidado → culata corrida → fuga por el [[21|empaque]]."
+   ],
+   "conecta": [
+    "21",
+    "1",
+    "25"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "99530-10114",
+   "rodar": "pronto"
+  },
+  "24": {
+   "nombre": "Tornillo allen de la culata",
+   "cat": "BOLT, HEXAGON SOCKET HEAD · 2 piezas",
+   "que": "Los dos tornillos largos de cabeza allen del lado de la cadena de distribución.",
+   "sirve": "Aprietan ese lado de la [[1|culata]] contra el [[25|cilindro]].",
+   "sintomas": [
+    "Fuga de aceite por el lado de la cadena."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Con la llave gastada se redondea el allen."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sanos se reutilizan. Al armar: con el orden de apriete y el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Solo cuando se abre la culata.",
+   "arrastra": [
+    "Tornillo flojo → fuga de aceite por el túnel de la cadena."
+   ],
+   "conecta": [
+    "1",
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90110-06378",
+   "rodar": "no"
+  },
+  "25": {
+   "nombre": "Cilindro",
+   "cat": "CYLINDER 1 · 1 pieza",
+   "que": "El bloque de aluminio por donde sube y baja el pistón: no lleva camisa postiza, la pared del cilindro viene tratada de fábrica. Alrededor tiene la chaqueta por donde corre el refrigerante.",
+   "sirve": "Guía el pistón y saca el calor de la combustión hacia el refrigerante.",
+   "sintomas": [
+    "Humo azul y gasta aceite.",
+    "Pierde fuerza y le cuesta prender.",
+    "Ruido de golpeteo en frío."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La pared se gasta y se ovala con los km."
+    ],
+    [
+     "calor",
+     "Un recalentamiento la raya (pistón pegado)."
+    ],
+    [
+     "maluso",
+     "Aire sin filtrar entra polvo que la raya."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "No se rectifica: la pared tratada no admite rectificado y el catálogo solo trae pistón y anillos estándar. Si está rayado u ovalado, va nuevo, junto con el pistón y los anillos. <b>No quites nunca el tapón del radiador con el motor caliente</b>: sale líquido hirviendo a presión.",
+   "dif": "taller",
+   "cuando": "No tiene mantenimiento propio: cuida el refrigerante y el filtro de aire.",
+   "arrastra": [
+    "Refrigerante bajo → el cilindro se recalienta → se raya la pared y va nuevo."
+   ],
+   "conecta": [
+    "1",
+    "21",
+    "26",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ],
+    [
+     "ok",
+     "Tapón del radiador: nunca con el motor caliente (manual, págs. 9-16 y 9-37)."
+    ],
+    [
+     "ok",
+     "Pistón y anillos solo en medida estándar: catálogo nmax-bbe4 (no hay sobremedidas)."
+    ],
+    [
+     "ap",
+     "Pared tratada, sin camisa (motor Blue Core): práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E1311-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "prisma",
+      "contorno": [
+       [
+        -34,
+        -28
+       ],
+       [
+        34,
+        -28
+       ],
+       [
+        34,
+        -6
+       ],
+       [
+        42,
+        -5
+       ],
+       [
+        42,
+        5
+       ],
+       [
+        34,
+        6
+       ],
+       [
+        34,
+        28
+       ],
+       [
+        -34,
+        28
+       ]
+      ],
+      "z": [
+       0,
+       46
+      ],
+      "huecos": [
+       {
+        "r": 17
+       },
+       {
+        "r": 2.6,
+        "pos": [
+         -26,
+         -21
+        ]
+       },
+       {
+        "r": 2.6,
+        "pos": [
+         26,
+         -21
+        ]
+       },
+       {
+        "r": 2.6,
+        "pos": [
+         -26,
+         21
+        ]
+       },
+       {
+        "r": 2.6,
+        "pos": [
+         26,
+         21
+        ]
+       },
+       {
+        "r": 3.5,
+        "pos": [
+         36,
+         0
+        ]
+       }
+      ],
+      "color": "alum"
+     },
+     {
+      "tipo": "torno",
+      "perfil": [
+       [
+        16.4,
+        0
+       ],
+       [
+        17.4,
+        0
+       ],
+       [
+        17.4,
+        46
+       ],
+       [
+        16.4,
+        46
+       ]
+      ],
+      "color": "acero"
+     }
+    ]
+   },
+   "rodar": "no"
+  },
+  "26": {
+   "nombre": "Empaque de la base del cilindro",
+   "cat": "GASKET, CYLINDER · 1 pieza",
+   "que": "El empaque entre el [[25|cilindro]] y el cárter.",
+   "sirve": "Sella el aceite de la base del cilindro.",
+   "sintomas": [
+    "Aceite en la unión del cilindro con el cárter."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece con el calor."
+    ],
+    [
+     "maluso",
+     "Se rompe al sacar el cilindro."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Sella una sola vez: va nuevo cada vez que se saca el cilindro.",
+   "dif": "taller",
+   "cuando": "Nuevo cada vez que se saca el cilindro.",
+   "arrastra": [
+    "Empaque viejo → fuga de aceite por la base."
+   ],
+   "conecta": [
+    "25",
+    "22"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E1351-00",
+   "rodar": "no"
+  },
+  "27": {
+   "nombre": "Tornillo de drenaje del refrigerante",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "Un tornillo con brida abajo, en el costado del [[25|cilindro]], con su [[28|arandela de sello]]. Por su lugar en la lámina, es el drenaje de la chaqueta de agua.",
+   "sirve": "Por ahí se vacía el refrigerante del cilindro antes de abrir el motor o al cambiarlo.",
+   "sintomas": [
+    "Humedad alrededor del tornillo."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más, barre la rosca de aluminio."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se reutiliza; la arandela va nueva. Ábrelo solo con el motor frío. Torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Se abre al cambiar el refrigerante (cada 24.000 km o 2 años), con el motor frío.",
+   "arrastra": [
+    "Arandela vieja → gotea refrigerante → el nivel baja y el motor se recalienta."
+   ],
+   "conecta": [
+    "28",
+    "25"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ],
+    [
+     "ap",
+     "Función deducida de su lugar en la lámina (abajo de la chaqueta de agua); confírmala en el manual de servicio."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95E32-06010",
+   "rodar": "no"
+  },
+  "28": {
+   "nombre": "Arandela del drenaje del refrigerante",
+   "cat": "GASKET · 1 pieza",
+   "que": "La arandela que sella bajo el [[27|tornillo de drenaje]] del cilindro.",
+   "sirve": "Se aplasta al apretar y no deja salir líquido.",
+   "sintomas": [
+    "Humedad bajo la cabeza del tornillo."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Ya aplastada no vuelve a sellar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barata y sella una sola vez: va nueva cada vez que se suelta el tornillo.",
+   "dif": "media",
+   "cuando": "Nueva al armar.",
+   "arrastra": [
+    "Arandela reutilizada → fuga."
+   ],
+   "conecta": [
+    "27"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo nmax-bbe4, fig. 1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90430-06803",
+   "rodar": "no"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Bujía vieja",
+   "p": [
+    [
+     "20",
+     "Los electrodos se gastan y la separación pasa de 0,9 mm."
+    ],
+    [
+     "1",
+     "La chispa débil no prende bien la mezcla en la cámara."
+    ],
+    [
+     "25",
+     "El pistón recibe menos empuje: tironea, prende mal y gasta más."
+    ]
+   ]
+  },
+  {
+   "t": "Empaque de culata soplado",
+   "p": [
+    [
+     "21",
+     "Un recalentamiento quema el empaque."
+    ],
+    [
+     "25",
+     "El refrigerante pasa al cilindro: humo blanco y el nivel baja."
+    ],
+    [
+     "1",
+     "Sin refrigerante, la culata se recalienta más y se tuerce."
+    ]
+   ]
+  },
+  {
+   "t": "Empaque de la tapa duro",
+   "p": [
+    [
+     "15",
+     "El caucho se endurece y deja de sellar."
+    ],
+    [
+     "7",
+     "El aceite sale por la orilla de la tapa."
+    ],
+    [
+     "20",
+     "El aceite llena el pozo de la bujía y la chispa se fuga: el motor falla."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Bujía: cambiar",
+   "cuando": "Cada <b>10.000 km</b> o <b>12 meses</b>.",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento (págs. 9-2 a 9-6) y págs. 9-10 y 9-11. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "bujia"
+  },
+  {
+   "que": "Bujía: revisar color y separación",
+   "cuando": "En cada servicio de <b>6.000 km</b>: separación de 0,8–0,9 mm.",
+   "fuente": "Plan de la NMAX en TallerYa y manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), págs. 9-10 y 9-11. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Holgura de válvulas",
+   "cuando": "A los <b>1.000 km</b> y después cada <b>6.000 km</b> o <b>6 meses</b>, con el motor frío, en el taller.",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento (págs. 9-2 a 9-6). <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "valvulas"
+  },
+  {
+   "que": "Refrigerante: cambiar",
+   "cuando": "Cada <b>24.000 km</b> o <b>2 años</b>. Nunca abras el radiador con el motor caliente.",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento (págs. 9-2 a 9-6) y págs. 9-16 y 9-37. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "refrigerante"
+  }
+ ],
+ "sujeta": {
+  "11": [
+   "7"
+  ],
+  "10": [
+   "8",
+   "9"
+  ],
+  "16": [
+   "1"
+  ],
+  "17": [
+   "1"
+  ],
+  "24": [
+   "1"
+  ],
+  "7": [
+   "15"
+  ],
+  "1": [
+   "21",
+   "23"
+  ],
+  "21": [
+   "25"
+  ],
+  "27": [
+   "28"
+  ],
+  "4": [
+   "5"
+  ]
+ },
+ "v2": {
+  "inicio": "Piezas del cilindro y la culata",
+  "grupos": [
+   {
+    "id": "bujia",
+    "nombre": "Bujía",
+    "piezas": [
+     "20"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ],
+    "marca": [
+     300,
+     384
+    ]
+   },
+   {
+    "id": "tapa",
+    "nombre": "Tapa de la culata",
+    "corto": "Tapa",
+    "piezas": [
+     "7",
+     "13",
+     "14",
+     "15",
+     "8",
+     "9"
+    ],
+    "marca": [
+     398,
+     452
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la tapa",
+      "corto": "Tornillos",
+      "ids": [
+       "11"
+      ],
+      "cant": 4
+     },
+     {
+      "nombre": "Tornillos del respiradero",
+      "corto": "Tornillos",
+      "ids": [
+       "10"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     1,
+     2,
+     3
+    ]
+   },
+   {
+    "id": "culata",
+    "nombre": "Culata",
+    "marca": [
+     512,
+     432
+    ],
+    "piezas": [
+     "1",
+     "2",
+     "3",
+     "5",
+     "21"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuercas y arandelas de la culata",
+      "corto": "Tuercas",
+      "ids": [
+       "16",
+       "17"
+      ],
+      "cant": 8
+     },
+     {
+      "nombre": "Tornillos allen de la culata",
+      "corto": "Allen",
+      "ids": [
+       "24"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tornillo de la culata",
+      "corto": "Tornillo",
+      "ids": [
+       "4"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Espárragos del escape",
+      "corto": "Espárragos",
+      "ids": [
+       "6"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Pasadores guía",
+      "corto": "Pasadores",
+      "ids": [
+       "12",
+       "23"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     4,
+     5,
+     6,
+     7
+    ]
+   },
+   {
+    "id": "cilindro",
+    "nombre": "Cilindro",
+    "marca": [
+     548,
+     338
+    ],
+    "piezas": [
+     "25",
+     "26",
+     "28"
+    ],
+    "torn": [
+     {
+      "nombre": "Espárragos del cilindro",
+      "corto": "Espárragos",
+      "ids": [
+       "18",
+       "19"
+      ],
+      "cant": 4
+     },
+     {
+      "nombre": "Drenaje del refrigerante",
+      "corto": "Drenaje",
+      "ids": [
+       "27"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Pasadores del cilindro",
+      "corto": "Pasadores",
+      "ids": [
+       "22"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     8,
+     9
+    ]
+   }
+  ],
+  "con3d": [
+   "20",
+   "25"
+  ],
+  "toqueExtra": []
+ },
+ "perfiles": {
+  "bujia": [
+   [
+    0,
+    -30
+   ],
+   [
+    2.4,
+    -30
+   ],
+   [
+    2.4,
+    -24
+   ],
+   [
+    3.6,
+    -24
+   ],
+   [
+    3.6,
+    -10
+   ],
+   [
+    5,
+    -9
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    7,
+    0
+   ],
+   [
+    7,
+    6
+   ],
+   [
+    4.6,
+    7
+   ],
+   [
+    4.6,
+    18
+   ],
+   [
+    1,
+    19
+   ],
+   [
+    1,
+    22
+   ],
+   [
+    0,
+    22
+   ]
+  ]
+ },
+ "pendientes": [
+  "Confirmar en el manual de servicio para qué sirve la varilla de la tapa (13) y qué cierran el tapón (3) y los tornillos 4 y 27.",
+  "Torques de culata, tapa y tornillos: solo en el manual de servicio, que no está en la copia local."
+ ],
+ "carcasas": [
+  {
+   "id": "7",
+   "transparente": 0.26,
+   "rayosx": 0.2,
+   "brillo": true
+  },
+  {
+   "id": "1",
+   "transparente": 0.4,
+   "rayosx": 0.2
+  },
+  {
+   "id": "25",
+   "transparente": 0.4,
+   "rayosx": 0.2
+  }
+ ]
+}

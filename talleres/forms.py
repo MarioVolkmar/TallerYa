@@ -24,7 +24,7 @@ class SolicitudCitaForm(EstiloMixin, forms.ModelForm):
         model = SolicitudCita
         fields = ["nombre", "telefono", "moto", "servicio", "fecha_preferida", "detalle"]
         widgets = {
-            "fecha_preferida": forms.DateInput(attrs={"type": "date"}),
+            "fecha_preferida": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),  # <input type=date> exige ISO
             "detalle": forms.Textarea(attrs={"rows": 3}),
         }
 

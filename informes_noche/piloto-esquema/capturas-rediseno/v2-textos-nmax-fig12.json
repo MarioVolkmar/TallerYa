@@ -1,0 +1,1220 @@
+{
+ "fichas": {
+  "1": {
+   "que": "La mitad de adentro del variador, en la punta del cigüeñal: un cono de aluminio que se corre sobre el [[5|buje]]. Por detrás tiene seis canales inclinados (aprox.) por donde suben los rodillos.",
+   "sirve": "Cambia la relación sola. Con pocas revoluciones queda abierta y la correa baja al centro (fuerza para arrancar); con más revoluciones los [[2|rodillos]] la empujan, se cierra y la correa sube (velocidad).",
+   "sintomas": [
+    "La moto arranca con tirones o vibra.",
+    "Sube de vueltas pero no de velocidad.",
+    "Ves surcos o escalones en la cara del cono."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los rodillos marcan los canales y la correa deja surcos en la cara. Con canales marcados, los rodillos nuevos se gastan rápido."
+    ],
+    [
+     "calor",
+     "Una correa que patina recalienta la cara: queda azulada o brillante y la correa resbala más."
+    ],
+    [
+     "maluso",
+     "Lavar la caja a presión o meterle grasa a la cara del cono hace que la correa patine."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si los canales tienen escalón o la cara tiene surcos, cámbiala. Si solo está sucia, límpiala sin grasa en la cara.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras la CVT para la correa (cambio cada 18.000 km). Como práctica de taller, límpiale el polvo de correa al revisar el filtro de la caja, cada 6.000 km.",
+   "arrastra": [
+    "Canales marcados → los [[2|rodillos]] nuevos se gastan rápido.",
+    "Cara quemada → la correa patina más."
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "2": {
+   "que": "Seis cilindros pesados con funda de plástico duro. Van en los canales inclinados de la [[1|polea móvil]], apoyados por detrás en la rampa.",
+   "sirve": "Son el «cerebro» del cambio: con las revoluciones salen por fuerza centrífuga, suben por los canales y, como la rampa no se mueve, empujan la polea móvil hacia la fija. Su peso decide a cuántas vueltas sube la correa.",
+   "sintomas": [
+    "Arranque lento o con tirones.",
+    "No alcanza su velocidad normal.",
+    "Golpeteo o traqueteo en el variador al soltar el acelerador."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La funda se gasta de un lado y el rodillo queda plano u ovalado: ya no rueda, se arrastra."
+    ],
+    [
+     "calor",
+     "Con la correa patinando o mucho trancón en subida, la funda se ablanda y se deforma."
+    ],
+    [
+     "maluso",
+     "Poner rodillos de otro peso «para que arranque más» cambia toda la respuesta: más pesados y la moto se queda sin vueltas en las lomas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Siempre el juego completo, del mismo peso del original (viene grabado en el rodillo).",
+   "dif": "taller",
+   "cuando": "Revísalos con la correa (cada 18.000 km). Cámbialos si alguno está plano, ovalado o más delgado que los otros. Revisa a la vez la [[3|rampa]] y los [[4|deslizadores]].",
+   "arrastra": [
+    "Rodillos planos → marcan los canales de la [[1|polea móvil]].",
+    "Rodillos de otro peso → la moto se queda sin vueltas en las lomas."
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "3": {
+   "que": "Una placa de tres brazos, fija al cigüeñal detrás de los rodillos. Es la pared de atrás del variador, casi plana; las rampas están en los canales de la polea móvil.",
+   "sirve": "Los [[2|rodillos]] quedan atrapados entre ella y los canales de la polea móvil. Como la placa no se mueve, cuando los rodillos salen la que se corre es la polea móvil, hacia la fija.",
+   "sintomas": [
+    "Ves marcas donde se apoyan los rodillos.",
+    "Traqueteo en ralentí."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los rodillos le dejan marcas donde se apoyan."
+    ],
+    [
+     "desgaste",
+     "Sus [[4|deslizadores]] se gastan y la placa golpetea dentro de la polea."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está marcada, cámbiala junto con los rodillos: si no, los nuevos se gastan rápido.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar rodillos (con la correa).",
+   "arrastra": [
+    "Rampa marcada → los [[2|rodillos]] nuevos se gastan rápido."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "4": {
+   "que": "Tres guías de plástico en las puntas de los brazos de la rampa.",
+   "sirve": "Centran la rampa dentro de la polea móvil y dejan que la polea se corra suave, sin metal contra metal.",
+   "sintomas": [
+    "Ruido o traqueteo en el variador.",
+    "Desgaste visible en las guías."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan con el roce y quedan flojas."
+    ],
+    [
+     "calor",
+     "Se endurecen y se parten con los años de calor de la caja."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cámbialas las tres juntas. Son baratas: van con el cambio de rodillos.",
+   "dif": "taller",
+   "cuando": "Revísalas junto con los rodillos, cuando cambies la correa.",
+   "arrastra": [
+    "Guías gastadas → la [[3|rampa]] golpetea dentro de la polea."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "5": {
+   "que": "Un tubo de acero liso que entra en el centro de la [[1|polea móvil]] y se monta en el cigüeñal.",
+   "sirve": "Es el riel por donde se corre la polea móvil al abrir y cerrar.",
+   "sintomas": [
+    "El cambio se siente a saltos.",
+    "Ves rayas o escalón en el buje."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca un escalón donde trabaja la polea y esta se traba."
+    ],
+    [
+     "maluso",
+     "Con grasa de más, se riega a la correa; sin nada de grasa se reseca y se raya."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si tiene escalón, buje nuevo (y revisa el hueco de la polea móvil).",
+   "dif": "taller",
+   "cuando": "Revísalo con la correa. Límpialo y engrásalo apenas, sin que la grasa llegue a las caras de las poleas.",
+   "arrastra": [
+    "Buje con escalón → la [[1|polea móvil]] se traba y el cambio va a saltos."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "6": {
+   "que": "La mitad de afuera del variador. Por delante tiene aletas que soplan aire a la caja; por detrás, el cono donde corre la correa.",
+   "sirve": "Es la pared fija del variador: la [[1|polea móvil]] se acerca o se aleja de ella. Las aletas enfrían la correa.",
+   "sintomas": [
+    "Vibra en ralentí.",
+    "Ves surcos en la cara del cono.",
+    "Hay aletas partidas."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La correa le deja surcos en el cono."
+    ],
+    [
+     "golpe",
+     "Una aleta partida la desbalancea y vibra."
+    ],
+    [
+     "maluso",
+     "Soltarla sin su llave de sujeción daña las aletas o el estriado."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si tiene aletas partidas o surcos, cámbiala. La [[28|tuerca]] se aprieta con su torque (manual de servicio) y la polea se sujeta con la llave especial.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras la CVT.",
+   "arrastra": [
+    "Aleta partida → vibración en ralentí.",
+    "Surcos en el cono → la correa se desgasta más rápido."
+   ],
+   "nombre": "Polea fija del variador (con aletas)",
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "7": {
+   "que": "Una placa de aluminio que se monta en la polea trasera. Lleva tres pasadores donde pivotan las [[8|zapatas]].",
+   "sirve": "Gira con la polea trasera y lleva las zapatas. Con las revoluciones las zapatas se abren y agarran la [[24|campana]]: así el motor mueve la rueda.",
+   "sintomas": [
+    "Vibra al arrancar.",
+    "La moto patina al arrancar en subida."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan los huecos de los pasadores y las zapatas quedan flojas."
+    ],
+    [
+     "calor",
+     "Arrancar siempre a fondo, o con pasajero en lomas fuertes, recalienta todo el clutch."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Casi siempre basta con cambiar las [[8|zapatas]] y sus [[10|resortes]]; el portazapatas se reutiliza.",
+   "dif": "taller",
+   "cuando": "Revísalo con la correa.",
+   "arrastra": [
+    "Huecos gastados → las [[8|zapatas]] quedan flojas y el clutch vibra."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "8": {
+   "que": "Tres medias lunas pesadas con un forro de fricción por fuera, montadas en el portazapatas.",
+   "sirve": "Con pocas revoluciones los [[10|resortes]] las tienen recogidas y la rueda no se mueve. Al acelerar, la fuerza centrífuga las abre, el forro toca la [[24|campana]] y la moto arranca.",
+   "sintomas": [
+    "La moto se demora en salir y solo sube de vueltas.",
+    "Vibra o tiembla al arrancar.",
+    "Chilla al arrancar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El forro se adelgaza con cada arranque; en Medellín, con trancón y lomas, más rápido."
+    ],
+    [
+     "calor",
+     "Patinar mucho las vidria: brillan, chillan y agarran tarde."
+    ],
+    [
+     "maluso",
+     "Aceite o grasa en el forro: patina y no se recupera."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cambia el juego de tres, con resortes nuevos. Revisa la [[24|campana]]: si tiene escalón, las zapatas nuevas no asientan.",
+   "dif": "taller",
+   "cuando": "Revísalas con la correa (cada 18.000 km). Cámbialas si el forro está delgado, vidriado o disparejo.",
+   "arrastra": [
+    "Zapatas vidriadas → agarran tarde y la moto patina al arrancar.",
+    "Zapatas gastadas → marcan la [[24|campana]]."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "9": {
+   "que": "Tres tacos de caucho que van en los pasadores del portazapatas, dentro del ojo de cada [[8|zapata]].",
+   "sirve": "Amortiguan el golpe de la zapata contra su pasador al agarrar y soltar: el clutch engancha más suave y sin traqueteo.",
+   "sintomas": [
+    "Golpeteo o temblor al arrancar y al soltar el acelerador."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "El caucho se endurece con el calor de la caja y se parte o se aplasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlos nuevos con cada juego de zapatas.",
+   "dif": "taller",
+   "cuando": "Revísalos al cambiar las zapatas.",
+   "arrastra": [
+    "Caucho duro → golpeteo del clutch al arrancar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "10": {
+   "que": "Tres resortes cortos que unen las [[8|zapatas]].",
+   "sirve": "Las mantienen recogidas en ralentí: deciden a cuántas revoluciones engancha el clutch.",
+   "sintomas": [
+    "La moto se arrastra en ralentí.",
+    "El clutch engancha a saltos."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Con los años y el calor se estiran: el clutch engancha antes y la moto quiere andar en ralentí."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Siempre nuevos con zapatas nuevas.",
+   "dif": "taller",
+   "cuando": "Cámbialos con las zapatas.",
+   "arrastra": [
+    "Resortes estirados → las [[8|zapatas]] se abren antes y rozan en ralentí."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "11": {
+   "que": "Tres seguros pequeños en los pasadores del portazapatas.",
+   "sirve": "Impiden que las [[8|zapatas]] se salgan de los pasadores.",
+   "sintomas": [
+    "Una zapata se corre de su sitio."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se deforman al sacarlos y quedan flojos."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlos nuevos si están abiertos o torcidos.",
+   "dif": "taller",
+   "cuando": "Revísalos al cambiar zapatas.",
+   "arrastra": [
+    "Seguro flojo → la [[8|zapata]] se sale del pasador."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "12": {
+   "que": "La mitad de adentro de la polea trasera, con un eje hueco largo que va al eje de la transmisión.",
+   "sirve": "Es la pared fija de la polea trasera. Por su eje pasan el [[18|resorte]], el [[7|portazapatas]] y la campana. En ese eje van fijos los tres [[16|pasadores guía]] con sus bujes: son la mitad fija de la leva de torque.",
+   "sintomas": [
+    "Zumbido atrás que cambia con la velocidad.",
+    "Ves surcos en el cono."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La correa le marca surcos en el cono."
+    ],
+    [
+     "desgaste",
+     "El [[23|rodamiento de agujas]] se seca y hace ruido."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si el cono tiene escalón, cámbiala (a veces viene en conjunto con la móvil).",
+   "dif": "taller",
+   "cuando": "Revísala con la correa.",
+   "arrastra": [
+    "Cono con surcos → la [[25|correa]] se desgasta más rápido.",
+    "Rodamiento seco → zumbido atrás."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "13": {
+   "que": "La mitad de afuera de la polea trasera. Su cuello (el tubo del centro) tiene tres ranuras inclinadas; por ellas asoman los [[16|pasadores guía]], fijos en el eje de la [[12|polea fija]].",
+   "sirve": "El [[18|resorte]] la empuja contra la fija y aprieta la correa. Cuando adelante la correa sube, aquí baja y abre esta polea. Si haces fuerza (subida, acelerón), sus ranuras se deslizan sobre los pasadores y la cierran más: la moto «baja un cambio» sola.",
+   "sintomas": [
+    "Pierde fuerza en las lomas.",
+    "Ves grasa en la correa o en la caja.",
+    "El cambio se siente trabado."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan las ranuras del cuello y los bujes de los pasadores: el cambio hacia abajo se traba."
+    ],
+    [
+     "edad",
+     "Los sellos se resecan: sale la grasa y llega a la correa."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Cambia los [[14|sellos]], los pasadores guía y sus bujes; la polea solo si el cono tiene escalón.",
+   "dif": "taller",
+   "cuando": "Revísala con la correa: límpiala, engrásala por dentro y cambia los sellos.",
+   "arrastra": [
+    "Sellos secos → la grasa llega a la [[25|correa]] y patina.",
+    "Ranuras gastadas → el cambio hacia abajo se traba."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "14": {
+   "que": "Dos sellos de caucho en el centro de la polea móvil trasera.",
+   "sirve": "Junto con el [[15|segundo par]], guardan la grasa adentro y la mantienen lejos de la correa.",
+   "sintomas": [
+    "Ves grasa en la cara de la polea o en la correa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se resecan con el calor y la edad, y la grasa sale."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlos nuevos siempre al armar.",
+   "dif": "taller",
+   "cuando": "Cámbialos cada vez que desarmes la polea trasera.",
+   "arrastra": [
+    "Sello seco → la grasa unta la [[25|correa]]."
+   ],
+   "nombre": "Sellos de la polea móvil trasera (primer par)",
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "15": {
+   "que": "Dos sellos de caucho de otra medida, también en el cuello de la polea móvil trasera.",
+   "sirve": "Junto con el [[14|primer par]], guardan la grasa de la leva de torque lejos de la correa.",
+   "sintomas": [
+    "Ves grasa por fuera de la polea o en la correa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se resecan con el calor y la edad, y la grasa sale."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlos nuevos siempre al armar, junto con el primer par.",
+   "dif": "taller",
+   "cuando": "Cámbialos cada vez que desarmes la polea trasera.",
+   "arrastra": [
+    "Sello seco → la grasa unta la [[25|correa]]."
+   ],
+   "nombre": "Sellos de la polea móvil trasera (segundo par)",
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "16": {
+   "que": "Tres pasadores cortos fijos en el eje de la [[12|polea fija trasera]], cada uno con su [[17|buje]]. Asoman por las ranuras inclinadas del cuello de la [[13|polea móvil]].",
+   "sirve": "Son la parte fija de la leva de torque: con fuerza en la rueda, las ranuras de la polea móvil se deslizan sobre ellos y la polea se cierra.",
+   "sintomas": [
+    "Pierde fuerza en subidas."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan contra las ranuras de la polea móvil."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlos nuevos si tienen planos.",
+   "dif": "taller",
+   "cuando": "Revísalos al desarmar la polea trasera.",
+   "arrastra": [
+    "Pasadores planos → la [[13|polea móvil]] no cierra bien y pierdes fuerza en subida."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "17": {
+   "que": "Tres bujes cortos que van sobre los [[16|pasadores guía]], en el eje de la polea fija.",
+   "sirve": "Son lo que de verdad toca la ranura de la polea móvil: dejan que se deslice suave sobre el pasador.",
+   "sintomas": [
+    "El cambio se traba.",
+    "Ruido atrás."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan o se parten."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cámbialos con los pasadores.",
+   "dif": "taller",
+   "cuando": "Revísalos al desarmar la polea trasera.",
+   "arrastra": [
+    "Bujes gastados → la [[13|polea móvil]] se traba."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "18": {
+   "que": "Un resorte grueso entre la polea móvil trasera y el portazapatas.",
+   "sirve": "Empuja la [[13|polea móvil trasera]] para que la correa quede apretada. Decide qué tanta fuerza hace falta para que la correa suba adelante (y cuándo la moto «baja el cambio» sola).",
+   "sintomas": [
+    "Se siente floja al arrancar y en las lomas; la velocidad final casi no cambia."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y los años se acorta y pierde fuerza."
+    ],
+    [
+     "maluso",
+     "Ponerle uno más duro sin cambiar rodillos deja la moto sin velocidad final."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Pon el original. Si lo cambias por uno más duro, hay que ajustar los [[2|rodillos]].",
+   "dif": "taller",
+   "cuando": "Revisa su largo con la correa; cámbialo si está más corto que uno nuevo.",
+   "arrastra": [
+    "Resorte vencido → la correa no aprieta bien y pierdes fuerza.",
+    "Resorte distinto → hay que ajustar los [[2|rodillos]]."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "19": {
+   "que": "Una arandela de copa donde se apoya el [[18|resorte]].",
+   "sirve": "Reparte la fuerza del resorte y evita que gire contra el portazapatas.",
+   "sintomas": [
+    "Ruido atrás al soltar el acelerador."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca donde roza el resorte."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está muy marcado, nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo al desarmar la polea trasera.",
+   "arrastra": [
+    "Asiento marcado → ruido atrás al soltar el acelerador."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "20": {
+   "que": "Una tuerca grande que cierra el [[7|portazapatas]] sobre el eje de la polea fija.",
+   "sirve": "Sujeta el portazapatas y mantiene comprimido el [[18|resorte]] de torque.",
+   "sintomas": [
+    "Golpeteo atrás.",
+    "El clutch tiene juego."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Soltarla sin compresor deja salir el resorte de golpe; apretarla sin la llave especial daña la tuerca o el portazapatas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Al armar, va con el apriete del manual de servicio (torque): no la aprietes a ojo. Si está golpeada, nueva.",
+   "dif": "taller",
+   "cuando": "Se suelta al desarmar el clutch o la polea trasera.",
+   "arrastra": [
+    "Tuerca floja → el clutch queda con juego y golpetea."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "21": {
+   "que": "Un rodamiento de bolas en la punta del eje de la [[12|polea fija trasera]].",
+   "sirve": "Junto con el [[23|rodamiento de agujas]], deja que la polea trasera gire sobre el eje de la transmisión.",
+   "sintomas": [
+    "Zumbido atrás que cambia con la velocidad."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca o le entra polvo de correa y empieza a sonar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cámbialo si suena, raspa o tiene juego.",
+   "dif": "taller",
+   "cuando": "Gíralo con la mano cada vez que desarmes la polea trasera.",
+   "arrastra": [
+    "Rodamiento seco → zumbido atrás."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "22": {
+   "que": "Un anillo abierto de acero junto al [[21|rodamiento]].",
+   "sirve": "Mantiene el rodamiento en su sitio dentro del eje de la polea fija.",
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Pierde tensión si se saca y se vuelve a poner."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlo nuevo al armar.",
+   "dif": "taller",
+   "cuando": "Solo se saca si cambias el rodamiento.",
+   "arrastra": [
+    "Anillo flojo → el [[21|rodamiento]] se sale de su sitio."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "23": {
+   "que": "El otro rodamiento del eje de la polea fija trasera; por la forma del plano es de agujas.",
+   "sirve": "Deja que la polea gire respecto al eje cuando el clutch está suelto.",
+   "sintomas": [
+    "Zumbido atrás que cambia con la velocidad."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca de grasa y se pica."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cámbialo si está picado.",
+   "dif": "taller",
+   "cuando": "Revísalo y engrásalo con la correa.",
+   "arrastra": [
+    "Rodamiento picado → zumbido atrás."
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "24": {
+   "que": "Un tambor de acero que tapa el clutch. Está unido al eje que va a la rueda trasera.",
+   "sirve": "Es lo que agarran las [[8|zapatas]]. Cuando se abren y la tocan, la campana gira y con ella la rueda.",
+   "sintomas": [
+    "Vibra al arrancar.",
+    "Ves la superficie de adentro rayada o con escalón.",
+    "Tiene color azulado por calor."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las zapatas le dejan un escalón por dentro."
+    ],
+    [
+     "calor",
+     "Patinar mucho la recalienta: queda azulada y vibra al arrancar."
+    ],
+    [
+     "golpe",
+     "Una caída la puede ovalar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si tiene escalón u ovalamiento, cámbiala; si está bien, lijala suave para que asienten las zapatas nuevas.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar zapatas (con la correa).",
+   "arrastra": [
+    "Campana con escalón → las [[8|zapatas]] nuevas no asientan."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "25": {
+   "que": "Una correa de caucho con fibras por dentro y dientes por debajo. Corre entre el variador (adelante) y la polea trasera.",
+   "sirve": "Lleva la fuerza del motor a la rueda. Como trabaja en conos, sube y baja en cada polea: eso es lo que cambia la relación sin cambios.",
+   "sintomas": [
+    "Patina: sube de vueltas y no avanza.",
+    "Pierde velocidad final.",
+    "Ves grietas entre los dientes.",
+    "Chilla o golpetea en la CVT."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se angosta con el roce de las poleas: baja más en el variador y la moto pierde velocidad final."
+    ],
+    [
+     "calor",
+     "Se cristaliza y se agrieta por dentro con trancón, lomas y el filtro de la caja tapado."
+    ],
+    [
+     "edad",
+     "El caucho se reseca aunque la moto ande poco."
+    ],
+    [
+     "maluso",
+     "Grasa en las poleas o agua a presión: patina."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Pon una original o de la misma medida. Al cambiarla, revisa [[2|rodillos]], [[4|deslizadores]], [[8|zapatas]] y [[24|campana]], y reinicia el aviso de correa del tablero.",
+   "dif": "taller",
+   "cuando": "Cámbiala cada <b>18.000 km</b> (cuando parpadea el aviso de correa del tablero). Si la moto anda mucho en loma y trancón, mírala antes. El filtro de la caja se revisa cada 6.000 km.",
+   "arrastra": [
+    "Correa patinando → recalienta la [[1|polea móvil]] y vidria las [[8|zapatas]]."
+   ],
+   "nombre": "Correa de transmisión",
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "26": {
+   "que": "Una arandela plana contra el motor, detrás de la [[3|rampa]].",
+   "sirve": "Separa el variador del rodamiento del cigüeñal.",
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca poco."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Reutilízala si está plana.",
+   "dif": "taller",
+   "cuando": "Revísala al desarmar el variador.",
+   "arrastra": [
+    "Arandela torcida → la rampa no asienta plana."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "27": {
+   "que": "Una arandela bajo la [[28|tuerca del variador]].",
+   "sirve": "Reparte la presión de la tuerca sobre la polea de aletas.",
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se deforma si se aprieta de más."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponla nueva si está torcida.",
+   "dif": "taller",
+   "cuando": "Revísala al desarmar.",
+   "arrastra": [
+    "Arandela torcida → la tuerca no aprieta parejo."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "28": {
+   "que": "La tuerca que cierra todo el variador en la punta del cigüeñal.",
+   "sirve": "Sujeta la [[6|polea de aletas]] y aprieta el variador.",
+   "sintomas": [
+    "Ruido o golpe en la tapa al acelerar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si la aprietas sin sujetar la polea, o sin torque, se daña la rosca del cigüeñal."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Apriétala con torquímetro (valor del manual de servicio).",
+   "dif": "taller",
+   "cuando": "Se suelta cada vez que cambias la correa.",
+   "arrastra": [
+    "Tuerca floja → golpe en la tapa al acelerar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "29": {
+   "que": "La tuerca que sujeta la [[24|campana]] al eje.",
+   "sirve": "Mantiene la campana en su sitio.",
+   "sintomas": [
+    "Golpeteo atrás."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se daña la rosca si la aprietas sin sujetar la campana."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Apriétala con el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Se suelta al revisar el clutch.",
+   "arrastra": [
+    "Tuerca floja → golpeteo atrás."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "30": {
+   "que": "Un rodamiento en la tapa de la CVT, frente al eje trasero.",
+   "sirve": "Sostiene la punta del eje para que no flecte.",
+   "sintomas": [
+    "Zumbido o chillido en la tapa."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se seca y suena, sobre todo si entra agua a la caja."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlo nuevo si suena o tiene juego.",
+   "dif": "taller",
+   "cuando": "Revísalo al quitar la tapa.",
+   "arrastra": [
+    "Rodamiento seco → zumbido en la tapa."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "31": {
+   "que": "Un buje corto en el [[30|rodamiento de la tapa]].",
+   "sirve": "Centra la punta del eje dentro del rodamiento.",
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca con el uso."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Reutilízalo si está liso.",
+   "dif": "taller",
+   "cuando": "Revísalo con la tapa.",
+   "arrastra": [
+    "Buje marcado → el eje baila en el rodamiento."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "32": {
+   "que": "Un anillo abierto que fija el [[30|rodamiento]] en la tapa.",
+   "sirve": "Evita que el rodamiento se salga.",
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Pierde tensión al sacarlo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Ponlo nuevo al armar.",
+   "dif": "taller",
+   "cuando": "Solo se saca si cambias el rodamiento.",
+   "arrastra": [
+    "Anillo flojo → el rodamiento se sale de la tapa."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "33": {
+   "que": "Una arandela entre la [[6|polea de aletas]] y el buje.",
+   "sirve": "Marca la separación entre las dos mitades del variador.",
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta poco."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Reutilízala si está plana.",
+   "dif": "taller",
+   "cuando": "Revísala al desarmar.",
+   "arrastra": [
+    "Arandela gastada → cambia la separación de las poleas."
+   ],
+   "nombre": "Arandela del buje",
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "tapa": {
+   "que": "La tapa de aluminio que cierra la transmisión por el lado izquierdo. Tiene el filtro de aire de la caja.",
+   "sirve": "Protege la [[25|correa]] del agua y el polvo y sostiene la punta del eje trasero.",
+   "sintomas": [
+    "Chilla la correa después de lluvia.",
+    "Sale polvo negro por las juntas."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Si su empaque falla o pasas un charco hondo, entra agua y la correa patina."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Pon empaque nuevo si se ve reseco y deja limpio el filtro de la caja.",
+   "dif": "taller",
+   "cuando": "Revisa el filtro de la caja cada 6.000 km.",
+   "arrastra": [
+    "Filtro tapado → la caja se calienta y la [[25|correa]] se agrieta antes de tiempo."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  }
+ },
+ "pasos": {
+  "0": "<b>Tapa de la CVT.</b> Con la moto en el gato central y el motor frío, suelta los tornillos de la tapa del lado izquierdo y retírala (es la línea punteada). En la tapa quedan el rodamiento, su buje y el anillo de seguro, que sostienen la punta del eje trasero.",
+  "1": "<b>Tuerca y arandela del variador.</b> Sujeta la polea de aletas con su llave especial (o usa una pistola de impacto) y suelta la tuerca. Sin sujetarla, el cigüeñal gira y la tuerca no afloja.",
+  "2": "<b>Polea de aletas.</b> Sale la mitad de afuera del variador, la de las aletas que ventilan la caja. Detrás queda una arandela. La correa queda floja adelante.",
+  "3": "<b>Tuerca y campana del clutch.</b> Sujeta la campana con su llave de correa o de pines, suelta la tuerca y la campana sale. Aparecen las tres zapatas.",
+  "4": "<b>Conjunto de la polea trasera.</b> La polea trasera sale entera del eje: polea fija, polea móvil, resorte y portazapatas. La correa viene con ella.",
+  "5": "<b>Correa.</b> Separa con la mano las dos mitades de la polea trasera (ceden contra el resorte) y la correa sale. Mide el ancho y mira si tiene grietas o dientes partidos.",
+  "6": "<b>Polea móvil del variador.</b> Sale del cigüeñal con todo lo de adentro: buje, rodillos y rampa con sus deslizadores. Sostenla cerrada para que los rodillos no se caigan.",
+  "7": "<b>Buje.</b> Sale del centro de la polea móvil. Por él se desliza la polea: mira que no esté rayado ni con escalón.",
+  "8": "<b>Rampa y deslizadores.</b> Sale la placa de rampa, la pared fija de atrás contra la que se apoyan los rodillos. Los deslizadores son guías plásticas que la centran dentro de la polea y se gastan.",
+  "9": "<b>Rodillos.</b> Saca los seis rodillos de sus canales. Si alguno tiene un lado plano o está ovalado, cambia el juego completo. Queda la polea móvil sola.",
+  "10": "<b>Arandela de atrás y deslizadores.</b> Sale la arandela de atrás, la que queda contra el motor. Saca los deslizadores de la rampa para revisarlos.",
+  "11": "<b>Portazapatas.</b> Con el compresor de resorte aprieta el resorte de la polea trasera y, con la llave especial, suelta la tuerca grande del portazapatas. Sale el portazapatas con las zapatas puestas.",
+  "12": "<b>Zapatas.</b> Suelta los seguros y los resortes, y las zapatas salen de los pasadores del portazapatas con sus amortiguadores de caucho. Mide el forro: si está delgado, vidriado o disparejo, cambia el juego.",
+  "13": "<b>Resorte y asiento.</b> Suelta el compresor poco a poco y sale el resorte de torque con su asiento. Compara su largo con el de uno nuevo.",
+  "14": "<b>Las dos mitades de la polea trasera.</b> Saca los bujes de los pasadores guía (quedan fijos en el eje de la polea fija) y la polea móvil sale del eje con sus sellos. En el eje de la fija quedan dos rodamientos, el de afuera con su anillo de seguro: gíralos con la mano y sácalos solo si suenan. <b>Al armar:</b> las caras de las poleas, limpias y sin grasa; la grasa va solo por dentro de la polea trasera; sellos nuevos; tuercas con el torque del manual de servicio, y reinicia el aviso de correa del tablero."
+ },
+ "textoArmado": "<b>Armado, sin la tapa.</b> Adelante, la polea de aletas del variador; atrás, la campana del clutch; entre las dos, la correa. Lo de adentro (rodillos, rampa, zapatas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista.",
+ "cadenas": [
+  {
+   "t": "Correa vieja que patina",
+   "p": [
+    [
+     "25",
+     "La correa pasa de los 18.000 km, se angosta y se cristaliza."
+    ],
+    [
+     "1",
+     "Patina contra las poleas y las recalienta: las caras quedan brillantes."
+    ],
+    [
+     "8",
+     "La moto no responde, aceleras más y el clutch patina y se vidria."
+    ],
+    [
+     "24",
+     "La campana se recalienta y queda azulada; al final vibra al arrancar."
+    ]
+   ]
+  },
+  {
+   "t": "Rodillos planos",
+   "p": [
+    [
+     "2",
+     "Los rodillos se aplanan y dejan de rodar."
+    ],
+    [
+     "1",
+     "Se arrastran y marcan los canales de la polea móvil."
+    ],
+    [
+     "3",
+     "La rampa de atrás también se marca."
+    ],
+    [
+     "25",
+     "El cambio va a saltos y la correa patina en el camino."
+    ]
+   ]
+  },
+  {
+   "t": "Grasa que se escapa atrás",
+   "p": [
+    [
+     "14",
+     "Los sellos de la polea trasera se resecan."
+    ],
+    [
+     "13",
+     "La grasa de adentro sale por el centro de la polea."
+    ],
+    [
+     "25",
+     "La correa se unta y patina, sobre todo en subida."
+    ],
+    [
+     "8",
+     "Si la grasa llega a las zapatas, el clutch patina y hay que cambiarlas."
+    ]
+   ]
+  },
+  {
+   "t": "Resortes del clutch vencidos",
+   "p": [
+    [
+     "10",
+     "Los resortes se estiran con el calor de años."
+    ],
+    [
+     "8",
+     "Las zapatas se abren antes de tiempo y rozan en ralentí."
+    ],
+    [
+     "24",
+     "La campana se marca y la moto quiere avanzar en los semáforos."
+    ]
+   ]
+  },
+  {
+   "t": "Caja tapada en Medellín",
+   "p": [
+    [
+     "tapa",
+     "El filtro de la caja se tapa con polvo y nadie lo revisa a los 6.000 km."
+    ],
+    [
+     "25",
+     "La caja se calienta; la correa se agrieta antes de tiempo."
+    ],
+    [
+     "2",
+     "La funda de los rodillos se ablanda con el calor y se deforma."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "i": 0,
+   "que": "Cambiar la correa",
+   "cuando": "Cada <b>18.000 km</b>, cuando parpadea el indicador V-BELT del tablero."
+  },
+  {
+   "i": 1,
+   "que": "Revisar el filtro de la caja de la correa",
+   "cuando": "Cada <b>6.000 km</b>; cámbialo si hace falta."
+  },
+  {
+   "i": 2,
+   "que": "Revisar rodillos, deslizadores y rampa",
+   "cuando": "Con cada cambio de correa. Cámbialos si hay rodillos planos u ovalados."
+  },
+  {
+   "i": 3,
+   "que": "Revisar zapatas, resortes y campana",
+   "cuando": "Con cada cambio de correa, o antes si vibra o patina al arrancar."
+  },
+  {
+   "i": 4,
+   "que": "Limpiar y engrasar la polea trasera; sellos nuevos",
+   "cuando": "Cada vez que desarmes la polea trasera."
+  }
+ ],
+ "funciona": {
+  "3": "<b>4 · Más vueltas: los rodillos salen.</b> Con más rpm los rodillos se van hacia afuera por su peso y suben por los canales inclinados de la polea móvil. Como la rampa de atrás no se mueve, la polea móvil se corre hacia la fija. La correa se ve obligada a subir adelante y a bajar atrás, contra el resorte de torque.",
+  "5": "<b>6 · Subida o acelerón: baja el cambio solo.</b> Cuando la rueda pide fuerza, las ranuras inclinadas del cuello de la polea móvil trasera se deslizan sobre los pasadores guía, fijos en el eje de la polea fija, y con ayuda del resorte de torque cierran la polea trasera: la correa sube atrás y baja adelante. La moto gana fuerza y sube de vueltas."
+ }
+}

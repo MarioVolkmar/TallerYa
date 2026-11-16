@@ -1,0 +1,4 @@
+# uso: chequeo.sh claves...  → flotantes, llantas (sin y con accesorios), luces tapadas y anclas de lentes
+S="/c/Users/volkm/AppData/Local/Temp/claude/7ac1c0565177d901/875f8961-3274-4cc7-bda0-1ec938816206/scratchpad"
+L=$(printf '"%s",' "$@")
+node "$S/cdp.mjs" - "(async()=>{ for (const f of ['_flot3d','_llantas3d','_ocl3d']) eval(await (await fetch('/media/'+f+'.js',{cache:'no-store'})).text()); window.__fv=Math.random(); const o=[]; for (const n of [${L%,}]) { const k=Object.keys(__L).find(x=>x.toLowerCase().includes(n)); let r=n+' | flot: '+(await __flot(k)); r+=' | llantas: '+(await __llantas(k,[],false))+' / acc: '+(await __llantas(k,'todos',false)); await __probar(k); for (const f of ['_ocl3d']) eval(await (await fetch('/media/'+f+'.js',{cache:'no-store'})).text()); r+=' | luces: '+(await __ocl())+' | anclas: '+(await __anclasLente()); o.push(r); } return o.join('\n')})()"

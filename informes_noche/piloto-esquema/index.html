@@ -212,7 +212,8 @@ footer{color:var(--crema-2);font-size:.85rem;padding:20px 0 40px}
 .hoja .t{flex:1;min-width:0;font-weight:600;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(min-width:960px){.hoja{display:none!important}}
 @media(max-width:440px){.pestanas{width:100%}.pestanas button{flex:1 0 auto;padding:0 .45rem;font-size:.7rem;letter-spacing:.04em}}
-/* v6: selector de versión del dibujo (Normal | Transparente) sobre el lienzo, y «Números» como interruptor aparte */.vista-fila{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:10px}.vista-et{font:600 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--crema-2)}.vista-sel button{min-height:44px;padding:0 .9rem}@media(max-width:440px){.herr{gap:4px}.herr .btn{padding:0 .7rem;letter-spacing:.06em}.herr .interruptor{padding:0 .55rem;letter-spacing:.02em}.herr .interruptor::before{margin-right:6px}.vista-sel button{padding:0 .7rem;font-size:.72rem}}.vista-sel button:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}#lamina .pz .arte{transition:opacity .5s ease,filter .5s ease}.herr .interruptor{margin-left:auto;font:500 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;min-height:44px;padding:0 1rem;border-radius:999px;background:rgba(17,21,23,.8);border:1px solid var(--borde);color:var(--crema-2)}.herr .interruptor[aria-pressed="true"]{color:var(--crema);border-color:var(--lava);background:#2a1a12}
+/* v6: selector de versión del dibujo (Normal | Transparente) sobre el lienzo, y «Números» como interruptor aparte */.vista-fila{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:10px}.vista-et{font:600 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--crema-2)}.vista-sel button{min-height:44px;padding:0 .9rem}@media(max-width:440px){.herr{gap:4px}.herr .btn{padding:0 .7rem;letter-spacing:.06em}.herr .interruptor{padding:0 .55rem;letter-spacing:.02em}.herr .interruptor::before{margin-right:6px}.vista-sel button{padding:0 .7rem;font-size:.72rem}}.vista-sel button:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}#lamina .pz .arte{transition:opacity .5s ease,filter .5s ease}.herr .interruptor{margin-left:auto;font:500 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;min-height:44px;padding:0 1rem;border-radius:999px;background:rgba(17,21,23,.8);border:1px solid var(--borde);color:var(--crema-2)}.esq-zoom{display:none;gap:6px;margin-left:auto}.esq-zoom-b{width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--borde);background:rgba(17,21,23,.8);color:var(--crema);font:600 1.25rem/1 "Oswald",sans-serif;display:grid;place-items:center;cursor:pointer}.esq-zoom-b:disabled{opacity:.35;cursor:default}.esq-zoom-b:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}@media(max-width:700px){.esq-zoom{display:flex}.lienzo #lamina{touch-action:pan-x pan-y}.lienzo #lamina.esq-ampliado{touch-action:none}}@media(max-width:440px){.vista-fila .pista{margin-left:0;letter-spacing:.04em;padding:.35rem .6rem}.esq-zoom{gap:4px}}
+.herr .interruptor[aria-pressed="true"]{color:var(--crema);border-color:var(--lava);background:#2a1a12}
 </style>
 </head>
 <body>
@@ -254,6 +255,11 @@ footer{color:var(--crema-2);font-size:.85rem;padding:20px 0 40px}
             <button type="button" id="vTrans" aria-pressed="false">Transparente</button>
           </div>
           <p class="pista" id="pista" aria-hidden="true">👆 Toca una pieza</p>
+          <div class="esq-zoom" role="group" aria-label="Zoom del dibujo">
+            <button type="button" class="esq-zoom-b" id="zMas" aria-label="Acercar el dibujo">+</button>
+            <button type="button" class="esq-zoom-b" id="zMenos" aria-label="Alejar el dibujo" disabled>−</button>
+            <button type="button" class="esq-zoom-b" id="zVer" aria-label="Ver el dibujo completo" disabled>⤢</button>
+          </div>
         </div>
         <div class="herr">
           <button type="button" class="btn btn-lava" id="bTodo">Desarmar</button>
@@ -454,7 +460,7 @@ footer{color:var(--crema-2);font-size:.85rem;padding:20px 0 40px}
       </ul>
     </div>
   </details>
-  <footer>TallerYa · piloto de esquema v7 · 15-nov-2026 · solo local</footer>
+  <footer>TallerYa · piloto de esquema v8 · 15-nov-2026 · solo local</footer>
 <div class="hoja" id="hoja" hidden>
   <span class="n" id="hojaN"></span><span class="t" id="hojaT"></span>
   <button type="button" class="btn btn-lava" id="hojaVer">Ver ficha</button>
@@ -724,12 +730,12 @@ const PIEZAS=[
   {id:"1",  n:"1",  arte:arteDisco,               anc:PD(-100,175), et:[-80,8], vis:"arm"},
   {id:"2",  n:"2",  arte:arteTornillosDisco,      anc:PD(0,115),    et:[34,52],  vis:"arm"},
   {id:"9a", n:"9",  arte:()=>artePastilla(-8,0,0),anc:R(-8,30),     et:[-52,34], vis:"exp"},
-  {id:"9b", n:"9",  arte:()=>artePastilla(-1,3,0),anc:R(-1,30),     et:[46,34],  vis:"exp"},
-  {id:"14", n:"14", arte:arteLamina,              anc:R(8,30),      et:[40,30],  vis:"exp"},
+  {id:"9b", n:"9",  arte:()=>artePastilla(-1,3,0),anc:R(-1,30),     et:[36,50],  vis:"exp"},
+  {id:"14", n:"14", arte:arteLamina,              anc:R(8,30),      et:[54,34],  vis:"exp"},
   {id:"11", n:"11", arte:arteResorte,             anc:R(-20,-86),   et:[-40,-20],vis:"exp"},
-  {id:"4",  n:"4",  arte:artePiston,              anc:R(4,-20),     et:[-6,76],vis:"exp"},
-  {id:"5a", n:"5",  arte:()=>arteSello(4,26,6,false),anc:R(4,-26),  et:[30,82], vis:"exp", chica:1},
-  {id:"5b", n:"5",  arte:()=>arteSello(4,25,4,true), anc:R(4,-25),  et:[44,10], vis:"exp", chica:1},
+  {id:"4",  n:"4",  arte:artePiston,              anc:R(4,-20),     et:[-22,76],vis:"exp"},
+  {id:"5a", n:"5",  arte:()=>arteSello(4,26,6,false),anc:R(4,-26),  et:[36,86], vis:"exp", chica:1},
+  {id:"5b", n:"5",  arte:()=>arteSello(4,25,4,true), anc:R(4,-25),  et:[29,-20], vis:"exp", chica:1},
   {id:"13", n:"13", arte:arteSoporte,             anc:R(100,0),     et:[44,10],  vis:"arm"},
   {id:"6",  n:"6",  arte:arteBota6,               anc:R(16,86),     et:[20,34], chica:1,  vis:"exp"},
   {id:"7",  n:"7",  arte:arteBota7,               anc:R(16,-84),    et:[44,12], chica:1, vis:"exp"},
@@ -1094,7 +1100,7 @@ document.addEventListener("keydown",e=>{
 });
 
 /* ---------- encuadre: armado se ve de cerca, despiece completo ---------- */
-const VB_ARM=[230,140,600,467];
+const VB_ARM=[223,140,613,477]; // v8: 10 unidades más abajo para el número 1, misma proporción
 let VB_EXP=[0,0,900,700];
 // El encuadre del despiece se calcula con las posiciones finales de las piezas y sus números
 function calcularVBExp(){
@@ -1117,10 +1123,21 @@ function escalarEtiquetas(){
   const s=Math.max(.8,(vbActual[2]/px)*9/10);                 // número de ~18 px en pantalla; su área de toque (círculo invisible) mide ~45 px
   document.querySelectorAll(".bola").forEach(b=>{const x=+b.dataset.x,y=+b.dataset.y;
     b.setAttribute("transform",s===1?"":`translate(${x} ${y}) scale(${f(s)}) translate(${-x} ${-y})`)});
+  radiosToque(s);
 }
-function encuadrar(destino){
+// v8: el área de toque de cada número (círculo invisible) no pasa de la mitad de la distancia a su vecino tocable más cercano
+function radiosToque(s){
+  const abiertos=svg.classList.contains("explotado")||svg.classList.contains("transparente"), pts=[];
+  document.querySelectorAll(".pz").forEach(g=>{const e=g.querySelector(".et");
+    if(!abiertos&&e.classList.contains("et-exp"))return;
+    const m=/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(g.style.transform||""), b=e.querySelector(".bola");
+    pts.push({c:b.querySelector(".toque"),x:+b.dataset.x+(m?+m[1]:0),y:+b.dataset.y+(m?+m[2]:0)})});
+  pts.forEach(p=>{let d=1e9;pts.forEach(q=>{if(q!==p)d=Math.min(d,Math.hypot(p.x-q.x,p.y-q.y))});
+    p.c.setAttribute("r",f(Math.min(25,d/2/s)))});
+}
+function encuadrar(destino,ms=650){
   cancelAnimationFrame(vbAnim);
-  const ini=vbActual.slice(), t0=performance.now(), dur=matchMedia("(prefers-reduced-motion:reduce)").matches?0:650;
+  const ini=vbActual.slice(), t0=performance.now(), dur=matchMedia("(prefers-reduced-motion:reduce)").matches?0:ms;
   const paso_=t=>{const p=dur?Math.min(1,(t-t0)/dur):1, e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
     vbActual=ini.map((v,i)=>v+(destino[i]-v)*e);svg.setAttribute("viewBox",vbActual.map(f).join(" "));escalarEtiquetas();
     if(p<1)vbAnim=requestAnimationFrame(paso_)};
@@ -1128,14 +1145,59 @@ function encuadrar(destino){
 }
 svg.setAttribute("viewBox",VB_ARM.join(" "));
 calcularVBExp();
-addEventListener("resize",escalarEtiquetas);
+addEventListener("resize",()=>{if(zoom>1&&innerWidth>700)fijarZoom(1,null,null,true);escalarEtiquetas()});
+
+/* ---------- v8: zoom del dibujo en el celular (+ − ⤢ y pellizco; con zoom, un dedo arrastra el dibujo) ---------- */
+let zoom=1;
+const ZMAX=4, zMas=document.getElementById("zMas"), zMenos=document.getElementById("zMenos"), zVer=document.getElementById("zVer");
+function estadoZoom(){zMas.disabled=zoom>=ZMAX-.01;zMenos.disabled=zVer.disabled=zoom<=1.01;svg.classList.toggle("esq-ampliado",zoom>1.01)}
+// z = aumento sobre el encuadre del momento (armado o despiece); (cx,cy) = punto del dibujo que queda al centro
+function fijarZoom(z,cx,cy,animar){
+  const B=paso===0?VB_ARM:VB_EXP;zoom=Math.min(ZMAX,Math.max(1,z));
+  if(cx==null){cx=vbActual[0]+vbActual[2]/2;cy=vbActual[1]+vbActual[3]/2}
+  const w=B[2]/zoom,h=B[3]/zoom;
+  const d=[Math.min(Math.max(cx-w/2,B[0]),B[0]+B[2]-w),Math.min(Math.max(cy-h/2,B[1]),B[1]+B[3]-h),w,h];
+  if(animar)encuadrar(d,260);else{cancelAnimationFrame(vbAnim);vbActual=d;svg.setAttribute("viewBox",d.map(f).join(" "));escalarEtiquetas()}
+  estadoZoom();
+}
+zMas.addEventListener("click",()=>fijarZoom(zoom*1.6,null,null,true));
+zMenos.addEventListener("click",()=>fijarZoom(zoom/1.6,null,null,true));
+zVer.addEventListener("click",()=>fijarZoom(1,null,null,true));
+// Pellizco y arrastre con Pointer Events; un gesto que se movió no cuenta como toque de un número
+const dedos=new Map();let gesto=null, anularClic=false;
+const aDibujo=(x,y)=>{const r=svg.getBoundingClientRect();return[vbActual[0]+(x-r.left)*vbActual[2]/r.width,vbActual[1]+(y-r.top)*vbActual[3]/r.height]};
+function iniciarGesto(){
+  const p=[...dedos.values()];
+  if(p.length>=2){const m=[(p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2];gesto={tipo:2,d0:Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])||1,z0:zoom,ancla:aDibujo(m[0],m[1])}}
+  else if(p.length===1&&zoom>1.01)gesto={tipo:1,ini:p[0],vb0:vbActual.slice()};
+  else gesto=null;
+}
+svg.addEventListener("pointerdown",e=>{if(!dedos.size)anularClic=false;if(e.pointerType==="mouse")return;dedos.set(e.pointerId,[e.clientX,e.clientY]);iniciarGesto()});
+svg.addEventListener("pointermove",e=>{
+  if(!dedos.has(e.pointerId))return;dedos.set(e.pointerId,[e.clientX,e.clientY]);if(!gesto)return;
+  const p=[...dedos.values()], r=svg.getBoundingClientRect(), B=paso===0?VB_ARM:VB_EXP;
+  if(gesto.tipo===2&&p.length>=2){
+    const z=Math.min(ZMAX,Math.max(1,gesto.z0*Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])/gesto.d0)), w=B[2]/z, h=B[3]/z;
+    const m=[(p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2];
+    // el punto del dibujo que estaba bajo los dedos sigue bajo los dedos
+    const x0=gesto.ancla[0]-(m[0]-r.left)*w/r.width, y0=gesto.ancla[1]-(m[1]-r.top)*h/r.height;
+    fijarZoom(z,x0+w/2,y0+h/2,false);anularClic=true;
+  }else if(gesto.tipo===1){
+    const dx=p[0][0]-gesto.ini[0], dy=p[0][1]-gesto.ini[1];
+    if(!anularClic&&Math.hypot(dx,dy)<8)return;
+    anularClic=true;const v=gesto.vb0;fijarZoom(zoom,v[0]+v[2]/2-dx*v[2]/r.width,v[1]+v[3]/2-dy*v[3]/r.height,false);
+  }
+});
+const soltar=e=>{if(dedos.delete(e.pointerId))iniciarGesto()};
+svg.addEventListener("pointerup",soltar);svg.addEventListener("pointercancel",soltar);
+svg.addEventListener("click",e=>{if(anularClic){e.stopPropagation();e.preventDefault();anularClic=false}},true);
 
 /* ---------- despiece paso a paso ---------- */
 let paso=0, temporizador=null;
 function aplicar(k){
   const antes=paso;
   paso=k;
-  if((antes===0)!==(k===0)||k===0)encuadrar(k===0?VB_ARM:VB_EXP);
+  if((antes===0)!==(k===0)||k===0){zoom=1;encuadrar(k===0?VB_ARM:VB_EXP);estadoZoom()}
   const suma={};
   for(let i=0;i<k;i++){for(const [id,[dx,dy]] of Object.entries(PASOS[i].m)){suma[id]=suma[id]||[0,0];suma[id][0]+=dx;suma[id][1]+=dy}}
   PIEZAS.forEach(p=>{const g=document.getElementById("pz-"+p.id);const s=suma[p.id]||[0,0];
@@ -1148,6 +1210,7 @@ function aplicar(k){
   document.getElementById("bAtras").disabled=k===0;
   document.getElementById("bAdel").disabled=k===PASOS.length;
   document.getElementById("bTodo").textContent=k===PASOS.length?"Armar":(temporizador?"Pausa":"Desarmar");
+  escalarEtiquetas();
 }
 // «Desarmar»: 1,3 s por paso para alcanzar a leer cada texto (armar de vuelta va más rápido, 0,5 s).
 // Durante la reproducción #textoPaso deja de anunciarse y al final se anuncia solo el último paso.
@@ -1189,7 +1252,7 @@ interruptor("iNum","numeros");
 const vNormal=document.getElementById("vNormal"), vTrans=document.getElementById("vTrans");
 function ponerVista(trans,guardar){
   vNormal.setAttribute("aria-pressed",!trans);vTrans.setAttribute("aria-pressed",trans);
-  svg.classList.toggle("transparente",trans);if(trans)svg.classList.remove("rayosx");focoNumeros();
+  svg.classList.toggle("transparente",trans);if(trans)svg.classList.remove("rayosx");focoNumeros();escalarEtiquetas();
   if(guardar){try{localStorage.setItem("esqVista",trans?"t":"n")}catch(e){}}
 }
 vNormal.addEventListener("click",()=>ponerVista(false,true));

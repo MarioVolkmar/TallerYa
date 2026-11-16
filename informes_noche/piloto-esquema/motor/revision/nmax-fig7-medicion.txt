@@ -1,0 +1,16 @@
+informes_noche/piloto-esquema/motor/prueba-nmax-fig7.html · 145 s · 6 anchos · modelo v2
+  (modo final: «Cómo funciona» y solape del desarme los revisa chequeo_rapido.py)
+  360×740: dibujo 304×236 completo · apoyo 15 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0 · hoja 12 % (tapa 0 % de la pieza)
+  390×844: dibujo 334×260 completo · apoyo 13 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0 · hoja 10 % (tapa 0 % de la pieza)
+  768×1024: dibujo 708×551 completo · apoyo 9 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0 · hoja 7 % (tapa 0 % de la pieza)
+  1024×768: dibujo 573×381 completo · apoyo 12 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0
+  1280×800: dibujo 681×469 completo · apoyo 11 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0
+  1440×900: dibujo 681×529 completo · apoyo 10 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0
+  Lista: 2 grupos (0 abiertos), 6 piezas; buscador «bomba» → 3
+  Ficha: 10 secciones, 776 px a 1280 / 1246 px a 360; ‹ › funcionan
+  Piezas a 360: 5 de 5 con área tocable ≥ 24 px de diámetro
+  Para criterios a ojo: toques hasta la ficha 3 (adentro 4, desarme ≤ 1.5 s) → subnota del 1: 4 · ficha a 360: «¿Se repara?» a 0.39 pantallas, «Pedir» a 0.81 → subnota del 3: 5
+  3D: abre (Tamiz de aceite, Vista 1 de 4, )
+Notas estimadas (criterios medibles): 6: 5 · 8: 4.7 · 9: 5.0 · 10: 5.0 · 11: 4.8 · 12: 4.8  → promedio 4.88
+Bloqueantes: ninguno · Medible APRUEBA (faltan las notas a ojo 1-5 y 7: --ojo)
+  - aviso, no baja la nota: piezas que no responden en un estado y sí en el otro: DrenajeTapón de drenaje y tamiz:3 (arm), DrenajeTapón de drenaje y tamiz:6 (arm)

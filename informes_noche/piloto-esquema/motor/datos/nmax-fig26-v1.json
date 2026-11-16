@@ -1,0 +1,4643 @@
+{
+ "lamina": "nmax-fig26",
+ "moto": "Yamaha NMAX 155 (BBE4)",
+ "figura": 26,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-fig26",
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 26",
+  "titulo": "Bombas de freno · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios; números de la lámina 26 del catálogo NMAX BBE4."
+ },
+ "visor": {
+  "titulo": "Bombas, mangueras y líquido",
+  "sub": "Lámina 26 · 49 piezas · visto desde el asiento"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de las bombas de freno",
+  "laminaAria": "Dibujo de las dos bombas de freno de la NMAX 155 en el manubrio, con sus mangueras hasta la unidad ABS y los soportes. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Lo que pasa dentro de la bomba cuando aprietas la manigueta, en siete pasos. La bomba aparece cortada por la mitad.",
+  "introCadenas": "En el freno hidráulico una falla lleva a otra. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo que pide el plan de mantenimiento de la NMAX para el líquido y las mangueras."
+ },
+ "pie": "TallerYa · piloto de esquema · 16-nov-2026 · solo local",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49"
+ ],
+ "encuadreArmado": [
+  0,
+  0,
+  1100,
+  855.56
+ ],
+ "radioToqueMin": 9,
+ "piezas": [
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteKit",
+   "args": [
+    1
+   ],
+   "anc": [
+    780,
+    138
+   ],
+   "et": [
+    30,
+    -60
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "arte": "arteKit",
+   "args": [
+    -1
+   ],
+   "anc": [
+    320,
+    138
+   ],
+   "et": [
+    -30,
+    -60
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteBomba",
+   "args": [
+    1
+   ],
+   "anc": [
+    760,
+    137
+   ],
+   "et": [
+    -80,
+    93
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "arte": "arteDiafragma",
+   "args": [
+    1
+   ],
+   "anc": [
+    730,
+    71
+   ],
+   "et": [
+    -70,
+    4
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "artePlaca",
+   "args": [
+    1
+   ],
+   "anc": [
+    774,
+    55
+   ],
+   "et": [
+    -74,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteTapa",
+   "args": [
+    1
+   ],
+   "anc": [
+    744,
+    63
+   ],
+   "et": [
+    16,
+    -41
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "tornillo",
+   "p": {
+    "x": 720,
+    "y": 60,
+    "cabeza": 6,
+    "tipo": "allen",
+    "largo": 14,
+    "d": 5,
+    "copias": [
+     [
+      66,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    720,
+    60
+   ],
+   "et": [
+    -60,
+    -30
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "arte": "arteBomba",
+   "args": [
+    -1
+   ],
+   "anc": [
+    340,
+    137
+   ],
+   "et": [
+    80,
+    93
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "arte": "arteDiafragma",
+   "args": [
+    -1
+   ],
+   "anc": [
+    370,
+    71
+   ],
+   "et": [
+    70,
+    4
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "arte": "artePlaca",
+   "args": [
+    -1
+   ],
+   "anc": [
+    326,
+    55
+   ],
+   "et": [
+    74,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "arte": "arteTapa",
+   "args": [
+    -1
+   ],
+   "anc": [
+    356,
+    63
+   ],
+   "et": [
+    -16,
+    -41
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "comun": "tornillo",
+   "p": {
+    "x": 380,
+    "y": 60,
+    "cabeza": 6,
+    "tipo": "allen",
+    "largo": 14,
+    "d": 5,
+    "copias": [
+     [
+      -66,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    380,
+    60
+   ],
+   "et": [
+    60,
+    -30
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "arte": "arteAbrazadera",
+   "args": [
+    1
+   ],
+   "anc": [
+    770,
+    197
+   ],
+   "et": [
+    0,
+    73
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "tornillo",
+   "p": {
+    "x": 748,
+    "y": 191,
+    "cabeza": 7,
+    "largo": 30,
+    "d": 7,
+    "copias": [
+     [
+      44,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    748,
+    191
+   ],
+   "et": [
+    112,
+    79
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "arteInterruptor",
+   "args": [
+    1
+   ],
+   "anc": [
+    816,
+    172
+   ],
+   "et": [
+    134,
+    18
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "tornillo",
+   "p": {
+    "x": 826,
+    "y": 172,
+    "cabeza": 4,
+    "brida": 5,
+    "largo": 12,
+    "d": 4
+   },
+   "anc": [
+    826,
+    172
+   ],
+   "et": [
+    124,
+    108
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "tuerca",
+   "p": {
+    "x": 830,
+    "y": 129,
+    "r": 7,
+    "alto": 6
+   },
+   "anc": [
+    830,
+    129
+   ],
+   "et": [
+    30,
+    40
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteManigueta",
+   "args": [
+    1
+   ],
+   "anc": [
+    920,
+    125
+   ],
+   "et": [
+    40,
+    -80
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "comun": "tornillo",
+   "p": {
+    "x": 830,
+    "y": 129,
+    "cabeza": 7,
+    "largo": 30,
+    "d": 6
+   },
+   "anc": [
+    830,
+    129
+   ],
+   "et": [
+    30,
+    -99
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "30",
+   "n": "30",
+   "arte": "arteAbrazadera",
+   "args": [
+    -1
+   ],
+   "anc": [
+    330,
+    197
+   ],
+   "et": [
+    0,
+    73
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "31",
+   "n": "31",
+   "comun": "tornillo",
+   "p": {
+    "x": 352,
+    "y": 191,
+    "cabeza": 7,
+    "largo": 30,
+    "d": 7,
+    "copias": [
+     [
+      -44,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    352,
+    191
+   ],
+   "et": [
+    -112,
+    79
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "32",
+   "n": "32",
+   "arte": "arteInterruptor",
+   "args": [
+    -1
+   ],
+   "anc": [
+    284,
+    172
+   ],
+   "et": [
+    -134,
+    18
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "33",
+   "n": "33",
+   "comun": "tornillo",
+   "p": {
+    "x": 274,
+    "y": 172,
+    "cabeza": 4,
+    "brida": 5,
+    "largo": 12,
+    "d": 4
+   },
+   "anc": [
+    274,
+    172
+   ],
+   "et": [
+    -124,
+    108
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "29",
+   "n": "29",
+   "comun": "tuerca",
+   "p": {
+    "x": 270,
+    "y": 129,
+    "r": 7,
+    "alto": 6
+   },
+   "anc": [
+    270,
+    129
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "27",
+   "n": "27",
+   "arte": "arteManigueta",
+   "args": [
+    -1
+   ],
+   "anc": [
+    180,
+    125
+   ],
+   "et": [
+    -40,
+    -80
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "28",
+   "n": "28",
+   "comun": "tornillo",
+   "p": {
+    "x": 270,
+    "y": 129,
+    "cabeza": 7,
+    "largo": 30,
+    "d": 6
+   },
+   "anc": [
+    270,
+    129
+   ],
+   "et": [
+    -30,
+    -99
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "arte": "arteManguera1",
+   "anc": [
+    602,
+    285
+   ],
+   "et": [
+    88,
+    40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "34",
+   "n": "34",
+   "arte": "arteManguera3",
+   "anc": [
+    498,
+    285
+   ],
+   "et": [
+    -88,
+    40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "arte": "arteManguera2",
+   "anc": [
+    760,
+    680
+   ],
+   "et": [
+    20,
+    -75
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "38",
+   "n": "38",
+   "arte": "arteManguera4",
+   "anc": [
+    295,
+    701
+   ],
+   "et": [
+    -5,
+    104
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "arte": "arteTope",
+   "anc": [
+    550,
+    347
+   ],
+   "et": [
+    0,
+    -42
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "37",
+   "n": "37",
+   "arte": "arteGrapa37",
+   "anc": [
+    482,
+    205
+   ],
+   "et": [
+    58,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "41",
+   "n": "41",
+   "arte": "arteGrapa41",
+   "anc": [
+    455,
+    615
+   ],
+   "et": [
+    85,
+    5
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "42",
+   "n": "42",
+   "arte": "arteSoporte42",
+   "anc": [
+    397,
+    662
+   ],
+   "et": [
+    43,
+    108
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "43",
+   "n": "43",
+   "comun": "tornillo",
+   "p": {
+    "x": 403,
+    "y": 682,
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 20,
+    "d": 6
+   },
+   "anc": [
+    403,
+    682
+   ],
+   "et": [
+    77,
+    18
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "44",
+   "n": "44",
+   "arte": "arteSoporte44",
+   "anc": [
+    326,
+    700
+   ],
+   "et": [
+    4,
+    -95
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "45",
+   "n": "45",
+   "arte": "arteGrapa45",
+   "anc": [
+    330,
+    685
+   ],
+   "et": [
+    -40,
+    -35
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "46",
+   "n": "46",
+   "arte": "arteBase46",
+   "anc": [
+    262,
+    752
+   ],
+   "et": [
+    -32,
+    -107
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "47",
+   "n": "47",
+   "comun": "tornillo",
+   "p": {
+    "x": 232,
+    "y": 752,
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 20,
+    "d": 6,
+    "copias": [
+     [
+      56,
+      5
+     ]
+    ]
+   },
+   "anc": [
+    232,
+    752
+   ],
+   "et": [
+    40,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "48",
+   "n": "48",
+   "arte": "arteSoporte48",
+   "anc": [
+    199,
+    767
+   ],
+   "et": [
+    -89,
+    -67
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "49",
+   "n": "49",
+   "comun": "tornillo",
+   "p": {
+    "x": 203,
+    "y": 782,
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 20,
+    "d": 6
+   },
+   "anc": [
+    203,
+    782
+   ],
+   "et": [
+    -33,
+    38
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "17a",
+   "n": "17",
+   "comun": "arandela",
+   "p": {
+    "x": 686,
+    "y": 139,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    686,
+    139
+   ],
+   "et": [
+    -43.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "16a",
+   "n": "16",
+   "comun": "tornillo",
+   "p": {
+    "x": 686,
+    "y": 139,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    686,
+    139
+   ],
+   "et": [
+    -86,
+    -14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "17b",
+   "n": "17",
+   "comun": "arandela",
+   "p": {
+    "x": 590,
+    "y": 428,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    590,
+    428
+   ],
+   "et": [
+    30.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "16b",
+   "n": "16",
+   "comun": "tornillo",
+   "p": {
+    "x": 590,
+    "y": 428,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    590,
+    428
+   ],
+   "et": [
+    60,
+    -28
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "36a",
+   "n": "36",
+   "comun": "arandela",
+   "p": {
+    "x": 414,
+    "y": 139,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    414,
+    139
+   ],
+   "et": [
+    43.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "35a",
+   "n": "35",
+   "comun": "tornillo",
+   "p": {
+    "x": 414,
+    "y": 139,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    414,
+    139
+   ],
+   "et": [
+    86,
+    -14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "36b",
+   "n": "36",
+   "comun": "arandela",
+   "p": {
+    "x": 510,
+    "y": 428,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    510,
+    428
+   ],
+   "et": [
+    -30.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "35b",
+   "n": "35",
+   "comun": "tornillo",
+   "p": {
+    "x": 510,
+    "y": 428,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    510,
+    428
+   ],
+   "et": [
+    -60,
+    -28
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "20a",
+   "n": "20",
+   "comun": "arandela",
+   "p": {
+    "x": 600,
+    "y": 514,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    600,
+    514
+   ],
+   "et": [
+    40.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "19a",
+   "n": "19",
+   "comun": "tornillo",
+   "p": {
+    "x": 600,
+    "y": 514,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    600,
+    514
+   ],
+   "et": [
+    80,
+    -9
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20b",
+   "n": "20",
+   "comun": "arandela",
+   "p": {
+    "x": 950,
+    "y": 800,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    950,
+    800
+   ],
+   "et": [
+    25.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "19b",
+   "n": "19",
+   "comun": "tornillo",
+   "p": {
+    "x": 950,
+    "y": 800,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    950,
+    800
+   ],
+   "et": [
+    50,
+    -30
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "40a",
+   "n": "40",
+   "comun": "arandela",
+   "p": {
+    "x": 500,
+    "y": 514,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    500,
+    514
+   ],
+   "et": [
+    -40.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "39a",
+   "n": "39",
+   "comun": "tornillo",
+   "p": {
+    "x": 500,
+    "y": 514,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    500,
+    514
+   ],
+   "et": [
+    -80,
+    -9
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "40b",
+   "n": "40",
+   "comun": "arandela",
+   "p": {
+    "x": 140,
+    "y": 800,
+    "copias": [
+     [
+      6,
+      -10
+     ]
+    ],
+    "r": 11,
+    "ri": 5.5,
+    "e": 2,
+    "material": "cobre",
+    "lado": "#6b3d1e"
+   },
+   "anc": [
+    140,
+    800
+   ],
+   "et": [
+    -25.0,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "39b",
+   "n": "39",
+   "comun": "tornillo",
+   "p": {
+    "x": 140,
+    "y": 800,
+    "cabeza": 9,
+    "largo": 26,
+    "d": 10
+   },
+   "anc": [
+    140,
+    800
+   ],
+   "et": [
+    -50,
+    -30
+   ],
+   "vis": "exp"
+  }
+ ],
+ "nombres": {
+  "1": "Bomba delantera",
+  "21": "Bomba trasera",
+  "2": "Kit de reparación delantero",
+  "22": "Kit de reparación trasero",
+  "3": "Tapa del depósito delantera",
+  "23": "Tapa del depósito trasera",
+  "4": "Placa del diafragma delantera",
+  "24": "Placa del diafragma trasera",
+  "5": "Diafragma delantero",
+  "25": "Diafragma trasero",
+  "6": "Tornillo de la tapa delantero",
+  "26": "Tornillo de la tapa trasero",
+  "7": "Manigueta delantera",
+  "27": "Manigueta trasera",
+  "8": "Perno de la manigueta delantero",
+  "28": "Perno de la manigueta trasero",
+  "9": "Tuerca autoblocante delantera",
+  "29": "Tuerca autoblocante trasera",
+  "10": "Abrazadera de la bomba delantera",
+  "30": "Abrazadera de la bomba trasera",
+  "11": "Perno de la abrazadera delantero",
+  "31": "Perno de la abrazadera trasero",
+  "12": "Interruptor del freno delantero",
+  "32": "Interruptor del freno trasero",
+  "13": "Tornillo del interruptor delantero",
+  "33": "Tornillo del interruptor trasero",
+  "14": "Tope",
+  "15": "Manguera de freno 1",
+  "16": "Perno de unión de manguera 1",
+  "17": "Arandela de sello de manguera 1",
+  "18": "Manguera de freno 2",
+  "19": "Perno de unión de manguera 2",
+  "20": "Arandela de sello de manguera 2",
+  "34": "Manguera de freno 3",
+  "35": "Perno de unión de manguera 3",
+  "36": "Arandela de sello de manguera 3",
+  "38": "Manguera de freno 4",
+  "39": "Perno de unión de manguera 4",
+  "40": "Arandela de sello de manguera 4",
+  "37": "Abrazadera de manguera 3",
+  "41": "Abrazadera de manguera 4",
+  "42": "Soporte de manguera 3",
+  "43": "Perno del soporte de manguera 3",
+  "44": "Soporte de abrazadera",
+  "45": "Abrazadera del soporte",
+  "46": "Soporte de la bobina",
+  "47": "Perno del soporte de la bobina",
+  "48": "Soporte de manguera 4",
+  "49": "Perno del soporte de manguera 4",
+  "abs": "Unidad ABS",
+  "liquido": "Líquido de frenos DOT 4"
+ },
+ "ocultas": [
+  "2",
+  "4",
+  "5",
+  "9",
+  "22",
+  "24",
+  "25",
+  "29"
+ ],
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49"
+ ],
+ "textoArmado": "<b>Armado.</b> Así ves el manubrio desde el asiento: la bomba delantera va a la derecha y la trasera a la izquierda (en la NMAX las dos se mueven con la mano). Cada una baja su manguera hasta la unidad ABS, y de ahí salen las mangueras a los cálipers. Lo de adentro de la bomba no se ve: elige «Transparente» o tócalo en la lista.",
+ "pasos": [
+  {
+   "t": "<b>Paso 1 de 17 · Tapa del depósito delantera (6, 3, 4, 5).</b> Manubrio recto para que el depósito quede plano y un trapo encima de la pintura: el DOT 4 la mancha. Se sueltan los dos tornillos y salen la tapa, la placa y el diafragma. El líquido se saca con una jeringa limpia (o purgando por el cáliper).",
+   "m": {
+    "6": [
+     0,
+     -120
+    ],
+    "3": [
+     13,
+     -98
+    ],
+    "4": [
+     8,
+     -73
+    ],
+    "5": [
+     18,
+     -12
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 2 de 17 · Perno de unión de la manguera (16a).</b> Con el depósito vacío se suelta el perno hueco. Salen sus dos arandelas de sello (17a) y la punta de la manguera queda libre. Se tapa con una bolsa para que no gotee.",
+   "m": {
+    "16a": [
+     -6,
+     -41
+    ],
+    "17a": [
+     -26,
+     -6
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 3 de 17 · Interruptor de la luz de freno (13, 12).</b> Un tornillo pequeño lo sujeta debajo de la bomba. Se desconecta su cable antes de sacarlo.",
+   "m": {
+    "13": [
+     60,
+     40
+    ],
+    "12": [
+     40,
+     26
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 4 de 17 · Manigueta (9, 8, 7).</b> Primero la tuerca autoblocante de abajo y luego el perno del pivote. La manigueta sale hacia afuera. La tuerca va nueva al armar; el perno se reutiliza si no está gastado.",
+   "m": {
+    "9": [
+     10,
+     60
+    ],
+    "8": [
+     0,
+     -70
+    ],
+    "7": [
+     60,
+     -20
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 5 de 17 · Abrazadera (11, 10) y bomba (1).</b> Se sueltan los dos pernos y sale la media luna. La bomba queda libre del manubrio. Al montarla, la marca de la abrazadera va como estaba; el orden de apriete y el torque están en el manual de servicio.",
+   "m": {
+    "11": [
+     9,
+     74
+    ],
+    "10": [
+     22,
+     33
+    ],
+    "1": [
+     10,
+     -16
+    ],
+    "2": [
+     0,
+     -20
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 6 de 17 · Kit de reparación (2).</b> En el banco: se quita el guardapolvo y, con un alicate de seguros, el anillo. Salen el pistón con sus dos copas y el resorte. El cilindro se revisa por dentro: si está rayado, se cambia la bomba entera.",
+   "m": {
+    "2": [
+     110,
+     30
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 7 de 17 · Tapa del depósito trasera (26, 23, 24, 25).</b> Manubrio recto para que el depósito quede plano y un trapo encima de la pintura: el DOT 4 la mancha. Se sueltan los dos tornillos y salen la tapa, la placa y el diafragma. El líquido se saca con una jeringa limpia (o purgando por el cáliper).",
+   "m": {
+    "26": [
+     0,
+     -120
+    ],
+    "23": [
+     -12,
+     -96
+    ],
+    "24": [
+     -8,
+     -71
+    ],
+    "25": [
+     -18,
+     -10
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 8 de 17 · Perno de unión de la manguera (35a).</b> Con el depósito vacío se suelta el perno hueco. Salen sus dos arandelas de sello (36a) y la punta de la manguera queda libre. Se tapa con una bolsa para que no gotee.",
+   "m": {
+    "35a": [
+     8,
+     -54
+    ],
+    "36a": [
+     8,
+     -28
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 9 de 17 · Interruptor de la luz de freno (33, 32).</b> Un tornillo pequeño lo sujeta debajo de la bomba. Se desconecta su cable antes de sacarlo.",
+   "m": {
+    "33": [
+     -60,
+     40
+    ],
+    "32": [
+     -40,
+     26
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 10 de 17 · Manigueta (29, 28, 27).</b> Primero la tuerca autoblocante de abajo y luego el perno del pivote. La manigueta sale hacia afuera. La tuerca va nueva al armar; el perno se reutiliza si no está gastado.",
+   "m": {
+    "29": [
+     -10,
+     60
+    ],
+    "28": [
+     0,
+     -70
+    ],
+    "27": [
+     -60,
+     -20
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 11 de 17 · Abrazadera (31, 30) y bomba (21).</b> Se sueltan los dos pernos y sale la media luna. La bomba queda libre del manubrio. Al montarla, la marca de la abrazadera va como estaba; el orden de apriete y el torque están en el manual de servicio.",
+   "m": {
+    "31": [
+     -8,
+     74
+    ],
+    "30": [
+     -22,
+     34
+    ],
+    "21": [
+     -9,
+     -17
+    ],
+    "22": [
+     0,
+     -20
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 12 de 17 · Kit de reparación (22).</b> En el banco: se quita el guardapolvo y, con un alicate de seguros, el anillo. Salen el pistón con sus dos copas y el resorte. El cilindro se revisa por dentro: si está rayado, se cambia la bomba entera.",
+   "m": {
+    "22": [
+     -110,
+     30
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 13 de 17 · Manguera 1 (16, 14, 15).</b> En la unidad ABS se suelta el otro perno de unión (16) con sus arandelas (17). Se abre el tope (14), que sujeta las mangueras 1 y 3, y sale la manguera 1.",
+   "m": {
+    "16b": [
+     36,
+     -17
+    ],
+    "17b": [
+     18,
+     -7
+    ],
+    "14": [
+     14,
+     -22
+    ],
+    "15": [
+     16,
+     -26
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 14 de 17 · Manguera 3 (35, 37, 34).</b> Igual en el lado trasero: perno de unión (35) y arandelas (36) en la unidad ABS, abrazadera (37) y sale la manguera 3.",
+   "m": {
+    "35b": [
+     -36,
+     -18
+    ],
+    "36b": [
+     -18,
+     -7
+    ],
+    "37": [
+     -40,
+     10
+    ],
+    "34": [
+     -16,
+     -27
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 15 de 17 · Manguera 2 (19, 18).</b> Va de la unidad ABS al cáliper delantero. Se sueltan sus dos pernos de unión (19), cada uno con dos arandelas (20), y sale la manguera.",
+   "m": {
+    "19a": [
+     56,
+     6
+    ],
+    "20a": [
+     24,
+     10
+    ],
+    "19b": [
+     46,
+     22
+    ],
+    "20b": [
+     18,
+     26
+    ],
+    "18": [
+     30,
+     20
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 16 de 17 · Soportes de la manguera 4 (41 a 49).</b> La manguera 4 baja por el chasis hacia la rueda trasera y va sujeta en varios puntos: abrazadera (41), soporte (42) con su perno (43), soporte (44) con su abrazadera (45), soporte de la bobina (46) con dos pernos (47) y soporte (48) con su perno (49).",
+   "m": {
+    "41": [
+     30,
+     -30
+    ],
+    "43": [
+     16,
+     44
+    ],
+    "42": [
+     -6,
+     36
+    ],
+    "45": [
+     -40,
+     -50
+    ],
+    "44": [
+     -2,
+     37
+    ],
+    "47": [
+     4,
+     40
+    ],
+    "46": [
+     -6,
+     38
+    ],
+    "49": [
+     8,
+     51
+    ],
+    "48": [
+     0,
+     30
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 17 de 17 · Manguera 4 (39, 38).</b> Pernos de unión (39) con sus arandelas (40) en la unidad ABS y en el cáliper trasero, y sale la manguera. Al armar todo: arandelas nuevas, líquido DOT 4 nuevo y purgar hasta que la manigueta quede firme. Antes de rodar, prueba los dos frenos con la moto quieta.",
+   "m": {
+    "39a": [
+     -56,
+     6
+    ],
+    "40a": [
+     -24,
+     10
+    ],
+    "39b": [
+     -48,
+     20
+    ],
+    "40b": [
+     -24,
+     27
+    ],
+    "38": [
+     -32,
+     32
+    ]
+   }
+  }
+ ],
+ "fichas": {
+  "1": {
+   "nombre": "Bomba delantera",
+   "cat": "MASTER CYLINDER ASSY · 1 pieza",
+   "que": "El cuerpo de la bomba delantera, en el manubrio derecha: un cilindro de aluminio con el depósito del líquido encima. Por dentro corre el kit (2): pistón, copas y resorte.",
+   "sirve": "Convierte el apretón de tu mano en presión de líquido. La manigueta (7) empuja el pistón del kit, el pistón empuja el líquido y la presión baja por la manguera 15 hasta la unidad ABS y el cáliper delantero. El depósito guarda el líquido de reserva.",
+   "fallas": [
+    [
+     "desgaste",
+     "El cilindro se raya por dentro si el líquido trae mugre o lleva años sin cambiarse; entonces las copas nuevas tampoco sellan."
+    ],
+    [
+     "humedad",
+     "El DOT 4 chupa humedad del aire. Con los años esa agua oxida el cilindro y tapa el orificio de compensación."
+    ],
+    [
+     "golpe",
+     "En una caída la bomba se puede rajar o doblar su saliente del pivote."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se va hasta el puño (se hunde despacio con la moto quieta)",
+    "Gotas o manchas de líquido debajo de la bomba o en el puño",
+    "El freno queda pegado y la rueda se calienta (orificio de compensación tapado)",
+    "El líquido del visor se ve oscuro"
+   ],
+   "cuando": "Se revisa cada vez que se cambia el líquido (cada 2 años): fugas, visor limpio y que la manigueta quede firme.",
+   "decision": "repara",
+   "compra": "Si el cilindro está liso, basta el kit (2). Si está rayado, oxidado o la bomba está rajada, va la bomba (1) completa. Según el catálogo trae todo lo que va con punto debajo de ella: kit, tapa, placa, diafragma y tornillos del depósito, manigueta con perno y tuerca, abrazadera con sus pernos e interruptor con su tornillo.",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "7",
+    "10",
+    "15",
+    "liquido"
+   ],
+   "efectos": [
+    [
+     "2",
+     "Un cilindro rayado corta las copas nuevas en pocos días."
+    ],
+    [
+     "15",
+     "Si la bomba no da presión, la manguera y el cáliper no hacen nada."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Bomba delantera y bomba trasera, cada una con su manigueta: catálogo (refs. 1 y 21)."
+    ],
+    [
+     "ap",
+     "Bomba delantera en el manubrio derecha: disposición de las scooter con freno trasero de manigueta, sin plano que lo confirme."
+    ],
+    [
+     "ok",
+     "Qué trae la bomba completa: piezas con punto debajo de «MASTER CYLINDER ASSY» en el catálogo (refs. 2 a 13 y 22 a 33)."
+    ],
+    [
+     "ap",
+     "Cómo se raya y cómo se oxida: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "cilindro",
+      "color": "oscuro",
+      "r": 13,
+      "z": [
+       -62,
+       50
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       40,
+       34,
+       84
+      ],
+      "pos": [
+       0,
+       26,
+       -14
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "aceroOsc",
+      "tam": [
+       44,
+       6,
+       88
+      ],
+      "pos": [
+       0,
+       45,
+       -14
+      ]
+     },
+     {
+      "tipo": "cilindro",
+      "color": "oscuro",
+      "r": 9,
+      "z": [
+       -74,
+       -60
+      ],
+      "pos": [
+       0,
+       -6
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       22,
+       30,
+       22
+      ],
+      "pos": [
+       20,
+       -2,
+       52
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       48,
+       14,
+       50
+      ],
+      "pos": [
+       0,
+       -18,
+       -4
+      ]
+     }
+    ]
+   }
+  },
+  "2": {
+   "nombre": "Kit de reparación delantero",
+   "cat": "CYLINDER KIT, MASTER · 1 pieza",
+   "que": "El juego de piezas de adentro: pistón, copa primaria, copa secundaria, resorte, anillo de seguro y guardapolvo.",
+   "sirve": "El pistón empuja el líquido. La copa primaria (la de adelante) hace la presión; la secundaria impide que el líquido salga hacia la manigueta. El resorte devuelve el pistón cuando sueltas, y así se destapa el orificio de compensación.",
+   "fallas": [
+    [
+     "edad",
+     "Las copas de caucho se endurecen y dejan pasar líquido por su labio: la presión se escapa hacia atrás."
+    ],
+    [
+     "humedad",
+     "El líquido viejo, con agua, hincha o ablanda las copas."
+    ],
+    [
+     "maluso",
+     "Líquido que no es DOT 4 (aceite, DOT 5 de silicona) daña el caucho."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se hunde poco a poco aunque no haya gotas afuera",
+    "Hay que bombear para que frene",
+    "Líquido en el guardapolvo, del lado de la manigueta"
+   ],
+   "cuando": "Cada 2 años, con el cambio del líquido (manual del propietario, pp. 9-7 y 9-25), o antes si la manigueta se hunde.",
+   "decision": "cambia",
+   "compra": "El kit completo, nunca solo una copa. El de adelante y el de atrás tienen códigos distintos en el catálogo: hay que pedir el delantera.",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "7"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Un pistón que no regresa deja el orificio tapado y el freno queda pegado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Delantero y trasero con código distinto: catálogo (refs. 2 y 22)."
+    ],
+    [
+     "ok",
+     "Cambio cada 2 años con el líquido: manual del propietario Yamaha NM-X, pp. 9-7 y 9-25."
+    ],
+    [
+     "ap",
+     "Qué trae el kit y cómo falla: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "acero",
+      "perfil": "@piston26"
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        3.5,
+        -5
+       ],
+       [
+        9,
+        -5
+       ],
+       [
+        9,
+        3
+       ],
+       [
+        3.5,
+        3
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        5,
+        25
+       ],
+       [
+        9,
+        25
+       ],
+       [
+        9,
+        31
+       ],
+       [
+        5,
+        31
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        3,
+        40
+       ],
+       [
+        8,
+        37
+       ],
+       [
+        10,
+        43
+       ],
+       [
+        9,
+        47
+       ],
+       [
+        3,
+        48
+       ]
+      ]
+     },
+     {
+      "tipo": "resorte",
+      "color": "acero",
+      "r": 5,
+      "largo": 34,
+      "vueltas": 6,
+      "alambre": 1.4
+     }
+    ]
+   }
+  },
+  "3": {
+   "nombre": "Tapa del depósito delantera",
+   "cat": "CAP, RESERVOIR · 1 pieza",
+   "que": "La tapa del depósito delantera, sujeta con dos tornillos (6). Trae marcado el tipo de líquido.",
+   "sirve": "Cierra el depósito. Debajo van la placa (4) y el diafragma (5), que son los que de verdad sellan.",
+   "fallas": [
+    [
+     "maluso",
+     "Tornillos pasados de apriete o tapa abierta con la moto inclinada: el líquido se rebosa y mancha la pintura."
+    ],
+    [
+     "edad",
+     "El sol la reseca y la cuartea."
+    ]
+   ],
+   "sintomas": [
+    "Manchas o pintura levantada alrededor del depósito",
+    "Tornillos con la cabeza dañada"
+   ],
+   "cuando": "Se abre solo para completar o cambiar el líquido.",
+   "decision": "cambia",
+   "compra": "La de adelante y la de atrás tienen el mismo código en el catálogo. Los tornillos van aparte.",
+   "dif": "facil",
+   "conecta": [
+    "6",
+    "4",
+    "5"
+   ],
+   "efectos": [
+    [
+     "5",
+     "Una tapa floja deja entrar humedad al líquido."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Mismo código adelante y atrás: catálogo (refs. 3 y 23)."
+    ]
+   ]
+  },
+  "4": {
+   "nombre": "Placa del diafragma delantera",
+   "cat": "PLATE, DIAPHRAGM · 1 pieza",
+   "que": "Una lámina delgada entre la tapa y el diafragma.",
+   "sirve": "Reparte el apriete de la tapa sobre el borde del diafragma (5) para que selle parejo.",
+   "fallas": [
+    [
+     "maluso",
+     "Si se dobla al abrir, el diafragma no asienta y entra humedad."
+    ]
+   ],
+   "sintomas": [
+    "Diafragma mal asentado o mordido"
+   ],
+   "cuando": "Se mira cada vez que se abre el depósito.",
+   "decision": "cambia",
+   "compra": "Barata; se cambia si está doblada. Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "3",
+    "5"
+   ],
+   "efectos": [
+    [
+     "5",
+     "Una placa doblada deja el diafragma sin apretar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Función: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "5": {
+   "nombre": "Diafragma delantero",
+   "cat": "DIAPHRAGM, RESERVOIR · 1 pieza",
+   "que": "Un fuelle de caucho que tapa el líquido por encima, dentro del depósito.",
+   "sirve": "Separa el líquido del aire. Cuando el nivel baja (porque las pastillas se gastan), el fuelle baja con él y no deja entrar aire ni humedad.",
+   "fallas": [
+    [
+     "edad",
+     "Se endurece o se raja con los años."
+    ],
+    [
+     "maluso",
+     "Si queda estirado (fuelle abierto) al cerrar, el depósito no tiene espacio y el líquido se rebosa."
+    ]
+   ],
+   "sintomas": [
+    "Fuelle rajado o duro",
+    "Líquido oscuro antes de tiempo"
+   ],
+   "cuando": "Al cambiar el líquido: se lava, se recoge (fuelle cerrado) y se vuelve a poner. Si está rajado, se cambia.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás. Va con la placa.",
+   "dif": "facil",
+   "conecta": [
+    "3",
+    "4",
+    "liquido"
+   ],
+   "efectos": [
+    [
+     "liquido",
+     "Un diafragma roto deja que el líquido chupe humedad mucho más rápido."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Por qué baja con el nivel y cómo se monta: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "6": {
+   "nombre": "Tornillo de la tapa delantero",
+   "cat": "SCREW, FLAT HEAD · 2 piezas",
+   "que": "Dos tornillos pequeños de cabeza plana, de 4 mm (aprox.).",
+   "sirve": "Sujetan la tapa (3) al depósito.",
+   "fallas": [
+    [
+     "maluso",
+     "Con el destornillador equivocado se barre la cabeza."
+    ]
+   ],
+   "sintomas": [
+    "Cabeza barrida",
+    "Tapa floja"
+   ],
+   "cuando": "Al abrir el depósito.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás; se piden por pares.",
+   "dif": "facil",
+   "conecta": [
+    "3"
+   ],
+   "efectos": [
+    [
+     "3",
+     "Sin apriete parejo la tapa no sella."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Medida aproximada, sin dato del manual."
+    ]
+   ]
+  },
+  "7": {
+   "nombre": "Manigueta delantera",
+   "cat": "LEVER 2 · 1 pieza",
+   "que": "La palanca de aluminio delante del puño derecha. En el catálogo es la «LEVER 2».",
+   "sirve": "Multiplica la fuerza de tus dedos y empuja el pistón del kit (2). Al soltarla, también pisa el émbolo del interruptor (12) y apaga la luz de freno.",
+   "fallas": [
+    [
+     "golpe",
+     "En una caída se dobla o se parte la punta."
+    ],
+    [
+     "desgaste",
+     "El ojo del pivote se agranda y la manigueta juega de lado."
+    ]
+   ],
+   "sintomas": [
+    "Manigueta doblada o partida",
+    "Juego de lado en el pivote",
+    "La luz de freno queda prendida (no pisa el interruptor)"
+   ],
+   "cuando": "Se revisa el juego del pivote en cada servicio.",
+   "decision": "cambia",
+   "compra": "La manigueta delantera, por su código: la de adelante y la de atrás son distintas. Va con tuerca autoblocante (9) nueva; el perno (8) se reutiliza si no está gastado.",
+   "dif": "facil",
+   "conecta": [
+    "8",
+    "9",
+    "2",
+    "12"
+   ],
+   "efectos": [
+    [
+     "12",
+     "Manigueta doblada: la luz de freno puede quedar prendida."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "LEVER 2 para la bomba delantera: catálogo."
+    ]
+   ]
+  },
+  "8": {
+   "nombre": "Perno de la manigueta delantero",
+   "cat": "BOLT, LEVER · 1 pieza",
+   "que": "El perno sobre el que gira la manigueta.",
+   "sirve": "Es el eje de la manigueta (7). Va engrasado y asegurado abajo con la tuerca (9).",
+   "fallas": [
+    [
+     "desgaste",
+     "Sin grasa se gasta y la manigueta queda con juego o dura."
+    ],
+    [
+     "humedad",
+     "Se oxida y la manigueta no regresa sola."
+    ]
+   ],
+   "sintomas": [
+    "Manigueta dura o que regresa despacio",
+    "Chirrido al frenar"
+   ],
+   "cuando": "Se limpia y se engrasa (grasa de silicona) en cada servicio.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "7",
+    "9"
+   ],
+   "efectos": [
+    [
+     "7",
+     "Un perno gastado deja la manigueta con juego."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Grasa y frecuencia: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "9": {
+   "nombre": "Tuerca autoblocante delantera",
+   "cat": "NUT, SELF-LOCKING · 1 pieza",
+   "que": "Una tuerca con un anillo de nailon que frena la rosca.",
+   "sirve": "Asegura el perno de la manigueta (8) por debajo sin que se afloje con la vibración.",
+   "fallas": [
+    [
+     "edad",
+     "Cada vez que se quita, el nailon agarra menos."
+    ]
+   ],
+   "sintomas": [
+    "La tuerca gira con la mano",
+    "Perno flojo"
+   ],
+   "cuando": "Cada vez que se desarma la manigueta.",
+   "decision": "cambia",
+   "compra": "Nueva en cada desarme. Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "8"
+   ],
+   "efectos": [
+    [
+     "8",
+     "Si la tuerca se suelta, el perno se sale y la manigueta queda colgando."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Cambiarla en cada desarme: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "10": {
+   "nombre": "Abrazadera de la bomba delantera",
+   "cat": "BRACKET, MASTER CYLINDER · 1 pieza",
+   "que": "La media luna que abraza el manubrio por detrás de la bomba delantera.",
+   "sirve": "Con sus dos pernos (11) aprieta la bomba contra el manubrio. Tiene una flecha o marca que va hacia arriba.",
+   "fallas": [
+    [
+     "maluso",
+     "Apretada de más, se raja; floja, la bomba gira en una caída o al frenar."
+    ]
+   ],
+   "sintomas": [
+    "La bomba gira sobre el manubrio",
+    "Raja en la media luna"
+   ],
+   "cuando": "Se revisa el apriete en cada servicio.",
+   "decision": "cambia",
+   "compra": "La de adelante y la de atrás tienen códigos distintos en el catálogo.",
+   "dif": "media",
+   "conecta": [
+    "11",
+    "1"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Bomba floja: cambia el ángulo de la manigueta mientras frenas."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Códigos distintos adelante y atrás: catálogo (refs. 10 y 30)."
+    ],
+    [
+     "ap",
+     "Marca hacia arriba y orden de apriete: manual de servicio (sin dato aquí)."
+    ]
+   ]
+  },
+  "11": {
+   "nombre": "Perno de la abrazadera delantero",
+   "cat": "BOLT · 2 piezas",
+   "que": "Dos pernos que cierran la abrazadera.",
+   "sirve": "Aprietan la abrazadera (10) y con ella la bomba contra el manubrio.",
+   "fallas": [
+    [
+     "maluso",
+     "Torque de más: se barre la rosca del cuerpo de la bomba."
+    ]
+   ],
+   "sintomas": [
+    "Perno que gira sin apretar"
+   ],
+   "cuando": "Se revisa el apriete en cada servicio. Torque: manual de servicio.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás.",
+   "dif": "media",
+   "conecta": [
+    "10"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Rosca barrida: hay que cambiar la bomba."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Torque: sin dato; ver manual de servicio."
+    ]
+   ]
+  },
+  "12": {
+   "nombre": "Interruptor del freno delantero",
+   "cat": "FRONT STOP SWITCH ASSY · 1 pieza",
+   "que": "El interruptor de la luz de freno, atornillado debajo de la bomba delantera. Tiene un émbolo que toca la manigueta.",
+   "sirve": "Con la manigueta suelta, el émbolo está hundido y la luz apagada. Al apretar, el émbolo sale y prende la luz de stop atrás.",
+   "fallas": [
+    [
+     "humedad",
+     "El agua del lavado oxida sus contactos."
+    ],
+    [
+     "golpe",
+     "Una caída le parte el émbolo o el cable."
+    ]
+   ],
+   "sintomas": [
+    "La luz de freno no prende con esta manigueta",
+    "La luz queda prendida todo el tiempo",
+    "Se prende a ratos con los baches"
+   ],
+   "cuando": "Se prueba antes de salir: aprietas y miras que prenda la luz.",
+   "decision": "cambia",
+   "compra": "El interruptor delantero por su código: el del freno delantero y el trasero son distintos en el catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "7",
+    "13"
+   ],
+   "efectos": [
+    [
+     "7",
+     "Si la luz no prende, nadie atrás sabe que estás frenando."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Interruptores con códigos distintos: catálogo (refs. 12 y 32)."
+    ],
+    [
+     "ap",
+     "Cómo actúa el émbolo: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "13": {
+   "nombre": "Tornillo del interruptor delantero",
+   "cat": "SCREW, PAN HEAD WITH WASHER · 1 pieza",
+   "que": "Un tornillo pequeño con arandela incorporada.",
+   "sirve": "Sujeta el interruptor (12) a la bomba.",
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y se barre al quitarlo."
+    ]
+   ],
+   "sintomas": [
+    "Interruptor flojo, la luz parpadea"
+   ],
+   "cuando": "Al cambiar el interruptor.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "12"
+   ],
+   "efectos": [
+    [
+     "12",
+     "Interruptor flojo: la luz falla a ratos."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ]
+   ]
+  },
+  "21": {
+   "nombre": "Bomba trasera",
+   "cat": "RR. MASTER CYLINDER ASSY. · 1 pieza",
+   "que": "El cuerpo de la bomba trasera, en el manubrio izquierda: un cilindro de aluminio con el depósito del líquido encima. Por dentro corre el kit (22): pistón, copas y resorte.",
+   "sirve": "Convierte el apretón de tu mano en presión de líquido. La manigueta (27) empuja el pistón del kit, el pistón empuja el líquido y la presión baja por la manguera 34 hasta la unidad ABS y el cáliper trasero. El depósito guarda el líquido de reserva.",
+   "fallas": [
+    [
+     "desgaste",
+     "El cilindro se raya por dentro si el líquido trae mugre o lleva años sin cambiarse; entonces las copas nuevas tampoco sellan."
+    ],
+    [
+     "humedad",
+     "El DOT 4 chupa humedad del aire. Con los años esa agua oxida el cilindro y tapa el orificio de compensación."
+    ],
+    [
+     "golpe",
+     "En una caída la bomba se puede rajar o doblar su saliente del pivote."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se va hasta el puño (se hunde despacio con la moto quieta)",
+    "Gotas o manchas de líquido debajo de la bomba o en el puño",
+    "El freno queda pegado y la rueda se calienta (orificio de compensación tapado)",
+    "El líquido del visor se ve oscuro"
+   ],
+   "cuando": "Se revisa cada vez que se cambia el líquido (cada 2 años): fugas, visor limpio y que la manigueta quede firme.",
+   "decision": "repara",
+   "compra": "Si el cilindro está liso, basta el kit (22). Si está rayado, oxidado o la bomba está rajada, va la bomba (21) completa. Según el catálogo trae todo lo que va con punto debajo de ella: kit, tapa, placa, diafragma y tornillos del depósito, manigueta con perno y tuerca, abrazadera con sus pernos e interruptor con su tornillo.",
+   "dif": "taller",
+   "conecta": [
+    "22",
+    "27",
+    "30",
+    "34",
+    "liquido"
+   ],
+   "efectos": [
+    [
+     "22",
+     "Un cilindro rayado corta las copas nuevas en pocos días."
+    ],
+    [
+     "34",
+     "Si la bomba no da presión, la manguera y el cáliper no hacen nada."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Bomba delantera y bomba trasera, cada una con su manigueta: catálogo (refs. 1 y 21)."
+    ],
+    [
+     "ap",
+     "Bomba trasera en el manubrio izquierda: disposición de las scooter con freno trasero de manigueta, sin plano que lo confirme."
+    ],
+    [
+     "ok",
+     "Qué trae la bomba completa: piezas con punto debajo de «MASTER CYLINDER ASSY» en el catálogo (refs. 2 a 13 y 22 a 33)."
+    ],
+    [
+     "ap",
+     "Cómo se raya y cómo se oxida: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "cilindro",
+      "color": "oscuro",
+      "r": 13,
+      "z": [
+       -62,
+       50
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       40,
+       34,
+       84
+      ],
+      "pos": [
+       0,
+       26,
+       -14
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "aceroOsc",
+      "tam": [
+       44,
+       6,
+       88
+      ],
+      "pos": [
+       0,
+       45,
+       -14
+      ]
+     },
+     {
+      "tipo": "cilindro",
+      "color": "oscuro",
+      "r": 9,
+      "z": [
+       -74,
+       -60
+      ],
+      "pos": [
+       0,
+       -6
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       22,
+       30,
+       22
+      ],
+      "pos": [
+       20,
+       -2,
+       52
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       48,
+       14,
+       50
+      ],
+      "pos": [
+       0,
+       -18,
+       -4
+      ]
+     }
+    ]
+   }
+  },
+  "22": {
+   "nombre": "Kit de reparación trasero",
+   "cat": "CYLINDER KIT, MASTER · 1 pieza",
+   "que": "El juego de piezas de adentro: pistón, copa primaria, copa secundaria, resorte, anillo de seguro y guardapolvo.",
+   "sirve": "El pistón empuja el líquido. La copa primaria (la de adelante) hace la presión; la secundaria impide que el líquido salga hacia la manigueta. El resorte devuelve el pistón cuando sueltas, y así se destapa el orificio de compensación.",
+   "fallas": [
+    [
+     "edad",
+     "Las copas de caucho se endurecen y dejan pasar líquido por su labio: la presión se escapa hacia atrás."
+    ],
+    [
+     "humedad",
+     "El líquido viejo, con agua, hincha o ablanda las copas."
+    ],
+    [
+     "maluso",
+     "Líquido que no es DOT 4 (aceite, DOT 5 de silicona) daña el caucho."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se hunde poco a poco aunque no haya gotas afuera",
+    "Hay que bombear para que frene",
+    "Líquido en el guardapolvo, del lado de la manigueta"
+   ],
+   "cuando": "Cada 2 años, con el cambio del líquido (manual del propietario, pp. 9-7 y 9-25), o antes si la manigueta se hunde.",
+   "decision": "cambia",
+   "compra": "El kit completo, nunca solo una copa. El de adelante y el de atrás tienen códigos distintos en el catálogo: hay que pedir el trasera.",
+   "dif": "taller",
+   "conecta": [
+    "21",
+    "27"
+   ],
+   "efectos": [
+    [
+     "21",
+     "Un pistón que no regresa deja el orificio tapado y el freno queda pegado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Delantero y trasero con código distinto: catálogo (refs. 2 y 22)."
+    ],
+    [
+     "ok",
+     "Cambio cada 2 años con el líquido: manual del propietario Yamaha NM-X, pp. 9-7 y 9-25."
+    ],
+    [
+     "ap",
+     "Qué trae el kit y cómo falla: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "acero",
+      "perfil": "@piston26"
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        3.5,
+        -5
+       ],
+       [
+        9,
+        -5
+       ],
+       [
+        9,
+        3
+       ],
+       [
+        3.5,
+        3
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        5,
+        25
+       ],
+       [
+        9,
+        25
+       ],
+       [
+        9,
+        31
+       ],
+       [
+        5,
+        31
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        3,
+        40
+       ],
+       [
+        8,
+        37
+       ],
+       [
+        10,
+        43
+       ],
+       [
+        9,
+        47
+       ],
+       [
+        3,
+        48
+       ]
+      ]
+     },
+     {
+      "tipo": "resorte",
+      "color": "acero",
+      "r": 5,
+      "largo": 34,
+      "vueltas": 6,
+      "alambre": 1.4
+     }
+    ]
+   }
+  },
+  "23": {
+   "nombre": "Tapa del depósito trasera",
+   "cat": "CAP, RESERVOIR · 1 pieza",
+   "que": "La tapa del depósito trasera, sujeta con dos tornillos (26). Trae marcado el tipo de líquido.",
+   "sirve": "Cierra el depósito. Debajo van la placa (24) y el diafragma (25), que son los que de verdad sellan.",
+   "fallas": [
+    [
+     "maluso",
+     "Tornillos pasados de apriete o tapa abierta con la moto inclinada: el líquido se rebosa y mancha la pintura."
+    ],
+    [
+     "edad",
+     "El sol la reseca y la cuartea."
+    ]
+   ],
+   "sintomas": [
+    "Manchas o pintura levantada alrededor del depósito",
+    "Tornillos con la cabeza dañada"
+   ],
+   "cuando": "Se abre solo para completar o cambiar el líquido.",
+   "decision": "cambia",
+   "compra": "La de adelante y la de atrás tienen el mismo código en el catálogo. Los tornillos van aparte.",
+   "dif": "facil",
+   "conecta": [
+    "26",
+    "24",
+    "25"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Una tapa floja deja entrar humedad al líquido."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Mismo código adelante y atrás: catálogo (refs. 3 y 23)."
+    ]
+   ]
+  },
+  "24": {
+   "nombre": "Placa del diafragma trasera",
+   "cat": "PLATE, DIAPHRAGM · 1 pieza",
+   "que": "Una lámina delgada entre la tapa y el diafragma.",
+   "sirve": "Reparte el apriete de la tapa sobre el borde del diafragma (25) para que selle parejo.",
+   "fallas": [
+    [
+     "maluso",
+     "Si se dobla al abrir, el diafragma no asienta y entra humedad."
+    ]
+   ],
+   "sintomas": [
+    "Diafragma mal asentado o mordido"
+   ],
+   "cuando": "Se mira cada vez que se abre el depósito.",
+   "decision": "cambia",
+   "compra": "Barata; se cambia si está doblada. Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "23",
+    "25"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Una placa doblada deja el diafragma sin apretar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Función: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "25": {
+   "nombre": "Diafragma trasero",
+   "cat": "DIAPHRAGM, RESERVOIR · 1 pieza",
+   "que": "Un fuelle de caucho que tapa el líquido por encima, dentro del depósito.",
+   "sirve": "Separa el líquido del aire. Cuando el nivel baja (porque las pastillas se gastan), el fuelle baja con él y no deja entrar aire ni humedad.",
+   "fallas": [
+    [
+     "edad",
+     "Se endurece o se raja con los años."
+    ],
+    [
+     "maluso",
+     "Si queda estirado (fuelle abierto) al cerrar, el depósito no tiene espacio y el líquido se rebosa."
+    ]
+   ],
+   "sintomas": [
+    "Fuelle rajado o duro",
+    "Líquido oscuro antes de tiempo"
+   ],
+   "cuando": "Al cambiar el líquido: se lava, se recoge (fuelle cerrado) y se vuelve a poner. Si está rajado, se cambia.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás. Va con la placa.",
+   "dif": "facil",
+   "conecta": [
+    "23",
+    "24",
+    "liquido"
+   ],
+   "efectos": [
+    [
+     "liquido",
+     "Un diafragma roto deja que el líquido chupe humedad mucho más rápido."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Por qué baja con el nivel y cómo se monta: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "26": {
+   "nombre": "Tornillo de la tapa trasero",
+   "cat": "SCREW, FLAT HEAD · 2 piezas",
+   "que": "Dos tornillos pequeños de cabeza plana, de 4 mm (aprox.).",
+   "sirve": "Sujetan la tapa (23) al depósito.",
+   "fallas": [
+    [
+     "maluso",
+     "Con el destornillador equivocado se barre la cabeza."
+    ]
+   ],
+   "sintomas": [
+    "Cabeza barrida",
+    "Tapa floja"
+   ],
+   "cuando": "Al abrir el depósito.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás; se piden por pares.",
+   "dif": "facil",
+   "conecta": [
+    "23"
+   ],
+   "efectos": [
+    [
+     "23",
+     "Sin apriete parejo la tapa no sella."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Medida aproximada, sin dato del manual."
+    ]
+   ]
+  },
+  "27": {
+   "nombre": "Manigueta trasera",
+   "cat": "LEVER 1 · 1 pieza",
+   "que": "La palanca de aluminio delante del puño izquierda. En el catálogo es la «LEVER 1».",
+   "sirve": "Multiplica la fuerza de tus dedos y empuja el pistón del kit (22). Al soltarla, también pisa el émbolo del interruptor (32) y apaga la luz de freno.",
+   "fallas": [
+    [
+     "golpe",
+     "En una caída se dobla o se parte la punta."
+    ],
+    [
+     "desgaste",
+     "El ojo del pivote se agranda y la manigueta juega de lado."
+    ]
+   ],
+   "sintomas": [
+    "Manigueta doblada o partida",
+    "Juego de lado en el pivote",
+    "La luz de freno queda prendida (no pisa el interruptor)"
+   ],
+   "cuando": "Se revisa el juego del pivote en cada servicio.",
+   "decision": "cambia",
+   "compra": "La manigueta trasera, por su código: la de adelante y la de atrás son distintas. Va con tuerca autoblocante (29) nueva; el perno (28) se reutiliza si no está gastado.",
+   "dif": "facil",
+   "conecta": [
+    "28",
+    "29",
+    "22",
+    "32"
+   ],
+   "efectos": [
+    [
+     "32",
+     "Manigueta doblada: la luz de freno puede quedar prendida."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "LEVER 1 para la bomba trasera: catálogo."
+    ]
+   ]
+  },
+  "28": {
+   "nombre": "Perno de la manigueta trasero",
+   "cat": "BOLT, LEVER · 1 pieza",
+   "que": "El perno sobre el que gira la manigueta.",
+   "sirve": "Es el eje de la manigueta (27). Va engrasado y asegurado abajo con la tuerca (29).",
+   "fallas": [
+    [
+     "desgaste",
+     "Sin grasa se gasta y la manigueta queda con juego o dura."
+    ],
+    [
+     "humedad",
+     "Se oxida y la manigueta no regresa sola."
+    ]
+   ],
+   "sintomas": [
+    "Manigueta dura o que regresa despacio",
+    "Chirrido al frenar"
+   ],
+   "cuando": "Se limpia y se engrasa (grasa de silicona) en cada servicio.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "27",
+    "29"
+   ],
+   "efectos": [
+    [
+     "27",
+     "Un perno gastado deja la manigueta con juego."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Grasa y frecuencia: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "29": {
+   "nombre": "Tuerca autoblocante trasera",
+   "cat": "NUT, SELF-LOCKING · 1 pieza",
+   "que": "Una tuerca con un anillo de nailon que frena la rosca.",
+   "sirve": "Asegura el perno de la manigueta (28) por debajo sin que se afloje con la vibración.",
+   "fallas": [
+    [
+     "edad",
+     "Cada vez que se quita, el nailon agarra menos."
+    ]
+   ],
+   "sintomas": [
+    "La tuerca gira con la mano",
+    "Perno flojo"
+   ],
+   "cuando": "Cada vez que se desarma la manigueta.",
+   "decision": "cambia",
+   "compra": "Nueva en cada desarme. Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "28"
+   ],
+   "efectos": [
+    [
+     "28",
+     "Si la tuerca se suelta, el perno se sale y la manigueta queda colgando."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Cambiarla en cada desarme: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "30": {
+   "nombre": "Abrazadera de la bomba trasera",
+   "cat": "BRACKET, MASTER CYLINDER · 1 pieza",
+   "que": "La media luna que abraza el manubrio por detrás de la bomba trasera.",
+   "sirve": "Con sus dos pernos (31) aprieta la bomba contra el manubrio. Tiene una flecha o marca que va hacia arriba.",
+   "fallas": [
+    [
+     "maluso",
+     "Apretada de más, se raja; floja, la bomba gira en una caída o al frenar."
+    ]
+   ],
+   "sintomas": [
+    "La bomba gira sobre el manubrio",
+    "Raja en la media luna"
+   ],
+   "cuando": "Se revisa el apriete en cada servicio.",
+   "decision": "cambia",
+   "compra": "La de adelante y la de atrás tienen códigos distintos en el catálogo.",
+   "dif": "media",
+   "conecta": [
+    "31",
+    "21"
+   ],
+   "efectos": [
+    [
+     "21",
+     "Bomba floja: cambia el ángulo de la manigueta mientras frenas."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Códigos distintos adelante y atrás: catálogo (refs. 10 y 30)."
+    ],
+    [
+     "ap",
+     "Marca hacia arriba y orden de apriete: manual de servicio (sin dato aquí)."
+    ]
+   ]
+  },
+  "31": {
+   "nombre": "Perno de la abrazadera trasero",
+   "cat": "BOLT · 2 piezas",
+   "que": "Dos pernos que cierran la abrazadera.",
+   "sirve": "Aprietan la abrazadera (30) y con ella la bomba contra el manubrio.",
+   "fallas": [
+    [
+     "maluso",
+     "Torque de más: se barre la rosca del cuerpo de la bomba."
+    ]
+   ],
+   "sintomas": [
+    "Perno que gira sin apretar"
+   ],
+   "cuando": "Se revisa el apriete en cada servicio. Torque: manual de servicio.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás.",
+   "dif": "media",
+   "conecta": [
+    "30"
+   ],
+   "efectos": [
+    [
+     "21",
+     "Rosca barrida: hay que cambiar la bomba."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Torque: sin dato; ver manual de servicio."
+    ]
+   ]
+  },
+  "32": {
+   "nombre": "Interruptor del freno trasero",
+   "cat": "STOP SWITCH ASSY · 1 pieza",
+   "que": "El interruptor de la luz de freno, atornillado debajo de la bomba trasera. Tiene un émbolo que toca la manigueta.",
+   "sirve": "Con la manigueta suelta, el émbolo está hundido y la luz apagada. Al apretar, el émbolo sale y prende la luz de stop atrás.",
+   "fallas": [
+    [
+     "humedad",
+     "El agua del lavado oxida sus contactos."
+    ],
+    [
+     "golpe",
+     "Una caída le parte el émbolo o el cable."
+    ]
+   ],
+   "sintomas": [
+    "La luz de freno no prende con esta manigueta",
+    "La luz queda prendida todo el tiempo",
+    "Se prende a ratos con los baches"
+   ],
+   "cuando": "Se prueba antes de salir: aprietas y miras que prenda la luz.",
+   "decision": "cambia",
+   "compra": "El interruptor trasero por su código: el del freno delantero y el trasero son distintos en el catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "27",
+    "33"
+   ],
+   "efectos": [
+    [
+     "27",
+     "Si la luz no prende, nadie atrás sabe que estás frenando."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Interruptores con códigos distintos: catálogo (refs. 12 y 32)."
+    ],
+    [
+     "ap",
+     "Cómo actúa el émbolo: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "33": {
+   "nombre": "Tornillo del interruptor trasero",
+   "cat": "SCREW, PAN HEAD WITH WASHER · 1 pieza",
+   "que": "Un tornillo pequeño con arandela incorporada.",
+   "sirve": "Sujeta el interruptor (32) a la bomba.",
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y se barre al quitarlo."
+    ]
+   ],
+   "sintomas": [
+    "Interruptor flojo, la luz parpadea"
+   ],
+   "cuando": "Al cambiar el interruptor.",
+   "decision": "cambia",
+   "compra": "Mismo código adelante y atrás.",
+   "dif": "facil",
+   "conecta": [
+    "32"
+   ],
+   "efectos": [
+    [
+     "32",
+     "Interruptor flojo: la luz falla a ratos."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ]
+   ]
+  },
+  "15": {
+   "nombre": "Manguera de freno 1",
+   "cat": "HOSE, BRAKE 1 · 1 pieza",
+   "que": "Manguera de caucho reforzado con puntas metálicas de ojo, de la bomba delantera a la unidad ABS.",
+   "sirve": "Lleva la presión del líquido sin inflarse. Si se infla, la manigueta se siente esponjosa.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se cuartea por fuera y se infla por dentro con los años."
+    ],
+    [
+     "golpe",
+     "Un roce con el chasis o una caída la pelan."
+    ],
+    [
+     "maluso",
+     "Torcida al montar, o sin sus soportes, roza y se rompe."
+    ]
+   ],
+   "sintomas": [
+    "Cuarteaduras o abultamientos en el caucho",
+    "Manigueta esponjosa aunque el sistema esté purgado",
+    "Humedad en las puntas metálicas"
+   ],
+   "cuando": "Se cambia cada 4 años (plan de la NMAX). Se revisa en cada servicio.",
+   "decision": "cambia",
+   "compra": "La manguera con su número: cada una tiene su largo y sus curvas. Con arandelas nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "16",
+    "17",
+    "14",
+    "1",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Una manguera inflada roba recorrido a la manigueta delantera."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Cambio cada 4 años: plan de la NMAX en TallerYa (nota de la tarea «liquido-frenos»)."
+    ]
+   ]
+  },
+  "34": {
+   "nombre": "Manguera de freno 3",
+   "cat": "HOSE, BRAKE 3 · 1 pieza",
+   "que": "Manguera de caucho reforzado con puntas metálicas de ojo, de la bomba trasera a la unidad ABS.",
+   "sirve": "Lleva la presión del líquido sin inflarse. Si se infla, la manigueta se siente esponjosa.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se cuartea por fuera y se infla por dentro con los años."
+    ],
+    [
+     "golpe",
+     "Un roce con el chasis o una caída la pelan."
+    ],
+    [
+     "maluso",
+     "Torcida al montar, o sin sus soportes, roza y se rompe."
+    ]
+   ],
+   "sintomas": [
+    "Cuarteaduras o abultamientos en el caucho",
+    "Manigueta esponjosa aunque el sistema esté purgado",
+    "Humedad en las puntas metálicas"
+   ],
+   "cuando": "Se cambia cada 4 años (plan de la NMAX). Se revisa en cada servicio.",
+   "decision": "cambia",
+   "compra": "La manguera con su número: cada una tiene su largo y sus curvas. Con arandelas nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "35",
+    "36",
+    "37",
+    "14",
+    "21",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "21",
+     "Una manguera inflada roba recorrido a la manigueta trasera."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Cambio cada 4 años: plan de la NMAX en TallerYa (nota de la tarea «liquido-frenos»)."
+    ]
+   ]
+  },
+  "18": {
+   "nombre": "Manguera de freno 2",
+   "cat": "HOSE, BRAKE 2 · 1 pieza",
+   "que": "Manguera de caucho reforzado con puntas metálicas de ojo, de la unidad ABS a el cáliper delantero.",
+   "sirve": "Lleva la presión del líquido sin inflarse. Si se infla, la manigueta se siente esponjosa.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se cuartea por fuera y se infla por dentro con los años."
+    ],
+    [
+     "golpe",
+     "Un roce con el chasis o una caída la pelan."
+    ],
+    [
+     "maluso",
+     "Torcida al montar, o sin sus soportes, roza y se rompe."
+    ]
+   ],
+   "sintomas": [
+    "Cuarteaduras o abultamientos en el caucho",
+    "Manigueta esponjosa aunque el sistema esté purgado",
+    "Humedad en las puntas metálicas"
+   ],
+   "cuando": "Se cambia cada 4 años (plan de la NMAX). Se revisa en cada servicio.",
+   "decision": "cambia",
+   "compra": "La manguera con su número: cada una tiene su largo y sus curvas. Con arandelas nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "19",
+    "20",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "abs",
+     "Un poro en esta manguera deja sin freno la rueda delantera aunque el ABS funcione."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Cambio cada 4 años: plan de la NMAX en TallerYa (nota de la tarea «liquido-frenos»)."
+    ]
+   ]
+  },
+  "38": {
+   "nombre": "Manguera de freno 4",
+   "cat": "HOSE, BRAKE 4 · 1 pieza",
+   "que": "Manguera de caucho reforzado con puntas metálicas de ojo, de la unidad ABS a el cáliper trasero.",
+   "sirve": "Lleva la presión del líquido sin inflarse. Si se infla, la manigueta se siente esponjosa.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se cuartea por fuera y se infla por dentro con los años."
+    ],
+    [
+     "golpe",
+     "Un roce con el chasis o una caída la pelan."
+    ],
+    [
+     "maluso",
+     "Torcida al montar, o sin sus soportes, roza y se rompe."
+    ]
+   ],
+   "sintomas": [
+    "Cuarteaduras o abultamientos en el caucho",
+    "Manigueta esponjosa aunque el sistema esté purgado",
+    "Humedad en las puntas metálicas"
+   ],
+   "cuando": "Se cambia cada 4 años (plan de la NMAX). Se revisa en cada servicio.",
+   "decision": "cambia",
+   "compra": "La manguera con su número: cada una tiene su largo y sus curvas. Con arandelas nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "39",
+    "40",
+    "41",
+    "42",
+    "44",
+    "48",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "41",
+     "Si un soporte falta, la manguera roza el chasis y se pela."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ok",
+     "Cambio cada 4 años: plan de la NMAX en TallerYa (nota de la tarea «liquido-frenos»)."
+    ]
+   ]
+  },
+  "16": {
+   "nombre": "Perno de unión de manguera 1",
+   "cat": "BOLT, UNION · 2 piezas",
+   "que": "Un perno hueco (racor tipo banjo). Van dos: uno en la bomba delantera y otro en la unidad ABS.",
+   "sirve": "Une la punta de la manguera 1 y deja pasar el líquido por un agujero en su centro. Aprieta las arandelas de sello contra el ojo de la manguera.",
+   "fallas": [
+    [
+     "maluso",
+     "Torque de más: se barre la rosca de la pieza donde entra o se parte el perno."
+    ],
+    [
+     "edad",
+     "El agujero interno se tapa con líquido viejo."
+    ]
+   ],
+   "sintomas": [
+    "Gota de líquido alrededor del perno",
+    "Manigueta esponjosa después de un desarme"
+   ],
+   "cuando": "Cada vez que se suelta la manguera; torque según el manual de servicio.",
+   "decision": "cambia",
+   "compra": "Se reutiliza si la rosca está bien; las arandelas, siempre nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "17",
+    "15",
+    "1",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "17",
+     "Sin arandelas nuevas, el perno gotea aunque esté bien apretado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "35": {
+   "nombre": "Perno de unión de manguera 3",
+   "cat": "BOLT, UNION · 2 piezas",
+   "que": "Un perno hueco (racor tipo banjo). Van dos: uno en la bomba trasera y otro en la unidad ABS.",
+   "sirve": "Une la punta de la manguera 3 y deja pasar el líquido por un agujero en su centro. Aprieta las arandelas de sello contra el ojo de la manguera.",
+   "fallas": [
+    [
+     "maluso",
+     "Torque de más: se barre la rosca de la pieza donde entra o se parte el perno."
+    ],
+    [
+     "edad",
+     "El agujero interno se tapa con líquido viejo."
+    ]
+   ],
+   "sintomas": [
+    "Gota de líquido alrededor del perno",
+    "Manigueta esponjosa después de un desarme"
+   ],
+   "cuando": "Cada vez que se suelta la manguera; torque según el manual de servicio.",
+   "decision": "cambia",
+   "compra": "Se reutiliza si la rosca está bien; las arandelas, siempre nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "36",
+    "34",
+    "21",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "36",
+     "Sin arandelas nuevas, el perno gotea aunque esté bien apretado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "19": {
+   "nombre": "Perno de unión de manguera 2",
+   "cat": "BOLT, UNION · 2 piezas",
+   "que": "Un perno hueco (racor tipo banjo). Van dos: uno en la unidad ABS y otro en el cáliper delantero.",
+   "sirve": "Une la punta de la manguera 2 y deja pasar el líquido por un agujero en su centro. Aprieta las arandelas de sello contra el ojo de la manguera.",
+   "fallas": [
+    [
+     "maluso",
+     "Torque de más: se barre la rosca de la pieza donde entra o se parte el perno."
+    ],
+    [
+     "edad",
+     "El agujero interno se tapa con líquido viejo."
+    ]
+   ],
+   "sintomas": [
+    "Gota de líquido alrededor del perno",
+    "Manigueta esponjosa después de un desarme"
+   ],
+   "cuando": "Cada vez que se suelta la manguera; torque según el manual de servicio.",
+   "decision": "cambia",
+   "compra": "Se reutiliza si la rosca está bien; las arandelas, siempre nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "20",
+    "18",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "20",
+     "Sin arandelas nuevas, el perno gotea aunque esté bien apretado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "39": {
+   "nombre": "Perno de unión de manguera 4",
+   "cat": "BOLT, UNION · 2 piezas",
+   "que": "Un perno hueco (racor tipo banjo). Van dos: uno en la unidad ABS y otro en el cáliper trasero.",
+   "sirve": "Une la punta de la manguera 4 y deja pasar el líquido por un agujero en su centro. Aprieta las arandelas de sello contra el ojo de la manguera.",
+   "fallas": [
+    [
+     "maluso",
+     "Torque de más: se barre la rosca de la pieza donde entra o se parte el perno."
+    ],
+    [
+     "edad",
+     "El agujero interno se tapa con líquido viejo."
+    ]
+   ],
+   "sintomas": [
+    "Gota de líquido alrededor del perno",
+    "Manigueta esponjosa después de un desarme"
+   ],
+   "cuando": "Cada vez que se suelta la manguera; torque según el manual de servicio.",
+   "decision": "cambia",
+   "compra": "Se reutiliza si la rosca está bien; las arandelas, siempre nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "40",
+    "38",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "40",
+     "Sin arandelas nuevas, el perno gotea aunque esté bien apretado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "17": {
+   "nombre": "Arandela de sello de manguera 1",
+   "cat": "WASHER, PLATE · 4 piezas",
+   "que": "Arandelas de metal blando; van dos por cada perno de unión (16): una arriba y otra debajo del ojo de la manguera 1.",
+   "sirve": "Se aplastan al apretar y sellan para que el líquido no salga por el racor.",
+   "fallas": [
+    [
+     "maluso",
+     "Reusarlas: ya están aplastadas y gotean."
+    ]
+   ],
+   "sintomas": [
+    "Gota o costra seca alrededor del perno de unión"
+   ],
+   "cuando": "Nuevas cada vez que se suelta el perno de unión.",
+   "decision": "cambia",
+   "compra": "El catálogo pide 4 para la manguera 1 (dos por punta).",
+   "dif": "taller",
+   "conecta": [
+    "16",
+    "15"
+   ],
+   "efectos": [
+    [
+     "16",
+     "Una arandela que gotea deja entrar aire al soltar la manigueta."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "36": {
+   "nombre": "Arandela de sello de manguera 3",
+   "cat": "WASHER, PLATE · 4 piezas",
+   "que": "Arandelas de metal blando; van dos por cada perno de unión (35): una arriba y otra debajo del ojo de la manguera 3.",
+   "sirve": "Se aplastan al apretar y sellan para que el líquido no salga por el racor.",
+   "fallas": [
+    [
+     "maluso",
+     "Reusarlas: ya están aplastadas y gotean."
+    ]
+   ],
+   "sintomas": [
+    "Gota o costra seca alrededor del perno de unión"
+   ],
+   "cuando": "Nuevas cada vez que se suelta el perno de unión.",
+   "decision": "cambia",
+   "compra": "El catálogo pide 4 para la manguera 3 (dos por punta).",
+   "dif": "taller",
+   "conecta": [
+    "35",
+    "34"
+   ],
+   "efectos": [
+    [
+     "35",
+     "Una arandela que gotea deja entrar aire al soltar la manigueta."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "20": {
+   "nombre": "Arandela de sello de manguera 2",
+   "cat": "WASHER, PLATE · 4 piezas",
+   "que": "Arandelas de metal blando; van dos por cada perno de unión (19): una arriba y otra debajo del ojo de la manguera 2.",
+   "sirve": "Se aplastan al apretar y sellan para que el líquido no salga por el racor.",
+   "fallas": [
+    [
+     "maluso",
+     "Reusarlas: ya están aplastadas y gotean."
+    ]
+   ],
+   "sintomas": [
+    "Gota o costra seca alrededor del perno de unión"
+   ],
+   "cuando": "Nuevas cada vez que se suelta el perno de unión.",
+   "decision": "cambia",
+   "compra": "El catálogo pide 4 para la manguera 2 (dos por punta).",
+   "dif": "taller",
+   "conecta": [
+    "19",
+    "18"
+   ],
+   "efectos": [
+    [
+     "19",
+     "Una arandela que gotea deja entrar aire al soltar la manigueta."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "40": {
+   "nombre": "Arandela de sello de manguera 4",
+   "cat": "WASHER, PLATE · 4 piezas",
+   "que": "Arandelas de metal blando; van dos por cada perno de unión (39): una arriba y otra debajo del ojo de la manguera 4.",
+   "sirve": "Se aplastan al apretar y sellan para que el líquido no salga por el racor.",
+   "fallas": [
+    [
+     "maluso",
+     "Reusarlas: ya están aplastadas y gotean."
+    ]
+   ],
+   "sintomas": [
+    "Gota o costra seca alrededor del perno de unión"
+   ],
+   "cuando": "Nuevas cada vez que se suelta el perno de unión.",
+   "decision": "cambia",
+   "compra": "El catálogo pide 4 para la manguera 4 (dos por punta).",
+   "dif": "taller",
+   "conecta": [
+    "39",
+    "38"
+   ],
+   "efectos": [
+    [
+     "39",
+     "Una arandela que gotea deja entrar aire al soltar la manigueta."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Arandelas nuevas en cada desarme y torque según manual: Práctica de taller (no sale del manual del propietario)."
+    ]
+   ]
+  },
+  "14": {
+   "nombre": "Tope",
+   "cat": "STOPPER · 1 pieza",
+   "que": "Una pieza que sujeta las mangueras 1 y 3 cerca de la unidad ABS.",
+   "sirve": "Mantiene las dos mangueras en su sitio para que no se tuerzan ni rocen cuando giras el manubrio.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "media",
+   "conecta": [
+    "15",
+    "34",
+    "abs"
+   ],
+   "efectos": [
+    [
+     "15",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "37": {
+   "nombre": "Abrazadera de manguera 3",
+   "cat": "CLAMP · 1 pieza",
+   "que": "Una abrazadera pequeña sobre la manguera 3.",
+   "sirve": "Fija la manguera 3 en su recorrido para que no roce al girar el manubrio.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "34"
+   ],
+   "efectos": [
+    [
+     "34",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "41": {
+   "nombre": "Abrazadera de manguera 4",
+   "cat": "CLAMP · 1 pieza",
+   "que": "Una abrazadera sobre la manguera 4, cerca de la unidad ABS.",
+   "sirve": "Fija la manguera 4 en el primer tramo de su recorrido hacia atrás.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "38"
+   ],
+   "efectos": [
+    [
+     "38",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "42": {
+   "nombre": "Soporte de manguera 3",
+   "cat": "HOLDER, BRAKE HOSE 3 · 1 pieza",
+   "que": "Un soporte metálico con un ojo de caucho por donde pasa la manguera 4.",
+   "sirve": "Sujeta la manguera 4 al chasis; va atornillado con su perno (43).",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "media",
+   "conecta": [
+    "38",
+    "43"
+   ],
+   "efectos": [
+    [
+     "38",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "43": {
+   "nombre": "Perno del soporte de manguera 3",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "Un perno con arandela incorporada (brida).",
+   "sirve": "Atornilla el soporte (42) al chasis.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "42"
+   ],
+   "efectos": [
+    [
+     "42",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "44": {
+   "nombre": "Soporte de abrazadera",
+   "cat": "HOLDER · 1 pieza",
+   "que": "Un soporte metálico en el recorrido de la manguera 4.",
+   "sirve": "Lleva la abrazadera (45) que sujeta la manguera 4.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "media",
+   "conecta": [
+    "38",
+    "45"
+   ],
+   "efectos": [
+    [
+     "38",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "45": {
+   "nombre": "Abrazadera del soporte",
+   "cat": "CLAMP · 1 pieza",
+   "que": "Una abrazadera montada en el soporte (44).",
+   "sirve": "Abraza la manguera 4 sobre su soporte.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "44",
+    "38"
+   ],
+   "efectos": [
+    [
+     "38",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "46": {
+   "nombre": "Soporte de la bobina",
+   "cat": "STAY, IGNITION COIL · 1 pieza",
+   "que": "El soporte de la bobina de encendido, atornillado al chasis con dos pernos (47).",
+   "sirve": "Sostiene la bobina; en esta lámina aparece porque la manguera 4 pasa junto a él y su soporte (48) va cerca.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "media",
+   "conecta": [
+    "47",
+    "48"
+   ],
+   "efectos": [
+    [
+     "47",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "47": {
+   "nombre": "Perno del soporte de la bobina",
+   "cat": "BOLT, FLANGE DEEP RECESS · 2 piezas",
+   "que": "Dos pernos con brida.",
+   "sirve": "Atornillan el soporte de la bobina (46) al chasis.",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "46"
+   ],
+   "efectos": [
+    [
+     "46",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "48": {
+   "nombre": "Soporte de manguera 4",
+   "cat": "HOLDER, BRAKE HOSE 4 · 1 pieza",
+   "que": "Un soporte metálico con ojo de caucho para la manguera 4, en el último tramo.",
+   "sirve": "Sujeta la manguera 4 antes de llegar a la rueda trasera; va con su perno (49).",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "media",
+   "conecta": [
+    "38",
+    "49"
+   ],
+   "efectos": [
+    [
+     "38",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "49": {
+   "nombre": "Perno del soporte de manguera 4",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "Un perno con brida.",
+   "sirve": "Atornilla el soporte (48).",
+   "fallas": [
+    [
+     "golpe",
+     "Una caída o un golpe abajo lo dobla o lo parte."
+    ],
+    [
+     "humedad",
+     "Se oxida y su perno se pega."
+    ]
+   ],
+   "sintomas": [
+    "Manguera suelta que roza el chasis o la rueda",
+    "Ruido de algo suelto en los huecos"
+   ],
+   "cuando": "Se revisa en cada servicio, sobre todo después de una caída.",
+   "decision": "cambia",
+   "compra": "Por su código del catálogo.",
+   "dif": "facil",
+   "conecta": [
+    "48"
+   ],
+   "efectos": [
+    [
+     "48",
+     "Si falta, la manguera queda suelta y se pela al rozar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo NMAX BBE4, fig. 26."
+    ],
+    [
+     "ap",
+     "Dónde va exactamente en el chasis: dibujo aproximado, según la lámina."
+    ]
+   ]
+  },
+  "abs": {
+   "ctx": true,
+   "nombre": "Unidad ABS",
+   "cat": "Otra lámina del catálogo",
+   "que": "Un bloque con válvulas y una bomba eléctrica, entre las bombas y los cálipers.",
+   "sirve": "Si una rueda está a punto de bloquearse, afloja y vuelve a dar la presión varias veces por segundo. Las mangueras 1 y 3 llegan a ella; las 2 y 4 salen a los cálipers."
+  },
+  "liquido": {
+   "ctx": true,
+   "nombre": "Líquido de frenos DOT 4",
+   "cat": "Se compra aparte (no tiene número en la lámina)",
+   "que": "El líquido que llena bombas, mangueras, unidad ABS y cálipers.",
+   "sirve": "No se deja comprimir, así que lleva la fuerza de la manigueta hasta las pastillas. Chupa humedad del aire: por eso se cambia cada 2 años aunque se vea bien."
+  }
+ },
+ "sujeta": {
+  "6": [
+   "3"
+  ],
+  "3": [
+   "4",
+   "5"
+  ],
+  "16a": [
+   "15"
+  ],
+  "13": [
+   "12"
+  ],
+  "9": [
+   "8"
+  ],
+  "8": [
+   "7"
+  ],
+  "11": [
+   "10"
+  ],
+  "10": [
+   "1"
+  ],
+  "26": [
+   "23"
+  ],
+  "23": [
+   "24",
+   "25"
+  ],
+  "35a": [
+   "34"
+  ],
+  "33": [
+   "32"
+  ],
+  "29": [
+   "28"
+  ],
+  "28": [
+   "27"
+  ],
+  "31": [
+   "30"
+  ],
+  "30": [
+   "21"
+  ],
+  "16b": [
+   "15"
+  ],
+  "14": [
+   "15",
+   "34"
+  ],
+  "35b": [
+   "34"
+  ],
+  "37": [
+   "34"
+  ],
+  "19a": [
+   "18"
+  ],
+  "19b": [
+   "18"
+  ],
+  "41": [
+   "38"
+  ],
+  "43": [
+   "42"
+  ],
+  "42": [
+   "38"
+  ],
+  "45": [
+   "38"
+  ],
+  "44": [
+   "38"
+  ],
+  "47": [
+   "46"
+  ],
+  "49": [
+   "48"
+  ],
+  "48": [
+   "38"
+  ],
+  "39a": [
+   "38"
+  ],
+  "39b": [
+   "38"
+  ]
+ },
+ "cadenas": [
+  {
+   "t": "Líquido viejo",
+   "p": [
+    [
+     "liquido",
+     "El DOT 4 pasa de 2 años y ya chupó agua."
+    ],
+    [
+     "2",
+     "El agua hincha las copas y oxida el cilindro."
+    ],
+    [
+     "1",
+     "El orificio de compensación se tapa con óxido."
+    ],
+    [
+     "7",
+     "Las copas ya no sellan: la manigueta se hunde y el freno pierde fuerza."
+    ]
+   ]
+  },
+  {
+   "t": "Orificio de compensación tapado",
+   "p": [
+    [
+     "1",
+     "El orificio se tapa con mugre u óxido."
+    ],
+    [
+     "2",
+     "Al soltar, el líquido no puede regresar al depósito."
+    ],
+    [
+     "15",
+     "Con el calor el líquido de la manguera se dilata y no tiene a dónde ir."
+    ],
+    [
+     "18",
+     "La presión sigue llegando al cáliper: el freno queda pegado y la rueda se recalienta."
+    ]
+   ]
+  },
+  {
+   "t": "Arandelas reusadas",
+   "p": [
+    [
+     "17",
+     "Se ponen las arandelas viejas, ya aplastadas."
+    ],
+    [
+     "16",
+     "El perno queda bien apretado pero gotea."
+    ],
+    [
+     "liquido",
+     "Al soltar la manigueta entra aire por ahí."
+    ],
+    [
+     "7",
+     "La manigueta se siente esponjosa y hay que volver a purgar."
+    ]
+   ]
+  },
+  {
+   "t": "Manguera sin soporte",
+   "p": [
+    [
+     "41",
+     "Después de un trabajo queda un soporte sin poner."
+    ],
+    [
+     "38",
+     "La manguera roza el chasis en cada bache, se pela hasta la malla y aparece una gota en el roce."
+    ],
+    [
+     "27",
+     "La manigueta trasera se va hasta el puño: se perdió el freno de atrás."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Líquido de frenos DOT 4: cambiar",
+   "cuando": "Cada <b>2 años</b>, ruede lo que ruede",
+   "tarea": "liquido-frenos",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario (cuadro de mantenimiento y sección «Líquido de frenos»). <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Kits de reparación (2 y 22): cambiar",
+   "cuando": "Cada <b>2 años</b>, junto con el líquido, o antes si la manigueta se hunde",
+   "tarea": "liquido-frenos",
+   "fuente": "Manual del propietario Yamaha NM-X, pp. 9-7 y 9-25 (componentes internos de las bombas). <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Mangueras de freno (1 a 4): cambiar",
+   "cuando": "Cada <b>4 años</b>",
+   "fuente": "Nota del plan de la NMAX en TallerYa (tarea «liquido-frenos»): las mangueras se cambian cada 4 años. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Nivel del líquido en los dos depósitos: mirar",
+   "cuando": "<b>Antes de cada salida</b>, por el visor, con el manubrio recto",
+   "fuente": "Manual del propietario Yamaha NM-X: comprobaciones previas a la utilización (líquido de frenos). <span class=\"esq-s-ok\">Seguro</span>"
+  }
+ ],
+ "funciona": {
+  "vbCelular": "0 0 470 712",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · En reposo.</b> El resorte tiene el pistón atrás. El orificio de compensación está destapado: la bomba y el depósito se comunican y no hay presión.",
+    "s": {
+     "lever": 0,
+     "pist": 0,
+     "luz": false,
+     "presion": false,
+     "nivel": 0,
+     "cal": 0,
+     "aire": false,
+     "flujo": ""
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la manigueta.</b> La manigueta es una palanca: empuja el pistón con más fuerza que tus dedos. El émbolo del interruptor queda libre y se prende la luz de freno. Al primer milímetro, un poco de líquido regresa al depósito.",
+    "s": {
+     "lever": 10,
+     "pist": 5,
+     "luz": true,
+     "presion": false,
+     "nivel": 0,
+     "cal": 0,
+     "aire": false,
+     "flujo": "sube"
+    }
+   },
+   {
+    "t": "<b>3 · La copa tapa el orificio.</b> Cuando la copa primaria pasa el orificio de compensación, el líquido queda encerrado. Desde ahí todo el empuje se vuelve presión, que baja por la manguera.",
+    "s": {
+     "lever": 20,
+     "pist": 14,
+     "luz": true,
+     "presion": true,
+     "nivel": 0,
+     "cal": 2,
+     "aire": false,
+     "flujo": ""
+    }
+   },
+   {
+    "t": "<b>4 · El cáliper aprieta.</b> La presión llega al cáliper, pasando por la unidad ABS. Su pistón es mucho más grande que el de la bomba, así que tu fuerza se multiplica varias veces (aprox.) y las pastillas pellizcan el disco.",
+    "s": {
+     "lever": 22,
+     "pist": 15,
+     "luz": true,
+     "presion": true,
+     "nivel": 0,
+     "cal": 6,
+     "aire": false,
+     "flujo": ""
+    }
+   },
+   {
+    "t": "<b>5 · Sueltas.</b> El resorte devuelve el pistón y la copa destapa el orificio. El líquido que sobra regresa al depósito, la presión cae y la luz se apaga.",
+    "s": {
+     "lever": 0,
+     "pist": 0,
+     "luz": false,
+     "presion": false,
+     "nivel": 0,
+     "cal": 0,
+     "aire": false,
+     "flujo": "sube"
+    }
+   },
+   {
+    "t": "<b>6 · Las pastillas se gastan.</b> Con pastillas más delgadas, el pistón del cáliper queda más afuera y guarda más líquido. Ese líquido sale del depósito: el nivel baja y el diafragma baja con él, sin dejar entrar aire. Por eso no se rellena hasta arriba con pastillas gastadas.",
+    "s": {
+     "lever": 0,
+     "pist": 0,
+     "luz": false,
+     "presion": false,
+     "nivel": 14,
+     "cal": 4,
+     "aire": false,
+     "flujo": ""
+    }
+   },
+   {
+    "t": "<b>7 · Si entra aire.</b> El aire sí se deja comprimir: la manigueta se hunde casi hasta el puño antes de frenar y se siente blanda. La solución es purgar el sistema con líquido nuevo.",
+    "s": {
+     "lever": 26,
+     "pist": 22,
+     "luz": true,
+     "presion": false,
+     "nivel": 0,
+     "cal": 2,
+     "aire": true,
+     "flujo": ""
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Catálogo de partes Yamaha NMAX 155 (BBE4), lámina 26 «Front master cylinder»: números, nombres, cantidades y códigos.",
+   "Plan de mantenimiento de la NMAX en TallerYa (manual del propietario): líquido DOT 4 cada 2 años; mangueras cada 4 años."
+  ],
+  "aproximado": [
+   "Forma de las piezas: dibujos propios de TallerYa, no a escala.",
+   "Funcionamiento, fallas y orden del desarme: práctica de taller.",
+   "Torques: sin dato aquí; se consultan en el manual de servicio."
+  ],
+  "lista": [
+   "Catálogo de partes NMAX BBE4 (uso local).",
+   "Manual del propietario Yamaha NM-X (B6Y4), cuadro de mantenimiento."
+  ]
+ },
+ "perfiles": {
+  "piston26": [
+   [
+    0,
+    -4
+   ],
+   [
+    6.5,
+    -4
+   ],
+   [
+    6.5,
+    33
+   ],
+   [
+    3,
+    34
+   ],
+   [
+    3,
+    52
+   ],
+   [
+    0,
+    52
+   ]
+  ]
+ },
+ "pendientes": [
+  "Corregido en los textos del sitio: el nivel se revisa antes de cada salida (manual), no cada semana ni cada mes. despiece_fichas.py también habla de pedal para la bomba trasera; en la NMAX es la manigueta izquierda.",
+  "Torques de los pernos de unión, de la abrazadera y del perno de la manigueta: falta el manual de servicio.",
+  "Ubicación exacta de los soportes 44, 45, 46 y 48 en el chasis: el dibujo sigue la lámina, sin foto de la moto."
+ ],
+ "sistema": "Frenos",
+ "comun": {
+  "atras": [
+   0.3,
+   -0.5
+  ],
+  "sombra": "url(#b26Sombra)",
+  "colores": {
+   "acero": "url(#b26Acero)",
+   "cromo": "url(#b26Cromo)",
+   "rosca": "url(#b26Rosca)",
+   "cobre": "url(#b26Cobre)"
+  }
+ },
+ "carcasas": [
+  {
+   "id": "1",
+   "transparente": 0.35,
+   "rayosx": 0.22
+  },
+  {
+   "id": "21",
+   "transparente": 0.35,
+   "rayosx": 0.22
+  },
+  {
+   "id": "3",
+   "transparente": 0.4,
+   "rayosx": 0.25
+  },
+  {
+   "id": "23",
+   "transparente": 0.4,
+   "rayosx": 0.25
+  }
+ ],
+ "contexto": [
+  {
+   "arte": "arteManubrio",
+   "despuesDe": "22"
+  },
+  {
+   "arte": "arteABS",
+   "despuesDe": "22"
+  }
+ ]
+}

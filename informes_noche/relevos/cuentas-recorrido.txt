@@ -1,0 +1,3 @@
+Cuentas de prueba LOCALES del recorrido (no subir al repo)
+Motero: motero.recorrido@tallerya.local / celular 3187770001 / clave Garaje-Prueba-9531
+Taller: taller.recorrido@tallerya.local / celular 3187770002 / clave Garaje-Prueba-9531

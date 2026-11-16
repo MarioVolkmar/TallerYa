@@ -1,0 +1,161 @@
+/* esquema2.css: lo propio del motor v2 de prueba (subconjuntos, lado, tornillería agrupada, lista y ficha nueva). Va después de esquema.css. */
+.esq-envoltura [hidden]{display:none!important}
+
+/* ---------- barra del dibujo: volver, título del grupo y lado ---------- */
+.esq-v2-barra{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:10px}
+.esq-v2-tit{margin:0;font:600 .95rem "Oswald",sans-serif;letter-spacing:.04em;color:var(--crema);flex:1 1 auto;min-width:0}
+.esq-v2-lado{margin-left:auto}
+.esq-v2-volver{background:transparent;color:var(--crema);border:1px solid rgba(237,227,204,.35)}
+.esq-v2-pason{display:inline-block;font:600 .72rem "Oswald",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--mostaza);margin-right:.4em}
+
+/* ---------- dibujo: números solo en «Números», lado y grupo activos ---------- */
+#lamina.esq-v2 .esq-et{display:none}
+#lamina.esq-v2.esq-numeros .esq-et{display:inline}
+#lamina.esq-v2.esq-l-del .esq-pz.esq-lado-tra,#lamina.esq-v2.esq-l-tra .esq-pz.esq-lado-del{opacity:.28;pointer-events:none}
+#lamina.esq-v2.esq-l-del .esq-pz.esq-lado-tra .esq-et,#lamina.esq-v2.esq-l-tra .esq-pz.esq-lado-del .esq-et{display:none}
+#lamina.esq-v2.esq-engrupo .esq-pz:not(.esq-engr){opacity:.14;pointer-events:none}
+#lamina.esq-v2.esq-engrupo .esq-pz:not(.esq-engr) .esq-et{display:none}
+#lamina.esq-v2 .esq-pz{transition:transform .9s cubic-bezier(.6,.05,.3,1),opacity .35s}
+#lamina.esq-v2 .esq-pz[data-g]{cursor:pointer}
+/* silueta resaltada al pasar o al elegir */
+#lamina.esq-v2 .esq-pz.esq-engr:hover .esq-arte,#lamina.esq-v2 .esq-pz.esq-hov .esq-arte{filter:drop-shadow(0 0 2px #ffb067) drop-shadow(0 0 5px rgba(255,154,60,.7))}
+#lamina.esq-v2.esq-haysel .esq-pz.esq-engr:not(.esq-sel) .esq-arte{opacity:.55}
+#lamina.esq-v2 .esq-pz.esq-sel .esq-arte{filter:drop-shadow(0 0 2.5px var(--lava)) drop-shadow(0 0 6px rgba(242,97,29,.8))}
+
+/* marcas con nombre: grupos en la vista general, tornillería dentro del grupo */
+.esq-marca{cursor:pointer;outline:none}
+.esq-marca .esq-toque{fill:transparent}
+.esq-marca .esq-pildora{fill:rgba(20,16,12,.88);stroke:var(--mostaza);stroke-width:1.5}
+.esq-marca text{font:600 15px "Archivo",sans-serif;fill:var(--crema);text-anchor:middle;pointer-events:none}
+.esq-marca:hover .esq-pildora,.esq-marca:focus-visible .esq-pildora{fill:var(--mostaza)}
+.esq-marca:hover text,.esq-marca:focus-visible text{fill:#1a1206}
+.esq-marca:focus-visible .esq-pildora{stroke:#fff;stroke-width:2.5}
+#lamina.esq-l-del .esq-marca-g.esq-lado-tra,#lamina.esq-l-tra .esq-marca-g.esq-lado-del,#lamina.esq-engrupo #marcasG{display:none}
+.esq-marca-t{display:none}
+#lamina.esq-engrupo .esq-pz.esq-engr .esq-marca-t{display:inline}
+#lamina.esq-numeros .esq-marca-t{display:none!important}
+.esq-marca-t .esq-pildora{stroke:var(--crema-2);stroke-dasharray:4 3}
+.esq-pz.esq-sel .esq-marca-t .esq-pildora{fill:var(--lava);stroke:var(--lava)}
+.esq-pz.esq-sel .esq-marca-t text{fill:#1a0f08}
+
+/* nombre de la pieza al pasar el cursor o al tocarla */
+.esq-lienzo{position:relative}
+.esq-v2-nombre{position:absolute;transform:translate(-50%,-100%);pointer-events:none;background:#14100c;color:var(--crema);border:1px solid var(--mostaza);border-radius:8px;padding:4px 10px;font:600 .85rem "Archivo",sans-serif;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis;z-index:3;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+
+/* ---------- lista plegable por grupos ---------- */
+.esq-v2-lista{margin:8px 0 4px}
+.esq-v2-buscar input{width:100%;box-sizing:border-box;min-height:44px;border-radius:999px;border:1px solid rgba(237,227,204,.3);background:rgba(0,0,0,.25);color:var(--crema);padding:0 16px;font:500 .95rem "Archivo",sans-serif;margin-bottom:8px}
+.esq-v2-buscar input::placeholder{color:var(--crema-2)}
+.esq-v2-grupo,.esq-v2-res{border-top:1px solid rgba(237,227,204,.12)}
+.esq-v2-grupo>summary,.esq-v2-torn>summary{min-height:44px;display:flex;align-items:center;gap:8px;cursor:pointer;font:600 .95rem "Oswald",sans-serif;letter-spacing:.04em;color:var(--crema);list-style:none;padding:0 4px}
+.esq-v2-grupo>summary::-webkit-details-marker,.esq-v2-torn>summary::-webkit-details-marker{display:none}
+.esq-v2-grupo>summary::before,.esq-v2-torn>summary::before{content:"▸";color:var(--mostaza);transition:transform .2s}
+.esq-v2-grupo[open]>summary::before,.esq-v2-torn[open]>summary::before{transform:rotate(90deg)}
+.esq-v2-torn>summary{font:500 .88rem "Archivo",sans-serif;color:var(--crema-2)}
+.esq-v2-cuenta{margin-left:auto;font:500 .78rem "Archivo",sans-serif;color:var(--crema-2)}
+.esq-v2-lista ul,.esq-ficha-lista ul{list-style:none;margin:0;padding:0 0 6px 18px}
+.esq-v2-res ul{padding-left:0}
+.esq-v2-item{display:flex;align-items:center;gap:8px;width:100%;min-height:44px;text-align:left;background:transparent;border:0;border-radius:10px;color:var(--crema);font:500 .92rem "Archivo",sans-serif;padding:0 10px;cursor:pointer}
+.esq-v2-item:hover{background:rgba(237,227,204,.1)}
+.esq-v2-item.esq-sel{background:#2a1a12;box-shadow:inset 3px 0 0 var(--lava)}
+.esq-v2-num{display:none;font:700 .75rem "Oswald",sans-serif;color:var(--mostaza);min-width:1.6em}
+.esq-v2-numeros .esq-v2-num{display:inline}
+/* la lista va en el panel de la ficha en computador y bajo el dibujo en el celular */
+.esq-ficha-lista{display:none}
+@media(min-width:960px){.esq-ficha-lista{display:block}#v2Lista{display:none}}
+
+/* ---------- ficha ---------- */
+.esq-v2-nav{display:flex;gap:6px;justify-content:space-between;margin-bottom:10px}
+.esq-v2-nav button{min-height:44px;border-radius:999px;border:1px solid rgba(237,227,204,.25);background:transparent;color:var(--crema);font:600 .8rem "Oswald",sans-serif;letter-spacing:.06em;padding:0 12px;cursor:pointer}
+.esq-v2-nav button:hover:not(:disabled){background:rgba(237,227,204,.12)}
+.esq-v2-nav button:disabled{opacity:.35;cursor:default}
+.esq-v2-sub{color:var(--crema-2);font-size:.85rem;margin:.15em 0 .4em}
+.esq-v2-sec{margin:12px 0}
+.esq-v2-sec h4{margin:0 0 4px;font:600 .78rem "Oswald",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--mostaza)}
+.esq-v2-sec p{margin:.2em 0}
+.esq-v2-sec ul{margin:.2em 0;padding-left:1.1em}
+.esq-v2-fallas{list-style:none;padding-left:0!important}
+.esq-v2-fallas li{margin:.35em 0}
+.esq-v2-fallas .esq-causa{border:0;cursor:pointer;font-size:.72rem;padding:3px 9px;min-height:28px}
+.esq-causa-def{display:block;font-size:.82rem;color:var(--crema-2);margin:.2em 0 0 .2em}
+.esq-v2-quien{font-weight:600;color:var(--crema);margin-left:.4em}
+.esq-v2-acciones{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.esq-v2-acciones .esq-btn{text-decoration:none}
+.esq-v2-pedir{font-size:.78rem;color:var(--crema-2);margin:.2em 0}
+.esq-v2-chips{display:flex;flex-wrap:wrap;gap:6px}
+.esq-v2-chip{min-height:36px;border-radius:999px;border:1px solid rgba(237,227,204,.25);background:transparent;color:var(--crema);font:500 .82rem "Archivo",sans-serif;padding:0 12px;cursor:pointer}
+.esq-v2-chip:hover{border-color:var(--lava)}
+.esq-v2-arrastra{list-style:none;padding-left:0!important}
+.esq-enl{background:none;border:0;padding:0;font:inherit;color:var(--lava-2);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.esq-enl:hover{color:var(--crema)}
+.esq-v2-mas>summary,.esq-v2-fuentes>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;color:var(--crema-2);font:600 .85rem "Archivo",sans-serif}
+@media(min-width:960px){.esq-v2-mas>summary{display:none}}
+.esq-v2-fuentes{margin-top:10px;border-top:1px solid rgba(237,227,204,.12)}
+.esq-v2-tpieza{border-top:1px solid rgba(237,227,204,.12);padding:8px 0}
+.esq-v2-tpieza h4{margin:0 0 4px;color:var(--crema);font:600 .95rem "Archivo",sans-serif}
+.esq-v2-tpieza p{margin:.2em 0}
+.esq-v2-completa{min-height:44px}
+.esq-v2-intro{color:var(--crema-2);font-size:.88rem}
+.esq-v2-inicio h3{margin-top:0}
+@media(max-width:700px){
+  .esq-v2-fallas .esq-causa,.esq-v2-chip{min-height:44px}
+  .esq-v2-tit{flex-basis:100%;order:3;font-size:.9rem}
+  .esq-v2-lado{margin-left:0}
+}
+/* el texto bajo el dibujo ya dice el grupo y el freno: el título de la barra sobra */
+.esq-v2-tit{display:none}
+@media(min-width:960px){
+  #p-piezas .esq-v2-barra{display:contents}
+  #p-piezas .esq-v2-volver{order:0;flex:none}
+  #p-piezas .esq-v2-lado{order:1;flex:none;margin-left:0}
+}
+/* correcciones UX: toque de piezas chicas; en el celular, decisión y «Pedir» suben en la ficha */
+.esq-toque-pz{fill:transparent;pointer-events:all}
+@media(max-width:959px){
+  .esq-v2-cuerpo{display:flex;flex-direction:column}
+  .esq-o-que{order:1}.esq-o-dec{order:2}.esq-o-cuando{order:3}.esq-o-sirve{order:4}.esq-o-senal{order:5}.esq-o-falla{order:6}
+}
+
+/* ---------- ajustes del usuario (adopción v2) ---------- */
+/* a) píldoras chicas y discretas: etiqueta mínima en reposo, la completa al pasar o enfocar; el toque (44 px) es invisible */
+.esq-marca .esq-pildora{fill:rgba(20,16,12,.72);stroke:var(--mostaza);stroke-width:1}
+.esq-marca text{font:600 11px "Archivo",sans-serif}
+.esq-marca-t .esq-pildora{stroke-dasharray:3 2}
+.esq-marca .esq-m-full{display:none}
+.esq-marca:hover .esq-m-full,.esq-marca:focus-visible .esq-m-full{display:inline}
+.esq-marca:has(.esq-m-full):is(:hover,:focus-visible) .esq-m-min{display:none}
+.esq-marca:focus-visible .esq-pildora{stroke-width:1.5}
+/* b) enlaces dentro del texto: en línea, crema con subrayado punteado fino, sin romper el renglón */
+.esq-envoltura .esq-enl{display:inline;min-height:0;padding:0;margin:0;border:0;border-radius:0;background:none;font:inherit;line-height:inherit;vertical-align:baseline;color:var(--crema);text-decoration:underline dotted rgba(255,176,103,.75);text-decoration-thickness:1px;text-underline-offset:3px;cursor:pointer}
+.esq-envoltura .esq-enl:hover,.esq-envoltura .esq-enl:focus-visible{color:#fff;text-decoration-style:solid}
+/* c) «Pedir repuesto» y «Talleres»: acciones chicas junto a «Para pedirla», con toque invisible de 44 px */
+.esq-v2-pedir{font-size:.78rem;color:var(--crema-2);margin:.4em 0;line-height:1.9}
+.esq-v2-acc{display:inline-flex;flex-wrap:wrap;gap:6px;margin-left:8px;vertical-align:middle}
+.esq-v2-a{position:relative;display:inline-flex;align-items:center;gap:4px;font:600 .74rem "Archivo",sans-serif;color:var(--crema);text-decoration:none;border:1px solid rgba(237,227,204,.3);border-radius:999px;padding:2px 9px;line-height:1.4}
+.esq-v2-a:hover,.esq-v2-a:focus-visible{border-color:var(--lava);color:#fff}
+.esq-v2-a::after{content:"";position:absolute;left:-4px;right:-4px;top:50%;height:44px;transform:translateY(-50%)}
+/* e) certeza junto a cada dato y un solo enlace «Fuentes» */
+.esq-envoltura .esq-cert{display:inline;min-height:0;padding:0 5px;margin-left:2px;border:1px solid currentColor;border-radius:999px;background:none;font:600 .66rem "Archivo",sans-serif;line-height:1.5;vertical-align:1px;cursor:pointer;white-space:nowrap;position:relative}
+.esq-envoltura .esq-cert::after{content:"";position:absolute;left:-6px;right:-6px;top:50%;height:44px;transform:translateY(-50%)}
+.esq-cert-ok{color:var(--ok)}.esq-cert-ap{color:var(--aprox)}
+.esq-cert-def{display:block;font-size:.78rem;color:var(--crema-2);margin:.15em 0 0}
+.esq-v2-fuentes{border-top:0;margin-top:6px}
+.esq-v2-fuentes>summary{min-height:44px;display:inline-flex;font:600 .76rem "Archivo",sans-serif;color:var(--crema-2);text-decoration:underline dotted;text-underline-offset:3px;list-style:none}
+.esq-v2-fuentes>summary::-webkit-details-marker{display:none}
+.esq-v2-fuentes .esq-certeza{font-size:.8rem}
+/* d) celular: hoja inferior que asoma (nombre + «Qué es»), se sube para la ficha y se baja para cerrar */
+.esq-hoja2{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(24,30,33,.98);border-top:1px solid var(--borde);border-radius:16px 16px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.45);padding-bottom:env(safe-area-inset-bottom);transition:transform .25s}
+.esq-h2-cab{position:relative;display:flex;align-items:center;gap:8px;padding:14px 10px 8px 14px;touch-action:none;cursor:grab}
+.esq-h2-asa{position:absolute;top:5px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:2px;background:rgba(237,227,204,.35)}
+.esq-h2-txt{flex:1;min-width:0}
+.esq-h2-txt b{display:block;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.esq-h2-txt p{margin:.1em 0 0;font-size:.8rem;color:var(--crema-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.esq-h2-ver{flex:none;font-size:.8rem;padding:0 12px}
+.esq-h2-x{flex:none;width:44px;padding:0;background:transparent;border-color:transparent}
+.esq-h2-cuerpo{display:none}
+.esq-hoja2.esq-h2-abierta .esq-h2-cuerpo{display:block;max-height:calc(82vh - 70px);overflow:auto;overscroll-behavior:contain;padding:0 4px 12px}
+.esq-hoja2.esq-h2-abierta .esq-h2-txt p{display:none}
+.esq-hoja2 #ficha{margin:0;box-shadow:none}
+html.esq-con-hoja body{padding-bottom:96px}
+@media(min-width:960px){.esq-hoja2{display:none!important}}
+@media(prefers-reduced-motion:reduce){.esq-hoja2{transition:none}}

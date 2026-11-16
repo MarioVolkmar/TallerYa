@@ -1,0 +1,839 @@
+{
+ "fichas": {
+  "1": {
+   "que": "Una placa redonda de acero de 230 mm, atornillada al rin. Gira siempre con la rueda.",
+   "sirve": "Es lo que aprietan las [[9|pastillas]]. Convierte el movimiento de la moto en calor y lo bota al aire; los huecos lo enfrían y sacan el agua y el polvo.",
+   "sintomas": [
+    "La manigueta palpita o vibra al frenar (disco torcido).",
+    "Surcos o rayas que sientes con la uña.",
+    "Frena menos aunque las pastillas sean nuevas.",
+    "Un «chas-chas» rítmico a poca velocidad, o manchas azuladas por recalentamiento."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada le quita material. Con los años se adelgaza hasta el mínimo grabado («MIN TH»)."
+    ],
+    [
+     "calor",
+     "Las bajadas largas frenando todo el tiempo (Las Palmas, la vía a Santa Elena) lo recalientan y lo pueden torcer."
+    ],
+    [
+     "maluso",
+     "Pastillas gastadas hasta el metal le hacen surcos. Grasa, lubricante de cadena o líquido de frenos lo dejan resbaloso."
+    ],
+    [
+     "golpe",
+     "Una caída o tornillos apretados disparejos lo pueden torcer."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cuando llega al mínimo grabado, está torcido o rajado, se cambia. En moto no se rectifica: casi no le sobra espesor. Si solo está untado de grasa, lávalo con limpiador de frenos y cambia las pastillas.",
+   "dif": "taller",
+   "cuando": "Mide el grosor y mira si está torcido en cada cambio de [[9|pastillas]]. Cámbialo al llegar al mínimo grabado, o si está torcido o rajado entre los huecos. Con disco nuevo, siempre pastillas nuevas: las viejas ya tomaron la forma del disco gastado.",
+   "arrastra": [
+    "Disco torcido → la manigueta palpita y las [[9|pastillas]] se gastan disparejo.",
+    "Disco untado de aceite → las pastillas se untan y hay que cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "2": {
+   "nombre": "Tornillos del disco",
+   "que": "Los tres tornillos que unen el [[1|disco]] al rin.",
+   "sirve": "Pasan toda la fuerza del frenado del disco a la rueda. Son pocos y trabajan mucho.",
+   "sintomas": [
+    "Un clic o golpe al empezar a frenar.",
+    "El disco tiene juego al moverlo con la mano.",
+    "La cabeza está redondeada (barrida)."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se aflojan si los montas sin fijador de rosca o sin el torque del manual de servicio."
+    ],
+    [
+     "maluso",
+     "La cabeza se barre con una llave que no es del tamaño exacto."
+    ],
+    [
+     "humedad",
+     "Se oxidan y luego no salen, sobre todo si nunca se han tocado."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si están barridos o el fabricante no permite reutilizarlos, van nuevos, con fijador de rosca y apretados en cruz.",
+   "dif": "taller",
+   "cuando": "Revísalos cada vez que desmontes la rueda o el disco.",
+   "arrastra": [
+    "Tornillo flojo → el [[1|disco]] se mueve y suena al frenar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "3": {
+   "nombre": "Cáliper (cuerpo)",
+   "que": "La «pinza» del freno: un cuerpo de aluminio con un cilindro adentro. En la NMAX es flotante y de un solo pistón.",
+   "sirve": "Convierte la presión del [[liquido|líquido]] en fuerza sobre las [[9|pastillas]]. El [[4|pistón]] empuja una pastilla y el cuerpo se corre en sus pasadores para jalar la otra.",
+   "sintomas": [
+    "La rueda queda frenada o caliente después de rodar.",
+    "Olor a quemado después de frenar.",
+    "Una pastilla se gasta mucho más que la otra.",
+    "Manchas de líquido alrededor, o el nivel del depósito baja sin que las pastillas estén gastadas."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El líquido viejo trae agua: oxida el cilindro y el pistón por dentro y el pistón se pega."
+    ],
+    [
+     "edad",
+     "Los empaques se endurecen con los años y el calor: aparecen fugas o el pistón no regresa."
+    ],
+    [
+     "humedad",
+     "Si los pasadores se oxidan, el cuerpo deja de flotar y solo trabaja una pastilla."
+    ],
+    [
+     "maluso",
+     "La rosca del purgador se daña si lo aprietas de más. La hidrolavadora a presión directa también lo daña."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "El cuerpo se limpia y se le cambian los [[5|empaques]] y el líquido. Solo se cambia entero si el cilindro está picado.",
+   "dif": "taller",
+   "cuando": "Límpialo y revísalo en cada cambio de pastillas. Los empaques de adentro se renuevan cada 2 años con el líquido (manual), o antes si hay fuga o el freno queda pegado.",
+   "arrastra": [
+    "Cáliper que no flota → una sola pastilla se gasta y el [[1|disco]] se recalienta de un lado.",
+    "Cilindro oxidado → el [[4|pistón]] se pega y el freno queda arrastrando."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "4": {
+   "nombre": "Pistón del cáliper",
+   "que": "Un cilindro metálico, hueco por delante, que vive dentro del [[3|cáliper]].",
+   "sirve": "El líquido lo empuja por detrás y él empuja la [[9|pastilla]]. Como es mucho más grande que el pistón de la bomba, multiplica la fuerza de tu mano.",
+   "sintomas": [
+    "El freno no suelta del todo.",
+    "Fuga de líquido detrás de la pastilla.",
+    "La pastilla del lado del pistón se gasta más."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El agua del líquido viejo lo pica por dentro (corrosión)."
+    ],
+    [
+     "desgaste",
+     "Con pastillas muy gastadas sale de más y se le pega mugre. Al meterlo para poner pastillas nuevas, esa parte sucia raya el [[5|sello]]."
+    ],
+    [
+     "calor",
+     "El calor de un freno pegado lo dilata y empeora el problema."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está picado o rayado no sella y va uno nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que abras el cáliper: cada 2 años, al cambiar los empaques junto con el líquido (manual), o antes si hay problemas. Antes de meterlo para poner pastillas nuevas, límpiale la parte que queda afuera.",
+   "arrastra": [
+    "Pistón sucio o picado → rompe el [[5|sello]] y el cáliper bota líquido."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "5": {
+   "nombre": "Empaques del cáliper",
+   "que": "Dos anillos de caucho: el sello del pistón (adentro) y el guardapolvo (afuera).",
+   "sirve": "El sello no deja salir el líquido y, al soltar el freno, jala el [[4|pistón]] de vuelta: se tuerce un poquito al frenar y regresa. El guardapolvo no deja entrar agua ni mugre.",
+   "sintomas": [
+    "El freno queda pegado o la rueda se calienta.",
+    "Fuga de líquido en el cáliper.",
+    "La manigueta se va al fondo (entró aire)."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurecen con los años y el calor: pierden elasticidad y ya no regresan el pistón."
+    ],
+    [
+     "maluso",
+     "Se hinchan y se dañan con un líquido equivocado (DOT 5, aceite, gasolina usada para «lavar»)."
+    ],
+    [
+     "humedad",
+     "Si el guardapolvo se rompe, entra agua y el pistón se oxida."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "El caucho no se repara. Se cambian siempre los dos, nunca se reutilizan.",
+   "dif": "taller",
+   "cuando": "Cámbialos cada 2 años, junto con el [[liquido|líquido]] (manual de Yamaha, pp. 9-7 y 9-25: «Juntas de freno: cada 2 años»), o antes si hay fuga o el freno queda pegado.",
+   "arrastra": [
+    "Sello endurecido → el [[4|pistón]] no regresa y las pastillas rozan el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "6": {
+   "nombre": "Guardapolvo de un pasador del cáliper",
+   "que": "Un fuelle de caucho entre el cuerpo del [[3|cáliper]] y uno de los pasadores del [[13|soporte]].",
+   "sirve": "Protege el pasador para que el cáliper siga deslizándose (flotando) sin oxidarse.",
+   "sintomas": [
+    "El caucho está rajado o fuera de su sitio.",
+    "Con el cáliper desmontado, no se deja mover con la mano.",
+    "Las pastillas se gastan disparejo."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se reseca y se raja."
+    ],
+    [
+     "calor",
+     "El calor del freno lo endurece."
+    ],
+    [
+     "maluso",
+     "Se hincha con grasa común (no de frenos) o se sale de su sitio si lo montas mal."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está rajado o suelto, cámbialo; con el caucho roto el pasador se oxida.",
+   "dif": "taller",
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "arrastra": [
+    "Guardapolvo roto → entra agua, el pasador del [[13|soporte]] se oxida y el cáliper deja de flotar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "7": {
+   "nombre": "Guardapolvo del segundo pasador",
+   "que": "El fuelle de caucho del segundo pasador deslizante.",
+   "sirve": "Igual que el [[6|otro guardapolvo]]: mantiene limpio y seco el pasador para que el cáliper flote.",
+   "sintomas": [
+    "El caucho está roto.",
+    "El freno queda rozando.",
+    "Una pastilla se gasta en cuña."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se reseca y se raja con los años."
+    ],
+    [
+     "humedad",
+     "Si está roto, entra agua y el pasador se oxida."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está roto, cámbialo antes de que el pasador se oxide.",
+   "dif": "taller",
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "arrastra": [
+    "Guardapolvo roto → el pasador se oxida y el [[3|cáliper]] se traba."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "8": {
+   "nombre": "Purgador",
+   "que": "Un tornillo hueco en la parte alta del [[3|cáliper]], con una tapita de caucho.",
+   "sirve": "Por ahí sale el aire y el líquido viejo cuando cambias el [[liquido|líquido]] o purgas.",
+   "sintomas": [
+    "Gotas de líquido en el purgador.",
+    "No deja purgar (está tapado).",
+    "La manigueta sigue esponjosa después de purgar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se parte o barre la rosca del cáliper si lo aprietas de más."
+    ],
+    [
+     "humedad",
+     "Sin tapita entran agua y mugre, el agujero se tapa y el purgador se pega por óxido."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está pegado, barrido o tapado, va uno nuevo.",
+   "dif": "taller",
+   "cuando": "Se usa en cada cambio de líquido: cada 2 años (plan de TallerYa = manual de Yamaha, DOT 4).",
+   "arrastra": [
+    "Purgador tapado → no sale el aire y la manigueta queda esponjosa."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "9": {
+   "nombre": "Pastillas de freno (juego)",
+   "que": "Dos placas de acero con un bloque de material de fricción pegado. Tienen una ranura en el centro que avisa el desgaste.",
+   "sirve": "Son las que rozan el [[1|disco]]. Se gastan a propósito para que el disco dure.",
+   "sintomas": [
+    "La ranura del centro ya casi no se ve.",
+    "Chillido metálico o raspado al frenar.",
+    "Frena menos y tienes que apretar más.",
+    "El nivel del depósito baja poco a poco."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada las gasta. En Medellín se gastan más rápido por las lomas, el trancón y frenar solo con el delantero."
+    ],
+    [
+     "calor",
+     "Con calor sostenido se cristalizan: la cara queda brillante, chillan y frenan menos."
+    ],
+    [
+     "maluso",
+     "Aceite, grasa o líquido de frenos las contaminan. Una pastilla untada no se recupera."
+    ],
+    [
+     "desgaste",
+     "Si llegan al metal, el acero raya el disco."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia el juego completo, siempre, cuando la ranura casi desaparece.",
+   "dif": "taller",
+   "cuando": "Revísalas cada 6.000 km (plan de TallerYa). El manual de Yamaha pide mirarlas a los 1.000 km y luego en cada servicio de 6.000 km. Cámbialas cuando la ranura indicadora casi desaparezca.",
+   "arrastra": [
+    "Pastillas al metal → rayan el [[1|disco]].",
+    "Pastillas untadas → frenas menos y toca cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ok",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "10": {
+   "nombre": "Grapas del pasador",
+   "que": "Dos grapas de alambre de acero, en forma de R, que se meten en el [[12|pasador]].",
+   "sirve": "Impiden que el pasador de las pastillas se salga con la vibración.",
+   "sintomas": [
+    "La grapa falta o está floja.",
+    "El pasador se mueve o se sale."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden al cambiar pastillas o se deforman si las sacas con alicate."
+    ],
+    [
+     "edad",
+     "Pierden tensión con el tiempo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Son baratas: si falta una o está floja, cámbiala.",
+   "dif": "facil",
+   "cuando": "En cada cambio de pastillas.",
+   "arrastra": [
+    "Grapa floja → el [[12|pasador]] se sale y las pastillas quedan sueltas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "11": {
+   "nombre": "Resorte de las pastillas",
+   "que": "Una lámina de acero doblada que hace de resorte sobre las [[9|pastillas]].",
+   "sirve": "Las mantiene firmes contra el pasador para que no traqueteen ni vibren.",
+   "sintomas": [
+    "Traqueteo en los huecos o en el empedrado.",
+    "Chillido.",
+    "Pastillas gastadas en cuña."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión."
+    ],
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se monta al revés al cambiar pastillas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si perdió tensión o está oxidado, cámbialo; es barato.",
+   "dif": "taller",
+   "cuando": "En cada cambio de pastillas.",
+   "arrastra": [
+    "Resorte flojo → las [[9|pastillas]] traquetean y se gastan en cuña."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "12": {
+   "nombre": "Pasador de las pastillas",
+   "que": "Una varilla de acero que atraviesa el [[3|cáliper]] y las orejas de las [[9|pastillas]].",
+   "sirve": "Sostiene las pastillas y las deja deslizarse hacia el disco y de regreso.",
+   "sintomas": [
+    "Una pastilla no se despega del disco.",
+    "Ruido metálico.",
+    "Se le ven surcos."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y las pastillas no deslizan."
+    ],
+    [
+     "desgaste",
+     "Las orejas de las pastillas le hacen surcos con la vibración."
+    ],
+    [
+     "golpe",
+     "Se dobla si lo sacas a golpes."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está oxidado, doblado o con surcos, cámbialo.",
+   "dif": "taller",
+   "cuando": "Límpialo en cada cambio de pastillas. Déjalo sin grasa o con muy poca grasa especial: la grasa común junta polvo.",
+   "arrastra": [
+    "Pasador oxidado → una pastilla queda pegada al [[1|disco]] y se calienta."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "13": {
+   "nombre": "Soporte del cáliper",
+   "que": "Una pieza fundida que se atornilla a la barra. En sus dos pasadores se desliza el cuerpo del [[3|cáliper]].",
+   "sirve": "Aguanta la fuerza del frenado y deja flotar el cáliper para que las dos pastillas aprieten parejo.",
+   "sintomas": [
+    "El cáliper no se desliza.",
+    "Pastillas gastadas en cuña.",
+    "El freno roza aunque los empaques sean nuevos."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Los pasadores se oxidan si los guardapolvos están rotos."
+    ],
+    [
+     "golpe",
+     "Se dobla en una caída o con un golpe en la rueda."
+    ],
+    [
+     "maluso",
+     "Las roscas se dañan si aprietas de más los [[15|tornillos]]."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Si los pasadores solo están sucios, se limpian y engrasan. Si está doblado o los pasadores están picados, se cambia.",
+   "dif": "taller",
+   "cuando": "Revisa los pasadores en cada cambio de pastillas: límpialos y engrásalos con grasa de silicona para frenos.",
+   "arrastra": [
+    "Pasadores oxidados → el [[3|cáliper]] deja de flotar y una sola pastilla trabaja."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "14": {
+   "nombre": "Lámina antirruido",
+   "que": "Una lámina delgada detrás de la [[9|pastilla]], entre ella y el [[4|pistón]].",
+   "sirve": "Amortigua la vibración que produce el chillido al frenar.",
+   "sintomas": [
+    "Chillido agudo al frenar suave."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierde o se olvida al cambiar pastillas."
+    ],
+    [
+     "humedad",
+     "Se oxida y se deforma."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barata: si está oxidada o deformada, cámbiala y no la olvides al armar.",
+   "dif": "facil",
+   "cuando": "En cada cambio de pastillas.",
+   "arrastra": [
+    "Lámina ausente → la [[9|pastilla]] chilla al frenar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "15": {
+   "nombre": "Tornillos del soporte del cáliper",
+   "que": "Los dos tornillos que fijan el [[13|soporte]] a las orejas de la barra.",
+   "sirve": "Aguantan toda la fuerza del frenado de la rueda delantera. Son de seguridad.",
+   "sintomas": [
+    "Golpe o clic al frenar.",
+    "El cáliper se mueve con la mano.",
+    "Marcas del cáliper en el rin o en el disco."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Quedan flojos si después de montar la rueda no los aprietas con torquímetro."
+    ],
+    [
+     "maluso",
+     "Se barren si aprietas de más; sin fijador se aflojan con la vibración."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si están barridos o dudosos, van nuevos, con fijador de rosca y el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Revisa el apriete después de cualquier trabajo en la rueda o en los frenos.",
+   "arrastra": [
+    "Tornillo flojo → el [[13|soporte]] golpea al frenar y el cáliper puede morder el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "barra": {
+   "nombre": "Barra derecha de la suspensión",
+   "que": "La barra donde va atornillado el [[13|soporte]] del cáliper.",
+   "sirve": "Sostiene la rueda y el freno.",
+   "sintomas": [
+    "Aceite en la barra o en el disco.",
+    "El freno pierde agarre de repente."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Si su retenedor bota aceite, el aceite baja por la barra y puede caer en el [[1|disco]] y las [[9|pastillas]]."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Si hay aceite, se arregla el retenedor y se limpia el disco; las pastillas untadas se cambian.",
+   "dif": "taller",
+   "cuando": "Mira si hay aceite en la barra en cada lavada.",
+   "arrastra": [
+    "Retenedor que bota aceite → [[1|disco]] y pastillas untados."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "manguera": {
+   "nombre": "Mangueras del freno y ABS",
+   "que": "Dos mangueras: una va de la bomba a la unidad ABS y la otra del ABS al [[3|cáliper]] (es la que ves en el dibujo). Cada punta lleva un tornillo hueco (banjo) y dos arandelas de sello.",
+   "sirve": "Pasan la presión de tu mano al cáliper. En el camino está la unidad ABS: si la rueda se va a bloquear, afloja la presión y la vuelve a dar varias veces por segundo para que la llanta no patine.",
+   "sintomas": [
+    "La manigueta se siente esponjosa.",
+    "Ves grietas o humedad en la manguera."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se infla con los años."
+    ],
+    [
+     "golpe",
+     "Se pellizca si queda mal guiada al girar el manubrio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "El caucho no se repara: si está agrietado o inflado, se cambia, con arandelas nuevas en los dos pernos de unión. Después hay que purgar; con ABS, la purga es trabajo de taller porque puede quedar aire en la unidad.",
+   "dif": "taller",
+   "cuando": "Revísalas en cada servicio y cámbialas cada 4 años (manual de Yamaha).",
+   "arrastra": [
+    "Manguera inflada → la manigueta se siente esponjosa y el [[3|cáliper]] recibe menos presión."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "rueda": {
+   "que": "El rin donde va atornillado el [[1|disco]].",
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "liquido": {
+   "nombre": "Líquido de frenos DOT 4",
+   "que": "El líquido que llena la bomba, la manguera y el [[3|cáliper]].",
+   "sirve": "No se deja comprimir: por eso pasa la fuerza de tu mano al cáliper al instante.",
+   "sintomas": [
+    "La manigueta se siente esponjosa o se va al fondo después de frenar mucho.",
+    "El líquido se ve oscuro en el visor."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Absorbe la humedad del aire con los años. Con agua hierve antes: nuevo hierve sobre 230 °C y con humedad puede bajar a unos 155 °C (mínimos de la norma)."
+    ],
+    [
+     "calor",
+     "Si hierve en una bajada larga se forman burbujas, y las burbujas sí se comprimen."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es líquido DOT 4 y se cambia por tiempo, no por kilómetros.",
+   "dif": "taller",
+   "cuando": "Cámbialo cada 2 años, ruede lo que ruede (plan de la NMAX = manual). En ese mismo servicio el manual manda cambiar los empaques de la bomba y del cáliper.",
+   "arrastra": [
+    "Líquido con agua → hierve antes y el [[4|pistón]] se oxida por dentro."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ok",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  }
+ },
+ "pasos": {
+  "0": "<b>Tornillos del soporte.</b> Con la moto en el gato central y la rueda delantera en el aire, afloja los dos tornillos que sujetan el soporte a la barra.",
+  "1": "<b>Sacar el cáliper.</b> Sale con su soporte, deslizándolo fuera del disco. Para cambiar pastillas no hace falta soltar la manguera: déjala colgando sin estirarla. Para el desarme completo, antes drena el líquido y suelta el racor.",
+  "2": "<b>Grapas.</b> Saca las dos grapas que impiden que el pasador se salga.",
+  "3": "<b>Pasador de las pastillas.</b> Sácalo. Es lo único que sostiene las pastillas: por eso las grapas importan.",
+  "4": "<b>Pastillas.</b> Salen las dos. Mira la ranura indicadora: si casi no se ve, cambia el juego completo.",
+  "5": "<b>Lámina antirruido.</b> Va detrás de la pastilla del lado del pistón y evita chillidos. No la olvides al armar.",
+  "6": "<b>Resorte de las pastillas.</b> Las mantiene firmes para que no traqueteen. Hasta aquí llega un cambio de pastillas normal.",
+  "7": "<b>Separar el cuerpo del soporte.</b> El cuerpo del cáliper se desliza fuera de los pasadores del soporte. Así flota el cáliper: por eso esos pasadores deben quedar limpios y engrasados.",
+  "8": "<b>Guardapolvos de los pasadores.</b> Son cauchos que protegen los pasadores del agua y del polvo. Si están rotos, el pasador se oxida.",
+  "9": "<b>Purgador.</b> Desenróscalo con cuidado: es de acero y el cáliper es de aluminio, así que la rosca se daña fácil si aprietas de más.",
+  "10": "<b>Pistón.</b> Sácalo con aire comprimido a poca presión por la entrada del líquido, con un trapo delante. Nunca con los dedos delante del pistón.",
+  "11": "<b>Empaques.</b> Saca el sello y el guardapolvo del pistón con un palillo de plástico, sin rayar las ranuras. Se cambian siempre los dos, nunca se reutilizan.",
+  "12": "<b>Tornillos del disco.</b> Con la rueda desmontada (otra lámina), afloja en cruz los tornillos del disco. Llevan fijador de rosca.",
+  "13": "<b>Disco.</b> Sale del rin. Mide el grosor en varios puntos y compáralo con el mínimo grabado («MIN TH»). <b>Al armar todo:</b> tornillos con fijador de rosca y apretados en cruz con el torque del manual de servicio, pastillas nuevas si cambiaste el disco, líquido DOT 4 nuevo y purgar hasta que la manigueta quede firme; con ABS, la purga se hace en el taller. <b>Antes de rodar, prueba el freno con la moto quieta.</b>"
+ },
+ "textoArmado": "<b>Armado.</b> El cáliper abraza el borde del disco y su soporte se atornilla a la barra. Lo de adentro (pistón, pastillas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista. Toca una pieza para abrir su ficha.",
+ "cadenas": [
+  {
+   "t": "Pastillas que llegan al metal",
+   "p": [
+    [
+     "9",
+     "Se gastan y nadie revisa la ranura."
+    ],
+    [
+     "1",
+     "La placa de acero raya el disco: ahora toca cambiar disco y pastillas."
+    ],
+    [
+     "4",
+     "El pistón salió de más para alcanzar el disco y se le pegó mugre."
+    ],
+    [
+     "5",
+     "Al meter el pistón para poner pastillas nuevas, la parte sucia raya el sello y aparece una fuga. Por eso se limpia antes de empujarlo."
+    ]
+   ]
+  },
+  {
+   "t": "Líquido y empaques de más de 2 años",
+   "p": [
+    [
+     "liquido",
+     "Absorbió agua y hierve antes."
+    ],
+    [
+     "4",
+     "El agua oxida el pistón por dentro."
+    ],
+    [
+     "5",
+     "Los empaques, que el manual manda cambiar junto con el líquido cada 2 años, se endurecen y ya no regresan el pistón."
+    ],
+    [
+     "9",
+     "La pastilla queda rozando, se calienta y se cristaliza."
+    ]
+   ]
+  },
+  {
+   "t": "Guardapolvo roto",
+   "p": [
+    [
+     "6",
+     "El caucho se raja y entra agua."
+    ],
+    [
+     "13",
+     "El pasador del soporte se oxida y se traba."
+    ],
+    [
+     "3",
+     "El cáliper deja de flotar."
+    ],
+    [
+     "9",
+     "Solo trabaja la pastilla del pistón y se gasta sola."
+    ],
+    [
+     "1",
+     "El disco se recalienta de un lado y se puede torcer."
+    ]
+   ]
+  },
+  {
+   "t": "Retenedor de la barra que bota aceite",
+   "p": [
+    [
+     "barra",
+     "El aceite baja por la barra."
+    ],
+    [
+     "1",
+     "Cae al disco: el freno pierde agarre de golpe."
+    ],
+    [
+     "9",
+     "Las pastillas se untan y no se recuperan: se cambian."
+    ]
+   ]
+  },
+  {
+   "t": "Tornillos sin apretar después de montar la rueda",
+   "p": [
+    [
+     "15",
+     "Quedan flojos."
+    ],
+    [
+     "13",
+     "El soporte se mueve y golpea al frenar."
+    ],
+    [
+     "1",
+     "El cáliper muerde el disco: es lo más peligroso de la lámina."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "i": 0,
+   "que": "Pastillas: revisar el desgaste",
+   "cuando": "Cada <b>6.000 km</b>. Cámbialas cuando la ranura indicadora casi desaparezca."
+  },
+  {
+   "i": 1,
+   "que": "Líquido de frenos DOT 4: cambiar",
+   "cuando": "Cada <b>2 años</b>, ruede lo que ruede."
+  },
+  {
+   "i": 2,
+   "que": "Mangueras del freno: cambiar",
+   "cuando": "Cada <b>4 años</b>, y revisa grietas en cada servicio."
+  },
+  {
+   "i": 3,
+   "que": "Disco: medir grosor y mirar si está torcido",
+   "cuando": "En cada cambio de pastillas."
+  },
+  {
+   "i": 4,
+   "que": "Cáliper, pasadores y guardapolvos: limpiar y revisar",
+   "cuando": "En cada cambio de pastillas."
+  },
+  {
+   "i": 5,
+   "que": "Empaques del cáliper, y también los de la bomba",
+   "cuando": "Cada <b>2 años, junto con el líquido</b>, o antes si hay fuga o el freno queda pegado."
+  }
+ ]
+}

@@ -1,0 +1,258 @@
+/* esquema.css: estilos del motor de láminas (todas las clases con esq-). Salen de la v8 del piloto del freno. */
+:root{
+  --carbon:#111517;--carbon-2:#161c1e;--pizarra:#1d2427;--pizarra-2:#252e31;--borde:#354044;
+  --crema:#ede3cc;--crema-2:#c9bfa7;--lava:#f2611d;--lava-2:#ff9a3c;--mostaza:#e3a72f;--musgo:#1f3a36;
+  --ok:#7fbf8a;--aprox:#e8a92a;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;background:var(--carbon);color:var(--crema);font-family:"Archivo",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Oswald",system-ui,sans-serif;letter-spacing:.02em;line-height:1.15;margin:0 0 .45em;font-weight:600}
+h1{font-size:clamp(1.6rem,4.6vw,2.6rem)}
+h2{font-size:clamp(1.3rem,3.4vw,1.8rem);color:var(--crema)}
+h2 .esq-num{color:var(--lava);margin-right:.35em}
+h3{font-size:1.1rem;color:var(--mostaza)}
+a{color:var(--lava-2)}
+p{margin:.3em 0 .8em}
+.esq-envoltura{max-width:1200px;margin:0 auto;padding:16px}
+.esq-cinta{font-family:"Oswald";text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--mostaza)}
+.esq-aviso{border:1px dashed var(--borde);border-radius:10px;padding:8px 12px;color:var(--crema-2);font-size:.9rem;background:var(--carbon-2)}
+section{margin:34px 0}
+.esq-tarjeta{background:var(--pizarra);border:1px solid var(--borde);border-radius:18px;box-shadow:0 10px 24px -8px rgba(0,0,0,.7),5px 5px 0 #0b0e0f}
+
+/* ---------- escenario del despiece ---------- */
+.esq-escenario{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.esq-escenario>*{min-width:0}
+@media(min-width:960px){.esq-escenario{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}}
+.esq-lienzo{padding:8px;position:relative}
+.esq-lienzo svg{display:block;width:100%;height:auto;touch-action:manipulation}
+.esq-controles{display:flex;flex-wrap:wrap;gap:8px;padding:6px 8px 4px}
+button{font:600 .95rem "Archivo",sans-serif;color:var(--crema);background:var(--pizarra-2);border:1px solid var(--borde);border-radius:999px;padding:9px 15px;cursor:pointer;min-height:44px}
+button:hover{border-color:var(--crema-2)}
+button.esq-principal{background:var(--lava);border-color:var(--lava);color:#1a0f08}
+button.esq-principal:hover{background:var(--lava-2)}
+button:focus-visible,.esq-pz:focus-visible{outline:3px solid var(--mostaza);outline-offset:2px}
+button[disabled]{opacity:.45;cursor:default}
+.esq-paso{margin:4px 10px 8px;min-height:3.2em;font-size:.95rem;color:var(--crema-2)}
+.esq-paso b{color:var(--mostaza);font-family:"Oswald";font-weight:600;letter-spacing:.03em}
+.esq-fichas-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 8px 10px}
+@media(max-width:700px){.esq-fichas-chips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}.esq-chip{flex:none;scroll-snap-align:start}}
+.esq-chip{font-size:.82rem;padding:6px 10px;min-height:44px;background:var(--carbon-2)}
+.esq-chip .esq-n{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:var(--mostaza);color:#1a1206;font-weight:700;margin-right:6px;font-size:.8rem}
+.esq-chip.esq-ctx .esq-n{background:transparent;border:1px dashed var(--crema-2);color:var(--crema-2)}
+.esq-chip.esq-sel{border-color:var(--lava);background:#2a1a12}
+
+/* piezas del SVG */
+.esq-pz{cursor:pointer;transition:transform .75s cubic-bezier(.6,.05,.3,1),opacity .4s}
+.esq-pz .esq-arte{transition:opacity .35s,filter .2s}
+.esq-esc{transition:transform .75s cubic-bezier(.6,.05,.3,1);transform-box:fill-box;transform-origin:center}
+.esq-pz.esq-fuera .esq-esc.esq-chica{transform:scale(1.5)}
+.esq-pz:hover .esq-arte{filter:brightness(1.18)}
+.esq-pz.esq-sel .esq-arte{filter:url(#fSel)}
+#lamina.esq-haysel .esq-pz:not(.esq-sel) .esq-arte{opacity:.5}
+.esq-oculto-arm{opacity:0;transition:opacity .4s}
+.esq-pz.esq-fuera .esq-oculto-arm{opacity:1}
+/* carcasas (Transparente y rayos X): las reglas las genera esquema.js con el campo «carcasas» del JSON de cada lámina */
+#lamina.esq-rayosx .esq-pz.esq-sel .esq-oculto-arm{opacity:1}
+/* números discretos: pequeños y tenues; se resaltan con el cursor, al tocar la pieza o con «Mostrar números» */
+.esq-et{transition:opacity .4s}
+.esq-et line{stroke:var(--mostaza);stroke-width:1;stroke-dasharray:2 3;opacity:.45;pointer-events:none;transition:opacity .25s}
+.esq-et .esq-bola{cursor:pointer;opacity:.8;transition:opacity .25s}
+.esq-et .esq-bola .esq-toque{fill:transparent;stroke:none}
+.esq-et .esq-bola .esq-disco{fill:rgba(17,21,23,.55);stroke:var(--mostaza);stroke-width:1.1;transition:fill .25s,stroke .25s}
+.esq-et text{font:600 12px "Oswald",sans-serif;fill:var(--mostaza);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.esq-pz:hover .esq-et .esq-bola,.esq-pz:hover .esq-et line,.esq-pz.esq-sel .esq-et .esq-bola,.esq-pz.esq-sel .esq-et line,.esq-et .esq-bola:focus-visible,#lamina.esq-numeros .esq-et .esq-bola,#lamina.esq-numeros .esq-et line{opacity:1}
+.esq-pz:hover .esq-et .esq-disco,.esq-et .esq-bola:focus-visible .esq-disco,#lamina.esq-numeros .esq-et .esq-disco{fill:var(--mostaza)}
+.esq-pz:hover .esq-et text,.esq-et .esq-bola:focus-visible text,#lamina.esq-numeros .esq-et text{fill:#1a1206}
+.esq-pz.esq-sel .esq-et .esq-disco{fill:var(--lava);stroke:var(--lava)}.esq-pz.esq-sel .esq-et text{fill:#1a0f08}
+.esq-et .esq-bola:focus-visible{outline:none}.esq-et .esq-bola:focus-visible .esq-disco{stroke:#fff;stroke-width:2}
+.esq-et-exp{opacity:0;pointer-events:none}
+#lamina.esq-explotado .esq-et-exp,#lamina.esq-transparente .esq-et-exp{opacity:1;pointer-events:auto}
+/* armado y transparente: los números de las piezas internas solo aparecen al pasar el cursor, al elegir la pieza o con el foco (si no, se amontonan sobre el caliper) */
+#lamina.esq-transparente:not(.esq-explotado) .esq-et-exp{opacity:0}
+#lamina.esq-transparente:not(.esq-explotado) .esq-pz:hover .esq-et-exp,#lamina.esq-transparente:not(.esq-explotado) .esq-pz.esq-sel .esq-et-exp,#lamina.esq-transparente:not(.esq-explotado) .esq-et-exp:focus-within{opacity:1}
+/* modo «Ver por dentro»: carcasas semitransparentes, se ven y se pueden tocar las piezas internas */
+#lamina.esq-transparente .esq-oculto-arm{opacity:1}
+/* piezas en anillo que se juntan hacia su centro al salir (el arte pone --jx y --jy en cada elemento) */
+.esq-junta{transition:transform .75s cubic-bezier(.6,.05,.3,1)}
+#lamina .esq-pz.esq-fuera .esq-junta{transform:translate(var(--jx),var(--jy))}
+.esq-interruptores{display:flex;flex-wrap:wrap;gap:8px;padding:0 8px 6px}
+.esq-interruptor[aria-pressed="true"]{background:#2a1a12;border-color:var(--lava);color:var(--crema)}
+.esq-interruptor::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--crema-2);margin-right:8px;vertical-align:0}
+.esq-interruptor[aria-pressed="true"]::before{background:var(--lava);border-color:var(--lava)}
+.esq-ctx{transition:opacity .6s}
+#lamina.esq-explotado .esq-ctx-barra{opacity:.14}
+#lamina.esq-sinmanguera .esq-ctx-manguera{opacity:0;pointer-events:none}
+#lamina.esq-explotado .esq-ctx-txt{opacity:0}
+.esq-ctx-txt{font:600 14px "Archivo";fill:var(--crema-2);letter-spacing:.02em}
+
+/* ficha */
+.esq-fpieza{padding:16px 18px}
+.esq-fpieza .esq-cab{display:flex;gap:12px;align-items:flex-start}
+.esq-fpieza .esq-badge{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--lava);color:#1a0f08;font:700 1.35rem "Oswald"}
+.esq-fpieza .esq-badge.esq-ctx{background:transparent;border:2px dashed var(--crema-2);color:var(--crema-2);font-size:.9rem}
+.esq-fpieza h3{margin:0;color:var(--crema);font-size:1.35rem}
+.esq-fpieza h3:focus{outline:2px solid var(--mostaza);outline-offset:3px}
+.esq-fpieza .esq-cat{font-size:.8rem;color:var(--crema-2)}
+.esq-fpieza dl{margin:10px 0 0}
+.esq-fpieza dt{font:600 .78rem "Oswald";text-transform:uppercase;letter-spacing:.1em;color:var(--mostaza);margin-top:12px}
+.esq-fpieza dd{margin:3px 0 0}
+.esq-fpieza ul{margin:4px 0 0;padding-left:1.1em}
+.esq-fpieza li{margin:2px 0}
+.esq-causa{display:inline-block;font:700 .68rem "Archivo";text-transform:uppercase;letter-spacing:.06em;padding:1px 7px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.esq-c-desgaste{background:#5b4630;color:#ffd9a8}.esq-c-calor{background:#6b2a12;color:#ffc2a0}.esq-c-humedad{background:#1f3a4a;color:#bfe3ff}
+.esq-c-maluso{background:#4a2140;color:#ffc7ef}.esq-c-golpe{background:#3a3a3a;color:#eee}.esq-c-edad{background:#2f3d24;color:#d6f0b8}
+.esq-decision{display:inline-block;margin-top:4px;padding:3px 10px;border-radius:8px;font-weight:700;font-size:.9rem}
+.esq-d-repara{background:var(--musgo);color:#bfeee0}.esq-d-cambia{background:#3b2316;color:#ffc9a8}
+.esq-enlaces{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.esq-enlaces button{font-size:.8rem;padding:4px 10px;min-height:32px}
+.esq-efecto{border-left:3px solid var(--lava);padding:2px 0 2px 10px;margin:6px 0}
+.esq-efecto button{font-size:.78rem;padding:2px 9px;min-height:28px;margin-right:6px}
+.esq-dif{font-size:.85rem;color:var(--crema-2)}
+.esq-certeza{font-size:.8rem;color:var(--crema-2);margin-top:12px;border-top:1px solid var(--borde);padding-top:8px}
+.esq-s-ok{color:var(--ok);font-weight:700}.esq-s-ap{color:var(--aprox);font-weight:700}
+.esq-vacia{color:var(--crema-2)}
+.esq-mas{margin-top:12px;border-top:1px solid var(--borde);padding-top:6px}
+.esq-mas summary{cursor:pointer;font:600 .85rem "Archivo";color:var(--lava-2);min-height:44px;display:flex;align-items:center}
+
+/* funcionamiento */
+.esq-func{padding:10px}
+.esq-func .esq-desliza{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.esq-func svg{display:block;width:100%;height:auto}
+.esq-func .esq-pista{display:none;font-size:.8rem;color:var(--crema-2);padding:0 10px}
+.esq-solo-movil{display:none}
+@media(max-width:700px){.esq-solo-movil{display:inline}.esq-solo-pc{display:none}#fnCorte{transform:translate(-470px,262px)}#fn .esq-fn-et{font-size:19px}}
+.esq-func .esq-texto{padding:6px 10px 10px;min-height:5.5em}
+.esq-func .esq-texto b{font-family:"Oswald";color:var(--mostaza);font-weight:600}
+#fn-lever,#fn-mpiston,#fn-cuerpo,#fn-piston,#fn-padL{transition:transform .7s cubic-bezier(.5,0,.3,1)}
+#fn-calor{transition:opacity .8s}
+.esq-pulso{stroke-dasharray:14 22;animation:fluye .7s linear infinite}
+@keyframes fluye{to{stroke-dashoffset:-36}}
+.esq-giro{animation:gira .5s linear infinite;transform-box:fill-box;transform-origin:center}
+.esq-giro.esq-lento{animation-duration:2.4s}
+.esq-giro.esq-quieto{animation-play-state:paused}
+@keyframes gira{to{transform:rotate(360deg)}}
+.esq-baja{stroke-dasharray:10 16;animation:baja .45s linear infinite}
+.esq-baja.esq-lento{animation-duration:2.2s}.esq-baja.esq-quieto{animation-play-state:paused;opacity:.3}
+@keyframes baja{to{stroke-dashoffset:-26}}
+.esq-fn-et{font:600 13px "Archivo";fill:var(--crema-2)}
+.esq-fn-et.esq-claro{fill:var(--crema)}
+
+/* cadenas */
+.esq-cadenas{display:grid;gap:12px}
+@media(min-width:800px){.esq-cadenas{grid-template-columns:1fr 1fr}}
+.esq-cadena{padding:14px 16px}
+.esq-cadena ol{margin:6px 0 0;padding:0;list-style:none;counter-reset:c}
+.esq-cadena li{position:relative;padding:4px 0 10px 34px}
+.esq-cadena li::before{counter-increment:c;content:counter(c);position:absolute;left:0;top:3px;width:24px;height:24px;border-radius:50%;background:var(--pizarra-2);border:1px solid var(--lava);display:grid;place-items:center;font:700 .8rem "Oswald";color:var(--lava)}
+.esq-cadena li:not(:last-child)::after{content:"";position:absolute;left:11px;top:29px;bottom:0;border-left:2px dotted var(--lava)}
+.esq-cadena button{font-size:.8rem;padding:4px 10px;min-height:44px}
+@media(max-width:700px){.esq-cadena button,.esq-enlaces button,.esq-efecto button{min-height:44px;padding:6px 12px}}
+
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--borde);vertical-align:top}
+th{font-family:"Oswald";font-weight:600;color:var(--mostaza);letter-spacing:.04em}
+.esq-tabla{overflow-x:auto;padding:4px 6px}
+.esq-lista-c li{margin:8px 0}
+.esq-fuentes li{margin:5px 0;word-break:break-word}
+.esq-dos{display:grid;gap:14px}
+@media(min-width:800px){.esq-dos{grid-template-columns:1fr 1fr}}
+footer{color:var(--crema-2);font-size:.85rem;padding:20px 0 40px}
+@media (prefers-reduced-motion:reduce){.esq-pz,.esq-pulso,.esq-giro,.esq-baja{transition:none!important;animation:none!important}}
+/* ===================== v5: recorrido y consistencia con TallerYa (clases como las del sitio) ===================== */
+.esq-cabeza{margin:4px 0 14px}.esq-cabeza h1{margin:.1em 0 .25em}.esq-cabeza .esq-aviso{padding:6px 12px;font-size:.85rem}
+.esq-titular{font-family:"Oswald","Archivo",sans-serif;text-transform:uppercase;font-weight:700;letter-spacing:.01em;line-height:1.02}
+.esq-papel{background:linear-gradient(180deg,var(--pizarra-2),var(--pizarra));border:1px solid rgba(255,255,255,.04);border-radius:18px;box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 10px 24px -8px rgba(0,0,0,.7),5px 5px 0 #0b0e0f}
+.esq-btn{font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;font-weight:600;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:0 1.1rem;font-size:.82rem;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+.esq-btn:active{transform:translateY(1px)}
+.esq-btn-lava{background:linear-gradient(180deg,var(--lava-2),var(--lava));color:#1a0d05;box-shadow:0 6px 18px -6px rgba(242,97,29,.65),3px 3px 0 #0b0e0f}
+.esq-btn-lava:hover{box-shadow:0 8px 24px -6px rgba(242,97,29,.85),3px 3px 0 #0b0e0f;border:0}
+.esq-boton-paso{min-width:44px;min-height:44px;padding:0;border-radius:999px;font-size:.9rem}
+.esq-visor-modo{display:inline-flex;background:rgba(17,21,23,.8);border:1px solid var(--borde);border-radius:999px;padding:3px;gap:0}
+.esq-visor-modo button{font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;font-weight:500;padding:0 .85rem;min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--crema-2);transition:background .15s,color .15s}
+.esq-visor-modo button:hover:not([aria-pressed="true"]):not([aria-selected="true"]){background:rgba(237,227,204,.16);color:var(--crema)}
+.esq-visor-modo button[aria-pressed="true"],.esq-visor-modo button[aria-selected="true"]{background:var(--crema);color:var(--carbon)}
+.esq-visor{padding:12px}
+@media(max-width:420px){.esq-visor{padding:12px 10px}}  /* a 360 el dibujo pasa de 234 a 236 px de alto */
+.esq-visor-barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.esq-visor-tit .esq-titular{font-size:1.15rem;margin:0}.esq-visor-tit .esq-sub{font-size:.8rem;color:var(--crema-2);margin:2px 0 0}
+.esq-pestanas{max-width:100%;overflow-x:auto;scrollbar-width:none}.esq-pestanas::-webkit-scrollbar{display:none}.esq-pestanas button{flex:none}
+.esq-panel[hidden]{display:none}
+.esq-intro{font-size:.95rem;color:var(--crema-2);margin:0 0 .7rem}
+.esq-lienzo{position:relative;padding:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.esq-pista{margin:0 0 0 auto;white-space:nowrap;pointer-events:none;font:600 .8rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#1a0d05;background:var(--mostaza);padding:.35rem .9rem;border-radius:999px;box-shadow:0 4px 14px -4px rgba(0,0,0,.7);transition:opacity .4s}
+.esq-pista.esq-oculta{opacity:0}
+@media (prefers-reduced-motion:no-preference){.esq-pista:not(.esq-oculta){animation:latido 2.4s ease-in-out 3}}
+@keyframes latido{50%{transform:scale(1.07)}}
+.esq-herr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.esq-herr .esq-visor-modo{margin-left:auto}
+@media(max-width:420px){.esq-herr .esq-visor-modo{margin-left:0}}
+.esq-paso{margin:.6rem 2px .3rem}
+.esq-func{padding:0}.esq-func .esq-texto{padding:6px 2px 4px}
+.esq-tabla{padding:0}
+.esq-escenario{margin-bottom:16px}
+@media(min-width:960px){.esq-fpieza{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}}
+.esq-fuentes-plegadas{padding:12px 18px;margin:8px 0 16px}
+.esq-fuentes-plegadas>summary{cursor:pointer;font:600 .85rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--crema-2);min-height:44px;display:flex;align-items:center}
+.esq-fuentes-plegadas .esq-dos{margin-top:8px}.esq-fuentes-plegadas .esq-tarjeta{box-shadow:none}
+.esq-leyenda{margin-top:6px;font-size:.8rem;color:var(--crema-2)}
+.esq-leyenda summary{cursor:pointer;color:var(--lava-2);min-height:36px;display:inline-flex;align-items:center}
+.esq-leyenda ul{list-style:none;padding:0;margin:4px 0 0}.esq-leyenda li{margin:4px 0}
+.esq-hoja{position:fixed;left:.75rem;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;gap:.6rem;padding:.5rem .5rem .5rem .7rem;border-radius:999px;background:rgba(29,36,39,.97);border:1px solid var(--borde);box-shadow:0 10px 28px -8px rgba(0,0,0,.9)}
+.esq-hoja[hidden]{display:none}
+.esq-hoja .esq-n{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--lava);color:#1a0f08;font:700 1rem "Oswald"}
+.esq-hoja .esq-t{flex:1;min-width:0;font-weight:600;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:960px){.esq-hoja{display:none!important}}
+@media(max-width:440px){.esq-pestanas{width:100%}.esq-pestanas button{flex:1 0 auto;padding:0 .45rem;font-size:.7rem;letter-spacing:.04em}}
+/* v6: selector de versión del dibujo (Normal | Transparente) sobre el lienzo, y «Números» como interruptor aparte */.esq-vista-fila{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:10px}.esq-vista-et{font:600 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--crema-2)}.esq-vista-sel button{min-height:44px;padding:0 .9rem}@media(max-width:440px){.esq-herr{gap:4px}.esq-herr .esq-btn{padding:0 .7rem;letter-spacing:.06em}.esq-herr .esq-interruptor{padding:0 .55rem;letter-spacing:.02em}.esq-herr .esq-interruptor::before{margin-right:6px}.esq-vista-sel button{padding:0 .7rem;font-size:.72rem}}.esq-vista-sel button:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}#lamina .esq-pz .esq-arte{transition:opacity .5s ease,filter .5s ease}.esq-herr .esq-interruptor{margin-left:auto;font:500 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;min-height:44px;padding:0 1rem;border-radius:999px;background:rgba(17,21,23,.8);border:1px solid var(--borde);color:var(--crema-2)}.esq-zoom{display:none;gap:6px;margin-left:auto}.esq-zoom-b{width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--borde);background:rgba(17,21,23,.8);color:var(--crema);font:600 1.25rem/1 "Oswald",sans-serif;display:grid;place-items:center;cursor:pointer}.esq-zoom-b:disabled{opacity:.35;cursor:default}.esq-zoom-b:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}@media(max-width:700px){.esq-zoom{display:flex}.esq-lienzo #lamina{touch-action:pan-x pan-y}.esq-lienzo #lamina.esq-ampliado{touch-action:none}}@media(max-width:440px){.esq-vista-fila .esq-pista{margin-left:0;letter-spacing:.04em;padding:.35rem .6rem}.esq-zoom{gap:4px}}
+.esq-herr .esq-interruptor[aria-pressed="true"]{color:var(--crema);border-color:var(--lava);background:#2a1a12}
+
+/* v9 (revisión UX de la CVT) — computador (≥960 px): el dibujo usa el alto que deja la pantalla (esquema.js calcula --esq-alto)
+   y los controles van en UNA fila pegada al dibujo; la pista pasa a la línea del paso. Misma lógica que integracion/plantilla_integrado.html */
+@media(min-width:960px){
+  .esq-lienzo svg{max-height:var(--esq-alto,max(340px,calc(100vh - 330px)))}
+  #p-piezas{display:flex;flex-wrap:wrap;align-items:center;gap:10px 8px}
+  #p-piezas>.esq-lienzo,#p-piezas>.esq-fichas-chips{flex:1 0 100%}
+  #p-piezas .esq-vista-fila,#p-piezas .esq-herr{display:contents}
+  #p-piezas .esq-vista-et{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  #p-piezas .esq-vista-sel{order:1;flex:none}
+  #p-piezas .esq-herr>*{order:2;flex:none}
+  #p-piezas .esq-herr .esq-interruptor{order:3;margin-left:auto;white-space:nowrap}
+  #p-piezas .esq-zoom{order:4}
+  #p-piezas .esq-pista{order:5;margin:0 0 0 10px}
+  #p-piezas>.esq-paso{order:6;flex:1 1 320px;margin:0 2px}
+  #p-piezas>.esq-fichas-chips{order:7}
+}
+/* celular (≤700 px): la lista de piezas es una rejilla de números de 44 px; el nombre va en title y aria-label.
+   Las piezas de otras láminas (·) siguen con su nombre corto para distinguirlas */
+@media(max-width:700px){
+  .esq-fichas-chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:4px;overflow:visible;padding:4px 4px 8px}
+  .esq-chip{min-width:0;min-height:44px;padding:0;justify-content:center;font-size:0;gap:0}
+  .esq-chip .esq-n{font-size:.95rem;margin:0}
+  .esq-chip.esq-ctx{grid-column:span 3;font-size:.72rem;gap:4px;padding:0 6px}
+  .esq-chip.esq-ctx .esq-n{font-size:.8rem}
+}
+/* Visor 3D de la ficha (prueba): maqueta isométrica con 4 vistas */
+.esq-v3d{margin:12px 0 4px;border:1px solid var(--borde);border-radius:10px;background:radial-gradient(circle at 48% 42%,#2b3539,#151a1c 75%);overflow:hidden}
+.esq-v3d-lienzo{height:220px;touch-action:pan-y;cursor:grab}
+.esq-v3d-lienzo:active{cursor:grabbing}
+.esq-v3d-lienzo canvas{display:block;width:100%;height:100%}
+.esq-v3d-barra{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px 4px}
+.esq-v3d-barra button{min-width:44px;min-height:44px;border:1px solid var(--borde);border-radius:8px;background:var(--pizarra-2);color:var(--crema);font-size:1rem;cursor:pointer}
+.esq-v3d-barra button:hover{border-color:var(--lava)}
+.esq-v3d-barra button:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}
+.esq-v3d-estado{font-size:.8rem;color:var(--crema-2)}
+.esq-v3d-error .esq-v3d-lienzo{height:0}
+@media(min-width:960px){.esq-v3d-lienzo{height:240px}}
+/* v10 (pendientes UX de la CVT, aplicados en el motor para todas las láminas) */
+/* celular: en «Cómo funciona», el texto del paso va pegado debajo del dibujo y los botones después */
+@media(max-width:700px){
+  .esq-func:not([hidden]){display:flex;flex-direction:column}
+  .esq-func .esq-desliza{order:1}
+  .esq-func #fnTexto{order:2;min-height:0;padding-top:4px}
+  .esq-func .esq-herr{order:3}
+}
+/* celular: con números a menos de 24 px en el despiece, el botón + se resalta (esquema.js: sugerirZoom) */
+.esq-zoom-b.esq-zoom-sugerido{border-color:var(--lava);box-shadow:0 0 0 3px rgba(242,97,29,.35);animation:esq-latido 1.6s ease-in-out 3}
+@keyframes esq-latido{50%{box-shadow:0 0 0 6px rgba(242,97,29,.12)}}
+@media(prefers-reduced-motion:reduce){.esq-zoom-b.esq-zoom-sugerido{animation:none}}

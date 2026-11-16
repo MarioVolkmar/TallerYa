@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freno delantero · Yamaha NMAX 155 · Mi garaje · TallerYa (muestra integrada)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<!-- Estilos reales del sitio (rutas relativas: funciona abriendo el archivo desde la carpeta del proyecto) -->
+<link rel="stylesheet" href="../../talleres/static/talleres/css/tallerya.css">
+<link rel="stylesheet" href="../../talleres/static/talleres/css/tw.css">
+<style>
+/* ================= Del piloto, sin cambios: dibujo, ficha, funcionamiento y cadenas ================= */
+/*CSS_PILOTO*/
+
+/* ================= Capa de integración: lo que en el sitio iría en tallerya.css (prefijo esq-) ================= */
+:root { --aprox: var(--mostaza); }
+.muestra-aviso { margin-top: 1.2rem; border: 1px dashed var(--borde); border-radius: 14px; padding: .6rem .9rem; font-size: .9rem; color: var(--crema-2); background: rgba(0,0,0,.18); }
+.migas { margin-top: 1rem; font-size: .9rem; color: var(--crema-2); }
+.migas a { color: var(--crema-2); text-decoration: none; } .migas a:hover { color: var(--lava); }
+
+/* Barra lateral (imita el markup que pinta despiece.js) */
+.esq-insignia { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .68rem; padding: .1rem .45rem; border-radius: 999px; background: var(--lava); color: #1a0d05; margin-left: .4rem; }
+
+/* Pestañas del visor: mismo aspecto que .visor-modo, pero con role=tab */
+.esq-pestanas { display: flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.esq-pestanas::-webkit-scrollbar { display: none; }
+.esq-pestanas button { flex: none; min-height: 40px; }
+.esq-pestanas button[aria-selected="true"] { background: var(--crema); color: var(--carbon); }
+.esq-pestanas button:focus-visible, .esq-herr button:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 2px; }
+.esq-panel[hidden] { display: none; }
+.esq-intro { font-size: .95rem; color: var(--crema-2); margin: 0 0 .7rem; }
+
+/* Lienzo: el mismo fondo y borde que .plano del despiece */
+.esq-lienzo { position: relative; border-radius: 14px; overflow: hidden; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.06); }
+.esq-lienzo svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
+.esq-pista { position: absolute; left: 50%; bottom: .7rem; transform: translateX(-50%); white-space: nowrap; pointer-events: none;
+  font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .75rem; color: #1a0d05;
+  background: var(--mostaza); padding: .35rem .8rem; border-radius: 999px; box-shadow: 3px 3px 0 #0b0e0f; transition: opacity .3s; }
+.esq-pista.oculta { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) { .esq-pista:not(.oculta) { animation: esqLatido 2.4s ease-in-out 3; } }
+@keyframes esqLatido { 50% { transform: translateX(-50%) scale(1.06); } }
+
+/* Herramientas bajo el dibujo: una sola fila; en celular, todo al alcance del pulgar */
+.esq-herr { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .7rem; }
+.esq-herr .btn { min-height: 44px; padding: 0 1.1rem; font-size: .8rem; }
+.esq-herr .boton-seccion { min-height: 44px; min-width: 44px; justify-content: center; }
+.esq-herr .boton-seccion[disabled] { opacity: .4; cursor: default; }
+.esq-herr .visor-modo { margin-left: auto; }
+.esq-herr .visor-modo button { min-height: 44px; }
+.esq-paso { margin: .6rem 0 .2rem; min-height: 3em; font-size: .95rem; color: var(--crema-2); }
+.esq-paso b, .func .texto b { font-family: "Oswald", sans-serif; color: var(--mostaza); font-weight: 600; letter-spacing: .03em; }
+
+/* Lista de piezas: chips del sitio con número de lámina */
+#chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
+#chips .chip { display: inline-flex; align-items: center; min-height: 40px; font: 600 .82rem "Archivo", sans-serif; color: var(--crema); cursor: pointer; padding: .2rem .7rem .2rem .3rem; }
+#chips .chip:hover { border-color: var(--crema-2); }
+#chips .chip.sel { border-color: var(--lava); background: rgba(242,97,29,.14); }
+#chips .chip .n { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--mostaza); color: #1a1206; font: 700 .78rem "Oswald"; margin-right: .45rem; }
+#chips .chip.ctx .n { background: transparent; border: 1px dashed var(--crema-2); color: var(--crema-2); }
+#chips .chip:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 2px; }
+@media (max-width: 1023px) { #chips { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: .3rem; } #chips .chip { flex: none; min-height: 44px; } }
+
+/* Ficha del piloto dentro de .parte-ficha */
+.parte-ficha .ficha { padding: 0; }
+.ficha .badge { width: 40px; height: 40px; font-size: 1.15rem; }
+.ficha h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-weight: 700; font-size: 1.45rem; line-height: 1.05; color: var(--crema); }
+.ficha dt { font-family: "Oswald", sans-serif; }
+.ficha dd, .ficha li { font-size: .95rem; }
+.ficha .vacia { margin: 0; }
+.ficha .enlaces button, .ficha .efecto button, .cadena button {
+  font: 600 .8rem "Archivo", sans-serif; color: var(--crema); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px; padding: .25rem .7rem; min-height: 36px; cursor: pointer; }
+.ficha .enlaces button:hover, .ficha .efecto button:hover, .cadena button:hover { background: var(--crema); color: var(--carbon); }
+.ficha .mas summary { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; }
+.esq-plan { margin: .9rem 0 .2rem; padding-bottom: .9rem; border-bottom: 1px solid rgba(255,255,255,.08); }
+@media (min-width: 1024px) { .despiece-panel .parte-ficha { position: sticky; top: 5rem; max-height: calc(100vh - 6rem); overflow-y: auto; overscroll-behavior: contain; } }
+.esq-plan .parte-tarea { margin-top: 0; }
+.esq-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .8rem; }
+.esq-acciones .btn { justify-content: center; text-align: center; min-height: 44px; font-size: .75rem; padding: 0 .5rem; }
+.esq-acciones .ancho { grid-column: 1 / -1; }
+
+/* Cómo funciona, cadenas y tabla con las superficies del sitio (.guia-seccion) */
+.func .desliza { border-radius: 14px; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.06); }
+.func .texto { padding: .6rem 0 0; min-height: 5.5em; font-size: .95rem; }
+.cadenas { display: grid; gap: .75rem; }
+@media (min-width: 1280px) { .cadenas { grid-template-columns: 1fr 1fr; } }
+.cadena.tarjeta { background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.05); border-radius: 14px; overflow: visible; }
+.cadena.tarjeta:hover { transform: none; box-shadow: none; }
+.cadena h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .04em; font-size: 1rem; color: var(--mostaza); margin: 0 0 .3rem; }
+.cadena li { font-size: .92rem; }
+.esq-tabla { overflow-x: auto; }
+.esq-tabla table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.esq-tabla th, .esq-tabla td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid rgba(255,255,255,.08); vertical-align: top; }
+.esq-tabla th { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; color: var(--mostaza); font-weight: 600; }
+@media (max-width: 640px) { .esq-tabla td:nth-child(3), .esq-tabla th:nth-child(3) { display: none; } }
+
+/* Fuentes plegadas al final, como dato de confianza (no como sección principal) */
+.esq-fuentes { margin-top: 1rem; padding: .9rem 1.1rem; }
+.esq-fuentes summary { cursor: pointer; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .85rem; color: var(--crema-2); min-height: 40px; display: flex; align-items: center; }
+.esq-fuentes .esq-fuente { margin-top: .6rem; font-size: .9rem; }
+.esq-fuentes h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-size: .95rem; color: var(--mostaza); margin: .6rem 0 .2rem; }
+.esq-fuentes ul { padding-left: 1.1em; margin: 0; } .esq-fuentes li { margin: .25rem 0; word-break: break-word; }
+.esq-fuentes a { color: var(--lava-2); }
+
+/* Celular: la ficha queda lejos del dibujo; una barra fija avisa qué pieza está elegida y lleva a su ficha */
+.esq-hoja { position: fixed; left: .75rem; right: .75rem; bottom: calc(.75rem + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: .6rem;
+  padding: .5rem .5rem .5rem .8rem; border-radius: 16px; background: linear-gradient(180deg, var(--pizarra-2), var(--pizarra)); box-shadow: var(--sombra-papel); border: 1px solid rgba(255,255,255,.08); }
+.esq-hoja[hidden] { display: none; }
+.esq-hoja .n { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--lava); color: #1a0f08; font: 700 1rem "Oswald"; }
+.esq-hoja .t { flex: 1; min-width: 0; font-weight: 600; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.esq-hoja .btn { flex: none; min-height: 44px; padding: 0 1rem; font-size: .75rem; }
+@media (min-width: 1024px) { .esq-hoja { display: none !important; } }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<header class="sticky top-0 z-30 border-b border-white/5 bg-[#111517]/85 backdrop-blur" id="cabecera">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4 cabecera-fila">
+    <a href="#" class="flex items-center gap-2.5 cabecera-logo" aria-label="TallerYa, inicio"><!--LOGO--></a>
+    <div class="flex items-center gap-3 lg:gap-6">
+      <nav class="hidden lg:flex items-center gap-6 nav-escritorio" aria-label="Principal">
+        <a href="#" class="nav-link">Talleres</a>
+        <a href="#" class="nav-link">Cupones</a>
+        <a href="#" class="nav-link">Foro</a>
+        <a href="#" class="nav-link">Diagnóstico</a>
+        <a href="#" class="nav-link activo">Mi garaje</a>
+      </nav>
+      <details class="menu-movil lg:hidden">
+        <summary class="menu-boton" aria-label="Abrir menú"><span></span><span></span><span></span></summary>
+        <nav class="papel menu-panel" aria-label="Principal">
+          <a href="#">Talleres</a><a href="#">Cupones</a><a href="#">Foro</a><a href="#">Diagnóstico</a><a href="#">Mi garaje</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="contenido" tabindex="-1" class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
+  <p class="muestra-aviso"><strong>Muestra local, no es el sitio.</strong> Así se vería el esquema del freno delantero dentro de la sección «Piezas y repuestos» de la página de la moto, con los estilos reales de TallerYa. El dibujo y los textos son los del piloto, sin cambios.</p>
+  <p class="migas"><a href="#">Mi garaje</a> › <a href="#">Yamaha NMAX 155 2021</a> › Piezas y repuestos</p>
+
+  <section id="piezas" class="mt-10">
+    <div class="flex flex-wrap items-end justify-between gap-3">
+      <div>
+        <h2 class="titulo text-2xl md:text-3xl"><span class="numero">00</span>Piezas y repuestos</h2>
+        <p class="text-sm text-suave mt-1">Las piezas de tu Yamaha NMAX 155 con su código de repuesto original y su estado.</p>
+      </div>
+      <p class="text-xs text-suave">Catálogo Yamaha · versión BBE4 (2024)</p>
+    </div>
+    <div class="separador mt-4 mb-6"></div>
+
+    <div class="despiece">
+      <!-- Barra lateral: igual que hoy; el sistema con esquema lleva la insignia «Esquema» -->
+      <nav class="despiece-sistemas papel" aria-label="Sistemas de la moto">
+        <div class="sistemas-cabeza">
+          <span class="sistemas-cabeza-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span>
+          <span><span class="sistemas-cabeza-titulo">Sistemas</span><span class="sistemas-cabeza-sub">Elige uno para ver sus piezas</span></span>
+        </div>
+        <div class="sistemas-lista" id="sistemas">
+          <div class="sistemas-familia plegada" data-estado="pronto"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Motor</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+          <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Transmisión CVT</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+          <div class="sistemas-familia" data-estado="pronto"><button class="sistemas-tema" type="button" aria-expanded="true"><span>Frenos</span><em>3</em><i class="sistemas-tema-flecha"></i></button>
+            <div class="sistemas-familia-cuerpo">
+              <p class="sistemas-subgrupo">Delantero</p>
+              <div class="sistema-grupo"><button class="sistema" type="button" aria-selected="true" aria-expanded="true"><span class="punto-mini punto-pronto"></span><span class="sistema-texto"><span class="sistema-nombre">Caliper de freno delantero<span class="esq-insignia">Esquema</span></span><span class="sistema-meta">Pronto</span></span><span class="sistema-flecha" aria-hidden="true"></span></button></div>
+              <div class="sistema-grupo"><button class="sistema" type="button" aria-selected="false"><span class="punto-mini punto-ok"></span><span class="sistema-texto"><span class="sistema-nombre">Bomba de freno delantera</span><span class="sistema-meta">Al día</span></span><span class="sistema-flecha" aria-hidden="true"></span></button></div>
+              <p class="sistemas-subgrupo">Trasero</p>
+              <div class="sistema-grupo"><button class="sistema" type="button" aria-selected="false"><span class="punto-mini punto-vencido"></span><span class="sistema-texto"><span class="sistema-nombre">Freno trasero de tambor</span><span class="sistema-meta">Toca ya</span></span><span class="sistema-flecha" aria-hidden="true"></span></button></div>
+            </div>
+          </div>
+          <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Ruedas</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+          <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Suspensión</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+          <div class="sistemas-familia plegada" data-estado="desconocido"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Eléctrico</span><em>1</em><i class="sistemas-tema-flecha"></i></button></div>
+        </div>
+      </nav>
+
+      <!-- Visor: el esquema reemplaza la lámina cuando el sistema lo tiene -->
+      <div class="despiece-visor papel" id="visor-esq">
+        <div class="visor-barra">
+          <div class="min-w-0">
+            <p class="titulo text-lg leading-tight">Caliper de freno delantero y pastillas</p>
+            <p class="text-xs text-suave">Lámina 22 · 15 piezas · dibujo TallerYa</p>
+          </div>
+          <div class="visor-modo esq-pestanas" role="tablist" aria-label="Qué ver del freno">
+            <button type="button" role="tab" id="t-despiece" aria-controls="despiece" aria-selected="true">Piezas</button>
+            <button type="button" role="tab" id="t-funciona" aria-controls="p-funciona" aria-selected="false" tabindex="-1">Cómo funciona</button>
+            <button type="button" role="tab" id="t-cadenas" aria-controls="cadenas" aria-selected="false" tabindex="-1">Si falla</button>
+            <button type="button" role="tab" id="t-plan" aria-controls="p-plan" aria-selected="false" tabindex="-1">Cuándo</button>
+          </div>
+        </div>
+
+        <!-- Piezas: armado y despiece -->
+        <div class="esq-panel" id="despiece" role="tabpanel" aria-labelledby="t-despiece">
+          <div class="esq-lienzo">
+<!--LAMINA-->
+            <p class="esq-pista" id="esqPista" aria-hidden="true">Toca una pieza</p>
+          </div>
+          <div class="esq-herr">
+            <button type="button" class="btn btn-lava" id="bTodo">Desarmar</button>
+            <button type="button" class="boton-seccion" id="bAtras" aria-label="Paso anterior">◀</button>
+            <button type="button" class="boton-seccion" id="bAdel" aria-label="Paso siguiente">▶</button>
+            <div class="visor-modo" role="group" aria-label="Opciones del dibujo">
+              <button type="button" id="iNum" aria-pressed="false">Números</button>
+              <button type="button" id="iDentro" aria-pressed="false">Por dentro</button>
+            </div>
+          </div>
+          <p class="esq-paso" id="textoPaso" aria-live="polite"><b>Armado.</b> El caliper abraza el borde del disco; el soporte lo fija a la barra con dos tornillos.</p>
+          <div id="chips" aria-label="Piezas de la lámina"></div>
+        </div>
+
+        <!-- Cómo funciona -->
+        <div class="esq-panel func" id="p-funciona" role="tabpanel" aria-labelledby="t-funciona" hidden>
+          <p class="esq-intro">De la mano al disco en siete pasos. El caliper aparece cortado por la mitad, como si lo miraras desde arriba.</p>
+<!--FN-->
+          <div class="esq-herr">
+            <button type="button" class="btn btn-lava" id="fnPlay">▶ Reproducir</button>
+            <button type="button" class="boton-seccion" id="fnAtras" aria-label="Paso anterior">◀</button>
+            <button type="button" class="boton-seccion" id="fnAdel" aria-label="Paso siguiente">▶</button>
+          </div>
+          <p class="texto" id="fnTexto" aria-live="polite"></p>
+        </div>
+
+        <!-- Si falla, qué arrastra -->
+        <div class="esq-panel" id="cadenas" role="tabpanel" aria-labelledby="t-cadenas" hidden>
+          <p class="esq-intro">En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.</p>
+          <div class="cadenas" id="listaCadenas"></div>
+        </div>
+
+        <!-- Cuándo revisar y cambiar -->
+        <div class="esq-panel" id="p-plan" role="tabpanel" aria-labelledby="t-plan" hidden>
+          <p class="esq-intro">Lo mismo que pide el plan de mantenimiento de tu moto. El estado de cada tarea está en la agenda.</p>
+          <div class="esq-tabla">
+<!--TABLA-->
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel derecho: la ficha del piloto + lo que ya tiene la ficha del sitio (estado del plan y acciones) -->
+      <aside class="despiece-panel">
+        <div class="parte-ficha papel">
+          <div class="ficha" id="ficha" aria-live="polite">
+            <p class="vacia">Toca una pieza del dibujo (o un número de la lista) para ver qué es, cómo falla y qué se cambia de verdad.</p>
+          </div>
+          <div class="esq-plan" id="esqPlan" hidden></div>
+        </div>
+      </aside>
+    </div>
+
+    <details class="papel esq-fuentes">
+      <summary>De dónde sale esta información</summary>
+      <div class="esq-fuentes-dos">
+<!--FUENTES-->
+    </details>
+  </section>
+</main>
+
+<div class="esq-hoja" id="esqHoja" hidden>
+  <span class="n" id="esqHojaN"></span><span class="t" id="esqHojaT"></span>
+  <button type="button" class="btn btn-lava" id="esqHojaVer">Ver ficha</button>
+</div>
+
+<script>
+/*JS_PILOTO*/
+</script>
+<script>
+/* ===== Capa de integración (en el sitio iría en despiece.js) ===== */
+(() => {
+  const $id = (x) => document.getElementById(x);
+  const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* 1. Pestañas accesibles (flechas, Inicio, Fin) */
+  const pestanas = [...document.querySelectorAll('.esq-pestanas [role="tab"]')];
+  function activar(tab, enfocar) {
+    pestanas.forEach((t) => {
+      const si = t === tab;
+      t.setAttribute("aria-selected", si);
+      t.tabIndex = si ? 0 : -1;
+      $id(t.getAttribute("aria-controls")).hidden = !si;
+    });
+    if (enfocar) tab.focus();
+  }
+  pestanas.forEach((t, i) => {
+    t.addEventListener("click", () => activar(t));
+    t.addEventListener("keydown", (e) => {
+      const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: pestanas.length - 1 }[e.key];
+      if (n === undefined) return;
+      e.preventDefault();
+      activar(pestanas[(n + pestanas.length) % pestanas.length], true);
+    });
+  });
+
+  /* 2. Conexión con el plan de mantenimiento y las acciones del sitio (datos de muestra) */
+  const PLAN = {
+    "9": { tarea: "Revisión de pastillas delanteras", estado: "pronto", etiqueta: "Pronto", pct: 92, detalle: "Van ≈ 5.500 km desde la última revisión; toca a los 6.000.", servicio: true },
+    "liquido": { tarea: "Cambio de líquido de frenos", estado: "ok", etiqueta: "Al día", pct: 40, detalle: "Cambiado hace 10 meses; toca cada 2 años.", servicio: true },
+    "5": { tarea: "Empaques del caliper (con el líquido)", estado: "ok", etiqueta: "Al día", pct: 40, detalle: "Van con el cambio de líquido, cada 2 años.", servicio: true },
+    "manguera": { tarea: "Cambio de mangueras del freno", estado: "desconocido", etiqueta: "Sin registro", pct: null, detalle: "Cada 4 años. Registra cuándo se cambiaron.", servicio: true },
+  };
+  const plan = $id("esqPlan"), ficha = $id("ficha");
+  function pintarPlan(k) {
+    const F = FICHAS[k];
+    if (!F) { plan.hidden = true; return; }
+    const p = PLAN[k];
+    const nombre = F.nombre;
+    let html = "";
+    if (p) {
+      html += `<div class="parte-tarea"><div class="flex items-center justify-between gap-2"><p class="font-semibold text-sm">${p.tarea}</p>`
+           +  `<span class="estado estado-${p.estado} shrink-0">${p.etiqueta}</span></div>`
+           +  (p.pct !== null ? `<div class="barra barra-${p.estado} mt-2"><span style="width:${p.pct}%"></span></div>` : "")
+           +  `<p class="text-xs text-suave mt-2">${p.detalle}</p></div>`;
+    }
+    const msg = encodeURIComponent(`Hola, necesito el repuesto: ${nombre} para mi Yamaha NMAX 155. ¿Lo tienen?`);
+    html += `<div class="esq-acciones">`
+         +  `<button type="button" class="btn btn-lava" data-guia>Ver guía</button>`
+         +  `<a class="btn btn-whatsapp" href="https://wa.me/?text=${msg}" target="_blank" rel="noopener">Pedir repuesto</a>`
+         +  `<a class="btn btn-borde ancho" href="#" title="En el sitio: /?servicio=frenos">Talleres que hacen frenos</a>`
+         +  `</div>`;
+    plan.innerHTML = html;
+    plan.hidden = false;
+    // Justo bajo el nombre de la pieza, como en la ficha del sitio (estado y acciones antes del detalle largo)
+    const cab = ficha.querySelector(".cab");
+    if (cab) cab.after(plan);
+    // «Ver guía» en la muestra abre el desplegable de la ficha; en el sitio abriría la guía de la pieza (.guia)
+    plan.querySelector("[data-guia]").addEventListener("click", () => {
+      const mas = document.querySelector("#ficha details");
+      if (mas) { mas.open = true; mas.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "nearest" }); }
+    });
+  }
+
+  /* 3. Barra fija en el celular con la pieza elegida */
+  const hoja = $id("esqHoja");
+  let fichaVisible = false, elegida = null;
+  new IntersectionObserver(([e]) => { fichaVisible = e.isIntersecting; hoja.hidden = !elegida || fichaVisible; }, { threshold: .15 }).observe(ficha);
+  $id("esqHojaVer").addEventListener("click", () => {
+    ficha.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "start" });
+    const h = ficha.querySelector("h3"); if (h) h.focus({ preventScroll: true });
+  });
+
+  /* 4. Envolver seleccionar() del piloto: pista, plan, barra fija y saltos desde «Si falla» */
+  const original = seleccionar;
+  seleccionar = function (k, op = {}) {
+    if (op.desplazar) activar($id("t-despiece"));
+    original(k, { ...op, desplazar: false });
+    if (op.desplazar) $id("visor-esq").scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "start" });
+    $id("esqPista").classList.add("oculta");
+    pintarPlan(k);
+    elegida = FICHAS[k] ? k : null;
+    if (elegida) { $id("esqHojaN").textContent = FICHAS[k].ctx ? "·" : k; $id("esqHojaT").textContent = FICHAS[k].nombre; }
+    hoja.hidden = !elegida || fichaVisible;
+  };
+})();
+</script>
+</body>
+</html>

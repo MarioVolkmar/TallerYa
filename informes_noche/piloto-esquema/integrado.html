@@ -6,11 +6,33 @@
 <title>Freno delantero · Yamaha NMAX 155 · Mi garaje · TallerYa (muestra integrada)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-<!-- Estilos reales del sitio (rutas relativas: funciona abriendo el archivo desde la carpeta del proyecto) -->
+<!-- Estilos reales del sitio (rutas relativas: servir desde la raíz del proyecto) -->
 <link rel="stylesheet" href="../../talleres/static/talleres/css/tallerya.css">
 <link rel="stylesheet" href="../../talleres/static/talleres/css/tw.css">
 <style>
-/* ================= Del piloto, sin cambios: dibujo, ficha, funcionamiento y cadenas ================= */
+/* ================= Del piloto (v8), sin cambios (solo su regla de botones, acotada al esquema) ================= */
+/* ---------- escenario del despiece ---------- */
+.escenario{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.escenario>*{min-width:0}
+@media(min-width:960px){.escenario{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}}
+.lienzo{padding:8px;position:relative}
+.lienzo svg{display:block;width:100%;height:auto;touch-action:manipulation}
+.controles{display:flex;flex-wrap:wrap;gap:8px;padding:6px 8px 4px}
+:is(.escenario,.hoja) button{font:600 .95rem "Archivo",sans-serif;color:var(--crema);background:var(--pizarra-2);border:1px solid var(--borde);border-radius:999px;padding:9px 15px;cursor:pointer;min-height:44px}
+:is(.escenario,.hoja) button:hover{border-color:var(--crema-2)}
+:is(.escenario,.hoja) button.principal{background:var(--lava);border-color:var(--lava);color:#1a0f08}
+:is(.escenario,.hoja) button.principal:hover{background:var(--lava-2)}
+:is(.escenario,.hoja) button:focus-visible,.pz:focus-visible{outline:3px solid var(--mostaza);outline-offset:2px}
+:is(.escenario,.hoja) button[disabled]{opacity:.45;cursor:default}
+.esq-pasotxt{margin:4px 10px 8px;min-height:3.2em;font-size:.95rem;color:var(--crema-2)}
+.esq-pasotxt b{color:var(--mostaza);font-family:"Oswald";font-weight:600;letter-spacing:.03em}
+.fichas-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 8px 10px}
+@media(max-width:700px){.fichas-chips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}.chip{flex:none;scroll-snap-align:start}}
+.chip{font-size:.82rem;padding:6px 10px;min-height:44px;background:var(--carbon-2)}
+.chip .n{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:var(--mostaza);color:#1a1206;font-weight:700;margin-right:6px;font-size:.8rem}
+.chip.ctx .n{background:transparent;border:1px dashed var(--crema-2);color:var(--crema-2)}
+.chip.sel{border-color:var(--lava);background:#2a1a12}
+
 /* piezas del SVG */
 .pz{cursor:pointer;transition:transform .75s cubic-bezier(.6,.05,.3,1),opacity .4s}
 .pz .arte{transition:opacity .35s,filter .2s}
@@ -26,7 +48,7 @@
 /* números discretos: pequeños y tenues; se resaltan con el cursor, al tocar la pieza o con «Mostrar números» */
 .et{transition:opacity .4s}
 .et line{stroke:var(--mostaza);stroke-width:1;stroke-dasharray:2 3;opacity:.45;pointer-events:none;transition:opacity .25s}
-.et .bola{cursor:pointer;opacity:.55;transition:opacity .25s}
+.et .bola{cursor:pointer;opacity:.8;transition:opacity .25s}
 .et .bola .toque{fill:transparent;stroke:none}
 .et .bola .disco{fill:rgba(17,21,23,.55);stroke:var(--mostaza);stroke-width:1.1;transition:fill .25s,stroke .25s}
 .et text{font:600 12px "Oswald",sans-serif;fill:var(--mostaza);text-anchor:middle;dominant-baseline:central;pointer-events:none}
@@ -45,10 +67,10 @@
 #lamina.transparente #pz-13 .arte,#lamina.transparente #pz-6 .arte,#lamina.transparente #pz-7 .arte{opacity:.45;pointer-events:none}
 #lamina.transparente .oculto-arm{opacity:1}
 #lamina.transparente #pz-3 .arte{filter:drop-shadow(0 0 1.5px #ff9a3c)}
-.interruptores{display:flex;flex-wrap:wrap;gap:8px;padding:0 8px 6px}
-.interruptor[aria-pressed="true"]{background:#2a1a12;border-color:var(--lava);color:var(--crema)}
-.interruptor::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--crema-2);margin-right:8px;vertical-align:0}
-.interruptor[aria-pressed="true"]::before{background:var(--lava);border-color:var(--lava)}
+.esq-interruptores{display:flex;flex-wrap:wrap;gap:8px;padding:0 8px 6px}
+.esq-interruptor[aria-pressed="true"]{background:#2a1a12;border-color:var(--lava);color:var(--crema)}
+.esq-interruptor::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--crema-2);margin-right:8px;vertical-align:0}
+.esq-interruptor[aria-pressed="true"]::before{background:var(--lava);border-color:var(--lava)}
 .ctx{transition:opacity .6s}
 #lamina.explotado .ctx-barra{opacity:.14}
 #lamina.sinmanguera .ctx-manguera{opacity:0;pointer-events:none}
@@ -118,105 +140,140 @@
 .cadena button{font-size:.8rem;padding:4px 10px;min-height:36px}
 @media(max-width:700px){.cadena button,.enlaces button,.efecto button{min-height:44px;padding:6px 12px}}
 
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--borde);vertical-align:top}
+th{font-family:"Oswald";font-weight:600;color:var(--mostaza);letter-spacing:.04em}
+.tabla{overflow-x:auto;padding:4px 6px}
+.lista-c li{margin:8px 0}
+.fuentes li{margin:5px 0;word-break:break-word}
+.dos{display:grid;gap:14px}
+@media(min-width:800px){.dos{grid-template-columns:1fr 1fr}}
+footer{color:var(--crema-2);font-size:.85rem;padding:20px 0 40px}
+@media (prefers-reduced-motion:reduce){.pz,.pulso,.giro,.baja{transition:none!important;animation:none!important}}
+/* ===================== v5: recorrido y consistencia con TallerYa (clases como las del sitio) ===================== */
+.cabeza{margin:4px 0 14px}.cabeza h1{margin:.1em 0 .25em}.cabeza .aviso{padding:6px 12px;font-size:.85rem}
+.titulo{font-family:"Oswald","Archivo",sans-serif;text-transform:uppercase;font-weight:700;letter-spacing:.01em;line-height:1.02}
+.papel{background:linear-gradient(180deg,var(--pizarra-2),var(--pizarra));border:1px solid rgba(255,255,255,.04);border-radius:18px;box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 10px 24px -8px rgba(0,0,0,.7),5px 5px 0 #0b0e0f}
+.btn{font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;font-weight:600;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px;padding:0 1.1rem;font-size:.82rem;border:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease}
+.btn:active{transform:translateY(1px)}
+.btn-lava{background:linear-gradient(180deg,var(--lava-2),var(--lava));color:#1a0d05;box-shadow:0 6px 18px -6px rgba(242,97,29,.65),3px 3px 0 #0b0e0f}
+.btn-lava:hover{box-shadow:0 8px 24px -6px rgba(242,97,29,.85),3px 3px 0 #0b0e0f;border:0}
+.boton-paso{min-width:44px;min-height:44px;padding:0;border-radius:999px;font-size:.9rem}
+.visor-modo{display:inline-flex;background:rgba(17,21,23,.8);border:1px solid var(--borde);border-radius:999px;padding:3px;gap:0}
+.visor-modo button{font-family:"Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:.78rem;font-weight:500;padding:0 .85rem;min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--crema-2);transition:background .15s,color .15s}
+.visor-modo button:hover:not([aria-pressed="true"]):not([aria-selected="true"]){background:rgba(237,227,204,.16);color:var(--crema)}
+.visor-modo button[aria-pressed="true"],.visor-modo button[aria-selected="true"]{background:var(--crema);color:var(--carbon)}
+.esq-visor{padding:12px}
+.visor-barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.visor-tit .titulo{font-size:1.15rem;margin:0}.visor-tit .sub{font-size:.8rem;color:var(--crema-2);margin:2px 0 0}
+.pestanas{max-width:100%;overflow-x:auto;scrollbar-width:none}.pestanas::-webkit-scrollbar{display:none}.pestanas button{flex:none}
+.panel[hidden]{display:none}
+.intro{font-size:.95rem;color:var(--crema-2);margin:0 0 .7rem}
+.lienzo{position:relative;padding:0;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.pista{margin:0 0 0 auto;white-space:nowrap;pointer-events:none;font:600 .8rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#1a0d05;background:var(--mostaza);padding:.35rem .9rem;border-radius:999px;box-shadow:0 4px 14px -4px rgba(0,0,0,.7);transition:opacity .4s}
+.pista.oculta{opacity:0}
+@media (prefers-reduced-motion:no-preference){.pista:not(.oculta){animation:latido 2.4s ease-in-out 3}}
+@keyframes latido{50%{transform:scale(1.07)}}
+.herr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px}
+.herr .visor-modo{margin-left:auto}
+@media(max-width:420px){.herr .visor-modo{margin-left:0}}
+.esq-pasotxt{margin:.6rem 2px .3rem}
+.func{padding:0}.func .texto{padding:6px 2px 4px}
+.tabla{padding:0}
+.escenario{margin-bottom:16px}
+@media(min-width:960px){.ficha{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto}}
+.fuentes-plegadas{padding:12px 18px;margin:8px 0 16px}
+.fuentes-plegadas>summary{cursor:pointer;font:600 .85rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;color:var(--crema-2);min-height:44px;display:flex;align-items:center}
+.fuentes-plegadas .dos{margin-top:8px}.fuentes-plegadas .tarjeta{box-shadow:none}
+.esq-leyenda{margin-top:6px;font-size:.8rem;color:var(--crema-2)}
+.esq-leyenda summary{cursor:pointer;color:var(--lava-2);min-height:36px;display:inline-flex;align-items:center}
+.esq-leyenda ul{list-style:none;padding:0;margin:4px 0 0}.esq-leyenda li{margin:4px 0}
+.hoja{position:fixed;left:.75rem;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;gap:.6rem;padding:.5rem .5rem .5rem .7rem;border-radius:999px;background:rgba(29,36,39,.97);border:1px solid var(--borde);box-shadow:0 10px 28px -8px rgba(0,0,0,.9)}
+.hoja[hidden]{display:none}
+.hoja .n{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--lava);color:#1a0f08;font:700 1rem "Oswald"}
+.hoja .t{flex:1;min-width:0;font-weight:600;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:960px){.hoja{display:none!important}}
+@media(max-width:440px){.pestanas{width:100%}.pestanas button{flex:1 0 auto;padding:0 .45rem;font-size:.7rem;letter-spacing:.04em}}
+/* v6: selector de versión del dibujo (Normal | Transparente) sobre el lienzo, y «Números» como interruptor aparte */.vista-fila{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:10px}.vista-et{font:600 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.12em;color:var(--crema-2)}.vista-sel button{min-height:44px;padding:0 .9rem}@media(max-width:440px){.herr{gap:4px}.herr .btn{padding:0 .7rem;letter-spacing:.06em}.herr .esq-interruptor{padding:0 .55rem;letter-spacing:.02em}.herr .esq-interruptor::before{margin-right:6px}.vista-sel button{padding:0 .7rem;font-size:.72rem}}.vista-sel button:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}#lamina .pz .arte{transition:opacity .5s ease,filter .5s ease}.herr .esq-interruptor{margin-left:auto;font:500 .78rem "Oswald",sans-serif;text-transform:uppercase;letter-spacing:.1em;min-height:44px;padding:0 1rem;border-radius:999px;background:rgba(17,21,23,.8);border:1px solid var(--borde);color:var(--crema-2)}.esq-zoom{display:none;gap:6px;margin-left:auto}.esq-zoom-b{width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--borde);background:rgba(17,21,23,.8);color:var(--crema);font:600 1.25rem/1 "Oswald",sans-serif;display:grid;place-items:center;cursor:pointer}.esq-zoom-b:disabled{opacity:.35;cursor:default}.esq-zoom-b:focus-visible{outline:2px solid var(--mostaza);outline-offset:2px}@media(max-width:700px){.esq-zoom{display:flex}.lienzo #lamina{touch-action:pan-x pan-y}.lienzo #lamina.esq-ampliado{touch-action:none}}@media(max-width:440px){.vista-fila .pista{margin-left:0;letter-spacing:.04em;padding:.35rem .6rem}.esq-zoom{gap:4px}}
+.herr .esq-interruptor[aria-pressed="true"]{color:var(--crema);border-color:var(--lava);background:#2a1a12}
 
-/* ================= Capa de integración: lo que en el sitio iría en tallerya.css (prefijo esq-) ================= */
-:root { --aprox: var(--mostaza); }
-.muestra-aviso { margin-top: 1.2rem; border: 1px dashed var(--borde); border-radius: 14px; padding: .6rem .9rem; font-size: .9rem; color: var(--crema-2); background: rgba(0,0,0,.18); }
-.migas { margin-top: 1rem; font-size: .9rem; color: var(--crema-2); }
-.migas a { color: var(--crema-2); text-decoration: none; } .migas a:hover { color: var(--lava); }
 
-/* Barra lateral (imita el markup que pinta despiece.js) */
-.esq-insignia { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .68rem; padding: .1rem .45rem; border-radius: 999px; background: var(--lava); color: #1a0d05; margin-left: .4rem; }
+/* Reglas genéricas de la página del piloto que el esquema necesita, acotadas a él */
+:is(.escenario, .fuentes-plegadas) h3 { font-family: "Oswald", system-ui, sans-serif; letter-spacing: .02em; line-height: 1.15; margin: 0 0 .45em; font-weight: 600; font-size: 1.1rem; color: var(--mostaza); }
+:is(.escenario, .fuentes-plegadas) .tarjeta { background: var(--pizarra); border: 1px solid var(--borde); border-radius: 18px; }
+:is(.escenario, .fuentes-plegadas) .tarjeta:hover { transform: none; box-shadow: none; }
 
-/* Pestañas del visor: mismo aspecto que .visor-modo, pero con role=tab */
-.esq-pestanas { display: flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; }
-.esq-pestanas::-webkit-scrollbar { display: none; }
-.esq-pestanas button { flex: none; min-height: 40px; }
-.esq-pestanas button[aria-selected="true"] { background: var(--crema); color: var(--carbon); }
-.esq-pestanas button:focus-visible, .esq-herr button:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 2px; }
-.esq-panel[hidden] { display: none; }
-.esq-intro { font-size: .95rem; color: var(--crema-2); margin: 0 0 .7rem; }
+/* ================= Capa de integración v2: distribución (en el sitio iría en tallerya.css, prefijo esq-) ================= */
+.sr-solo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* Lienzo: el mismo fondo y borde que .plano del despiece */
-.esq-lienzo { position: relative; border-radius: 14px; overflow: hidden; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.06); }
-.esq-lienzo svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
-.esq-pista { position: absolute; left: 50%; bottom: .7rem; transform: translateX(-50%); white-space: nowrap; pointer-events: none;
-  font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .75rem; color: #1a0d05;
-  background: var(--mostaza); padding: .35rem .8rem; border-radius: 999px; box-shadow: 3px 3px 0 #0b0e0f; transition: opacity .3s; }
-.esq-pista.oculta { opacity: 0; }
-@media (prefers-reduced-motion: no-preference) { .esq-pista:not(.oculta) { animation: esqLatido 2.4s ease-in-out 3; } }
-@keyframes esqLatido { 50% { transform: translateX(-50%) scale(1.06); } }
+/* Arriba: migas y aviso de muestra en una sola línea; título y sistema en otra. Lo de apoyo no pasa de ~15 % del alto. */
+.esq-arriba { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; margin-top: .9rem; font-size: .85rem; color: var(--crema-2); }
+.esq-arriba a { color: var(--crema-2); text-decoration: none; } .esq-arriba a:hover { color: var(--lava); }
+.esq-muestra { border: 1px dashed var(--borde); border-radius: 999px; padding: .1rem .6rem; font-size: .75rem; cursor: help; }
+.esq-titulo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1rem; margin: .75rem 0 1rem; }
+.esq-titulo h2 { margin: 0; }
+.esq-titulo .sub { font-size: .8rem; color: var(--crema-2); margin: .15rem 0 0; }
 
-/* Herramientas bajo el dibujo: una sola fila; en celular, todo al alcance del pulgar */
-.esq-herr { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .7rem; }
-.esq-herr .btn { min-height: 44px; padding: 0 1.1rem; font-size: .8rem; }
-.esq-herr .boton-seccion { min-height: 44px; min-width: 44px; justify-content: center; }
-.esq-herr .boton-seccion[disabled] { opacity: .4; cursor: default; }
-.esq-herr .visor-modo { margin-left: auto; }
-.esq-herr .visor-modo button { min-height: 44px; }
-.esq-paso { margin: .6rem 0 .2rem; min-height: 3em; font-size: .95rem; color: var(--crema-2); }
-.esq-paso b, .func .texto b { font-family: "Oswald", sans-serif; color: var(--mostaza); font-weight: 600; letter-spacing: .03em; }
+/* Selector de sistema: la barra lateral del despiece pasa a un desplegable, así el dibujo se lleva el ancho */
+.esq-sistema { position: relative; }
+.esq-sistema > summary { list-style: none; display: flex; align-items: center; gap: .6rem; min-height: 48px; padding: .35rem .5rem .35rem .9rem; cursor: pointer;
+  border-radius: 999px; background: rgba(17,21,23,.8); border: 1px solid var(--borde); }
+.esq-sistema > summary::-webkit-details-marker { display: none; }
+.esq-sistema > summary:hover { border-color: var(--crema-2); }
+.esq-sistema > summary:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 2px; }
+.esq-sistema .esq-et { font: 500 .72rem "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .12em; color: var(--crema-2); }
+.esq-sistema .esq-val { font-weight: 600; font-size: .92rem; color: var(--crema); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.esq-sistema .esq-flecha { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--pizarra-2); transition: transform .2s; }
+.esq-sistema[open] .esq-flecha { transform: rotate(180deg); }
+.esq-insignia { flex: none; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .66rem; padding: .1rem .45rem; border-radius: 999px; background: var(--lava); color: #1a0d05; }
+.esq-sistema-panel { position: absolute; right: 0; top: calc(100% + .5rem); z-index: 35; width: min(340px, calc(100vw - 2rem)); max-height: min(70vh, 560px); overflow-y: auto; padding: .4rem 0; }
+.esq-sistema-panel .sistemas-lista { padding: 0; }
 
-/* Lista de piezas: chips del sitio con número de lámina */
-#chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .6rem; }
-#chips .chip { display: inline-flex; align-items: center; min-height: 40px; font: 600 .82rem "Archivo", sans-serif; color: var(--crema); cursor: pointer; padding: .2rem .7rem .2rem .3rem; }
-#chips .chip:hover { border-color: var(--crema-2); }
-#chips .chip.sel { border-color: var(--lava); background: rgba(242,97,29,.14); }
-#chips .chip .n { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--mostaza); color: #1a1206; font: 700 .78rem "Oswald"; margin-right: .45rem; }
-#chips .chip.ctx .n { background: transparent; border: 1px dashed var(--crema-2); color: var(--crema-2); }
-#chips .chip:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 2px; }
-@media (max-width: 1023px) { #chips { flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: .3rem; } #chips .chip { flex: none; min-height: 44px; } }
+/* Escenario: dibujo + ficha, dos columnas desde 960 px (como la v7); la ficha queda fija bajo la cabecera del sitio */
+#despiece { scroll-margin-top: 5rem; }
+@media (min-width: 960px) {
+  .ficha { top: 5rem; max-height: calc(100vh - 6rem); }
+  /* El dibujo usa el alto que deja la pantalla: completo y con sus controles a la vista (el JS calcula --esq-alto) */
+  .lienzo svg { max-height: var(--esq-alto, max(340px, calc(100vh - 330px))); }
+  /* Controles en UNA fila pegada al dibujo; la pista pasa a la línea del paso */
+  #p-piezas { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; }
+  #p-piezas > .lienzo, #p-piezas > .fichas-chips, #p-piezas > .esq-leyenda { flex: 1 0 100%; }
+  #p-piezas > .esq-pasotxt { flex: 1 1 320px; }
+  #p-piezas .vista-fila, #p-piezas .herr { display: contents; }
+  #p-piezas .vista-et { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  #p-piezas .herr > *, #p-piezas .vista-sel { flex: none; }
+  #p-piezas .herr .esq-interruptor { margin-left: auto; white-space: nowrap; }
+  #p-piezas > .esq-pasotxt { margin: 0 2px; }
+  #p-piezas > .pista { margin: 0; flex: none; }
+  #p-piezas > .pista.oculta { display: none; }
+}
 
-/* Ficha del piloto dentro de .parte-ficha */
-.parte-ficha .ficha { padding: 0; }
-.ficha .badge { width: 40px; height: 40px; font-size: 1.15rem; }
-.ficha h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-weight: 700; font-size: 1.45rem; line-height: 1.05; color: var(--crema); }
-.ficha dt { font-family: "Oswald", sans-serif; }
-.ficha dd, .ficha li { font-size: .95rem; }
-.ficha .vacia { margin: 0; }
-.ficha .enlaces button, .ficha .efecto button, .cadena button {
-  font: 600 .8rem "Archivo", sans-serif; color: var(--crema); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
-  border-radius: 999px; padding: .25rem .7rem; min-height: 36px; cursor: pointer; }
-.ficha .enlaces button:hover, .ficha .efecto button:hover, .cadena button:hover { background: var(--crema); color: var(--carbon); }
-.ficha .mas summary { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .8rem; }
-.esq-plan { margin: .9rem 0 .2rem; padding-bottom: .9rem; border-bottom: 1px solid rgba(255,255,255,.08); }
-@media (min-width: 1024px) { .despiece-panel .parte-ficha { position: sticky; top: 5rem; max-height: calc(100vh - 6rem); overflow-y: auto; overscroll-behavior: contain; } }
+/* Ficha sin pieza elegida: el estado del sistema en el plan, en vez de una columna vacía */
+.esq-resumen h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-size: 1.2rem; color: var(--crema); margin: 0 0 .15rem; }
+.esq-resumen .sub { font-size: .82rem; color: var(--crema-2); margin: 0 0 .8rem; }
+.esq-resumen .parte-tarea { margin-top: .55rem; }
+.esq-resumen .cta { margin: .9rem 0 0; padding: .7rem .8rem; border-radius: 12px; background: rgba(227,167,47,.1); border: 1px dashed rgba(227,167,47,.45); font-size: .9rem; }
+.esq-resumen .cta b { color: var(--mostaza); }
+.esq-plan { margin: .8rem 0 .2rem; padding-bottom: .8rem; border-bottom: 1px solid rgba(255,255,255,.08); }
 .esq-plan .parte-tarea { margin-top: 0; }
-.esq-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .8rem; }
+.esq-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .7rem; }
 .esq-acciones .btn { justify-content: center; text-align: center; min-height: 44px; font-size: .75rem; padding: 0 .5rem; }
 .esq-acciones .ancho { grid-column: 1 / -1; }
 
-/* Cómo funciona, cadenas y tabla con las superficies del sitio (.guia-seccion) */
-.func .desliza { border-radius: 14px; background: rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.06); }
-.func .texto { padding: .6rem 0 0; min-height: 5.5em; font-size: .95rem; }
-.cadenas { display: grid; gap: .75rem; }
-@media (min-width: 1280px) { .cadenas { grid-template-columns: 1fr 1fr; } }
-.cadena.tarjeta { background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.05); border-radius: 14px; overflow: visible; }
-.cadena.tarjeta:hover { transform: none; box-shadow: none; }
-.cadena h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .04em; font-size: 1rem; color: var(--mostaza); margin: 0 0 .3rem; }
-.cadena li { font-size: .92rem; }
-.esq-tabla { overflow-x: auto; }
-.esq-tabla table { width: 100%; border-collapse: collapse; font-size: .92rem; }
-.esq-tabla th, .esq-tabla td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid rgba(255,255,255,.08); vertical-align: top; }
-.esq-tabla th { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .78rem; color: var(--mostaza); font-weight: 600; }
-@media (max-width: 640px) { .esq-tabla td:nth-child(3), .esq-tabla th:nth-child(3) { display: none; } }
-
-/* Fuentes plegadas al final, como dato de confianza (no como sección principal) */
-.esq-fuentes { margin-top: 1rem; padding: .9rem 1.1rem; }
-.esq-fuentes summary { cursor: pointer; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .85rem; color: var(--crema-2); min-height: 40px; display: flex; align-items: center; }
-.esq-fuentes .esq-fuente { margin-top: .6rem; font-size: .9rem; }
-.esq-fuentes h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-size: .95rem; color: var(--mostaza); margin: .6rem 0 .2rem; }
-.esq-fuentes ul { padding-left: 1.1em; margin: 0; } .esq-fuentes li { margin: .25rem 0; word-break: break-word; }
-.esq-fuentes a { color: var(--lava-2); }
-
-/* Celular: la ficha queda lejos del dibujo; una barra fija avisa qué pieza está elegida y lleva a su ficha */
-.esq-hoja { position: fixed; left: .75rem; right: .75rem; bottom: calc(.75rem + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: .6rem;
-  padding: .5rem .5rem .5rem .8rem; border-radius: 16px; background: linear-gradient(180deg, var(--pizarra-2), var(--pizarra)); box-shadow: var(--sombra-papel); border: 1px solid rgba(255,255,255,.08); }
-.esq-hoja[hidden] { display: none; }
-.esq-hoja .n { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--lava); color: #1a0f08; font: 700 1rem "Oswald"; }
-.esq-hoja .t { flex: 1; min-width: 0; font-weight: 600; font-size: .92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.esq-hoja .btn { flex: none; min-height: 44px; padding: 0 1rem; font-size: .75rem; }
-@media (min-width: 1024px) { .esq-hoja { display: none !important; } }
+/* Celular y tableta angosta: menos texto de apoyo arriba, para que el dibujo y «Desarmar» suban */
+@media (max-width: 959px) {
+  .esq-muestra, .esq-titulo .sub { display: none; }
+  .esq-arriba { margin-top: .6rem; } .esq-arriba p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .esq-titulo { margin: .5rem 0 .75rem; gap: .5rem; }
+  .esq-sistema { flex: 1 1 100%; }
+  .esq-sistema-panel { left: 0; right: auto; }
+}
+/* Hasta 1199 px el nombre del sistema ya está en el selector: el título del visor queda solo para lectores de pantalla y las pestañas no se parten en dos filas */
+@media (max-width: 1199px) {
+  .esq-visor .visor-tit { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .esq-visor .visor-barra { margin-bottom: 8px; }
+}
+.esq-pie { margin: 1rem 0 0; font-size: .8rem; color: var(--crema-2); }
 </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -243,86 +300,96 @@
 </header>
 
 <main id="contenido" tabindex="-1" class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
-  <p class="muestra-aviso"><strong>Muestra local, no es el sitio.</strong> Así se vería el esquema del freno delantero dentro de la sección «Piezas y repuestos» de la página de la moto, con los estilos reales de TallerYa. El dibujo y los textos son los del piloto, sin cambios.</p>
-  <p class="migas"><a href="#">Mi garaje</a> › <a href="#">Yamaha NMAX 155 2021</a> › Piezas y repuestos</p>
+  <div class="esq-arriba">
+    <p class="m-0"><a href="#">Mi garaje</a> › <a href="#">Yamaha NMAX 155 2021</a> › Piezas y repuestos</p>
+    <span class="esq-muestra" title="Así se vería el esquema del freno delantero dentro de «Piezas y repuestos», con los estilos reales de TallerYa. Dibujo y textos de la v8 del piloto.">Muestra local, no es el sitio</span>
+  </div>
 
-  <section id="piezas" class="mt-10">
-    <div class="flex flex-wrap items-end justify-between gap-3">
+  <section id="piezas">
+    <div class="esq-titulo">
       <div>
         <h2 class="titulo text-2xl md:text-3xl"><span class="numero">00</span>Piezas y repuestos</h2>
-        <p class="text-sm text-suave mt-1">Las piezas de tu Yamaha NMAX 155 con su código de repuesto original y su estado.</p>
+        <p class="sub">Catálogo Yamaha · versión BBE4 (2024)</p>
       </div>
-      <p class="text-xs text-suave">Catálogo Yamaha · versión BBE4 (2024)</p>
+      <!-- Sistemas: la misma lista de la barra lateral de hoy, dentro de un desplegable -->
+      <details class="esq-sistema" id="esqSistema">
+        <summary aria-label="Cambiar de sistema. Ahora: Frenos, caliper de freno delantero">
+          <span class="esq-et">Sistema</span>
+          <span class="esq-val">Frenos › Caliper delantero</span>
+          <span class="esq-insignia">Esquema</span>
+          <span class="esq-flecha" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></span>
+        </summary>
+        <nav class="papel esq-sistema-panel" aria-label="Sistemas de la moto">
+          <div class="sistemas-lista">
+            <div class="sistemas-familia plegada" data-estado="pronto"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Motor</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+            <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Transmisión CVT</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+            <div class="sistemas-familia" data-estado="pronto"><button class="sistemas-tema" type="button" aria-expanded="true"><span>Frenos</span><em>3</em><i class="sistemas-tema-flecha"></i></button>
+              <div class="sistemas-familia-cuerpo">
+                <p class="sistemas-subgrupo">Delantero</p>
+                <div class="sistema-grupo"><button class="sistema" type="button" aria-current="true"><span class="punto-mini punto-pronto"></span><span class="sistema-texto"><span class="sistema-nombre">Caliper de freno delantero <span class="esq-insignia">Esquema</span></span><span class="sistema-meta">Pronto</span></span></button></div>
+                <div class="sistema-grupo"><button class="sistema" type="button"><span class="punto-mini punto-ok"></span><span class="sistema-texto"><span class="sistema-nombre">Bomba de freno delantera</span><span class="sistema-meta">Al día</span></span></button></div>
+                <p class="sistemas-subgrupo">Trasero</p>
+                <div class="sistema-grupo"><button class="sistema" type="button"><span class="punto-mini punto-vencido"></span><span class="sistema-texto"><span class="sistema-nombre">Freno trasero de tambor</span><span class="sistema-meta">Toca ya</span></span></button></div>
+              </div>
+            </div>
+            <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Ruedas</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+            <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Suspensión</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
+            <div class="sistemas-familia plegada" data-estado="desconocido"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Eléctrico</span><em>1</em><i class="sistemas-tema-flecha"></i></button></div>
+          </div>
+        </nav>
+      </details>
     </div>
-    <div class="separador mt-4 mb-6"></div>
 
-    <div class="despiece">
-      <!-- Barra lateral: igual que hoy; el sistema con esquema lleva la insignia «Esquema» -->
-      <nav class="despiece-sistemas papel" aria-label="Sistemas de la moto">
-        <div class="sistemas-cabeza">
-          <span class="sistemas-cabeza-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg></span>
-          <span><span class="sistemas-cabeza-titulo">Sistemas</span><span class="sistemas-cabeza-sub">Elige uno para ver sus piezas</span></span>
+<div class="escenario" id="despiece">
+    <div class="papel esq-visor">
+      <div class="visor-barra">
+        <div class="visor-tit">
+          <p class="titulo">Caliper de freno delantero y pastillas</p>
+          <p class="sub">Lámina 22 · 15 piezas · dibujo TallerYa</p>
         </div>
-        <div class="sistemas-lista" id="sistemas">
-          <div class="sistemas-familia plegada" data-estado="pronto"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Motor</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
-          <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Transmisión CVT</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
-          <div class="sistemas-familia" data-estado="pronto"><button class="sistemas-tema" type="button" aria-expanded="true"><span>Frenos</span><em>3</em><i class="sistemas-tema-flecha"></i></button>
-            <div class="sistemas-familia-cuerpo">
-              <p class="sistemas-subgrupo">Delantero</p>
-              <div class="sistema-grupo"><button class="sistema" type="button" aria-selected="true" aria-expanded="true"><span class="punto-mini punto-pronto"></span><span class="sistema-texto"><span class="sistema-nombre">Caliper de freno delantero<span class="esq-insignia">Esquema</span></span><span class="sistema-meta">Pronto</span></span><span class="sistema-flecha" aria-hidden="true"></span></button></div>
-              <div class="sistema-grupo"><button class="sistema" type="button" aria-selected="false"><span class="punto-mini punto-ok"></span><span class="sistema-texto"><span class="sistema-nombre">Bomba de freno delantera</span><span class="sistema-meta">Al día</span></span><span class="sistema-flecha" aria-hidden="true"></span></button></div>
-              <p class="sistemas-subgrupo">Trasero</p>
-              <div class="sistema-grupo"><button class="sistema" type="button" aria-selected="false"><span class="punto-mini punto-vencido"></span><span class="sistema-texto"><span class="sistema-nombre">Freno trasero de tambor</span><span class="sistema-meta">Toca ya</span></span><span class="sistema-flecha" aria-hidden="true"></span></button></div>
-            </div>
-          </div>
-          <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Ruedas</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
-          <div class="sistemas-familia plegada" data-estado="ok"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Suspensión</span><em>2</em><i class="sistemas-tema-flecha"></i></button></div>
-          <div class="sistemas-familia plegada" data-estado="desconocido"><button class="sistemas-tema" type="button" aria-expanded="false"><span>Eléctrico</span><em>1</em><i class="sistemas-tema-flecha"></i></button></div>
+        <div class="visor-modo pestanas" role="tablist" aria-label="Qué ver del freno">
+          <button type="button" role="tab" id="t-piezas" aria-controls="p-piezas" aria-selected="true">Piezas</button>
+          <button type="button" role="tab" id="t-funciona" aria-controls="p-funciona" aria-selected="false" tabindex="-1">Cómo funciona</button>
+          <button type="button" role="tab" id="t-cadenas" aria-controls="p-cadenas" aria-selected="false" tabindex="-1">Si falla</button>
+          <button type="button" role="tab" id="t-plan" aria-controls="p-plan" aria-selected="false" tabindex="-1">Cuándo</button>
         </div>
-      </nav>
+      </div>
 
-      <!-- Visor: el esquema reemplaza la lámina cuando el sistema lo tiene -->
-      <div class="despiece-visor papel" id="visor-esq">
-        <div class="visor-barra">
-          <div class="min-w-0">
-            <p class="titulo text-lg leading-tight">Caliper de freno delantero y pastillas</p>
-            <p class="text-xs text-suave">Lámina 22 · 15 piezas · dibujo TallerYa</p>
+      <!-- Piezas: armado y despiece -->
+      <div class="panel" id="p-piezas" role="tabpanel" aria-labelledby="t-piezas">
+        <div class="lienzo">
+          <svg id="lamina" viewBox="0 0 900 700" role="group" aria-label="Dibujo del freno delantero de la NMAX 155. Cada número abre la ficha de su pieza.">
+            <defs id="defs"></defs>
+            <rect x="-300" y="-300" width="1500" height="1300" fill="url(#gFondo)" aria-hidden="true"/>
+            <g id="capas"></g>
+          </svg>
+        </div>
+        <div class="vista-fila">
+          <span class="vista-et" id="vistaEt">Dibujo</span>
+          <div class="visor-modo vista-sel" role="group" aria-labelledby="vistaEt">
+            <button type="button" id="vNormal" aria-pressed="true">Normal</button>
+            <button type="button" id="vTrans" aria-pressed="false">Transparente</button>
           </div>
-          <div class="visor-modo esq-pestanas" role="tablist" aria-label="Qué ver del freno">
-            <button type="button" role="tab" id="t-despiece" aria-controls="despiece" aria-selected="true">Piezas</button>
-            <button type="button" role="tab" id="t-funciona" aria-controls="p-funciona" aria-selected="false" tabindex="-1">Cómo funciona</button>
-            <button type="button" role="tab" id="t-cadenas" aria-controls="cadenas" aria-selected="false" tabindex="-1">Si falla</button>
-            <button type="button" role="tab" id="t-plan" aria-controls="p-plan" aria-selected="false" tabindex="-1">Cuándo</button>
+          <p class="pista" id="pista" aria-hidden="true">👆 Toca una pieza</p>
+          <div class="esq-zoom" role="group" aria-label="Zoom del dibujo">
+            <button type="button" class="esq-zoom-b" id="zMas" aria-label="Acercar el dibujo">+</button>
+            <button type="button" class="esq-zoom-b" id="zMenos" aria-label="Alejar el dibujo" disabled>−</button>
+            <button type="button" class="esq-zoom-b" id="zVer" aria-label="Ver el dibujo completo" disabled>⤢</button>
           </div>
         </div>
-
-        <!-- Piezas: armado y despiece -->
-        <div class="esq-panel" id="despiece" role="tabpanel" aria-labelledby="t-despiece">
-          <div class="esq-lienzo">
-        <svg id="lamina" viewBox="0 0 900 700" role="img" aria-labelledby="lamTit">
-          <title id="lamTit">Freno delantero de la NMAX 155: disco, caliper con su soporte, pastillas y tornillería</title>
-          <defs id="defs"></defs>
-          <rect x="-300" y="-300" width="1500" height="1300" fill="url(#gFondo)"/>
-          <g id="capas"></g>
-        </svg>
-            <p class="esq-pista" id="esqPista" aria-hidden="true">Toca una pieza</p>
-          </div>
-          <div class="esq-herr">
-            <button type="button" class="btn btn-lava" id="bTodo">Desarmar</button>
-            <button type="button" class="boton-seccion" id="bAtras" aria-label="Paso anterior">◀</button>
-            <button type="button" class="boton-seccion" id="bAdel" aria-label="Paso siguiente">▶</button>
-            <div class="visor-modo" role="group" aria-label="Opciones del dibujo">
-              <button type="button" id="iNum" aria-pressed="false">Números</button>
-              <button type="button" id="iDentro" aria-pressed="false">Por dentro</button>
-            </div>
-          </div>
-          <p class="esq-paso" id="textoPaso" aria-live="polite"><b>Armado.</b> El caliper abraza el borde del disco; el soporte lo fija a la barra con dos tornillos.</p>
-          <div id="chips" aria-label="Piezas de la lámina"></div>
+        <div class="herr">
+          <button type="button" class="btn btn-lava" id="bTodo">Desarmar</button>
+          <button type="button" class="boton-paso" id="bAtras" aria-label="Paso anterior">◀</button>
+          <button type="button" class="boton-paso" id="bAdel" aria-label="Paso siguiente">▶</button>
+          <button type="button" class="esq-interruptor" id="iNum" aria-pressed="false">Números</button>
         </div>
+        <p class="esq-pasotxt" id="textoPaso" aria-live="polite"><b>Armado.</b> El caliper abraza el borde del disco; el soporte lo fija a la barra con dos tornillos.</p>
+        <div class="fichas-chips" id="chips" role="group" aria-label="Piezas de la lámina"></div>
+      </div>
 
-        <!-- Cómo funciona -->
-        <div class="esq-panel func" id="p-funciona" role="tabpanel" aria-labelledby="t-funciona" hidden>
-          <p class="esq-intro">De la mano al disco en siete pasos. El caliper aparece cortado por la mitad, como si lo miraras desde arriba.</p>
+      <!-- Cómo funciona -->
+      <div class="panel func" id="p-funciona" role="tabpanel" aria-labelledby="t-funciona" hidden>
+      <p class="intro">De la mano al disco en siete pasos. El caliper aparece cortado por la mitad, como si lo miraras desde arriba.</p>
       <div class="desliza" id="fnDesliza">
       <svg id="fn" viewBox="0 0 900 440" role="img" aria-labelledby="fnTit">
         <title id="fnTit">Esquema del freno hidráulico: manigueta, bomba, manguera, unidad ABS y caliper cortado con pistón, pastillas y disco</title>
@@ -430,24 +497,24 @@
         </g>
       </svg>
       </div>
-          <div class="esq-herr">
-            <button type="button" class="btn btn-lava" id="fnPlay">▶ Reproducir</button>
-            <button type="button" class="boton-seccion" id="fnAtras" aria-label="Paso anterior">◀</button>
-            <button type="button" class="boton-seccion" id="fnAdel" aria-label="Paso siguiente">▶</button>
-          </div>
-          <p class="texto" id="fnTexto" aria-live="polite"></p>
-        </div>
+      <div class="herr">
+        <button type="button" class="btn btn-lava" id="fnPlay">▶ Reproducir</button>
+        <button type="button" class="boton-paso" id="fnAtras" aria-label="Paso anterior">◀</button>
+        <button type="button" class="boton-paso" id="fnAdel" aria-label="Paso siguiente">▶</button>
+      </div>
+      <p class="texto" id="fnTexto" aria-live="polite"></p>
+      </div>
 
-        <!-- Si falla, qué arrastra -->
-        <div class="esq-panel" id="cadenas" role="tabpanel" aria-labelledby="t-cadenas" hidden>
-          <p class="esq-intro">En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.</p>
-          <div class="cadenas" id="listaCadenas"></div>
-        </div>
+      <!-- Si falla, qué arrastra -->
+      <div class="panel" id="p-cadenas" role="tabpanel" aria-labelledby="t-cadenas" hidden>
+        <p class="intro">En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.</p>
+        <div class="cadenas" id="listaCadenas"></div>
+      </div>
 
-        <!-- Cuándo revisar y cambiar -->
-        <div class="esq-panel" id="p-plan" role="tabpanel" aria-labelledby="t-plan" hidden>
-          <p class="esq-intro">Lo mismo que pide el plan de mantenimiento de tu moto. El estado de cada tarea está en la agenda.</p>
-          <div class="esq-tabla">
+      <!-- Cuándo revisar y cambiar -->
+      <div class="panel" id="p-plan" role="tabpanel" aria-labelledby="t-plan" hidden>
+        <p class="intro">Lo mismo que pide el plan de mantenimiento de TallerYa para esta moto.</p>
+    <div class="tabla">
       <table>
         <thead><tr><th>Qué</th><th>Cuándo</th><th>De dónde sale</th></tr></thead>
         <tbody>
@@ -456,29 +523,21 @@
           <tr><td>Mangueras del freno: cambiar</td><td>Cada <b>4 años</b>, y revisar grietas en cada servicio</td><td>Manual del propietario, p. 9-4. En TallerYa solo aparece como nota del líquido. <span class="s-ok">Seguro</span></td></tr>
           <tr><td>Disco (1): medir grosor y mirar si está torcido</td><td>En cada cambio de pastillas</td><td>Ficha de TallerYa y práctica de taller. El grosor mínimo viene grabado en el disco («MIN TH»). <span class="s-ap">Sin cifra de fábrica</span></td></tr>
           <tr><td>Caliper (3), pasadores (12, 13) y guardapolvos (6, 7): limpiar y revisar</td><td>En cada cambio de pastillas</td><td>Fichas de TallerYa y práctica de taller (el manual no da intervalo para estas piezas). <span class="s-ap">Práctica de taller</span></td></tr>
-          <tr><td>Empaques del caliper (5), y también los de la bomba</td><td>Cada <b>2 años, junto con el líquido</b>, o antes si hay fuga o el freno queda pegado</td><td>Manual del propietario: p. 9-7 («cada dos años cambie los componentes internos de las bombas de freno y de las pinzas») y p. 9-25 («Juntas de freno: cada 2 años»). La ficha de TallerYa no da intervalo (contradicción 9). <span class="s-ok">Seguro</span></td></tr>
+          <tr><td>Empaques del caliper (5), y también los de la bomba</td><td>Cada <b>2 años, junto con el líquido</b>, o antes si hay fuga o el freno queda pegado</td><td>Manual del propietario: p. 9-7 («cada dos años cambie los componentes internos de las bombas de freno y de las pinzas») y p. 9-25 («Juntas de freno: cada 2 años»). La ficha de TallerYa no da intervalo (anotado para el equipo). <span class="s-ok">Seguro</span></td></tr>
         </tbody>
       </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Panel derecho: la ficha del piloto + lo que ya tiene la ficha del sitio (estado del plan y acciones) -->
-      <aside class="despiece-panel">
-        <div class="parte-ficha papel">
-          <div class="ficha" id="ficha" aria-live="polite">
-            <p class="vacia">Toca una pieza del dibujo (o un número de la lista) para ver qué es, cómo falla y qué se cambia de verdad.</p>
-          </div>
-          <div class="esq-plan" id="esqPlan" hidden></div>
-        </div>
-      </aside>
     </div>
+      </div>
+    </div>
+    <aside class="papel ficha" id="ficha" aria-label="Ficha de la pieza">
+      <p class="vacia">Toca una pieza del dibujo (o un número) para ver qué es, cómo falla y qué se cambia de verdad.</p>
+    </aside>
+  </div>
 
-    <details class="papel esq-fuentes">
-      <summary>De dónde sale esta información</summary>
-      <div class="esq-fuentes-dos">
-
-      <div class="esq-fuente">
+  <details class="papel fuentes-plegadas">
+    <summary>De dónde sale esta información (qué es seguro, qué es aproximado y fuentes)</summary>
+    <div class="dos">
+      <div class="tarjeta" style="padding:12px 18px">
         <h3>Seguro</h3>
         <ul>
           <li>Números, nombres y cantidad de piezas: catálogo de partes de la NMAX BBE4, figura 22 «Front brake caliper».</li>
@@ -490,7 +549,7 @@
           <li>El líquido DOT 4 absorbe agua y su punto de ebullición baja (mínimos de la norma: 230 °C seco, 155 °C húmedo).</li>
         </ul>
       </div>
-      <div class="esq-fuente">
+      <div class="tarjeta" style="padding:12px 18px">
         <h3>Aproximado</h3>
         <ul>
           <li>Proporciones del dibujo: se tomaron del plano y de fotos, no se midió una pieza real.</li>
@@ -501,7 +560,7 @@
         </ul>
       </div>
     </div>
-    <div class="esq-fuente">
+    <div class="tarjeta" style="padding:12px 18px;margin-top:14px">
       <h3>Fuentes</h3>
       <ul class="fuentes">
         <li>Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 22 «Front brake caliper». Copia local, solo referencia (catálogo público en <a href="https://motoblu.co/catalogo/catalogo-partes-despiece-yamaha-n-max/">motoblu.co</a>).</li>
@@ -516,14 +575,14 @@
         <li>No se encontró un video confiable del desarme del caliper de la NMAX en esta pasada. Queda pendiente para la v2.</li>
       </ul>
     </div>
-  
-    </details>
+  </details>
+    <p class="esq-pie">Muestra local: así se vería el esquema dentro de «Piezas y repuestos» de la página de la moto, con los estilos reales de TallerYa. El dibujo y los textos son los de la v8 del piloto, sin cambios.</p>
   </section>
 </main>
 
-<div class="esq-hoja" id="esqHoja" hidden>
-  <span class="n" id="esqHojaN"></span><span class="t" id="esqHojaT"></span>
-  <button type="button" class="btn btn-lava" id="esqHojaVer">Ver ficha</button>
+<div class="hoja" id="hoja" hidden>
+  <span class="n" id="hojaN"></span><span class="t" id="hojaT"></span>
+  <button type="button" class="btn btn-lava" id="hojaVer">Ver ficha</button>
 </div>
 
 <script>
@@ -761,15 +820,15 @@ function arteBarra(){
   const ax=548, ay=404, ux=-0.44, uy=-0.9, px=0.9, py=-0.44, w=40, L=440;
   const p=[[ax-w*px,ay-w*py],[ax+ux*L-w*px,ay+uy*L-w*py],[ax+ux*L+w*px,ay+uy*L+w*py],[ax+w*px,ay+w*py]];
   const [s1x,s1y]=R(86,-54),[s2x,s2y]=R(86,56);
-  return `<g class="ctx ctx-barra" data-ctx="barra">
+  return `<g class="ctx ctx-barra" data-ctx="barra" pointer-events="none">
     <path d="M${f(p[0][0])},${f(p[0][1])} L${f(p[1][0])},${f(p[1][1])} L${f(p[2][0])},${f(p[2][1])} L${f(p[3][0])},${f(p[3][1])} A40,40 0 0 1 ${f(p[0][0])},${f(p[0][1])} Z"
       fill="#b9c2c7" fill-opacity=".07" stroke="#c9bfa7" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="7 5" pointer-events="visibleStroke"/>
     <circle cx="${f(s1x)}" cy="${f(s1y)}" r="24" fill="none" stroke="#c9bfa7" stroke-opacity=".5" stroke-dasharray="5 4"/>
     <circle cx="${f(s2x)}" cy="${f(s2y)}" r="24" fill="none" stroke="#c9bfa7" stroke-opacity=".5" stroke-dasharray="5 4"/>
     <circle cx="${D[0]}" cy="${D[1]}" r="16" fill="#c9bfa7" fill-opacity=".12" stroke="#c9bfa7" stroke-opacity=".55" stroke-dasharray="4 3"/>
     <rect x="${f(ax+ux*300-60)}" y="${f(ay+uy*300-8)}" width="120" height="40" fill="transparent"/>
-    <text class="ctx-txt" x="282" y="150">Barra derecha</text>
-    <text class="ctx-txt" x="282" y="165">(lámina 18)</text>
+    <text class="ctx-txt" x="640" y="156">Barra derecha</text>
+    <text class="ctx-txt" x="640" y="171">(lámina 18)</text>
   </g>`;
 }
 function arteManguera(){
@@ -777,8 +836,8 @@ function arteManguera(){
   return `<g class="ctx ctx-manguera" data-ctx="manguera">
     <path d="M${f(bx)},${f(by-6)} C${f(bx-6)},${f(by-60)} ${f(bx-20)},${f(by-120)} ${f(bx-46)},${f(by-180)} L${f(bx-70)},${f(by-240)}" fill="none" stroke="#0b0b0b" stroke-width="15" stroke-linecap="round"/>
     <path d="M${f(bx)},${f(by-6)} C${f(bx-6)},${f(by-60)} ${f(bx-20)},${f(by-120)} ${f(bx-46)},${f(by-180)} L${f(bx-70)},${f(by-240)}" fill="none" stroke="#3a3a3a" stroke-width="5" stroke-linecap="round" transform="translate(-3 0)"/>
-    <text class="ctx-txt" x="282" y="196">Manguera</text>
-    <text class="ctx-txt" x="282" y="211">(lámina 26)</text>
+    <text class="ctx-txt" x="490" y="156">Manguera</text>
+    <text class="ctx-txt" x="490" y="171">(lámina 26)</text>
   </g>`;
 }
 
@@ -790,12 +849,12 @@ const PIEZAS=[
   {id:"1",  n:"1",  arte:arteDisco,               anc:PD(-100,175), et:[-80,8], vis:"arm"},
   {id:"2",  n:"2",  arte:arteTornillosDisco,      anc:PD(0,115),    et:[34,52],  vis:"arm"},
   {id:"9a", n:"9",  arte:()=>artePastilla(-8,0,0),anc:R(-8,30),     et:[-52,34], vis:"exp"},
-  {id:"9b", n:"9",  arte:()=>artePastilla(-1,3,0),anc:R(-1,30),     et:[46,34],  vis:"exp"},
-  {id:"14", n:"14", arte:arteLamina,              anc:R(8,30),      et:[40,30],  vis:"exp"},
+  {id:"9b", n:"9",  arte:()=>artePastilla(-1,3,0),anc:R(-1,30),     et:[36,50],  vis:"exp"},
+  {id:"14", n:"14", arte:arteLamina,              anc:R(8,30),      et:[54,34],  vis:"exp"},
   {id:"11", n:"11", arte:arteResorte,             anc:R(-20,-86),   et:[-40,-20],vis:"exp"},
-  {id:"4",  n:"4",  arte:artePiston,              anc:R(4,-20),     et:[-6,76],vis:"exp"},
-  {id:"5a", n:"5",  arte:()=>arteSello(4,26,6,false),anc:R(4,-26),  et:[30,82], vis:"exp", chica:1},
-  {id:"5b", n:"5",  arte:()=>arteSello(4,25,4,true), anc:R(4,-25),  et:[44,10], vis:"exp", chica:1},
+  {id:"4",  n:"4",  arte:artePiston,              anc:R(4,-20),     et:[-22,76],vis:"exp"},
+  {id:"5a", n:"5",  arte:()=>arteSello(4,26,6,false),anc:R(4,-26),  et:[36,86], vis:"exp", chica:1},
+  {id:"5b", n:"5",  arte:()=>arteSello(4,25,4,true), anc:R(4,-25),  et:[29,-20], vis:"exp", chica:1},
   {id:"13", n:"13", arte:arteSoporte,             anc:R(100,0),     et:[44,10],  vis:"arm"},
   {id:"6",  n:"6",  arte:arteBota6,               anc:R(16,86),     et:[20,34], chica:1,  vis:"exp"},
   {id:"7",  n:"7",  arte:arteBota7,               anc:R(16,-84),    et:[44,12], chica:1, vis:"exp"},
@@ -843,7 +902,7 @@ const PASOS=[
   {t:"<b>Paso 14 de 14 · Disco (1).</b> El disco sale del rin. Se mide el grosor en varios puntos y se compara con el mínimo grabado («MIN TH»).",
    m:{"1":[150,30],"2":[150,30]}},
 ];
-const TXT_ARMADO="<b>Armado.</b> El caliper abraza el borde del disco y su soporte se atornilla a la barra. Lo de adentro (pistón, pastillas, resorte) no se ve: actívalo con «Ver por dentro» o tócalo en la lista. Los números abren la ficha de cada pieza.";
+const TXT_ARMADO="<b>Armado.</b> El caliper abraza el borde del disco y su soporte se atornilla a la barra. Lo de adentro (pistón, pastillas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista. Los números abren la ficha de cada pieza.";
 
 /* ============================================================
    Construcción del SVG
@@ -1074,6 +1133,7 @@ const FICHAS={
  efectos:[["4","El agua del líquido viejo oxida el pistón por dentro."],["5","Y endurece los empaques."]],certeza:[["ok","DOT 4, cada 2 años (manual)."],["ok","230 °C / 155 °C: mínimos de la norma FMVSS 116."]]}
 };
 const CAUSA={desgaste:"Desgaste",calor:"Calor",humedad:"Humedad",maluso:"Mal uso",golpe:"Golpe",edad:"Edad"};
+const CAUSA_DEF={desgaste:"se gasta con el uso normal, frenada tras frenada",calor:"temperatura alta: bajadas largas, freno pegado, frenar mucho",humedad:"agua y óxido: lluvia, lavadas, líquido de frenos viejo",maluso:"montaje o manejo incorrecto: herramienta equivocada, apretar de más, productos que no van",golpe:"caídas, huecos o golpes en la rueda",edad:"el caucho y los materiales envejecen aunque la moto ruede poco"};
 const DIF={facil:"Lo puedes hacer tú",media:"Con herramienta y algo de práctica",taller:"Mejor en el taller"};
 const nombreDe=k=>FICHAS[k]?FICHAS[k].nombre:k;
 const etiq=k=>FICHAS[k]&&FICHAS[k].ctx?"·":k;
@@ -1094,8 +1154,41 @@ function seleccionar(k,{desplazar=false}={}){
   svg.classList.toggle("haysel",!!document.querySelector(".pz.sel"));
   svg.classList.toggle("rayosx",paso===0 && OCULTAS.includes(k));
   pintarFicha(k);
-  if(desplazar){document.getElementById("despiece").scrollIntoView({behavior:"smooth",block:"start"})}
+  document.getElementById("pista").classList.add("oculta");
+  mostrarHoja(k);
+  if(desplazar){activarPestana(document.getElementById("t-piezas"));document.getElementById("despiece").scrollIntoView({behavior:REDUCIDO_SEL()?"auto":"smooth",block:"start"})}
 }
+function REDUCIDO_SEL(){return matchMedia("(prefers-reduced-motion:reduce)").matches}
+
+/* ---------- pestañas accesibles (flechas, Inicio, Fin) ---------- */
+const PESTANAS=[...document.querySelectorAll('.pestanas [role="tab"]')];
+function activarPestana(tab,enfocar){
+  PESTANAS.forEach(t=>{const si=t===tab;t.setAttribute("aria-selected",si);t.tabIndex=si?0:-1;
+    document.getElementById(t.getAttribute("aria-controls")).hidden=!si});
+  if(enfocar)tab.focus();
+  if(tab.id==="t-piezas")setTimeout(escalarEtiquetas,0);
+}
+PESTANAS.forEach((t,i)=>{
+  t.addEventListener("click",()=>activarPestana(t));
+  t.addEventListener("keydown",e=>{const n={ArrowRight:i+1,ArrowLeft:i-1,Home:0,End:PESTANAS.length-1}[e.key];
+    if(n===undefined)return;e.preventDefault();activarPestana(PESTANAS[(n+PESTANAS.length)%PESTANAS.length],true)});
+});
+
+/* ---------- celular: barra fija con la pieza elegida y «Ver ficha» (sin bajar la página sola) ---------- */
+const hoja=document.getElementById("hoja"), fichaEl=document.getElementById("ficha");
+let fichaVisible=false;
+if("IntersectionObserver" in window){new IntersectionObserver(es=>{fichaVisible=es[0].isIntersecting;if(fichaVisible)hoja.hidden=true;else if(seleccion&&innerWidth<960)hoja.hidden=false},{threshold:.15}).observe(fichaEl)}
+function mostrarHoja(k){
+  if(innerWidth>=960||fichaVisible){hoja.hidden=true;return}
+  const F=FICHAS[k];if(!F)return;
+  document.getElementById("hojaN").textContent=F.ctx?"·":k;
+  document.getElementById("hojaT").textContent=F.nombre;
+  hoja.hidden=false;
+}
+document.getElementById("hojaVer").addEventListener("click",()=>{
+  fichaEl.scrollIntoView({behavior:REDUCIDO_SEL()?"auto":"smooth",block:"start"});
+  const h=fichaEl.querySelector("h3");if(h)h.focus({preventScroll:true});hoja.hidden=true;
+});
 function boton(k){return `<button data-k="${k}">${FICHAS[k]&&!FICHAS[k].ctx?k+" · ":""}${nombreDe(k)}</button>`}
 function pintarFicha(k){
   const F=FICHAS[k], el=document.getElementById("ficha");
@@ -1103,7 +1196,7 @@ function pintarFicha(k){
   const filas=[], mas=[];
   if(F.que)filas.push(`<dt>Qué es</dt><dd>${F.que}</dd>`);
   if(F.sirve)mas.push(`<dt>Para qué sirve</dt><dd>${F.sirve}</dd>`);
-  if(F.fallas.length)filas.push(`<dt>Cómo falla y por qué</dt><dd><ul>${F.fallas.map(([c,t])=>`<li><span class="causa c-${c}">${CAUSA[c]}</span>${t}</li>`).join("")}</ul></dd>`);
+  if(F.fallas.length)filas.push(`<dt>Cómo falla y por qué</dt><dd><ul>${F.fallas.map(([c,t])=>`<li><span class="causa c-${c}" title="${CAUSA[c]}: ${CAUSA_DEF[c]}">${CAUSA[c]}</span>${t}</li>`).join("")}</ul><details class="esq-leyenda"><summary>Qué significa cada etiqueta</summary><ul>${[...new Set(F.fallas.map(x=>x[0]))].map(c=>`<li><span class="causa c-${c}">${CAUSA[c]}</span>${CAUSA_DEF[c]}</li>`).join("")}</ul></details></dd>`);
   if(F.sintomas.length)filas.push(`<dt>Síntomas</dt><dd><ul>${F.sintomas.map(s=>`<li>${s}</li>`).join("")}</ul></dd>`);
   if(F.cuando)filas.push(`<dt>Cuándo revisar o cambiar</dt><dd>${F.cuando}</dd>`);
   if(F.decision)filas.push(`<dt>¿Se repara o se cambia?</dt><dd><span class="decision ${F.decision==='repara'?'d-repara':'d-cambia'}">${F.decision==='repara'?'Se repara':'Se cambia'}</span><p style="margin:.4em 0 0">${F.compra}</p></dd>`);
@@ -1114,7 +1207,7 @@ function pintarFicha(k){
 }
 document.addEventListener("click",e=>{
   const b=e.target.closest("button[data-k]");
-  if(b){seleccionar(b.dataset.k,{desplazar:!!b.closest("#cadenas")});return}
+  if(b){seleccionar(b.dataset.k,{desplazar:!!b.closest("#p-cadenas")});return}
   const g=e.target.closest(".pz");
   if(g){seleccionar(g.dataset.n);return}
   const c=e.target.closest("[data-ctx]");
@@ -1126,7 +1219,7 @@ document.addEventListener("keydown",e=>{
 });
 
 /* ---------- encuadre: armado se ve de cerca, despiece completo ---------- */
-const VB_ARM=[230,140,600,467];
+const VB_ARM=[223,140,613,477]; // v8: 10 unidades más abajo para el número 1, misma proporción
 let VB_EXP=[0,0,900,700];
 // El encuadre del despiece se calcula con las posiciones finales de las piezas y sus números
 function calcularVBExp(){
@@ -1149,10 +1242,21 @@ function escalarEtiquetas(){
   const s=Math.max(.8,(vbActual[2]/px)*9/10);                 // número de ~18 px en pantalla; su área de toque (círculo invisible) mide ~45 px
   document.querySelectorAll(".bola").forEach(b=>{const x=+b.dataset.x,y=+b.dataset.y;
     b.setAttribute("transform",s===1?"":`translate(${x} ${y}) scale(${f(s)}) translate(${-x} ${-y})`)});
+  radiosToque(s);
 }
-function encuadrar(destino){
+// v8: el área de toque de cada número (círculo invisible) no pasa de la mitad de la distancia a su vecino tocable más cercano
+function radiosToque(s){
+  const abiertos=svg.classList.contains("explotado")||svg.classList.contains("transparente"), pts=[];
+  document.querySelectorAll(".pz").forEach(g=>{const e=g.querySelector(".et");
+    if(!abiertos&&e.classList.contains("et-exp"))return;
+    const m=/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/.exec(g.style.transform||""), b=e.querySelector(".bola");
+    pts.push({c:b.querySelector(".toque"),x:+b.dataset.x+(m?+m[1]:0),y:+b.dataset.y+(m?+m[2]:0)})});
+  pts.forEach(p=>{let d=1e9;pts.forEach(q=>{if(q!==p)d=Math.min(d,Math.hypot(p.x-q.x,p.y-q.y))});
+    p.c.setAttribute("r",f(Math.min(25,d/2/s)))});
+}
+function encuadrar(destino,ms=650){
   cancelAnimationFrame(vbAnim);
-  const ini=vbActual.slice(), t0=performance.now(), dur=matchMedia("(prefers-reduced-motion:reduce)").matches?0:650;
+  const ini=vbActual.slice(), t0=performance.now(), dur=matchMedia("(prefers-reduced-motion:reduce)").matches?0:ms;
   const paso_=t=>{const p=dur?Math.min(1,(t-t0)/dur):1, e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
     vbActual=ini.map((v,i)=>v+(destino[i]-v)*e);svg.setAttribute("viewBox",vbActual.map(f).join(" "));escalarEtiquetas();
     if(p<1)vbAnim=requestAnimationFrame(paso_)};
@@ -1160,14 +1264,59 @@ function encuadrar(destino){
 }
 svg.setAttribute("viewBox",VB_ARM.join(" "));
 calcularVBExp();
-addEventListener("resize",escalarEtiquetas);
+addEventListener("resize",()=>{if(zoom>1&&innerWidth>700)fijarZoom(1,null,null,true);escalarEtiquetas()});
+
+/* ---------- v8: zoom del dibujo en el celular (+ − ⤢ y pellizco; con zoom, un dedo arrastra el dibujo) ---------- */
+let zoom=1;
+const ZMAX=4, zMas=document.getElementById("zMas"), zMenos=document.getElementById("zMenos"), zVer=document.getElementById("zVer");
+function estadoZoom(){zMas.disabled=zoom>=ZMAX-.01;zMenos.disabled=zVer.disabled=zoom<=1.01;svg.classList.toggle("esq-ampliado",zoom>1.01)}
+// z = aumento sobre el encuadre del momento (armado o despiece); (cx,cy) = punto del dibujo que queda al centro
+function fijarZoom(z,cx,cy,animar){
+  const B=paso===0?VB_ARM:VB_EXP;zoom=Math.min(ZMAX,Math.max(1,z));
+  if(cx==null){cx=vbActual[0]+vbActual[2]/2;cy=vbActual[1]+vbActual[3]/2}
+  const w=B[2]/zoom,h=B[3]/zoom;
+  const d=[Math.min(Math.max(cx-w/2,B[0]),B[0]+B[2]-w),Math.min(Math.max(cy-h/2,B[1]),B[1]+B[3]-h),w,h];
+  if(animar)encuadrar(d,260);else{cancelAnimationFrame(vbAnim);vbActual=d;svg.setAttribute("viewBox",d.map(f).join(" "));escalarEtiquetas()}
+  estadoZoom();
+}
+zMas.addEventListener("click",()=>fijarZoom(zoom*1.6,null,null,true));
+zMenos.addEventListener("click",()=>fijarZoom(zoom/1.6,null,null,true));
+zVer.addEventListener("click",()=>fijarZoom(1,null,null,true));
+// Pellizco y arrastre con Pointer Events; un gesto que se movió no cuenta como toque de un número
+const dedos=new Map();let gesto=null, anularClic=false;
+const aDibujo=(x,y)=>{const r=svg.getBoundingClientRect();return[vbActual[0]+(x-r.left)*vbActual[2]/r.width,vbActual[1]+(y-r.top)*vbActual[3]/r.height]};
+function iniciarGesto(){
+  const p=[...dedos.values()];
+  if(p.length>=2){const m=[(p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2];gesto={tipo:2,d0:Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])||1,z0:zoom,ancla:aDibujo(m[0],m[1])}}
+  else if(p.length===1&&zoom>1.01)gesto={tipo:1,ini:p[0],vb0:vbActual.slice()};
+  else gesto=null;
+}
+svg.addEventListener("pointerdown",e=>{if(!dedos.size)anularClic=false;if(e.pointerType==="mouse")return;dedos.set(e.pointerId,[e.clientX,e.clientY]);iniciarGesto()});
+svg.addEventListener("pointermove",e=>{
+  if(!dedos.has(e.pointerId))return;dedos.set(e.pointerId,[e.clientX,e.clientY]);if(!gesto)return;
+  const p=[...dedos.values()], r=svg.getBoundingClientRect(), B=paso===0?VB_ARM:VB_EXP;
+  if(gesto.tipo===2&&p.length>=2){
+    const z=Math.min(ZMAX,Math.max(1,gesto.z0*Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])/gesto.d0)), w=B[2]/z, h=B[3]/z;
+    const m=[(p[0][0]+p[1][0])/2,(p[0][1]+p[1][1])/2];
+    // el punto del dibujo que estaba bajo los dedos sigue bajo los dedos
+    const x0=gesto.ancla[0]-(m[0]-r.left)*w/r.width, y0=gesto.ancla[1]-(m[1]-r.top)*h/r.height;
+    fijarZoom(z,x0+w/2,y0+h/2,false);anularClic=true;
+  }else if(gesto.tipo===1){
+    const dx=p[0][0]-gesto.ini[0], dy=p[0][1]-gesto.ini[1];
+    if(!anularClic&&Math.hypot(dx,dy)<8)return;
+    anularClic=true;const v=gesto.vb0;fijarZoom(zoom,v[0]+v[2]/2-dx*v[2]/r.width,v[1]+v[3]/2-dy*v[3]/r.height,false);
+  }
+});
+const soltar=e=>{if(dedos.delete(e.pointerId))iniciarGesto()};
+svg.addEventListener("pointerup",soltar);svg.addEventListener("pointercancel",soltar);
+svg.addEventListener("click",e=>{if(anularClic){e.stopPropagation();e.preventDefault();anularClic=false}},true);
 
 /* ---------- despiece paso a paso ---------- */
 let paso=0, temporizador=null;
 function aplicar(k){
   const antes=paso;
   paso=k;
-  if((antes===0)!==(k===0)||k===0)encuadrar(k===0?VB_ARM:VB_EXP);
+  if((antes===0)!==(k===0)||k===0){zoom=1;encuadrar(k===0?VB_ARM:VB_EXP);estadoZoom()}
   const suma={};
   for(let i=0;i<k;i++){for(const [id,[dx,dy]] of Object.entries(PASOS[i].m)){suma[id]=suma[id]||[0,0];suma[id][0]+=dx;suma[id][1]+=dy}}
   PIEZAS.forEach(p=>{const g=document.getElementById("pz-"+p.id);const s=suma[p.id]||[0,0];
@@ -1180,26 +1329,54 @@ function aplicar(k){
   document.getElementById("bAtras").disabled=k===0;
   document.getElementById("bAdel").disabled=k===PASOS.length;
   document.getElementById("bTodo").textContent=k===PASOS.length?"Armar":(temporizador?"Pausa":"Desarmar");
+  escalarEtiquetas();
 }
-function parar(){clearInterval(temporizador);temporizador=null}
+// «Desarmar»: 1,3 s por paso para alcanzar a leer cada texto (armar de vuelta va más rápido, 0,5 s).
+// Durante la reproducción #textoPaso deja de anunciarse y al final se anuncia solo el último paso.
+// Con reducción de movimiento salta directo al despiece completo (o al armado).
+const REDUCIDO=matchMedia("(prefers-reduced-motion:reduce)").matches;
+const textoPaso=document.getElementById("textoPaso");
+function parar(){
+  clearInterval(temporizador);temporizador=null;
+  textoPaso.setAttribute("aria-live","polite");
+  textoPaso.innerHTML=textoPaso.innerHTML;          // fuerza un solo anuncio con el paso donde quedó
+}
 document.getElementById("bTodo").addEventListener("click",()=>{
   if(temporizador){parar();aplicar(paso);return}
   const armar=paso===PASOS.length;
+  if(REDUCIDO){aplicar(armar?0:PASOS.length);return}
+  textoPaso.setAttribute("aria-live","off");
   temporizador=setInterval(()=>{
     const sig=armar?paso-1:paso+1;
     if(sig<0||sig>PASOS.length){parar();aplicar(paso);return}
     aplicar(sig);
     if(sig===0||sig===PASOS.length){parar();aplicar(sig)}
-  },armar?420:900);
+  },armar?500:1300);
   aplicar(armar?paso-1:paso+1);
 });
 document.getElementById("bAtras").addEventListener("click",()=>{parar();if(paso>0)aplicar(paso-1)});
 document.getElementById("bAdel").addEventListener("click",()=>{parar();if(paso<PASOS.length)aplicar(paso+1)});
 /* interruptores: números resaltados y transparencia de las carcasas */
+// Una sola parada de tabulador por número: las piezas dobles (9, 5, 10) dejan el segundo número fuera del tabulador.
 function focoNumeros(){const abiertos=svg.classList.contains("explotado")||svg.classList.contains("transparente");
-  document.querySelectorAll(".et").forEach(e=>{const b=e.querySelector(".bola");b.setAttribute("tabindex",e.classList.contains("et-exp")&&!abiertos?"-1":"0")})}
+  const vistos=new Set();
+  document.querySelectorAll(".et").forEach(e=>{const b=e.querySelector(".bola"), n=e.closest(".pz").dataset.n;
+    const oculto=e.classList.contains("et-exp")&&!abiertos, repetido=vistos.has(n);
+    if(!oculto)vistos.add(n);
+    b.setAttribute("tabindex",oculto||repetido?"-1":"0");
+    if(repetido)b.setAttribute("aria-hidden","true");else b.removeAttribute("aria-hidden")})}
 function interruptor(id,clase){const b=document.getElementById(id);b.addEventListener("click",()=>{const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on);svg.classList.toggle(clase,on);if(clase==="transparente")svg.classList.remove("rayosx");focoNumeros()})}
-interruptor("iNum","numeros");interruptor("iDentro","transparente");
+interruptor("iNum","numeros");
+/* Versión del dibujo: Normal o Transparente. Vale en armado y en despiece, se mantiene al cambiar de pestaña y se recuerda en este navegador. */
+const vNormal=document.getElementById("vNormal"), vTrans=document.getElementById("vTrans");
+function ponerVista(trans,guardar){
+  vNormal.setAttribute("aria-pressed",!trans);vTrans.setAttribute("aria-pressed",trans);
+  svg.classList.toggle("transparente",trans);if(trans)svg.classList.remove("rayosx");focoNumeros();escalarEtiquetas();
+  if(guardar){try{localStorage.setItem("esqVista",trans?"t":"n")}catch(e){}}
+}
+vNormal.addEventListener("click",()=>ponerVista(false,true));
+vTrans.addEventListener("click",()=>ponerVista(true,true));
+try{if(localStorage.getItem("esqVista")==="t")ponerVista(true,false)}catch(e){}
 aplicar(0);
 
 /* ============================================================
@@ -1267,91 +1444,80 @@ $("listaCadenas").innerHTML=CADENAS.map(c=>`<div class="tarjeta cadena"><h3>${c.
 
 </script>
 <script>
-/* ===== Capa de integración (en el sitio iría en despiece.js) ===== */
+/* ===== Capa de integración v2 (en el sitio iría en despiece.js) ===== */
 (() => {
   const $id = (x) => document.getElementById(x);
-  const reducido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reducido = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ficha = $id("ficha");
 
-  /* 1. Pestañas accesibles (flechas, Inicio, Fin) */
-  const pestanas = [...document.querySelectorAll('.esq-pestanas [role="tab"]')];
-  function activar(tab, enfocar) {
-    pestanas.forEach((t) => {
-      const si = t === tab;
-      t.setAttribute("aria-selected", si);
-      t.tabIndex = si ? 0 : -1;
-      $id(t.getAttribute("aria-controls")).hidden = !si;
-    });
-    if (enfocar) tab.focus();
-  }
-  pestanas.forEach((t, i) => {
-    t.addEventListener("click", () => activar(t));
-    t.addEventListener("keydown", (e) => {
-      const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: pestanas.length - 1 }[e.key];
-      if (n === undefined) return;
-      e.preventDefault();
-      activar(pestanas[(n + pestanas.length) % pestanas.length], true);
-    });
-  });
+  /* 1. Pista «Toca una pieza» en la línea del paso (en computador la fila de controles va sola) */
+  const pista = $id("pista"), paso = $id("textoPaso");
+  // El paso se reescribe con innerHTML en cada desarme: la pista vive fuera, justo antes del texto
+  const ubicar = () => { if (innerWidth >= 960) { paso.parentNode.insertBefore(pista, paso); pista.classList.add("en-paso"); } else { document.querySelector(".vista-fila").append(pista); pista.classList.remove("en-paso"); } };
+  ubicar(); addEventListener("resize", ubicar);
 
-  /* 2. Conexión con el plan de mantenimiento y las acciones del sitio (datos de muestra) */
+  /* 1b. Alto del dibujo en computador: lo que deja la pantalla bajo el lienzo, menos la fila de controles */
+  const lienzo = document.querySelector("#p-piezas .lienzo");
+  const medirAlto = () => {
+    if (innerWidth < 960) { document.documentElement.style.removeProperty("--esq-alto"); return; }
+    const arriba = lienzo.getBoundingClientRect().top + scrollY;
+    document.documentElement.style.setProperty("--esq-alto", Math.max(340, innerHeight - arriba - 76) + "px");
+  };
+  medirAlto(); addEventListener("resize", medirAlto);
+
+  /* 1c. La ficha fija nunca se sale por abajo: su alto máximo es lo que queda desde su borde superior */
+  let pendiente = false;
+  const altoFicha = () => {
+    pendiente = false;
+    if (innerWidth < 960) { ficha.style.maxHeight = ""; return; }
+    ficha.style.maxHeight = (innerHeight - Math.max(80, ficha.getBoundingClientRect().top) - 16) + "px";
+  };
+  const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(altoFicha); } };
+  altoFicha(); addEventListener("scroll", pedir, { passive: true }); addEventListener("resize", pedir);
+
+  /* 2. Plan de mantenimiento y acciones del sitio (datos de muestra) */
   const PLAN = {
-    "9": { tarea: "Revisión de pastillas delanteras", estado: "pronto", etiqueta: "Pronto", pct: 92, detalle: "Van ≈ 5.500 km desde la última revisión; toca a los 6.000.", servicio: true },
-    "liquido": { tarea: "Cambio de líquido de frenos", estado: "ok", etiqueta: "Al día", pct: 40, detalle: "Cambiado hace 10 meses; toca cada 2 años.", servicio: true },
-    "5": { tarea: "Empaques del caliper (con el líquido)", estado: "ok", etiqueta: "Al día", pct: 40, detalle: "Van con el cambio de líquido, cada 2 años.", servicio: true },
-    "manguera": { tarea: "Cambio de mangueras del freno", estado: "desconocido", etiqueta: "Sin registro", pct: null, detalle: "Cada 4 años. Registra cuándo se cambiaron.", servicio: true },
+    "9": { tarea: "Revisión de pastillas delanteras", estado: "pronto", etiqueta: "Pronto", pct: 92, detalle: "Van ≈ 5.500 km desde la última revisión; toca a los 6.000." },
+    "liquido": { tarea: "Cambio de líquido de frenos", estado: "ok", etiqueta: "Al día", pct: 40, detalle: "Cambiado hace 10 meses; toca cada 2 años." },
+    "5": { tarea: "Empaques del caliper (con el líquido)", estado: "ok", etiqueta: "Al día", pct: 40, detalle: "Van con el cambio de líquido, cada 2 años." },
+    "manguera": { tarea: "Cambio de mangueras del freno", estado: "desconocido", etiqueta: "Sin registro", pct: null, detalle: "Cada 4 años. Registra cuándo se cambiaron." },
   };
-  const plan = $id("esqPlan"), ficha = $id("ficha");
-  function pintarPlan(k) {
-    const F = FICHAS[k];
-    if (!F) { plan.hidden = true; return; }
+  const tarea = (p) => `<div class="parte-tarea"><div class="flex items-center justify-between gap-2"><p class="font-semibold text-sm">${p.tarea}</p>`
+    + `<span class="estado estado-${p.estado} shrink-0">${p.etiqueta}</span></div>`
+    + (p.pct !== null ? `<div class="barra barra-${p.estado} mt-2"><span style="width:${p.pct}%"></span></div>` : "")
+    + `<p class="text-xs text-suave mt-2">${p.detalle}</p></div>`;
+
+  /* 3. Ficha sin pieza elegida: estado del sistema + qué hacer (antes era un párrafo solo en una columna alta) */
+  ficha.innerHTML = `<div class="esq-resumen"><h3>Caliper de freno delantero</h3><p class="sub">Así va en tu plan de mantenimiento</p>`
+    + ["9", "liquido", "manguera"].map((k) => tarea(PLAN[k])).join("")
+    + `<p class="cta"><b>Toca un número del dibujo</b> para ver qué es esa pieza, cómo falla y si se repara o se cambia.</p>`
+    + `<div class="esq-acciones"><a class="btn btn-borde ancho" href="#" title="En el sitio: /?servicio=frenos">Talleres que hacen frenos</a></div></div>`;
+
+  /* 4. Al pintar la ficha de una pieza: estado del plan y acciones justo bajo el nombre */
+  const original = pintarFicha;
+  pintarFicha = function (k) {
+    original(k);
+    const F = FICHAS[k]; if (!F) return;
     const p = PLAN[k];
-    const nombre = F.nombre;
-    let html = "";
-    if (p) {
-      html += `<div class="parte-tarea"><div class="flex items-center justify-between gap-2"><p class="font-semibold text-sm">${p.tarea}</p>`
-           +  `<span class="estado estado-${p.estado} shrink-0">${p.etiqueta}</span></div>`
-           +  (p.pct !== null ? `<div class="barra barra-${p.estado} mt-2"><span style="width:${p.pct}%"></span></div>` : "")
-           +  `<p class="text-xs text-suave mt-2">${p.detalle}</p></div>`;
-    }
-    const msg = encodeURIComponent(`Hola, necesito el repuesto: ${nombre} para mi Yamaha NMAX 155. ¿Lo tienen?`);
-    html += `<div class="esq-acciones">`
-         +  `<button type="button" class="btn btn-lava" data-guia>Ver guía</button>`
-         +  `<a class="btn btn-whatsapp" href="https://wa.me/?text=${msg}" target="_blank" rel="noopener">Pedir repuesto</a>`
-         +  `<a class="btn btn-borde ancho" href="#" title="En el sitio: /?servicio=frenos">Talleres que hacen frenos</a>`
-         +  `</div>`;
-    plan.innerHTML = html;
-    plan.hidden = false;
-    // Justo bajo el nombre de la pieza, como en la ficha del sitio (estado y acciones antes del detalle largo)
+    const msg = encodeURIComponent(`Hola, necesito el repuesto: ${F.nombre} para mi Yamaha NMAX 155. ¿Lo tienen?`);
+    const div = document.createElement("div");
+    div.className = "esq-plan";
+    div.innerHTML = (p ? tarea(p) : "")
+      + `<div class="esq-acciones"><button type="button" class="btn btn-lava" data-guia>Ver guía</button>`
+      + `<a class="btn btn-whatsapp" href="https://wa.me/?text=${msg}" target="_blank" rel="noopener">Pedir repuesto</a>`
+      + `<a class="btn btn-borde ancho" href="#" title="En el sitio: /?servicio=frenos">Talleres que hacen frenos</a></div>`;
     const cab = ficha.querySelector(".cab");
-    if (cab) cab.after(plan);
-    // «Ver guía» en la muestra abre el desplegable de la ficha; en el sitio abriría la guía de la pieza (.guia)
-    plan.querySelector("[data-guia]").addEventListener("click", () => {
-      const mas = document.querySelector("#ficha details");
-      if (mas) { mas.open = true; mas.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "nearest" }); }
+    if (cab) cab.after(div);
+    div.querySelector("[data-guia]").addEventListener("click", () => {
+      const mas = ficha.querySelector("details");
+      if (mas) { mas.open = true; mas.scrollIntoView({ behavior: reducido() ? "auto" : "smooth", block: "nearest" }); }
     });
-  }
-
-  /* 3. Barra fija en el celular con la pieza elegida */
-  const hoja = $id("esqHoja");
-  let fichaVisible = false, elegida = null;
-  new IntersectionObserver(([e]) => { fichaVisible = e.isIntersecting; hoja.hidden = !elegida || fichaVisible; }, { threshold: .15 }).observe(ficha);
-  $id("esqHojaVer").addEventListener("click", () => {
-    ficha.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "start" });
-    const h = ficha.querySelector("h3"); if (h) h.focus({ preventScroll: true });
-  });
-
-  /* 4. Envolver seleccionar() del piloto: pista, plan, barra fija y saltos desde «Si falla» */
-  const original = seleccionar;
-  seleccionar = function (k, op = {}) {
-    if (op.desplazar) activar($id("t-despiece"));
-    original(k, { ...op, desplazar: false });
-    if (op.desplazar) $id("visor-esq").scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "start" });
-    $id("esqPista").classList.add("oculta");
-    pintarPlan(k);
-    elegida = FICHAS[k] ? k : null;
-    if (elegida) { $id("esqHojaN").textContent = FICHAS[k].ctx ? "·" : k; $id("esqHojaT").textContent = FICHAS[k].nombre; }
-    hoja.hidden = !elegida || fichaVisible;
   };
+
+  /* 5. El desplegable de sistemas se cierra con Escape o al tocar fuera */
+  const sis = $id("esqSistema");
+  document.addEventListener("click", (e) => { if (sis.open && !sis.contains(e.target)) sis.open = false; });
+  sis.addEventListener("keydown", (e) => { if (e.key === "Escape" && sis.open) { sis.open = false; sis.querySelector("summary").focus(); } });
 })();
 </script>
 </body>

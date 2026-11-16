@@ -1,0 +1,2579 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 14",
+  "titulo": "Clutch · Bajaj Boxer CT100",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Clutch",
+  "sub": "Lámina 14 · 15 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del clutch",
+  "laminaAria": "Dibujo del clutch de la Boxer CT100 en la punta del cigüeñal: corona, discos, manzana, resortes y el mando. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Del ralentí a la primera en seis pasos. A la izquierda, el clutch cortado; a la derecha, la corona moviendo la caja y cuánto aprietas la palanca.",
+  "introCadenas": "En el clutch una pieza mal cuidada carga a las demás. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo que pide el manual del propietario de Bajaj para el clutch y el aceite que lo baña."
+ },
+ "pie": "Dibujo propio de TallerYa a partir del catálogo de partes Auteco de la Boxer CT100 (fig. 14). Prototipo local.",
+ "encuadreArmado": [
+  226,
+  170,
+  432,
+  336
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 580",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": [
+   {
+    "t": "<b>1 · Ralentí en neutro.</b> Con la palanca suelta, los resortes aprietan los discos: la corona gira con el motor y mueve la caja, pero en neutro la rueda no se mueve.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Pegado: todo gira junto"
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la palanca.</b> El cable gira la leva, el impulsor empuja la placa de los resortes y la placa de presión se aleja: los discos se separan y la corona se queda quieta.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "quieto",
+     "caja": "quieto",
+     "estado": "Suelto: el motor gira solo"
+    }
+   },
+   {
+    "t": "<b>3 · Metes primera.</b> Con los discos sueltos la caja está quieta y el cambio entra sin golpe. Si suena «clac» fuerte, el clutch está arrastrando.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Primera",
+     "corona": "quieto",
+     "caja": "quieto",
+     "estado": "Suelto: listo para salir"
+    }
+   },
+   {
+    "t": "<b>4 · Sueltas despacio.</b> En el punto de fricción los discos se rozan y patinan un poco: la corona arranca despacio y la moto sale suave. Aquí es donde más se gastan.",
+    "s": {
+     "palanca": 0.45,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Patina: la moto arranca"
+    }
+   },
+   {
+    "t": "<b>5 · Palanca suelta.</b> Los resortes aprietan del todo: la corona gira con el motor y toda la fuerza va a la rueda.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Primera",
+     "corona": "",
+     "caja": "",
+     "estado": "Pegado: la moto anda"
+    }
+   },
+   {
+    "t": "<b>6 · Sin juego libre.</b> Si el cable queda tenso, la leva sigue empujando un poco y los discos nunca aprietan del todo: patinan y se queman. Deja 2 a 3 mm de juego en la palanca.",
+    "s": {
+     "palanca": 0.12,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Cuarta",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Patina: falta juego libre"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades de las 15 piezas: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (CT 100 desde marzo de 2006).",
+   "Juego libre de la palanca, aceite 10W30, cantidad y cambio, y arranque en frío: manual del propietario Bajaj CT 100 (BS VI), pp. 12, 13 y 18."
+  ],
+  "aproximado": [
+   "Proporciones, vista y orden del dibujo: tomados del plano del catálogo, en vista caballera con el eje del cigüeñal hacia ti.",
+   "Cómo trabaja el mando (leva, impulsor, balinera y placa de los resortes) y el recorrido de los discos: deducido del plano y de la práctica de taller.",
+   "Torques y largo libre de los resortes: no están en el manual del propietario; van como «manual de servicio»."
+  ],
+  "lista": [
+   "Catálogo de partes Auteco Bajaj Boxer CT100 (2017, Colombia), pp. 39-40.",
+   "Manual del propietario Bajaj CT 100 / CT 110 (BS VI)."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -0.5,
+   -0.32
+  ],
+  "sombra": "url(#bxSombra)",
+  "colores": {
+   "acero": "url(#bxAcero)",
+   "cromo": "url(#bxCromo)",
+   "rosca": "url(#bxRosca)",
+   "plast": "url(#bxPlast)",
+   "estrias": "url(#bxEstrias)",
+   "fric": "url(#bxFric)"
+  }
+ },
+ "lamina": "boxer-embrague",
+ "moto": "boxer-ct100",
+ "figura": 14,
+ "catalogo": "boxer-ct100",
+ "intervalos": "auteco_bajaj_boxer_ct_100",
+ "arte": "boxer-embrague",
+ "carcasas": [
+  {
+   "id": "15",
+   "transparente": 0.3,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "8",
+   "transparente": 0.4,
+   "rayosx": 0.22
+  }
+ ],
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "nombres": {
+  "1": "Corona del clutch",
+  "2": "Soporte de la balinera",
+  "3": "Arandela de la corona",
+  "4": "Buje de la corona",
+  "5": "Placa de presión",
+  "6": "Discos de fricción",
+  "7": "Discos metálicos",
+  "8": "Manzana del clutch",
+  "9": "Resorte del clutch",
+  "10": "Tornillo de los resortes",
+  "11": "Tuerca del cigüeñal",
+  "12": "Balinera del impulsor",
+  "13": "Impulsor",
+  "14": "Leva del clutch",
+  "15": "Placa de los resortes"
+ },
+ "ordenChips": [
+  "1",
+  "4",
+  "3",
+  "5",
+  "6",
+  "7",
+  "8",
+  "11",
+  "15",
+  "9",
+  "10",
+  "2",
+  "12",
+  "13",
+  "14"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "3",
+   "n": "3",
+   "comun": "arandela",
+   "p": {
+    "r": 20,
+    "ri": 11,
+    "e": 2,
+    "copias": [
+     [
+      -12,
+      -8
+     ]
+    ],
+    "x": 418.0,
+    "y": 325.9
+   },
+   "anc": [
+    418.0,
+    305.9
+   ],
+   "et": [
+    -30,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "comun": "buje",
+   "p": {
+    "r": 15,
+    "ri": 10,
+    "largo": 26,
+    "x": 420.0,
+    "y": 327.2
+   },
+   "anc": [
+    420.0,
+    342.2
+   ],
+   "et": [
+    14,
+    36
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteCorona",
+   "args": [
+    440.0,
+    340.0
+   ],
+   "anc": [
+    370.0,
+    282.0
+   ],
+   "et": [
+    -40,
+    -40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      72.0,
+      0.0
+     ],
+     [
+      70.9,
+      12.5
+     ],
+     [
+      67.7,
+      24.6
+     ],
+     [
+      62.4,
+      36.0
+     ],
+     [
+      55.2,
+      46.3
+     ],
+     [
+      46.3,
+      55.2
+     ],
+     [
+      36.0,
+      62.4
+     ],
+     [
+      24.6,
+      67.7
+     ],
+     [
+      12.5,
+      70.9
+     ],
+     [
+      0.0,
+      72.0
+     ],
+     [
+      -12.5,
+      70.9
+     ],
+     [
+      -24.6,
+      67.7
+     ],
+     [
+      -36.0,
+      62.4
+     ],
+     [
+      -46.3,
+      55.2
+     ],
+     [
+      -55.2,
+      46.3
+     ],
+     [
+      -62.4,
+      36.0
+     ],
+     [
+      -67.7,
+      24.6
+     ],
+     [
+      -70.9,
+      12.5
+     ],
+     [
+      -72.0,
+      0.0
+     ],
+     [
+      -70.9,
+      -12.5
+     ],
+     [
+      -67.7,
+      -24.6
+     ],
+     [
+      -62.4,
+      -36.0
+     ],
+     [
+      -55.2,
+      -46.3
+     ],
+     [
+      -46.3,
+      -55.2
+     ],
+     [
+      -36.0,
+      -62.4
+     ],
+     [
+      -24.6,
+      -67.7
+     ],
+     [
+      -12.5,
+      -70.9
+     ],
+     [
+      -0.0,
+      -72.0
+     ],
+     [
+      12.5,
+      -70.9
+     ],
+     [
+      24.6,
+      -67.7
+     ],
+     [
+      36.0,
+      -62.4
+     ],
+     [
+      46.3,
+      -55.2
+     ],
+     [
+      55.2,
+      -46.3
+     ],
+     [
+      62.4,
+      -36.0
+     ],
+     [
+      67.7,
+      -24.6
+     ],
+     [
+      70.9,
+      -12.5
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      20
+     ],
+     [
+      32.0,
+      0.0,
+      4.5
+     ],
+     [
+      16.0,
+      27.7,
+      4.5
+     ],
+     [
+      -16.0,
+      27.7,
+      4.5
+     ],
+     [
+      -32.0,
+      0.0,
+      4.5
+     ],
+     [
+      -16.0,
+      -27.7,
+      4.5
+     ],
+     [
+      16.0,
+      -27.7,
+      4.5
+     ]
+    ],
+    "e": 3,
+    "material": "acero",
+    "x": 425.0,
+    "y": 330.4
+   },
+   "anc": [
+    359.0,
+    350.4
+   ],
+   "et": [
+    -40,
+    10
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      88.0,
+      0.0
+     ],
+     [
+      87.7,
+      7.7
+     ],
+     [
+      86.7,
+      15.3
+     ],
+     [
+      75.3,
+      20.2
+     ],
+     [
+      73.3,
+      26.7
+     ],
+     [
+      70.7,
+      33.0
+     ],
+     [
+      67.5,
+      39.0
+     ],
+     [
+      63.9,
+      44.7
+     ],
+     [
+      59.8,
+      50.1
+     ],
+     [
+      55.2,
+      55.2
+     ],
+     [
+      50.1,
+      59.8
+     ],
+     [
+      44.7,
+      63.9
+     ],
+     [
+      44.0,
+      76.2
+     ],
+     [
+      37.2,
+      79.8
+     ],
+     [
+      30.1,
+      82.7
+     ],
+     [
+      20.2,
+      75.3
+     ],
+     [
+      13.5,
+      76.8
+     ],
+     [
+      6.8,
+      77.7
+     ],
+     [
+      0.0,
+      78.0
+     ],
+     [
+      -6.8,
+      77.7
+     ],
+     [
+      -13.5,
+      76.8
+     ],
+     [
+      -20.2,
+      75.3
+     ],
+     [
+      -26.7,
+      73.3
+     ],
+     [
+      -33.0,
+      70.7
+     ],
+     [
+      -44.0,
+      76.2
+     ],
+     [
+      -50.5,
+      72.1
+     ],
+     [
+      -56.6,
+      67.4
+     ],
+     [
+      -55.2,
+      55.2
+     ],
+     [
+      -59.8,
+      50.1
+     ],
+     [
+      -63.9,
+      44.7
+     ],
+     [
+      -67.5,
+      39.0
+     ],
+     [
+      -70.7,
+      33.0
+     ],
+     [
+      -73.3,
+      26.7
+     ],
+     [
+      -75.3,
+      20.2
+     ],
+     [
+      -76.8,
+      13.5
+     ],
+     [
+      -77.7,
+      6.8
+     ],
+     [
+      -88.0,
+      0.0
+     ],
+     [
+      -87.7,
+      -7.7
+     ],
+     [
+      -86.7,
+      -15.3
+     ],
+     [
+      -75.3,
+      -20.2
+     ],
+     [
+      -73.3,
+      -26.7
+     ],
+     [
+      -70.7,
+      -33.0
+     ],
+     [
+      -67.5,
+      -39.0
+     ],
+     [
+      -63.9,
+      -44.7
+     ],
+     [
+      -59.8,
+      -50.1
+     ],
+     [
+      -55.2,
+      -55.2
+     ],
+     [
+      -50.1,
+      -59.8
+     ],
+     [
+      -44.7,
+      -63.9
+     ],
+     [
+      -44.0,
+      -76.2
+     ],
+     [
+      -37.2,
+      -79.8
+     ],
+     [
+      -30.1,
+      -82.7
+     ],
+     [
+      -20.2,
+      -75.3
+     ],
+     [
+      -13.5,
+      -76.8
+     ],
+     [
+      -6.8,
+      -77.7
+     ],
+     [
+      -0.0,
+      -78.0
+     ],
+     [
+      6.8,
+      -77.7
+     ],
+     [
+      13.5,
+      -76.8
+     ],
+     [
+      20.2,
+      -75.3
+     ],
+     [
+      26.7,
+      -73.3
+     ],
+     [
+      33.0,
+      -70.7
+     ],
+     [
+      44.0,
+      -76.2
+     ],
+     [
+      50.5,
+      -72.1
+     ],
+     [
+      56.6,
+      -67.4
+     ],
+     [
+      55.2,
+      -55.2
+     ],
+     [
+      59.8,
+      -50.1
+     ],
+     [
+      63.9,
+      -44.7
+     ],
+     [
+      67.5,
+      -39.0
+     ],
+     [
+      70.7,
+      -33.0
+     ],
+     [
+      73.3,
+      -26.7
+     ],
+     [
+      75.3,
+      -20.2
+     ],
+     [
+      76.8,
+      -13.5
+     ],
+     [
+      77.7,
+      -6.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      58
+     ]
+    ],
+    "e": 3,
+    "material": "fric",
+    "x": 429.0,
+    "y": 333.0
+   },
+   "anc": [
+    367.0,
+    383.0
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      74.0,
+      0.0
+     ],
+     [
+      72.9,
+      12.8
+     ],
+     [
+      69.5,
+      25.3
+     ],
+     [
+      64.1,
+      37.0
+     ],
+     [
+      56.7,
+      47.6
+     ],
+     [
+      47.6,
+      56.7
+     ],
+     [
+      37.0,
+      64.1
+     ],
+     [
+      25.3,
+      69.5
+     ],
+     [
+      12.8,
+      72.9
+     ],
+     [
+      0.0,
+      74.0
+     ],
+     [
+      -12.8,
+      72.9
+     ],
+     [
+      -25.3,
+      69.5
+     ],
+     [
+      -37.0,
+      64.1
+     ],
+     [
+      -47.6,
+      56.7
+     ],
+     [
+      -56.7,
+      47.6
+     ],
+     [
+      -64.1,
+      37.0
+     ],
+     [
+      -69.5,
+      25.3
+     ],
+     [
+      -72.9,
+      12.8
+     ],
+     [
+      -74.0,
+      0.0
+     ],
+     [
+      -72.9,
+      -12.8
+     ],
+     [
+      -69.5,
+      -25.3
+     ],
+     [
+      -64.1,
+      -37.0
+     ],
+     [
+      -56.7,
+      -47.6
+     ],
+     [
+      -47.6,
+      -56.7
+     ],
+     [
+      -37.0,
+      -64.1
+     ],
+     [
+      -25.3,
+      -69.5
+     ],
+     [
+      -12.8,
+      -72.9
+     ],
+     [
+      -0.0,
+      -74.0
+     ],
+     [
+      12.8,
+      -72.9
+     ],
+     [
+      25.3,
+      -69.5
+     ],
+     [
+      37.0,
+      -64.1
+     ],
+     [
+      47.6,
+      -56.7
+     ],
+     [
+      56.7,
+      -47.6
+     ],
+     [
+      64.1,
+      -37.0
+     ],
+     [
+      69.5,
+      -25.3
+     ],
+     [
+      72.9,
+      -12.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      50
+     ]
+    ],
+    "e": 1.5,
+    "material": "acero",
+    "x": 432.0,
+    "y": 334.9
+   },
+   "anc": [
+    412.0,
+    404.9
+   ],
+   "et": [
+    -10,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteManzana",
+   "args": [
+    437.0,
+    338.1
+   ],
+   "anc": [
+    482.0,
+    293.1
+   ],
+   "et": [
+    40,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "resorte",
+   "p": {
+    "r": 6,
+    "largo": 20,
+    "vueltas": 5,
+    "alambre": 2.4,
+    "copias": [
+     [
+      -16.0,
+      27.7
+     ],
+     [
+      -48.0,
+      27.7
+     ],
+     [
+      -64.0,
+      0.0
+     ],
+     [
+      -48.0,
+      -27.7
+     ],
+     [
+      -16.0,
+      -27.7
+     ]
+    ],
+    "x": 446.0,
+    "y": 343.8
+   },
+   "anc": [
+    478.0,
+    343.8
+   ],
+   "et": [
+    40,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "alto": 8,
+    "x": 447.0,
+    "y": 344.5
+   },
+   "anc": [
+    447.0,
+    344.5
+   ],
+   "et": [
+    30,
+    -34
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      44.0,
+      0.0
+     ],
+     [
+      43.3,
+      7.6
+     ],
+     [
+      41.3,
+      15.0
+     ],
+     [
+      38.1,
+      22.0
+     ],
+     [
+      33.7,
+      28.3
+     ],
+     [
+      28.3,
+      33.7
+     ],
+     [
+      22.0,
+      38.1
+     ],
+     [
+      15.0,
+      41.3
+     ],
+     [
+      7.6,
+      43.3
+     ],
+     [
+      0.0,
+      44.0
+     ],
+     [
+      -7.6,
+      43.3
+     ],
+     [
+      -15.0,
+      41.3
+     ],
+     [
+      -22.0,
+      38.1
+     ],
+     [
+      -28.3,
+      33.7
+     ],
+     [
+      -33.7,
+      28.3
+     ],
+     [
+      -38.1,
+      22.0
+     ],
+     [
+      -41.3,
+      15.0
+     ],
+     [
+      -43.3,
+      7.6
+     ],
+     [
+      -44.0,
+      0.0
+     ],
+     [
+      -43.3,
+      -7.6
+     ],
+     [
+      -41.3,
+      -15.0
+     ],
+     [
+      -38.1,
+      -22.0
+     ],
+     [
+      -33.7,
+      -28.3
+     ],
+     [
+      -28.3,
+      -33.7
+     ],
+     [
+      -22.0,
+      -38.1
+     ],
+     [
+      -15.0,
+      -41.3
+     ],
+     [
+      -7.6,
+      -43.3
+     ],
+     [
+      -0.0,
+      -44.0
+     ],
+     [
+      7.6,
+      -43.3
+     ],
+     [
+      15.0,
+      -41.3
+     ],
+     [
+      22.0,
+      -38.1
+     ],
+     [
+      28.3,
+      -33.7
+     ],
+     [
+      33.7,
+      -28.3
+     ],
+     [
+      38.1,
+      -22.0
+     ],
+     [
+      41.3,
+      -15.0
+     ],
+     [
+      43.3,
+      -7.6
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      16
+     ],
+     [
+      32.0,
+      0.0,
+      3.5
+     ],
+     [
+      16.0,
+      27.7,
+      3.5
+     ],
+     [
+      -16.0,
+      27.7,
+      3.5
+     ],
+     [
+      -32.0,
+      0.0,
+      3.5
+     ],
+     [
+      -16.0,
+      -27.7,
+      3.5
+     ],
+     [
+      16.0,
+      -27.7,
+      3.5
+     ]
+    ],
+    "e": 3,
+    "material": "acero",
+    "x": 447.0,
+    "y": 344.5
+   },
+   "anc": [
+    417.0,
+    372.5
+   ],
+   "et": [
+    -70,
+    30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "brida": 7.5,
+    "largo": 34,
+    "d": 5,
+    "copias": [
+     [
+      -16.0,
+      27.7
+     ],
+     [
+      -48.0,
+      27.7
+     ],
+     [
+      -64.0,
+      0.0
+     ],
+     [
+      -48.0,
+      -27.7
+     ],
+     [
+      -16.0,
+      -27.7
+     ]
+    ],
+    "x": 448.0,
+    "y": 345.1
+   },
+   "anc": [
+    480.0,
+    345.1
+   ],
+   "et": [
+    70,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "comun": "buje",
+   "p": {
+    "r": 22,
+    "ri": 15,
+    "largo": 9,
+    "x": 451.0,
+    "y": 347.0
+   },
+   "anc": [
+    435.0,
+    333.0
+   ],
+   "et": [
+    -60,
+    -60
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "comun": "rodamiento",
+   "p": {
+    "r": 15,
+    "ri": 6,
+    "ancho": 8,
+    "x": 450.0,
+    "y": 346.4
+   },
+   "anc": [
+    458.0,
+    338.4
+   ],
+   "et": [
+    30,
+    -90
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "revolucion",
+   "p": {
+    "perfil": "@impulsor",
+    "x": 455.0,
+    "y": 349.6
+   },
+   "anc": [
+    455.0,
+    349.6
+   ],
+   "et": [
+    -30,
+    90
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "arte": "arteLeva",
+   "args": [
+    460.0,
+    352.8
+   ],
+   "anc": [
+    483.0,
+    412.8
+   ],
+   "et": [
+    60,
+    40
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Cable, tapa y leva.</b> Primero afloja el cable en la palanca. Con el motor frío, drena el aceite y quita la tapa derecha (otra lámina): la [[14|leva]] sale con ella. Saca el [[13|impulsor]].",
+   "m": {
+    "14": [
+     300,
+     19
+    ],
+    "13": [
+     395,
+     -32
+    ]
+   }
+  },
+  {
+   "t": "<b>Soporte y balinera.</b> Saca el [[2|soporte]] con su [[12|balinera]]. Gira la balinera con el dedo: si raspa o tiene juego, va nueva.",
+   "m": {
+    "2": [
+     302,
+     -94
+    ],
+    "12": [
+     362,
+     -56
+    ]
+   }
+  },
+  {
+   "t": "<b>Resortes.</b> Afloja los [[10|tornillos]] en cruz, media vuelta cada uno, hasta soltar los [[9|resortes]]. Saca la [[15|placa]] y los resortes. Al armar: en cruz y parejo (torque: manual de servicio).",
+   "m": {
+    "10": [
+     227,
+     -170
+    ],
+    "15": [
+     133,
+     -204
+    ],
+    "9": [
+     54,
+     -252
+    ]
+   }
+  },
+  {
+   "t": "<b>Tuerca del cigüeñal.</b> Traba el cigüeñal (con un retenedor de manzana o con un cambio puesto y el freno, según el taller) y suelta la [[11|tuerca]]. Al armar: tuerca limpia y torque del manual de servicio.",
+   "m": {
+    "11": [
+     251,
+     -105
+    ]
+   }
+  },
+  {
+   "t": "<b>Manzana y discos.</b> Saca la [[8|manzana]] con los [[6|discos de fricción]], los [[7|metálicos]] y la [[5|placa de presión]]. Anota el orden. Al armar: discos de fricción remojados en aceite del motor.",
+   "m": {
+    "8": [
+     169,
+     184
+    ],
+    "7": [
+     82,
+     111
+    ],
+    "6": [
+     7,
+     55
+    ],
+    "5": [
+     -73,
+     -8
+    ]
+   }
+  },
+  {
+   "t": "<b>Corona.</b> Saca la [[1|corona]], su [[4|buje]] y las [[3|arandelas]]. Revisa las ventanas de la canasta: si tienen escalones, los discos se traban.",
+   "m": {
+    "1": [
+     -178,
+     -130
+    ],
+    "4": [
+     -290,
+     -195
+    ],
+    "3": [
+     -348,
+     -234
+    ]
+   }
+  }
+ ],
+ "textoArmado": "El clutch va en la punta derecha del cigüeñal, bañado en aceite, detrás de la tapa derecha. Toca un grupo para ver sus piezas.",
+ "fichas": {
+  "1": {
+   "nombre": "Corona del clutch",
+   "cat": "CORONA CLUTCH · 1 pieza",
+   "que": "La canasta del clutch, en la punta del cigüeñal. Atrás lleva el piñón primario. Gira suelta sobre su [[4|buje]].",
+   "sirve": "Recibe la fuerza de los [[6|discos de fricción]], que van enganchados en sus ventanas, y con el piñón primario mueve el engranaje de la caja de cambios.",
+   "sintomas": [
+    "Golpeteo metálico en ralentí que se calma al apretar la palanca.",
+    "Cambios duros o la moto que se arrastra con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las orejas de los discos le marcan escalones en las ventanas y los discos se traban."
+    ],
+    [
+     "desgaste",
+     "El buje se gasta y la corona cabecea."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si las ventanas tienen escalones hondos, cámbiala: limarlas deja juego y vuelve el golpeteo.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que cambies los discos.",
+   "arrastra": [
+    "Ventanas con escalones → los [[6|discos]] se traban y el clutch arrastra."
+   ],
+   "conecta": [
+    "6",
+    "4",
+    "3",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ],
+    [
+     "ok",
+     "En la CT100 (TEC) la corona se vende completa: las piezas sueltas 16 a 23 del catálogo son de otras versiones."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DX101054",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "campana",
+      "perfil": "@corona3d"
+     },
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 58,
+       "r": 110
+      },
+      "z": [
+       -44,
+       -36
+      ],
+      "huecos": [
+       {
+        "r": 30
+       }
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       12,
+       12,
+       30
+      ],
+      "pos": [
+       91,
+       0,
+       -16
+      ],
+      "repetir": 6
+     }
+    ]
+   }
+  },
+  "2": {
+   "nombre": "Soporte de la balinera",
+   "cat": "SOPORTE BALINERA CLUTCH · 1 pieza",
+   "que": "Un platillo que sostiene la [[12|balinera]] en el centro de la [[15|placa de los resortes]].",
+   "sirve": "Pasa el empuje del [[13|impulsor]], que no gira, a la placa, que gira con el motor.",
+   "sintomas": [
+    "Chillido al apretar la palanca."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca donde apoya la balinera."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no tiene marcas ni juego, se vuelve a montar; con marcas, va nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo al abrir el clutch.",
+   "arrastra": [
+    "Soporte marcado → la [[12|balinera]] trabaja torcida y se daña."
+   ],
+   "conecta": [
+    "12",
+    "13",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "28101195"
+  },
+  "3": {
+   "nombre": "Arandela de la corona",
+   "cat": "ARANDELA CORONA CLUTCH · 2 piezas",
+   "que": "Dos arandelas de acero a cada lado de la [[1|corona]].",
+   "sirve": "Fijan la posición de la corona en el cigüeñal y le dan una cara lisa para girar.",
+   "sintomas": [
+    "Juego de la corona hacia adentro y hacia afuera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se adelgazan con el roce."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Lisas y sin rayas se vuelven a usar; rayadas, nuevas.",
+   "dif": "taller",
+   "cuando": "Revísalas al sacar la corona.",
+   "arrastra": [
+    "Arandela gastada → la [[1|corona]] cabecea y golpea."
+   ],
+   "conecta": [
+    "1",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39260011"
+  },
+  "4": {
+   "nombre": "Buje de la corona",
+   "cat": "BUJE CORONA CLUTCH · 1 pieza",
+   "que": "Un buje que va entre el cigüeñal y la [[1|corona]].",
+   "sirve": "Deja que la corona gire suelta mientras el clutch está apretado a fondo.",
+   "sintomas": [
+    "La corona cabecea al moverla con la mano.",
+    "Ruido que cambia al apretar la palanca."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta si el aceite está viejo o bajo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastado no se repara: va nuevo, y revisa también la corona.",
+   "dif": "taller",
+   "cuando": "Revísalo al sacar la corona.",
+   "arrastra": [
+    "Buje gastado → la [[1|corona]] cabecea y marca las [[3|arandelas]]."
+   ],
+   "conecta": [
+    "1",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ok",
+     "Aceite 10W30 (Bajaj DTS-i 10000), 1.000 ml al cambiarlo, cambio en el primer servicio y luego cada 10.000 km: Manual del propietario Bajaj CT 100 (BS VI), p. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU101109"
+  },
+  "5": {
+   "nombre": "Placa de presión",
+   "cat": "PORTA RESORTE CLUTCH · 1 pieza",
+   "que": "La placa del fondo del paquete de discos. Va atornillada a los resortes a través de la [[8|manzana]].",
+   "sirve": "Los [[9|resortes]] la jalan hacia afuera y aprieta los discos contra la manzana; al apretar la palanca se aleja y los suelta.",
+   "sintomas": [
+    "El clutch patina aunque los discos estén nuevos."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Si el clutch patina mucho tiempo se azula y se tuerce."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Plana y sin color azul se vuelve a usar; torcida, nueva.",
+   "dif": "taller",
+   "cuando": "Revísala cuando cambies los discos.",
+   "arrastra": [
+    "Placa torcida → los [[6|discos]] aprietan disparejo y patinan."
+   ],
+   "conecta": [
+    "9",
+    "10",
+    "6",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DD101492"
+  },
+  "6": {
+   "nombre": "Discos de fricción",
+   "cat": "KIT DISCOS CLUTCH · 1 pieza (kit)",
+   "que": "Los discos con forro de fricción y orejas por fuera. Se venden en kit.",
+   "sirve": "Con sus orejas giran con la [[1|corona]]; apretados contra los [[7|metálicos]] pasan la fuerza del motor a la caja.",
+   "sintomas": [
+    "El motor sube de vueltas y la moto no avanza igual (patina), sobre todo en subida y en cambios altos.",
+    "Olor a quemado después de una subida."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El forro se adelgaza con el uso y con salir patinando."
+    ],
+    [
+     "maluso",
+     "Aceite equivocado (con aditivos de fricción para carro) los hace resbalar."
+    ],
+    [
+     "calor",
+     "Patinar mucho los vitrifica: quedan brillantes y lisos."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastados o vitrificados se cambia el kit completo; no se lijan.",
+   "dif": "taller",
+   "cuando": "Cámbialos cuando patine el clutch con el juego libre bien ajustado. No tienen kilometraje fijo.",
+   "arrastra": [
+    "Discos gastados → los [[7|metálicos]] se recalientan y se azulan."
+   ],
+   "conecta": [
+    "1",
+    "7",
+    "5",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ok",
+     "Juego libre de la palanca de 2 a 3 mm: Manual del propietario Bajaj CT 100 (BS VI), revisión antes de salir, p. 12."
+    ],
+    [
+     "ok",
+     "Aceite 10W30 (Bajaj DTS-i 10000), 1.000 ml al cambiarlo, cambio en el primer servicio y luego cada 10.000 km: Manual del propietario Bajaj CT 100 (BS VI), p. 18."
+    ],
+    [
+     "ap",
+     "Sin kilometraje de cambio: el manual los trata como pieza de desgaste (excluida de la garantía)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "36DD4008"
+  },
+  "7": {
+   "nombre": "Discos metálicos",
+   "cat": "DISCOS METÁLICOS CLUTCH · 4 piezas",
+   "que": "Discos de acero lisos con dientes por dentro, intercalados con los de fricción.",
+   "sirve": "Con sus dientes giran con la [[8|manzana]] y le dan a los [[6|discos de fricción]] una cara lisa contra la que apretar.",
+   "sintomas": [
+    "El clutch arrastra: la moto se mueve o salta al meter primera con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Si el clutch patina se azulan y se tuercen."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Planos y sin color azul se vuelven a usar; torcidos, nuevos.",
+   "dif": "taller",
+   "cuando": "Revísalos sobre un vidrio cuando cambies los discos.",
+   "arrastra": [
+    "Disco torcido → el clutch arrastra y el cambio entra duro."
+   ],
+   "conecta": [
+    "6",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "30101096"
+  },
+  "8": {
+   "nombre": "Manzana del clutch",
+   "cat": "MANZANA CLUTCH · 1 pieza",
+   "que": "La pieza central del clutch: va con estrías en el cigüeñal y lleva las torres de los resortes.",
+   "sirve": "Gira siempre con el motor y mueve los [[7|discos metálicos]]. La sujeta la [[11|tuerca del cigüeñal]].",
+   "sintomas": [
+    "Golpeteo o clutch que no suelta parejo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los dientes de los discos metálicos le marcan escalones."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Con escalones en los dientes se cambia: limarla no dura.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que cambies los discos.",
+   "arrastra": [
+    "Manzana con escalones → los [[7|metálicos]] se traban y el clutch arrastra."
+   ],
+   "conecta": [
+    "7",
+    "11",
+    "5",
+    "9"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DD101493",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "prisma",
+      "color": "alum",
+      "contorno": {
+       "n": 40,
+       "r": 66
+      },
+      "z": [
+       -14,
+       0
+      ],
+      "huecos": [
+       {
+        "r": 10
+       }
+      ]
+     },
+     {
+      "tipo": "cilindro",
+      "color": "alum",
+      "r": 9,
+      "z": [
+       0,
+       6
+      ],
+      "pos": [
+       32,
+       0
+      ],
+      "repetir": 6
+     }
+    ]
+   }
+  },
+  "9": {
+   "nombre": "Resorte del clutch",
+   "cat": "RESORTES CLUTCH · 6 piezas",
+   "que": "Seis resortes de espiral entre la [[8|manzana]] y la [[15|placa de los resortes]].",
+   "sirve": "Dan la fuerza que aprieta los discos. Al apretar la palanca los comprimes un poco más.",
+   "sintomas": [
+    "Patina con discos buenos.",
+    "Palanca muy blanda."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "El calor de patinar los cansa y se acortan."
+    ],
+    [
+     "edad",
+     "Pierden fuerza con los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambian los seis juntos si alguno está más corto (largo libre: manual de servicio).",
+   "dif": "taller",
+   "cuando": "Mídelos cada vez que cambies los discos.",
+   "arrastra": [
+    "Resortes cansados → los [[6|discos]] patinan y se queman."
+   ],
+   "conecta": [
+    "15",
+    "10",
+    "8",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "28101214"
+  },
+  "10": {
+   "nombre": "Tornillo de los resortes",
+   "cat": "TORNILLO RESORTE CLUTCH · 6 piezas",
+   "que": "Seis tornillos que atraviesan los resortes y se enroscan en la [[5|placa de presión]].",
+   "sirve": "Sostienen todo el paquete apretado por los [[9|resortes]].",
+   "sintomas": [
+    "Ruido de algo suelto dentro de la tapa."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretados disparejos o de más, se revientan o barren la rosca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Con la rosca sana se vuelven a usar.",
+   "dif": "taller",
+   "cuando": "Al armar: en cruz y parejo; torque del manual de servicio.",
+   "arrastra": [
+    "Tornillo barrido → la [[5|placa de presión]] aprieta torcida y patina."
+   ],
+   "conecta": [
+    "5",
+    "15",
+    "9"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39098004"
+  },
+  "11": {
+   "nombre": "Tuerca del cigüeñal",
+   "cat": "TUERCA CIGÜEÑAL · 1 pieza",
+   "que": "La tuerca que sujeta la [[8|manzana]] en la punta del cigüeñal.",
+   "sirve": "Mantiene la manzana fija en el cigüeñal.",
+   "sintomas": [
+    "Golpe seco al acelerar y soltar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin el torque correcto se afloja."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Con la rosca sana se vuelve a usar; si es autoblocante y ya gira suave, nueva.",
+   "dif": "taller",
+   "cuando": "Al armar: limpia y con el torque del manual de servicio.",
+   "arrastra": [
+    "Tuerca floja → la [[8|manzana]] golpea las estrías del cigüeñal."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39105315"
+  },
+  "12": {
+   "nombre": "Balinera del impulsor",
+   "cat": "BALINERA EJE CLUTCH · 1 pieza",
+   "que": "Una balinera pequeña dentro del [[2|soporte]].",
+   "sirve": "Deja que el [[13|impulsor]], que no gira, empuje la placa, que gira con el motor.",
+   "sintomas": [
+    "Chillido o raspado solo al apretar la palanca."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca y raspa."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si raspa o tiene juego al girarla con el dedo, va nueva.",
+   "dif": "taller",
+   "cuando": "Revísala al abrir el clutch.",
+   "arrastra": [
+    "Balinera trabada → el [[13|impulsor]] se recalienta y se gasta."
+   ],
+   "conecta": [
+    "2",
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39240320"
+  },
+  "13": {
+   "nombre": "Impulsor",
+   "cat": "IMPULSOR CLUTCH · 1 pieza",
+   "que": "Un perno corto entre la [[14|leva]] y la [[12|balinera]].",
+   "sirve": "Pasa el empuje de la leva al centro del clutch.",
+   "sintomas": [
+    "Palanca con mucho recorrido muerto aunque el cable esté bien."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La punta se gasta contra la leva."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Con la punta gastada va nuevo: es barato.",
+   "dif": "taller",
+   "cuando": "Revísalo al abrir el clutch.",
+   "arrastra": [
+    "Impulsor gastado → falta recorrido y el clutch arrastra."
+   ],
+   "conecta": [
+    "14",
+    "12",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "31101148"
+  },
+  "14": {
+   "nombre": "Leva del clutch",
+   "cat": "LEVA INTERNA CLUTCH · 1 pieza",
+   "que": "Un eje con una leva en la punta, dentro de la tapa derecha. Afuera, su brazo recibe el cable.",
+   "sirve": "Cuando aprietas la palanca, el cable gira el eje y la leva empuja el [[13|impulsor]].",
+   "sintomas": [
+    "Palanca dura o que no vuelve.",
+    "Gotea aceite por el eje."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La leva se gasta y se pierde recorrido."
+    ],
+    [
+     "humedad",
+     "El eje se oxida y se pega si el cable entra agua."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Si solo gotea, cambia su sello; si la leva está gastada, el eje va nuevo.",
+   "dif": "taller",
+   "cuando": "Revisa el juego libre antes de salir: 2 a 3 mm en la palanca.",
+   "arrastra": [
+    "Sin juego libre → la leva queda empujando y los [[6|discos]] patinan."
+   ],
+   "conecta": [
+    "13",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ok",
+     "Juego libre de la palanca de 2 a 3 mm: Manual del propietario Bajaj CT 100 (BS VI), revisión antes de salir, p. 12."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "DX101035",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "cilindro",
+      "color": "acero",
+      "r": 6,
+      "z": [
+       -120,
+       0
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "acero",
+      "tam": [
+       56,
+       12,
+       10
+      ],
+      "pos": [
+       22,
+       0,
+       -120
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "aceroOsc",
+      "tam": [
+       16,
+       10,
+       10
+      ],
+      "pos": [
+       0,
+       6,
+       -4
+      ]
+     }
+    ]
+   }
+  },
+  "15": {
+   "nombre": "Placa de los resortes",
+   "cat": "ARANDELA PORTA RESORTES · 1 pieza",
+   "que": "Una placa redonda con seis huecos, sobre los [[9|resortes]].",
+   "sirve": "Recibe el empuje de los resortes y del mando, y lo pasa a los [[10|tornillos]].",
+   "sintomas": [
+    "Clutch que suelta disparejo."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se tuerce si se aprietan los tornillos uno por uno hasta el fondo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Plana se vuelve a usar; torcida, nueva.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar los resortes.",
+   "arrastra": [
+    "Placa torcida → los [[9|resortes]] aprietan disparejo y patina."
+   ],
+   "conecta": [
+    "9",
+    "10",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Auteco de la Boxer CT100, fig. 14 «Clutch», columna TEC (desde marzo de 2006)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes que aprietan la placa de presión y mando que la empuja): deducido del plano del catálogo y de la práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "31101137"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Cable sin juego libre",
+   "p": [
+    [
+     "14",
+     "El cable queda tenso y la leva sigue empujando un poco."
+    ],
+    [
+     "5",
+     "La placa de presión no aprieta del todo los discos."
+    ],
+    [
+     "6",
+     "Los discos patinan en subida y se queman."
+    ],
+    [
+     "7",
+     "Los metálicos se recalientan, se azulan y se tuercen."
+    ]
+   ]
+  },
+  {
+   "t": "Aceite viejo o equivocado",
+   "p": [
+    [
+     "6",
+     "Con aceite para carro o muy viejo, los discos resbalan y se vitrifican."
+    ],
+    [
+     "9",
+     "El calor de patinar cansa los resortes."
+    ],
+    [
+     "5",
+     "La placa se azula y aprieta disparejo: patina aunque cambies los discos."
+    ]
+   ]
+  },
+  {
+   "t": "Corona con escalones",
+   "p": [
+    [
+     "1",
+     "Las orejas de los discos marcan escalones en las ventanas de la corona."
+    ],
+    [
+     "6",
+     "Los discos se traban en los escalones y no se separan bien."
+    ],
+    [
+     "7",
+     "Los metálicos siguen arrastrando: la moto se mueve con la palanca apretada."
+    ],
+    [
+     "8",
+     "La manzana recibe golpes y se marca también."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Revisar el juego libre de la palanca",
+   "cuando": "Antes de cada salida: <b>2 a 3 mm</b>.",
+   "fuente": "Manual del propietario Bajaj CT 100 (BS VI), p. 12. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Cambiar el aceite del motor (baña el clutch)",
+   "cuando": "En el primer servicio y luego cada <b>10.000 km</b>; completar el nivel cada <b>5.000 km</b>. 10W30, 1.000 ml.",
+   "fuente": "Manual del propietario Bajaj CT 100 (BS VI), p. 18. Es el manual de la versión india BS VI: confirma con Auteco para la versión colombiana. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Arranque en frío",
+   "cuando": "Con el encendido apagado, aprieta la palanca y patea el pedal 5 o 6 veces antes de arrancar: así se lubrica el clutch.",
+   "fuente": "Manual del propietario Bajaj CT 100 (BS VI), p. 13. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Cambiar los discos de fricción",
+   "cuando": "Cuando el clutch patine con el juego libre bien ajustado. No hay kilometraje fijo.",
+   "fuente": "Práctica de taller; el manual los trata como pieza de desgaste. <span class=\"esq-s-ap\">Aproximado</span>"
+  }
+ ],
+ "sujeta": {
+  "14": [
+   "13"
+  ],
+  "10": [
+   "15",
+   "9"
+  ],
+  "11": [
+   "8"
+  ],
+  "8": [
+   "1"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "mando",
+    "nombre": "Mando del clutch",
+    "corto": "Mando",
+    "piezas": [
+     "14",
+     "13",
+     "2",
+     "12"
+    ],
+    "torn": [],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     560,
+     470
+    ]
+   },
+   {
+    "id": "resortes",
+    "nombre": "Resortes y su placa",
+    "corto": "Resortes",
+    "piezas": [
+     "15",
+     "9"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de los resortes",
+      "corto": "Tornillos",
+      "ids": [
+       "10"
+      ],
+      "cant": 6
+     }
+    ],
+    "pasos": [
+     2
+    ],
+    "marca": [
+     500,
+     392
+    ]
+   },
+   {
+    "id": "discos",
+    "nombre": "Manzana y discos",
+    "corto": "Discos",
+    "piezas": [
+     "8",
+     "7",
+     "6",
+     "5"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuerca del cigüeñal",
+      "corto": "Tuerca",
+      "ids": [
+       "11"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     3,
+     4
+    ],
+    "marca": [
+     520,
+     270
+    ]
+   },
+   {
+    "id": "corona",
+    "nombre": "Corona (canasta del clutch)",
+    "corto": "Corona",
+    "piezas": [
+     "1",
+     "4"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandelas de la corona",
+      "corto": "Arandelas",
+      "ids": [
+       "3"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     5
+    ],
+    "marca": [
+     318,
+     262
+    ]
+   }
+  ],
+  "con3d": [
+   "1",
+   "8",
+   "14"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas del clutch"
+ },
+ "perfiles": {
+  "impulsor": [
+   [
+    0,
+    -26
+   ],
+   [
+    4,
+    -26
+   ],
+   [
+    4,
+    -4
+   ],
+   [
+    8,
+    -3
+   ],
+   [
+    8,
+    3
+   ],
+   [
+    0,
+    3
+   ]
+  ],
+  "corona3d": [
+   [
+    16,
+    -36
+   ],
+   [
+    96,
+    -36
+   ],
+   [
+    96,
+    0
+   ],
+   [
+    86,
+    0
+   ],
+   [
+    86,
+    -30
+   ],
+   [
+    30,
+    -30
+   ],
+   [
+    30,
+    -26
+   ],
+   [
+    16,
+    -26
+   ]
+  ]
+ },
+ "pendientes": [
+  "Confirmar con el manual de servicio el torque de los tornillos de los resortes y de la tuerca del cigüeñal, y el largo libre de los resortes.",
+  "Confirmar el número de discos de fricción del kit 36DD4008 (el catálogo vende el kit, sin la cantidad).",
+  "El intervalo de aceite sale del manual indio BS VI: confirmarlo con el plan de Auteco para la Boxer colombiana.",
+  "garaje/intervalos/auteco_bajaj_boxer_ct_100.json no tiene tareas de aceite ni de clutch: las filas de «Cuándo» van sin «tarea»."
+ ]
+}

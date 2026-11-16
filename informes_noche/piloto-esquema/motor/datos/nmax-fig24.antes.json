@@ -1,0 +1,2074 @@
+{
+ "lamina": "nmax-fig24",
+ "moto": "Yamaha NMAX 155 (BBE4)",
+ "figura": 24,
+ "sistema": "Freno trasero",
+ "mapa": "garaje/despiece_mapas/yamaha_nmax_bbe4.json",
+ "arte": "nmax-fig24",
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 24",
+  "titulo": "Freno trasero · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la lámina 24 del catálogo de partes (NMAX BBE4)."
+ },
+ "visor": {
+  "titulo": "Cáliper de freno trasero y pastillas",
+  "sub": "Lámina 24 · 15 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del freno",
+  "laminaAria": "Dibujo del freno trasero de la NMAX 155. Cada número abre la ficha de su pieza.",
+  "introFunciona": "De la manigueta izquierda al disco trasero en siete pasos. El cáliper aparece cortado por la mitad, como si lo miraras desde arriba.",
+  "introCadenas": "En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo mismo que pide el plan de mantenimiento de TallerYa para esta moto."
+ },
+ "pie": "TallerYa · piloto de esquema v2 · 16-nov-2026 · solo local",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "encuadreArmado": [
+  223,
+  140,
+  613,
+  477
+ ],
+ "radioToqueMin": 9,
+ "carcasas": [
+  {
+   "id": "3",
+   "transparente": 0.26,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "13",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  },
+  {
+   "id": "6",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  },
+  {
+   "id": "7",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  }
+ ],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteDisco",
+   "anc": [
+    462,
+    581
+   ],
+   "et": [
+    -80,
+    8
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteTornillosDisco",
+   "anc": [
+    540,
+    505
+   ],
+   "et": [
+    34,
+    52
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14b",
+   "n": "14",
+   "arte": "arteLamina",
+   "args": [
+    -15,
+    -3
+   ],
+   "anc": [
+    386.0,
+    380.0
+   ],
+   "et": [
+    -60,
+    60
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "9a",
+   "n": "9",
+   "arte": "artePastilla",
+   "args": [
+    -8,
+    0,
+    0
+   ],
+   "anc": [
+    392.59,
+    382.197
+   ],
+   "et": [
+    -52,
+    34
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "9b",
+   "n": "9",
+   "arte": "artePastilla",
+   "args": [
+    -1,
+    3,
+    0
+   ],
+   "anc": [
+    398.405,
+    383.755
+   ],
+   "et": [
+    36,
+    50
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "14a",
+   "n": "14",
+   "arte": "arteLamina",
+   "anc": [
+    405.881,
+    385.758
+   ],
+   "et": [
+    54,
+    34
+   ],
+   "vis": "exp",
+   "args": [
+    6,
+    6
+   ]
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "arte": "arteResorte",
+   "anc": [
+    412.645,
+    267.479
+   ],
+   "et": [
+    -40,
+    -20
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "artePiston",
+   "anc": [
+    415.499,
+    336.572
+   ],
+   "et": [
+    -22,
+    76
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "5a",
+   "n": "5",
+   "arte": "arteSello",
+   "args": [
+    4,
+    26,
+    6,
+    false
+   ],
+   "anc": [
+    417.052,
+    330.776
+   ],
+   "et": [
+    36,
+    86
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "5b",
+   "n": "5",
+   "arte": "arteSello",
+   "args": [
+    4,
+    25,
+    4,
+    true
+   ],
+   "anc": [
+    416.793,
+    331.742
+   ],
+   "et": [
+    29,
+    -20
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "arte": "arteSoporte",
+   "anc": [
+    490.07,
+    377.258
+   ],
+   "et": [
+    44,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "arte": "arteBota6",
+   "anc": [
+    398.033,
+    441.631
+   ],
+   "et": [
+    20,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteBota7",
+   "anc": [
+    442.032,
+    277.424
+   ],
+   "et": [
+    44,
+    12
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteCaliper",
+   "anc": [
+    361.023,
+    373.739
+   ],
+   "et": [
+    -62,
+    22
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "artePurgador",
+   "anc": [
+    458.404,
+    236.258
+   ],
+   "et": [
+    42,
+    -8
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "10a",
+   "n": "10",
+   "arte": "arteGrapaA",
+   "anc": [
+    402.375,
+    279.221
+   ],
+   "et": [
+    -30,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "10b",
+   "n": "10",
+   "arte": "arteGrapaB",
+   "anc": [
+    389.71,
+    279.968
+   ],
+   "et": [
+    20,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    403.628,
+    287.839
+   ],
+   "et": [
+    -30,
+    34
+   ],
+   "vis": "arm",
+   "chica": 1,
+   "comun": "pasador",
+   "marco": "LOC",
+   "p": {
+    "x": -20,
+    "y": -64,
+    "cuerpo": "lateral",
+    "r": 3.5,
+    "largo": 96,
+    "cabeza": 7
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    492.416,
+    321.982
+   ],
+   "et": [
+    44,
+    -36
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "marco": "LOC",
+   "p": {
+    "x": 0,
+    "y": 0,
+    "brida": 14,
+    "cabeza": 10,
+    "largo": 46,
+    "d": 12,
+    "copias": [
+     [
+      86,
+      -54
+     ],
+     [
+      86,
+      56
+     ]
+    ],
+    "sombra": true
+   }
+  }
+ ],
+ "contexto": [
+  {
+   "arte": "arteBrazo",
+   "despuesDe": "2",
+   "alFrente": true,
+   "clase": "esq-ctx-barra"
+  },
+  {
+   "arte": "arteManguera",
+   "alFinal": true
+  }
+ ],
+ "nombres": {
+  "1": "Disco de freno trasero",
+  "2": "Tornillos del disco",
+  "3": "Cáliper (cuerpo)",
+  "4": "Pistón del cáliper",
+  "5": "Empaques del cáliper",
+  "6": "Guardapolvo de un pasador del cáliper",
+  "7": "Guardapolvo del segundo pasador",
+  "8": "Purgador",
+  "9": "Pastillas de freno (juego)",
+  "10": "Grapas del pasador",
+  "11": "Resorte de las pastillas",
+  "12": "Pasador de las pastillas",
+  "13": "Soporte del cáliper",
+  "14": "Láminas antirruido",
+  "15": "Tornillos con pestaña del soporte"
+ },
+ "ocultas": [
+  "4",
+  "5",
+  "9",
+  "11",
+  "14",
+  "10"
+ ],
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "brazo",
+  "manguera",
+  "liquido"
+ ],
+ "textoArmado": "<b>Armado.</b> El cáliper abraza el borde del disco y su soporte se atornilla a la caja de la transmisión final. Lo de adentro (pistón, pastillas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista. Toca una pieza para abrir su ficha.",
+ "pasos": [
+  {
+   "t": "<b>Tornillos del soporte.</b> Con la moto en el gato central (la rueda trasera queda en el aire), afloja los dos tornillos que sujetan el soporte a la caja de la transmisión final.",
+   "m": {
+    "15": [
+     300,
+     -250
+    ]
+   }
+  },
+  {
+   "t": "<b>Sacar el cáliper.</b> Sale con su soporte, deslizándolo fuera del disco. Para cambiar pastillas no hace falta soltar la manguera: déjala colgando sin estirarla. Para el desarme completo, antes drena el líquido y suelta el racor.",
+   "m": {
+    "3": [
+     -30,
+     -40
+    ],
+    "4": [
+     -30,
+     -40
+    ],
+    "6": [
+     -30,
+     -40
+    ],
+    "7": [
+     -30,
+     -40
+    ],
+    "8": [
+     -30,
+     -40
+    ],
+    "11": [
+     -30,
+     -40
+    ],
+    "12": [
+     -30,
+     -40
+    ],
+    "13": [
+     -30,
+     -40
+    ],
+    "5a": [
+     -30,
+     -40
+    ],
+    "5b": [
+     -30,
+     -40
+    ],
+    "9a": [
+     -30,
+     -40
+    ],
+    "9b": [
+     -30,
+     -40
+    ],
+    "10a": [
+     -30,
+     -40
+    ],
+    "10b": [
+     -30,
+     -40
+    ],
+    "14a": [
+     -30,
+     -40
+    ],
+    "14b": [
+     -30,
+     -40
+    ]
+   },
+   "manguera": false
+  },
+  {
+   "t": "<b>Grapas.</b> Saca las dos grapas que impiden que el pasador se salga.",
+   "m": {
+    "10a": [
+     -300,
+     -185
+    ],
+    "10b": [
+     -140,
+     -215
+    ]
+   }
+  },
+  {
+   "t": "<b>Pasador de las pastillas.</b> Sácalo. Es lo único que sostiene las pastillas: por eso las grapas importan.",
+   "m": {
+    "12": [
+     -222,
+     -112
+    ]
+   }
+  },
+  {
+   "t": "<b>Pastillas.</b> Salen las dos. Mira la ranura indicadora: si casi no se ve, cambia el juego completo.",
+   "m": {
+    "9a": [
+     -183,
+     88
+    ],
+    "9b": [
+     -93,
+     108
+    ]
+   }
+  },
+  {
+   "t": "<b>Láminas antirruido.</b> Son dos, una detrás de cada pastilla: la de adentro apoya en el pistón y la de afuera en el cuerpo del cáliper. Evitan chillidos; no las olvides al armar.",
+   "m": {
+    "14a": [
+     -3,
+     128
+    ],
+    "14b": [
+     -263,
+     128
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte de las pastillas.</b> Las mantiene firmes para que no traqueteen. Hasta aquí llega un cambio de pastillas normal.",
+   "m": {
+    "11": [
+     -275,
+     60
+    ]
+   }
+  },
+  {
+   "t": "<b>Separar el cuerpo del soporte.</b> El cuerpo del cáliper se desliza fuera de los pasadores del soporte. Así flota el cáliper: por eso esos pasadores deben quedar limpios y engrasados.",
+   "m": {
+    "3": [
+     -83,
+     -122
+    ],
+    "4": [
+     -83,
+     -122
+    ],
+    "6": [
+     187,
+     -138
+    ],
+    "7": [
+     187,
+     -138
+    ],
+    "8": [
+     -83,
+     -122
+    ],
+    "13": [
+     187,
+     -138
+    ],
+    "5a": [
+     -83,
+     -122
+    ],
+    "5b": [
+     -83,
+     -122
+    ]
+   }
+  },
+  {
+   "t": "<b>Guardapolvos de los pasadores.</b> Son cauchos que protegen los pasadores del agua y del polvo. Si están rotos, el pasador se oxida.",
+   "m": {
+    "6": [
+     -89,
+     114
+    ],
+    "7": [
+     -108,
+     -3
+    ]
+   }
+  },
+  {
+   "t": "<b>Purgador.</b> Desenróscalo con cuidado: es de acero y el cáliper es de aluminio, así que la rosca se daña fácil si aprietas de más.",
+   "m": {
+    "8": [
+     54,
+     -35
+    ]
+   }
+  },
+  {
+   "t": "<b>Pistón.</b> Sácalo con aire comprimido a poca presión por la entrada del líquido, con un trapo delante. Nunca con los dedos delante del pistón.",
+   "m": {
+    "4": [
+     113,
+     -2
+    ]
+   }
+  },
+  {
+   "t": "<b>Empaques.</b> Saca el sello y el guardapolvo del pistón con un palillo de plástico, sin rayar las ranuras. Se cambian siempre los dos, nunca se reutilizan.",
+   "m": {
+    "5a": [
+     160,
+     22
+    ],
+    "5b": [
+     222,
+     40
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos del disco.</b> Con la rueda desmontada (otra lámina), afloja en cruz los tornillos del disco. Llevan fijador de rosca.",
+   "m": {
+    "2": [
+     40,
+     14
+    ]
+   }
+  },
+  {
+   "t": "<b>Disco.</b> Sale del rin. Mide el grosor en varios puntos y compáralo con el mínimo grabado («MIN TH»). <b>Al armar todo:</b> tornillos con fijador de rosca y apretados en cruz con el torque del manual de servicio, pastillas nuevas si cambiaste el disco, líquido DOT 4 nuevo y purgar hasta que la manigueta quede firme; con ABS, la purga se hace en el taller. <b>Antes de rodar, prueba el freno con la moto quieta.</b>",
+   "m": {
+    "1": [
+     150,
+     30
+    ],
+    "2": [
+     150,
+     30
+    ]
+   }
+  }
+ ],
+ "fichas": {
+  "1": {
+   "nombre": "Disco de freno trasero",
+   "cat": "DISK, REAR BRAKE 2 · 1 pieza",
+   "que": "Una placa redonda de acero de unos 230 mm (aprox.), atornillada al rin trasero, con agujeros ovalados. Gira siempre con la rueda.",
+   "sirve": "Es lo que aprietan las [[9|pastillas]]. Convierte el movimiento de la moto en calor y lo bota al aire; los huecos lo enfrían y sacan el agua y el polvo.",
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada le quita material. Con los años se adelgaza hasta el mínimo grabado («MIN TH»)."
+    ],
+    [
+     "calor",
+     "Las bajadas largas frenando todo el tiempo (Las Palmas, la vía a Santa Elena) lo recalientan y lo pueden torcer."
+    ],
+    [
+     "maluso",
+     "Pastillas gastadas hasta el metal le hacen surcos. Grasa, lubricante de cadena o líquido de frenos lo dejan resbaloso."
+    ],
+    [
+     "golpe",
+     "Una caída o tornillos apretados disparejos lo pueden torcer."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta palpita o vibra al frenar (disco torcido).",
+    "Surcos o rayas que sientes con la uña.",
+    "Frena menos aunque las pastillas sean nuevas.",
+    "Un «chas-chas» rítmico a poca velocidad, o manchas azuladas por recalentamiento."
+   ],
+   "cuando": "Mide el grosor y mira si está torcido en cada cambio de [[9|pastillas]]. Cámbialo al llegar al mínimo grabado, o si está torcido o rajado entre los huecos. Con disco nuevo, siempre pastillas nuevas: las viejas ya tomaron la forma del disco gastado.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "9",
+    "3",
+    "rueda"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "Unos 230 mm, como el delantero (aprox.: no lo confirmamos para la BBE4)."
+    ],
+    [
+     "ap",
+     "El grosor mínimo exacto no lo tenemos: está grabado en el disco («MIN TH»)."
+    ]
+   ],
+   "porque": "Cuando llega al mínimo grabado, está torcido o rajado, se cambia. En moto no se rectifica: casi no le sobra espesor. Si solo está untado de grasa, lávalo con limpiador de frenos y cambia las pastillas.",
+   "arrastra": [
+    "Disco torcido → la manigueta palpita y las [[9|pastillas]] se gastan disparejo.",
+    "Disco untado de aceite → las pastillas se untan y hay que cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F582W-00"
+  },
+  "2": {
+   "nombre": "Tornillos del disco",
+   "cat": "BOLT · 3 piezas",
+   "que": "Los tres tornillos que unen el [[1|disco]] al rin.",
+   "sirve": "Pasan toda la fuerza del frenado del disco a la rueda. Son pocos y trabajan mucho.",
+   "fallas": [
+    [
+     "maluso",
+     "Se aflojan si los montas sin fijador de rosca o sin el torque del manual de servicio."
+    ],
+    [
+     "maluso",
+     "La cabeza se barre con una llave que no es del tamaño exacto."
+    ],
+    [
+     "humedad",
+     "Se oxidan y luego no salen, sobre todo si nunca se han tocado."
+    ]
+   ],
+   "sintomas": [
+    "Un clic o golpe al empezar a frenar.",
+    "El disco tiene juego al moverlo con la mano.",
+    "La cabeza está redondeada (barrida)."
+   ],
+   "cuando": "Revísalos cada vez que desmontes la rueda o el disco.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "rueda"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Tres tornillos: catálogo, fig. 24, ref. 2."
+    ],
+    [
+     "ap",
+     "No damos torque porque no tenemos el manual de servicio."
+    ]
+   ],
+   "porque": "Si están barridos o el fabricante no permite reutilizarlos, van nuevos, con fijador de rosca y apretados en cruz.",
+   "arrastra": [
+    "Tornillo flojo → el [[1|disco]] se mueve y suena al frenar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90109-08232"
+  },
+  "3": {
+   "nombre": "Cáliper (cuerpo)",
+   "cat": "CALIPER ASSY, REAR 2 · 1 conjunto completo",
+   "que": "La «pinza» del freno: un cuerpo de aluminio con un cilindro adentro. En la NMAX es flotante y de un solo pistón.",
+   "sirve": "Convierte la presión del [[liquido|líquido]] en fuerza sobre las [[9|pastillas]]. El [[4|pistón]] empuja una pastilla y el cuerpo se corre en sus pasadores para jalar la otra.",
+   "fallas": [
+    [
+     "humedad",
+     "El líquido viejo trae agua: oxida el cilindro y el pistón por dentro y el pistón se pega."
+    ],
+    [
+     "edad",
+     "Los empaques se endurecen con los años y el calor: aparecen fugas o el pistón no regresa."
+    ],
+    [
+     "humedad",
+     "Si los pasadores se oxidan, el cuerpo deja de flotar y solo trabaja una pastilla."
+    ],
+    [
+     "maluso",
+     "La rosca del purgador se daña si lo aprietas de más. La hidrolavadora a presión directa también lo daña."
+    ]
+   ],
+   "sintomas": [
+    "La rueda queda frenada o caliente después de rodar.",
+    "Olor a quemado después de frenar.",
+    "Una pastilla se gasta mucho más que la otra.",
+    "Manchas de líquido alrededor, o el nivel del depósito baja sin que las pastillas estén gastadas."
+   ],
+   "cuando": "Límpialo y revísalo en cada cambio de pastillas. Los empaques de adentro se renuevan cada 2 años con el líquido (manual), o antes si hay fuga o el freno queda pegado.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "5",
+    "8",
+    "9",
+    "12",
+    "13",
+    "6",
+    "7",
+    "manguera"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Flotante de un pistón: el catálogo trae un solo «PISTON ASSY» y un kit de dos sellos."
+    ],
+    [
+     "ap",
+     "La forma exacta del cuerpo se dibujó a partir del plano y de fotos, no se midió."
+    ]
+   ],
+   "porque": "El cuerpo se limpia y se le cambian los [[5|empaques]] y el líquido. Solo se cambia entero si el cilindro está picado.",
+   "arrastra": [
+    "Cáliper que no flota → una sola pastilla se gasta y el [[1|disco]] se recalienta de un lado.",
+    "Cilindro oxidado → el [[4|pistón]] se pega y el freno queda arrastrando."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "B6H-F580W-00"
+  },
+  "4": {
+   "nombre": "Pistón del cáliper",
+   "cat": "PISTON ASSY, CALIPER · 1 pieza",
+   "que": "Un cilindro metálico, hueco por delante, que vive dentro del [[3|cáliper]].",
+   "sirve": "El líquido lo empuja por detrás y él empuja la [[9|pastilla]]. Como es mucho más grande que el pistón de la bomba, multiplica la fuerza de tu mano.",
+   "fallas": [
+    [
+     "humedad",
+     "El agua del líquido viejo lo pica por dentro (corrosión)."
+    ],
+    [
+     "desgaste",
+     "Con pastillas muy gastadas sale de más y se le pega mugre. Al meterlo para poner pastillas nuevas, esa parte sucia raya el [[5|sello]]."
+    ],
+    [
+     "calor",
+     "El calor de un freno pegado lo dilata y empeora el problema."
+    ]
+   ],
+   "sintomas": [
+    "El freno no suelta del todo.",
+    "Fuga de líquido detrás de la pastilla.",
+    "La pastilla del lado del pistón se gasta más."
+   ],
+   "cuando": "Revísalo cada vez que abras el cáliper: cada 2 años, al cambiar los empaques junto con el líquido (manual), o antes si hay problemas. Antes de meterlo para poner pastillas nuevas, límpiale la parte que queda afuera.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "5",
+    "9"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Un pistón (catálogo)."
+    ],
+    [
+     "ap",
+     "El diámetro no lo tenemos."
+    ]
+   ],
+   "porque": "Si está picado o rayado no sella y va uno nuevo.",
+   "arrastra": [
+    "Pistón sucio o picado → rompe el [[5|sello]] y el cáliper bota líquido."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5P0-F5802-00"
+  },
+  "5": {
+   "nombre": "Empaques del cáliper",
+   "cat": "CALIPER SEAL KIT · 1 juego: sello del pistón + guardapolvo",
+   "que": "Dos anillos de caucho: el sello del pistón (adentro) y el guardapolvo (afuera).",
+   "sirve": "El sello no deja salir el líquido y, al soltar el freno, jala el [[4|pistón]] de vuelta: se tuerce un poquito al frenar y regresa. El guardapolvo no deja entrar agua ni mugre.",
+   "fallas": [
+    [
+     "edad",
+     "Se endurecen con los años y el calor: pierden elasticidad y ya no regresan el pistón."
+    ],
+    [
+     "maluso",
+     "Se hinchan y se dañan con un líquido equivocado (DOT 5, aceite, gasolina usada para «lavar»)."
+    ],
+    [
+     "humedad",
+     "Si el guardapolvo se rompe, entra agua y el pistón se oxida."
+    ]
+   ],
+   "sintomas": [
+    "El freno queda pegado o la rueda se calienta.",
+    "Fuga de líquido en el cáliper.",
+    "La manigueta se va al fondo (entró aire)."
+   ],
+   "cuando": "Cámbialos cada 2 años, junto con el [[liquido|líquido]] (manual de Yamaha, pp. 9-7 y 9-25: «Juntas de freno: cada 2 años»), o antes si hay fuga o el freno queda pegado.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Kit de dos piezas (catálogo y plano)."
+    ],
+    [
+     "ok",
+     "Cambio cada 2 años con el líquido (manual)."
+    ],
+    [
+     "ap",
+     "Que el pistón regrese «una fracción de milímetro» es un orden de magnitud."
+    ]
+   ],
+   "porque": "El caucho no se repara. Se cambian siempre los dos, nunca se reutilizan.",
+   "arrastra": [
+    "Sello endurecido → el [[4|pistón]] no regresa y las pastillas rozan el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "5YP-F5803-50"
+  },
+  "6": {
+   "nombre": "Guardapolvo de un pasador del cáliper",
+   "cat": "BOOT, CALIPER · 1 pieza",
+   "que": "Un fuelle de caucho entre el cuerpo del [[3|cáliper]] y uno de los pasadores del [[13|soporte]].",
+   "sirve": "Protege el pasador para que el cáliper siga deslizándose (flotando) sin oxidarse.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se reseca y se raja."
+    ],
+    [
+     "calor",
+     "El calor del freno lo endurece."
+    ],
+    [
+     "maluso",
+     "Se hincha con grasa común (no de frenos) o se sale de su sitio si lo montas mal."
+    ]
+   ],
+   "sintomas": [
+    "El caucho está rajado o fuera de su sitio.",
+    "Con el cáliper desmontado, no se deja mover con la mano.",
+    "Las pastillas se gastan disparejo."
+   ],
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Pieza del catálogo."
+    ],
+    [
+     "ap",
+     "Cuál de los dos pasadores lleva cada guardapolvo: lo deducimos del plano."
+    ]
+   ],
+   "porque": "Si está rajado o suelto, cámbialo; con el caucho roto el pasador se oxida.",
+   "arrastra": [
+    "Guardapolvo roto → entra agua, el pasador del [[13|soporte]] se oxida y el cáliper deja de flotar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5YP-F5917-00"
+  },
+  "7": {
+   "nombre": "Guardapolvo del segundo pasador",
+   "cat": "BOOT 2 · 1 pieza",
+   "que": "El fuelle de caucho del segundo pasador deslizante.",
+   "sirve": "Igual que el [[6|otro guardapolvo]]: mantiene limpio y seco el pasador para que el cáliper flote.",
+   "fallas": [
+    [
+     "edad",
+     "Se reseca y se raja con los años."
+    ],
+    [
+     "humedad",
+     "Si está roto, entra agua y el pasador se oxida."
+    ]
+   ],
+   "sintomas": [
+    "El caucho está roto.",
+    "El freno queda rozando.",
+    "Una pastilla se gasta en cuña."
+   ],
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Pieza del catálogo."
+    ]
+   ],
+   "porque": "Si está roto, cámbialo antes de que el pasador se oxide.",
+   "arrastra": [
+    "Guardapolvo roto → el pasador se oxida y el [[3|cáliper]] se traba."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5YP-F5937-00"
+  },
+  "8": {
+   "nombre": "Purgador",
+   "cat": "BLEED SCREW KIT · 1 juego: tornillo hueco + tapa de caucho",
+   "que": "Un tornillo hueco en la parte alta del [[3|cáliper]], con una tapita de caucho.",
+   "sirve": "Por ahí sale el aire y el líquido viejo cuando cambias el [[liquido|líquido]] o purgas.",
+   "fallas": [
+    [
+     "maluso",
+     "Se parte o barre la rosca del cáliper si lo aprietas de más."
+    ],
+    [
+     "humedad",
+     "Sin tapita entran agua y mugre, el agujero se tapa y el purgador se pega por óxido."
+    ]
+   ],
+   "sintomas": [
+    "Gotas de líquido en el purgador.",
+    "No deja purgar (está tapado).",
+    "La manigueta sigue esponjosa después de purgar."
+   ],
+   "cuando": "Se usa en cada cambio de líquido: cada 2 años (plan de TallerYa = manual de Yamaha, DOT 4).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "manguera"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Líquido DOT 4 y cambio cada 2 años (manual)."
+    ]
+   ],
+   "porque": "Si está pegado, barrido o tapado, va uno nuevo.",
+   "arrastra": [
+    "Purgador tapado → no sale el aire y la manigueta queda esponjosa."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "4C9-W0048-00"
+  },
+  "9": {
+   "nombre": "Pastillas de freno (juego)",
+   "cat": "BRAKE PAD KIT · 1 juego (2 pastillas)",
+   "que": "Dos placas de acero con un bloque de material de fricción pegado. Tienen una ranura en el centro que avisa el desgaste.",
+   "sirve": "Son las que rozan el [[1|disco]]. Se gastan a propósito para que el disco dure.",
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada las gasta. En Medellín se gastan más rápido por las lomas, el trancón y si frenas casi siempre con la manigueta izquierda."
+    ],
+    [
+     "calor",
+     "Con calor sostenido se cristalizan: la cara queda brillante, chillan y frenan menos."
+    ],
+    [
+     "maluso",
+     "Aceite, grasa o líquido de frenos las contaminan. Una pastilla untada no se recupera."
+    ],
+    [
+     "desgaste",
+     "Si llegan al metal, el acero raya el disco."
+    ]
+   ],
+   "sintomas": [
+    "La ranura del centro ya casi no se ve.",
+    "Chillido metálico o raspado al frenar.",
+    "Frena menos y tienes que apretar más.",
+    "El nivel del depósito baja poco a poco."
+   ],
+   "cuando": "Revísalas en cada servicio: a los 1.000 km y luego cada 6.000 km (manual de Yamaha). Cámbialas cuando la ranura indicadora casi desaparezca.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "4",
+    "12",
+    "11",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Ranura indicadora y revisión en cada servicio (manual de Yamaha)."
+    ],
+    [
+     "ok",
+     "6.000 km: plan general de TallerYa."
+    ]
+   ],
+   "porque": "Se cambia el juego completo, siempre, cuando la ranura casi desaparece.",
+   "arrastra": [
+    "Pastillas al metal → rayan el [[1|disco]].",
+    "Pastillas untadas → frenas menos y toca cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ok",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "B6H-F5805-00"
+  },
+  "10": {
+   "nombre": "Grapas del pasador",
+   "cat": "CLIP · 2 en el plano",
+   "que": "Dos grapas de alambre de acero, en forma de R, que se meten en el [[12|pasador]].",
+   "sirve": "Impiden que el pasador de las pastillas se salga con la vibración.",
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden al cambiar pastillas o se deforman si las sacas con alicate."
+    ],
+    [
+     "edad",
+     "Pierden tensión con el tiempo."
+    ]
+   ],
+   "sintomas": [
+    "La grapa falta o está floja.",
+    "El pasador se mueve o se sale."
+   ],
+   "cuando": "En cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "facil",
+   "conecta": [
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Dos llamadas «10» en el plano."
+    ]
+   ],
+   "porque": "Son baratas: si falta una o está floja, cámbiala.",
+   "arrastra": [
+    "Grapa floja → el [[12|pasador]] se sale y las pastillas quedan sueltas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5YP-F5925-01"
+  },
+  "11": {
+   "nombre": "Resorte de las pastillas",
+   "cat": "SUPPORT, PAD · 1 pieza (lámina soporte)",
+   "que": "Una lámina de acero doblada que hace de resorte sobre las [[9|pastillas]].",
+   "sirve": "Las mantiene firmes contra el pasador para que no traqueteen ni vibren.",
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión."
+    ],
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se monta al revés al cambiar pastillas."
+    ]
+   ],
+   "sintomas": [
+    "Traqueteo en los huecos o en el empedrado.",
+    "Chillido.",
+    "Pastillas gastadas en cuña."
+   ],
+   "cuando": "En cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "9",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Pieza del catálogo."
+    ]
+   ],
+   "porque": "Si perdió tensión o está oxidado, cámbialo; es barato.",
+   "arrastra": [
+    "Resorte flojo → las [[9|pastillas]] traquetean y se gastan en cuña."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5P0-F5919-01"
+  },
+  "12": {
+   "nombre": "Pasador de las pastillas",
+   "cat": "PIN, PAD · 1 pieza",
+   "que": "Una varilla de acero que atraviesa el [[3|cáliper]] y las orejas de las [[9|pastillas]].",
+   "sirve": "Sostiene las pastillas y las deja deslizarse hacia el disco y de regreso.",
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y las pastillas no deslizan."
+    ],
+    [
+     "desgaste",
+     "Las orejas de las pastillas le hacen surcos con la vibración."
+    ],
+    [
+     "golpe",
+     "Se dobla si lo sacas a golpes."
+    ]
+   ],
+   "sintomas": [
+    "Una pastilla no se despega del disco.",
+    "Ruido metálico.",
+    "Se le ven surcos."
+   ],
+   "cuando": "Límpialo en cada cambio de pastillas. Déjalo sin grasa o con muy poca grasa especial: la grasa común junta polvo.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "9",
+    "10",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Pieza del catálogo."
+    ]
+   ],
+   "porque": "Si está oxidado, doblado o con surcos, cámbialo.",
+   "arrastra": [
+    "Pasador oxidado → una pastilla queda pegada al [[1|disco]] y se calienta."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5YP-F5924-00"
+  },
+  "13": {
+   "nombre": "Soporte del cáliper",
+   "cat": "SUPT. BRKT. ASSY. · 1 conjunto, con sus pasadores deslizantes",
+   "que": "Una pieza fundida que se atornilla a la caja de la transmisión final. En sus dos pasadores se desliza el cuerpo del [[3|cáliper]].",
+   "sirve": "Aguanta la fuerza del frenado y deja flotar el cáliper para que las dos pastillas aprieten parejo.",
+   "fallas": [
+    [
+     "humedad",
+     "Los pasadores se oxidan si los guardapolvos están rotos."
+    ],
+    [
+     "golpe",
+     "Se dobla en una caída o con un golpe en la rueda."
+    ],
+    [
+     "maluso",
+     "Las roscas se dañan si aprietas de más los [[15|tornillos]]."
+    ]
+   ],
+   "sintomas": [
+    "El cáliper no se desliza.",
+    "Pastillas gastadas en cuña.",
+    "El freno roza aunque los empaques sean nuevos."
+   ],
+   "cuando": "Revisa los pasadores en cada cambio de pastillas: límpialos y engrásalos con grasa de silicona para frenos.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "15",
+    "6",
+    "7",
+    "brazo"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Pieza del catálogo."
+    ],
+    [
+     "ap",
+     "Forma dibujada a partir del plano."
+    ]
+   ],
+   "porque": "Si los pasadores solo están sucios, se limpian y engrasan. Si está doblado o los pasadores están picados, se cambia.",
+   "arrastra": [
+    "Pasadores oxidados → el [[3|cáliper]] deja de flotar y una sola pastilla trabaja."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F5920-50"
+  },
+  "14": {
+   "nombre": "Láminas antirruido",
+   "cat": "SHIM, CALIPER · 2 piezas (una por pastilla)",
+   "que": "Dos láminas delgadas, una detrás de cada [[9|pastilla]]: la de adentro queda contra el [[4|pistón]] y la de afuera contra el [[3|cuerpo del cáliper]].",
+   "sirve": "Amortigua la vibración que produce el chillido al frenar.",
+   "fallas": [
+    [
+     "maluso",
+     "Se pierde una o se olvida al cambiar pastillas."
+    ],
+    [
+     "humedad",
+     "Se oxida y se deforma."
+    ]
+   ],
+   "sintomas": [
+    "Chillido agudo al frenar suave."
+   ],
+   "cuando": "En cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "facil",
+   "conecta": [
+    "9",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Dos láminas: catálogo nmax-bbe4, fig. 24, ref. 14 (cantidad 2)."
+    ],
+    [
+     "ap",
+     "Cuál va contra el pistón y cuál contra el cuerpo: lo deducimos del plano."
+    ]
+   ],
+   "porque": "Es barata: si está oxidada o deformada, cámbiala y no la olvides al armar.",
+   "arrastra": [
+    "Lámina ausente → la [[9|pastilla]] vibra y chilla al frenar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5P0-F5827-00"
+  },
+  "15": {
+   "nombre": "Tornillos con pestaña del soporte",
+   "cat": "BOLT, FLANGE · 2 piezas",
+   "que": "Los dos tornillos con pestaña que fijan el [[13|soporte]] a las orejas de la caja de la transmisión final.",
+   "sirve": "Aguantan toda la fuerza del frenado de la rueda trasera. Son de seguridad.",
+   "fallas": [
+    [
+     "maluso",
+     "Quedan flojos si después de montar la rueda no los aprietas con torquímetro."
+    ],
+    [
+     "maluso",
+     "Se barren si aprietas de más; sin fijador se aflojan con la vibración."
+    ]
+   ],
+   "sintomas": [
+    "Golpe o clic al frenar.",
+    "El cáliper se mueve con la mano.",
+    "Marcas del cáliper en el rin o en el disco."
+   ],
+   "cuando": "Revisa el apriete después de cualquier trabajo en la rueda o en los frenos.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "brazo"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Dos tornillos (catálogo)."
+    ],
+    [
+     "ap",
+     "No damos torque: no tenemos el manual de servicio."
+    ]
+   ],
+   "porque": "Si están barridos o dudosos, van nuevos, con fijador de rosca y el torque del manual de servicio.",
+   "arrastra": [
+    "Tornillo flojo → el [[13|soporte]] golpea al frenar y el cáliper puede morder el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95812-10030"
+  },
+  "manguera": {
+   "ctx": true,
+   "nombre": "Mangueras del freno trasero y ABS",
+   "cat": "Lámina 26 · HOSE, BRAKE 3 (bomba trasera → ABS, ref. 34) y HOSE, BRAKE 4 (ABS → cáliper, ref. 38)",
+   "que": "Dos mangueras: una va de la bomba trasera (manigueta izquierda) a la unidad ABS y la otra del ABS al [[3|cáliper]] (es la que ves en el dibujo). Cada punta lleva un tornillo hueco (banjo) y dos arandelas de sello.",
+   "sirve": "Pasan la presión de tu mano al cáliper. En el camino está la unidad ABS: si la rueda se va a bloquear, afloja la presión y la vuelve a dar varias veces por segundo para que la llanta no patine.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se infla con los años."
+    ],
+    [
+     "roce",
+     "Se roza si queda mal guiada contra la caja de la transmisión cuando la suspensión trabaja."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se siente esponjosa.",
+    "Ves grietas o humedad en la manguera."
+   ],
+   "cuando": "Revísalas en cada servicio y cámbialas cada 4 años (manual de Yamaha).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Cambio cada 4 años (manual, p. 9-4)."
+    ],
+    [
+     "ok",
+     "Dos mangueras con tornillos banjo y arandelas (catálogo, fig. 26)."
+    ]
+   ],
+   "porque": "El caucho no se repara: si está agrietado o inflado, se cambia, con arandelas nuevas en los dos pernos de unión. Después hay que purgar; con ABS, la purga es trabajo de taller porque puede quedar aire en la unidad.",
+   "arrastra": [
+    "Manguera inflada → la manigueta se siente esponjosa y el [[3|cáliper]] recibe menos presión."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "rueda": {
+   "ctx": true,
+   "nombre": "Rueda trasera",
+   "cat": "Lámina 21",
+   "que": "El rin donde va atornillado el [[1|disco]].",
+   "sirve": "",
+   "fallas": [],
+   "sintomas": [],
+   "cuando": "",
+   "decision": "",
+   "dif": "",
+   "conecta": [
+    "1",
+    "2"
+   ],
+   "certeza": [],
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "liquido": {
+   "ctx": true,
+   "nombre": "Líquido de frenos DOT 4",
+   "cat": "Lámina 26 · plan de TallerYa",
+   "que": "El líquido que llena la bomba, la manguera y el [[3|cáliper]].",
+   "sirve": "No se deja comprimir: por eso pasa la fuerza de tu mano al cáliper al instante.",
+   "fallas": [
+    [
+     "humedad",
+     "Absorbe la humedad del aire con los años. Con agua hierve antes: nuevo hierve sobre 230 °C y con humedad puede bajar a unos 155 °C (mínimos de la norma)."
+    ],
+    [
+     "calor",
+     "Si hierve en una bajada larga se forman burbujas, y las burbujas sí se comprimen."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se siente esponjosa o se va al fondo después de frenar mucho.",
+    "El líquido se ve oscuro en el visor."
+   ],
+   "cuando": "Cámbialo cada 2 años, ruede lo que ruede (plan de la NMAX = manual). En ese mismo servicio el manual manda cambiar los empaques de la bomba y del cáliper.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "8",
+    "manguera"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "DOT 4, cada 2 años (manual)."
+    ],
+    [
+     "ok",
+     "230 °C / 155 °C: mínimos de la norma FMVSS 116."
+    ]
+   ],
+   "porque": "Es líquido DOT 4 y se cambia por tiempo, no por kilómetros.",
+   "arrastra": [
+    "Líquido con agua → hierve antes y el [[4|pistón]] se oxida por dentro."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ok",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "brazo": {
+   "ctx": true,
+   "nombre": "Caja de la transmisión final",
+   "cat": "Otra lámina (transmisión final, lado izquierdo)",
+   "que": "La caja de engranajes del lado izquierdo, la misma del disco, que lleva el eje de la rueda trasera. En sus dos orejas se atornilla el [[13|soporte]] del cáliper.",
+   "sirve": "Sostiene la rueda trasera y el freno, y guarda el aceite de los engranajes.",
+   "fallas": [
+    [
+     "fuga",
+     "Si el retén del eje de la transmisión final bota aceite, el aceite cae al [[1|disco]] y a las [[9|pastillas]], que van del mismo lado."
+    ]
+   ],
+   "sintomas": [
+    "Aceite en la caja, en el rin o en el disco."
+   ],
+   "cuando": "Mira si hay aceite alrededor del eje y en el disco en cada lavada.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "El soporte se atornilla con los tornillos 15 a la caja de la transmisión final, del lado del disco (grilla de la fig. 24)."
+    ]
+   ],
+   "porque": "Si hay aceite, se arregla el retenedor y se limpia el disco; las pastillas untadas se cambian.",
+   "arrastra": [
+    "Retenedor que bota aceite → [[1|disco]] y pastillas untados."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Pastillas que llegan al metal",
+   "p": [
+    [
+     "9",
+     "Se gastan y nadie revisa la ranura."
+    ],
+    [
+     "1",
+     "La placa de acero raya el disco: ahora toca cambiar disco y pastillas."
+    ],
+    [
+     "4",
+     "El pistón salió de más para alcanzar el disco y se le pegó mugre."
+    ],
+    [
+     "5",
+     "Al meter el pistón para poner pastillas nuevas, la parte sucia raya el sello y aparece una fuga. Por eso se limpia antes de empujarlo."
+    ]
+   ]
+  },
+  {
+   "t": "Líquido y empaques de más de 2 años",
+   "p": [
+    [
+     "liquido",
+     "Absorbió agua y hierve antes."
+    ],
+    [
+     "4",
+     "El agua oxida el pistón por dentro."
+    ],
+    [
+     "5",
+     "Los empaques, que el manual manda cambiar junto con el líquido cada 2 años, se endurecen y ya no regresan el pistón."
+    ],
+    [
+     "9",
+     "La pastilla queda rozando, se calienta y se cristaliza."
+    ]
+   ]
+  },
+  {
+   "t": "Guardapolvo roto",
+   "p": [
+    [
+     "6",
+     "El caucho se raja y entra agua."
+    ],
+    [
+     "13",
+     "El pasador del soporte se oxida y se traba."
+    ],
+    [
+     "3",
+     "El cáliper deja de flotar."
+    ],
+    [
+     "9",
+     "Solo trabaja la pastilla del pistón y se gasta sola."
+    ],
+    [
+     "1",
+     "El disco se recalienta de un lado y se puede torcer."
+    ]
+   ]
+  },
+  {
+   "t": "Retén de la transmisión final que bota aceite",
+   "p": [
+    [
+     "brazo",
+     "El retén del eje bota aceite del lado del disco."
+    ],
+    [
+     "1",
+     "Cae al disco: el freno trasero pierde agarre de golpe."
+    ],
+    [
+     "9",
+     "Las pastillas se untan y no se recuperan: se cambian."
+    ]
+   ]
+  },
+  {
+   "t": "Tornillos sin apretar después de montar la rueda",
+   "p": [
+    [
+     "15",
+     "Quedan flojos."
+    ],
+    [
+     "13",
+     "El soporte se mueve y golpea al frenar."
+    ],
+    [
+     "1",
+     "El cáliper muerde el disco: es lo más peligroso de la lámina."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Pastillas: revisar el desgaste",
+   "cuando": "Cada <b>6.000 km</b>. Cámbialas cuando la ranura indicadora casi desaparezca.",
+   "fuente": "Manual de Yamaha: revisarlas a los 1.000 km y luego cada 6.000 km. El plan general de TallerYa (tarea «Pastillas de freno traseras») dice 8.000 km; aquí manda el manual. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Líquido de frenos DOT 4: cambiar",
+   "cuando": "Cada <b>2 años</b>, ruede lo que ruede.",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario (cuadro de mantenimiento, p. 9-4). <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "liquido-frenos"
+  },
+  {
+   "que": "Mangueras del freno: cambiar",
+   "cuando": "Cada <b>4 años</b>, y revisa grietas en cada servicio.",
+   "fuente": "Manual del propietario, p. 9-4. En TallerYa solo aparece como nota del líquido. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Disco: medir grosor y mirar si está torcido",
+   "cuando": "En cada cambio de pastillas.",
+   "fuente": "Ficha de TallerYa y práctica de taller. El grosor mínimo viene grabado en el disco («MIN TH»). <span class=\"esq-s-ap\">Sin cifra de fábrica</span>"
+  },
+  {
+   "que": "Cáliper, pasadores y guardapolvos: limpiar y revisar",
+   "cuando": "En cada cambio de pastillas.",
+   "fuente": "Fichas de TallerYa y práctica de taller (el manual no da intervalo para estas piezas). <span class=\"esq-s-ap\">Práctica de taller</span>"
+  },
+  {
+   "que": "Empaques del cáliper, y también los de la bomba",
+   "cuando": "Cada <b>2 años, junto con el líquido</b>, o antes si hay fuga o el freno queda pegado.",
+   "fuente": "Manual del propietario: p. 9-7 («cada dos años cambie los componentes internos de las bombas de freno y de las pinzas») y p. 9-25 («Juntas de freno: cada 2 años»). La ficha de TallerYa no da intervalo (anotado para el equipo). <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "liquido-frenos"
+  }
+ ],
+ "funciona": {
+  "vbCelular": "-6 14 512 700",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · En reposo.</b> La rueda trasera gira y el disco gira con ella. Las pastillas quedan casi tocando el disco, a una fracción de milímetro (aquí el espacio está exagerado para que se vea).",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la manigueta izquierda.</b> En la NMAX la izquierda es el freno trasero. La manigueta es una palanca: con poco esfuerzo empuja un pistón pequeño dentro de la bomba trasera, en el manubrio.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>3 · La presión viaja por el líquido.</b> El líquido no se deja comprimir, así que la presión llega al caliper al instante. La palanca y la diferencia de tamaño de los pistones (el del caliper es mucho más grande que el de la bomba) multiplican tu fuerza varias veces (aprox.). En el camino está la unidad ABS: si la rueda se va a bloquear, afloja la presión y la vuelve a dar varias veces por segundo.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>4 · El pistón empuja una pastilla.</b> La presión saca el pistón del caliper y este pega la pastilla de su lado contra el disco. El sello del pistón se tuerce un poquito: eso servirá al soltar.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>5 · El caliper flota y jala la otra.</b> El cuerpo del caliper está montado en pasadores y puede deslizarse. Al empujar, el cuerpo se corre hacia el otro lado y trae la otra pastilla: el disco queda prensado por los dos lados. Si los pasadores están oxidados, este paso falla y frena una sola pastilla.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 0,
+     "rueda": "lento"
+    }
+   },
+   {
+    "t": "<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y con él la rueda. Toda la energía del movimiento se vuelve calor: en una bajada larga el disco puede pasar de 200 °C (aprox.). Ese calor llega al líquido, y por eso el líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 1,
+     "rueda": "quieto"
+    }
+   },
+   {
+    "t": "<b>7 · Sueltas.</b> La presión cae. El sello, que estaba torcido, regresa el pistón y las pastillas se despegan apenas del disco. Si el sello está viejo o el pistón sucio, el pistón no regresa: el freno queda pegado y se calienta solo.",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0.35,
+     "rueda": ""
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidad de piezas: catálogo de partes de la NMAX BBE4, figura 24 «Rear brake caliper».",
+   "Caliper flotante de <b>un pistón</b>, con soporte y dos guardapolvos de pasador (catálogo).",
+   "<b>Tres tornillos</b> del disco (catálogo, fig. 24, ref. 2) y <b>dos mangueras</b>: bomba trasera → ABS y ABS → cáliper (fig. 26, ref. 34 y 38).",
+   "Empaques de la bomba y del caliper cada 2 años, junto con el líquido (manual, pp. 9-7 y 9-25).",
+   "Líquido DOT 4 cada 2 años, mangueras cada 4 años, pastillas con ranura indicadora, revisión de frenos en cada servicio (manual del propietario).",
+   "El líquido DOT 4 absorbe agua y su punto de ebullición baja (mínimos de la norma: 230 °C seco, 155 °C húmedo).",
+   "La manigueta izquierda acciona el freno trasero en las scooter (ficha de TallerYa de la bomba trasera)."
+  ],
+  "aproximado": [
+   "Proporciones del dibujo: se tomaron del plano y de fotos, no se midió una pieza real.",
+   "Orden de desarme: el procedimiento general de un caliper flotante. El manual de servicio de la NMAX no está en la carpeta.",
+   "Cifras de la animación: la palanca y la diferencia de tamaño de los pistones multiplican la fuerza «varias veces», el disco pasa de 200 °C y el sello devuelve el pistón «una fracción de milímetro». Son órdenes de magnitud, no medidas.",
+   "Torques de los tornillos: no se dan porque no tenemos el manual de servicio.",
+   "Disco trasero de unos 230 mm, como el delantero: sin confirmar para la BBE4."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 24 «Rear brake caliper». Copia local, solo referencia (catálogo público en <a href=\"https://motoblu.co/catalogo/catalogo-partes-despiece-yamaha-n-max/\">motoblu.co</a>).",
+   "Manual del propietario Yamaha NM-X 2022 B6Y4 (Yamaha Motor Argentina): cuadro de mantenimiento p. 9-4; pastillas y líquido pp. 9-23 a 9-25; especificaciones. Copia local.",
+   "Ficha NMAX 155 2025: <a href=\"https://www.1000ps.com/en-us/model/8865/yamaha-nmax-155/2025\">1000ps.com</a>",
+   "Líquido DOT 4, puntos de ebullición (FMVSS 116): <a href=\"https://azupim01.motul.com/media/motulData/DO/base/27300_en.pdf\">ficha Motul</a> · por qué envejece: <a href=\"https://blog.febi.com/en/brake-fluid-safety-in-liquid-form/\">febi</a>",
+   "Grosor mínimo del disco y cómo medirlo: <a href=\"https://www.bremboparts.com/europe/en/support/maintenance/minimum-brake-disc-thickness-212337\">Brembo</a> · <a href=\"https://www.hella.com/techworld/es/ti/pdf/Comprobar-el-grosor-minimo-del-disco-de-freno/Comprobar-el-grosor-minimo-del-disco-de-freno.pdf\">Hella</a>",
+   "Caliper pegado, pasadores y guardapolvos: <a href=\"https://haynes.com/en-gb/tips-tutorials/how-to-unseize-brake-caliper\">Haynes</a> · pasadores y grapas: <a href=\"https://www.mymechanic.sg/roadside-assistance-malaysia-singaporean-drivers/brake-pad-pin-seizure-rattle-clip\">MyMechanic</a>",
+   "No se encontró un video confiable del desarme del caliper de la NMAX en esta pasada. Queda pendiente para la v2.",
+   "Base del dibujo: lámina 22 de TallerYa (freno delantero), sistema hermano con la misma numeración."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -1,
+   0
+  ],
+  "sombra": "url(#fSombra)",
+  "colores": {
+   "acero": "url(#gAcero)",
+   "cromo": "url(#gCromoV)",
+   "rosca": "url(#pRosca)"
+  }
+ },
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "sujeta": {
+  "15": [
+   "13",
+   "3"
+  ],
+  "12": [
+   "9a",
+   "9b",
+   "14a",
+   "14b"
+  ],
+  "10a": [
+   "12"
+  ]
+ },
+ "v2": {
+  "deriva": "nmax-fig22-v1.json",
+  "grupos": [
+   {
+    "id": "disco",
+    "nombre": "Disco",
+    "piezas": [
+     "1"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del disco",
+      "corto": "Tornillos",
+      "ids": [
+       "2"
+      ],
+      "cant": 3
+     }
+    ],
+    "pasos": [
+     12,
+     13
+    ],
+    "marca": [
+     650,
+     500
+    ]
+   },
+   {
+    "id": "caliper",
+    "nombre": "Cáliper",
+    "piezas": [
+     "3",
+     "4",
+     "5a",
+     "5b",
+     "6",
+     "7",
+     "8",
+     "13"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del soporte",
+      "corto": "Tornillos",
+      "ids": [
+       "15"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     0,
+     1,
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "marca": [
+     450,
+     290
+    ]
+   },
+   {
+    "id": "pastillas",
+    "nombre": "Pastillas",
+    "piezas": [
+     "9a",
+     "9b",
+     "11",
+     "12",
+     "10a",
+     "10b",
+     "14a",
+     "14b"
+    ],
+    "torn": [],
+    "pasos": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "marca": [
+     370,
+     440
+    ]
+   }
+  ],
+  "con3d": [],
+  "inicio": "Piezas del freno trasero",
+  "toqueExtra": [
+   "10a",
+   "12"
+  ]
+ }
+}

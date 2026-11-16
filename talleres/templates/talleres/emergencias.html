@@ -8,7 +8,7 @@
   <header class="em-cabeza">
     <p class="etiqueta">Emergencias</p>
     <h1 class="titulo text-3xl md:text-4xl mt-1">¿Te varaste? ¿Qué te pasó?</h1>
-    <p class="text-sm text-suave mt-1">{{ ahora|date:"l j \d\e F, g:i a" }}. Llama antes de ir para confirmar.</p>
+    <p class="text-sm text-suave mt-1">{{ ahora|date:"l j \d\e F"|lower|capfirst }}, {{ ahora|date:"g:i" }} {% if ahora.hour < 12 %}a. m.{% else %}p. m.{% endif %} Llama antes de ir para confirmar.</p>
   </header>
 
   <nav class="em-flujo" aria-label="¿Qué te pasó?">

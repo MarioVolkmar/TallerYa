@@ -15,7 +15,7 @@
       {% if codigo %}
       <p class="hv-codigo" aria-label="Código {{ codigo.codigo }}">{{ codigo.codigo }}</p>
       <div class="hv-qr">{{ qr_codigo }}</div>
-      <p class="text-xs text-suave mt-2">Muéstralo en el taller. Sirve una sola vez y vence a las {{ codigo.vence|time:"g:i a" }}.</p>
+      <p class="text-xs text-suave mt-2">Muéstralo en el taller. Sirve una sola vez y vence a las {{ codigo.vence|time:"g:i a" }}</p>
       {% else %}
       <p class="text-sm text-suave mt-2">Cuando te hagan un servicio, muéstrale al taller este código (o su QR) para que lo registre como verificado. Vence en {{ minutos_codigo }} minutos. Si un taller busca tu moto por la placa, no ve tus datos y nada queda anotado hasta que tú lo confirmes.</p>
       {% endif %}
@@ -33,7 +33,7 @@
       <input type="hidden" id="hv-url" value="{{ url_enlace }}">
       <div class="hv-acciones">
         <button type="button" class="btn btn-borde text-xs px-5 py-3" data-copiar="{{ url_enlace }}">Copiar enlace</button>
-        <form method="post">{% csrf_token %}<input type="hidden" name="accion" value="revocar"><button class="hv-desactivar">Desactivar</button></form>
+        <form method="post" data-confirmar="¿Desactivar el enlace? Quien lo tenga ya no podrá ver el historial. Si luego creas otro, será un enlace nuevo.">{% csrf_token %}<input type="hidden" name="accion" value="revocar"><button class="btn hv-desactivar text-xs px-5 py-3">Desactivar</button></form>
       </div>
       {% else %}
       <p class="text-sm text-suave mt-2">Útil para vender la moto: un enlace con su historial, sin tu nombre y con la placa oculta. Lo puedes desactivar cuando quieras.</p>

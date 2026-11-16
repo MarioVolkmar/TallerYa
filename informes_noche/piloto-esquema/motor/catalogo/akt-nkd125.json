@@ -1,0 +1,211 @@
+{
+ "moto": "AKT NKD 125 CBS 2025 (Colombia)",
+ "fuente": "akt-nkd125-cbs-2025-catalogo-partes.pdf",
+ "figuras": {
+  "E3": {
+   "titulo": "Tapa Clutch",
+   "paginas": [
+    4
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "Tapa Clutch 125/150CGR",
+     "cantidad": 1,
+     "codigo": "110600222-0023",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "Empaque Tapa Clutch CGR",
+     "cantidad": 1,
+     "codigo": "110620001-0003",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "Medidor Aceite CGR",
+     "cantidad": 1,
+     "codigo": "110700002-0003",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "O-ring Medidor Aceite 18x3.5",
+     "cantidad": 1,
+     "codigo": "380840006-0001",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "Leva Clutch Carcasa CGR",
+     "cantidad": 1,
+     "codigo": "190810050-0002",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "O-ring Leva Clutch 8.8x2",
+     "cantidad": 1,
+     "codigo": "380840083-0001",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "Resorte Leva Clutch CGR",
+     "cantidad": 1,
+     "codigo": "381160142-0001",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "Separador Leva Clutch 125/R",
+     "cantidad": 1,
+     "codigo": "190880001-0001",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "Pin Cotter 2×16 Zinc",
+     "cantidad": 1,
+     "codigo": "380590007-0001",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "Reten Crank 16x28x7 125/R",
+     "cantidad": 1,
+     "codigo": "380650015-0001",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "Visor Nivel De Aceite 125",
+     "cantidad": 1,
+     "codigo": "110630002-0001",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "Tornillo Motor M6x40 AKT",
+     "cantidad": 7,
+     "codigo": "380140019-0003",
+     "nota": ""
+    }
+   ]
+  },
+  "E4": {
+   "titulo": "Sistema Clutch Slipper",
+   "paginas": [
+    5
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "Manzana Slipper Clutch Cta 125NKD",
+     "cantidad": 1,
+     "codigo": "500280465-0001",
+     "nota": "73 Dientes"
+    },
+    {
+     "ref": "2",
+     "descripcion": "Manza Clutch Slipper 125NKD",
+     "cantidad": 1,
+     "codigo": "190330141-0001",
+     "nota": "6 Resortes/73Dientes"
+    },
+    {
+     "ref": "3",
+     "descripcion": "Portadiscos Slipper CGR",
+     "cantidad": 1,
+     "codigo": "PORTA_SLIP_CGR",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "Presionador Clutch Slip CGR",
+     "cantidad": 1,
+     "codigo": "PRES_CLUTCH_SL",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "Jgo Discos Clutch 125 x 6",
+     "cantidad": 1,
+     "codigo": "1904500PP-0001x6",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "Jgo Separad Clutch x4 125S",
+     "cantidad": 1,
+     "codigo": "22215-0125S-0000",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "Jgo Disco Separadores Sliper Clutch CGR",
+     "cantidad": 1,
+     "codigo": "JGO_DIS_SLIP_CG",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "Resorte Clutch 125S",
+     "cantidad": 3,
+     "codigo": "190550001-0001",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "Portabalinera Sliper Clutch",
+     "cantidad": 1,
+     "codigo": "",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "Empujador Clutch 125CGR/200Sm",
+     "cantidad": 1,
+     "codigo": "190730007-0001",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "Balinera 16003/P6 125CGR",
+     "cantidad": 1,
+     "codigo": "380630267-0001",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "Arandela Presionador 125CGR",
+     "cantidad": 1,
+     "codigo": "380500001-0001",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "Pin Prensa Clutch 125CGR",
+     "cantidad": 1,
+     "codigo": "380550014-0001",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "Tornillo Prensa Clutch 6x25 125",
+     "cantidad": 3,
+     "codigo": "",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "Centro Clutch Slipper CGR",
+     "cantidad": 1,
+     "codigo": "PrensCluSliCGR",
+     "nota": ""
+    }
+   ]
+  }
+ }
+}

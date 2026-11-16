@@ -1,0 +1,3337 @@
+{
+ "lamina": "nmax-fig12",
+ "moto": "Yamaha NMAX 155 (BBE4)",
+ "figura": 12,
+ "sistema": "Transmisión CVT",
+ "mapa": "garaje/despiece_mapas/yamaha_nmax_bbe4.json",
+ "arte": "nmax-fig12",
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 12",
+  "titulo": "Variador, correa y clutch · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la lámina 12 del catálogo de partes (NMAX BBE4)."
+ },
+ "visor": {
+  "titulo": "Transmisión CVT: variador, correa y clutch",
+  "sub": "Lámina 12 · 33 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la transmisión",
+  "laminaAria": "Dibujo de la transmisión CVT de la NMAX 155 sin su tapa: variador adelante, correa y polea trasera con el clutch. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Del ralentí a la velocidad de crucero en siete pasos. A la izquierda, la correa vista de lado; a la derecha, el variador cortado y el clutch de frente.",
+  "introCadenas": "En la CVT todo trabaja en cadena: una pieza gastada carga a las demás. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo que pide el manual de Yamaha y el plan de mantenimiento de TallerYa para esta moto."
+ },
+ "pie": "TallerYa · piloto de esquema CVT · 16-nov-2026 · solo local",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33"
+ ],
+ "encuadreArmado": [
+  136,
+  143,
+  648,
+  504
+ ],
+ "radioToqueMin": 9,
+ "carcasas": [
+  {
+   "id": "24",
+   "transparente": 0.24,
+   "rayosx": 0.2,
+   "brillo": true
+  },
+  {
+   "id": "6",
+   "transparente": 0.24,
+   "rayosx": 0.2,
+   "brillo": true
+  },
+  {
+   "id": "1",
+   "transparente": 0.42,
+   "rayosx": 0.2
+  },
+  {
+   "id": "7",
+   "transparente": 0.42,
+   "rayosx": 0.2
+  }
+ ],
+ "piezas": [
+  {
+   "id": "23",
+   "n": "23",
+   "anc": [
+    617.0,
+    380.5
+   ],
+   "et": [
+    0,
+    -46
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "rodamiento",
+   "p": {
+    "x": 617.0,
+    "y": 380.5,
+    "tipo": "agujas",
+    "r": 16,
+    "ri": 9,
+    "ancho": 14
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "artePoleaFijaTr",
+   "args": [
+    616.0,
+    381.2
+   ],
+   "anc": [
+    704.0,
+    319.2
+   ],
+   "et": [
+    52,
+    8
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "anc": [
+    324.0,
+    384.6
+   ],
+   "et": [
+    0,
+    -50
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "arandela",
+   "p": {
+    "x": 324.0,
+    "y": 384.6,
+    "r": 24,
+    "ri": 13,
+    "e": 3
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteRampa",
+   "args": [
+    320.0,
+    387.2
+   ],
+   "anc": [
+    320.0,
+    357.2
+   ],
+   "et": [
+    -34,
+    -62
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteDeslizadores",
+   "args": [
+    320.0,
+    387.2
+   ],
+   "anc": [
+    320.0,
+    368.2
+   ],
+   "et": [
+    0,
+    -76
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteRodillos",
+   "args": [
+    316.0,
+    389.8
+   ],
+   "anc": [
+    316.0,
+    347.8
+   ],
+   "et": [
+    0,
+    -46
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "artePoleaMov",
+   "args": [
+    306.0,
+    396.2
+   ],
+   "anc": [
+    377.0,
+    325.2
+   ],
+   "et": [
+    14,
+    -56
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    294.0,
+    403.8
+   ],
+   "et": [
+    0,
+    -56
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "x": 294.0,
+    "y": 403.8,
+    "r": 14,
+    "ri": 9,
+    "largo": 42,
+    "estrias": true
+   }
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "arte": "arteCorrea",
+   "args": [
+    294.5,
+    403.5,
+    604.5,
+    388.5,
+    48,
+    100
+   ],
+   "anc": [
+    440.6,
+    469.5
+   ],
+   "et": [
+    0,
+    -46
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    595.0,
+    394.6
+   ],
+   "et": [
+    0,
+    -50
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "reten",
+   "p": {
+    "x": 595.0,
+    "y": 394.6,
+    "r": 20,
+    "ancho": 5,
+    "copias": [
+     [
+      10,
+      -6
+     ],
+     [
+      -10,
+      6
+     ]
+    ]
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    596.0,
+    394.0
+   ],
+   "et": [
+    0,
+    -50
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "reten",
+   "p": {
+    "x": 596.0,
+    "y": 394.0,
+    "r": 17,
+    "ancho": 5,
+    "copias": [
+     [
+      10,
+      -6
+     ],
+     [
+      -10,
+      6
+     ]
+    ]
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    597.0,
+    393.3
+   ],
+   "et": [
+    0,
+    -46
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "pasador",
+   "p": {
+    "x": 597.0,
+    "y": 393.3,
+    "r": 4,
+    "largo": 12,
+    "copias": [
+     [
+      -16,
+      4
+     ],
+     [
+      0,
+      4
+     ],
+     [
+      16,
+      4
+     ]
+    ]
+   }
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    598.0,
+    392.7
+   ],
+   "et": [
+    0,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "arandela",
+   "p": {
+    "x": 598.0,
+    "y": 392.7,
+    "r": 6.5,
+    "ri": 3.5,
+    "e": 5,
+    "material": "plast",
+    "copias": [
+     [
+      -16,
+      0
+     ],
+     [
+      0,
+      0
+     ],
+     [
+      16,
+      0
+     ]
+    ]
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "arte": "artePoleaMovTr",
+   "args": [
+    604.0,
+    388.8
+   ],
+   "anc": [
+    682.0,
+    323.8
+   ],
+   "et": [
+    26,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    591.0,
+    357.2
+   ],
+   "et": [
+    0,
+    -44
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "x": 591.0,
+    "y": 397.2,
+    "r": 40,
+    "largo": 22,
+    "vueltas": 6,
+    "sombra": true
+   }
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "arte": "arteAsiento",
+   "args": [
+    589.0,
+    398.4
+   ],
+   "anc": [
+    589.0,
+    354.4
+   ],
+   "et": [
+    0,
+    -40
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "anc": [
+    587.0,
+    399.7
+   ],
+   "et": [
+    40,
+    0
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "seguro",
+   "p": {
+    "x": 587.0,
+    "y": 399.7,
+    "r": 13
+   }
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    585.0,
+    401.0
+   ],
+   "et": [
+    44,
+    0
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "rodamiento",
+   "p": {
+    "x": 585.0,
+    "y": 401.0,
+    "r": 24,
+    "ri": 11,
+    "ancho": 8
+   }
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteCarrier",
+   "args": [
+    579.0,
+    404.8
+   ],
+   "anc": [
+    579.0,
+    348.8
+   ],
+   "et": [
+    0,
+    -44
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "arte": "arteDamper",
+   "args": [
+    572.0,
+    409.3
+   ],
+   "anc": [
+    572.0,
+    388.3
+   ],
+   "et": [
+    0,
+    -81
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "arte": "arteResZap",
+   "args": [
+    575.0,
+    407.4
+   ],
+   "anc": [
+    557.0,
+    397.4
+   ],
+   "et": [
+    -44,
+    -64
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteZapatas",
+   "args": [
+    574.0,
+    408.0
+   ],
+   "anc": [
+    574.0,
+    328.0
+   ],
+   "et": [
+    -40,
+    -20
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "arte": "arteClips",
+   "args": [
+    571.0,
+    410.0
+   ],
+   "anc": [
+    571.0,
+    389.0
+   ],
+   "et": [
+    0,
+    -81
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    570.0,
+    410.6
+   ],
+   "et": [
+    44,
+    0
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "tuerca",
+   "p": {
+    "x": 570.0,
+    "y": 410.6,
+    "r": 20,
+    "alto": 8
+   }
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "arte": "arteCampana",
+   "args": [
+    564.0,
+    414.4
+   ],
+   "anc": [
+    520.0,
+    360.4
+   ],
+   "et": [
+    -30,
+    -62
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "29",
+   "n": "29",
+   "anc": [
+    561.0,
+    426.4
+   ],
+   "et": [
+    0,
+    92
+   ],
+   "vis": "arm",
+   "comun": "tuerca",
+   "p": {
+    "x": 561.0,
+    "y": 416.4,
+    "r": 14,
+    "alto": 8
+   }
+  },
+  {
+   "id": "30",
+   "n": "30",
+   "anc": [
+    556.0,
+    419.6
+   ],
+   "et": [
+    -44,
+    0
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "rodamiento",
+   "p": {
+    "x": 556.0,
+    "y": 419.6,
+    "r": 17,
+    "ri": 8,
+    "ancho": 9,
+    "bolas": false
+   }
+  },
+  {
+   "id": "31",
+   "n": "31",
+   "anc": [
+    553.0,
+    421.5
+   ],
+   "et": [
+    -44,
+    0
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "buje",
+   "p": {
+    "x": 553.0,
+    "y": 421.5,
+    "r": 9,
+    "ri": 5,
+    "largo": 16
+   }
+  },
+  {
+   "id": "32",
+   "n": "32",
+   "anc": [
+    550.0,
+    423.4
+   ],
+   "et": [
+    -44,
+    0
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "seguro",
+   "p": {
+    "x": 550.0,
+    "y": 423.4,
+    "r": 13
+   }
+  },
+  {
+   "id": "33",
+   "n": "33",
+   "anc": [
+    295.0,
+    403.2
+   ],
+   "et": [
+    0,
+    50
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "arandela",
+   "p": {
+    "x": 295.0,
+    "y": 403.2,
+    "r": 20,
+    "ri": 12,
+    "e": 3
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "arte": "artePoleaFija",
+   "args": [
+    283.0,
+    410.9
+   ],
+   "anc": [
+    233.0,
+    360.9
+   ],
+   "et": [
+    -56,
+    -64
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "27",
+   "n": "27",
+   "anc": [
+    281.0,
+    412.2
+   ],
+   "et": [
+    0,
+    50
+   ],
+   "vis": "exp",
+   "chica": 1,
+   "comun": "arandela",
+   "p": {
+    "x": 281.0,
+    "y": 412.2,
+    "r": 20,
+    "ri": 9,
+    "e": 3
+   }
+  },
+  {
+   "id": "28",
+   "n": "28",
+   "anc": [
+    278.0,
+    414.1
+   ],
+   "et": [
+    -110,
+    62
+   ],
+   "vis": "arm",
+   "comun": "tuerca",
+   "p": {
+    "x": 278.0,
+    "y": 414.1,
+    "r": 14,
+    "alto": 8
+   }
+  }
+ ],
+ "contexto": [
+  {
+   "arte": "arteTapa",
+   "despuesDe": "23",
+   "clase": "esq-ctx-barra"
+  }
+ ],
+ "nombres": {
+  "1": "polea móvil del variador",
+  "2": "rodillos del variador",
+  "3": "rampa del variador",
+  "4": "deslizadores de la rampa",
+  "5": "buje del variador",
+  "6": "polea fija con aletas",
+  "7": "portazapatas del clutch",
+  "8": "zapatas del clutch",
+  "9": "amortiguadores de las zapatas",
+  "10": "resortes de las zapatas",
+  "11": "seguros de las zapatas",
+  "12": "polea fija trasera",
+  "13": "polea móvil trasera",
+  "14": "sellos de la polea móvil",
+  "15": "sellos de la polea móvil (segundo par)",
+  "16": "pasadores guía",
+  "17": "bujes de los pasadores guía",
+  "18": "resorte de torque",
+  "19": "asiento del resorte",
+  "20": "tuerca del portazapatas",
+  "21": "rodamiento del eje de la polea fija",
+  "22": "anillo de seguro del rodamiento",
+  "23": "rodamiento de agujas de la polea fija",
+  "24": "campana del clutch",
+  "25": "correa de transmisión",
+  "26": "arandela de atrás del variador",
+  "27": "arandela de la tuerca del variador",
+  "28": "tuerca del variador",
+  "29": "tuerca de la campana",
+  "30": "rodamiento de la tapa",
+  "31": "buje del rodamiento de la tapa",
+  "32": "anillo de seguro de la tapa",
+  "33": "arandela del buje"
+ },
+ "ocultas": [
+  "2",
+  "3",
+  "4",
+  "5",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "26",
+  "33"
+ ],
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "tapa"
+ ],
+ "textoArmado": "<b>Armado, sin la tapa.</b> Adelante, la polea de aletas del variador (6); atrás, la campana del clutch (24); entre las dos, la correa (25). Lo de adentro (rodillos, rampa, zapatas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista.",
+ "pasos": [
+  {
+   "t": "<b>Paso 1 de 15 · Tapa de la CVT.</b> Con la moto en el gato central y el motor frío, se sueltan los tornillos de la tapa del lado izquierdo y se retira (es la línea punteada). En la tapa quedan el rodamiento (30), su buje (31) y el anillo de seguro (32), que sostienen la punta del eje trasero.",
+   "m": {
+    "30": [
+     -521.0,
+     -204.6
+    ],
+    "31": [
+     -518.0,
+     -296.5
+    ],
+    "32": [
+     -515.0,
+     -385.4
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 2 de 15 · Tuerca del variador (28) y arandela (27).</b> La polea de aletas se sujeta con su llave especial (o una pistola de impacto) y se suelta la tuerca. Ojo: sin sujetarla, el cigüeñal gira y la tuerca no afloja.",
+   "m": {
+    "28": [
+     -243.0,
+     475.9
+    ],
+    "27": [
+     -186.0,
+     477.8
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 3 de 15 · Polea fija con aletas (6).</b> Sale la mitad de afuera del variador, la de las aletas que ventilan la caja. Detrás queda una arandela (33). La correa queda floja adelante.",
+   "m": {
+    "6": [
+     -53.0,
+     479.1
+    ],
+    "33": [
+     75.0,
+     486.8
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 4 de 15 · Tuerca (29) y campana del clutch (24).</b> Se sujeta la campana con su llave de correa o de pines, se suelta la tuerca y la campana sale. Aparecen las tres zapatas del clutch.",
+   "m": {
+    "29": [
+     -446.0,
+     -286.4
+    ],
+    "24": [
+     -309.0,
+     -249.4
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 5 de 15 · Conjunto de la polea trasera.</b> La polea trasera sale entera del eje: polea fija (12), polea móvil (13), resorte (18) y portazapatas (7). La correa viene con ella.",
+   "m": {
+    "7": [
+     90,
+     120
+    ],
+    "8": [
+     90,
+     120
+    ],
+    "9": [
+     90,
+     120
+    ],
+    "10": [
+     90,
+     120
+    ],
+    "11": [
+     90,
+     120
+    ],
+    "20": [
+     90,
+     120
+    ],
+    "21": [
+     90,
+     120
+    ],
+    "22": [
+     90,
+     120
+    ],
+    "19": [
+     90,
+     120
+    ],
+    "18": [
+     90,
+     120
+    ],
+    "13": [
+     90,
+     120
+    ],
+    "14": [
+     90,
+     120
+    ],
+    "15": [
+     90,
+     120
+    ],
+    "16": [
+     90,
+     120
+    ],
+    "17": [
+     90,
+     120
+    ],
+    "12": [
+     90,
+     120
+    ],
+    "23": [
+     90,
+     120
+    ],
+    "25": [
+     90,
+     120
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 6 de 15 · Correa (25).</b> Se separan con la mano las dos mitades de la polea trasera (ceden contra el resorte) y la correa sale. Se mide el ancho y se mira si tiene grietas o dientes partidos.",
+   "m": {
+    "25": [
+     315.5,
+     -383.5
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 7 de 15 · Polea móvil del variador.</b> Sale del cigüeñal la polea móvil (1) con todo lo de adentro: buje (5), rodillos (2) y rampa (3) con sus deslizadores (4). Se sostiene cerrada para que los rodillos no se caigan.",
+   "m": {
+    "1": [
+     -60,
+     150
+    ],
+    "2": [
+     -60,
+     150
+    ],
+    "3": [
+     -60,
+     150
+    ],
+    "4": [
+     -60,
+     150
+    ],
+    "5": [
+     -60,
+     150
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 8 de 15 · Buje (5).</b> El buje sale del centro de la polea móvil. Por él se desliza la polea: se mira que no esté rayado ni con escalón.",
+   "m": {
+    "5": [
+     186.0,
+     336.2
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 9 de 15 · Rampa (3) y deslizadores (4).</b> Sale la placa de rampa, la pared fija de atrás contra la que se apoyan los rodillos. Sus deslizadores (4) son guías plásticas que la centran dentro de la polea y se gastan.",
+   "m": {
+    "3": [
+     620.0,
+     352.8
+    ],
+    "4": [
+     0.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 10 de 15 · Rodillos (2).</b> Se sacan los seis rodillos de sus canales. Si alguno tiene un lado plano o está ovalado, se cambia el juego completo. Queda la polea móvil (1) sola.",
+   "m": {
+    "2": [
+     474.0,
+     350.2
+    ],
+    "1": [
+     314.0,
+     343.8
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 11 de 15 · Arandela (26) y deslizadores.</b> Sale la arandela de atrás, la que queda contra el motor. Los deslizadores (4) se sacan de la rampa para revisarlos.",
+   "m": {
+    "26": [
+     436.0,
+     265.4
+    ],
+    "4": [
+     770.0,
+     352.8
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 12 de 15 · Portazapatas (7).</b> Con el compresor de resorte se aprieta el resorte de la polea trasera y, con la llave especial, se suelta la tuerca grande del portazapatas (20). Sale el portazapatas con las zapatas puestas.",
+   "m": {
+    "7": [
+     -209.0,
+     -384.8
+    ],
+    "20": [
+     -75.0,
+     -470.6
+    ],
+    "8": [
+     0.0,
+     0.0
+    ],
+    "9": [
+     0.0,
+     0.0
+    ],
+    "10": [
+     0.0,
+     0.0
+    ],
+    "11": [
+     0.0,
+     0.0
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 13 de 15 · Zapatas (8).</b> Se sueltan los seguros (11) y los resortes de las zapatas (10), y las zapatas salen de los pasadores del portazapatas con sus amortiguadores de caucho (9). Se mide el forro: si está delgado, vidriado o disparejo, se cambia el juego.",
+   "m": {
+    "11": [
+     -131.0,
+     -130.0
+    ],
+    "10": [
+     -415.0,
+     -127.4
+    ],
+    "8": [
+     -569.0,
+     -128.0
+    ],
+    "9": [
+     -272.0,
+     -129.3
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 14 de 15 · Resorte (18) y asiento (19).</b> Se suelta poco a poco el compresor y sale el resorte de torque con su asiento. Se compara su largo con el de uno nuevo.",
+   "m": {
+    "19": [
+     -24.0,
+     -118.4
+    ],
+    "18": [
+     89.0,
+     -117.2
+    ]
+   }
+  },
+  {
+   "t": "<b>Paso 15 de 15 · Las dos mitades de la polea trasera.</b> Se sacan los bujes (17) de los pasadores guía (16), que quedan fijos en el eje de la polea fija (12), y la polea móvil (13) sale del eje con sus sellos (14 y 15). En el eje de la fija quedan dos rodamientos (21 y 23), el de afuera con su anillo de seguro (22): se giran con la mano y solo se sacan si suenan.",
+   "m": {
+    "16": [
+     -432.0,
+     126.7
+    ],
+    "17": [
+     -348.0,
+     47.3
+    ],
+    "14": [
+     -615.0,
+     125.4
+    ],
+    "15": [
+     -521.0,
+     126.0
+    ],
+    "13": [
+     236.0,
+     -108.8
+    ],
+    "12": [
+     -236.0,
+     148.8
+    ],
+    "23": [
+     303.0,
+     139.5
+    ],
+    "21": [
+     -85.0,
+     -381.0
+    ],
+    "22": [
+     -87.0,
+     -294.7
+    ]
+   }
+  }
+ ],
+ "fichas": {
+  "1": {
+   "nombre": "Polea móvil del variador",
+   "cat": "PRIMARY SLIDING SHEAVE COMP. · 1 pieza",
+   "que": "La mitad de adentro del variador: un cono de aluminio que se puede correr sobre el buje (5). Por detrás tiene seis canales inclinados: son las rampas por donde suben los rodillos.",
+   "sirve": "Cambia la relación sola. Con pocas revoluciones queda abierta y la correa baja al centro (fuerza para arrancar); con más revoluciones los rodillos la empujan, se cierra y la correa sube (velocidad).",
+   "fallas": [
+    [
+     "desgaste",
+     "Los rodillos marcan sus canales y la correa le deja surcos en la cara. Con canales marcados, los rodillos nuevos se gastan rápido."
+    ],
+    [
+     "calor",
+     "Una correa que patina la recalienta: la cara queda azulada o brillante y la correa resbala más."
+    ],
+    [
+     "maluso",
+     "Lavar la caja a presión o meterle grasa a la cara del cono hace que la correa patine."
+    ]
+   ],
+   "sintomas": [
+    "Arranque con tirones o vibración",
+    "La moto sube de vueltas pero no de velocidad",
+    "Surcos o escalones en la cara del cono"
+   ],
+   "cuando": "Se revisa cada vez que se abre la CVT para la correa (cambio cada 18.000 km). Como práctica de taller, se limpia el polvo de correa cuando se revisa el filtro de la caja (6.000 km).",
+   "decision": "cambia",
+   "compra": "Si los canales tienen escalón o la cara tiene surcos, se cambia. Si solo está sucia, se limpia sin grasa en la cara.",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "3",
+    "5",
+    "6",
+    "25"
+   ],
+   "efectos": [
+    [
+     "2",
+     "Canales marcados: los rodillos ruedan chuecos y se aplanan."
+    ],
+    [
+     "25",
+     "Una cara rayada gasta la correa de lado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ok",
+     "Función de la polea móvil: igual en toda CVT de scooter."
+    ],
+    [
+     "ap",
+     "Seis canales de rodillos: según el plano; el número exacto se confirma con la tabla."
+    ],
+    [
+     "ok",
+     "Correa cada 18.000 km (indicador V-BELT del tablero): manual del propietario NMAX 2022 y plan de TallerYa."
+    ],
+    [
+     "ap",
+     "Limpiar el polvo de correa a los 6.000 km: práctica de taller, no lo pide el manual."
+    ]
+   ]
+  },
+  "2": {
+   "nombre": "Rodillos del variador (juego)",
+   "cat": "WEIGHT SET · 1 juego",
+   "que": "Seis cilindros pesados con una funda de plástico duro. Van en los canales inclinados de la polea móvil, apoyados por detrás en la rampa (3).",
+   "sirve": "Son el «cerebro» del cambio: con las revoluciones salen hacia afuera por fuerza centrífuga, suben por los canales inclinados de la polea móvil y, como la rampa (3) no se mueve, empujan la polea hacia la fija. Su peso decide a cuántas vueltas sube la correa.",
+   "fallas": [
+    [
+     "desgaste",
+     "La funda se gasta de un lado y el rodillo queda plano u ovalado: ya no rueda, se arrastra."
+    ],
+    [
+     "calor",
+     "Con la correa patinando o mucho trancón en subida, la funda se ablanda y se deforma."
+    ],
+    [
+     "maluso",
+     "Poner rodillos de otro peso «para que arranque más» cambia toda la respuesta: más pesados = la moto se queda sin vueltas en las lomas."
+    ]
+   ],
+   "sintomas": [
+    "Arranque lento o con tirones",
+    "No alcanza su velocidad normal",
+    "Golpeteo o traqueteo en el variador al soltar el acelerador"
+   ],
+   "cuando": "Se revisan con la correa (cambio cada 18.000 km). Se cambian si alguno está plano, ovalado o más delgado que los otros.",
+   "decision": "cambia",
+   "compra": "Siempre el juego completo, del mismo peso del original (viene grabado en el rodillo). Revisar a la vez los deslizadores (4) y la rampa (3).",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "3",
+    "4"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Un rodillo plano marca el canal de la polea."
+    ],
+    [
+     "3",
+     "Arrastrado, marca la placa."
+    ],
+    [
+     "25",
+     "El cambio a destiempo hace patinar la correa."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "Juego de 6: según el plano y la guía de TallerYa."
+    ],
+    [
+     "ap",
+     "Peso: en la NMAX 2019-2022 un vendedor de repuestos ofrece el original de 20×12 mm y 13 g; el de la BBE4 no lo confirmamos."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "rodillo",
+      "perfil": [
+       [
+        5.5,
+        -7.5
+       ],
+       [
+        8.6,
+        -7.5
+       ],
+       [
+        10,
+        -6.1
+       ],
+       [
+        10,
+        6.1
+       ],
+       [
+        8.6,
+        7.5
+       ],
+       [
+        5.5,
+        7.5
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "acero",
+      "perfil": [
+       [
+        4,
+        -7.7
+       ],
+       [
+        5.5,
+        -7.7
+       ],
+       [
+        5.5,
+        7.7
+       ],
+       [
+        4,
+        7.7
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "3": {
+   "nombre": "Rampa del variador",
+   "cat": "CAM · 1 pieza",
+   "que": "Una placa de tres brazos, fija al cigüeñal detrás de los rodillos. Es la pared de atrás del variador, casi plana; las rampas están en los canales de la polea móvil.",
+   "sirve": "Los rodillos quedan atrapados entre ella y los canales inclinados de la polea móvil. Como la placa no se mueve, cuando los rodillos salen la que se corre es la polea móvil, hacia la fija.",
+   "fallas": [
+    [
+     "desgaste",
+     "Los rodillos le dejan marcas donde se apoyan."
+    ],
+    [
+     "desgaste",
+     "Sus deslizadores (4) se gastan y la placa golpetea dentro de la polea."
+    ]
+   ],
+   "sintomas": [
+    "Marcas donde se apoyan los rodillos",
+    "Traqueteo en ralentí"
+   ],
+   "cuando": "Se revisa al cambiar rodillos (con la correa).",
+   "decision": "cambia",
+   "compra": "Si está marcada, se cambia junto con los rodillos: si no, los nuevos se gastan rápido.",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "4",
+    "1"
+   ],
+   "efectos": [
+    [
+     "2",
+     "Una placa marcada aplana rodillos nuevos."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "4": {
+   "nombre": "Deslizadores de la rampa",
+   "cat": "SLIDER · 3 piezas",
+   "que": "Tres guías de plástico que van en las puntas de los brazos de la rampa.",
+   "sirve": "Centran la rampa dentro de la polea móvil y dejan que la polea se corra suave, sin metal contra metal.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan con el roce y quedan flojas."
+    ],
+    [
+     "calor",
+     "Se endurecen y se parten con los años de calor de la caja."
+    ]
+   ],
+   "sintomas": [
+    "Ruido o traqueteo en el variador",
+    "Desgaste visible en las guías"
+   ],
+   "cuando": "Se revisan junto con los rodillos, cuando se cambia la correa.",
+   "decision": "cambia",
+   "compra": "Las tres juntas. Son baratas: se cambian cuando se cambian rodillos.",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "1"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Flojas, la polea móvil vibra y marca el buje."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "5": {
+   "nombre": "Buje del variador",
+   "cat": "COLLAR, GUIDE · 1 pieza",
+   "que": "Un tubo de acero liso que entra en el centro de la polea móvil y se monta en el cigüeñal.",
+   "sirve": "Es el riel por donde se corre la polea móvil al abrir y cerrar.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca un escalón donde trabaja la polea y esta se traba."
+    ],
+    [
+     "maluso",
+     "Grasa de más se riega a la correa; sin nada de grasa se reseca y se raya."
+    ]
+   ],
+   "sintomas": [
+    "El cambio se siente a saltos",
+    "Rayas o escalón en el buje"
+   ],
+   "cuando": "Se revisa con la correa. Se limpia y se engrasa apenas, sin que llegue a las caras de las poleas.",
+   "decision": "cambia",
+   "compra": "Si tiene escalón, buje nuevo (y revisar el hueco de la polea móvil).",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "6",
+    "33"
+   ],
+   "efectos": [
+    [
+     "1",
+     "Con el buje marcado la polea se pega y la correa patina."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "6": {
+   "nombre": "Polea fija con aletas",
+   "cat": "SHEAVE, PRIMARY FIXED · 1 pieza",
+   "que": "La mitad de afuera del variador. Por delante tiene aletas que soplan aire dentro de la caja; por detrás, el cono donde corre la correa.",
+   "sirve": "Es la pared fija del variador: la móvil (1) se acerca o se aleja de ella. Las aletas enfrían la correa.",
+   "fallas": [
+    [
+     "desgaste",
+     "La correa le deja surcos en el cono."
+    ],
+    [
+     "golpe",
+     "Una aleta partida la desbalancea y vibra."
+    ],
+    [
+     "maluso",
+     "Soltarla sin su llave de sujeción daña las aletas o el estriado."
+    ]
+   ],
+   "sintomas": [
+    "Vibración en ralentí",
+    "Surcos en la cara del cono",
+    "Aletas partidas"
+   ],
+   "cuando": "Se revisa cada vez que se abre la CVT.",
+   "decision": "cambia",
+   "compra": "Si tiene aletas partidas o surcos, se cambia. La tuerca (28) se aprieta con su torque y la polea sujeta con la llave especial.",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "25",
+    "27",
+    "28",
+    "33"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Un cono rayado gasta la correa."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ok",
+     "Polea fija con aletas de ventilación: plano del catálogo."
+    ],
+    [
+     "ap",
+     "Torque de la tuerca: no se da porque no tenemos el manual de servicio."
+    ]
+   ]
+  },
+  "7": {
+   "nombre": "Portazapatas del clutch",
+   "cat": "CLUTCH CARRIER ASSY · 1 conjunto (trae 8 a 11)",
+   "que": "Una placa de aluminio que se monta en la polea trasera. Lleva tres pasadores donde pivotan las zapatas.",
+   "sirve": "Gira con la polea trasera y lleva las zapatas. Con las revoluciones las zapatas se abren y agarran la campana: así el motor mueve la rueda.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan los huecos de los pasadores y las zapatas quedan flojas."
+    ],
+    [
+     "calor",
+     "Arrancar siempre a fondo, o con pasajero en lomas fuertes, recalienta todo el clutch."
+    ]
+   ],
+   "sintomas": [
+    "Vibración al arrancar",
+    "La moto patina al arrancar en subida"
+   ],
+   "cuando": "Se revisa con la correa.",
+   "decision": "repara",
+   "compra": "Casi siempre basta con cambiar las zapatas (8) y sus resortes (10).",
+   "dif": "taller",
+   "conecta": [
+    "8",
+    "9",
+    "10",
+    "11",
+    "24",
+    "18"
+   ],
+   "efectos": [
+    [
+     "24",
+     "Zapatas flojas golpean la campana y la marcan."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "8": {
+   "nombre": "Zapatas del clutch",
+   "cat": "CLUTCH WEIGHT SHOE SET · 1 juego",
+   "que": "Tres medias lunas pesadas con un forro de material de fricción por fuera.",
+   "sirve": "Con pocas revoluciones los resortes las tienen recogidas y la rueda no se mueve. Al acelerar, la fuerza centrífuga las abre, el forro toca la campana y la moto arranca.",
+   "fallas": [
+    [
+     "desgaste",
+     "El forro se adelgaza con cada arranque; en Medellín, con trancón y lomas, más rápido."
+    ],
+    [
+     "calor",
+     "Patinar mucho las vidria: brillan, chillan y agarran tarde."
+    ],
+    [
+     "maluso",
+     "Aceite o grasa en el forro: patina y no se recupera."
+    ]
+   ],
+   "sintomas": [
+    "La moto se demora en salir y sube de vueltas",
+    "Vibración o temblor al arrancar",
+    "Chillido al arrancar"
+   ],
+   "cuando": "Se revisan con la correa (cambio cada 18.000 km). Se cambian si el forro está delgado, vidriado o disparejo.",
+   "decision": "cambia",
+   "compra": "El juego de tres, con resortes nuevos. Revisar la campana (24): si tiene escalón, las zapatas nuevas no asientan.",
+   "dif": "taller",
+   "conecta": [
+    "7",
+    "9",
+    "10",
+    "24"
+   ],
+   "efectos": [
+    [
+     "24",
+     "Forro gastado hasta el metal: raya la campana."
+    ],
+    [
+     "25",
+     "Un clutch que patina calienta la caja y la correa."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ok",
+     "Clutch centrífugo de zapatas: ficha técnica de Yamaha (1000PS)."
+    ],
+    [
+     "ok",
+     "Tres zapatas: el juego lleva tres resortes (10), tres amortiguadores (9) y tres seguros (11) en el catálogo."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "9": {
+   "nombre": "Amortiguadores de las zapatas",
+   "cat": "DAMPER, CLUTCH WEIGHT · 3 piezas",
+   "que": "Tres tacos de caucho que van en los pasadores del portazapatas, dentro del ojo de cada zapata.",
+   "sirve": "Amortiguan el golpe de la zapata contra su pasador al agarrar y soltar: el clutch engancha más suave y sin traqueteo.",
+   "fallas": [
+    [
+     "calor",
+     "El caucho se endurece con el calor de la caja y se parte o se aplasta."
+    ]
+   ],
+   "sintomas": [
+    "Golpeteo o temblor al arrancar y al soltar el acelerador"
+   ],
+   "cuando": "Se revisan al cambiar las zapatas.",
+   "decision": "cambia",
+   "compra": "Nuevos con cada juego de zapatas.",
+   "dif": "taller",
+   "conecta": [
+    "8",
+    "7"
+   ],
+   "efectos": [
+    [
+     "8",
+     "Sin amortiguador, la zapata golpea el pasador y agarra a saltos."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "10": {
+   "nombre": "Resortes de las zapatas",
+   "cat": "SPRING, CLUTCH WEIGHT · 3 piezas",
+   "que": "Tres resortes cortos que unen las zapatas.",
+   "sirve": "Las mantienen recogidas en ralentí: deciden a cuántas revoluciones engancha el clutch.",
+   "fallas": [
+    [
+     "calor",
+     "Con los años y el calor se estiran: el clutch engancha antes y la moto quiere andar en ralentí."
+    ]
+   ],
+   "sintomas": [
+    "La moto se arrastra en ralentí o engancha a saltos"
+   ],
+   "cuando": "Se cambian con las zapatas.",
+   "decision": "cambia",
+   "compra": "Siempre nuevos con zapatas nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "8",
+    "7"
+   ],
+   "efectos": [
+    [
+     "8",
+     "Resortes vencidos: las zapatas rozan la campana en ralentí y se gastan."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "11": {
+   "nombre": "Seguros de las zapatas",
+   "cat": "CIRCLIP, CLUTCH · 3 piezas",
+   "que": "Tres seguros pequeños.",
+   "sirve": "Impiden que las zapatas se salgan de los pasadores.",
+   "fallas": [
+    [
+     "maluso",
+     "Se deforman al sacarlos y quedan flojos."
+    ]
+   ],
+   "sintomas": [
+    "Una zapata se corre de su sitio"
+   ],
+   "cuando": "Se revisan al cambiar zapatas.",
+   "decision": "cambia",
+   "compra": "Nuevos si están abiertos o torcidos.",
+   "dif": "taller",
+   "conecta": [
+    "9",
+    "8"
+   ],
+   "efectos": [
+    [
+     "8",
+     "Sin seguro, la zapata se sale y golpea la campana."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "12": {
+   "nombre": "Polea fija trasera",
+   "cat": "SECONDARY FIXED SHEAVE COMP. · 1 pieza",
+   "que": "La mitad de adentro de la polea trasera, con un eje hueco largo que va al eje de la transmisión.",
+   "sirve": "Es la pared fija de la polea trasera. Por su eje pasan el resorte (18), el portazapatas y la campana. En ese eje van fijos los tres pasadores guía (16) con sus bujes (17): son la mitad fija de la leva de torque.",
+   "fallas": [
+    [
+     "desgaste",
+     "La correa le marca surcos en el cono."
+    ],
+    [
+     "desgaste",
+     "El rodamiento de agujas (23) se seca y hace ruido."
+    ]
+   ],
+   "sintomas": [
+    "Ruido de zumbido atrás que cambia con la velocidad",
+    "Surcos en el cono"
+   ],
+   "cuando": "Se revisa con la correa.",
+   "decision": "cambia",
+   "compra": "Si el cono tiene escalón, se cambia (a veces viene en conjunto con la móvil).",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "16",
+    "17",
+    "23",
+    "25",
+    "18"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Un cono marcado hace patinar la correa."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "13": {
+   "nombre": "Polea móvil trasera",
+   "cat": "SECONDARY SLIDING SHEAVE · 1 pieza",
+   "que": "La mitad de afuera de la polea trasera. Su cuello (el tubo del centro) tiene tres ranuras inclinadas; por ellas asoman los pasadores guía (16), que van fijos en el eje de la polea fija (12).",
+   "sirve": "El resorte (18) la empuja contra la fija y aprieta la correa. Cuando adelante la correa sube, aquí la correa baja y abre esta polea. Si haces fuerza (subida, acelerón), sus ranuras se deslizan sobre los pasadores y la cierran más: la moto «baja un cambio» sola.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan las ranuras del cuello y los bujes de los pasadores: el cambio hacia abajo se traba."
+    ],
+    [
+     "edad",
+     "Los sellos (14 y 15) se resecan: sale la grasa y llega a la correa."
+    ]
+   ],
+   "sintomas": [
+    "Pierde fuerza en las lomas",
+    "Grasa en la correa o en la caja",
+    "El cambio se siente trabado"
+   ],
+   "cuando": "Se revisa con la correa: se limpia, se engrasa por dentro y se cambian los sellos (14 y 15).",
+   "decision": "repara",
+   "compra": "Sellos (14 y 15), pasadores guía (16) y sus bujes (17); la polea solo si el cono tiene escalón.",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "25"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Si se sale la grasa, la correa se unta y patina."
+    ],
+    [
+     "18",
+     "Trabada, el resorte no logra cerrarla y la moto pierde fuerza."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ok",
+     "Leva de torque en la polea trasera: principio de la CVT de scooter."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "aceroOsc",
+      "perfil": "@polea13"
+     },
+     {
+      "tipo": "torno",
+      "color": "alum",
+      "perfil": "@polea13cuello"
+     },
+     {
+      "tipo": "caja",
+      "color": "oscuro",
+      "tam": [
+       2.4,
+       6,
+       22
+      ],
+      "pos": [
+       34,
+       0,
+       -27
+      ],
+      "rot": [
+       28,
+       0,
+       0
+      ],
+      "repetir": 3,
+      "giro": -30
+     }
+    ]
+   }
+  },
+  "14": {
+   "nombre": "Sellos de la polea móvil trasera",
+   "cat": "SEAL · 2 piezas",
+   "que": "Dos sellos de caucho en el centro de la polea móvil trasera.",
+   "sirve": "Junto con los sellos (15), guardan la grasa adentro y la mantienen lejos de la correa.",
+   "fallas": [
+    [
+     "edad",
+     "Se resecan con el calor y la edad, y la grasa sale."
+    ]
+   ],
+   "sintomas": [
+    "Grasa en la cara de la polea o en la correa"
+   ],
+   "cuando": "Se cambian cada vez que se desarma la polea trasera.",
+   "decision": "cambia",
+   "compra": "Nuevos siempre al armar.",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "15"
+   ],
+   "efectos": [
+    [
+     "25",
+     "La grasa que sale unta la correa y la hace patinar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "15": {
+   "nombre": "Sellos de la polea móvil trasera (segundo par)",
+   "cat": "SEAL (otra medida) · 2 piezas",
+   "que": "Dos sellos de caucho de otra medida, también en el cuello de la polea móvil trasera.",
+   "sirve": "Junto con los sellos (14), guardan la grasa de la leva de torque lejos de la correa.",
+   "fallas": [
+    [
+     "edad",
+     "Se resecan con el calor y la edad, y la grasa sale."
+    ]
+   ],
+   "sintomas": [
+    "Grasa por fuera de la polea o en la correa"
+   ],
+   "cuando": "Se cambian cada vez que se desarma la polea trasera.",
+   "decision": "cambia",
+   "compra": "Nuevos siempre al armar, junto con los sellos (14).",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "14"
+   ],
+   "efectos": [
+    [
+     "25",
+     "La grasa que sale unta la correa y la hace patinar."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "16": {
+   "nombre": "Pasadores guía",
+   "cat": "PIN, GUIDE · 3 piezas",
+   "que": "Tres pasadores cortos fijos en el eje de la polea fija trasera (12), cada uno con su buje (17). Asoman por las ranuras inclinadas del cuello de la polea móvil (13).",
+   "sirve": "Son la parte fija de la leva de torque: con fuerza en la rueda, las ranuras de la polea móvil se deslizan sobre ellos y la polea se cierra.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan contra las ranuras de la polea móvil."
+    ]
+   ],
+   "sintomas": [
+    "Pierde fuerza en subidas"
+   ],
+   "cuando": "Se revisan al desarmar la polea trasera.",
+   "decision": "cambia",
+   "compra": "Nuevos si tienen planos.",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "13",
+    "17"
+   ],
+   "efectos": [
+    [
+     "13",
+     "Gastados, la polea no cierra y no «baja el cambio»."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "17": {
+   "nombre": "Bujes de los pasadores guía",
+   "cat": "COLLAR, GUIDE · 3 piezas",
+   "que": "Tres bujes cortos que van sobre los pasadores guía (16), en el eje de la polea fija.",
+   "sirve": "Son lo que de verdad toca la ranura de la polea móvil: dejan que se deslice suave sobre el pasador.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se gastan o se parten."
+    ]
+   ],
+   "sintomas": [
+    "Cambio trabado o ruido atrás"
+   ],
+   "cuando": "Se revisan al desarmar la polea trasera.",
+   "decision": "cambia",
+   "compra": "Se cambian con los pasadores.",
+   "dif": "taller",
+   "conecta": [
+    "16",
+    "12",
+    "13"
+   ],
+   "efectos": [
+    [
+     "13",
+     "Sin buje, el pasador raya la ranura de la polea móvil."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "18": {
+   "nombre": "Resorte de torque",
+   "cat": "SPRING, SECONDARY · 1 pieza",
+   "que": "Un resorte grueso entre la polea móvil trasera y el portazapatas.",
+   "sirve": "Empuja la polea móvil trasera para que la correa quede apretada. Decide qué tanta fuerza hace falta para que la correa suba adelante (y cuándo la moto «baja el cambio» sola).",
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y los años se acorta y pierde fuerza."
+    ],
+    [
+     "maluso",
+     "Ponerle uno más duro sin cambiar rodillos deja la moto sin velocidad final."
+    ]
+   ],
+   "sintomas": [
+    "Arranque débil",
+    "Pierde fuerza en las subidas",
+    "Velocidad final más alta de lo normal pero sin fuerza"
+   ],
+   "cuando": "Se revisa su largo con la correa; se cambia si está más corto que uno nuevo.",
+   "decision": "cambia",
+   "compra": "El original. Si se cambia por uno más duro, se ajustan los rodillos.",
+   "dif": "taller",
+   "conecta": [
+    "13",
+    "19",
+    "7"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Con poca fuerza la correa patina al arrancar y en lomas."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "«Con la correa»: así lo pide la guía de TallerYa; Yamaha no da un intervalo propio para esta pieza en el manual del propietario."
+    ]
+   ]
+  },
+  "19": {
+   "nombre": "Asiento del resorte",
+   "cat": "SEAT, SECONDARY SPRING · 1 pieza",
+   "que": "Una arandela de copa donde se apoya el resorte.",
+   "sirve": "Reparte la fuerza del resorte y evita que gire contra el portazapatas.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca donde roza el resorte."
+    ]
+   ],
+   "sintomas": [
+    "Ruido atrás al soltar el acelerador"
+   ],
+   "cuando": "Se revisa al desarmar la polea trasera.",
+   "decision": "cambia",
+   "compra": "Si está muy marcado, nuevo.",
+   "dif": "taller",
+   "conecta": [
+    "18",
+    "7"
+   ],
+   "efectos": [
+    [
+     "18",
+     "Marcado, el resorte se tuerce."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "20": {
+   "nombre": "Tuerca del portazapatas",
+   "cat": "NUT · 1 pieza",
+   "que": "Una tuerca grande que cierra el portazapatas sobre el eje de la polea fija.",
+   "sirve": "Sujeta el portazapatas y mantiene comprimido el resorte de torque (18).",
+   "fallas": [
+    [
+     "maluso",
+     "Soltarla sin compresor deja salir el resorte de golpe; apretarla sin la llave especial daña la tuerca o el portazapatas."
+    ]
+   ],
+   "sintomas": [
+    "Golpeteo atrás o el clutch con juego"
+   ],
+   "cuando": "Se suelta al desarmar el clutch o la polea trasera.",
+   "decision": "cambia",
+   "compra": "Se aprieta con el torque del manual de servicio (no lo tenemos); si está golpeada, nueva.",
+   "dif": "taller",
+   "conecta": [
+    "7",
+    "18",
+    "12"
+   ],
+   "efectos": [
+    [
+     "7",
+     "Floja, el portazapatas baila y las zapatas agarran disparejo."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "21": {
+   "nombre": "Rodamiento del eje de la polea fija",
+   "cat": "BEARING · 1 pieza",
+   "que": "Un rodamiento de bolas en la punta del eje de la polea fija trasera.",
+   "sirve": "Junto con el otro rodamiento (23), deja que la polea trasera gire sobre el eje de la transmisión.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca o le entra polvo de correa y empieza a sonar."
+    ]
+   ],
+   "sintomas": [
+    "Zumbido atrás que cambia con la velocidad"
+   ],
+   "cuando": "Se revisa girándolo con la mano cada vez que se desarma la polea trasera.",
+   "decision": "cambia",
+   "compra": "Nuevo si suena, raspa o tiene juego.",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "22",
+    "23"
+   ],
+   "efectos": [
+    [
+     "12",
+     "Con juego, la polea trasera tambalea y gasta la correa de lado."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "22": {
+   "nombre": "Anillo de seguro del rodamiento",
+   "cat": "CIRCLIP · 1 pieza",
+   "que": "Un anillo abierto de acero junto al rodamiento (21).",
+   "sirve": "Mantiene el rodamiento en su sitio dentro del eje de la polea fija.",
+   "fallas": [
+    [
+     "maluso",
+     "Pierde tensión si se saca y se vuelve a poner."
+    ]
+   ],
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar"
+   ],
+   "cuando": "Solo se saca si se cambia el rodamiento.",
+   "decision": "cambia",
+   "compra": "Nuevo al armar.",
+   "dif": "taller",
+   "conecta": [
+    "21",
+    "12"
+   ],
+   "efectos": [
+    [
+     "21",
+     "Flojo, el rodamiento se corre."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "23": {
+   "nombre": "Rodamiento de agujas de la polea fija",
+   "cat": "BEARING · 1 pieza",
+   "que": "El otro rodamiento del eje de la polea fija trasera; por la forma del plano es de agujas.",
+   "sirve": "Deja que la polea gire respecto al eje cuando el clutch está suelto.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca de grasa y se pica."
+    ]
+   ],
+   "sintomas": [
+    "Zumbido atrás que cambia con la velocidad"
+   ],
+   "cuando": "Se revisa y se engrasa con la correa.",
+   "decision": "cambia",
+   "compra": "Nuevo si está picado.",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "21"
+   ],
+   "efectos": [
+    [
+     "12",
+     "Picado, desgasta el eje."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ap",
+     "Que sea de agujas: por la forma en el plano; el catálogo solo dice rodamiento."
+    ]
+   ]
+  },
+  "24": {
+   "nombre": "Campana del clutch",
+   "cat": "CLUTCH HOUSING COMP. · 1 pieza",
+   "que": "Un tambor de acero que tapa el clutch. Está unido al eje que va a la rueda trasera.",
+   "sirve": "Es lo que agarran las zapatas. Cuando se abren y la tocan, la campana gira y con ella la rueda.",
+   "fallas": [
+    [
+     "desgaste",
+     "Las zapatas le dejan un escalón por dentro."
+    ],
+    [
+     "calor",
+     "Patinar mucho la recalienta: queda azulada y vibra al arrancar."
+    ],
+    [
+     "golpe",
+     "Una caída la puede ovalar."
+    ]
+   ],
+   "sintomas": [
+    "Vibración al arrancar",
+    "Superficie de adentro rayada o con escalón",
+    "Color azulado por calor"
+   ],
+   "cuando": "Se revisa al cambiar zapatas (con la correa).",
+   "decision": "cambia",
+   "compra": "Si tiene escalón u ovalamiento, se cambia; si está bien, se lija suave para que asienten las zapatas nuevas.",
+   "dif": "taller",
+   "conecta": [
+    "8",
+    "29",
+    "7"
+   ],
+   "efectos": [
+    [
+     "8",
+     "Con escalón, las zapatas nuevas agarran solo en un borde y vibran."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ok",
+     "Campana de clutch centrífugo: plano del catálogo."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "campana",
+      "perfil": [
+       [
+        86,
+        4
+       ],
+       [
+        88,
+        -2
+       ],
+       [
+        92,
+        2
+       ],
+       [
+        92,
+        36
+       ],
+       [
+        86,
+        36
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "campana",
+      "perfil": [
+       [
+        12,
+        -12
+       ],
+       [
+        22,
+        -12
+       ],
+       [
+        24,
+        -2
+       ],
+       [
+        25,
+        4
+       ],
+       [
+        22,
+        8
+       ],
+       [
+        12,
+        8
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "campanaClara",
+      "perfil": [
+       [
+        92,
+        11
+       ],
+       [
+        94,
+        12
+       ],
+       [
+        94,
+        15
+       ],
+       [
+        92,
+        16
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "campanaClara",
+      "perfil": [
+       [
+        92,
+        24
+       ],
+       [
+        94,
+        25
+       ],
+       [
+        94,
+        28
+       ],
+       [
+        92,
+        29
+       ]
+      ]
+     },
+     {
+      "tipo": "prisma",
+      "color": "campana",
+      "contorno": {
+       "n": 64,
+       "r": 88.5
+      },
+      "z": [
+       -2,
+       4
+      ],
+      "huecos": [
+       {
+        "r": 24
+       },
+       {
+        "r": 1,
+        "ovalo": [
+         8,
+         13
+        ],
+        "pos": [
+         50,
+         0
+        ],
+        "repetir": 5,
+        "giro0": -90
+       }
+      ]
+     },
+     {
+      "tipo": "caja",
+      "color": "campanaClara",
+      "tam": [
+       54,
+       3,
+       2.4
+      ],
+      "pos": [
+       53,
+       0,
+       -3.1
+      ],
+      "repetir": 5,
+      "giro": -54
+     },
+     {
+      "tipo": "sector",
+      "color": "alum",
+      "r": [
+       58,
+       76
+      ],
+      "ang": [
+       -46,
+       46
+      ],
+      "z": [
+       6,
+       22
+      ],
+      "giro": -90
+     },
+     {
+      "tipo": "sector",
+      "color": "friccion",
+      "r": [
+       76,
+       82
+      ],
+      "ang": [
+       -40,
+       44
+      ],
+      "z": [
+       6,
+       22
+      ],
+      "giro": -90
+     },
+     {
+      "tipo": "cilindro",
+      "color": "oscuro",
+      "r": 5,
+      "pos": [
+       55.3,
+       -36.9
+      ],
+      "z": [
+       5.7,
+       22.3
+      ],
+      "giro": -90
+     }
+    ]
+   }
+  },
+  "25": {
+   "nombre": "Correa de transmisión (V-belt)",
+   "cat": "V-BELT · 1 pieza",
+   "que": "Una correa de caucho con fibras por dentro y dientes por debajo. Corre entre el variador (adelante) y la polea trasera.",
+   "sirve": "Lleva la fuerza del motor a la rueda. Como trabaja en conos, puede subir y bajar en cada polea: eso es lo que cambia la relación sin cambios.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se angosta con el roce de las poleas: baja más en el variador y la moto pierde velocidad final."
+    ],
+    [
+     "calor",
+     "Se cristaliza y se agrieta por dentro con trancón, lomas y el filtro de la caja tapado."
+    ],
+    [
+     "edad",
+     "El caucho se reseca aunque la moto ande poco."
+    ],
+    [
+     "maluso",
+     "Grasa en las poleas o agua a presión: patina."
+    ]
+   ],
+   "sintomas": [
+    "Patina: sube de vueltas y no avanza",
+    "Pierde velocidad final",
+    "Grietas entre los dientes",
+    "Chillido o golpeteo en la CVT"
+   ],
+   "cuando": "Se cambia cada <b>18.000 km</b> (cuando parpadea el indicador V-BELT). Si la moto anda mucho en loma y trancón, se mira antes. El filtro de la caja se revisa cada 6.000 km.",
+   "decision": "cambia",
+   "compra": "Original o de la misma medida. Al cambiarla se revisan rodillos, deslizadores, zapatas y campana. Se reinicia el indicador V-BELT.",
+   "dif": "taller",
+   "conecta": [
+    "1",
+    "6",
+    "12",
+    "13",
+    "2"
+   ],
+   "efectos": [
+    [
+     "2",
+     "Una correa angosta baja más y hace trabajar los rodillos en otra zona."
+    ],
+    [
+     "8",
+     "Si revienta, la moto se queda varada."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ],
+    [
+     "ok",
+     "Correa cada 18.000 km (indicador V-BELT del tablero): manual del propietario NMAX 2022 y plan de TallerYa."
+    ],
+    [
+     "ok",
+     "Filtro de la caja de la correa cada 6.000 km: manual del propietario NMAX 2022."
+    ],
+    [
+     "ok",
+     "Código de la correa en el catálogo de la BBE4: B8R-E7641-00."
+    ],
+    [
+     "ap",
+     "Ancho mínimo: no lo tenemos (está en el manual de servicio)."
+    ]
+   ],
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "correa",
+      "color": "caucho",
+      "c1": [
+       0,
+       0
+      ],
+      "r1": 48,
+      "c2": [
+       310,
+       15
+      ],
+      "r2": 100,
+      "seccion": {
+       "arriba": 36,
+       "abajo": 26,
+       "alto": 14
+      },
+      "dientes": {
+       "paso": 14,
+       "hondo": 6
+      }
+     }
+    ]
+   }
+  },
+  "26": {
+   "nombre": "Arandela de atrás del variador",
+   "cat": "WASHER, PLATE · 1 pieza",
+   "que": "Una arandela plana contra el motor, detrás de la rampa.",
+   "sirve": "Separa el variador del rodamiento del cigüeñal.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca poco."
+    ]
+   ],
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar"
+   ],
+   "cuando": "Se revisa al desarmar el variador.",
+   "decision": "repara",
+   "compra": "Se reutiliza si está plana.",
+   "dif": "taller",
+   "conecta": [
+    "3"
+   ],
+   "efectos": [
+    [
+     "3",
+     "Sin ella, el variador queda corrido (aprox.)."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "27": {
+   "nombre": "Arandela de la tuerca del variador",
+   "cat": "WASHER, PLATE · 1 pieza",
+   "que": "Una arandela bajo la tuerca del variador.",
+   "sirve": "Reparte la presión de la tuerca sobre la polea de aletas.",
+   "fallas": [
+    [
+     "maluso",
+     "Se deforma si se aprieta de más."
+    ]
+   ],
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar"
+   ],
+   "cuando": "Se revisa al desarmar.",
+   "decision": "cambia",
+   "compra": "Nueva si está torcida.",
+   "dif": "taller",
+   "conecta": [
+    "28",
+    "6"
+   ],
+   "efectos": [
+    [
+     "28",
+     "Torcida, la tuerca puede aflojarse."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "28": {
+   "nombre": "Tuerca del variador",
+   "cat": "NUT · 1 pieza",
+   "que": "La tuerca que cierra todo el variador en la punta del cigüeñal.",
+   "sirve": "Sujeta la polea de aletas y aprieta el variador.",
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprieta sin sujetar la polea, o sin torque, se daña la rosca del cigüeñal."
+    ]
+   ],
+   "sintomas": [
+    "Ruido o golpe en la tapa al acelerar"
+   ],
+   "cuando": "Se suelta cada vez que se cambia la correa.",
+   "decision": "cambia",
+   "compra": "Se aprieta con torquímetro (valor del manual de servicio).",
+   "dif": "taller",
+   "conecta": [
+    "27",
+    "6"
+   ],
+   "efectos": [
+    [
+     "6",
+     "Floja, la polea de aletas se suelta y destroza la caja."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "29": {
+   "nombre": "Tuerca de la campana",
+   "cat": "NUT · 1 pieza",
+   "que": "La tuerca que sujeta la campana al eje.",
+   "sirve": "Mantiene la campana en su sitio.",
+   "fallas": [
+    [
+     "maluso",
+     "Se daña la rosca si se aprieta sin sujetar la campana."
+    ]
+   ],
+   "sintomas": [
+    "Golpeteo atrás"
+   ],
+   "cuando": "Se suelta al revisar el clutch.",
+   "decision": "cambia",
+   "compra": "Torque del manual de servicio.",
+   "dif": "taller",
+   "conecta": [
+    "24"
+   ],
+   "efectos": [
+    [
+     "24",
+     "Floja, la campana golpea la tapa."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "30": {
+   "nombre": "Rodamiento de la tapa",
+   "cat": "BEARING · 1 pieza",
+   "que": "Un rodamiento en la tapa de la CVT, frente al eje trasero.",
+   "sirve": "Sostiene la punta del eje para que no flecte.",
+   "fallas": [
+    [
+     "humedad",
+     "Se seca y suena, sobre todo si entra agua a la caja."
+    ]
+   ],
+   "sintomas": [
+    "Zumbido o chillido en la tapa"
+   ],
+   "cuando": "Se revisa al quitar la tapa.",
+   "decision": "cambia",
+   "compra": "Nuevo si suena o tiene juego.",
+   "dif": "taller",
+   "conecta": [
+    "31",
+    "32"
+   ],
+   "efectos": [
+    [
+     "24",
+     "Con juego, el eje trasero vibra."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "31": {
+   "nombre": "Buje del rodamiento de la tapa",
+   "cat": "BUSH, SOLID · 1 pieza",
+   "que": "Un buje corto en el rodamiento de la tapa.",
+   "sirve": "Centra la punta del eje dentro del rodamiento.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca con el uso."
+    ]
+   ],
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar"
+   ],
+   "cuando": "Se revisa con la tapa.",
+   "decision": "cambia",
+   "compra": "Se reutiliza si está liso.",
+   "dif": "taller",
+   "conecta": [
+    "30"
+   ],
+   "efectos": [
+    [
+     "30",
+     "Marcado, gasta el rodamiento."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "32": {
+   "nombre": "Anillo de seguro de la tapa",
+   "cat": "CIRCLIP · 1 pieza",
+   "que": "Un anillo abierto que fija el rodamiento en la tapa.",
+   "sirve": "Evita que el rodamiento se salga.",
+   "fallas": [
+    [
+     "maluso",
+     "Pierde tensión al sacarlo."
+    ]
+   ],
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar"
+   ],
+   "cuando": "Solo se saca si se cambia el rodamiento.",
+   "decision": "cambia",
+   "compra": "Nuevo al armar.",
+   "dif": "taller",
+   "conecta": [
+    "30"
+   ],
+   "efectos": [
+    [
+     "30",
+     "Sin él, el rodamiento se corre."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "33": {
+   "nombre": "Arandela del buje",
+   "cat": "WASHER, PLATE · 1 pieza",
+   "que": "Una arandela entre la polea de aletas y el buje.",
+   "sirve": "Marca la separación entre las dos mitades del variador.",
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta poco."
+    ]
+   ],
+   "sintomas": [
+    "No da síntomas propios: se ve al desarmar"
+   ],
+   "cuando": "Se revisa al desarmar.",
+   "decision": "repara",
+   "compra": "Se reutiliza si está plana.",
+   "dif": "taller",
+   "conecta": [
+    "5",
+    "6"
+   ],
+   "efectos": [
+    [
+     "5",
+     "Sin ella, la correa queda más apretada adelante (aprox.)."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo de partes de la NMAX BBE4, fig. 12."
+    ]
+   ]
+  },
+  "tapa": {
+   "ctx": true,
+   "nombre": "Tapa de la CVT",
+   "cat": "Otra lámina (cárter izquierdo)",
+   "que": "La tapa de aluminio que cierra la transmisión por el lado izquierdo. Tiene el filtro de aire de la caja.",
+   "sirve": "Protege la correa del agua y el polvo y sostiene la punta del eje trasero (30, 31, 32).",
+   "fallas": [
+    [
+     "humedad",
+     "Si su empaque falla o se pasa un charco hondo, entra agua y la correa patina."
+    ]
+   ],
+   "sintomas": [
+    "Chillido de correa después de lluvia",
+    "Polvo negro saliendo por las juntas"
+   ],
+   "cuando": "El filtro de la caja se revisa cada 6.000 km.",
+   "decision": "repara",
+   "compra": "Empaque nuevo si se ve reseco; filtro de la caja limpio.",
+   "dif": "media",
+   "conecta": [
+    "30",
+    "25"
+   ],
+   "efectos": [
+    [
+     "25",
+     "Con el filtro tapado la caja se calienta y la correa se cristaliza."
+    ]
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Filtro de la caja de la correa cada 6.000 km: manual del propietario NMAX 2022."
+    ]
+   ]
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Correa vieja que patina",
+   "p": [
+    [
+     "25",
+     "La correa pasa de los 18.000 km, se angosta y se cristaliza."
+    ],
+    [
+     "1",
+     "Patina contra las poleas y las recalienta: las caras quedan brillantes."
+    ],
+    [
+     "8",
+     "La moto no responde y el piloto acelera más: el clutch patina y se vidria."
+    ],
+    [
+     "24",
+     "La campana se recalienta y queda azulada; al final vibra al arrancar."
+    ]
+   ]
+  },
+  {
+   "t": "Rodillos planos",
+   "p": [
+    [
+     "2",
+     "Los rodillos se aplanan y dejan de rodar."
+    ],
+    [
+     "1",
+     "Se arrastran y marcan los canales de la polea móvil."
+    ],
+    [
+     "3",
+     "La placa de atrás (3) también se marca."
+    ],
+    [
+     "25",
+     "El cambio va a saltos y la correa patina en el camino."
+    ]
+   ]
+  },
+  {
+   "t": "Grasa que se escapa atrás",
+   "p": [
+    [
+     "14",
+     "Los sellos (14 y 15) de la polea trasera se resecan."
+    ],
+    [
+     "13",
+     "La grasa de adentro sale por el centro de la polea."
+    ],
+    [
+     "25",
+     "La correa se unta y patina, sobre todo en subida."
+    ],
+    [
+     "8",
+     "Si la grasa llega a las zapatas, el clutch patina y hay que cambiarlas."
+    ]
+   ]
+  },
+  {
+   "t": "Resortes del clutch vencidos",
+   "p": [
+    [
+     "10",
+     "Los resortes se estiran con el calor de años."
+    ],
+    [
+     "8",
+     "Las zapatas se abren antes de tiempo y rozan en ralentí."
+    ],
+    [
+     "24",
+     "La campana se marca y la moto quiere avanzar en los semáforos."
+    ]
+   ]
+  },
+  {
+   "t": "Caja tapada en Medellín",
+   "p": [
+    [
+     "tapa",
+     "El filtro de la caja se tapa con polvo y nadie lo revisa a los 6.000 km."
+    ],
+    [
+     "25",
+     "La caja se calienta; la correa se agrieta antes de tiempo."
+    ],
+    [
+     "2",
+     "La funda de los rodillos se ablanda con el calor y se deforma."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Correa (25): cambiar",
+   "cuando": "Cada <b>18.000 km</b>, cuando parpadea el indicador V-BELT del tablero.",
+   "fuente": "Manual del propietario Yamaha NMAX 2022 (B6Y4) y plan de TallerYa (tarea «Correa CVT»). Es el manual de la versión 2022: la BBE4 usa el mismo indicador. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "correa-cvt"
+  },
+  {
+   "que": "Filtro de la caja de la correa: revisar",
+   "cuando": "Cada <b>6.000 km</b>; se cambia si hace falta.",
+   "fuente": "Manual del propietario Yamaha NMAX 2022. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Rodillos (2), deslizadores (4) y rampa (3): revisar",
+   "cuando": "Con cada cambio de correa. Se cambian si hay rodillos planos u ovalados.",
+   "fuente": "Guía de TallerYa; Yamaha no da un intervalo propio en el manual del propietario. <span class=\"esq-s-ap\">Aproximado</span>"
+  },
+  {
+   "que": "Zapatas (8), resortes (10) y campana (24): revisar",
+   "cuando": "Con cada cambio de correa, o antes si vibra o patina al arrancar.",
+   "fuente": "Guía de TallerYa. <span class=\"esq-s-ap\">Aproximado</span>"
+  },
+  {
+   "que": "Polea trasera: limpiar y engrasar; sellos (14 y 15) nuevos",
+   "cuando": "Cada vez que se desarma la polea trasera.",
+   "fuente": "Práctica general de taller para CVT de scooter. <span class=\"esq-s-ap\">Aproximado</span>"
+  }
+ ],
+ "funciona": {
+  "vbCelular": "-6 0 482 900",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Ralentí.</b> El motor gira despacio (unas 1.600 rpm, aprox.). Adelante la correa va abajo, cerca del centro; atrás va arriba. Los resortes tienen las zapatas recogidas: la campana y la rueda están quietas.",
+    "s": {
+     "rpm": 1600,
+     "rf": 0,
+     "zap": 0,
+     "agarra": false,
+     "motor": "lento",
+     "polea": "lento",
+     "rueda": "quieto",
+     "rel": "Relación corta",
+     "estado": "Suelto: la rueda no gira"
+    }
+   },
+   {
+    "t": "<b>2 · Aceleras: engancha el clutch.</b> Con unas 3.000 rpm (aprox.) la fuerza centrífuga le gana a los resortes: las zapatas se abren, tocan la campana y la moto empieza a andar. Es el momento en que más se gastan.",
+    "s": {
+     "rpm": 3200,
+     "rf": 0,
+     "zap": 1,
+     "agarra": true,
+     "motor": "",
+     "polea": "",
+     "rueda": "lento",
+     "rel": "Relación corta",
+     "estado": "Agarra: la rueda arranca"
+    }
+   },
+   {
+    "t": "<b>3 · Saliendo: relación corta.</b> Los rodillos todavía están adentro y la correa sigue abajo adelante y arriba atrás: la polea chica mueve a la grande, como una primera. Mucha fuerza, poca velocidad.",
+    "s": {
+     "rpm": 4500,
+     "rf": 0.15,
+     "zap": 1,
+     "agarra": true,
+     "motor": "",
+     "polea": "",
+     "rueda": "lento",
+     "rel": "Relación corta",
+     "estado": "Agarra: la rueda arranca"
+    }
+   },
+   {
+    "t": "<b>4 · Más vueltas: los rodillos salen.</b> Con más rpm los rodillos se van hacia afuera por su peso y suben por los canales inclinados de la polea móvil. Como la placa de atrás (3) no se mueve, la polea móvil se corre hacia la fija. La correa se ve obligada a subir adelante y a bajar atrás, contra el resorte de torque (18).",
+    "s": {
+     "rpm": 6000,
+     "rf": 0.55,
+     "zap": 1,
+     "agarra": true,
+     "motor": "",
+     "polea": "",
+     "rueda": "",
+     "rel": "Relación media",
+     "estado": "Agarrado: la rueda gira con el motor"
+    }
+   },
+   {
+    "t": "<b>5 · Crucero: relación larga.</b> Los rodillos llegan al fondo: adelante la correa va arriba y atrás abajo, como una quinta. El motor queda en unas vueltas parejas y lo que sube es la velocidad.",
+    "s": {
+     "rpm": 6800,
+     "rf": 1,
+     "zap": 1,
+     "agarra": true,
+     "motor": "",
+     "polea": "",
+     "rueda": "",
+     "rel": "Relación larga",
+     "estado": "Agarrado: la rueda gira con el motor"
+    }
+   },
+   {
+    "t": "<b>6 · Subida o acelerón: baja el cambio solo.</b> Cuando la rueda pide fuerza, las ranuras inclinadas del cuello de la polea móvil (13) se deslizan sobre los pasadores guía (16), fijos en el eje de la polea fija, y con ayuda del resorte (18) cierran la polea trasera: la correa sube atrás y baja adelante. La moto gana fuerza y sube de vueltas.",
+    "s": {
+     "rpm": 7600,
+     "rf": 0.45,
+     "zap": 1,
+     "agarra": true,
+     "motor": "",
+     "polea": "",
+     "rueda": "lento",
+     "rel": "Relación media (con carga)",
+     "estado": "Agarrado, con fuerza"
+    }
+   },
+   {
+    "t": "<b>7 · Sueltas.</b> Bajan las rpm: los rodillos vuelven, la correa baja adelante y por debajo del enganche los resortes recogen las zapatas. La campana sigue girando con la rueda, suelta, hasta que la moto se detiene.",
+    "s": {
+     "rpm": 1800,
+     "rf": 0,
+     "zap": 0,
+     "agarra": false,
+     "motor": "lento",
+     "polea": "lento",
+     "rueda": "lento",
+     "rel": "Relación corta",
+     "estado": "Suelto: la rueda gira libre"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidades de las 33 piezas: catálogo de partes de la NMAX BBE4, figura 12 «Clutch».",
+   "Transmisión automática por correa en V con clutch centrífugo seco; potencia máxima a 8.000 rpm (ficha técnica, 1000PS).",
+   "Correa cada <b>18.000 km</b> con indicador V-BELT y filtro de la caja de la correa cada <b>6.000 km</b> (manual del propietario NMAX 2022, plan de TallerYa)."
+  ],
+  "aproximado": [
+   "Proporciones y orden del dibujo: tomados del plano y de la disposición general de una CVT de scooter, sin medir piezas reales.",
+   "Orden de desarme: el procedimiento general de una CVT de scooter. El manual de servicio de la NMAX no está en la carpeta, así que no hay torques.",
+   "Cifras de la animación: ralentí de unas 1.600 rpm y enganche cerca de 3.000 rpm son órdenes de magnitud típicos de un scooter de 155 cc, no datos de Yamaha.",
+   "Rodillos de 20×12 mm y 13 g en la NMAX 2019-2022 (el catálogo da el juego, no su peso): datos de vendedores de repuestos, no confirmados para la BBE4.",
+   "Tipo de cada rodamiento (agujas o bolas) y dónde va cada sello: por la forma en el plano; el catálogo solo da el nombre."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX BBE4, fig. 12 (solo local, no se publica).",
+   "Manual del propietario Yamaha NMAX 2022 B6Y4 (Yamaha Motor Argentina): indicador V-BELT y filtro de la caja (ver garaje/intervalos/yamaha_nmax_155.json).",
+   "<a href=\"https://www.1000ps.com/en-us/model/8865/yamaha-nmax-155\">1000PS: ficha técnica de la Yamaha NMAX 155</a>.",
+   "<a href=\"https://mototrade.gr/en/?p=9497393\">Mototrade: rodillo original Yamaha 20×12, 13 g (NMAX 155 2019-2022)</a>.",
+   "<a href=\"https://thai.webike.net/en/review/article/795648\">Webike: correa original Yamaha 2DP-E7641-00</a>.",
+   "Textos base: garaje/despiece_fichas.py, despiece_guia_mecanica.py y despiece_glosario.py (TallerYa)."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#cvSombra)",
+  "colores": {
+   "acero": "url(#cvAcero)",
+   "cromo": "url(#cvCromo)",
+   "rosca": "url(#cvRosca)",
+   "plast": "url(#cvPlast)",
+   "estrias": "url(#cvEstrias)"
+  }
+ },
+ "perfiles": {
+  "polea13": [
+   [
+    34,
+    -10
+   ],
+   [
+    48,
+    -8
+   ],
+   [
+    100,
+    -2
+   ],
+   [
+    108,
+    0
+   ],
+   [
+    108,
+    5
+   ],
+   [
+    42,
+    22
+   ],
+   [
+    19,
+    22
+   ],
+   [
+    19,
+    -10
+   ]
+  ],
+  "polea13cuello": [
+   [
+    19,
+    -44
+   ],
+   [
+    34,
+    -44
+   ],
+   [
+    34,
+    -10
+   ],
+   [
+    19,
+    -10
+   ]
+  ]
+ },
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "sujeta": {
+  "28": [
+   "27",
+   "6",
+   "33"
+  ],
+  "29": [
+   "24"
+  ],
+  "20": [
+   "7"
+  ],
+  "32": [
+   "30",
+   "31"
+  ],
+  "22": [
+   "21"
+  ]
+ }
+}

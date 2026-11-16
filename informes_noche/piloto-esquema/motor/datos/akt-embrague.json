@@ -1,0 +1,2136 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina E-4",
+  "titulo": "Clutch slipper · AKT NKD 125",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Clutch slipper",
+  "sub": "Lámina E-4 · 15 números"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del clutch",
+  "laminaAria": "Dibujo del clutch slipper de la AKT NKD 125 en el eje de la caja: corona, discos, portadiscos, presionador, resortes y el empujador. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Del ralentí a una rebajada brusca en seis pasos. A la izquierda, el clutch cortado; a la derecha, el cigüeñal moviendo la corona, el eje de la caja adentro y cuánto aprietas la palanca.",
+  "introCadenas": "En el clutch una pieza mal cuidada carga a las demás. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo que pide el manual del propietario de AKT para el aceite que baña el clutch, y lo que se revisa por síntoma."
+ },
+ "pie": "Dibujo propio de TallerYa a partir del catálogo de partes AKT de la NKD 125 CBS 2025 (fig. E-4). Prototipo local.",
+ "encuadreArmado": [
+  226,
+  170,
+  432,
+  336
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 580",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": [
+   {
+    "t": "<b>1 · Ralentí en neutro.</b> Con la palanca suelta, los resortes aprietan los discos: el cigüeñal mueve la corona y la corona mueve el eje de la caja, pero en neutro la rueda no se mueve.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Pegado: todo gira junto"
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la palanca.</b> El cable gira la leva de la tapa, el empujador mueve la portabalinera y el presionador se aleja: los discos se separan y el eje de la caja se queda quieto.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "quieto",
+     "estado": "Suelto: eje quieto"
+    }
+   },
+   {
+    "t": "<b>3 · Metes primera.</b> Con los discos sueltos el eje está quieto y el cambio entra sin golpe. Si suena «clac» fuerte, el clutch está arrastrando.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "quieto",
+     "estado": "Suelto: listo para salir"
+    }
+   },
+   {
+    "t": "<b>4 · Sueltas despacio.</b> En el punto de fricción los discos se rozan y patinan un poco: el eje arranca despacio y la moto sale suave. Aquí es donde más se gastan.",
+    "s": {
+     "palanca": 0.45,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Patina: la moto arranca"
+    }
+   },
+   {
+    "t": "<b>5 · Palanca suelta.</b> Los resortes aprietan del todo: el eje gira con la corona y toda la fuerza va a la rueda.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Tercera",
+     "corona": "",
+     "caja": "",
+     "estado": "Pegado: la moto anda"
+    }
+   },
+   {
+    "t": "<b>6 · Rebajas de golpe.</b> La rueda empuja al motor: las rampas separan un poco el presionador y los discos patinan a propósito. Así la rueda trasera no brinca. Con palanca y cable bien ajustados.",
+    "s": {
+     "palanca": 0,
+     "rampa": 0.35,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Baja a 2.ª",
+     "corona": "",
+     "caja": "lento",
+     "estado": "Slipper: patina"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades de las 15 piezas: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5).",
+   "Aceite 20W-50, API SN, JASO MA2: manual del propietario AKT NKD 125 (versión anterior), pp. 43-44."
+  ],
+  "aproximado": [
+   "Proporciones, vista y orden del dibujo: tomados de las fotos del catálogo, en vista caballera con el eje de la caja hacia ti.",
+   "Orden interno (presionador adentro, portadiscos afuera) y cómo actúan las rampas del slipper: deducido de las fotos del catálogo y de la práctica de taller.",
+   "Torques, largo libre de los resortes, espesor de los discos y juego libre de la palanca: no están en lo leído del manual; van como «manual de servicio» o «sin dato».",
+   "Vista de la lámina: de frente y de tres cuartos (caballera), como el clutch de la Boxer, para que se vea la pila de discos."
+  ],
+  "lista": [
+   "Catálogo de partes AKT NKD 125 CBS 2025 (manual_despiece/akt-nkd-125, solo local).",
+   "Manual del propietario AKT NKD 125, versión anterior (escaneado, solo local)."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -0.5,
+   -0.32
+  ],
+  "sombra": "url(#akSombra)",
+  "colores": {
+   "acero": "url(#akAcero)",
+   "cromo": "url(#akCromo)",
+   "rosca": "url(#akRosca)",
+   "plast": "url(#akPlast)",
+   "estrias": "url(#akEstrias)",
+   "fric": "url(#akFric)"
+  }
+ },
+ "lamina": "akt-embrague",
+ "moto": "akt-nkd125",
+ "figura": "E4",
+ "catalogo": "akt-nkd125",
+ "intervalos": "akt_nkd_125",
+ "arte": "akt-embrague",
+ "carcasas": [
+  {
+   "id": "9",
+   "transparente": 0.3,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "3",
+   "transparente": 0.4,
+   "rayosx": 0.22
+  }
+ ],
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "nombres": {
+  "2": "Corona del clutch",
+  "3": "Portadiscos",
+  "4": "Presionador (rampas del slipper)",
+  "5": "Discos de fricción",
+  "6": "Discos separadores",
+  "8": "Resortes del clutch",
+  "9": "Portabalinera",
+  "10": "Empujador",
+  "11": "Balinera del empujador",
+  "12": "Arandela del portadiscos",
+  "13": "Seguro del portadiscos",
+  "14": "Tornillos de la portabalinera"
+ },
+ "ordenChips": [
+  "2",
+  "4",
+  "5",
+  "6",
+  "3",
+  "12",
+  "13",
+  "8",
+  "9",
+  "14",
+  "11",
+  "10"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteCorona",
+   "args": [
+    440,
+    340
+   ],
+   "anc": [
+    370,
+    282
+   ],
+   "et": [
+    -40,
+    -40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "artePresionador",
+   "args": [
+    425,
+    330
+   ],
+   "anc": [
+    372,
+    300
+   ],
+   "et": [
+    -36,
+    -26
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      88.0,
+      0.0
+     ],
+     [
+      87.7,
+      7.7
+     ],
+     [
+      86.7,
+      15.3
+     ],
+     [
+      75.3,
+      20.2
+     ],
+     [
+      73.3,
+      26.7
+     ],
+     [
+      70.7,
+      33.0
+     ],
+     [
+      67.5,
+      39.0
+     ],
+     [
+      63.9,
+      44.7
+     ],
+     [
+      59.8,
+      50.1
+     ],
+     [
+      62.2,
+      62.2
+     ],
+     [
+      56.6,
+      67.4
+     ],
+     [
+      50.5,
+      72.1
+     ],
+     [
+      39.0,
+      67.5
+     ],
+     [
+      33.0,
+      70.7
+     ],
+     [
+      26.7,
+      73.3
+     ],
+     [
+      20.2,
+      75.3
+     ],
+     [
+      13.5,
+      76.8
+     ],
+     [
+      6.8,
+      77.7
+     ],
+     [
+      0.0,
+      88.0
+     ],
+     [
+      -7.7,
+      87.7
+     ],
+     [
+      -15.3,
+      86.7
+     ],
+     [
+      -20.2,
+      75.3
+     ],
+     [
+      -26.7,
+      73.3
+     ],
+     [
+      -33.0,
+      70.7
+     ],
+     [
+      -39.0,
+      67.5
+     ],
+     [
+      -44.7,
+      63.9
+     ],
+     [
+      -50.1,
+      59.8
+     ],
+     [
+      -62.2,
+      62.2
+     ],
+     [
+      -67.4,
+      56.6
+     ],
+     [
+      -72.1,
+      50.5
+     ],
+     [
+      -67.5,
+      39.0
+     ],
+     [
+      -70.7,
+      33.0
+     ],
+     [
+      -73.3,
+      26.7
+     ],
+     [
+      -75.3,
+      20.2
+     ],
+     [
+      -76.8,
+      13.5
+     ],
+     [
+      -77.7,
+      6.8
+     ],
+     [
+      -88.0,
+      0.0
+     ],
+     [
+      -87.7,
+      -7.7
+     ],
+     [
+      -86.7,
+      -15.3
+     ],
+     [
+      -75.3,
+      -20.2
+     ],
+     [
+      -73.3,
+      -26.7
+     ],
+     [
+      -70.7,
+      -33.0
+     ],
+     [
+      -67.5,
+      -39.0
+     ],
+     [
+      -63.9,
+      -44.7
+     ],
+     [
+      -59.8,
+      -50.1
+     ],
+     [
+      -62.2,
+      -62.2
+     ],
+     [
+      -56.6,
+      -67.4
+     ],
+     [
+      -50.5,
+      -72.1
+     ],
+     [
+      -39.0,
+      -67.5
+     ],
+     [
+      -33.0,
+      -70.7
+     ],
+     [
+      -26.7,
+      -73.3
+     ],
+     [
+      -20.2,
+      -75.3
+     ],
+     [
+      -13.5,
+      -76.8
+     ],
+     [
+      -6.8,
+      -77.7
+     ],
+     [
+      -0.0,
+      -88.0
+     ],
+     [
+      7.7,
+      -87.7
+     ],
+     [
+      15.3,
+      -86.7
+     ],
+     [
+      20.2,
+      -75.3
+     ],
+     [
+      26.7,
+      -73.3
+     ],
+     [
+      33.0,
+      -70.7
+     ],
+     [
+      39.0,
+      -67.5
+     ],
+     [
+      44.7,
+      -63.9
+     ],
+     [
+      50.1,
+      -59.8
+     ],
+     [
+      62.2,
+      -62.2
+     ],
+     [
+      67.4,
+      -56.6
+     ],
+     [
+      72.1,
+      -50.5
+     ],
+     [
+      67.5,
+      -39.0
+     ],
+     [
+      70.7,
+      -33.0
+     ],
+     [
+      73.3,
+      -26.7
+     ],
+     [
+      75.3,
+      -20.2
+     ],
+     [
+      76.8,
+      -13.5
+     ],
+     [
+      77.7,
+      -6.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      58
+     ]
+    ],
+    "e": 3,
+    "material": "fric",
+    "x": 429,
+    "y": 333
+   },
+   "anc": [
+    367,
+    383
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      74.0,
+      0.0
+     ],
+     [
+      72.9,
+      12.8
+     ],
+     [
+      69.5,
+      25.3
+     ],
+     [
+      64.1,
+      37.0
+     ],
+     [
+      56.7,
+      47.6
+     ],
+     [
+      47.6,
+      56.7
+     ],
+     [
+      37.0,
+      64.1
+     ],
+     [
+      25.3,
+      69.5
+     ],
+     [
+      12.8,
+      72.9
+     ],
+     [
+      0.0,
+      74.0
+     ],
+     [
+      -12.8,
+      72.9
+     ],
+     [
+      -25.3,
+      69.5
+     ],
+     [
+      -37.0,
+      64.1
+     ],
+     [
+      -47.6,
+      56.7
+     ],
+     [
+      -56.7,
+      47.6
+     ],
+     [
+      -64.1,
+      37.0
+     ],
+     [
+      -69.5,
+      25.3
+     ],
+     [
+      -72.9,
+      12.8
+     ],
+     [
+      -74.0,
+      0.0
+     ],
+     [
+      -72.9,
+      -12.8
+     ],
+     [
+      -69.5,
+      -25.3
+     ],
+     [
+      -64.1,
+      -37.0
+     ],
+     [
+      -56.7,
+      -47.6
+     ],
+     [
+      -47.6,
+      -56.7
+     ],
+     [
+      -37.0,
+      -64.1
+     ],
+     [
+      -25.3,
+      -69.5
+     ],
+     [
+      -12.8,
+      -72.9
+     ],
+     [
+      -0.0,
+      -74.0
+     ],
+     [
+      12.8,
+      -72.9
+     ],
+     [
+      25.3,
+      -69.5
+     ],
+     [
+      37.0,
+      -64.1
+     ],
+     [
+      47.6,
+      -56.7
+     ],
+     [
+      56.7,
+      -47.6
+     ],
+     [
+      64.1,
+      -37.0
+     ],
+     [
+      69.5,
+      -25.3
+     ],
+     [
+      72.9,
+      -12.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      50
+     ]
+    ],
+    "e": 1.5,
+    "material": "acero",
+    "x": 432,
+    "y": 334.9
+   },
+   "anc": [
+    412,
+    404.9
+   ],
+   "et": [
+    -10,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "artePortadiscos",
+   "args": [
+    437,
+    338.1
+   ],
+   "anc": [
+    482,
+    293.1
+   ],
+   "et": [
+    40,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "comun": "arandela",
+   "p": {
+    "r": 15,
+    "ri": 9,
+    "e": 2,
+    "x": 447,
+    "y": 344.5
+   },
+   "anc": [
+    459,
+    350.5
+   ],
+   "et": [
+    30,
+    20
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "seguro",
+   "p": {
+    "r": 12,
+    "x": 448,
+    "y": 345.0
+   },
+   "anc": [
+    459,
+    338.5
+   ],
+   "et": [
+    30,
+    -20
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "comun": "resorte",
+   "p": {
+    "r": 8,
+    "largo": 26,
+    "vueltas": 5,
+    "alambre": 2.6,
+    "copias": [
+     [
+      -48.0,
+      27.7
+     ],
+     [
+      -48.0,
+      -27.7
+     ]
+    ],
+    "x": 478.0,
+    "y": 343.8
+   },
+   "anc": [
+    479,
+    344.5
+   ],
+   "et": [
+    40,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      44.0,
+      0.0
+     ],
+     [
+      42.9,
+      5.6
+     ],
+     [
+      39.7,
+      10.6
+     ],
+     [
+      34.9,
+      14.5
+     ],
+     [
+      29.4,
+      17.0
+     ],
+     [
+      23.9,
+      18.4
+     ],
+     [
+      19.0,
+      19.0
+     ],
+     [
+      15.1,
+      19.6
+     ],
+     [
+      12.0,
+      20.8
+     ],
+     [
+      9.5,
+      22.9
+     ],
+     [
+      7.0,
+      26.0
+     ],
+     [
+      3.9,
+      29.9
+     ],
+     [
+      0.0,
+      34.0
+     ],
+     [
+      -4.9,
+      37.5
+     ],
+     [
+      -10.6,
+      39.7
+     ],
+     [
+      -16.5,
+      39.9
+     ],
+     [
+      -22.0,
+      38.1
+     ],
+     [
+      -26.3,
+      34.3
+     ],
+     [
+      -29.0,
+      29.0
+     ],
+     [
+      -30.0,
+      23.0
+     ],
+     [
+      -29.4,
+      17.0
+     ],
+     [
+      -27.9,
+      11.5
+     ],
+     [
+      -26.0,
+      7.0
+     ],
+     [
+      -24.5,
+      3.2
+     ],
+     [
+      -24.0,
+      0.0
+     ],
+     [
+      -24.5,
+      -3.2
+     ],
+     [
+      -26.0,
+      -7.0
+     ],
+     [
+      -27.9,
+      -11.5
+     ],
+     [
+      -29.4,
+      -17.0
+     ],
+     [
+      -30.0,
+      -23.0
+     ],
+     [
+      -29.0,
+      -29.0
+     ],
+     [
+      -26.3,
+      -34.3
+     ],
+     [
+      -22.0,
+      -38.1
+     ],
+     [
+      -16.5,
+      -39.9
+     ],
+     [
+      -10.6,
+      -39.7
+     ],
+     [
+      -4.9,
+      -37.5
+     ],
+     [
+      -0.0,
+      -34.0
+     ],
+     [
+      3.9,
+      -29.9
+     ],
+     [
+      7.0,
+      -26.0
+     ],
+     [
+      9.5,
+      -22.9
+     ],
+     [
+      12.0,
+      -20.8
+     ],
+     [
+      15.1,
+      -19.6
+     ],
+     [
+      19.0,
+      -19.0
+     ],
+     [
+      23.9,
+      -18.4
+     ],
+     [
+      29.4,
+      -17.0
+     ],
+     [
+      34.9,
+      -14.5
+     ],
+     [
+      39.7,
+      -10.6
+     ],
+     [
+      42.9,
+      -5.6
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      16
+     ],
+     [
+      32.0,
+      0.0,
+      3.5
+     ],
+     [
+      -16.0,
+      27.7,
+      3.5
+     ],
+     [
+      -16.0,
+      -27.7,
+      3.5
+     ]
+    ],
+    "e": 3,
+    "material": "acero",
+    "x": 447,
+    "y": 344.5
+   },
+   "anc": [
+    417,
+    372.5
+   ],
+   "et": [
+    -70,
+    30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "brida": 7.5,
+    "largo": 30,
+    "d": 5,
+    "copias": [
+     [
+      -48.0,
+      27.7
+     ],
+     [
+      -48.0,
+      -27.7
+     ]
+    ],
+    "x": 480,
+    "y": 345.1
+   },
+   "anc": [
+    480,
+    345.1
+   ],
+   "et": [
+    60,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "rodamiento",
+   "p": {
+    "r": 15,
+    "ri": 6,
+    "ancho": 8,
+    "x": 450,
+    "y": 346.4
+   },
+   "anc": [
+    458,
+    338.4
+   ],
+   "et": [
+    30,
+    -90
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "revolucion",
+   "p": {
+    "perfil": "@empujador",
+    "x": 455,
+    "y": 349.6
+   },
+   "anc": [
+    455,
+    349.6
+   ],
+   "et": [
+    -30,
+    90
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Cable, tapa y empujador.</b> Primero afloja el cable en la palanca. Con el motor frío, drena el aceite y quita la tapa del clutch (otra lámina): la leva sale con ella. Saca el [[10|empujador]].",
+   "m": {
+    "10": [
+     402,
+     -24
+    ]
+   }
+  },
+  {
+   "t": "<b>Resortes y portabalinera.</b> Afloja los [[14|tornillos]] en cruz, media vuelta cada uno, hasta soltar los [[8|resortes]]. Saca la [[9|portabalinera]] con su [[11|balinera]]. Al armar: en cruz y parejo (torque: manual de servicio).",
+   "m": {
+    "14": [
+     224,
+     -166
+    ],
+    "9": [
+     133,
+     -204
+    ],
+    "11": [
+     305,
+     -98
+    ],
+    "8": [
+     54,
+     -252
+    ]
+   }
+  },
+  {
+   "t": "<b>Seguro y arandela.</b> Con un alicate de seguros saca el [[13|seguro]] y la [[12|arandela]] del eje. Al armar: seguro nuevo, con el lado filoso hacia afuera y bien sentado en su canal.",
+   "m": {
+    "13": [
+     305,
+     60
+    ],
+    "12": [
+     348,
+     -17
+    ]
+   }
+  },
+  {
+   "t": "<b>Portadiscos y discos.</b> Saca el [[3|portadiscos]], los [[5|discos de fricción]], los [[6|separadores]] y el [[4|presionador]]. Anota el orden. Al armar: discos de fricción remojados en aceite del motor.",
+   "m": {
+    "3": [
+     169,
+     184
+    ],
+    "6": [
+     82,
+     111
+    ],
+    "5": [
+     7,
+     55
+    ],
+    "4": [
+     -73,
+     -8
+    ]
+   }
+  },
+  {
+   "t": "<b>Corona.</b> Saca la [[2|corona]]. Revisa las ventanas de la canasta y los dientes: si las ventanas tienen escalones, los discos se traban.",
+   "m": {
+    "2": [
+     -178,
+     -130
+    ]
+   }
+  }
+ ],
+ "textoArmado": "El clutch va en la punta derecha del eje de la caja, bañado en aceite, detrás de la tapa del clutch. Toca un grupo para ver sus piezas. El clutch completo, el centro slipper y el juego de discos se venden también como kit: lo dice «Para pedirla» en cada pieza.",
+ "fichas": {
+  "2": {
+   "nombre": "Corona del clutch",
+   "cat": "Manza Clutch Slipper 125NKD · 1 pieza (73 dientes; el catálogo anota «6 resortes») · también en el kit ref. 1 (clutch completo, 500280465-0001)",
+   "codigo": "190330141-0001",
+   "que": "La canasta exterior del clutch, con una corona de 73 dientes atrás.",
+   "sirve": "El piñón del cigüeñal la mueve siempre que el motor gira; sus ventanas arrastran los [[5|discos de fricción]].",
+   "sintomas": [
+    "Ruido de matraca con el clutch suelto.",
+    "Los cambios entran duro: los discos se traban."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las orejas de los discos marcan escalones en las ventanas."
+    ],
+    [
+     "golpe",
+     "Arrancar muy revolucionado parte o marca los dientes."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Con escalones hondos o dientes picados se cambia: limarla no dura.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que cambies los discos.",
+   "arrastra": [
+    "Ventanas con escalones → los [[5|discos]] se traban y el clutch arrastra."
+   ],
+   "conecta": [
+    "5",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "campana",
+      "perfil": "@corona3d"
+     },
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 73,
+       "r": 110
+      },
+      "z": [
+       -48,
+       -40
+      ],
+      "huecos": [
+       {
+        "r": 94
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "3": {
+   "nombre": "Portadiscos",
+   "cat": "Portadiscos Slipper CGR · 1 pieza · también en el kit ref. 1 (clutch completo, 500280465-0001) · también en el kit ref. 15 (centro slipper armado, PrensCluSliCGR)",
+   "codigo": "PORTA_SLIP_CGR",
+   "que": "El centro del clutch: va con estrías en el eje de la caja y tiene tres ventanas ovaladas.",
+   "sirve": "Recibe la fuerza de los [[6|separadores]] y la pasa al eje de la caja. Lo sujetan el [[13|seguro]] y la [[12|arandela]].",
+   "sintomas": [
+    "Golpeteo o clutch que no suelta parejo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los dientes de los separadores le marcan escalones."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Con escalones en los dientes se cambia: limarlo no dura.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que cambies los discos.",
+   "arrastra": [
+    "Portadiscos con escalones → los [[6|separadores]] se traban y el clutch arrastra."
+   ],
+   "conecta": [
+    "6",
+    "4",
+    "13",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "4": {
+   "nombre": "Presionador (rampas del slipper)",
+   "cat": "Presionador Clutch Slip CGR · 1 pieza · también en el kit ref. 1 (clutch completo, 500280465-0001) · también en el kit ref. 15 (centro slipper armado, PrensCluSliCGR)",
+   "codigo": "PRES_CLUTCH_SL",
+   "que": "El plato que aprieta los discos. Tiene tres torres para los tornillos y rampas que lo encaran con el [[3|portadiscos]].",
+   "sirve": "Los [[8|resortes]] lo aprietan contra los discos. Al rebajar de golpe, las rampas lo separan un poco: el clutch patina y la rueda trasera no salta.",
+   "sintomas": [
+    "La rueda trasera brinca al rebajar de golpe.",
+    "Patina con discos y resortes buenos."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las rampas se marcan y dejan de deslizar."
+    ],
+    [
+     "calor",
+     "Se azula si el clutch patina mucho."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rampas marcadas o plato torcido no se arreglan: va nuevo. El centro slipper también se vende armado (mira «Para pedirla»).",
+   "dif": "taller",
+   "cuando": "Revisa las rampas cada vez que abras el clutch.",
+   "arrastra": [
+    "Rampas marcadas → el slipper no actúa y la [[2|corona]] recibe el golpe del freno de motor."
+   ],
+   "conecta": [
+    "3",
+    "8",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 36,
+       "r": 75
+      },
+      "z": [
+       -6,
+       0
+      ],
+      "huecos": [
+       {
+        "r": 30
+       }
+      ]
+     },
+     {
+      "tipo": "cilindro",
+      "color": "alum",
+      "r": 9,
+      "z": [
+       0,
+       14
+      ],
+      "pos": [
+       32,
+       0
+      ],
+      "repetir": 3
+     }
+    ]
+   }
+  },
+  "5": {
+   "nombre": "Discos de fricción",
+   "cat": "Jgo Discos Clutch 125 x 6 · 1 juego (6 discos) · también en el kit ref. 1 (clutch completo, 500280465-0001) · también en el kit ref. 7 (juego de discos slipper, JGO_DIS_SLIP_CG)",
+   "codigo": "1904500PP-0001x6",
+   "que": "Discos de acero con material de fricción y orejas que entran en la [[2|corona]].",
+   "sirve": "Al apretarse contra los [[6|separadores]] unen la corona con el eje de la caja.",
+   "sintomas": [
+    "El clutch patina en subida o con pasajero.",
+    "Olor a quemado."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El material se adelgaza con los arranques."
+    ],
+    [
+     "calor",
+     "Se vitrifican si patinan mucho."
+    ],
+    [
+     "maluso",
+     "Aceite de carro con aditivos los hace resbalar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambian todos juntos cuando están delgados o vitrificados (espesor mínimo: manual de servicio). Si tu clutch es slipper, el catálogo vende también un juego de discos slipper (mira «Para pedirla»).",
+   "dif": "taller",
+   "cuando": "Revísalos cuando patine; al armar, remójalos en aceite del motor.",
+   "arrastra": [
+    "Discos gastados → los [[8|resortes]] no alcanzan a apretar y el clutch patina."
+   ],
+   "conecta": [
+    "2",
+    "6",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "6": {
+   "nombre": "Discos separadores",
+   "cat": "Jgo Separad Clutch x4 125S · 1 juego (4 separadores) · también en el kit ref. 1 (clutch completo, 500280465-0001) · también en el kit ref. 7 (juego de discos slipper, JGO_DIS_SLIP_CG)",
+   "codigo": "22215-0125S-0000",
+   "que": "Discos de acero lisos con dientes por dentro que entran en el [[3|portadiscos]].",
+   "sirve": "Van entre los [[5|discos de fricción]] y giran con el eje de la caja.",
+   "sintomas": [
+    "El clutch arrastra: la moto se mueve con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se azulan y se tuercen si el clutch patina."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Torcidos o azulados se cambian: no se enderezan.",
+   "dif": "taller",
+   "cuando": "Revísalos sobre un vidrio cada vez que cambies los discos.",
+   "arrastra": [
+    "Separador torcido → los [[5|discos]] rozan siempre y el clutch arrastra."
+   ],
+   "conecta": [
+    "5",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "8": {
+   "nombre": "Resortes del clutch",
+   "cat": "Resorte Clutch 125S · 3 piezas · también en el kit ref. 1 (clutch completo, 500280465-0001)",
+   "codigo": "190550001-0001",
+   "que": "Tres resortes de espiral entre el [[3|portadiscos]] y la [[9|portabalinera]].",
+   "sirve": "Dan la fuerza que aprieta los discos. Al apretar la palanca los comprimes un poco más.",
+   "sintomas": [
+    "Patina con discos buenos.",
+    "Palanca muy blanda."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "El calor de patinar los cansa y se acortan."
+    ],
+    [
+     "edad",
+     "Pierden fuerza con los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambian los tres juntos si alguno está más corto (largo libre: manual de servicio).",
+   "dif": "taller",
+   "cuando": "Mídelos cada vez que cambies los discos.",
+   "arrastra": [
+    "Resortes cansados → los [[5|discos]] patinan y se queman."
+   ],
+   "conecta": [
+    "9",
+    "14",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "9": {
+   "nombre": "Portabalinera",
+   "cat": "Portabalinera Sliper Clutch · 1 pieza · también en el kit ref. 1 (clutch completo, 500280465-0001) · también en el kit ref. 15 (centro slipper armado, PrensCluSliCGR)",
+   "codigo": "sin código en el catálogo (pedir por la descripción)",
+   "que": "La placa triangular de afuera: lleva la [[11|balinera]] en el centro y los tres [[14|tornillos]].",
+   "sirve": "Recibe el empuje del [[10|empujador]] y lo pasa al [[4|presionador]] para soltar los discos.",
+   "sintomas": [
+    "Clutch que no suelta parejo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El alojamiento de la balinera se agranda."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está torcida ni rajada, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Portabalinera torcida → el [[4|presionador]] se va de lado y el clutch arrastra."
+   ],
+   "conecta": [
+    "11",
+    "14",
+    "8",
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "10": {
+   "nombre": "Empujador",
+   "cat": "Empujador Clutch 125CGR/200Sm · 1 pieza · también en el kit ref. 1 (clutch completo, 500280465-0001)",
+   "codigo": "190730007-0001",
+   "que": "Una varilla corta con un collar, en el centro de la [[11|balinera]].",
+   "sirve": "La leva de la tapa lo empuja cuando aprietas la palanca, y él empuja la [[9|portabalinera]].",
+   "sintomas": [
+    "Palanca dura o clutch que no suelta del todo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La punta se gasta contra la leva."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Con la punta gastada o doblado se cambia: es barato.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que quites la tapa del clutch.",
+   "arrastra": [
+    "Empujador gastado → la leva no alcanza y el clutch arrastra."
+   ],
+   "conecta": [
+    "11",
+    "9"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "11": {
+   "nombre": "Balinera del empujador",
+   "cat": "Balinera 16003/P6 125CGR · 1 pieza (16003) · también en el kit ref. 1 (clutch completo, 500280465-0001)",
+   "codigo": "380630267-0001",
+   "que": "Una balinera 16003 en el centro de la [[9|portabalinera]].",
+   "sirve": "Deja girar la portabalinera mientras el [[10|empujador]] la empuja quieto.",
+   "sintomas": [
+    "Chillido al apretar la palanca."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Raspa o tiene juego con los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si raspa o tiene juego al girarla con el dedo, va nueva.",
+   "dif": "taller",
+   "cuando": "Gírala con el dedo cada vez que abras el clutch.",
+   "arrastra": [
+    "Balinera trabada → el [[10|empujador]] se gasta y la palanca chilla."
+   ],
+   "conecta": [
+    "9",
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "12": {
+   "nombre": "Arandela del portadiscos",
+   "cat": "Arandela Presionador 125CGR · 1 pieza · también en el kit ref. 1 (clutch completo, 500280465-0001)",
+   "codigo": "380500001-0001",
+   "que": "Una arandela con estrías por dentro, entre el [[3|portadiscos]] y el [[13|seguro]].",
+   "sirve": "Reparte el apriete del seguro sobre el portadiscos.",
+   "sintomas": [
+    "Juego del portadiscos en el eje."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca o se adelgaza."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin marcas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques el seguro.",
+   "arrastra": [
+    "Arandela gastada → el [[3|portadiscos]] queda con juego y golpetea."
+   ],
+   "conecta": [
+    "3",
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "13": {
+   "nombre": "Seguro del portadiscos",
+   "cat": "Pin Prensa Clutch 125CGR · 1 pieza · también en el kit ref. 1 (clutch completo, 500280465-0001)",
+   "codigo": "380550014-0001",
+   "que": "El anillo elástico que traba el [[3|portadiscos]] en el eje de la caja. El catálogo lo llama «pin», pero en la foto es un seguro.",
+   "sirve": "Impide que el portadiscos se salga del eje.",
+   "sintomas": [
+    "Está abierto, torcido o fuera de su canal."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se abre de más al sacarlo y ya no aprieta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cada vez que lo saques, va uno nuevo. Un seguro abierto puede soltarse andando.",
+   "dif": "taller",
+   "cuando": "Cámbialo cada vez que lo saques.",
+   "arrastra": [
+    "Seguro flojo → el [[3|portadiscos]] se corre y destroza los [[5|discos]]."
+   ],
+   "conecta": [
+    "3",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "14": {
+   "nombre": "Tornillos de la portabalinera",
+   "cat": "Tornillo Prensa Clutch 6x25 125 · 3 piezas (6 × 25) · también en el kit ref. 1 (clutch completo, 500280465-0001) · también en el kit ref. 15 (centro slipper armado, PrensCluSliCGR)",
+   "codigo": "sin código en el catálogo (pedir por la descripción)",
+   "que": "Tres tornillos de 6 × 25 (medida del catálogo) que pasan por la [[9|portabalinera]] y los [[8|resortes]].",
+   "sirve": "Sujetan los resortes con la presión justa.",
+   "sintomas": [
+    "Un tornillo flojo o con la cabeza redondeada."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se barre; si quedan flojos, se sueltan."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Al armar, en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando abras el clutch. Al armar, en cruz y con el torque del manual de servicio.",
+   "arrastra": [
+    "Tornillo flojo → un [[8|resorte]] aprieta menos y el clutch patina de un lado."
+   ],
+   "conecta": [
+    "9",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 CBS 2025, fig. E-4 «Sistema clutch slipper» (p. 5)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja (resortes, presionador con rampas del slipper y empujador): deducido de las fotos del plano y de la práctica de taller en motores de este tipo."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Cable sin juego libre",
+   "p": [
+    [
+     "10",
+     "El cable queda tenso y la leva sigue empujando el empujador."
+    ],
+    [
+     "4",
+     "El presionador no aprieta del todo los discos."
+    ],
+    [
+     "5",
+     "Los discos patinan en subida y se queman."
+    ],
+    [
+     "6",
+     "Los separadores se recalientan, se azulan y se tuercen."
+    ]
+   ]
+  },
+  {
+   "t": "Aceite viejo o equivocado",
+   "p": [
+    [
+     "5",
+     "Con aceite para carro o muy viejo, los discos resbalan y se vitrifican."
+    ],
+    [
+     "8",
+     "El calor de patinar cansa los resortes."
+    ],
+    [
+     "4",
+     "El presionador se azula y aprieta disparejo: patina aunque cambies los discos."
+    ]
+   ]
+  },
+  {
+   "t": "Corona con escalones",
+   "p": [
+    [
+     "2",
+     "Las orejas de los discos marcan escalones en las ventanas de la corona."
+    ],
+    [
+     "5",
+     "Los discos se traban en los escalones y no se separan bien."
+    ],
+    [
+     "6",
+     "Los separadores siguen arrastrando: la moto se mueve con la palanca apretada."
+    ],
+    [
+     "3",
+     "El portadiscos recibe golpes y se marca también."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Cambiar el aceite del motor (baña el clutch)",
+   "cuando": "<b>SAE 20W-50</b>, API SN o superior, <b>JASO MA2</b> (para motos con clutch en aceite). Intervalo por km: el manual no lo trae; rige el plan general (aprox.).",
+   "fuente": "Manual del propietario AKT NKD 125 (versión anterior, escaneado), pp. 43-44: especificación. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "aceite"
+  },
+  {
+   "que": "Revisar el juego libre de la palanca",
+   "cuando": "Cada vez que el clutch patine o arrastre, y en cada cambio de aceite. Medida: sin dato en el manual leído (aprox.).",
+   "fuente": "Práctica de taller; el manual escaneado no se leyó en esta parte. <span class=\"esq-s-ap\">Aproximado</span>"
+  },
+  {
+   "que": "Revisar discos, resortes y rampas",
+   "cuando": "Cuando patine con el juego libre bien ajustado, o la rueda trasera brinque al rebajar.",
+   "fuente": "Práctica de taller. <span class=\"esq-s-ap\">Aproximado</span>"
+  }
+ ],
+ "sujeta": {
+  "14": [
+   "9",
+   "8"
+  ],
+  "13": [
+   "3"
+  ],
+  "12": [
+   "3"
+  ],
+  "3": [
+   "2"
+  ],
+  "10": [
+   "9"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "mando",
+    "nombre": "Empujador y balinera",
+    "corto": "Empujador",
+    "piezas": [
+     "10",
+     "11"
+    ],
+    "torn": [],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     560,
+     470
+    ]
+   },
+   {
+    "id": "resortes",
+    "nombre": "Resortes y portabalinera",
+    "corto": "Resortes",
+    "piezas": [
+     "9",
+     "8"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la portabalinera",
+      "corto": "Tornillos",
+      "ids": [
+       "14"
+      ],
+      "cant": 3
+     }
+    ],
+    "pasos": [
+     1
+    ],
+    "marca": [
+     500,
+     392
+    ]
+   },
+   {
+    "id": "discos",
+    "nombre": "Portadiscos, discos y presionador",
+    "corto": "Discos",
+    "piezas": [
+     "3",
+     "5",
+     "6",
+     "4"
+    ],
+    "torn": [
+     {
+      "nombre": "Seguro y arandela del eje",
+      "corto": "Seguro",
+      "ids": [
+       "13",
+       "12"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     2,
+     3
+    ],
+    "marca": [
+     520,
+     270
+    ]
+   },
+   {
+    "id": "corona",
+    "nombre": "Corona (canasta del clutch)",
+    "corto": "Corona",
+    "piezas": [
+     "2"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ],
+    "marca": [
+     318,
+     262
+    ]
+   }
+  ],
+  "con3d": [
+   "2",
+   "4"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas del clutch"
+ },
+ "perfiles": {
+  "empujador": [
+   [
+    0,
+    -30
+   ],
+   [
+    3.5,
+    -30
+   ],
+   [
+    3.5,
+    -4
+   ],
+   [
+    7,
+    -3
+   ],
+   [
+    7,
+    3
+   ],
+   [
+    0,
+    3
+   ]
+  ],
+  "corona3d": [
+   [
+    16,
+    -36
+   ],
+   [
+    96,
+    -36
+   ],
+   [
+    96,
+    0
+   ],
+   [
+    86,
+    0
+   ],
+   [
+    86,
+    -30
+   ],
+   [
+    30,
+    -30
+   ],
+   [
+    30,
+    -26
+   ],
+   [
+    16,
+    -26
+   ]
+  ]
+ },
+ "pendientes": [
+  "Confirmar con el manual de servicio el orden interno (¿presionador adentro y portadiscos afuera?) y cómo se sujeta el centro (seguro y arandela).",
+  "El catálogo anota «6 resortes» en la corona (ref. 2) pero vende 3 resortes (ref. 8) y 3 tornillos: confirmar. Aprox.: el slipper suele ser también asistido (las rampas aprietan más los discos al acelerar), y por eso le alcanzan 3 resortes.",
+  "Refs. 5 (6 discos) y 6 (4 separadores «125S») frente al juego slipper (ref. 7): confirmar cuáles lleva la CBS 2025 y cuántos discos de cada uno.",
+  "Torque de los tornillos de la portabalinera, largo libre de los resortes, espesor mínimo de los discos y juego libre de la palanca: manual de servicio.",
+  "garaje/intervalos/akt_nkd_125.json no tiene tarea de clutch y la de aceite va sin km: las filas de «Cuándo» del clutch van sin «tarea».",
+  "Ref. 9 y ref. 14 no traen código en el catálogo.",
+  "Los kits (refs. 1, 7 y 15) van en «kits», sin dibujo: falta un aviso propio en el panel de la derecha (propuesta para el motor)."
+ ],
+ "kits": {
+  "1": [
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14"
+  ],
+  "15": [
+   "3",
+   "4",
+   "9",
+   "14"
+  ],
+  "7": [
+   "5",
+   "6"
+  ]
+ }
+}

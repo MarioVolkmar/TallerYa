@@ -1,0 +1,2222 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 11",
+  "titulo": "Tapa de la transmisión · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la lámina 11 del catálogo de partes (NMAX BBE4)."
+ },
+ "visor": {
+  "titulo": "Tapa y filtro de la correa",
+  "sub": "Lámina 11 · 23 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la tapa de la transmisión",
+  "laminaAria": "Dibujo de la tapa de la transmisión de la NMAX 155, con su tapa exterior, el filtro de la correa y las espumas. Cada grupo abre sus piezas.",
+  "introFunciona": "Cómo respira la transmisión: el aire entra por el filtro, enfría la correa y sale.",
+  "introCadenas": "Un filtro sucio o una tapa mal cerrada se notan en la correa.",
+  "introCuando": "Lo que pide el manual para la caja de la correa, y cada cuánto."
+ },
+ "pie": "TallerYa · piloto de esquema v2 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  150,
+  96,
+  616,
+  479.1
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 480 870",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Moto apagada.</b> Nada gira y no pasa aire. La caja de la correa está cerrada por las dos [[1|tapas]]; el aire solo puede entrar por la rejilla de la [[8|tapa exterior]].",
+    "s": {
+     "gira": false,
+     "aire": 0,
+     "temp": 25,
+     "estado": "Quieta"
+    }
+   },
+   {
+    "t": "<b>2 · Arrancas.</b> El variador gira con el cigüeñal y sus aletas trabajan como un ventilador: chupan aire por la rejilla, lo pasan por el filtro y lo meten a la caja.",
+    "s": {
+     "gira": true,
+     "aire": 0.5,
+     "temp": 35,
+     "estado": "Entra aire"
+    }
+   },
+   {
+    "t": "<b>3 · El filtro limpia.</b> La espuma del [[11|filtro]] va húmeda de aceite: el aire pasa por sus poros y el polvo se queda pegado del lado de afuera. A la caja solo entra aire limpio.",
+    "s": {
+     "gira": true,
+     "aire": 1,
+     "temp": 45,
+     "polvo": true,
+     "estado": "Aire limpio"
+    }
+   },
+   {
+    "t": "<b>4 · La correa se enfría.</b> Andando, el aire recorre la correa y el clutch, se lleva el calor del roce y sale por atrás de la caja. La correa trabaja tibia (aprox. 55 °C).",
+    "s": {
+     "gira": true,
+     "aire": 1,
+     "temp": 55,
+     "polvo": true,
+     "estado": "Fresca"
+    }
+   },
+   {
+    "t": "<b>5 · Filtro tapado.</b> Con la espuma llena de mugre entra poco aire: la correa se calienta (aprox. 90 °C), se pone dura, se agrieta y patina en las lomas. Dura mucho menos.",
+    "s": {
+     "gira": true,
+     "aire": 0.2,
+     "temp": 90,
+     "sucio": true,
+     "calor": true,
+     "estado": "Caliente: patina"
+    }
+   },
+   {
+    "t": "<b>6 · Limpiar el filtro.</b> Lávalo con disolvente para piezas, nunca gasolina: riesgo de incendio. Estrújalo sin torcerlo y úntalo de aceite: húmedo, sin gotear. Si está roto, cámbialo.",
+    "s": {
+     "gira": false,
+     "aire": 0,
+     "temp": 25,
+     "seco": true,
+     "estado": "Limpio"
+    }
+   },
+   {
+    "t": "<b>7 · Agua en la caja.</b> El agua que entra sale por el [[6|tubo de drenaje]]. Si ves agua o mugre en el tubo, límpialo y revisa el filtro: puede estar muy sucio o dañado.",
+    "s": {
+     "gira": false,
+     "aire": 0,
+     "temp": 25,
+     "agua": true,
+     "estado": "Quieta"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidades: catálogo de piezas Yamaha NMAX 155 (BBE4), fig. 11 «Crankcase cover 1».",
+   "Filtro de la caja de la correa: esponja que se limpia con disolvente (no gasolina) y se aceita, cada 6.000 km (manual del propietario, págs. 9-4, 9-18 y 9-19).",
+   "Tubo colector de la caja: limpiarlo si tiene agua o mugre y revisar el filtro (manual, pág. 9-18). Correa cada 18.000 km (manual)."
+  ],
+  "aproximado": [
+   "Función de las espumas, del respiradero y de los sellos; fallas y síntomas: práctica de taller.",
+   "Torques: no se dan porque no tenemos el manual de servicio.",
+   "Forma de las tapas: silueta propia tomada del contexto de la fig. 12 de TallerYa."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 11 «Crankcase cover 1». Copia local, solo referencia.",
+   "Manual del propietario Yamaha NM-X 2022 B6Y4 (Yamaha Motor Argentina): cuadro de mantenimiento pág. 9-4; filtros págs. 9-17 a 9-19. Copia local."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.9,
+   -0.6
+  ],
+  "colores": {
+   "espuma": "#55594f"
+  }
+ },
+ "lamina": "nmax-fig11",
+ "moto": "nmax-bbe4",
+ "figura": 11,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-fig11",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23"
+ ],
+ "nombres": {
+  "1": "Tapa de la transmisión",
+  "2": "Empaque de la tapa",
+  "3": "Pasador de centrado",
+  "4": "Tornillos de la tapa",
+  "5": "Respiradero de la caja",
+  "6": "Tubo de drenaje de la caja",
+  "7": "Grapa del tubo de drenaje",
+  "8": "Tapa exterior de la transmisión",
+  "9": "Sello de caucho del filtro",
+  "10": "Sello redondo del ducto",
+  "11": "Filtro de la correa",
+  "12": "Tornillos de la tapa exterior",
+  "13": "Sello del ducto de arriba",
+  "14": "Espuma redonda",
+  "15": "Espuma en bloque",
+  "16": "Espuma del centro, arriba",
+  "17": "Espuma del centro, abajo",
+  "18": "Espuma de atrás, abajo",
+  "19": "Espuma de abajo, junto al filtro",
+  "20": "Espuma en L",
+  "21": "Espuma de adelante, abajo",
+  "22": "Espuma curva",
+  "23": "Espuma de la esquina de atrás"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23"
+ ],
+ "ocultas": [
+  "2",
+  "9",
+  "10",
+  "11",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23"
+ ],
+ "piezas": [
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    196,
+    420
+   ],
+   "et": [
+    -40,
+    20
+   ],
+   "vis": "exp",
+   "arte": "arteEmpaque"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    214,
+    300
+   ],
+   "et": [
+    -34,
+    0
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 22,
+    "x": 214,
+    "y": 300
+   }
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    690,
+    440
+   ],
+   "et": [
+    16,
+    40
+   ],
+   "vis": "arm",
+   "arte": "arteTapaInt"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    668,
+    432
+   ],
+   "et": [
+    -12,
+    42
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 8,
+    "brida": 11,
+    "largo": 30,
+    "d": 7,
+    "x": 668,
+    "y": 432,
+    "copias": [
+     [
+      -140,
+      26
+     ],
+     [
+      64,
+      -110
+     ]
+    ]
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    295,
+    184
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "arte": "arteSelloU"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    330,
+    330
+   ],
+   "et": [
+    40,
+    -60
+   ],
+   "vis": "exp",
+   "arte": "arteFiltroCorrea"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    250,
+    380
+   ],
+   "et": [
+    -40,
+    10
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "r": 62,
+    "g": 4,
+    "x": 310,
+    "y": 350
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    310,
+    288
+   ],
+   "et": [
+    0,
+    -28
+   ],
+   "vis": "exp",
+   "arte": "arteSelloArco"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    560,
+    338
+   ],
+   "et": [
+    0,
+    -60
+   ],
+   "vis": "exp",
+   "arte": "arteEspumaRedonda"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    392,
+    268
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "arte": "arteEspumaBloque"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    660,
+    284
+   ],
+   "et": [
+    30,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteEspumaL"
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "anc": [
+    200,
+    430
+   ],
+   "et": [
+    -30,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteEspumaCurva"
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    450,
+    300
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -20.0,
+      -9.0
+     ],
+     [
+      20.0,
+      -9.0
+     ],
+     [
+      20.0,
+      9.0
+     ],
+     [
+      -20.0,
+      9.0
+     ]
+    ],
+    "huecos": [],
+    "e": 4,
+    "material": "espuma",
+    "x": 450,
+    "y": 300
+   }
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    450,
+    420
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -13.0,
+      -8.0
+     ],
+     [
+      13.0,
+      -8.0
+     ],
+     [
+      13.0,
+      8.0
+     ],
+     [
+      -13.0,
+      8.0
+     ]
+    ],
+    "huecos": [],
+    "e": 4,
+    "material": "espuma",
+    "x": 450,
+    "y": 420
+   }
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    520,
+    440
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -20.0,
+      -7.0
+     ],
+     [
+      20.0,
+      -7.0
+     ],
+     [
+      20.0,
+      7.0
+     ],
+     [
+      -20.0,
+      7.0
+     ]
+    ],
+    "huecos": [],
+    "e": 4,
+    "material": "espuma",
+    "x": 520,
+    "y": 440
+   }
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    380,
+    430
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -15.0,
+      -8.0
+     ],
+     [
+      15.0,
+      -8.0
+     ],
+     [
+      15.0,
+      8.0
+     ],
+     [
+      -15.0,
+      8.0
+     ]
+    ],
+    "huecos": [],
+    "e": 4,
+    "material": "espuma",
+    "x": 380,
+    "y": 430
+   }
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    270,
+    440
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -17.0,
+      -8.0
+     ],
+     [
+      17.0,
+      -8.0
+     ],
+     [
+      17.0,
+      8.0
+     ],
+     [
+      -17.0,
+      8.0
+     ]
+    ],
+    "huecos": [],
+    "e": 4,
+    "material": "espuma",
+    "x": 270,
+    "y": 440
+   }
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "anc": [
+    620,
+    410
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -13.0,
+      -7.0
+     ],
+     [
+      13.0,
+      -7.0
+     ],
+     [
+      13.0,
+      7.0
+     ],
+     [
+      -13.0,
+      7.0
+     ]
+    ],
+    "huecos": [],
+    "e": 4,
+    "material": "espuma",
+    "x": 620,
+    "y": 410
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    430,
+    300
+   ],
+   "et": [
+    0,
+    0
+   ],
+   "vis": "arm",
+   "arte": "arteTapaExt"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    232,
+    430
+   ],
+   "et": [
+    -36,
+    26
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 8,
+    "largo": 26,
+    "d": 6,
+    "x": 232,
+    "y": 430,
+    "copias": [
+     [
+      420,
+      -10
+     ],
+     [
+      300,
+      -180
+     ]
+    ]
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    601,
+    190
+   ],
+   "et": [
+    -30,
+    -10
+   ],
+   "vis": "arm",
+   "arte": "arteRespiradero"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    612,
+    166
+   ],
+   "et": [
+    -14,
+    -34
+   ],
+   "vis": "arm",
+   "comun": "abrazadera",
+   "p": {
+    "r": 7,
+    "giro": -90,
+    "x": 610,
+    "y": 170
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    664,
+    150
+   ],
+   "et": [
+    30,
+    -10
+   ],
+   "vis": "arm",
+   "arte": "arteTubo"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Tornillos de la tapa exterior.</b> Con la moto en el gato central y el motor frío, saca los tornillos de la tapa de plástico.",
+   "m": {
+    "12": [
+     -40,
+     60
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapa exterior.</b> Hálala hacia afuera, alejándola de la correa (así lo pide el manual). Sale con las espumas pegadas por dentro.",
+   "m": {
+    "8": [
+     -90,
+     330
+    ]
+   }
+  },
+  {
+   "t": "<b>Espumas antirruido.</b> Van pegadas por dentro de la tapa exterior. Solo se despegan si están rotas o empapadas.",
+   "m": {
+    "14": [
+     16,
+     305
+    ],
+    "15": [
+     51,
+     318
+    ],
+    "16": [
+     -41,
+     342
+    ],
+    "17": [
+     -8,
+     291
+    ],
+    "18": [
+     20,
+     320
+    ],
+    "19": [
+     48,
+     349
+    ],
+    "20": [
+     -38,
+     303
+    ],
+    "21": [
+     -10,
+     320
+    ],
+    "22": [
+     20,
+     340
+    ],
+    "23": [
+     50,
+     300
+    ]
+   }
+  },
+  {
+   "t": "<b>Filtro de la correa.</b> Saca la esponja con su sello de caucho y el sello redondo del ducto. Mírala: si está sucia, se lava con disolvente para piezas (nada inflamable), se exprime sin retorcer y se aceita.",
+   "m": {
+    "11": [
+     -172,
+     85
+    ],
+    "10": [
+     -250,
+     160
+    ],
+    "9": [
+     -200,
+     30
+    ]
+   }
+  },
+  {
+   "t": "<b>Sello del ducto.</b> El caucho en U de la boca de arriba sale tirando hacia afuera.",
+   "m": {
+    "13": [
+     0,
+     -80
+    ]
+   }
+  },
+  {
+   "t": "<b>Tubo de drenaje.</b> Suelta la grapa y saca el tubo del respiradero. Si tiene agua o mugre, límpialo y revisa el filtro.",
+   "m": {
+    "6": [
+     40,
+     -60
+    ],
+    "7": [
+     60,
+     -112
+    ]
+   }
+  },
+  {
+   "t": "<b>Respiradero.</b> Sale de la tapa de aluminio tirando hacia arriba.",
+   "m": {
+    "5": [
+     -20,
+     -60
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos de la tapa de aluminio.</b> Son diez, alrededor del borde. Aflójalos en cruz, un poco cada uno.",
+   "m": {
+    "4": [
+     -38,
+     52
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapa de la transmisión.</b> Sale hacia ti. Detrás quedan el variador, la correa y el clutch (fig. 12).",
+   "m": {
+    "1": [
+     -90,
+     330
+    ]
+   }
+  },
+  {
+   "t": "<b>Empaque y pasador.</b> El empaque se cambia cada vez que abres la tapa; el pasador centra la tapa y se vuelve a poner. <b>Al armar:</b> empaque nuevo y tornillos en cruz con el torque del manual de servicio.",
+   "m": {
+    "2": [
+     82,
+     -28
+    ],
+    "3": [
+     50,
+     -60
+    ]
+   }
+  }
+ ],
+ "textoArmado": "<b>Armado.</b> Ves la tapa exterior de plástico; debajo asoma el borde de la tapa de aluminio. El filtro de la correa, sus sellos y las espumas quedan escondidos entre las dos: toca un grupo y desármalo.",
+ "fichas": {
+  "1": {
+   "nombre": "Tapa de la transmisión",
+   "cat": "COVER, CRANKCASE 1 · 1 pieza",
+   "que": "La tapa de aluminio que cierra la caja de la correa por el lado izquierdo. Adelante tiene la toma de aire redonda, frente al [[11|filtro]].",
+   "sirve": "Protege la correa, el variador y el clutch del agua y la mugre, y guía el aire que los enfría.",
+   "sintomas": [
+    "Ves polvo negro de la correa saliendo por la junta.",
+    "Ves aceite en la junta: la caja de la correa es seca, así que ese aceite viene de un retén, no de la tapa.",
+    "Suena un golpeteo de plástico o metal al pasar huecos."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Una caída la raja o le parte una oreja de tornillo."
+    ],
+    [
+     "maluso",
+     "Los [[4|tornillos]] apretados sin orden la tuercen y la junta deja pasar agua."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está rajada se vuelve a poner, siempre con [[2|empaque]] nuevo. Rajada, se cambia: por ahí entra agua a la correa.",
+   "dif": "media",
+   "cuando": "Se abre para cambiar la correa (cada 18.000 km) o revisar el variador.",
+   "arrastra": [
+    "Tapa rajada → entra agua → la correa patina y se daña."
+   ],
+   "conecta": [
+    "2",
+    "4",
+    "5",
+    "8",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ],
+    [
+     "ok",
+     "Correa cada 18.000 km (manual del propietario)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "B6H-E5411-01"
+  },
+  "2": {
+   "nombre": "Empaque de la tapa",
+   "cat": "GASKET, CRANKCASE COVER 1 · 1 pieza",
+   "que": "El cordón que sella la tapa de aluminio contra el motor.",
+   "sirve": "No deja entrar agua ni polvo a la caja de la correa.",
+   "sintomas": [
+    "Hay agua o barro dentro de la caja al abrirla.",
+    "La correa patina después de lavar la moto o de un aguacero."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece con el calor del motor."
+    ],
+    [
+     "maluso",
+     "Se pellizca si la tapa se monta sin el [[3|pasador]] en su sitio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia cada vez que abres la tapa: aplastado ya no sella igual.",
+   "dif": "facil",
+   "cuando": "Nuevo en cada apertura de la tapa.",
+   "arrastra": [
+    "Empaque viejo → agua en la correa → patina y se gasta."
+   ],
+   "conecta": [
+    "1",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ],
+    [
+     "ap",
+     "Cambio en cada apertura: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5451-00"
+  },
+  "3": {
+   "nombre": "Pasador de centrado",
+   "cat": "PIN, DOWEL · 1 pieza",
+   "que": "Un pasador corto que entra en el motor y en la [[1|tapa]].",
+   "sirve": "Centra la tapa para que el [[2|empaque]] asiente parejo.",
+   "sintomas": [
+    "La tapa no cierra pareja o un tornillo no entra derecho."
+   ],
+   "fallas": [
+    [
+     "perdida",
+     "Se queda pegado en la tapa al desarmar y se pierde."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si no está doblado.",
+   "dif": "facil",
+   "cuando": "Míralo cada vez que abras la tapa.",
+   "arrastra": [
+    "Sin pasador → la tapa queda corrida → el empaque no sella."
+   ],
+   "conecta": [
+    "1",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "99530-10114"
+  },
+  "4": {
+   "nombre": "Tornillos de la tapa",
+   "cat": "BOLT, FLANGE DEEP RECESS · 10 piezas",
+   "que": "Diez tornillos con pestaña alrededor de la [[1|tapa de aluminio]].",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad (10): catálogo nmax-bbe4, fig. 11."
+    ],
+    [
+     "ap",
+     "No damos torque: no tenemos el manual de servicio."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-06035"
+  },
+  "5": {
+   "nombre": "Respiradero de la caja",
+   "cat": "BREATHER · 1 pieza",
+   "que": "Un tapón de caucho con boquilla arriba de la [[1|tapa]], donde va el [[6|tubo de drenaje]].",
+   "sirve": "Deja respirar la caja de la correa: sale el aire caliente y la humedad sin que entre mugre.",
+   "sintomas": [
+    "El tubo de drenaje está suelto o el tapón se ve rajado."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se reseca y se raja."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está rajado se cambia: es caucho y no se repara.",
+   "dif": "facil",
+   "cuando": "Míralo cuando revises el tubo de drenaje.",
+   "arrastra": [
+    "Respiradero rajado → entra agua a la caja → la correa patina."
+   ],
+   "conecta": [
+    "1",
+    "6",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5LW-E5371-01"
+  },
+  "6": {
+   "nombre": "Tubo de drenaje de la caja",
+   "cat": "PIPE, DRAIN · 1 pieza",
+   "que": "El tubo corto que sale del [[5|respiradero]]. El manual lo llama tubo colector de la caja de la correa.",
+   "sirve": "Deja salir el agua y la mugre que se juntan en la caja. Si ves agua en él, el [[11|filtro]] también se ensució.",
+   "sintomas": [
+    "Ves agua o barro acumulado dentro del tubo.",
+    "El tubo está tapado o doblado."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "Se tapa con barro y la caja ya no drena."
+    ],
+    [
+     "maluso",
+     "Queda doblado al montar la tapa exterior."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se suelta de su grapa, se limpia y se vuelve a poner. Si está rajado, va nuevo.",
+   "dif": "facil",
+   "cuando": "Revísalo cuando limpies el filtro de la correa y después de lluvias fuertes o de lavar la moto (manual, pág. 9-18).",
+   "arrastra": [
+    "Tubo tapado → el agua se queda en la caja → la correa patina."
+   ],
+   "conecta": [
+    "5",
+    "7",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ],
+    [
+     "ok",
+     "Limpiarlo si tiene agua o mugre y revisar el filtro (manual del propietario, pág. 9-18)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "codigo": "4ST-E443E-00"
+  },
+  "7": {
+   "nombre": "Grapa del tubo de drenaje",
+   "cat": "CLIP · 1 pieza",
+   "que": "La grapa que aprieta el [[6|tubo de drenaje]] en el [[5|respiradero]].",
+   "sirve": "Mantiene la manguera o la pieza en su sitio para que no se suelte ni roce.",
+   "sintomas": [
+    "La manguera está suelta o se corrió.",
+    "La grapa está floja, oxidada o rota."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión con el calor y los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si perdió tensión o está oxidada, va nueva: es barata y evita fugas.",
+   "dif": "facil",
+   "cuando": "Mírala cuando revises las mangueras de esta parte.",
+   "arrastra": [
+    "Grapa floja → la manguera se suelta o entra aire."
+   ],
+   "conecta": [
+    "5",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "90467-11106"
+  },
+  "8": {
+   "nombre": "Tapa exterior de la transmisión",
+   "cat": "COVER, CRANKCASE 3 · 1 pieza",
+   "que": "La tapa de plástico negro que va encima de la de aluminio, con la rejilla de entrada de aire adelante. El manual la llama tapa del filtro de aire de la caja de la correa.",
+   "sirve": "Lleva el aire limpio al [[11|filtro]], tapa la de aluminio y, con sus espumas, baja el ruido de la transmisión.",
+   "sintomas": [
+    "Vibra o suena al pasar huecos.",
+    "La rejilla está tapada con barro u hojas."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se raja o se le parte una oreja en una caída."
+    ],
+    [
+     "maluso",
+     "Un [[12|tornillo]] apretado de más rompe la oreja de plástico."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está rota se vuelve a poner. Rota, se cambia: deja entrar agua al filtro.",
+   "dif": "facil",
+   "cuando": "Se quita en cada limpieza del filtro de la correa.",
+   "arrastra": [
+    "Tapa rota → entra agua al filtro → la correa se moja y patina."
+   ],
+   "conecta": [
+    "11",
+    "12",
+    "14",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ],
+    [
+     "ok",
+     "Se retira «hacia fuera y alejándola de la correa» para sacar el filtro (manual, pág. 9-18)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "B6H-E5431-00"
+  },
+  "9": {
+   "nombre": "Sello de caucho del filtro",
+   "cat": "RUBBER SEAL · 1 pieza",
+   "que": "Una media luna de caucho que cierra la parte de arriba del [[11|filtro]] contra la [[8|tapa exterior]].",
+   "sirve": "Hace que todo el aire pase por la esponja y no por los lados.",
+   "sintomas": [
+    "Hay polvo dentro de la caja, detrás del filtro."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece y deja una rendija."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está duro o roto se cambia: es caucho.",
+   "dif": "facil",
+   "cuando": "Míralo en cada limpieza del filtro.",
+   "arrastra": [
+    "Sello roto → entra polvo sin filtrar → la correa y el variador se gastan."
+   ],
+   "conecta": [
+    "11",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E5495-00"
+  },
+  "10": {
+   "nombre": "Sello redondo del ducto",
+   "cat": "SEAL, AIR DUCT · 1 pieza",
+   "que": "El anillo de caucho alrededor de la toma de aire, entre el [[11|filtro]] y la [[1|tapa de aluminio]].",
+   "sirve": "Sella la toma para que el aire solo entre por el filtro.",
+   "sintomas": [
+    "Polvo alrededor de la toma de aire, por dentro."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se estira y se sale de su canal."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está estirado o roto se cambia.",
+   "dif": "facil",
+   "cuando": "Míralo en cada limpieza del filtro.",
+   "arrastra": [
+    "Sello fuera de sitio → entra polvo a la caja."
+   ],
+   "conecta": [
+    "11",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B65-E5472-00"
+  },
+  "11": {
+   "nombre": "Filtro de la correa",
+   "cat": "ELEMENT 1 · 1 pieza",
+   "que": "Una esponja redonda aceitada, entre la tapa exterior y la toma de aire de la [[1|tapa de aluminio]].",
+   "sirve": "Limpia el aire que enfría la correa. El variador lo aspira con sus aspas: sin filtro, el polvo gasta la correa y las poleas.",
+   "sintomas": [
+    "La esponja se ve negra o tiesa.",
+    "La correa se calienta y la moto pierde arranque en las lomas.",
+    "Hay agua en el [[6|tubo de drenaje]]."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "Se tapa con polvo: entra menos aire y la correa se calienta."
+    ],
+    [
+     "maluso",
+     "Lavada con gasolina o retorcida, la esponja se rompe."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se lava con disolvente para piezas (nunca gasolina: riesgo de incendio), se exprime sin retorcer y se aceita con aceite para filtros de esponja: húmeda, sin gotear. Si está rota o muy sucia, se cambia.",
+   "dif": "facil",
+   "cuando": "Límpiala cada 6.000 km (manual), y más seguido si andas en polvo o con lluvia.",
+   "arrastra": [
+    "Filtro tapado → la correa se calienta → se cristaliza y patina."
+   ],
+   "conecta": [
+    "8",
+    "9",
+    "10",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ],
+    [
+     "ok",
+     "Esponja: limpiar con disolvente (no gasolina), aceitar, húmeda sin gotear (manual, págs. 9-18 y 9-19)."
+    ],
+    [
+     "ok",
+     "Limpiar cada 6.000 km, cambiar si hace falta (manual, cuadro de la pág. 9-4)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "2DP-E5407-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "#c9b98a",
+      "perfil": [
+       [
+        0,
+        -6
+       ],
+       [
+        52,
+        -6
+       ],
+       [
+        54,
+        -4
+       ],
+       [
+        54,
+        4
+       ],
+       [
+        52,
+        6
+       ],
+       [
+        0,
+        6
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "caucho",
+      "perfil": [
+       [
+        52,
+        -7
+       ],
+       [
+        58,
+        -7
+       ],
+       [
+        58,
+        7
+       ],
+       [
+        52,
+        7
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "12": {
+   "nombre": "Tornillos de la tapa exterior",
+   "cat": "BOLT 1 · 6 piezas",
+   "que": "Seis tornillos que sujetan la [[8|tapa exterior]] de plástico.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad (6): catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "B63-E5481-00"
+  },
+  "13": {
+   "nombre": "Sello del ducto de arriba",
+   "cat": "SEAL, AIR DUCT · 1 pieza",
+   "que": "Un caucho en U sobre la boca de arriba de la [[1|tapa de aluminio]], donde asienta la [[8|tapa exterior]].",
+   "sirve": "Sella el paso de aire de arriba para que no entre agua ni polvo.",
+   "sintomas": [
+    "Polvo o agua en la boca de arriba de la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece con el calor y se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está duro o roto se cambia.",
+   "dif": "facil",
+   "cuando": "Míralo cuando quites la tapa exterior.",
+   "arrastra": [
+    "Sello despegado → entra agua por arriba → la correa patina."
+   ],
+   "conecta": [
+    "1",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-E5474-00"
+  },
+  "14": {
+   "nombre": "Espuma redonda",
+   "cat": "DAMPER 1 · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va detrás, sobre el clutch. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5316-00"
+  },
+  "15": {
+   "nombre": "Espuma en bloque",
+   "cat": "DAMPER 2 · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va adelante y arriba, encima del filtro. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5326-00"
+  },
+  "16": {
+   "nombre": "Espuma del centro, arriba",
+   "cat": "DAMPER, PLATE · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va en el centro, arriba. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90520-10856"
+  },
+  "17": {
+   "nombre": "Espuma del centro, abajo",
+   "cat": "DAMPER, PLATE · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va en el centro, abajo. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90520-40801"
+  },
+  "18": {
+   "nombre": "Espuma de atrás, abajo",
+   "cat": "DAMPER, PLATE · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va atrás, abajo. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90520-10851"
+  },
+  "19": {
+   "nombre": "Espuma de abajo, junto al filtro",
+   "cat": "DAMPER, PLATE · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va abajo, entre el filtro y el centro. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90520-50801"
+  },
+  "20": {
+   "nombre": "Espuma en L",
+   "cat": "DAMPER 7 · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va atrás, en el borde de arriba (forma de L). Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E533C-00"
+  },
+  "21": {
+   "nombre": "Espuma de adelante, abajo",
+   "cat": "DAMPER, PLATE · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va adelante, abajo. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90520-40800"
+  },
+  "22": {
+   "nombre": "Espuma curva",
+   "cat": "DAMPER 9 · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va en la esquina de adelante y abajo (curva). Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E533E-00"
+  },
+  "23": {
+   "nombre": "Espuma de la esquina de atrás",
+   "cat": "DAMPER, PLATE · 1 pieza",
+   "que": "Una espuma antirruido pegada por dentro de la [[8|tapa exterior]]: va atrás, en la esquina de abajo. Cada espuma se pide por su propio código (no vienen en juego).",
+   "sirve": "Absorbe el ruido de la correa y el variador para que la transmisión suene menos.",
+   "sintomas": [
+    "La transmisión suena más que antes.",
+    "Ves pedazos de espuma sueltos al quitar la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con el calor y el agua se deshace o se despega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se despegó o se deshizo se cambia: un pedazo suelto puede llegar a la correa.",
+   "dif": "facil",
+   "cuando": "Mírala cada vez que quites la tapa exterior.",
+   "arrastra": [
+    "Espuma suelta → puede meterse en la toma de aire → tapa el filtro."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 11."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90520-10855"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Filtro de la correa sin limpiar",
+   "p": [
+    [
+     "11",
+     "Se tapa con polvo."
+    ],
+    [
+     "8",
+     "Entra poco aire por la rejilla."
+    ],
+    [
+     "1",
+     "La caja se calienta por dentro: la correa se cristaliza y patina."
+    ]
+   ]
+  },
+  {
+   "t": "Tapa abierta sin empaque nuevo",
+   "p": [
+    [
+     "2",
+     "El empaque aplastado no sella."
+    ],
+    [
+     "1",
+     "Entra agua al lavar o con lluvia."
+    ],
+    [
+     "6",
+     "El tubo de drenaje se llena; si se tapa, el agua moja la correa y patina."
+    ]
+   ]
+  },
+  {
+   "t": "Espuma suelta",
+   "p": [
+    [
+     "14",
+     "Se despega con el calor."
+    ],
+    [
+     "11",
+     "Un pedazo tapa el filtro."
+    ],
+    [
+     "1",
+     "Menos aire para la correa."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Correa: cambiar",
+   "cuando": "Cada <b>18.000 km</b>.",
+   "fuente": "Manual del propietario Yamaha NM-X 2022 B6Y4 (B6Y-F8199-S0), Yamaha Motor Argentina, sección 'Correa trapezoidal' (indicador V-BELT); consultado el 14-nov-2026 <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "correa-cvt"
+  },
+  {
+   "que": "Filtro de la correa: limpiar y aceitar",
+   "cuando": "Cada <b>6.000 km</b>; cámbialo si está roto o muy sucio. Más seguido con polvo o lluvia.",
+   "fuente": "Manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0): cuadro de mantenimiento (pág. 9-4) y «Limpieza del elemento del filtro de aire de la caja de la correa trapezoidal» (págs. 9-18 y 9-19). <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Tubo de drenaje de la caja: revisar y limpiar",
+   "cuando": "Con cada limpieza del filtro y después de aguaceros o de lavar la moto.",
+   "fuente": "Manual del propietario, «Limpieza del tubo colector de la caja de la correa trapezoidal» (pág. 9-18), sin intervalo fijo; la frecuencia es práctica de taller. <span class=\"esq-s-ap\">Aproximado</span>"
+  },
+  {
+   "que": "Empaque de la tapa de aluminio",
+   "cuando": "Nuevo cada vez que se abre la tapa (cambio de correa).",
+   "fuente": "Práctica de taller. <span class=\"esq-s-ap\">Aproximado</span>"
+  }
+ ],
+ "sujeta": {
+  "12": [
+   "8"
+  ],
+  "8": [
+   "11",
+   "10",
+   "9",
+   "14",
+   "15",
+   "16",
+   "17",
+   "18",
+   "19",
+   "20",
+   "21",
+   "22",
+   "23"
+  ],
+  "7": [
+   "6"
+  ],
+  "4": [
+   "1"
+  ],
+  "1": [
+   "2",
+   "3"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "exterior",
+    "nombre": "Tapa exterior",
+    "corto": "Tapa exterior",
+    "piezas": [
+     "8"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la tapa exterior",
+      "corto": "Tornillos",
+      "ids": [
+       "12"
+      ],
+      "cant": 6
+     }
+    ],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     470,
+     250
+    ]
+   },
+   {
+    "id": "espumas",
+    "nombre": "Espumas antirruido",
+    "corto": "Espumas",
+    "piezas": [
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23"
+    ],
+    "torn": [],
+    "pasos": [
+     2
+    ],
+    "marca": [
+     560,
+     420
+    ]
+   },
+   {
+    "id": "filtro",
+    "nombre": "Filtro de la correa",
+    "corto": "Filtro",
+    "piezas": [
+     "11",
+     "10",
+     "9",
+     "13"
+    ],
+    "torn": [],
+    "pasos": [
+     3,
+     4
+    ],
+    "marca": [
+     310,
+     350
+    ]
+   },
+   {
+    "id": "tapa",
+    "nombre": "Tapa de la transmisión",
+    "corto": "Tapa",
+    "piezas": [
+     "1",
+     "2",
+     "5",
+     "6"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la tapa",
+      "corto": "Tornillos",
+      "ids": [
+       "4"
+      ],
+      "cant": 10
+     },
+     {
+      "nombre": "Grapa del tubo",
+      "corto": "Grapa",
+      "ids": [
+       "7"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Pasador de centrado",
+      "corto": "Pasador",
+      "ids": [
+       "3"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "marca": [
+     690,
+     380
+    ]
+   }
+  ],
+  "con3d": [
+   "11"
+  ],
+  "toqueExtra": [
+   "6"
+  ],
+  "inicio": "Piezas de la tapa de la transmisión"
+ },
+ "sistema": "Tapa de la transmisión",
+ "contexto": [],
+ "carcasas": [
+  {
+   "id": "8",
+   "transparente": 0.24,
+   "rayosx": 0.2,
+   "brillo": true
+  },
+  {
+   "id": "1",
+   "transparente": 0.3,
+   "rayosx": 0.2,
+   "brillo": true
+  }
+ ]
+}

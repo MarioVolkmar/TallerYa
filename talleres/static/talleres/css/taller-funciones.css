@@ -54,9 +54,13 @@
   background: var(--pizarra); border: 2px solid var(--borde); border-radius: 14px; color: var(--crema); }
 .em-icono { width: 34px; height: 34px; flex: none; color: var(--crema); }
 .em-opcion:hover, .em-opcion:focus-visible { border-color: var(--lava-2); }
-.em-opcion[aria-pressed="true"] .em-icono { color: var(--lava); }
-.em-opcion[aria-pressed="true"] { border-color: var(--lava); background: var(--pizarra-2); box-shadow: 0 0 0 3px rgba(242, 97, 29, .25); }
-.em-opcion-accidente { border-color: #b3261e; }
+/* «Accidente» se distingue como la opción grave por el color del ícono y el texto, con el mismo borde que las demás:
+   así no parece elegida. Rojo #ff8a80 sobre pizarra: contraste 6,9:1 (5,3:1 sobre el fondo de elegida). */
+.em-opcion-accidente, .em-opcion-accidente .em-icono { color: #ff8a80; }
+/* Elegida (cualquier opción): borde lava grueso y fondo lava suave; además aria-pressed="true" */
+.em-opcion[aria-pressed="true"] { border-color: var(--lava); background: rgba(242, 97, 29, .2);
+  box-shadow: 0 0 0 3px rgba(242, 97, 29, .3); }
+.em-opcion[aria-pressed="true"] .em-icono { color: var(--lava-2); }
 .em-flujo .em-opcion:last-child:nth-child(odd) { grid-column: 1 / -1; min-height: 4rem; flex-direction: row; }
 .em-ayuda { display: grid; gap: .6rem; padding: 1rem; }
 .em-ayuda ul { display: grid; gap: .4rem; padding-left: 1.1rem; list-style: disc; font-size: .95rem; }

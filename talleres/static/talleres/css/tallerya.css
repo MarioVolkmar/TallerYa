@@ -2143,12 +2143,16 @@ a.actividad-nombre:hover { color: var(--lava); }
     -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, #000 88%, transparent);
     mask-composite: intersect; }
   /* Tablet y escritorio angosto: no queda hueco entre el título y la ficha; la moto va arriba a la derecha, encima de la ficha */
-  @media (max-width: 1023px) { .portada-carrusel { left: auto; right: 0; width: 36vw; bottom: auto; height: 16rem; --encuadre: .56; } }
+  @media (max-width: 1023px) { .portada-carrusel { left: auto; right: 0; width: 36vw; bottom: auto; height: 16rem; --encuadre: .56; }
+    /* Sin franja vacía bajo los botones: la ficha va abajo a la derecha, a 3,5rem del borde porque la tarjeta de búsqueda sube 2rem (md:-mt-8) sobre el héroe y 5,5rem a la izquierda para no cruzarse con Chispa (fija abajo a la derecha) */
+    .portada-vitrina:has(.portada-carrusel) > .contenido { padding-bottom: 6rem; }
+    .portada-vitrina:has(.portada-carrusel) .portada-ficha { bottom: 3.5rem; right: 5.5rem; } }
   /* Escritorio angosto (o escritorio con zoom/escala de Windows): la moto ocupa la mitad derecha, al lado del título, y la ficha va debajo */
   @media (min-width: 1024px) and (max-width: 1279px) {
-    .portada-carrusel { left: auto; right: 0; width: calc(100vw - 37rem); top: .5rem; bottom: 21.5rem; height: auto; --encuadre: .82; }
-    .portada-vitrina:has(.portada-carrusel) > .contenido { padding-bottom: 22rem; }
-    .portada-vitrina .portada-ficha { bottom: 12.75rem; }
+    /* La ficha va abajo a la derecha, debajo de la moto: sin franja vacía bajo los botones */
+    .portada-carrusel { left: auto; right: 0; width: calc(100vw - 37rem); top: .5rem; bottom: 11rem; height: auto; --encuadre: .82; }
+    .portada-vitrina:has(.portada-carrusel) > .contenido { padding-bottom: 12rem; }
+    .portada-vitrina:has(.portada-carrusel) .portada-ficha { bottom: 3.5rem; right: 5.5rem; }
   }
   .portada-vitrina .portada-ficha { top: auto; bottom: 13rem; z-index: 3; }
   .portada-vitrina .portada-ficha strong { text-shadow: 0 2px 14px rgba(0, 0, 0, .7); }
@@ -4064,8 +4068,10 @@ a.fo-accion.fo-responder { color: #a9b0b2; font-weight: 600; }
 .hv-qr-chico { width: 96px; flex-shrink: 0; margin-top: 0; }
 .hv-tarjeta { display: flex; flex-direction: column; }
 .hv-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: auto; padding-top: .9rem; }
-.hv-desactivar { font-size: .75rem; color: var(--crema-2); text-decoration: underline; text-underline-offset: 3px; }
-.hv-desactivar:hover { color: var(--vencido); }
+.hv-acciones .btn { min-height: 44px; }
+.hv-desactivar { border: 1px solid rgba(255, 255, 255, .18); color: var(--crema-2); }
+.hv-desactivar:hover, .hv-desactivar:focus-visible { color: #ff8f6b; border-color: rgba(242, 97, 29, .55); background: rgba(242, 97, 29, .1); }
+.hv-desactivar:focus-visible { outline: 2px solid var(--lava); outline-offset: 2px; }
 .hv-compartida { display: flex; align-items: center; gap: 1rem; }
 .moto-accesos { display: flex; flex-wrap: wrap; gap: .5rem; }
 .moto-acceso { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .9rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .15); font-size: .82rem; color: var(--crema); }
@@ -4833,7 +4839,19 @@ header .pt-enlace:hover::after { transform: translateX(2px); }
 .vencido .codigo-qr, .vencido .codigo-letras { opacity: .3; }
 .codigo-otro { justify-self: start; font-size: .75rem; text-decoration: underline; color: var(--lava); }
 /* La ventana "Registrar mantenimiento" no se estira más allá de la pantalla: scroll interno */
-.dialogo-registrar > form { max-height: calc(100dvh - 3rem); overflow-y: auto; }
+/* Un solo desplazamiento: la ventana no pasa de la pantalla y solo se desplaza el formulario (antes se desplazaban
+   la ventana y el formulario, con dos barras y el pie cortado). Encabezado y pie quedan fijos si tienen su clase
+   (top/bottom negativos: Chrome mide el sticky dentro del padding del formulario). */
+.dialogo-registrar { padding: 0; max-height: calc(100dvh - 2rem); overflow: hidden; }
+.dialogo-registrar[open] { display: flex; flex-direction: column; }
+.dialogo-registrar > form { flex: 1 1 auto; min-height: 0; padding: 1.75rem; overflow-y: auto; overscroll-behavior: contain; }
+.dialogo-registrar.dialogo-registrar > form > .dialogo-cabeza { position: sticky; top: -1.75rem; z-index: 2; margin: -1.75rem -1.75rem 0; padding: 1.75rem 1.75rem .6rem; background: var(--carbon); }
+.dialogo-registrar.dialogo-registrar > form > .dialogo-pie { position: sticky; bottom: -1.75rem; z-index: 2; margin: 0 -1.75rem -1.75rem; padding: .9rem 1.75rem 1.75rem; background: var(--carbon); border-top: 1px solid rgba(255, 255, 255, .08); }
+@media (max-width: 640px) {
+  .dialogo-registrar > form { padding: 1.25rem; }
+  .dialogo-registrar.dialogo-registrar > form > .dialogo-cabeza { top: -1.25rem; margin: -1.25rem -1.25rem 0; padding: 1.25rem 1.25rem .6rem; }
+  .dialogo-registrar.dialogo-registrar > form > .dialogo-pie { bottom: -1.25rem; margin: 0 -1.25rem -1.25rem; padding: .8rem 1.25rem 1.25rem; }
+}
 /* Ventana con el QR grande: fondo blanco (brillo alto) para que el taller lo escanee fácil */
 .codigo-dialogo { width: min(24rem, calc(100vw - 2rem)); padding: 1.4rem 1.2rem 1.2rem; border: 0; border-radius: 1.2rem; background: #fff; color: #111517; }
 .codigo-dialogo::backdrop { background: rgba(0, 0, 0, .7); }
@@ -4985,7 +5003,6 @@ header .pt-enlace:hover::after { transform: translateX(2px); }
   .dialogo-cerrar { width: 2.5rem; height: 2.5rem; }
   .visor-modo button, .hv-borrar, .actividad-ver, .actividad-calificar { display: inline-flex; align-items: center; }
   .fo-selector-op, .plano-zoom button, .tc-fav, .portada-vitrina .portada-controles button { width: 2.5rem; height: 2.5rem; }
-  .hv-desactivar { display: inline-flex; align-items: center; min-height: 40px; }
   .filtro-chips { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
   .filtro-chips::-webkit-scrollbar { display: none; }
   .filtro-chips button { flex-shrink: 0; white-space: nowrap; }

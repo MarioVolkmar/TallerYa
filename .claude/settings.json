@@ -1,13 +1,40 @@
 {
   "permissions": {
+    "allow": [
+      "Bash(venv/Scripts/python.exe manage.py test)",
+      "Bash(venv/Scripts/python.exe manage.py test *)",
+      "Bash(venv/Scripts/python manage.py test *)",
+      "Bash(venv/Scripts/python.exe manage.py check)",
+      "Bash(venv/Scripts/python.exe manage.py check *)",
+      "Bash(venv/Scripts/python.exe manage.py makemigrations --check *)",
+      "Bash(venv/Scripts/python.exe manage.py showmigrations *)",
+      "Bash(node --check *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/validar_esquema.py *)",
+      "Bash(../../../venv/Scripts/python.exe validar_esquema.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/medir_lamina.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/metricas.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/firma_lamina.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/separar_numeros.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/medir_lamina_v2.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/esqueleto_v2.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/plantillas_ficha.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/autocontrol.py *)",
+      "Bash(venv/Scripts/python.exe informes_noche/piloto-esquema/motor/armar_un_archivo.py *)"
+    ],
     "deny": [
       "Read(./venv/**)",
       "Read(./staticfiles/**)",
       "Read(./db.sqlite3)",
       "Read(./privado/**)",
-      "Read(./manual_despiece/**/*.pdf)",
-      "Read(./despiece_local/**/*.pdf)",
-      "Read(./**/__pycache__/**)"
+      "Read(./**/__pycache__/**)",
+      "Edit(./despiece_local/**)",
+      "Write(./despiece_local/**)",
+      "Edit(./manual_despiece/**)",
+      "Write(./manual_despiece/**)",
+      "Bash(rm *despiece_local*)",
+      "Bash(rm *manual_despiece*)",
+      "Bash(mv *despiece_local*)",
+      "Bash(mv *manual_despiece*)"
     ]
   }
 }

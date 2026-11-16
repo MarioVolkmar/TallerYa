@@ -1,0 +1,38 @@
+<!-- Boceto aprobado por el usuario (estilo A: bujía real con visor, barriendo). Referencia de proporciones y animaciones; no es el arte final. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360">
+<style>
+@keyframes barrer{0%,100%{transform:rotate(-16deg)}50%{transform:rotate(10deg)}}
+@keyframes vaiven{0%,100%{transform:translate(0,0) rotate(-2deg)}50%{transform:translate(4px,-3px) rotate(2deg)}}
+@keyframes arco{0%,82%,100%{opacity:0}85%,93%{opacity:1}}
+@keyframes visor{0%,88%,100%{transform:scaleY(1)}92%{transform:scaleY(.15)}}
+@keyframes mirar{0%,45%,100%{transform:translateX(0)}55%,85%{transform:translateX(-4px)}}
+@keyframes polvo{0%{opacity:0;transform:translate(0,0)}25%{opacity:.8}100%{opacity:0;transform:translate(-30px,-22px)}}
+.cuerpo{transform-box:fill-box;transform-origin:50% 100%;animation:vaiven 1.3s ease-in-out infinite}
+.esc{transform-box:fill-box;transform-origin:50% 0;animation:barrer 1.3s ease-in-out infinite}
+.arc{animation:arco 3s infinite}
+.ojos{transform-box:fill-box;transform-origin:center;animation:visor 5s infinite}
+.mira{animation:mirar 7s ease-in-out infinite}
+.pv{animation:polvo 1.3s ease-out infinite}
+</style>
+<rect width="680" height="360" rx="14" fill="#141a1c"/>
+<g transform="translate(520 92)">
+<ellipse cx="0" cy="214" rx="38" ry="6" fill="#000" opacity=".35"/>
+<g class="pv"><circle cx="-34" cy="206" r="3" fill="#B4B2A9"/></g>
+<g class="esc"><line x1="-34" y1="104" x2="-44" y2="200" stroke="#854F0B" stroke-width="5" stroke-linecap="round"/><path d="M-60 194h30l5 16h-40z" fill="#BA7517"/></g>
+<g class="cuerpo">
+<rect x="-10" y="0" width="20" height="16" rx="3" fill="#B4B2A9"/><rect x="-10" y="0" width="9" height="16" rx="3" fill="#D3D1C7"/>
+<rect x="-6" y="16" width="12" height="8" fill="#888780"/>
+<path d="M-22 24h44l4 76h-52z" fill="#F1EFE8"/><path d="M-22 24h18l-3 76h-19z" fill="#FFFFFF"/>
+<path d="M-24 38h48M-25 48h50M-25 58h50" stroke="#D3D1C7" stroke-width="2"/>
+<rect x="-21" y="66" width="42" height="24" rx="11" fill="#1a2123"/>
+<g class="mira"><g class="ojos"><rect x="-12" y="74" width="8" height="9" rx="3" fill="#EF9F27"/><rect x="4" y="74" width="8" height="9" rx="3" fill="#EF9F27"/></g></g>
+<polygon points="-34,100 34,100 42,116 34,132 -34,132 -42,116" fill="#888780"/><polygon points="-34,100 0,100 0,132 -34,132 -42,116" fill="#B4B2A9"/>
+<path d="M-38 112 q-10 4 -4 -8" stroke="#5F5E5A" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M36 112q14 6 6 22" stroke="#5F5E5A" stroke-width="5" fill="none" stroke-linecap="round"/>
+<rect x="-28" y="134" width="56" height="8" rx="2" fill="#D85A30"/>
+<rect x="-20" y="142" width="40" height="44" fill="#5F5E5A"/>
+<path d="M-20 148l40 6M-20 156l40 6M-20 164l40 6M-20 172l40 6M-20 180l40 6" stroke="#888780" stroke-width="2"/>
+<rect x="-4" y="186" width="8" height="12" fill="#B4B2A9"/><path d="M0 204h14v-6" stroke="#B4B2A9" stroke-width="4" fill="none"/>
+<path class="arc" d="M0 198l4 4-5 2 4 4" stroke="#FAC775" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</g></g>
+</svg>

@@ -1,0 +1,872 @@
+{
+ "base": "nmax-fig12",
+ "nota": "Línea base reconstruida el 16-nov-2026 con cambios.md, el relevo y las horas de los archivos; «estimado» = no exacto.",
+ "laminas": {
+  "nmax-fig12": {
+   "lamina": "nmax-fig12",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T00:21",
+     "fin": "2026-11-16T00:30",
+     "estimado": true,
+     "nota": "cruce manual de 33 números; hoy el catálogo sale del JSON en ~1 min"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T00:30",
+     "fin": "2026-11-16T01:10",
+     "estimado": true
+    },
+    "contenido": {
+     "inicio": "2026-11-16T01:10",
+     "fin": "2026-11-16T01:30",
+     "estimado": true
+    },
+    "3d": {
+     "inicio": "2026-11-16T02:05",
+     "fin": "2026-11-16T02:21",
+     "estimado": true,
+     "nota": "prueba de viabilidad, 4 piezas"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T01:30",
+     "fin": "2026-11-16T01:35",
+     "estimado": true
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T01:35",
+     "fin": "2026-11-16T01:40",
+     "estimado": true
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T05:37",
+     "fin": "2026-11-16T05:37",
+     "estimado": true,
+     "nota": "hora de fin = archivo revision-mecanica-cvt.md"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T06:44",
+     "fin": "2026-11-16T06:55",
+     "estimado": true,
+     "nota": "hora de fin = archivo revision-ux-cvt.md"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T01:57",
+     "fin": "2026-11-16T02:05",
+     "estimado": true
+    }
+   },
+   "rondas_revision": 6,
+   "rondas_correccion": 2,
+   "rondas_estimado": true,
+   "errores_revisoras": {
+    "mecanica": [
+     "leva de torque mal ubicada (ranuras en el cuello de la 13)",
+     "error en las fichas de zapatas",
+     "nombres sellos/retenedores"
+    ],
+    "ux": [
+     "a 1280×800 el dibujo se cortaba (bloqueante)",
+     "toques justos a 360 (9,6 px)",
+     "Cómo funciona a 360 no cabe junto"
+    ]
+   },
+   "piezas_3d": [
+    "13",
+    "2",
+    "25",
+    "24",
+    "+18 comunes desde la biblioteca"
+   ],
+   "contexto_creadora": {
+    "inicio": "desconocido",
+    "fin": "desconocido",
+    "estimado": true
+   },
+   "uso_plan": {},
+   "notas_mecanica": {
+    "fidelidad": 4,
+    "exactitud": 5,
+    "pedagogia": 5,
+    "congruencia": 5,
+    "reglas": 5,
+    "promedio": 4.8
+   },
+   "notas_ux": {
+    "claridad": 4.5,
+    "descubribilidad": 4.5,
+    "pulgar": 4.5,
+    "consistencia": 4.5,
+    "protagonismo": 4.3,
+    "primer_pantallazo": 5,
+    "proximidad": 4.8,
+    "ritmo": 4.8,
+    "promedio": 4.5,
+    "nota": "los criterios 3, 4, 5 y 10 no se copiaron: ver revision-ux-cvt.md"
+   },
+   "pct_seguro": 100,
+   "pct_seguro_nota": "100 % de nombres y cantidades del catálogo (33/33)",
+   "pendientes": [
+    "Cómo funciona a 360: dibujo, controles y texto no caben juntos",
+    "densidad del despiece a 360: 9 pares a menos de 24 px (20-21-22, 30-31-32, 14-15-16)",
+    "alto del dibujo a 1280: 453 px (pide 460)",
+    "«Desarmar» a 360 bajo el borde al llegar",
+    "ranuras del cuello de la 13 como calcomanía"
+   ],
+   "explicacion": ""
+  },
+  "nmax-fig26": {
+   "lamina": "nmax-fig26",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T02:56",
+     "fin": "2026-11-16T02:56"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T02:56",
+     "fin": "2026-11-16T03:11"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T02:58",
+     "fin": "2026-11-16T03:11"
+    },
+    "3d": {
+     "inicio": "2026-11-16T03:11",
+     "fin": "2026-11-16T03:13"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T03:13",
+     "fin": "2026-11-16T03:17"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T03:17",
+     "fin": "2026-11-16T03:18"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:47"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:27"
+    },
+    "mejora_skill": {
+     "inicio": "2026-11-16T10:24",
+     "fin": "2026-11-16T05:44"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T11:21",
+     "fin": "2026-11-16T11:25"
+    },
+    "rediseno": {
+     "inicio": "2026-11-16T03:55",
+     "fin": "2026-11-16T04:12"
+    },
+    "adopcion_v2": {
+     "inicio": "2026-11-16T05:02",
+     "fin": "2026-11-16T05:35"
+    }
+   },
+   "rondas_revision": 7,
+   "rondas_correccion": 2,
+   "errores_revisoras": {
+    "mecanica": [
+     "kits 2 y 22 sin el cambio cada 2 años con el líquido (manual pp. 9-7 y 9-25)",
+     "fila «Nivel del líquido» repetida 5 veces en Cuándo y con plazo sin fuente",
+     "qué trae la bomba completa sin confirmar en el catálogo",
+     "perno de la manigueta pedido nuevo (se reutiliza; la tuerca va nueva)"
+    ],
+    "ux": [
+     "◀ ▶ de Cómo funciona saltan hasta 75 px",
+     "etiqueta Manguera tapada por el cáliper a 360",
+     "despiece denso a 360 sin pista de zoom"
+    ]
+   },
+   "piezas_3d": [
+    "1",
+    "21",
+    "2",
+    "22",
+    "+30 comunes desde la biblioteca"
+   ],
+   "contexto_creadora": {
+    "inicio": "8 %",
+    "fin": "aprox. 45 %"
+   },
+   "uso_plan": {
+    "inicio": "78%",
+    "fin": "79%"
+   },
+   "notas_mecanica": {},
+   "notas_ux": {
+    "claridad": 4.5,
+    "descubribilidad": 4.5,
+    "carga": 4,
+    "accesibilidad": 4.5,
+    "rendimiento": 4.5,
+    "pulgar": 4.5,
+    "consistencia": 4.5,
+    "protagonismo": 4.7,
+    "primer_pantallazo": 5,
+    "espacio": 4.7,
+    "proximidad": 4.7,
+    "ritmo": 4.8,
+    "promedio": 4.58
+   },
+   "pct_seguro": 100,
+   "pendientes": [
+    "Torques: falta el manual de servicio",
+    "Ubicación exacta de los soportes 44, 45, 46 y 48 en el chasis",
+    "360: 42 pares de números a menos de 24 px en el despiece (49 números)",
+    "Proximidad 4,7 (CVT 4,8): 3 filas de controles a 360 por el botón Transparente",
+    "Contradicción de borradores: nivel cada semana o cada mes; pedal trasero"
+   ],
+   "explicacion": "Proximidad 4,7 contra 4,8: el botón Transparente (carcasas de la bomba y la tapa, para ver el kit) agrega una tercera fila de controles a 360; se dejó porque el kit no se ve de otra forma en el armado. pct_seguro = 49/49 (catálogo); pct_certeza_total 59 % porque la práctica de taller va como Aproximado, a propósito, sin manual de servicio.",
+   "pct_seguro_nota": "67 de 113 marcas de certeza (fichas y Cuándo); 100 % de números, nombres y cantidades del catálogo (49/49)",
+   "pct_certeza_total": 64
+  },
+  "nmax-fig26-v2": {
+   "lamina": "nmax-fig26-v2",
+   "fecha": "2026-11-16",
+   "fases": {
+    "revision_ux": {
+     "inicio": "2026-11-16T04:43",
+     "fin": "2026-11-16T04:47"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T04:43",
+     "fin": "2026-11-16T04:44"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T04:27",
+     "fin": "2026-11-16T04:42"
+    }
+   },
+   "rondas_revision": 4,
+   "rondas_correccion": 1,
+   "errores_revisoras": {},
+   "piezas_3d": [],
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {},
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": [],
+   "explicacion": ""
+  },
+  "nmax-fig22": {
+   "lamina": "nmax-fig22",
+   "fecha": "2026-11-16",
+   "fases": {
+    "revision_mecanica": {
+     "inicio": "2026-11-16T05:36",
+     "fin": "2026-11-16T05:37"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T06:43",
+     "fin": "2026-11-16T06:55"
+    }
+   },
+   "rondas_revision": 3,
+   "rondas_correccion": 0,
+   "errores_revisoras": {},
+   "piezas_3d": [],
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {},
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": [],
+   "explicacion": ""
+  },
+  "nmax-fig8": {
+   "lamina": "nmax-fig8",
+   "fecha": "2026-11-16",
+   "fases": {
+    "mejora_skill": {
+     "inicio": "2026-11-16T06:25",
+     "fin": "2026-11-16T06:39"
+    },
+    "catalogo": {
+     "inicio": "2026-11-16T06:07",
+     "fin": "2026-11-16T06:09"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T06:09",
+     "fin": "2026-11-16T06:13"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T06:13",
+     "fin": "2026-11-16T06:14"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T06:15",
+     "fin": "2026-11-16T06:20"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T10:47",
+     "fin": "2026-11-16T10:57"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:27"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:47"
+    }
+   },
+   "rondas_revision": 5,
+   "rondas_correccion": 3,
+   "errores_revisoras": {
+    "mecanica": "4,4 → corregido (5 puntos)"
+   },
+   "piezas_3d": 3,
+   "contexto_creadora": {
+    "inicio": "30 %",
+    "fin": "≈ 60 %"
+   },
+   "uso_plan": {
+    "inicio": "82%",
+    "fin_creacion": "83%"
+   },
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4.5,
+    "4": 4.5,
+    "5": 5,
+    "6": 4,
+    "7": 5,
+    "8": 4.7,
+    "9": 5,
+    "10": 5,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.69
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 19,
+   "pendientes": [
+    "torques sin dato",
+    "unión 22 lisa (real corrugada)",
+    "3D solo 16, 33, 19"
+   ],
+   "explicacion": "catalogo +1 min: grupos revisados contra la grilla. Criterio 6 queda en 3 (9 piezas chicas < 24 px a 360), igual que fig. 22 y CVT; no se puló fuera de presupuesto."
+  },
+  "nmax-fig24": {
+   "lamina": "nmax-fig24",
+   "fecha": "2026-11-16",
+   "fases": {
+    "mejora_skill": {
+     "inicio": "2026-11-16T07:00",
+     "fin": "2026-11-16T07:25"
+    },
+    "catalogo": {
+     "inicio": "2026-11-16T07:25",
+     "fin": "2026-11-16T07:27"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T07:27",
+     "fin": "2026-11-16T07:28"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T07:28",
+     "fin": "2026-11-16T07:29"
+    },
+    "3d": {
+     "inicio": "2026-11-16T07:29",
+     "fin": "2026-11-16T07:29"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T07:29",
+     "fin": "2026-11-16T07:31"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T07:48",
+     "fin": "2026-11-16T07:48"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T07:33",
+     "fin": "2026-11-16T07:42"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T07:45",
+     "fin": "2026-11-16T07:47"
+    }
+   },
+   "rondas_revision": 3,
+   "rondas_correccion": 1,
+   "errores_revisoras": {},
+   "piezas_3d": 0,
+   "contexto_creadora": {
+    "inicio": "40 %",
+    "fin": "55 %"
+   },
+   "uso_plan": {
+    "inicio": "83%",
+    "fin_creacion": "84%"
+   },
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4.5,
+    "4": 4.5,
+    "5": 5,
+    "6": 4.5,
+    "7": 5,
+    "8": 4.7,
+    "9": 5,
+    "10": 5,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.73
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 35,
+   "pendientes": [
+    "3D: sin con3d, igual que la fig. 22 (cáliper y soporte sin forma3d)",
+    "disco trasero de 230 mm sin confirmar para la BBE4 (aprox.)",
+    "brazo trasero dibujado como contorno de contexto, forma aproximada",
+    "14 (2 láminas) dibujada una sola vez, como en la fig. 22",
+    "pieza 4 a 23 px a 360 (1 px bajo la meta)"
+   ],
+   "explicacion": "Reutiliza el JSON y el arte de la fig. 22 (misma numeración 1-15 en el catálogo): solo cambian códigos, contexto (brazo trasero), disco, manigueta izquierda, mangueras 34/38 e intervalo de pastillas (manual 6.000 km contra plan 8.000). Por eso 6 min en vez de 15."
+  },
+  "nmax-fig11": {
+   "lamina": "nmax-fig11",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T07:33",
+     "fin": "2026-11-16T07:37"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T07:37",
+     "fin": "2026-11-16T07:40"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T07:40",
+     "fin": "2026-11-16T07:40"
+    },
+    "3d": {
+     "inicio": "2026-11-16T07:40",
+     "fin": "2026-11-16T07:41"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T07:41",
+     "fin": "2026-11-16T07:44"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:27"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:47"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T11:08",
+     "fin": "2026-11-16T11:12"
+    }
+   },
+   "rondas_revision": 4,
+   "rondas_correccion": 3,
+   "errores_revisoras": {},
+   "piezas_3d": 1,
+   "contexto_creadora": {
+    "inicio": "23 %",
+    "fin": "35 %"
+   },
+   "uso_plan": {
+    "inicio": "84%",
+    "fin_creacion": "84%"
+   },
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4.5,
+    "4": 4.5,
+    "5": 5,
+    "6": 4.5,
+    "7": 5,
+    "8": 4.7,
+    "9": 5,
+    "10": 5,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.73
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 34,
+   "pendientes": [
+    "tapas con silueta propia aproximada (de la fig. 12), sin la forma exacta de las orejas",
+    "espumas 16-23 como placas genéricas: su forma real no se ve bien en la lámina",
+    "6 (tubo de drenaje) a 22 px a 360 y no responde armado (aviso)",
+    "sin torques: falta el manual de servicio"
+   ],
+   "explicacion": "catalogo +3 min: no había grilla de la fig. 11 (se renderizó la página 20 del PDF al scratchpad) y se leyó en el manual lo del filtro de la correa y el tubo colector. contenido sale en 0 min porque el script del JSON se escribió dentro de dibujo2d (las dos fases van juntas en la práctica). validacion +2: el encuadre se ajustó y se midió dos veces."
+  },
+  "nmax-fig7": {
+   "lamina": "nmax-fig7",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T07:48",
+     "fin": "2026-11-16T07:49"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T07:49",
+     "fin": "2026-11-16T07:52"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T07:52",
+     "fin": "2026-11-16T07:52"
+    },
+    "3d": {
+     "inicio": "2026-11-16T07:52",
+     "fin": "2026-11-16T07:52"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T07:52",
+     "fin": "2026-11-16T07:54"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:27"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:47"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T11:02",
+     "fin": "2026-11-16T11:08"
+    }
+   },
+   "rondas_revision": 4,
+   "rondas_correccion": 2,
+   "errores_revisoras": {},
+   "piezas_3d": 1,
+   "contexto_creadora": {
+    "inicio": "40 %",
+    "fin": "47 %"
+   },
+   "uso_plan": {
+    "inicio": "84%",
+    "fin_creacion": "85%"
+   },
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4.5,
+    "4": 4.5,
+    "5": 5,
+    "6": 4,
+    "7": 5,
+    "8": 4.7,
+    "9": 5,
+    "10": 5,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.69
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 52,
+   "pendientes": [
+    "resorte 5 a 20 px a 360 (criterio 6 en 4)",
+    "cárter como contorno aproximado de contexto",
+    "bomba: tipo interno y torque de sus tornillos sin dato (manual de servicio)"
+   ],
+   "explicacion": "Resorte y junta tórica de la biblioteca se veían armados (no admiten esq-oculto-arm): pasaron a arte propio y se midió dos veces. Criterio 6 en 4: el resorte queda a 20 px a 360."
+  },
+  "nmax-fig10": {
+   "lamina": "nmax-fig10",
+   "fecha": "2026-11-16",
+   "fases": {
+    "mejora_skill": {
+     "inicio": "2026-11-16T08:08",
+     "fin": "2026-11-16T08:09"
+    },
+    "catalogo": {
+     "inicio": "2026-11-16T08:09",
+     "fin": "2026-11-16T08:11"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T08:11",
+     "fin": "2026-11-16T08:13"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T08:13",
+     "fin": "2026-11-16T08:14"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T08:14",
+     "fin": "2026-11-16T08:18"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:27"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:47"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T10:57",
+     "fin": "2026-11-16T11:08"
+    }
+   },
+   "rondas_revision": 5,
+   "rondas_correccion": 2,
+   "errores_revisoras": {},
+   "piezas_3d": 1,
+   "contexto_creadora": {
+    "inicio": "35 %",
+    "fin": "50 %"
+   },
+   "uso_plan": {
+    "inicio": "85%",
+    "fin_creacion": "85%"
+   },
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4.5,
+    "4": 4.5,
+    "5": 5,
+    "6": 4.5,
+    "7": 5,
+    "8": 4.7,
+    "9": 5,
+    "10": 5,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.73
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 38,
+   "pendientes": [
+    "cárter simplificado: las dos mitades en una sola silueta (la pieza 1 no se mueve en el desarme)",
+    "ubicación y función de las tapas 18 y 24 deducidas del plano (aprox.)",
+    "respiradero 29 a 23 px a 360; 10 y 30 no responden armados (aviso)",
+    "sin torques de tornillos de tapas (manual de servicio)"
+   ],
+   "explicacion": "32 refs. Sin grilla de la fig. 10 (render de la pág. 18 del PDF al scratchpad). Validación +: dos rondas de medir por la píldora de pasadores sobre una pieza oculta y la junta tórica 20 delgada. Además, el respaldo de Oswald bajó el criterio 8 en 5 láminas (Archivo más ancho sin red); se limitó a las 8 reglas sin respaldo y volvió a 4,7."
+  },
+  "nmax-fig1": {
+   "lamina": "nmax-fig1",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T09:27",
+     "fin": "2026-11-16T09:29"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T09:29",
+     "fin": "2026-11-16T09:34"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T09:34",
+     "fin": "2026-11-16T09:37"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T09:37",
+     "fin": "2026-11-16T09:45"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:27"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T11:26",
+     "fin": "2026-11-16T11:47"
+    },
+    "mejora_skill": {
+     "inicio": "2026-11-16T10:20",
+     "fin": "2026-11-16T10:20"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T11:12",
+     "fin": "2026-11-16T11:21"
+    }
+   },
+   "rondas_revision": 6,
+   "rondas_correccion": 2,
+   "errores_revisoras": {},
+   "piezas_3d": 2,
+   "contexto_creadora": {
+    "inicio": "9 %",
+    "fin": "≈ 45 %"
+   },
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4.5,
+    "4": 4.5,
+    "5": 5,
+    "6": 5,
+    "7": 4.5,
+    "8": 4.7,
+    "9": 5.0,
+    "10": 5.0,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.73
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 21,
+   "pendientes": 2,
+   "explicacion": "catalogo 2 min (meta 1): bujia, torque y avisos de frio y radiador buscados en el manual del propietario con pymupdf. validacion 8 min: incluye una correccion del encuadre (numero 25 al borde), una de la pasta de pasadores del cilindro sin toque y una de las marcas de grupo a 42 px, mas el autocontrol manual"
+  },
+  "boxer-embrague": {
+   "lamina": "boxer-embrague",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T11:48",
+     "fin": "2026-11-16T11:53"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T11:53",
+     "fin": "2026-11-16T11:58"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T11:58",
+     "fin": "2026-11-16T11:59"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T11:59",
+     "fin": "2026-11-16T12:00"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T12:00",
+     "fin": "2026-11-16T12:08"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T13:56",
+     "fin": "2026-11-16T13:58"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T14:08",
+     "fin": "2026-11-16T14:12"
+    }
+   },
+   "rondas_revision": 2,
+   "rondas_correccion": 0,
+   "errores_revisoras": {},
+   "piezas_3d": 3,
+   "contexto_creadora": {
+    "inicio": "18 %",
+    "fin": "≈45 %"
+   },
+   "uso_plan": {},
+   "notas_mecanica": {
+    "nota": 4.6,
+    "visto_bueno": true,
+    "minutos": 4
+   },
+   "notas_ux": {
+    "1": 5,
+    "2": 5,
+    "3": 5,
+    "4": 4,
+    "5": 4.5,
+    "7": 4.5,
+    "total": 4.78,
+    "minutos": 4
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 20,
+   "pendientes": 4,
+   "explicacion": "catalogo 5/1: extraer_catalogo.py solo sirve para Yamaha (0 figuras con Bajaj); fig. 14 extraida a mano. mediciones 8/1: la primera medicion completa dio un bloqueante (etiquetas montadas en Como funciona) y la medicion tarda ~2 min cada vez. UX 4,4 < 4,5: notas a ojo de 4 (falta revision de ux-piloto); pct_certeza 20 %: la mecanica del mando es deducida del plano y no hay manual de servicio"
+  },
+  "akt-embrague": {
+   "lamina": "akt-embrague",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T12:27",
+     "fin": "2026-11-16T12:32"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T12:32",
+     "fin": "2026-11-16T12:42"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T12:42",
+     "fin": "2026-11-16T12:42"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T12:42",
+     "fin": "2026-11-16T12:43"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T12:43",
+     "fin": "2026-11-16T12:52"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T13:57",
+     "fin": "2026-11-16T14:06"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T13:58",
+     "fin": "2026-11-16T14:00"
+    }
+   },
+   "rondas_revision": 2,
+   "rondas_correccion": 0,
+   "errores_revisoras": {},
+   "piezas_3d": 3,
+   "contexto_creadora": {
+    "inicio": "18 %",
+    "fin": "45 %"
+   },
+   "uso_plan": {},
+   "notas_mecanica": {
+    "nota": 4.8,
+    "visto_bueno": true,
+    "minutos": 3
+   },
+   "notas_ux": {
+    "1": 5,
+    "2": 4.5,
+    "3": 5,
+    "4": 4,
+    "5": 4.5,
+    "7": 4.5,
+    "total": 4.7,
+    "minutos": 9
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": null,
+   "pendientes": 6,
+   "explicacion": "notas_ux 4.4 < 4.5: las notas a ojo (4) son estimacion prudente de la creadora sin revision UX; los medibles dan 4.72. Pendiente la revision de ux-piloto"
+  }
+ },
+ "creacion_meta_min": 10,
+ "sin_paralelo": true,
+ "meta_fases": {
+  "catalogo": 1,
+  "dibujo2d": 4,
+  "contenido": 2,
+  "3d": 0.5,
+  "verificacion": 2
+ },
+ "meta_nota": "Meta del usuario (16-nov-2026, ajustada): una lámina del catálogo a lista para revisión en 10 min de reloj, sin paralelo, verificación incluida: catálogo 1 · dibujo 4 · contenido 2 (con el 3D) · verificación 2 (previa + una sola medición completa) · 1 de margen. Fase > meta: ⚠ y una línea; fase > 2× meta: corte. Revisiones aparte: 10 min cada una, en paralelo.",
+ "meta_revision_min": {
+  "revision_mecanica": 10,
+  "revision_ux": 10,
+  "nota": "en paralelo, sobre el informe de autocontrol --informe; ver guia-revision-rapida.md"
+ }
+}

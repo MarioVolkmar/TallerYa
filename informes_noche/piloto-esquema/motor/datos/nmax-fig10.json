@@ -1,0 +1,3070 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 10",
+  "titulo": "Cárter y tapones del aceite · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la lámina 10 del catálogo de partes (NMAX BBE4)."
+ },
+ "visor": {
+  "titulo": "Cárter y tapones del aceite",
+  "sub": "Lámina 10 · 32 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del cárter",
+  "laminaAria": "Dibujo simplificado del cárter de la NMAX 155 con sus tapones de aceite, tapas, soportes y respiradero. Cada grupo abre sus piezas.",
+  "introFunciona": "El cárter guarda dos aceites distintos, cada uno con su tapón de llenado y su perno de drenaje.",
+  "introCadenas": "Un tapón sin su junta nueva se nota primero en el piso.",
+  "introCuando": "Lo que pide el manual para los dos aceites, y cada cuánto."
+ },
+ "pie": "TallerYa · piloto de esquema v2 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  110,
+  120,
+  730,
+  567.8
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 480 870",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Dos aceites.</b> Adelante, el del motor (0,90 L) lubrica el cigüeñal; atrás, la transmisión final tiene el suyo (0,10 L). Una pared los separa: no se mezclan. Prendido, parte del aceite del motor sube y el nivel de abajo baja.",
+    "s": {
+     "motor": true,
+     "nivel": 0.55,
+     "nivelF": 1,
+     "litros": 0.9,
+     "litrosF": 0.1,
+     "varilla": "dentro",
+     "pel": 0,
+     "lect": "Adentro"
+    }
+   },
+   {
+    "t": "<b>2 · Antes de medir.</b> Moto en el caballete central y derecha. Prende unos minutos, apaga y espera unos minutos a que el aceite baje al cárter. El escape quema: no lo toques.",
+    "s": {
+     "motor": false,
+     "nivel": 0.85,
+     "nivelF": 1,
+     "litros": 0.9,
+     "litrosF": 0.1,
+     "varilla": "dentro",
+     "pel": 0,
+     "lect": "Espera"
+    }
+   },
+   {
+    "t": "<b>3 · Saca y limpia.</b> Desenrosca el tapón, saca la [[14|varilla]] y límpiala con un trapo: lo que trae al salir no sirve: se untó con el motor prendido.",
+    "s": {
+     "motor": false,
+     "nivel": 0.85,
+     "nivelF": 1,
+     "litros": 0.9,
+     "litrosF": 0.1,
+     "varilla": "fuera",
+     "pel": 0,
+     "trapo": true,
+     "lect": "Limpia"
+    }
+   },
+   {
+    "t": "<b>4 · Métela sin enroscar.</b> Vuelve a meter la varilla hasta el fondo de la boca, apoyada, pero sin enroscarla: si la enroscas, la punta baja más y lees un nivel que no es.",
+    "s": {
+     "motor": false,
+     "nivel": 0.85,
+     "nivelF": 1,
+     "litros": 0.9,
+     "litrosF": 0.1,
+     "varilla": "dentro",
+     "pel": 0,
+     "lect": "Sin enroscar"
+    }
+   },
+   {
+    "t": "<b>5 · Sácala y lee.</b> El aceite debe quedar entre la punta y la marca de máximo. Si no llega a la punta, agrega del recomendado hasta el nivel, sin pasar el máximo. Al final, enrosca el tapón.",
+    "s": {
+     "motor": false,
+     "nivel": 0.85,
+     "nivelF": 1,
+     "litros": 0.9,
+     "litrosF": 0.1,
+     "varilla": "fuera",
+     "pel": 0.75,
+     "lect": "Nivel bien"
+    }
+   },
+   {
+    "t": "<b>6 · Cambiar el del motor.</b> Tibio y apagado: sale por el [[10|perno A]] (y por el tapón B de la fig. 7). <b>Quema:</b> usa guantes. Llena con 0,90 L del recomendado y vuelve a medir con la varilla.",
+    "s": {
+     "motor": false,
+     "nivel": 0.02,
+     "nivelF": 1,
+     "litros": 0,
+     "litrosF": 0.1,
+     "varilla": "fuera",
+     "pel": 0,
+     "drena": true,
+     "lect": "Vacío"
+    }
+   },
+   {
+    "t": "<b>7 · La transmisión final salpica.</b> Andando, los engranajes giran metidos en sus 0,10 L y salpican todo. Se cambia tibio: sale por su [[12|perno de drenaje]] y entra por el [[16|tapón de llenado]]. Que no caiga aceite en la llanta.",
+    "s": {
+     "motor": true,
+     "nivel": 0.55,
+     "nivelF": 1,
+     "litros": 0.9,
+     "litrosF": 0.1,
+     "varilla": "dentro",
+     "pel": 0,
+     "lect": "Adentro"
+    }
+   },
+   {
+    "t": "<b>8 · Retén del eje gastado.</b> Su labio ya no aprieta el eje y el aceite del final sale hacia el disco trasero. Con aceite en el disco la moto no frena bien: no la uses; cambia el [[19|retén]] y limpia el disco.",
+    "s": {
+     "motor": true,
+     "nivel": 0.55,
+     "nivelF": 0.5,
+     "litros": 0.9,
+     "litrosF": 0.05,
+     "varilla": "dentro",
+     "pel": 0,
+     "lect": "Adentro",
+     "fuga": true
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidades: catálogo de piezas Yamaha NMAX 155 (BBE4), fig. 10 «Crankcase».",
+   "Perno de drenaje A con junta nueva a 20 N·m; varilla: nivel entre la punta y la marca de máximo; aceite 10W-40, 0,90 L (manual del propietario, págs. 9-12, 9-13 y 11-1).",
+   "Transmisión final: tapón de llenado con junta tórica, perno de drenaje con junta nueva aceitada a 20 N·m, 0,10 L de 10W-40 SG, cambio a los 1.000 km y cada 12.000 km o 1 año (manual, págs. 9-14, 9-15 y 11-1)."
+  ],
+  "aproximado": [
+   "Dibujo simplificado: las dos mitades del cárter como una sola silueta; ubicación de la tapa de la transmisión final (18), de la del respiradero (24) y de los tapones según el plano.",
+   "Función de la tapa del respiradero y de los soportes; fallas y síntomas: práctica de taller. Torques de los tornillos de las tapas: sin dato (manual de servicio)."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 10 «Crankcase». Copia local, solo referencia.",
+   "Manual del propietario Yamaha NM-X 2022 B6Y4 (Yamaha Motor Argentina): aceite del motor págs. 9-12 y 9-13; transmisión final págs. 9-14 y 9-15; especificaciones pág. 11-1. Copia local."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.8,
+   -0.6
+  ],
+  "colores": {}
+ },
+ "lamina": "nmax-fig10",
+ "moto": "nmax-bbe4",
+ "figura": 10,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-fig10",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32"
+ ],
+ "nombres": {
+  "1": "Cárter",
+  "2": "Pasador del cárter",
+  "3": "Bujes de los soportes",
+  "4": "Cauchos de los soportes",
+  "5": "Caucho del soporte de atrás",
+  "6": "Pasadores de las mitades",
+  "7": "Tornillos de las mitades (cortos)",
+  "8": "Tornillos de las mitades (largos)",
+  "9": "Retén del cigüeñal",
+  "10": "Perno de drenaje A",
+  "11": "Junta del perno A",
+  "12": "Perno de drenaje de la transmisión final",
+  "13": "Junta del perno de drenaje de la transmisión final",
+  "14": "Varilla del aceite",
+  "15": "Junta tórica de la varilla",
+  "16": "Tapón de llenado de la transmisión final",
+  "17": "Junta tórica del tapón de llenado",
+  "18": "Tapa de la caja de la transmisión final",
+  "19": "Retén del eje trasero",
+  "20": "Junta tórica de la tapa de la transmisión final",
+  "21": "Pasadores de la tapa de la transmisión final",
+  "22": "Tornillos de la tapa de la transmisión final (cortos)",
+  "23": "Tornillos de la tapa de la transmisión final (largos)",
+  "24": "Tapa del respiradero",
+  "25": "Empaque de la tapa del respiradero",
+  "26": "Pasadores de la tapa del respiradero",
+  "27": "Tornillos de la tapa del respiradero",
+  "28": "Tornillo de atrás de la tapa del respiradero",
+  "29": "Respiradero del cárter",
+  "30": "Tubo del respiradero",
+  "31": "Grapa del respiradero",
+  "32": "Grapa del tubo del respiradero"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32"
+ ],
+ "ocultas": [
+  "3",
+  "6",
+  "11",
+  "13",
+  "15",
+  "17",
+  "20",
+  "21",
+  "25",
+  "26"
+ ],
+ "piezas": [
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    330,
+    420
+   ],
+   "et": [
+    -30,
+    30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 18,
+    "x": 330,
+    "y": 420
+   },
+   "oculto": true
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "anc": [
+    520,
+    300
+   ],
+   "et": [
+    -30,
+    -20
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 16,
+    "x": 520,
+    "y": 300
+   },
+   "oculto": true
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    690,
+    410
+   ],
+   "et": [
+    -30,
+    0
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 14,
+    "x": 690,
+    "y": 410
+   },
+   "oculto": true
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "anc": [
+    490,
+    300
+   ],
+   "et": [
+    -40,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteEmpaque24"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    718,
+    432
+   ],
+   "et": [
+    60,
+    40
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "r": 50,
+    "g": 6,
+    "x": 718,
+    "y": 432
+   },
+   "oculto": true
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    450,
+    470
+   ],
+   "et": [
+    0,
+    40
+   ],
+   "vis": "arm",
+   "arte": "arteCarter"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    250,
+    360
+   ],
+   "et": [
+    -50,
+    0
+   ],
+   "vis": "arm",
+   "comun": "reten",
+   "p": {
+    "r": 26,
+    "ri": 14,
+    "ancho": 5,
+    "x": 250,
+    "y": 360
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    420,
+    262
+   ],
+   "et": [
+    -30,
+    -34
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 8,
+    "ri": 4,
+    "largo": 22,
+    "copias": [
+     [
+      -210,
+      250
+     ]
+    ],
+    "x": 420,
+    "y": 262
+   },
+   "oculto": true
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    420,
+    262
+   ],
+   "et": [
+    36,
+    -26
+   ],
+   "vis": "arm",
+   "comun": "buje",
+   "p": {
+    "r": 18,
+    "ri": 8,
+    "largo": 20,
+    "material": "caucho",
+    "copias": [
+     [
+      -210,
+      250
+     ]
+    ],
+    "x": 420,
+    "y": 262
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    772,
+    344
+   ],
+   "et": [
+    40,
+    -16
+   ],
+   "vis": "arm",
+   "comun": "buje",
+   "p": {
+    "r": 14,
+    "ri": 6,
+    "largo": 16,
+    "material": "caucho",
+    "x": 772,
+    "y": 344
+   }
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    362,
+    292
+   ],
+   "et": [
+    -20,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "pasador",
+   "p": {
+    "r": 3,
+    "largo": 16,
+    "x": 362,
+    "y": 292
+   }
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    300,
+    470
+   ],
+   "et": [
+    -20,
+    44
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 7,
+    "largo": 40,
+    "d": 6,
+    "copias": [
+     [
+      90,
+      -8
+     ],
+     [
+      130,
+      -200
+     ]
+    ],
+    "x": 300,
+    "y": 470
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    190,
+    280
+   ],
+   "et": [
+    -40,
+    -10
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 7,
+    "largo": 60,
+    "d": 6,
+    "copias": [
+     [
+      0,
+      150
+     ]
+    ],
+    "x": 190,
+    "y": 280
+   }
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "anc": [
+    600,
+    340
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "arm",
+   "arte": "arteTapa24"
+  },
+  {
+   "id": "27",
+   "n": "27",
+   "anc": [
+    500,
+    270
+   ],
+   "et": [
+    -46,
+    10
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 7,
+    "brida": 9,
+    "largo": 30,
+    "d": 7,
+    "copias": [
+     [
+      136,
+      70
+     ],
+     [
+      0,
+      76
+     ]
+    ],
+    "x": 500,
+    "y": 270
+   }
+  },
+  {
+   "id": "28",
+   "n": "28",
+   "anc": [
+    640,
+    262
+   ],
+   "et": [
+    20,
+    -40
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 7,
+    "brida": 9,
+    "largo": 30,
+    "d": 7,
+    "x": 640,
+    "y": 262
+   }
+  },
+  {
+   "id": "29",
+   "n": "29",
+   "anc": [
+    609,
+    236
+   ],
+   "et": [
+    -60,
+    0
+   ],
+   "vis": "arm",
+   "arte": "arteRespiradero"
+  },
+  {
+   "id": "31",
+   "n": "31",
+   "anc": [
+    611,
+    220
+   ],
+   "et": [
+    -20,
+    -40
+   ],
+   "vis": "arm",
+   "comun": "abrazadera",
+   "p": {
+    "r": 6,
+    "giro": -90,
+    "x": 611,
+    "y": 220
+   }
+  },
+  {
+   "id": "32",
+   "n": "32",
+   "anc": [
+    655,
+    202
+   ],
+   "et": [
+    50,
+    0
+   ],
+   "vis": "arm",
+   "comun": "abrazadera",
+   "p": {
+    "r": 6,
+    "giro": -90,
+    "x": 655,
+    "y": 202
+   }
+  },
+  {
+   "id": "30",
+   "n": "30",
+   "anc": [
+    640,
+    210
+   ],
+   "et": [
+    10,
+    -50
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 7,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      12,
+      -14
+     ],
+     [
+      50,
+      -20
+     ]
+    ],
+    "color": "#3a3f43",
+    "x": 640,
+    "y": 210
+   }
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    770,
+    470
+   ],
+   "et": [
+    40,
+    30
+   ],
+   "vis": "arm",
+   "arte": "arteTapa18"
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    720,
+    436
+   ],
+   "et": [
+    60,
+    -10
+   ],
+   "vis": "arm",
+   "comun": "reten",
+   "p": {
+    "r": 20,
+    "ri": 10,
+    "ancho": 4,
+    "x": 720,
+    "y": 436
+   }
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "anc": [
+    676,
+    386
+   ],
+   "et": [
+    -36,
+    -28
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 24,
+    "d": 6,
+    "copias": [
+     [
+      96,
+      4
+     ]
+    ],
+    "x": 676,
+    "y": 386
+   }
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "anc": [
+    668,
+    470
+   ],
+   "et": [
+    -44,
+    10
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "brida": 8,
+    "largo": 30,
+    "d": 6,
+    "copias": [
+     [
+      90,
+      24
+     ]
+    ],
+    "x": 668,
+    "y": 470
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    693,
+    306
+   ],
+   "et": [
+    40,
+    -20
+   ],
+   "vis": "arm",
+   "arte": "arteTaponLlenado"
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    693,
+    322
+   ],
+   "et": [
+    40,
+    -40
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "r": 11,
+    "g": 2.5,
+    "x": 693,
+    "y": 322
+   },
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    742,
+    512
+   ],
+   "et": [
+    40,
+    30
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 8,
+    "brida": 10,
+    "largo": 18,
+    "d": 8,
+    "x": 742,
+    "y": 512
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    742,
+    506
+   ],
+   "et": [
+    60,
+    0
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 9,
+    "ri": 4.5,
+    "e": 2,
+    "x": 742,
+    "y": 506
+   },
+   "oculto": true
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    308,
+    190
+   ],
+   "et": [
+    -40,
+    -30
+   ],
+   "vis": "arm",
+   "arte": "arteVarilla"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    308,
+    210
+   ],
+   "et": [
+    40,
+    -34
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "r": 9,
+    "g": 2.5,
+    "x": 308,
+    "y": 210
+   },
+   "oculto": true
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    290,
+    540
+   ],
+   "et": [
+    -40,
+    26
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 8,
+    "brida": 10,
+    "largo": 18,
+    "d": 8,
+    "x": 290,
+    "y": 540
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    290,
+    534
+   ],
+   "et": [
+    -60,
+    0
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 9,
+    "ri": 4.5,
+    "e": 2,
+    "x": 290,
+    "y": 534
+   },
+   "oculto": true
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Perno de drenaje A.</b> Con el motor tibio (unos minutos prendido y apagado), la moto en el gato central y una bandeja debajo, quita el tapón de llenado y el perno A. <b>Cuidado:</b> el aceite y el escape queman; usa guantes. <b>Al armar:</b> junta nueva y 20 N·m.",
+   "m": {
+    "10": [
+     2,
+     96
+    ],
+    "11": [
+     -41,
+     89
+    ]
+   }
+  },
+  {
+   "t": "<b>Varilla del aceite.</b> Es también el tapón de llenado: 0,90 L de aceite 10W-40. Después prende el motor un par de minutos, apágalo, espera y mide con la varilla sin enroscarla.",
+   "m": {
+    "14": [
+     0,
+     -110
+    ],
+    "15": [
+     5,
+     -82
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapón de llenado de la transmisión final.</b> Con el aceite tibio (unos minutos rodando), quítalo con su junta tórica.",
+   "m": {
+    "16": [
+     5,
+     -102
+    ],
+    "17": [
+     -3,
+     -33
+    ]
+   }
+  },
+  {
+   "t": "<b>Perno de drenaje de la transmisión final.</b> Sale con su junta. <b>Al armar:</b> junta nueva aceitada, 20 N·m y 0,10 L de aceite 10W-40; que no caiga aceite en la llanta ni en el freno.",
+   "m": {
+    "12": [
+     39,
+     85
+    ],
+    "13": [
+     37,
+     51
+    ]
+   }
+  },
+  {
+   "t": "<b>Grapas y tubo del respiradero.</b> Suelta las grapas y saca el tubo.",
+   "m": {
+    "31": [
+     -24,
+     -73
+    ],
+    "32": [
+     46,
+     -82
+    ],
+    "30": [
+     38,
+     -58
+    ]
+   }
+  },
+  {
+   "t": "<b>Respiradero.</b> Sale de la tapa del respiradero.",
+   "m": {
+    "29": [
+     -10,
+     -69
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos de la tapa del respiradero.</b> Seis, alrededor del borde: en cruz, un poco cada uno.",
+   "m": {
+    "27": [
+     -47,
+     -33
+    ],
+    "28": [
+     14,
+     -55
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapa del respiradero.</b> Sale hacia ti.",
+   "m": {
+    "24": [
+     -43,
+     -148
+    ]
+   }
+  },
+  {
+   "t": "<b>Empaque y pasadores de la tapa del respiradero.</b> El empaque va nuevo al armar.",
+   "m": {
+    "25": [
+     -225,
+     -139
+    ],
+    "26": [
+     -26,
+     -67
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos de la tapa de la transmisión final.</b> Cuatro y dos, en cruz.",
+   "m": {
+    "22": [
+     30,
+     -60
+    ],
+    "23": [
+     30,
+     60
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapa de la caja de la transmisión final.</b> Antes vacía el aceite de la transmisión final. Sale hacia ti.",
+   "m": {
+    "18": [
+     146,
+     81
+    ]
+   }
+  },
+  {
+   "t": "<b>Retén del eje, junta tórica y pasadores.</b> El retén y la junta tórica van nuevos al armar.",
+   "m": {
+    "19": [
+     240,
+     130
+    ],
+    "20": [
+     204,
+     211
+    ],
+    "21": [
+     104,
+     184
+    ]
+   }
+  },
+  {
+   "t": "<b>Cauchos y bujes de los soportes.</b> Solo con el motor fuera del chasis: es trabajo de taller.",
+   "m": {
+    "4": [
+     -64,
+     -89
+    ],
+    "3": [
+     -114,
+     -110
+    ],
+    "5": [
+     60,
+     -80
+    ]
+   }
+  },
+  {
+   "t": "<b>Retén del cigüeñal.</b> Va en la mitad del alternador: se cambia sin abrir el cárter, quitando la tapa y el rotor del alternador con extractor (otra lámina). Trabajo de taller; el retén va nuevo.",
+   "m": {
+    "9": [
+     -120,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos de las dos mitades.</b> Abrir el cárter es trabajo de taller: el motor sale de la moto.",
+   "m": {
+    "7": [
+     33,
+     72
+    ],
+    "8": [
+     -70,
+     0
+    ],
+    "2": [
+     -46,
+     -48
+    ]
+   }
+  },
+  {
+   "t": "<b>Pasadores de las mitades.</b> Centran las dos mitades; se vuelven a poner.",
+   "m": {
+    "6": [
+     -53,
+     142
+    ]
+   }
+  }
+ ],
+ "textoArmado": "<b>Armado.</b> El cárter, simplificado como una sola pieza: adelante la varilla y el perno de drenaje A del aceite del motor; atrás la caja de la transmisión final, con su tapón de llenado, su perno de drenaje y la tapa del respiradero; arriba, la tapa del respiradero con el respiradero.",
+ "fichas": {
+  "1": {
+   "nombre": "Cárter",
+   "cat": "CRANKCASE ASSY · 1 pieza",
+   "que": "La caja de aluminio del motor, en dos mitades: adelante guarda el cigüeñal y el aceite del motor; atrás, la caja de la transmisión final.",
+   "sirve": "Sostiene todas las piezas del motor y guarda los dos aceites.",
+   "sintomas": [
+    "Aceite o humedad en la unión de las dos mitades.",
+    "Una oreja de soporte rota."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se raja en una caída o al golpear el fondo contra un andén."
+    ],
+    [
+     "maluso",
+     "Un tapón apretado de más le barre la rosca."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Una rosca barrida se repara con un inserto; un cárter rajado casi siempre se cambia. Abrirlo es trabajo de taller: el motor sale de la moto.",
+   "dif": "dificil",
+   "cuando": "No tiene mantenimiento propio: revisa fugas en cada lavada.",
+   "arrastra": [
+    "Rosca barrida → fuga de aceite → nivel bajo → motor dañado."
+   ],
+   "conecta": [
+    "9",
+    "10",
+    "14",
+    "24",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5150-00",
+   "rodar": "no"
+  },
+  "2": {
+   "nombre": "Pasador del cárter",
+   "cat": "PIN · 1 pieza",
+   "que": "El conjunto en esta parte.",
+   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "sintomas": [
+    "(Señales propias de este conjunto.)"
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "(Por qué se daña.)"
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
+   "dif": "taller",
+   "cuando": "(Cuándo revisarlo.)",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "99480-03012",
+   "rodar": "sigue"
+  },
+  "3": {
+   "nombre": "Bujes de los soportes",
+   "cat": "BUSH · 2 piezas",
+   "que": "Dos bujes de acero dentro de los [[4|cauchos]] de los soportes del motor.",
+   "sirve": "Sostienen el motor en el chasis y le quitan vibración al manubrio y al asiento.",
+   "sintomas": [
+    "Vibra más el manubrio o el asiento.",
+    "Se oye un golpe al arrancar o al frenar."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se aplasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si el caucho está agrietado o aplastado, se cambia.",
+   "dif": "media",
+   "cuando": "Revísalos si notas vibración o golpes.",
+   "arrastra": [
+    "Caucho aplastado → vibración → tornillos flojos y piezas rotas."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "54P-F7121-00",
+   "rodar": "pronto"
+  },
+  "4": {
+   "nombre": "Cauchos de los soportes",
+   "cat": "DAMPER · 2 piezas",
+   "que": "Dos cauchos en los soportes del motor, con un [[3|buje]] por dentro.",
+   "sirve": "Sostienen el motor en el chasis y le quitan vibración al manubrio y al asiento.",
+   "sintomas": [
+    "Vibra más el manubrio o el asiento.",
+    "Se oye un golpe al arrancar o al frenar."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se aplasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si el caucho está agrietado o aplastado, se cambia.",
+   "dif": "media",
+   "cuando": "Revísalos si notas vibración o golpes.",
+   "arrastra": [
+    "Caucho aplastado → vibración → tornillos flojos y piezas rotas."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90388-10808",
+   "rodar": "pronto"
+  },
+  "5": {
+   "nombre": "Caucho del soporte de atrás",
+   "cat": "DAMPER · 1 pieza",
+   "que": "Un caucho en el soporte de atrás del motor.",
+   "sirve": "Sostienen el motor en el chasis y le quitan vibración al manubrio y al asiento.",
+   "sintomas": [
+    "Vibra más el manubrio o el asiento.",
+    "Se oye un golpe al arrancar o al frenar."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se aplasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si el caucho está agrietado o aplastado, se cambia.",
+   "dif": "media",
+   "cuando": "Revísalos si notas vibración o golpes.",
+   "arrastra": [
+    "Caucho aplastado → vibración → tornillos flojos y piezas rotas."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90388-08803",
+   "rodar": "pronto"
+  },
+  "6": {
+   "nombre": "Pasadores de las mitades",
+   "cat": "PIN, DOWEL · 2 piezas",
+   "que": "El conjunto en esta parte.",
+   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "sintomas": [
+    "(Señales propias de este conjunto.)"
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "(Por qué se daña.)"
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
+   "dif": "taller",
+   "cuando": "(Cuándo revisarlo.)",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "99530-10114",
+   "rodar": "pronto"
+  },
+  "7": {
+   "nombre": "Tornillos de las mitades (cortos)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 9 piezas",
+   "que": "Los tornillos que sujetan en esta parte.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-06060",
+   "rodar": "pronto"
+  },
+  "8": {
+   "nombre": "Tornillos de las mitades (largos)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 2 piezas",
+   "que": "Los tornillos que sujetan en esta parte.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-06110",
+   "rodar": "pronto"
+  },
+  "9": {
+   "nombre": "Retén del cigüeñal",
+   "cat": "OIL SEAL · 1 pieza",
+   "que": "El retén del lado del cigüeñal, en el apoyo de adelante del [[1|cárter]].",
+   "sirve": "No deja salir el aceite del motor por el eje del cigüeñal.",
+   "sintomas": [
+    "Aceite alrededor del eje, por dentro de la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El labio se endurece con el calor."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo cada vez que se quita. Según el plano va en la mitad del alternador: se cambia sin abrir el cárter, quitando la tapa y el rotor del alternador (trabajo de taller).",
+   "dif": "taller",
+   "cuando": "Se cambia cuando se abre el motor o si gotea.",
+   "arrastra": [
+    "Retén viejo → fuga de aceite → nivel bajo."
+   ],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ap",
+     "Que se cambie sin abrir el cárter: lo deducimos del plano (mitad del alternador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "93102-22829",
+   "rodar": "pronto"
+  },
+  "10": {
+   "nombre": "Perno de drenaje A",
+   "cat": "BOLT, STRAIGHT SCREW · 1 pieza",
+   "que": "El perno del fondo del cárter, adelante. El manual lo llama perno de drenaje del aceite del motor A.",
+   "sirve": "Por aquí sale el aceite viejo, junto con el tapón B (fig. 7).",
+   "sintomas": [
+    "Gotea aceite por el perno.",
+    "La cabeza está redondeada."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más barre la rosca del cárter."
+    ],
+    [
+     "edad",
+     "Sin [[11|junta]] nueva, gotea."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner con [[11|junta]] nueva y apretado a 20 N·m (manual).",
+   "dif": "facil",
+   "cuando": "Se quita en cada cambio de aceite: a los 1.000 km y luego cada 6.000 km (manual).",
+   "arrastra": [
+    "Perno barrido → fuga → nivel bajo."
+   ],
+   "conecta": [
+    "1",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Junta nueva y 20 N·m (manual, pág. 9-13)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "90340-12816",
+   "rodar": "no",
+   "hazlo": {
+    "herr": "Llave de copa, bandeja para el aceite y aceite nuevo",
+    "min": 30
+   }
+  },
+  "11": {
+   "nombre": "Junta del perno A",
+   "cat": "GASKET · 1 pieza",
+   "que": "La arandela de sello del [[10|perno de drenaje A]].",
+   "sirve": "Sella el perno contra el cárter.",
+   "sintomas": [
+    "Gotea aceite por el perno A."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta al apretar y ya no sella otra vez."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nueva en cada cambio de aceite (manual).",
+   "dif": "facil",
+   "cuando": "Nueva en cada cambio de aceite.",
+   "arrastra": [
+    "Junta reutilizada → gotea."
+   ],
+   "conecta": [
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Junta nueva en cada cambio (manual, pág. 9-13)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "90430-12803",
+   "rodar": "no",
+   "hazlo": {
+    "herr": "Llave de copa, bandeja para el aceite y aceite nuevo",
+    "min": 30
+   }
+  },
+  "12": {
+   "nombre": "Perno de drenaje de la transmisión final",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "El perno de abajo de la caja de la transmisión final.",
+   "sirve": "Por aquí sale el aceite viejo de los engranajes.",
+   "sintomas": [
+    "Gotea aceite debajo de la caja, cerca de la rueda trasera."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más barre la rosca."
+    ],
+    [
+     "edad",
+     "Sin [[13|junta]] nueva, gotea."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner con [[13|junta]] nueva aceitada y apretado a 20 N·m (manual).",
+   "dif": "facil",
+   "cuando": "En cada cambio de ese aceite: a los 1.000 km y luego cada 12.000 km o cada año.",
+   "arrastra": [
+    "Gotea → el aceite cae cerca de la llanta y del freno trasero."
+   ],
+   "conecta": [
+    "13",
+    "16",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Junta nueva aceitada y 20 N·m (manual, págs. 9-14 y 9-15)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "95D32-08035",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave de copa, bandeja y aceite de transmisión",
+    "min": 20
+   }
+  },
+  "13": {
+   "nombre": "Junta del perno de drenaje de la transmisión final",
+   "cat": "GASKET · 1 pieza",
+   "que": "La arandela de sello del [[12|perno de drenaje]].",
+   "sirve": "Sella el perno.",
+   "sintomas": [
+    "Gotea por el perno."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Aplastada ya no sella."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nueva en cada cambio (manual).",
+   "dif": "facil",
+   "cuando": "Nueva en cada cambio de ese aceite.",
+   "arrastra": [
+    "Junta reutilizada → gotea."
+   ],
+   "conecta": [
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Junta nueva (manual, pág. 9-15)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "90430-08804",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave de copa, bandeja y aceite de transmisión",
+    "min": 20
+   }
+  },
+  "14": {
+   "nombre": "Varilla del aceite",
+   "cat": "PLUG, OIL LEVEL · 1 pieza",
+   "que": "El tapón de llenado del aceite del motor, con la varilla para medir el nivel.",
+   "sirve": "Por aquí entra el aceite nuevo y con ella mides el nivel: debe quedar entre la punta y la marca de máximo.",
+   "sintomas": [
+    "El nivel queda por debajo de la punta de la varilla.",
+    "El tapón no cierra o está partido."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Medir enroscada da una lectura falsa."
+    ],
+    [
+     "edad",
+     "La [[15|junta tórica]] se reseca y rezuma."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza; si el tapón está partido, va nuevo.",
+   "dif": "facil",
+   "cuando": "Mide el nivel antes de cada salida: motor prendido unos minutos, apagado, espera y mide sin enroscar (manual).",
+   "arrastra": [
+    "Nivel sin medir → falta aceite → el motor se calienta y se gasta."
+   ],
+   "conecta": [
+    "1",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Cómo medir y nivel entre la punta y la marca de máximo (manual, pág. 9-12)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "2DP-E5362-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "#e8c34a",
+      "perfil": [
+       [
+        0,
+        0
+       ],
+       [
+        10,
+        0
+       ],
+       [
+        11,
+        18
+       ],
+       [
+        7,
+        22
+       ],
+       [
+        0,
+        22
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "oscuro",
+      "perfil": [
+       [
+        0,
+        -6
+       ],
+       [
+        8,
+        -6
+       ],
+       [
+        8,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     },
+     {
+      "tipo": "torno",
+      "color": "acero",
+      "perfil": [
+       [
+        0,
+        -70
+       ],
+       [
+        1.5,
+        -70
+       ],
+       [
+        1.5,
+        -6
+       ],
+       [
+        0,
+        -6
+       ]
+      ]
+     }
+    ]
+   },
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Ninguna: un trapo limpio",
+    "min": 5
+   }
+  },
+  "15": {
+   "nombre": "Junta tórica de la varilla",
+   "cat": "O-RING · 1 pieza",
+   "que": "El anillo de caucho del tapón de la [[14|varilla]].",
+   "sirve": "Sella la boca de llenado.",
+   "sintomas": [
+    "Aceite alrededor de la boca de llenado."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se reseca con el calor."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está dura o cortada, se cambia.",
+   "dif": "facil",
+   "cuando": "Mírala en cada cambio de aceite.",
+   "arrastra": [
+    "Junta reseca → rezuma aceite."
+   ],
+   "conecta": [
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5LW-E3769-00",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Ninguna: un trapo limpio",
+    "min": 5
+   }
+  },
+  "16": {
+   "nombre": "Tapón de llenado de la transmisión final",
+   "cat": "PLUG, OIL · 1 pieza",
+   "que": "El tapón de arriba de la caja de la transmisión final, atrás en el [[1|cárter]].",
+   "sirve": "Por aquí entra el aceite de los engranajes de la rueda trasera: 0,10 L de 10W-40.",
+   "sintomas": [
+    "Aceite alrededor del tapón."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Su [[17|junta tórica]] se reseca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner con su junta tórica (manual).",
+   "dif": "facil",
+   "cuando": "Se quita en cada cambio de ese aceite: a los 1.000 km y luego cada 12.000 km o cada año (manual).",
+   "arrastra": [
+    "Tapón mal cerrado → se sale el aceite → los engranajes se gastan."
+   ],
+   "conecta": [
+    "12",
+    "17",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Aceite 10W-40 SG, 0,10 L (manual, págs. 9-14 y 11-1)."
+    ],
+    [
+     "ap",
+     "Ubicación arriba de la caja: la deducimos del plano."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "5LW-E5363-00",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "A mano; aceite de transmisión",
+    "min": 15
+   }
+  },
+  "17": {
+   "nombre": "Junta tórica del tapón de llenado",
+   "cat": "O-RING · 1 pieza",
+   "que": "El anillo de caucho del [[16|tapón de llenado]] de la transmisión final.",
+   "sirve": "Sella el tapón.",
+   "sintomas": [
+    "Aceite alrededor del tapón."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se reseca y se aplasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está dura o cortada, se cambia.",
+   "dif": "facil",
+   "cuando": "Mírala en cada cambio de aceite de la transmisión final.",
+   "arrastra": [
+    "Junta reseca → fuga."
+   ],
+   "conecta": [
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "93210-14816",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "A mano; aceite de transmisión",
+    "min": 15
+   }
+  },
+  "18": {
+   "nombre": "Tapa de la caja de la transmisión final",
+   "cat": "COVER 2 · 1 pieza",
+   "que": "Una tapa de aluminio atrás en el [[1|cárter]], alrededor del eje de la rueda, con su [[19|retén]].",
+   "sirve": "Cierra la caja de la transmisión final por fuera.",
+   "sintomas": [
+    "Aceite alrededor del eje de la rueda trasera."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se raja con un golpe."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner con [[20|junta tórica]] y [[19|retén]] nuevos.",
+   "dif": "dificil",
+   "cuando": "Solo se quita para cambiar el retén del eje o en una reparación.",
+   "arrastra": [
+    "Tapa rajada → se sale el aceite de los engranajes."
+   ],
+   "conecta": [
+    "19",
+    "20",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ap",
+     "Que cierre la transmisión final: lo deducimos del plano."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B65-E5423-01",
+   "rodar": "pronto"
+  },
+  "19": {
+   "nombre": "Retén del eje trasero",
+   "cat": "OIL SEAL · 1 pieza",
+   "que": "El retén en el centro de la [[18|tapa de la transmisión final]], donde sale el eje de la rueda.",
+   "sirve": "No deja salir el aceite de la transmisión final por el eje.",
+   "sintomas": [
+    "Aceite en el rin o en el disco trasero (van del mismo lado)."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El labio se gasta y se endurece."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si gotea se cambia: el aceite llega al disco y al freno trasero.",
+   "dif": "dificil",
+   "cuando": "Revisa fugas antes de cada salida (manual: «comprobar si la caja pierde aceite»).",
+   "arrastra": [
+    "Retén gastado → aceite en el disco trasero → el freno pierde agarre."
+   ],
+   "conecta": [
+    "18",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ok",
+     "Revisar fugas de la caja antes de cada uso (manual, pág. 9-14)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "93102-24802",
+   "rodar": "pronto"
+  },
+  "20": {
+   "nombre": "Junta tórica de la tapa de la transmisión final",
+   "cat": "O-RING · 1 pieza",
+   "que": "El anillo grande de caucho entre la [[18|tapa de la transmisión final]] y el cárter.",
+   "sirve": "Sella la tapa.",
+   "sintomas": [
+    "Aceite en el borde de la tapa."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nueva cada vez que se abre la tapa.",
+   "dif": "media",
+   "cuando": "Nueva al abrir la tapa.",
+   "arrastra": [
+    "Junta vieja → fuga."
+   ],
+   "conecta": [
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "93211-28800",
+   "rodar": "pronto"
+  },
+  "21": {
+   "nombre": "Pasadores de la tapa de la transmisión final",
+   "cat": "PIN, DOWEL · 2 piezas",
+   "que": "El conjunto en esta parte.",
+   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "sintomas": [
+    "(Señales propias de este conjunto.)"
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "(Por qué se daña.)"
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
+   "dif": "taller",
+   "cuando": "(Cuándo revisarlo.)",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "99530-10114",
+   "rodar": "pronto"
+  },
+  "22": {
+   "nombre": "Tornillos de la tapa de la transmisión final (cortos)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 4 piezas",
+   "que": "Los tornillos que sujetan en esta parte.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-06020",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave o copa del tamaño del tornillo (y de torque si es del motor)",
+    "min": 10
+   }
+  },
+  "23": {
+   "nombre": "Tornillos de la tapa de la transmisión final (largos)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 2 piezas",
+   "que": "Los tornillos que sujetan en esta parte.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-06030",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave o copa del tamaño del tornillo (y de torque si es del motor)",
+    "min": 10
+   }
+  },
+  "24": {
+   "nombre": "Tapa del respiradero",
+   "cat": "COVER, CRANKCASE 2 · 1 pieza",
+   "que": "Una tapa de aluminio arriba, en el medio del [[1|cárter]], con el [[29|respiradero]].",
+   "sirve": "Cierra una cámara del cárter y lleva la salida del respiradero.",
+   "sintomas": [
+    "Aceite en el borde de la tapa."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Tornillos apretados sin orden la tuercen."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner con [[25|empaque]] nuevo.",
+   "dif": "media",
+   "cuando": "Solo se abre en una reparación.",
+   "arrastra": [
+    "Tapa torcida → fuga por el empaque."
+   ],
+   "conecta": [
+    "25",
+    "29",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ],
+    [
+     "ap",
+     "Para qué es la cámara: no lo confirmamos en el manual."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5421-00",
+   "rodar": "sigue"
+  },
+  "25": {
+   "nombre": "Empaque de la tapa del respiradero",
+   "cat": "GASKET, CRANKCASE COVER 2 · 1 pieza",
+   "que": "El empaque entre la [[24|tapa del respiradero]] y el cárter.",
+   "sirve": "Sella la tapa.",
+   "sintomas": [
+    "Aceite en el borde de la tapa del respiradero."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo cada vez que se abre la tapa.",
+   "dif": "facil",
+   "cuando": "Nuevo al abrir la tapa.",
+   "arrastra": [
+    "Empaque viejo → fuga."
+   ],
+   "conecta": [
+    "24"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5461-10",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador o alicate",
+    "min": 10
+   }
+  },
+  "26": {
+   "nombre": "Pasadores de la tapa del respiradero",
+   "cat": "PIN, DOWEL · 2 piezas",
+   "que": "El conjunto en esta parte.",
+   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "sintomas": [
+    "(Señales propias de este conjunto.)"
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "(Por qué se daña.)"
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
+   "dif": "taller",
+   "cuando": "(Cuándo revisarlo.)",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "99530-10114",
+   "rodar": "sigue"
+  },
+  "27": {
+   "nombre": "Tornillos de la tapa del respiradero",
+   "cat": "BOLT, FLANGE DEEP RECESS · 5 piezas",
+   "que": "Los tornillos que sujetan en esta parte.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-08045",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador o alicate",
+    "min": 10
+   }
+  },
+  "28": {
+   "nombre": "Tornillo de atrás de la tapa del respiradero",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "Los tornillos que sujetan en esta parte.",
+   "sirve": "Mantienen la pieza firme y en su sitio, con la presión justa.",
+   "sintomas": [
+    "Ves la pieza floja o con juego.",
+    "Un tornillo tiene la cabeza redondeada o le falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se aprietan de más, la rosca se estira o se barre; si quedan flojos, la pieza vibra y se suelta."
+    ],
+    [
+     "humedad",
+     "El óxido los pega y la cabeza se daña al soltarlos."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca y la cabeza están sanas, se vuelven a poner. Si están barridos u oxidados, van nuevos. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando desarmes esta parte. Al armar, apriétalos en cruz y con el torque del manual de servicio: no a ojo.",
+   "arrastra": [
+    "Tornillo flojo → la pieza vibra y se daña la rosca de su base."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "95E32-08035",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador o alicate",
+    "min": 10
+   }
+  },
+  "29": {
+   "nombre": "Respiradero del cárter",
+   "cat": "BREATHER · 1 pieza",
+   "que": "Una boquilla en la [[24|tapa del respiradero]], de donde sale el [[30|tubo del respiradero]].",
+   "sirve": "Deja salir los gases y la presión del cárter para que no empujen el aceite por los retenes.",
+   "sintomas": [
+    "El tubo está suelto o tapado.",
+    "Aceite saliendo por el tubo."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "Se tapa y la presión empuja aceite por los retenes."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se limpia y se vuelve a poner.",
+   "dif": "facil",
+   "cuando": "Míralo con el tubo en cada servicio.",
+   "arrastra": [
+    "Respiradero tapado → presión en el cárter → fugas por los retenes."
+   ],
+   "conecta": [
+    "24",
+    "30"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5371-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador o alicate",
+    "min": 10
+   }
+  },
+  "30": {
+   "nombre": "Tubo del respiradero",
+   "cat": "PIPE, BREATHER · 1 pieza",
+   "que": "El tubo de caucho que sale del [[29|respiradero]].",
+   "sirve": "Lleva los gases del cárter lejos del motor.",
+   "sintomas": [
+    "El tubo está rajado, doblado o suelto."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se reseca y se raja."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rajado o tapado, se cambia.",
+   "dif": "facil",
+   "cuando": "Míralo en cada servicio.",
+   "arrastra": [
+    "Tubo doblado → el cárter no respira."
+   ],
+   "conecta": [
+    "29"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-E5373-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Alicate",
+    "min": 10
+   }
+  },
+  "31": {
+   "nombre": "Grapa del respiradero",
+   "cat": "CLIP · 1 pieza",
+   "que": "La grapa que sujeta en esta parte.",
+   "sirve": "Mantiene la manguera o la pieza en su sitio para que no se suelte ni roce.",
+   "sintomas": [
+    "La manguera está suelta o se corrió.",
+    "La grapa está floja, oxidada o rota."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión con el calor y los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si perdió tensión o está oxidada, va nueva: es barata y evita fugas.",
+   "dif": "facil",
+   "cuando": "Mírala cuando revises las mangueras de esta parte.",
+   "arrastra": [
+    "Grapa floja → la manguera se suelta o entra aire."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "90467-10008",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Alicate",
+    "min": 10
+   }
+  },
+  "32": {
+   "nombre": "Grapa del tubo del respiradero",
+   "cat": "CLIP · 1 pieza",
+   "que": "La grapa que sujeta en esta parte.",
+   "sirve": "Mantiene la manguera o la pieza en su sitio para que no se suelte ni roce.",
+   "sintomas": [
+    "La manguera está suelta o se corrió.",
+    "La grapa está floja, oxidada o rota."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión con el calor y los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si perdió tensión o está oxidada, va nueva: es barata y evita fugas.",
+   "dif": "facil",
+   "cuando": "Mírala cuando revises las mangueras de esta parte.",
+   "arrastra": [
+    "Grapa floja → la manguera se suelta o entra aire."
+   ],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   },
+   "codigo": "90467-11825",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Alicate",
+    "min": 10
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Perno A con la junta vieja",
+   "p": [
+    [
+     "11",
+     "La junta aplastada no sella."
+    ],
+    [
+     "10",
+     "El perno gotea."
+    ],
+    [
+     "14",
+     "El nivel baja sin que lo notes en la varilla."
+    ]
+   ]
+  },
+  {
+   "t": "Retén del eje gastado",
+   "p": [
+    [
+     "19",
+     "El labio deja pasar aceite."
+    ],
+    [
+     "18",
+     "El aceite sale alrededor del eje."
+    ],
+    [
+     "16",
+     "Baja el aceite de la transmisión final: los engranajes se gastan."
+    ]
+   ]
+  },
+  {
+   "t": "Respiradero tapado",
+   "p": [
+    [
+     "30",
+     "El tubo queda doblado o tapado."
+    ],
+    [
+     "29",
+     "El cárter no saca la presión."
+    ],
+    [
+     "9",
+     "La presión empuja aceite por el retén."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Aceite del motor: cambiar",
+   "cuando": "A los <b>1.000 km</b> y después cada <b>6.000 km</b>.",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento y pág. 9-12. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "aceite"
+  },
+  {
+   "que": "Nivel del aceite del motor: revisar",
+   "cuando": "Antes de cada salida, con la varilla.",
+   "fuente": "manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), pág. 9-12. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Aceite de la transmisión final: cambiar",
+   "cuando": "A los <b>1.000 km</b> y después cada <b>12.000 km</b> o <b>1 año</b>.",
+   "fuente": "Plan de la NMAX en TallerYa = manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), cuadro de mantenimiento y págs. 9-14 y 9-15. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "aceite-caja"
+  },
+  {
+   "que": "Fugas de la caja de la transmisión final",
+   "cuando": "Antes de cada salida.",
+   "fuente": "manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), pág. 9-14. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Juntas del perno A y del perno de la transmisión final",
+   "cuando": "Nuevas en cada cambio de aceite.",
+   "fuente": "manual del propietario Yamaha NM-X 2022 (B6Y-F8199-S0), págs. 9-13 y 9-15. <span class=\"esq-s-ok\">Seguro</span>"
+  }
+ ],
+ "sujeta": {
+  "10": [
+   "11"
+  ],
+  "14": [
+   "15"
+  ],
+  "16": [
+   "17"
+  ],
+  "12": [
+   "13"
+  ],
+  "31": [
+   "30"
+  ],
+  "32": [
+   "30"
+  ],
+  "27": [
+   "24"
+  ],
+  "28": [
+   "24"
+  ],
+  "24": [
+   "25",
+   "26"
+  ],
+  "22": [
+   "18"
+  ],
+  "23": [
+   "18"
+  ],
+  "18": [
+   "19",
+   "20",
+   "21"
+  ],
+  "7": [
+   "6"
+  ],
+  "8": [
+   "6"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "motor",
+    "nombre": "Aceite del motor",
+    "corto": "Aceite motor",
+    "piezas": [
+     "14",
+     "15",
+     "10",
+     "11"
+    ],
+    "torn": [],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     250,
+     470
+    ]
+   },
+   {
+    "id": "final",
+    "nombre": "Aceite de la transmisión final",
+    "corto": "Transmisión final",
+    "piezas": [
+     "16",
+     "17",
+     "12",
+     "13"
+    ],
+    "torn": [],
+    "pasos": [
+     2,
+     3
+    ],
+    "marca": [
+     800,
+     400
+    ]
+   },
+   {
+    "id": "tapa24",
+    "nombre": "Tapa del respiradero",
+    "corto": "Tapa respiradero",
+    "piezas": [
+     "24",
+     "25",
+     "29",
+     "30"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la tapa del respiradero",
+      "corto": "Tornillos",
+      "ids": [
+       "27",
+       "28"
+      ],
+      "cant": 6
+     },
+     {
+      "nombre": "Pasadores de la tapa del respiradero",
+      "corto": "Pasadores",
+      "ids": [
+       "26"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Grapas del tubo",
+      "corto": "Grapas",
+      "ids": [
+       "31",
+       "32"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "marca": [
+     560,
+     230
+    ]
+   },
+   {
+    "id": "tapa18",
+    "nombre": "Tapa de la transmisión final y retén del eje",
+    "corto": "Tapa de la transmisión final",
+    "piezas": [
+     "18",
+     "19",
+     "20"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la tapa de la transmisión final",
+      "corto": "Tornillos",
+      "ids": [
+       "22",
+       "23"
+      ],
+      "cant": 6
+     },
+     {
+      "nombre": "Pasadores de la tapa de la transmisión final",
+      "corto": "Pasadores",
+      "ids": [
+       "21"
+      ],
+      "cant": 2,
+      "marca": [
+       640,
+       520
+      ]
+     }
+    ],
+    "pasos": [
+     9,
+     10,
+     11
+    ],
+    "marca": [
+     700,
+     540
+    ]
+   },
+   {
+    "id": "soportes",
+    "nombre": "Soportes del motor",
+    "corto": "Soportes",
+    "piezas": [
+     "3",
+     "4",
+     "5"
+    ],
+    "torn": [],
+    "pasos": [
+     12
+    ],
+    "marca": [
+     430,
+     210
+    ]
+   },
+   {
+    "id": "carter",
+    "nombre": "Cárter y retén del cigüeñal",
+    "corto": "Cárter",
+    "piezas": [
+     "1",
+     "9"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de las mitades",
+      "corto": "Tornillos",
+      "ids": [
+       "7",
+       "8"
+      ],
+      "cant": 11
+     },
+     {
+      "nombre": "Pasadores",
+      "corto": "Pasadores",
+      "ids": [
+       "2",
+       "6"
+      ],
+      "cant": 3
+     }
+    ],
+    "pasos": [
+     13,
+     14,
+     15
+    ],
+    "marca": [
+     330,
+     330
+    ]
+   }
+  ],
+  "con3d": [
+   "14"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas del cárter"
+ },
+ "sistema": "Cárter",
+ "contexto": [],
+ "carcasas": [
+  {
+   "id": "1",
+   "transparente": 0.36,
+   "rayosx": 0.2
+  },
+  {
+   "id": "24",
+   "transparente": 0.28,
+   "rayosx": 0.2,
+   "brillo": true
+  },
+  {
+   "id": "18",
+   "transparente": 0.28,
+   "rayosx": 0.2,
+   "brillo": true
+  }
+ ]
+}
