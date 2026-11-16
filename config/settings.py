@@ -99,8 +99,13 @@ DATABASES = {
     )
 }
 
+if sys.argv[1:2] == ["test"]:
+    # Solo al correr pruebas: hash de contraseñas rápido (producción no cambia).
+    PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
+    TEST_RUNNER = "config.test_runner.TallerYaRunner"
+
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
+    {"NAME": "cuentas.validadores.ClaveParecidaValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
@@ -186,6 +191,8 @@ LOGGING = {
 TALLERYA_WHATSAPP = os.environ.get("TALLERYA_WHATSAPP", "573000000000")
 PLUS_PRECIO_MENSUAL = int(os.environ.get("PLUS_PRECIO_MENSUAL", "9900"))
 PLUS_NEQUI = os.environ.get("PLUS_NEQUI", "300 000 0000")
+# Chispa (la mascota) en estados vacíos y páginas 404/500. Ponlo en False para quitarla de todo el sitio.
+CHISPA_EN_VACIOS = env_bool("CHISPA_EN_VACIOS", True)
 PLUS_DIAS = 30
 
 # Contacto de TallerYa para el footer. Lo que quede vacío no se muestra.

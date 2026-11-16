@@ -12,9 +12,12 @@ Django (Python) para talleres de motos en Medellín. Todo en español (código, 
 - Solo local, nunca al repo ni a servicios externos: `despiece_local/`, `manual_despiece/`, `planos_a_generar/`, `media/`, `privado/`, `db.sqlite3`
 
 ## Pruebas
-- Focalizadas: `venv/Scripts/python.exe manage.py test garaje.tests.Clase -v 1`. Solo CSS/texto: ninguna.
-- Antes de un commit: solo las apps tocadas (`git status` → `manage.py test garaje cuentas -v 1`); si solo cambió CSS/JS/plantillas/texto, ninguna.
-- Suite completa (134 pruebas, ~2 min) solo si el cambio toca modelos/migraciones, `config/` (settings, urls), `templates/base.html` o código compartido entre apps, o antes de desplegar en Render.
+Al correr `manage.py test` ya son rápidas por defecto: hash MD5 de contraseñas y paralelo (hasta 6 procesos, `config/test_runner.py`; `--parallel 1` lo apaga). Comandos (todos con `venv/Scripts/python.exe`):
+- **Rápida** (diaria / antes de commit): `manage.py test --exclude-tag=lenta -v 1` (~30 s, 485 pruebas). Si solo cambió CSS/JS/plantillas/texto, ninguna.
+- **Completa** (antes de desplegar, o si cambian modelos/migraciones, `config/`, `templates/base.html` o código compartido): `manage.py test -v 1` (~30-45 s, 526 pruebas, incluye las `@tag("lenta")`: despiece y diagnóstico).
+- **Focalizada**: `manage.py test garaje.tests.Clase -v 1`.
+- Tiempos por prueba: `TEST_TIMING=archivo.json manage.py test --parallel 1`. `--keepdb` casi no ayuda (la base de pruebas SQLite es en memoria).
+- Pruebas nuevas: usar `tempfile.mkdtemp()` para archivos (seguro en paralelo) y `@tag("lenta")` si pasan de ~2 s.
 
 ## Trabajar gastando pocos tokens (misma calidad)
 Cada resultado de herramienta se queda en el contexto y se vuelve a pagar en cada turno siguiente.
