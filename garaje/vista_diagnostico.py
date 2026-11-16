@@ -88,6 +88,10 @@ def diagnostico(request):
     if not moto and request.GET.get("despiece", "").isdigit():
         del_catalogo = next((d for d in catalogo if d.pk == int(request.GET["despiece"])), None)
 
+    if del_catalogo and getattr(del_catalogo, "linea_id", None):  # si esa línea ya es una moto suya, se usa la suya (?moto=)
+        suya = next((m for m in motos if m.linea_id == del_catalogo.linea_id), None)
+        if suya:
+            moto, del_catalogo = suya, None
     linea = getattr(moto, "linea", None) or getattr(del_catalogo, "linea", None)
     t = getattr(linea, "transmision", "") or request.GET.get("t", "")
     t = t if t in ("cadena", "cvt") else ""

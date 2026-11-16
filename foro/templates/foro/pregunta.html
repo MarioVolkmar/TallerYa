@@ -21,7 +21,7 @@
     {% for r in hilo %}
     {% include "foro/_respuesta.html" %}
     {% empty %}
-    <p class="text-suave">Aún no hay respuestas. ¿Sabes algo de esto? ¡Ayuda!</p>
+    <div class="text-center py-4">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-respuestas" %}<p class="text-suave">Aún no hay respuestas. Si sabes algo de esto, tu respuesta le sirve a toda la rodada.</p></div>
     {% endfor %}
   </div>
   {% if user.is_authenticated %}{% include "foro/_reporte.html" %}<template id="fo-plantilla-hilo">{% include "foro/_form_hilo.html" with padre=None %}</template>{% endif %}

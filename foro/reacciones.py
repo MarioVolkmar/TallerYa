@@ -1,4 +1,5 @@
 """Reacciones del foro: conteos por mensaje, cambiar/quitar la propia y aviso agrupado al autor."""
+from django.db import IntegrityError, transaction
 from django.db.models import Count
 from django.utils import timezone
 
@@ -73,7 +74,11 @@ def reaccionar(usuario, objeto, tipo_objeto, tipo):
         actual.tipo = tipo
         actual.save(update_fields=["tipo"])
     else:
-        Reaccion.objects.create(tipo=tipo, **filtro)
+        try:
+            with transaction.atomic():
+                Reaccion.objects.create(tipo=tipo, **filtro)
+        except IntegrityError:  # doble clic: otra petición ya la creó; solo se actualiza el tipo
+            Reaccion.objects.filter(**filtro).update(tipo=tipo)
     return True
 
 

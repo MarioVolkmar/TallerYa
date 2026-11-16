@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load avatares humanize logros %}
+{% load avatares humanize logros foro_extras %}
 {% block title %}Mi cuenta · TallerYa{% endblock %}
 {% block content %}
 <div class="flex flex-wrap items-end justify-between gap-4 mt-10">
@@ -174,7 +174,7 @@
                 <span class="pregunta-meta">
                   {% if p.mejor_respuesta_id %}<span class="pregunta-estado resuelta">Resuelta</span>{% endif %}
                   {% if p.n_respuestas %}{{ p.n_respuestas }} respuesta{{ p.n_respuestas|pluralize }}{% else %}Sin respuestas aún{% endif %}
-                  · hace {{ p.creado|timesince }}
+                  · {% hace p.creado %}
                 </span>
               </span>
               <span class="bitacora-fecha">{{ p.creado|date:"j M"|lower }}<small>{{ p.creado|date:"Y" }}</small></span>
@@ -185,7 +185,7 @@
         </ul>
         <p class="text-sm text-suave lista-vacia" hidden>No hay preguntas con esos filtros.</p>
       {% else %}
-        <p class="text-suave text-sm mt-3">Aún no has preguntado nada en el foro.</p>
+        <div class="vacio-izq mt-3">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-foro" %}<p class="text-suave text-sm">Aún no has preguntado nada en el foro. Ahí hay moteros que ya pasaron por lo mismo.</p></div>
       {% endif %}
     </section>
 
@@ -219,7 +219,7 @@
                 {% if g.url %}<a href="{{ g.url }}" class="actividad-nombre">{{ g.nombre }}</a>{% else %}<span class="actividad-nombre">{{ g.nombre }}</span>{% endif %}
                 {% if g.taller %}<span class="text-xs text-suave">{{ g.taller.barrio }}</span>{% else %}<span class="text-xs text-suave">Fuera de TallerYa</span>{% endif %}
               </div>
-              <p class="actividad-meta">{{ g.visitas }} visita{{ g.visitas|pluralize }} · Última: {{ g.ultimo.titulo }}, {{ g.ultimo.fecha|date:"j M Y"|lower }}</p>
+              <p class="actividad-meta">{% if g.visitado %}{{ g.visitas }} visita{{ g.visitas|pluralize }}{% else %}Aún sin visita{% endif %} · Última: {{ g.ultimo.titulo }}, {{ g.ultimo.fecha|date:"j M Y"|lower }}</p>
               <div class="actividad-chips">
                 {% if g.conteos.mantenimiento %}<span class="chip-tipo chip-mantenimiento">{{ g.conteos.mantenimiento }} mantenimiento{{ g.conteos.mantenimiento|pluralize }}</span>{% endif %}
                 {% if g.conteos.cupon %}<span class="chip-tipo chip-cupon">{{ g.conteos.cupon }} {% if g.conteos.cupon == 1 %}cupón{% else %}cupones{% endif %}</span>{% endif %}
@@ -239,7 +239,7 @@
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg>
               <span>Historial con este taller</span><em>{{ g.visitas }}</em>
             </button>
-            {% if g.taller %}
+            {% if g.puede_calificar %}
               {% if g.mi_resena %}
               <button type="button" class="actividad-calificar ya" data-calificar="{{ g.taller.pk }}" data-nombre="{{ g.nombre }}" data-estrellas="{{ g.mi_resena.estrellas }}" data-comentario="{% if g.mi_resena.comentario != 'Sin comentario.' %}{{ g.mi_resena.comentario }}{% endif %}">
                 <span class="estrellas-mini" aria-label="Tu calificación: {{ g.mi_resena.estrellas }} de 5">{% for i in "12345" %}<span{% if forloop.counter <= g.mi_resena.estrellas %} class="on"{% endif %}>★</span>{% endfor %}</span>
@@ -268,10 +268,10 @@
         {% endfor %}
       </ul>
       <p class="text-sm text-suave lista-vacia" hidden>No hay talleres con ese tipo de servicio.</p>
-      <dialog id="dialogo-calificar" class="dialogo-eliminar">
+      <dialog id="dialogo-calificar" class="dialogo-eliminar" aria-labelledby="dialogo-calificar-titulo">
         <form method="post" id="form-calificar" class="space-y-4">
           {% csrf_token %}
-          <p class="titulo text-2xl">Califica a <span class="text-lava" id="calificar-nombre"></span></p>
+          <p class="titulo text-2xl" id="dialogo-calificar-titulo">Califica a <span class="text-lava" id="calificar-nombre"></span></p>
           <fieldset class="estrellas-elegir" aria-label="Estrellas">
             {% for i in "54321" %}<input type="radio" name="estrellas" value="{{ i }}" id="estrella-{{ i }}" required><label for="estrella-{{ i }}" title="{{ i }} de 5">★</label>{% endfor %}
           </fieldset>

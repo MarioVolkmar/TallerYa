@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Página no encontrada · TallerYa{% endblock %}
+{% block content %}
+<section class="papel vacio-error" aria-labelledby="error-titulo">
+  {% include "parciales/vacio.html" with variante="error" id="chispa-404" %}
+  <p class="vacio-error-codigo">ERROR 404</p>
+  <h1 id="error-titulo" class="titulo text-3xl mt-2">Chispa no encontró esta página</h1>
+  <p class="text-suave mt-3">Buscó con el visor por todo el taller y nada: puede que el enlace esté viejo o que la dirección tenga un error.</p>
+  <nav class="vacio-error-enlaces" aria-label="Enlaces útiles">
+    <a href="{% url 'talleres:inicio' %}" class="btn btn-lava text-sm px-5 py-2">Ir al inicio</a>
+    <a href="{% url 'talleres:directorio' %}" class="btn btn-borde text-sm px-5 py-2">Buscar taller</a>
+    <a href="{% url 'garaje:garaje' %}" class="btn btn-borde text-sm px-5 py-2">Mi garaje</a>
+  </nav>
+</section>
+{% endblock %}

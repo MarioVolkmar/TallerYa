@@ -103,6 +103,10 @@ class EntrarForm(EstiloMixin, AuthenticationForm):
     """Inicio de sesión con el correo (guardado como nombre de usuario)."""
 
     username = forms.EmailField(label="Correo", widget=forms.EmailInput(attrs={"autofocus": True, "autocomplete": "email"}))
+    error_messages = {
+        **AuthenticationForm.error_messages,
+        "invalid_login": "El correo o la contraseña no coinciden. Revisa que estén bien escritos o recupera tu contraseña.",
+    }
 
     def clean_username(self):
         return self.cleaned_data["username"].strip().lower()

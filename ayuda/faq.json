@@ -76,6 +76,17 @@
           "relacionadas": ["sin-idea", "hoja-vida"]
         },
         {
+          "id": "cada-cuanto",
+          "pregunta": "¿Cada cuánto debo cambiar el aceite u otros repuestos?",
+          "claves": ["cada cuanto", "cada cuantos km", "cuando cambio el aceite", "cuando debo cambiar", "cuanto dura el aceite", "cuando toca"],
+          "respuesta": [
+            "Depende de cada moto. En la ficha de tu moto, el plan de mantenimiento te dice cada cuántos km o meses toca el aceite, la cadena, las pastillas y lo demás, según el manual de tu línea.",
+            "Si aún no la tienes en el garaje, agrégala y en un minuto ves lo que le toca."
+          ],
+          "acciones": [{"texto": "Ver mi plan", "url_nombre": "garaje:moto", "con_moto": true, "texto_sin_moto": "Agregar moto"}],
+          "relacionadas": ["registrar-mantenimiento", "sin-idea"]
+        },
+        {
           "id": "sin-idea",
           "pregunta": "¿Qué pasa si no sé cuándo hice un mantenimiento?",
           "claves": ["no se", "sin idea", "no recuerdo", "no me acuerdo", "cuando lo hice"],

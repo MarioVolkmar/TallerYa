@@ -34,6 +34,6 @@
     {% elif r.notas %}<p class="hv-notas">{{ r.notas }}</p>{% endif %}
   </li>
   {% empty %}
-  <li class="hv-vacio">Aún no hay servicios registrados.</li>
+  <li class="hv-vacio">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-hoja" %}La hoja de vida está en blanco. Registra el próximo servicio y empieza la historia de tu moto.</li>
   {% endfor %}
 </ol>

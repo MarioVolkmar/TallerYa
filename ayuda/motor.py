@@ -37,6 +37,9 @@ def datos():
     return json.loads(RUTA_FAQ.read_text(encoding="utf-8"))
 
 
+SALUDOS = {"hola", "holaa", "ola", "hey", "buenas", "buenos dias", "buenas tardes", "buenas noches", "buen dia", "que mas", "quiubo"}
+
+
 def normalizar(texto):
     """Minúsculas, sin tildes ni signos: «¿Cuándo vence el SOAT?» → «cuando vence el soat»."""
     texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode().lower()
@@ -174,6 +177,10 @@ def responder(texto="", pregunta_id="", usuario=None):
         p = pregunta_por_id(pregunta_id)
         if p:
             return _forma(p, ctx)
+    if normalizar(texto) in SALUDOS:  # «hola» no es una pregunta sin respuesta: se contesta con el saludo
+        sin = dict(datos()["sin_respuesta"], id=None, pregunta=texto)
+        sin.update(respuesta=[catalogo(usuario)["saludo"], "Elige un tema o escríbeme tu duda."], acciones=[], relacionadas=[])
+        return _forma(sin, ctx, fuente="saludo")
     encontradas = buscar(texto) if texto else []
     if encontradas:
         r = _forma(encontradas[0], ctx)

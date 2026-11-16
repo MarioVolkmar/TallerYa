@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load foro_extras %}
 {% block title %}Notificaciones · TallerYa{% endblock %}
 {% block content %}
 <div class="max-w-3xl mx-auto">
@@ -21,13 +22,14 @@
       <span class="min-w-0 flex-1">
         <span class="notif-titulo">{{ n.titulo }}</span>
         {% if n.texto %}<span class="notif-texto">{{ n.texto }}</span>{% endif %}
-        <span class="notif-hace">hace {{ n.creada|timesince }}</span>
+        <span class="notif-hace">{% hace n.creada %}</span>
         {% if n.accion %}<span class="notif-accion">{{ n.accion }} →</span>{% endif %}
       </span>
       {% if not n.leida %}<span class="notif-punto" aria-label="Sin leer"></span>{% endif %}
     </a>
     {% empty %}
     <div class="p-10 text-center">
+      {% include "parciales/vacio.html" %}
       <p class="titulo text-2xl">Todo tranquilo por aquí</p>
       <p class="text-suave mt-2">Te avisaremos cuando le toque algo a tu moto, cuando venza un documento o cuando te respondan en el foro.</p>
     </div>

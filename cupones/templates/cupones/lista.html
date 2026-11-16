@@ -20,6 +20,7 @@
       {% include "cupones/_ticket.html" with con_boton=True %}
     {% empty %}
       <div class="papel p-8 md:col-span-2 lg:col-span-3 text-center">
+        {% include "parciales/vacio.html" %}
         <p class="titulo text-2xl">Pronto habrá cupones</p>
         <p class="text-suave mt-2">Estamos preparando descuentos con los talleres aliados. Vuelve en unos días.</p>
         <a href="{% url 'talleres:inicio' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver talleres</a>

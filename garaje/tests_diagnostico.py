@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.urls import reverse
 
 from cupones.models import Motociclista
@@ -54,6 +54,7 @@ class DatosDiagnosticoTests(TestCase):
         self.assertEqual(dx.servicio_de("kit_arrastre"), "Mantenimiento general")
 
 
+@tag("lenta")
 class VistaDiagnosticoTests(TestCase):
     def setUp(self):
         self.url = reverse("garaje:diagnostico")
@@ -167,12 +168,12 @@ class VistaDiagnosticoTests(TestCase):
         self.assertContains(r, "Crea tu cuenta gratis")
         self.assertContains(r, reverse("cuentas:registro"))
 
-    def test_motero_elige_moto_del_catalogo_aunque_tenga_una_en_el_garaje(self):
+    def test_motero_elige_del_catalogo_su_misma_linea_y_se_usa_su_moto(self):
+        # Si la línea del catálogo ya es una moto suya, se usa la suya (?moto=) y no se le pide agregarla.
         self.client.force_login(self.usuario)
         r = self.client.get(self.url, {"despiece": self.despiece.pk, **self.RESULTADO_FRENO})
-        self.assertIsNone(r.context["moto"])
-        self.assertContains(r, "Agrega esta moto a tu garaje")
-        self.assertContains(r, reverse("garaje:agregar"))
+        self.assertEqual(r.context["moto"], self.moto)
+        self.assertNotContains(r, "Agrega esta moto a tu garaje")
 
     def test_sin_moto_no_sale_esquema(self):
         r = self.client.get(self.url, {"t": "cadena", **self.RESULTADO_FRENO})
@@ -256,6 +257,7 @@ class SeguridadDiagnosticoTests(TestCase):
         self.assertEqual(dx.resultado("humo", {"t": "cadena", "color": "motor", "olor": "aceite"}), "aceite_en_escape")
 
 
+@tag("lenta")
 class EsquemaPorLaminaTests(TestCase):
     """Freno de tambor dibujado con la rueda, nombres de taller ("pastas"), pestañas por lámina y aviso sin dibujo."""
 

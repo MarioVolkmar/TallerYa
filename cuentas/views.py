@@ -111,13 +111,16 @@ def historial_servicios(moto_perfil, limite=200):
                         "url": c.canjeado_taller.get_absolute_url() if c.canjeado_taller else "", "taller": c.canjeado_taller})
     # Las citas no tienen cuenta: se reconocen por el celular del motero.
     ultimos = moto_perfil.celular[-4:]  # prefiltro amplio; abajo se compara el número completo normalizado
-    for s in SolicitudCita.objects.filter(telefono__contains=ultimos).select_related("taller", "servicio")[:limite]:
+    for s in (SolicitudCita.objects.filter(telefono__contains=ultimos).select_related("taller", "servicio")
+              .prefetch_related("servicios_hechos")[:limite]):
         try:
             if normalizar_celular(s.telefono) != moto_perfil.celular:
                 continue
         except Exception:
             continue
-        eventos.append({"fecha": s.creado.date(), "tipo": "cita", "moto": "",
+        eventos.append({"fecha": timezone.localtime(s.creado).date(), "tipo": "cita", "moto": "",
+                        "atendida": (s.estado == SolicitudCita.Estado.ATENDIDA
+                                     or any(h.estado != "rechazado" for h in s.servicios_hechos.all())),
                         "titulo": f"Cita: {s.servicio}" if s.servicio else "Cita en taller",
                         "detalle": f"{s.get_estado_display()} · para el {s.fecha_preferida:%d/%m/%Y}",
                         "lugar": str(s.taller), "url": s.taller.get_absolute_url(), "taller": s.taller})
@@ -142,6 +145,9 @@ def actividad_con_talleres(eventos, usuario=None):
         g["eventos"].sort(key=lambda e: e["fecha"], reverse=True)
         g["ultimo"] = g["eventos"][0]
         g["visitas"] = len(g["eventos"])
+        # Un taller cuenta como visitado (y se puede calificar) solo si hubo servicio, cupón canjeado o cita atendida;
+        # una cita pendiente o cancelada todavía no es una visita.
+        g["visitado"] = any(e["tipo"] != "cita" or e.get("atendida") for e in g["eventos"])
         g["tipos"] = " ".join(t for t, n in g["conteos"].items() if n)
         lista.append(g)
     lista.sort(key=lambda g: g["ultimo"]["fecha"], reverse=True)
@@ -152,10 +158,11 @@ def actividad_con_talleres(eventos, usuario=None):
         mias = {r.taller_id: r for r in Resena.objects.filter(usuario=usuario, taller__in=[g["taller"] for g in lista if g["taller"]])}
         for g in lista:
             g["mi_resena"] = mias.get(g["taller"].pk) if g["taller"] else None
+            g["puede_calificar"] = bool(g["taller"]) and (g["visitado"] or g["mi_resena"] is not None)
     return {
         "talleres": lista,
         "resumen": {
-            "talleres": len(lista),
+            "talleres": sum(1 for g in lista if g["visitado"]),
             "mantenimientos": sum(g["conteos"]["mantenimiento"] for g in lista),
             "cupones": sum(g["conteos"]["cupon"] for g in lista),
             "citas": sum(g["conteos"]["cita"] for g in lista),

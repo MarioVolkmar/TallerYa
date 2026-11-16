@@ -9,7 +9,7 @@
     {% for c in citas_proximas %}{% include "cuentas/_cita_fila.html" %}{% endfor %}
   </ul>
   {% else %}
-  <a href="{% url 'talleres:directorio' %}" class="mc-vacio mt-4"><strong>No tienes citas programadas</strong><small>Busca un taller de confianza y agenda por TallerYa →</small></a>
+  <a href="{% url 'talleres:directorio' %}" class="mc-vacio mt-4">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-citas" %}<strong>No tienes citas programadas</strong><small>Busca un taller de confianza y agenda por TallerYa →</small></a>
   {% endif %}
   {% if citas_anteriores %}
   <details class="mc-anteriores mt-4">

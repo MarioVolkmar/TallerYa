@@ -26,6 +26,7 @@
   <script src="{% static 'talleres/js/pwa.js' %}" defer></script>
 </head>
 <body class="min-h-screen flex flex-col antialiased">
+  <a href="#contenido" class="saltar-contenido">Saltar al contenido</a>
   <header class="sticky top-0 z-30 border-b border-white/5 bg-[#111517]/85 backdrop-blur" id="cabecera">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-4 cabecera-fila">
       <a href="{% url 'talleres:inicio' %}" class="flex items-center gap-2.5 cabecera-logo" aria-label="TallerYa, inicio">
@@ -138,7 +139,7 @@
 
   {% block hero %}{% endblock %}
 
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
+  <main id="contenido" tabindex="-1" class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
     {% if correo_pendiente %}
     <div class="aviso-correo mt-6" role="status">
       <span class="aviso-correo-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
@@ -147,7 +148,7 @@
     </div>
     {% endif %}
     {% for m in messages %}
-      <div class="mensaje mt-6 {% if m.tags == 'error' %}mensaje-error{% endif %}">{{ m }}</div>
+      <div class="mensaje mt-6 {% if m.tags == 'error' %}mensaje-error{% endif %}" role="{% if m.tags == 'error' %}alert{% else %}status{% endif %}">{{ m }}</div>
     {% endfor %}
     {% block content %}{% endblock %}
   </main>

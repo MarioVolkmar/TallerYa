@@ -94,6 +94,7 @@
     {% for p in pagina %}{% include "foro/_fila.html" %}
     {% empty %}
       <div class="p-10 text-center">
+        {% include "parciales/vacio.html" %}
         <p class="titulo text-2xl">{% if q or marca or filtro %}Sin resultados{% else %}Sé el primero en preguntar{% endif %}</p>
         <p class="text-suave mt-2">{% if q or marca or filtro %}Prueba con otras palabras o quita los filtros.{% else %}El foro está nuevo. ¿Qué te gustaría saber de tu moto?{% endif %}</p>
       </div>

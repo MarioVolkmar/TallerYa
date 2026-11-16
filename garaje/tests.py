@@ -1,7 +1,7 @@
 from datetime import date, timedelta
 
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import TestCase, tag
 from django.urls import reverse
 from django.utils import timezone
 
@@ -185,6 +185,7 @@ class GarajeTests(TestCase):
         self.assertIn(f"?servicio={Servicio.objects.get(nombre='Llantas').pk}", llanta["talleres"])
 
 
+@tag("lenta")
 class DespieceTests(TestCase):
     def setUp(self):
         import tempfile
@@ -370,6 +371,7 @@ class GuiaPiezasTests(TestCase):
         self.assertEqual(intervalo_texto(liquido), "Cada 20.000 km o cada 2 años")
 
 
+@tag("lenta")
 class DiagramasPropiosTests(TestCase):
     def test_todos_los_diagramas_se_dibujan_con_sus_puestos(self):
         from . import diagramas

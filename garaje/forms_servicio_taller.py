@@ -23,6 +23,7 @@ class ServicioHechoForm(EstiloMixin, forms.Form):
                             widget=forms.TextInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 85.000"}))
     notas = forms.CharField(label="Nota para el dueño (opcional)", max_length=300, required=False,
                             widget=forms.TextInput(attrs={"placeholder": "Ej: las pastillas traseras van a la mitad"}))
+    km_antiguo = forms.BooleanField(label="Sí, es un servicio antiguo: guardarlo con ese kilometraje", required=False)
     foto = forms.ImageField(label="Foto (opcional)", required=False,
                             widget=forms.ClearableFileInput(attrs={"accept": "image/*", "capture": "environment"}))
 
@@ -35,6 +36,15 @@ class ServicioHechoForm(EstiloMixin, forms.Form):
         self.fields["fecha"].widget.attrs["max"] = timezone.localdate().isoformat()
         if moto and not self.is_bound:
             self.fields["km"].initial = moto.km_actual
+        # La casilla solo aparece si el km escrito es menor que el actual de la moto.
+        if not self._km_menor():
+            del self.fields["km_antiguo"]
+
+    def _km_menor(self):
+        try:
+            return bool(self.moto and self.is_bound and int(self.data.get("km")) < self.moto.km_actual)
+        except (TypeError, ValueError):
+            return False
 
     def clean_fecha(self):
         return _fecha_no_futura(self.cleaned_data.get("fecha"))
@@ -52,6 +62,9 @@ class ServicioHechoForm(EstiloMixin, forms.Form):
         datos = super().clean()
         if not datos.get("tareas") and not (datos.get("otros") or "").strip():
             raise forms.ValidationError("Marca al menos un trabajo del plan o escribe qué se le hizo.")
+        if self._km_menor() and not datos.get("km_antiguo") and datos.get("km") is not None:
+            self.add_error("km", f"Es menor que el kilometraje actual ({self.moto.km_actual:,} km). ¿Es un servicio antiguo? "
+                                 "Marca la casilla para guardarlo así.".replace(",", ".", 1))
         return datos
 
     def datos(self):

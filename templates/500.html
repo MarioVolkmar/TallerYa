@@ -1,0 +1,28 @@
+{% load static %}<!doctype html>
+{% comment %}Página 500: HTML estático. No extiende base.html ni usa la base de datos ni el usuario (puede ser la base la que falló).{% endcomment %}
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Algo falló · TallerYa</title>
+  <link rel="icon" type="image/svg+xml" href="{% static 'talleres/img/favicon.svg' %}">
+  <link rel="stylesheet" href="{% static 'talleres/css/tallerya.css' %}">
+  <link rel="stylesheet" href="{% static 'talleres/css/tw.css' %}">
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+  <main id="contenido" class="flex-1 max-w-6xl w-full mx-auto px-4 pb-16">
+    <section class="papel vacio-error" aria-labelledby="error-titulo">
+      {% include "parciales/vacio.html" with variante="error" id="chispa-500" %}
+      <p class="vacio-error-codigo">ERROR 500</p>
+      <h1 id="error-titulo" class="titulo text-3xl mt-2">A Chispa le falló el chispazo</h1>
+      <p class="text-suave mt-3">Algo se nos dañó en el taller. Ya quedó registrado; intenta de nuevo en un momento.</p>
+      <nav class="vacio-error-enlaces" aria-label="Enlaces útiles">
+        <a href="/" class="btn btn-lava text-sm px-5 py-2">Ir al inicio</a>
+        <a href="/talleres/" class="btn btn-borde text-sm px-5 py-2">Buscar taller</a>
+        <a href="/garaje/" class="btn btn-borde text-sm px-5 py-2">Mi garaje</a>
+      </nav>
+    </section>
+  </main>
+</body>
+</html>

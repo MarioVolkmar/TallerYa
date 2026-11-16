@@ -147,11 +147,11 @@
 </section>
 
 <!-- Ventana única para registrar un mantenimiento -->
-<dialog id="dialogo-registrar" class="dialogo-eliminar dialogo-registrar">
+<dialog id="dialogo-registrar" class="dialogo-eliminar dialogo-registrar" aria-labelledby="dialogo-registrar-titulo">
   <form method="post" action="{% url 'garaje:registrar_mantenimiento' moto.pk %}" class="space-y-4" data-codigo-url="{% url 'garaje:codigo_taller' moto.pk %}">
     {% csrf_token %}
     <div class="flex items-start justify-between gap-3">
-      <p class="titulo text-2xl">Registrar <span class="text-lava">mantenimiento</span></p>
+      <p class="titulo text-2xl" id="dialogo-registrar-titulo">Registrar <span class="text-lava">mantenimiento</span></p>
       <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
     </div>
     <label class="campo-label">¿Qué le hiciste?

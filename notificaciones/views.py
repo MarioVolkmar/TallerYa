@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.timesince import timesince
 from django.views.decorators.http import require_POST
 
@@ -25,7 +26,7 @@ def panel(request):
         "notificaciones": [{
             "tipo": n.tipo, "titulo": n.titulo, "texto": n.texto, "leida": n.leida,
             "accion": n.accion, "urgente": n.urgente,
-            "hace": timesince(n.creada).split(",")[0], "ir": reverse("notificaciones:ir", args=[n.pk]),
+            "hace": "un momento" if (timezone.now() - n.creada).total_seconds() < 60 else timesince(n.creada).split(",")[0], "ir": reverse("notificaciones:ir", args=[n.pk]),
         } for n in ultimas],
     })
 

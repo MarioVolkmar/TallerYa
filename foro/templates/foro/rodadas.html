@@ -24,7 +24,7 @@
     <p class="text-sm mt-2"><strong>{{ r.num_asistentes }}</strong> va{{ r.num_asistentes|pluralize:"n" }}{% if r.cupo %} · {{ r.cupo }} cupos{% endif %}</p>
   </a>
   {% empty %}
-  <p class="text-suave">{% if pasadas %}Todavía no hay rodadas en el archivo.{% else %}No hay rodadas próximas. ¡Organiza la primera!{% endif %}</p>
+  <div class="text-center py-6">{% include "parciales/vacio.html" %}<p class="text-suave">{% if pasadas %}Todavía no hay rodadas en el archivo.{% else %}No hay rodadas próximas. ¡Organiza la primera!{% endif %}</p></div>
   {% endfor %}
 </div>
 {% if pagina.has_other_pages %}

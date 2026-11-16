@@ -1,8 +1,8 @@
 {# Confirmación para eliminar una moto. Botones: [data-eliminar=url][data-nombre]. Modo edición: [data-editar=id de la lista]. #}
-<dialog id="dialogo-eliminar" class="dialogo-eliminar">
+<dialog id="dialogo-eliminar" class="dialogo-eliminar" aria-labelledby="dialogo-eliminar-titulo">
   <form method="post" id="form-eliminar">
     {% csrf_token %}
-    <p class="titulo text-2xl">¿Eliminar <span class="text-lava" id="eliminar-nombre"></span>?</p>
+    <p class="titulo text-2xl" id="dialogo-eliminar-titulo">¿Eliminar <span class="text-lava" id="eliminar-nombre"></span>?</p>
     <p class="text-sm text-suave mt-2">Se borran su historial, el kilometraje, el diseño y los documentos. Esto no se puede deshacer.</p>
     <div class="flex flex-wrap justify-end gap-3 mt-6">
       <button type="button" class="boton-seccion" id="eliminar-cancelar">Cancelar</button>

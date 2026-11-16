@@ -1,0 +1,7 @@
+{% comment %}Chispa sobre un estado vacío (o en las páginas 404/500). Solo dibuja a Chispa: el mensaje y el botón siguen en cada plantilla.
+   Uso:  {% include "parciales/vacio.html" %}   ·   {% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-gastos" %}
+   tam:      "chico" (64 px, para listas y tarjetas) · por defecto 96 px
+   variante: "error" = visor apagado y chispazo fallando (404/500)
+   id:       prefijo de degradados; cámbialo si hay dos en la misma página.
+   Interruptor: CHISPA_EN_VACIOS en config/settings.py (False = sin Chispa en todo el sitio).
+{% endcomment %}{% load chispa %}{% chispa_en_vacios as mostrar_chispa %}{% if mostrar_chispa %}<div class="vacio-chispa{% if tam %} vacio-chispa--{{ tam }}{% endif %}{% if variante %} vacio-chispa--{{ variante }}{% endif %}" aria-hidden="true">{% include "parciales/chispa.html" with pose="quieta" estilo="a" vista="boton" id=id|default:"chispa-vacio" clase="vacio-chispa-fig" etiqueta="" %}</div>{% endif %}

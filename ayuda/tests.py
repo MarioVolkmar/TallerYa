@@ -81,3 +81,33 @@ class VistasTests(TestCase):
         r = self.client.get(reverse("talleres:directorio"))
         self.assertContains(r, 'id="chispa-chat"')
         self.assertContains(r, "chispa-chat.js")
+
+
+class ChispaEnVaciosTests(TestCase):
+    """Chispa en estados vacíos y en las páginas 404/500 (parciales/vacio.html)."""
+
+    def test_404_con_chispa_y_enlaces(self):
+        r = self.client.get("/esto-no-existe-xyz/")
+        self.assertEqual(r.status_code, 404)
+        self.assertContains(r, "Chispa no encontró esta página", status_code=404)
+        self.assertContains(r, "vacio-chispa--error", status_code=404)
+        self.assertContains(r, 'href="/talleres/"', status_code=404)
+
+    def test_500_estatica_sin_base_de_datos(self):
+        from django.test import RequestFactory
+        from django.views.defaults import server_error
+        with self.assertNumQueries(0):
+            r = server_error(RequestFactory().get("/"))
+        self.assertEqual(r.status_code, 500)
+        html = r.content.decode()
+        self.assertIn("A Chispa le falló el chispazo", html)
+        self.assertIn("vacio-chispa--error", html)
+
+    def test_interruptor_apaga_a_chispa(self):
+        from django.template.loader import render_to_string
+        self.assertIn("vacio-chispa", render_to_string("parciales/vacio.html"))
+        with self.settings(CHISPA_EN_VACIOS=False):
+            self.assertEqual(render_to_string("parciales/vacio.html").strip(), "")
+            r = self.client.get("/esto-no-existe-xyz/")
+            self.assertContains(r, "Chispa no encontró esta página", status_code=404)
+            self.assertNotContains(r, "vacio-chispa--error", status_code=404)

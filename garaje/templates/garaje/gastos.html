@@ -131,7 +131,7 @@
         </template>
       </li>
       {% empty %}
-      <li class="hv-vacio">Aún no hay gastos. Empieza por tu próximo tanqueo.</li>
+      <li class="hv-vacio">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-gastos" %}Aún no hay gastos. Empieza por tu próximo tanqueo.</li>
       {% endfor %}
     </ul>
     <p class="text-sm text-suave lista-vacia mt-3" hidden>No hay movimientos con esos filtros.</p>
