@@ -519,7 +519,7 @@
       {% endfor %}
     </ol>
     {% else %}
-    <p class="text-sm text-suave mt-3">Aún no hay servicios en la hoja de vida. Cada mantenimiento que registres queda aquí, y si lo hace un taller de TallerYa, verificado.</p>
+    <div class="vacio-izq mt-3">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-hoja" %}<p class="text-sm text-suave">Aún no hay servicios en la hoja de vida. Cada mantenimiento que registres queda aquí, y si lo hace un taller de TallerYa, verificado.</p></div>
     {% endif %}
     <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="historial-ver">Ver hoja de vida <span aria-hidden="true">→</span></a>
   </div>
@@ -549,7 +549,7 @@
     </ul>
     {% endif %}
     {% else %}
-    <p class="text-sm text-suave mt-3">Aún no hay gastos. Anota tanqueadas, repuestos y servicios para ver en qué se te va la plata.</p>
+    <div class="vacio-izq mt-3">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-gastos" %}<p class="text-sm text-suave">Aún no hay gastos. Anota tanqueadas, repuestos y servicios para ver en qué se te va la plata.</p></div>
     {% endif %}
     <a href="{% url 'garaje:gastos' moto.pk %}" class="historial-ver">Ver gastos y consumo <span aria-hidden="true">→</span></a>
   </div>

@@ -459,6 +459,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     haz.intensity = e ? mezcla(2.5, 26, k) : 0;
     rojoTras.intensity = e ? 2.4 * k : 0;
     direccionales.forEach((m, i) => { m.emissiveIntensity = brilloDireccional[i] * mezcla(1, e ? 1.3 : 0, k); });
+    // Neón inferior (accesorio LED): solo con la moto encendida y de noche; apagada no deja luz (ni de día)
+    const led = moto.accesorios.led?.userData.led;
+    if (led) { led.luz.intensity = led.puesto && e ? 0.9 * k : 0; led.material.emissiveIntensity = e ? 2.2 * k : 0; }
     // (el reflejo del estudio también ilumina lo opaco: se baja en lo mate y se sube en cromos y metales)
     for (const [m, base] of conReflejo) m.envMapIntensity = base * mezcla(1, m.metalness >= 0.6 ? 1.7 : 0.7, k) * fundido.reflejo;
     // Luz de relleno: hace de reflejos hasta que estos llegan, y se desvanece mientras entran (ver fundido)
@@ -473,7 +476,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   }
   function aplicarVivo() {
     contenedor.classList.toggle("noche", vivo.noche);
-    Object.assign(transicion, { desde: transicion.k, t0: performance.now(), dur: reducido ? 0 : 600 });
+    Object.assign(transicion, { desde: transicion.k, t0: performance.now(), dur: reducido || document.hidden || !enPantalla ? 0 : 600 });
+    // (oculto o fuera de vista no hay cuadros que lleven la transición: se aplica de una, si no las luces quedaban a medias)
     pasoTransicion();
     pedirCuadro();
   }
@@ -1306,7 +1310,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       led.material.color.copy(c);
       led.material.emissive.copy(c);
       led.luz.color.copy(c);
-      led.luz.intensity = puestos.has("led") ? 0.9 : 0;
+      // (prendido o apagado lo decide pintarVivo: el neón solo brilla con la moto encendida y de noche)
+      led.puesto = puestos.has("led");
+      pintarVivo(transicion.k);
     }
     for (const v of moto.visoresFabrica) { v.userData.oculto = puestos.has("parabrisas"); v.visible = !v.userData.oculto; }
     renderer.shadowMap.needsUpdate = true;
@@ -1548,7 +1554,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     // Ancho: la diagonal horizontal de la moto (lo más ancha que se ve al girar) ocupa la fracción --encuadre del
     // lienzo; alto: la moto ocupa ≤70 % del alto. La cámara mira al
     // centro de la caja. La portada deja el lienzo más alto que la moto para que el cono y la sombra se desvanezcan.
-    if (vitrina && w && h) {
+    if (vitrina && w > 40 && h > 40) {
       const caja = tamanoMoto();
       const tan2 = 2 * Math.tan(THREE.MathUtils.degToRad(camara.fov / 2));
       // Qué parte del ancho del lienzo ocupa la diagonal de la moto: lo dice la portada (variable CSS --encuadre del
@@ -1561,12 +1567,46 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       } catch { /* (portada de otro origen o vista suelta: fracción por defecto) */ }
       const d = Math.max(controles.minDistance, caja.diagonal / (fraccion * tan2 * camara.aspect), caja.alto / (0.7 * tan2));
       controles.maxDistance = Math.max(6, d);
+      // Dirección de la cámara: el giro horizontal actual, pero siempre la misma inclinación de 3/4 (la de POS_INICIAL):
+      // así nunca queda en un estado intermedio (mirando desde arriba) aunque el iframe cargue con otro tamaño
       const desde = camara.position.clone().sub(controles.target);
+      const plano = Math.hypot(desde.x, desde.z) > 1e-3 ? V(desde.x, 0, desde.z).normalize() : V(POS_INICIAL.x, 0, POS_INICIAL.z).normalize();
+      const inclinacion = Math.atan2(POS_INICIAL.y - 0.5, Math.hypot(POS_INICIAL.x, POS_INICIAL.z));
+      desde.copy(plano.multiplyScalar(Math.cos(inclinacion))).setY(Math.sin(inclinacion));
       controles.target.copy(caja.centro);
       if (celular) controles.target.y -= 0.12; // (en el celular la moto va un poco más arriba: abajo se desvanecen el cono y la sombra)
       camara.position.copy(caja.centro).add(desde.setLength(d));
+      encajarAlto(celular);
       controles.update();
     }
+  }
+  // Que quepa completa también a lo alto (manubrio y espejos de las enduro): con la caja real de cada pieza visible se
+  // mira cómo queda al girar la cámara alrededor (12 ángulos). Si se sale, solo se aleja la cámara en su misma
+  // dirección (mismo ángulo de 3/4 y mismo punto de mira), con tope: nunca se acerca ni cambia la altura de la vista.
+  function encajarAlto(celular) {
+    const puntos = tamanoMoto().puntos;
+    if (!puntos?.length) return;
+    const ARRIBA = 0.88, ABAJO = celular ? -0.8 : -0.95; // (en el celular el borde de abajo se desvanece)
+    const cam = camara.clone(), eje = V(0, 1, 0), q = new THREE.Vector3(), centro = controles.target;
+    const base = camara.position.clone().sub(centro);
+    const cabe = (k) => {
+      const rel = base.clone().multiplyScalar(k);
+      for (let a = 0; a < 12; a++) {
+        cam.position.copy(centro).add(rel.clone().applyAxisAngle(eje, (a * Math.PI) / 6));
+        cam.lookAt(centro);
+        cam.updateMatrixWorld(true);
+        for (const p of puntos) {
+          q.copy(p).project(cam);
+          if (q.z > 1 || q.y > ARRIBA || q.y < ABAJO) return false; // (z > 1: detrás de la cámara)
+        }
+      }
+      return true;
+    };
+    let k = 1;
+    while (k < 1.6 && !cabe(k)) k += 0.04;
+    if (k === 1) return;
+    camara.position.copy(centro).add(base.multiplyScalar(k));
+    controles.maxDistance = Math.max(controles.maxDistance, camara.position.distanceTo(centro));
   }
   // Tamaño de la moto para encuadrarla, medido una vez: por las ruedas (distancia entre ejes más los dos radios)
   // y los accesorios puestos, que no cambian con calcas ni animaciones; la caja de la carrocería pesaba distinto según el momento
@@ -1594,9 +1634,22 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       const caja = new THREE.Box3().setFromObject(raiz), t = caja.getSize(new THREE.Vector3());
       largo = t.x; centroX = caja.getCenter(new THREE.Vector3()).x; alto = t.y;
     }
+    // Caja real de lo que se ve (manubrio, espejos, accesorios puestos; sin la sombra de contacto, halos ni conos):
+    // las esquinas de la caja de cada pieza (la caja total exageraba lo alto al girar), para que encajarAlto mire
+    // que quepa a lo alto
+    const puntos = [];
+    raiz.traverseVisible((o) => {
+      if (!o.isMesh || o.userData.calca || o.material?.visible === false || !o.geometry) return;
+      if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+      const b = o.geometry.boundingBox;
+      for (let i = 0; i < 8; i++) {
+        const p = V(i & 1 ? b.max.x : b.min.x, i & 2 ? b.max.y : b.min.y, i & 4 ? b.max.z : b.min.z).applyMatrix4(o.matrixWorld);
+        if (Number.isFinite(p.x + p.y + p.z)) puntos.push(p);
+      }
+    });
     raiz.position.copy(pos); raiz.rotation.z = giro;
     raiz.updateMatrixWorld(true);
-    medidaMoto = { centro: new THREE.Vector3(centroX, 0.58, 0), diagonal: largo * 1.12, alto };
+    medidaMoto = { centro: new THREE.Vector3(centroX, 0.58, 0), diagonal: largo * 1.12, alto, puntos };
     return medidaMoto;
   }
   new ResizeObserver(ajustarTamano).observe(contenedor);
@@ -1686,12 +1739,20 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Boceto en la ficha: compilar los sombreadores reales tarda ~0,6 s en un computador (varios segundos en un
   // celular). Mientras tanto se muestra un cuadro hecho con materiales simples (un solo sombreador Lambert, con el
   // color de cada pieza), congelado como imagen sobre el lienzo, hasta que llega el primer cuadro real.
-  let boceto = null;
+  let boceto = null, bocetoPendiente = null;
   if (!vitrina && enPantalla && !document.hidden) {
     const simples = new Map(), cambiados = [];
     escena.traverseVisible((o) => {
       if (!o.isMesh || !o.material || Array.isArray(o.material) || o.material.visible === false) return;
       const m = o.material;
+      // Lo que solo existe por su textura o su sombra (sombra de contacto, calcas, halos, el piso de sombras) sin ella
+      // quedaba como un rectángulo o un disco liso: en el boceto no se dibuja
+      if (m.isShadowMaterial || (m.map && m.transparent) || m.isSpriteMaterial) {
+        if (!simples.has(m)) simples.set(m, new THREE.MeshBasicMaterial({ visible: false }));
+        cambiados.push([o, m]);
+        o.material = simples.get(m);
+        return;
+      }
       if (!simples.has(m)) simples.set(m, new THREE.MeshLambertMaterial({ color: m.color ?? 0x8a8f94, transparent: m.transparent, opacity: m.opacity, side: m.side, depthWrite: m.depthWrite }));
       cambiados.push([o, m]);
       o.material = simples.get(m);
@@ -1720,8 +1781,28 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const limite30 = vitrina && CALIDAD.nombre === "baja";
   let ultimoCuadro = -1;
   const sombras = { estado: unaEtapa ? "listas" : "pendiente", desde: 0 }; // pendiente → compilando → listas
+  // Al pasar a la etapa con sombras cada material compila su variante nueva y la de la primera etapa queda guardada
+  // sin uso (en la GPU y en la cuenta de programas). Ya dibujado un cuadro con sombras, se sueltan esas viejas:
+  // solo las que tienen reemplazo y no son las que el material usa ahora (las de piezas ocultas se quedan).
+  function soltarProgramasViejos(viejos) {
+    try {
+      const lista = renderer.info.programs;
+      escena.traverse((o) => {
+        for (const m of [].concat(o.material || [])) {
+          const p = renderer.properties.get(m);
+          if (!p.programs || p.programs.size < 2) continue;
+          for (const [clave, prog] of p.programs) {
+            if (!viejos.has(prog) || prog === p.currentProgram) continue;
+            p.programs.delete(clave);
+            if (--prog.usedTimes === 0) { const i = lista.indexOf(prog); if (i >= 0) { lista[i] = lista[lista.length - 1]; lista.pop(); } prog.destroy(); }
+          }
+        }
+      });
+    } catch { /* si cambia algo interno de three, se quedan como estaban */ }
+  }
   async function activarSombras() {
     sombras.estado = "compilando";
+    const viejos = new Set(renderer.info.programs);
     try { await extras(); generarReflejos(); } catch { /* sin reflejos de estudio: queda la luz de relleno */ }
     // (la luz de relleno no se quita: se apaga de a poco; quitarla cambiaría otra vez los sombreadores)
     fundido.reflejo = 0;
@@ -1732,6 +1813,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     if (paginaCerrada) return;
     sombras.estado = "listas";
     marcar("sombras");
+    requestAnimationFrame(() => requestAnimationFrame(() => { if (!paginaCerrada) soltarProgramasViejos(viejos); }));
     fundido.t0 = performance.now();
     // En la portada la moto todavía no había entrado (esperaba fuera de cuadro): la entrada arranca ahora
     if (vitrina && anim.fase === "entrar") anim.t0 = performance.now();
@@ -1764,6 +1846,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     renderer.render(escena, camara);
     marcar("primerCuadro");
     sombras.desde ||= performance.now();
+    if (bocetoPendiente) { const b = bocetoPendiente; bocetoPendiente = null; requestAnimationFrame(() => b.remove()); }
   });
   // Primer cuadro en este mismo momento, sin esperar al siguiente refresco de la pantalla
   if (enPantalla && !document.hidden) {
@@ -1775,7 +1858,12 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     necesitaCuadro = false;
   }
   // (el cuadro real ya se dibujó: se quita el boceto en el próximo refresco, para que no parpadee)
-  if (boceto) requestAnimationFrame(() => boceto.remove());
+  // Si no se pudo dibujar (pestaña oculta o fuera de vista), el boceto se quita cuando el bucle dibuje el primero:
+  // así nunca queda a la vista el lienzo con el render del boceto.
+  if (boceto) {
+    if (TIEMPOS.primerCuadro) requestAnimationFrame(() => boceto.remove());
+    else { bocetoPendiente = boceto; pedirCuadro(); }
+  }
   // Las aristas de Rayos X, en cuanto la página quede libre
   const conAristas = () => { if (paginaCerrada) return; bordes.listos = true; aplicarModo(); pedirCuadro(); };
   if (window.requestIdleCallback) requestIdleCallback(conAristas, { timeout: 600 }); else setTimeout(conAristas, 200);

@@ -24,7 +24,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
   const scooter = tipo === "scooter";
   // Rasgos de silueta de la familia y de la línea (tanque, colín, faro, escape, carenado…): ver rasgos.js
   const R = rasgosDe(linea, specs);
-  const R_ = R; // (dentro de llanta() la R es el radio de la rueda)
+  const R_ = R;
+  let toscoExtra = 1; // (multiplica el largo de arista de panelAhusado; ver carroceriaNmax) // (dentro de llanta() la R es el radio de la rueda)
   const fam = R.familia;
 
   // ----- Materiales -----
@@ -41,7 +42,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     labrado: new THREE.MeshStandardMaterial({ color: 0x141414, roughness: 0.95, metalness: 0 }),
     pantalla: new THREE.MeshStandardMaterial({ color: 0x0f1a1c, emissive: 0x4fd1c5, emissiveIntensity: 0.35, roughness: 0.15 }),
     rin: new THREE.MeshPhysicalMaterial({ color: R.rinColor ?? 0x2b3033, roughness: 0.3, metalness: 0.7, clearcoat: 0.8, clearcoatRoughness: 0.15 }),
-    asiento: new THREE.MeshPhysicalMaterial({ color: 0x161819, roughness: 0.7, sheen: 0.6, sheenRoughness: 0.5, sheenColor: 0x555a5c }),
+    // (sin "sheen": un barniz áspero da el mismo brillo suave de cuerina y comparte el sombreador de la pintura)
+    asiento: new THREE.MeshPhysicalMaterial({ color: 0x161819, roughness: 0.7, clearcoat: 0.18, clearcoatRoughness: 0.55 }),
     rojo: new THREE.MeshPhysicalMaterial({ color: 0xb8321f, roughness: 0.3, metalness: 0.4, clearcoat: 0.7 }),
     resorte: new THREE.MeshPhysicalMaterial({ color: tipo === "sport" ? 0xe3a72f : 0xc0392b, roughness: 0.3, metalness: 0.3, clearcoat: 0.8 }),
     luz: new THREE.MeshStandardMaterial({ color: 0xfff6d8, emissive: 0xfff1c4, emissiveIntensity: 1.1, roughness: 0.1 }),
@@ -1087,7 +1089,10 @@ export async function construirMoto(specs, colorPintura, linea = "") {
 
   // ----- Carrocería específica: Yamaha NMAX (maxi-scooter) -----
   // Paneles curvos que se angostan hacia la nariz y la cola, pintura en dos tonos y detalles propios del modelo.
+  // (en calidad baja la NMAX/Aerox suben un poco el largo de arista: son la carrocería con más paneles curvos y en
+  // el celular era la más pesada por cuadro; a ese tamaño de pantalla se ve igual; ver toscoExtra arriba)
   function panelAhusado(puntos, ancho, mat, ahusar, bisel = 0.045, deformar = null, tosco = 1) {
+    tosco *= toscoExtra;
     // Clave del panel: su contorno, medidas y el código de sus funciones de forma
     // (tosco > 1: aristas más largas en la subdivisión, para paneles que casi no se ven, como la quilla)
     const clave = `panel|${claveContorno(puntos)}|${ancho}|${bisel}|${ahusar}|${deformar || ""}${tosco === 1 ? "" : "|t" + tosco}`;
@@ -1382,7 +1387,9 @@ export async function construirMoto(specs, colorPintura, linea = "") {
   const pintura = M.pintura;
   let pata = null;
   if (scooter && esMaxi) {
+    toscoExtra = CALIDAD.nombre === "baja" ? 1.35 : 1;
     carroceriaNmax(esAerox);
+    toscoExtra = 1;
   } else if (scooter) {
     carroceriaScooter();
   } else if (tipo === "enduro" && (esXtz || esTt || R.enduro?.modelo)) {

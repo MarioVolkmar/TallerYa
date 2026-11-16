@@ -44,8 +44,10 @@ export function materialLetrasLlanta(medida, enRadio, alto) {
     const textura = new THREE.CanvasTexture(c);
     textura.colorSpace = THREE.SRGBColorSpace;
     textura.anisotropy = 4;
-    letrasLlanta.set(clave, new THREE.MeshStandardMaterial({
+    // (Physical con una capa de barniz casi nula: así comparte el sombreador con las calcas, que llevan barniz)
+    letrasLlanta.set(clave, new THREE.MeshPhysicalMaterial({
       map: textura, transparent: true, depthWrite: false, roughness: 0.9, polygonOffset: true, polygonOffsetFactor: -2,
+      clearcoat: 0.02, clearcoatRoughness: 1,
     }));
   }
   return letrasLlanta.get(clave);
@@ -233,7 +235,9 @@ export function ponerPlaca(placa, texto) {
   document.fonts?.load('700 150px "Oswald"').then(dibujar).catch(() => {});
   const lamina = new THREE.Mesh(
     new THREE.PlaneGeometry(0.196, 0.08),
-    new THREE.MeshStandardMaterial({ map: textura, roughness: 0.45, metalness: 0.05, polygonOffset: true, polygonOffsetFactor: -2 }),
+    // (transparente y con barniz leve, igual que las calcas: comparte su sombreador; la textura es opaca, se ve igual)
+    new THREE.MeshPhysicalMaterial({ map: textura, roughness: 0.45, metalness: 0.05, polygonOffset: true, polygonOffsetFactor: -2,
+      transparent: true, clearcoat: 0.3, clearcoatRoughness: 0.5 }),
   );
   lamina.rotation.y = -Math.PI / 2;
   lamina.position.x = -0.0036;

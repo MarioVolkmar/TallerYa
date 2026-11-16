@@ -101,10 +101,12 @@ const LINEAS = [
     N("BOXER", ["lateral", "cola"], { id: "modelo", nombre: "BOXER", posicion: 0, altura: -0.2, ancho: 0.1, color: "gris" })]],
   [/boxer/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña del tanque", angosto: 0.4, posicion: 0, altura: -0.25, ancho: 0.26, color: "vivo:#2a4bd0", color2: "#ffffff" }),
     N("CT", ["tanque"], { id: "ct", nombre: "CT", posicion: -0.05, altura: 0.1, ancho: 0.08, color: "letra" }),
+    F(["lateral"], { id: "tapa", nombre: "Tapa lateral plateada", forma: "barra", angosto: 0.8, posicion: 0, altura: 0, ancho: 0.2, color: "#c9cdd1" }),
     N("BOXER", ["lateral", "cola"], { posicion: 0, altura: -0.2, ancho: 0.1, color: "gris" })]],
-  // Discover 125 (fotos pocas): sobria; barra amarilla fina en la cubierta del tanque y "DISCOVER" chico gris
-  [/discover/i, () => [F(["tanque"], { id: "barra", nombre: "Barra del tanque", forma: "barra", angosto: 0.6, posicion: 0.2, altura: -0.3, ancho: 0.16, giro: 4, color: "vivo:#e2d21f" }),
-    N("DISCOVER", ["tanque"], { posicion: 0.15, altura: -0.6, ancho: 0.13, color: "gris" })]],
+  // Discover 125 (fotos 2020+): flecha lima en la aleta del tanque, "125" encima y "DISCOVER" claro en el colín
+  [/discover/i, () => [F(["tanque"], { id: "flecha", nombre: "Flecha del tanque", forma: "flecha", angosto: 0.45, posicion: 0.25, altura: -0.3, ancho: 0.2, color: "vivo:#cfe01f", color2: "#1b1e20" }),
+    C("125", ["tanque"], { posicion: -0.15, altura: 0.15, ancho: 0.06, color: "vivo:#cfe01f", color2: "contorno" }),
+    N("DISCOVER", ["cola", "lateral"], { posicion: 0, altura: -0.1, ancho: 0.16, color: "letra" })]],
   [/gixxer\s*sf/i, () => [N("GIXXER SF", ["frontal"], { posicion: -0.15, altura: 0.05, ancho: 0.34 }), F(["frontal"], { posicion: -0.1, altura: -0.45, ancho: 0.42 })]],
   // Gixxer 150 (fotos 2024–2026): en la cubierta del tanque, una fila de trazos claros hacia adelante, un filete
   // claro y "GIXXER" del color de la versión abajo; barra del mismo color en la cola

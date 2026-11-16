@@ -103,11 +103,16 @@ const LINEAS = [
   [/boxer\s*ct\s*125|\bct\s*125/i, { tanque: { forma: "cuadrado", alto: 0.115, ancho: 0.32, largo: 0.26 }, faro: { forma: "trapecio", visera: true },
     rines: "aleacion", direccionales: { tipo: "redondas" }, colin: { forma: "largo", alto: 0.02, largo: 0.16 }, parrilla: true,
     agarradera: null, tapaRectangular: true, guardaPintado: true }],
+  // Boxer CT 100 (fotos en manual_despiece/auteco-bajaj-boxer-ct-100): de mandados; asiento largo y plano, colín bajo
+  // con parrilla cromada, mofle largo y bajo, rines de radios y fuelles en la horquilla
   [/boxer/i, { tanque: { forma: "gota", alto: 0.09, ancho: 0.32, largo: 0.24 }, faro: { forma: "redondo", r: 0.085, visera: true },
-    relojes: "uno", direccionales: { tipo: "redondas" }, stop: "guardabarros",
-    colin: { forma: "plano", alto: -0.01, largo: 0.15 }, parrilla: true, agarradera: null, fuelles: true }],
-  [/discover/i, { tanque: { forma: "clasico", alto: 0.115, ancho: 0.33, largo: 0.27, aletas: true }, faro: { forma: "trapecio", visera: true }, rines: "aleacion",
-    colin: { forma: "largo", alto: 0.02, largo: 0.16 }, parrilla: true, agarradera: null, tapaLarga: true }],
+    relojes: "uno", direccionales: { tipo: "redondas" }, stop: "guardabarros", rines: "radios", escalon: 0,
+    colin: { forma: "plano", alto: -0.02, largo: 0.17 }, escape: { forma: "clasico", sube: 3 }, parrilla: true, agarradera: null, fuelles: true }],
+  // Discover 125 (fotos 2020+): deportiva; tanque con aletas, asiento escalonado, colín alto y afilado con agarraderas
+  // partidas, mofle corto subido con protector y rines de aleación de 5 brazos
+  [/discover/i, { tanque: { forma: "clasico", alto: 0.125, ancho: 0.34, largo: 0.27, aletas: true }, faro: { forma: "trapecio", visera: true }, rines: "aleacion",
+    rinDiseno: { n: 5, rectos: true }, asientoEscalonado: 0.06, colin: { forma: "respingado", alto: 0.1, largo: 0.19 },
+    escape: { forma: "corto", sube: 15, protector: true }, agarradera: "aluminio", tapaLarga: true }],
   [/eco\s*deluxe/i, { tanque: { forma: "cuadrado", alto: 0.135, ancho: 0.32, largo: 0.28 }, faro: { forma: "rectangular" }, relojes: "uno",
     // (fotos de la HF Deluxe/HF 100 en manual_despiece/hero-eco-deluxe-100: rines de aleación de 5 brazos, direccionales de bombillo)
     rines: "aleacion", direccionales: { tipo: "redondas" },
