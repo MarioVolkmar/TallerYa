@@ -1,6 +1,6 @@
 import sys, glob, os
 from PIL import Image
-base = r"C:\Users\volkm\OneDrive\Desktop\TallerYa\manual_despiece"
+base = r"C:\dev\TallerYa\manual_despiece"
 for m in sys.argv[1:]:
     fs = sorted(glob.glob(os.path.join(base, m, "fotos", "*.jpg")))
     fs = [f for f in fs if not f.endswith("_hoja.jpg")]

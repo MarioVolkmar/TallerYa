@@ -2,7 +2,7 @@
 Uso: python capturas.py trabajos.json   — lista de {url, w, h, js (async, opcional), clip (selector, opcional), salida}
 """
 import json, sys, time, base64, tempfile, urllib.request, shutil
-sys.path.insert(0, r"C:\Users\volkm\OneDrive\Desktop\TallerYa\informes_noche\piloto-esquema\motor")
+sys.path.insert(0, r"C:\dev\TallerYa\informes_noche\piloto-esquema\motor")
 import medir_lamina as ML
 
 trabajos = json.load(open(sys.argv[1], encoding="utf-8"))

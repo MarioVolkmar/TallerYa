@@ -1,7 +1,7 @@
 # Genera informes_noche/piloto-esquema/integrado.html a partir de index.html (sin editar index.html).
 import re, pathlib, sys
 
-base = pathlib.Path(r"C:\Users\volkm\OneDrive\Desktop\TallerYa\informes_noche\piloto-esquema")
+base = pathlib.Path(r"C:\dev\TallerYa\informes_noche\piloto-esquema")
 src = (base / "index.html").read_text(encoding="utf-8")
 L = src.splitlines()
 plantilla = pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")
@@ -26,7 +26,7 @@ fuentes = m.group(1)
 fuentes = fuentes.replace('class="tarjeta" style="padding:12px 18px;margin-top:14px"', 'class="esq-fuente"') \
                  .replace('class="tarjeta" style="padding:12px 18px"', 'class="esq-fuente"')
 # Logo del sitio (parciales/logo.html sin etiquetas de plantilla)
-logo = pathlib.Path(r"C:\Users\volkm\OneDrive\Desktop\TallerYa\templates\parciales\logo.html").read_text(encoding="utf-8")
+logo = pathlib.Path(r"C:\dev\TallerYa\templates\parciales\logo.html").read_text(encoding="utf-8")
 logo = re.sub(r"\{#.*?#\}", "", logo, flags=re.S)
 logo = re.sub(r"\{% if lema %\}.*?\{% else %\}(.*?)\{% endif %\}", r"\1", logo, flags=re.S)
 logo = re.sub(r"\{% if lema %\}.*?\{% endif %\}", "", logo, flags=re.S)

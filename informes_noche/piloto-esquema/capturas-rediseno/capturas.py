@@ -1,5 +1,5 @@
 import sys, os, json, time, base64, tempfile, threading, urllib.request
-M = "C:/Users/volkm/OneDrive/Desktop/TallerYa/informes_noche/piloto-esquema/motor"
+M = "C:/dev/TallerYa/informes_noche/piloto-esquema/motor"
 sys.path.insert(0, M)
 from http.server import ThreadingHTTPServer
 from medir_lamina import RAIZ, Manejador, CDP, buscar_chrome, lanzar

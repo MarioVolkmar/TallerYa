@@ -1,5 +1,5 @@
 import sys, json, time, tempfile, urllib.request, pathlib
-M = "C:/Users/volkm/OneDrive/Desktop/TallerYa/informes_noche/piloto-esquema/motor"
+M = "C:/dev/TallerYa/informes_noche/piloto-esquema/motor"
 sys.path.insert(0, M)
 from medir_lamina import CDP, buscar_chrome, lanzar, GANCHO
 url = pathlib.Path(sys.argv[1] if len(sys.argv) > 1 else M + "/prueba-nmax-fig26.html").resolve().as_uri()

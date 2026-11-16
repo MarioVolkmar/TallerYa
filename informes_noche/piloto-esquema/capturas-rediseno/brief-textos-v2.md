@@ -1,6 +1,6 @@
 # Brief: textos v2 de una lámina del esquema (subagente sonnet)
 
-Proyecto TallerYa (Django, todo en español de Colombia, motos en Medellín). Raíz: `C:/Users/volkm/OneDrive/Desktop/TallerYa`. `M` = `informes_noche/piloto-esquema/motor`.
+Proyecto TallerYa (Django, todo en español de Colombia, motos en Medellín). Raíz: `C:/dev/TallerYa`. `M` = `informes_noche/piloto-esquema/motor`.
 Tu tarea: reescribir al **estilo v2** los textos de una lámina que ya existe (v1) y dejarlos en un JSON nuevo. No toques ningún otro archivo. No hagas commit. No leas PDF.
 
 ## Qué leer (solo esto)

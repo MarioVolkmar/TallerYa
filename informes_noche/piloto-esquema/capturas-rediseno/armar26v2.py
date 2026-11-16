@@ -3,7 +3,7 @@
 # Enlaces en la prosa: [[clave|texto]]; clave simbólica (b, kit, man…) se resuelve por lado.
 import json, re, sys, copy
 sys.stdout.reconfigure(encoding="utf-8")
-M = "C:/Users/volkm/OneDrive/Desktop/TallerYa/informes_noche/piloto-esquema/motor/"
+M = "C:/dev/TallerYa/informes_noche/piloto-esquema/motor/"
 D = json.load(open(M + "datos/nmax-fig26-v1.json", encoding="utf8"))
 CAT = {p["ref"]: p for p in json.load(open(M + "catalogo/nmax-bbe4.json", encoding="utf8"))["figuras"]["26"]["partes"]}
 V1 = copy.deepcopy(D["fichas"])

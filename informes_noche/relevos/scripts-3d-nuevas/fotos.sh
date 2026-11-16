@@ -1,5 +1,5 @@
 # uso: fotos.sh <carpeta> <url_galgo> <regex_nombre> [max]
-d="/c/Users/volkm/OneDrive/Desktop/TallerYa/manual_despiece/$1/fotos"; mkdir -p "$d"
+d="/c/dev/TallerYa/manual_despiece/$1/fotos"; mkdir -p "$d"
 n=0
 for img in $(curl -sL -A "Mozilla/5.0" "$2" | grep -oE 'https://images\.ctfassets\.net/[^"'"'"' )]+\.(jpg|jpeg|png|webp)' | sort -u | grep -iE "$3" | head -${4:-5}); do
   n=$((n+1)); f="$d/galgo_$n.jpg"
