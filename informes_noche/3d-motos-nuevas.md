@@ -165,3 +165,14 @@ Presupuestos propuestos para los auditores (sin bajar la calidad): se mantienen 
 (≤35k en baja); nuevo **JS del 3D transferido ≤300 KB** (hoy 239 KB); primer cuadro en escritorio con GPU real y 4G
 rápida: boceto ≤1,5 s y cuadro real ≤2,5 s (≤3 s en Render). En Chrome sin cabeza (GPU por software) los tiempos de
 compilación salen 3–5 veces más altos: no comparar contra esos topes.
+
+## Correcciones de la auditoría independiente (15-11-2026, sin commit)
+| Hallazgo | Cambio | Antes → después |
+|---|---|---|
+| RC 200: stop/faro con brillo apagada de noche | El brillo era la transición día→noche a medio camino (sin cuadros si la pestaña está oculta o el visor fuera de vista). Ahora en ese caso la transición se aplica de una (`moto3d.js`, `aplicarVivo`). | apagada de noche: solo tablero `2a3a46` y reflector, en las 33 |
+| Scooters: `PointLight×0,9` y neón apagados | El accesorio LED lo prende `pintarVivo`: luz y emisivo solo con la moto encendida y de noche. | apagada día/noche: 0 PointLight y sin `a855f7`; encendida de noche: PointLight 0,9 + neón 2,2 |
+| NMAX móvil | En calidad baja los paneles curvos de NMAX/Aerox usan aristas ×1,35 (`toscoExtra`, `construir.js`); `CACHE_VERSION` 6→7. | NMAX baja 26,7k → 22,6k triángulos; 43 calls; cuadro 4× CPU: 8 ms (Raider 6 ms) en la misma corrida |
+| CT 100 ≈ Discover | CT 100: asiento plano, colín bajo, mofle largo y bajo, radios. Discover: asiento escalonado, colín respingado, mofle corto subido con protector, agarraderas de aluminio, rin de 5 brazos; calcas: flecha lima, "125" y "DISCOVER" en el colín; CT 100 suma tapa lateral plateada. | hoja: `relevos/3d-grupo-negras-despues.jpg` |
+| Programas de shader 30–32 | Letras de llanta y placa pasan a Physical transparente con barniz leve (comparten el programa de las calcas); asiento sin `sheen` (barniz áspero, comparte el de la pintura); al terminar la etapa de sombras se sueltan los programas viejos sin sombras que tienen reemplazo (`soltarProgramasViejos`). | alta 30–32 → 18–19; baja 20–21 → 17; sin errores GL al pasar a noche |
+
+Chequeos: flotantes, llantas (con y sin accesorios), luces y anclas OK en CT 100, Discover y NMAX. Presupuestos: máx. 47,2k triángulos y 44 calls en alta. `manage.py test garaje`: 230 OK.

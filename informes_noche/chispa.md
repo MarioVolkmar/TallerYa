@@ -83,9 +83,20 @@ El piso queda en y=519 en ambas en escritorio.
    - En `tallerya.css`, el bloque «Chispa: escenas animadas de la portada» hasta «fin de escenas de Chispa».
    - La pose `escena` del componente puede quedarse.
 
+## Estados vacíos y páginas de error (fácil de revertir)
+- **Parcial:** `templates/parciales/vacio.html` dibuja solo a Chispa `quieta` (96 px, o 64 px con `tam="chico"`) encima del mensaje vacío; el texto y el botón siguen en cada plantilla. Con `variante="error"` el visor queda apagado (ojos grises que parpadean de vez en cuando) y el chispazo del electrodo falla.
+- **Dónde está:** notificaciones vacías, cupones vacíos, foro sin resultados o sin preguntas, pregunta sin respuestas, rodadas vacías, directorio sin resultados o sin favoritos, «Mis citas» vacío y «Mis preguntas» en Mi cuenta, hoja de vida y gastos vacíos (página propia y resumen en la moto). Se suavizaron tres frases: pregunta sin respuestas, hoja de vida en blanco y Mi cuenta sin preguntas del foro.
+- **404** (`templates/404.html`, extiende `base.html`): «Chispa no encontró esta página», con enlaces a inicio, buscar taller y Mi garaje.
+- **500** (`templates/500.html`): HTML estático; no extiende `base.html`, no usa la base de datos ni el usuario y sus enlaces van escritos a mano. Una prueba verifica que no hace consultas.
+- **Estilos:** bloque «Chispa en estados vacíos» al final de `tallerya.css` (`.vacio-chispa`, `.vacio-izq`, `.vacio-error`, `.mc-vacio:has(.vacio-chispa)`).
+- **Interruptor:** `ayuda/templatetags/chispa.py` lee `CHISPA_EN_VACIOS` de `config/settings.py` (por defecto True; también con la variable de entorno `CHISPA_EN_VACIOS=0`).
+- **Pruebas:** `ayuda.tests.ChispaEnVaciosTests` (404, 500 sin consultas e interruptor).
+
+### Cómo revertir
+1. **Apagar sin borrar nada:** `CHISPA_EN_VACIOS = False` en settings (o `CHISPA_EN_VACIOS=0` en el entorno). Desaparece de los estados vacíos y de 404/500; las páginas de error siguen con su texto y sus enlaces.
+2. **Quitarlo del todo:** borrar las líneas `{% include "parciales/vacio.html" … %}` (buscar `parciales/vacio.html`), el bloque CSS, el parcial y el templatetag. Para volver a las 404/500 de Django, borrar `templates/404.html` y `templates/500.html`.
+
 ## Ideas para después
 - **Guía y primer uso:** `saludando` al lado de cada paso de `garaje:bienvenida`, con un globo de texto corto. Una pose nueva, «señalando», ayudaría (un brazo extendido; se arma igual que el brazo que saluda).
-- **Páginas vacías** (sin citas, sin cupones, foro sin respuestas, garaje sin gastos): `quieta`, de unos 96 px, encima del mensaje vacío.
-- **Errores 404/500:** Chispa con el visor apagado (ojos en línea, sin halo) y el chispazo fallando. Basta con una clase `.chispa-apagada` que oculte `.ch-halo` y aplane `.ch-ojo`.
 - **Chatbot:** burbuja flotante abajo a la derecha con Chispa `quieta` recortada desde el visor hacia arriba (cambiar el `viewBox` a `-30 -8 60 110`). «Pensando» = ojos que barren de lado a lado (reusar `ch-mirar` con más velocidad). «Respondiendo» = chispazo continuo.
 - **Rayos X / diagnóstico:** estilo `b` junto al modelo 3D en modo Rayos X.

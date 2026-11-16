@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Piloto freno NMAX</title>
+<meta name="description" content="Esquema piloto de TallerYa: freno delantero de la Yamaha NMAX 155 (lámina 22), armado, despiece animado, funcionamiento y fichas de falla por pieza. Prototipo local.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carbon:#111517;--carbon-2:#161c1e;--pizarra:#1d2427;--pizarra-2:#252e31;--borde:#354044;
+  --crema:#efe6d2;--crema-2:#c9bfa7;--lava:#f2611d;--lava-2:#ff9a3c;--mostaza:#e8a92a;--musgo:#1f3a36;
+  --ok:#7fbf8a;--aprox:#e8a92a;
+}
+*{box-sizing:border-box}
+html{color-scheme:dark}
+body{margin:0;background:var(--carbon);color:var(--crema);font-family:"Archivo",system-ui,sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Oswald",system-ui,sans-serif;letter-spacing:.02em;line-height:1.15;margin:0 0 .45em;font-weight:600}
+h1{font-size:clamp(1.6rem,4.6vw,2.6rem)}
+h2{font-size:clamp(1.3rem,3.4vw,1.8rem);color:var(--crema)}
+h2 .num{color:var(--lava);margin-right:.35em}
+h3{font-size:1.1rem;color:var(--mostaza)}
+a{color:var(--lava-2)}
+p{margin:.3em 0 .8em}
+.envoltura{max-width:1200px;margin:0 auto;padding:16px}
+.cinta{font-family:"Oswald";text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:var(--mostaza)}
+.aviso{border:1px dashed var(--borde);border-radius:10px;padding:8px 12px;color:var(--crema-2);font-size:.9rem;background:var(--carbon-2)}
+section{margin:34px 0}
+.tarjeta{background:var(--pizarra);border:1px solid var(--borde);border-radius:14px;box-shadow:0 10px 24px -8px rgba(0,0,0,.7),5px 5px 0 #0b0e0f}
+
+/* ---------- escenario del despiece ---------- */
+.escenario{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.escenario>*{min-width:0}
+@media(min-width:960px){.escenario{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}}
+.lienzo{padding:8px;position:relative}
+.lienzo svg{display:block;width:100%;height:auto;touch-action:manipulation}
+.controles{display:flex;flex-wrap:wrap;gap:8px;padding:6px 8px 4px}
+button{font:600 .95rem "Archivo",sans-serif;color:var(--crema);background:var(--pizarra-2);border:1px solid var(--borde);border-radius:999px;padding:9px 15px;cursor:pointer;min-height:42px}
+button:hover{border-color:var(--crema-2)}
+button.principal{background:var(--lava);border-color:var(--lava);color:#1a0f08}
+button.principal:hover{background:var(--lava-2)}
+button:focus-visible,.pz:focus-visible{outline:3px solid var(--mostaza);outline-offset:2px}
+button[disabled]{opacity:.45;cursor:default}
+.paso{margin:4px 10px 8px;min-height:3.2em;font-size:.95rem;color:var(--crema-2)}
+.paso b{color:var(--mostaza);font-family:"Oswald";font-weight:600;letter-spacing:.03em}
+.fichas-chips{display:flex;flex-wrap:wrap;gap:6px;padding:4px 8px 10px}
+@media(max-width:700px){.fichas-chips{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}.chip{flex:none;scroll-snap-align:start}}
+.chip{font-size:.82rem;padding:6px 10px;min-height:44px;background:var(--carbon-2)}
+.chip .n{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:var(--mostaza);color:#1a1206;font-weight:700;margin-right:6px;font-size:.8rem}
+.chip.ctx .n{background:transparent;border:1px dashed var(--crema-2);color:var(--crema-2)}
+.chip.sel{border-color:var(--lava);background:#2a1a12}
+
+/* piezas del SVG */
+.pz{cursor:pointer;transition:transform .75s cubic-bezier(.6,.05,.3,1),opacity .4s}
+.pz .arte{transition:opacity .35s,filter .2s}
+.esc{transition:transform .75s cubic-bezier(.6,.05,.3,1);transform-box:fill-box;transform-origin:center}
+.pz.fuera .esc.chica{transform:scale(1.5)}
+.pz:hover .arte{filter:brightness(1.18)}
+.pz.sel .arte{filter:url(#fSel)}
+#lamina.haysel .pz:not(.sel) .arte{opacity:.5}
+.oculto-arm{opacity:0;transition:opacity .4s}
+.pz.fuera .oculto-arm{opacity:1}
+#lamina.rayosx #pz-3 .arte,#lamina.rayosx #pz-13 .arte,#lamina.rayosx #pz-6 .arte,#lamina.rayosx #pz-7 .arte{opacity:.22}
+#lamina.rayosx .pz.sel .oculto-arm{opacity:1}
+.et{pointer-events:none;transition:opacity .4s}
+.et circle{fill:var(--mostaza);stroke:#1a1206;stroke-width:1.5}
+.et text{font:700 18px "Oswald",sans-serif;fill:#1a1206;text-anchor:middle;dominant-baseline:central}
+.et line{stroke:var(--mostaza);stroke-width:1.3;stroke-dasharray:3 3}
+.et-exp{opacity:0}
+#lamina.explotado .et-exp{opacity:1}
+.pz.sel .et circle{fill:var(--lava)}
+.ctx{transition:opacity .6s}
+#lamina.explotado .ctx-barra{opacity:.14}
+#lamina.sinmanguera .ctx-manguera{opacity:0;pointer-events:none}
+#lamina.explotado .ctx-txt{opacity:0}
+.ctx-txt{font:600 14px "Archivo";fill:var(--crema-2);letter-spacing:.02em}
+
+/* ficha */
+.ficha{padding:16px 18px}
+.ficha .cab{display:flex;gap:12px;align-items:flex-start}
+.ficha .badge{flex:none;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--lava);color:#1a0f08;font:700 1.35rem "Oswald"}
+.ficha .badge.ctx{background:transparent;border:2px dashed var(--crema-2);color:var(--crema-2);font-size:.9rem}
+.ficha h3{margin:0;color:var(--crema);font-size:1.35rem}
+.ficha .cat{font-size:.8rem;color:var(--crema-2)}
+.ficha dl{margin:10px 0 0}
+.ficha dt{font:600 .78rem "Oswald";text-transform:uppercase;letter-spacing:.1em;color:var(--mostaza);margin-top:12px}
+.ficha dd{margin:3px 0 0}
+.ficha ul{margin:4px 0 0;padding-left:1.1em}
+.ficha li{margin:2px 0}
+.causa{display:inline-block;font:700 .68rem "Archivo";text-transform:uppercase;letter-spacing:.06em;padding:1px 7px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.c-desgaste{background:#5b4630;color:#ffd9a8}.c-calor{background:#6b2a12;color:#ffc2a0}.c-humedad{background:#1f3a4a;color:#bfe3ff}
+.c-maluso{background:#4a2140;color:#ffc7ef}.c-golpe{background:#3a3a3a;color:#eee}.c-edad{background:#2f3d24;color:#d6f0b8}
+.decision{display:inline-block;margin-top:4px;padding:3px 10px;border-radius:8px;font-weight:700;font-size:.9rem}
+.d-repara{background:var(--musgo);color:#bfeee0}.d-cambia{background:#3b2316;color:#ffc9a8}
+.enlaces{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.enlaces button{font-size:.8rem;padding:4px 10px;min-height:32px}
+.efecto{border-left:3px solid var(--lava);padding:2px 0 2px 10px;margin:6px 0}
+.efecto button{font-size:.78rem;padding:2px 9px;min-height:28px;margin-right:6px}
+.dif{font-size:.85rem;color:var(--crema-2)}
+.certeza{font-size:.8rem;color:var(--crema-2);margin-top:12px;border-top:1px solid var(--borde);padding-top:8px}
+.s-ok{color:var(--ok);font-weight:700}.s-ap{color:var(--aprox);font-weight:700}
+.vacia{color:var(--crema-2)}
+.mas{margin-top:12px;border-top:1px solid var(--borde);padding-top:6px}
+.mas summary{cursor:pointer;font:600 .85rem "Archivo";color:var(--lava-2);min-height:44px;display:flex;align-items:center}
+
+/* funcionamiento */
+.func{padding:10px}
+.func .desliza{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.func svg{display:block;width:100%;height:auto}
+.func .pista{display:none;font-size:.8rem;color:var(--crema-2);padding:0 10px}
+.solo-movil{display:none}
+@media(max-width:700px){.solo-movil{display:inline}.solo-pc{display:none}#fnCorte{transform:translate(-470px,262px)}.fn-et{font-size:16px}}
+.func .texto{padding:6px 10px 10px;min-height:5.5em}
+.func .texto b{font-family:"Oswald";color:var(--mostaza);font-weight:600}
+#fn-lever,#fn-mpiston,#fn-cuerpo,#fn-piston,#fn-padL{transition:transform .7s cubic-bezier(.5,0,.3,1)}
+#fn-calor{transition:opacity .8s}
+.pulso{stroke-dasharray:14 22;animation:fluye .7s linear infinite}
+@keyframes fluye{to{stroke-dashoffset:-36}}
+.giro{animation:gira .5s linear infinite;transform-box:fill-box;transform-origin:center}
+.giro.lento{animation-duration:2.4s}
+.giro.quieto{animation-play-state:paused}
+@keyframes gira{to{transform:rotate(360deg)}}
+.baja{stroke-dasharray:10 16;animation:baja .45s linear infinite}
+.baja.lento{animation-duration:2.2s}.baja.quieto{animation-play-state:paused;opacity:.3}
+@keyframes baja{to{stroke-dashoffset:-26}}
+.fn-et{font:600 13px "Archivo";fill:var(--crema-2)}
+.fn-et.claro{fill:var(--crema)}
+
+/* cadenas */
+.cadenas{display:grid;gap:12px}
+@media(min-width:800px){.cadenas{grid-template-columns:1fr 1fr}}
+.cadena{padding:14px 16px}
+.cadena ol{margin:6px 0 0;padding:0;list-style:none;counter-reset:c}
+.cadena li{position:relative;padding:4px 0 10px 34px}
+.cadena li::before{counter-increment:c;content:counter(c);position:absolute;left:0;top:3px;width:24px;height:24px;border-radius:50%;background:var(--pizarra-2);border:1px solid var(--lava);display:grid;place-items:center;font:700 .8rem "Oswald";color:var(--lava)}
+.cadena li:not(:last-child)::after{content:"";position:absolute;left:11px;top:29px;bottom:0;border-left:2px dotted var(--lava)}
+.cadena button{font-size:.8rem;padding:4px 10px;min-height:36px}
+@media(max-width:700px){.cadena button,.enlaces button,.efecto button{min-height:44px;padding:6px 12px}}
+
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--borde);vertical-align:top}
+th{font-family:"Oswald";font-weight:600;color:var(--mostaza);letter-spacing:.04em}
+.tabla{overflow-x:auto;padding:4px 6px}
+.lista-c li{margin:8px 0}
+.fuentes li{margin:5px 0;word-break:break-word}
+.dos{display:grid;gap:14px}
+@media(min-width:800px){.dos{grid-template-columns:1fr 1fr}}
+footer{color:var(--crema-2);font-size:.85rem;padding:20px 0 40px}
+@media (prefers-reduced-motion:reduce){.pz,.pulso,.giro,.baja{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="envoltura">
+  <header>
+    <div class="cinta">TallerYa · esquema piloto · lámina 22 del catálogo</div>
+    <h1>Freno delantero de la Yamaha NMAX 155</h1>
+    <p class="aviso">Prototipo local para calificar (no se publica). Todos los dibujos son propios de TallerYa, hechos a partir del plano de fábrica y de fotos usadas solo como referencia. Los números son los de la lámina 22 del catálogo de partes (NMAX BBE4, Colombia).</p>
+  </header>
+
+  <!-- ======================= 1 y 2: armado / despiece ======================= -->
+  <section id="despiece">
+    <h2><span class="num">1</span>Armado y despiece</h2>
+    <p>Así se ve el freno montado en la barra derecha. Toca cualquier pieza para ver su ficha. Con <b>Desarmar</b> las piezas salen en el orden en que un mecánico las saca; también puedes ir paso a paso.</p>
+    <div class="escenario">
+      <div class="tarjeta lienzo">
+        <svg id="lamina" viewBox="0 0 900 700" role="img" aria-labelledby="lamTit">
+          <title id="lamTit">Freno delantero de la NMAX 155: disco, caliper con su soporte, pastillas y tornillería</title>
+          <defs id="defs"></defs>
+          <rect x="-300" y="-300" width="1500" height="1300" fill="url(#gFondo)"/>
+          <g id="capas"></g>
+        </svg>
+        <div class="controles">
+          <button class="principal" id="bTodo">Desarmar</button>
+          <button id="bAtras" aria-label="Paso anterior">◀ Paso</button>
+          <button id="bAdel" aria-label="Paso siguiente">Paso ▶</button>
+        </div>
+        <p class="paso" id="textoPaso" aria-live="polite"><b>Armado.</b> El caliper abraza el borde del disco; el soporte lo fija a la barra con dos tornillos.</p>
+        <div class="fichas-chips" id="chips" aria-label="Piezas de la lámina"></div>
+      </div>
+      <aside class="tarjeta ficha" id="ficha" aria-live="polite">
+        <p class="vacia">Toca una pieza del dibujo (o un número de la lista) para ver qué es, cómo falla y qué se cambia de verdad.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ======================= 3: cómo funciona ======================= -->
+  <section id="funciona">
+    <h2><span class="num">2</span>Cómo funciona</h2>
+    <p>De la mano al disco en siete pasos. El caliper aparece cortado por la mitad, como si lo miraras desde arriba.</p>
+    <div class="tarjeta func">
+      <div class="desliza" id="fnDesliza">
+      <svg id="fn" viewBox="0 0 900 440" role="img" aria-labelledby="fnTit">
+        <title id="fnTit">Esquema del freno hidráulico: manigueta, bomba, manguera, unidad ABS y caliper cortado con pistón, pastillas y disco</title>
+        <defs>
+          <linearGradient id="fnCromo" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f5f6"/><stop offset=".45" stop-color="#9aa3a8"/><stop offset=".6" stop-color="#e2e6e8"/><stop offset="1" stop-color="#6c7479"/></linearGradient>
+          <linearGradient id="fnCuerpo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#555b61"/><stop offset="1" stop-color="#2a2e32"/></linearGradient>
+          <linearGradient id="fnDisco" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8d959a"/><stop offset=".5" stop-color="#dfe3e5"/><stop offset="1" stop-color="#8d959a"/></linearGradient>
+          <pattern id="fnRayas" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#3a4246"/><line x1="0" y1="0" x2="0" y2="8" stroke="#59646a" stroke-width="3"/></pattern>
+          <pattern id="fnFric" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#4d3f33"/><circle cx="1.5" cy="2" r=".8" fill="#6d5a49"/><circle cx="4.5" cy="4.6" r=".7" fill="#2f261f"/></pattern>
+          <radialGradient id="fnCalorG"><stop offset="0" stop-color="#ff9a3c" stop-opacity=".95"/><stop offset=".6" stop-color="#f2611d" stop-opacity=".55"/><stop offset="1" stop-color="#f2611d" stop-opacity="0"/></radialGradient>
+        </defs>
+        <!-- manubrio y bomba -->
+        <rect x="10" y="98" width="290" height="24" rx="12" fill="#3b4246"/>
+        <rect x="14" y="92" width="110" height="36" rx="16" fill="#1a1a1a"/>
+        <g stroke="#2e2e2e" stroke-width="2">
+          <line x1="30" y1="94" x2="30" y2="126"/><line x1="46" y1="94" x2="46" y2="126"/><line x1="62" y1="94" x2="62" y2="126"/><line x1="78" y1="94" x2="78" y2="126"/><line x1="94" y1="94" x2="94" y2="126"/>
+        </g>
+        <text class="fn-et" x="20" y="80">Puño derecho</text>
+        <!-- depósito -->
+        <rect x="168" y="30" width="78" height="52" rx="8" fill="#2b3135" stroke="#59646a"/>
+        <rect x="172" y="48" width="70" height="30" rx="5" fill="#e8a92a" opacity=".85"/>
+        <rect x="164" y="24" width="86" height="10" rx="4" fill="#1b1f22"/>
+        <text class="fn-et" x="256" y="44">Depósito</text>
+        <text class="fn-et" x="256" y="60">DOT 4</text>
+        <!-- cuerpo de la bomba cortado -->
+        <rect x="140" y="132" width="132" height="48" rx="10" fill="url(#fnCuerpo)"/>
+        <rect x="150" y="144" width="112" height="24" rx="3" fill="#e8a92a" opacity=".9"/>
+        <rect x="200" y="82" width="10" height="62" fill="#e8a92a" opacity=".9"/>
+        <g id="fn-mpiston"><rect x="150" y="142" width="34" height="28" rx="4" fill="url(#fnCromo)"/><rect x="128" y="151" width="24" height="10" fill="#9aa3a8"/></g>
+        <text class="fn-et" x="150" y="204">Bomba (pistón pequeño)</text>
+        <!-- manigueta -->
+        <g id="fn-lever" style="transform-origin:130px 145px">
+          <path d="M138,141 Q139,151 128,153 L34,151 Q19,151 19,144 Q19,136 34,137 L126,137 Q136,135 138,141 Z" fill="#7d868b" stroke="#2b3135" stroke-width="2"/>
+          <path d="M34,139 L126,139" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+          <circle cx="130" cy="145" r="6" fill="#2b3135" stroke="#9aa3a8"/>
+        </g>
+        <text class="fn-et claro" x="24" y="184">Manigueta (delante del puño)</text>
+        <!-- manguera -->
+        <path id="fn-hose" d="M272 156 C330 156 350 92 400 92" fill="none" stroke="#151515" stroke-width="13" stroke-linecap="round"/>
+        <path class="solo-pc" d="M490 92 C560 92 560 150 540 214 L540 222 Q540 248 580 248" fill="none" stroke="#151515" stroke-width="13" stroke-linecap="round"/>
+        <path id="fn-fluido1" d="M272 156 C330 156 350 92 400 92" fill="none" stroke="#e8a92a" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+        <path class="solo-pc" id="fn-fluido2" d="M490 92 C560 92 560 150 540 214 L540 222 Q540 248 580 248" fill="none" stroke="#e8a92a" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+        <path id="fn-pulso1" d="M272 156 C330 156 350 92 400 92" fill="none" stroke="#fff3d6" stroke-width="3" stroke-linecap="round" opacity="0"/>
+        <path class="solo-pc" id="fn-pulso2" d="M490 92 C560 92 560 150 540 214 L540 222 Q540 248 580 248" fill="none" stroke="#fff3d6" stroke-width="3" stroke-linecap="round" opacity="0"/>
+        <path class="solo-movil" d="M445 120 C445 270 28 280 28 420 L28 498 Q28 510 40 510 L110 510" fill="none" stroke="#151515" stroke-width="13" stroke-linecap="round"/>
+        <path class="solo-movil" id="fn-fluido2m" d="M445 120 C445 270 28 280 28 420 L28 498 Q28 510 40 510 L110 510" fill="none" stroke="#e8a92a" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+        <path class="solo-movil" id="fn-pulso2m" d="M445 120 C445 270 28 280 28 420 L28 498 Q28 510 40 510 L110 510" fill="none" stroke="#fff3d6" stroke-width="3" stroke-linecap="round" opacity="0"/>
+        <text class="fn-et solo-movil" x="300" y="310">Manguera 2</text>
+        <rect x="398" y="64" width="94" height="56" rx="8" fill="#2b3135" stroke="#59646a" stroke-dasharray="4 3"/>
+        <text class="fn-et claro" x="445" y="88" text-anchor="middle">Unidad ABS</text>
+        <text class="fn-et" x="445" y="106" text-anchor="middle">(otra lámina)</text>
+        <text class="fn-et" x="292" y="186">Manguera 1</text>
+        <!-- caliper cortado (en el celular se baja debajo de la bomba) -->
+        <g id="fnCorte">
+        <g>
+          <!-- soporte fijo a la barra (rayado) y pasador -->
+          <rect x="560" y="132" width="48" height="40" rx="4" fill="url(#fnRayas)" stroke="#59646a"/>
+          <text class="fn-et" x="556" y="124">Soporte (fijo a la barra)</text>
+          <rect x="590" y="147" width="230" height="10" rx="5" fill="url(#fnCromo)"/>
+          <text class="fn-et" x="722" y="124">Pasador deslizante</text>
+          <!-- disco (corte) -->
+          <g id="fn-discoG">
+            <rect x="693" y="200" width="16" height="225" fill="url(#fnDisco)"/>
+            <line id="fn-mov" x1="701" y1="204" x2="701" y2="425" stroke="#5f686d" stroke-width="3" class="baja"/>
+            <ellipse id="fn-calor" cx="701" cy="260" rx="60" ry="70" fill="url(#fnCalorG)" opacity="0"/>
+          </g>
+          <text class="fn-et" x="540" y="436">Disco (gira con la rueda) →</text>
+          <!-- cuerpo flotante con la pastilla de afuera -->
+          <g id="fn-cuerpo">
+            <path d="M592 168 L800 168 Q812 168 812 180 L812 312 Q812 322 800 322 L760 322 L760 196 L640 196 L640 322 L604 322 Q592 322 592 310 Z" fill="url(#fnCuerpo)" stroke="#6c7479" stroke-width="1.5"/>
+            <rect x="782" y="142" width="26" height="20" rx="5" fill="url(#fnCuerpo)" stroke="#6c7479"/>
+            <rect x="598" y="142" width="22" height="20" rx="5" fill="url(#fnCuerpo)" stroke="#6c7479"/>
+            <!-- cilindro con líquido -->
+            <rect x="604" y="214" width="52" height="88" fill="#e8a92a" opacity=".9"/>
+            <rect x="604" y="210" width="40" height="4" fill="#3a4246"/><rect x="604" y="302" width="40" height="4" fill="#3a4246"/>
+            <rect id="fn-sello1" x="640" y="207" width="9" height="9" fill="#111" rx="1.5"/>
+            <rect id="fn-sello2" x="640" y="300" width="9" height="9" fill="#111" rx="1.5"/>
+            <!-- pastilla de afuera, sujeta al dedo del cuerpo -->
+            <rect x="738" y="210" width="8" height="96" rx="2" fill="#8f979b"/>
+            <rect x="715" y="214" width="23" height="88" rx="3" fill="url(#fnFric)"/>
+          </g>
+          <!-- pistón y pastilla de adentro -->
+          <g id="fn-piston">
+            <rect x="620" y="216" width="36" height="84" rx="4" fill="url(#fnCromo)"/>
+            <rect id="fn-padL" x="656" y="210" width="8" height="96" rx="2" fill="#8f979b"/>
+            <rect x="664" y="214" width="23" height="88" rx="3" fill="url(#fnFric)"/>
+          </g>
+          <text class="fn-et" x="560" y="345">Pistón</text>
+          <text class="fn-et" x="588" y="302" text-anchor="end">Sello →</text>
+          <text class="fn-et" x="588" y="317" text-anchor="end">(lo devuelve)</text>
+          <text class="fn-et" x="740" y="345">Pastillas</text>
+          <text class="fn-et" x="582" y="275" text-anchor="end">Líquido →</text>
+        </g>
+        <!-- rueda indicadora -->
+        <g transform="translate(856 392)">
+          <circle r="40" fill="#1a1a1a" stroke="#2c2c2c" stroke-width="8"/>
+          <g class="giro" id="fn-rueda">
+            <circle r="30" fill="#40484c"/>
+            <path d="M0 -28 L0 28 M-28 0 L28 0 M-20 -20 L20 20 M-20 20 L20 -20" stroke="#8d959a" stroke-width="4"/>
+            <circle r="7" fill="#9aa3a8"/>
+            <circle cx="0" cy="-22" r="4" fill="#f2611d"/>
+          </g>
+        </g>
+        <text class="fn-et" x="856" y="340" text-anchor="middle">Rueda</text>
+        </g>
+      </svg>
+      </div>
+      <div class="controles">
+        <button class="principal" id="fnPlay">▶ Reproducir</button>
+        <button id="fnAtras">◀ Paso</button>
+        <button id="fnAdel">Paso ▶</button>
+      </div>
+      <p class="texto" id="fnTexto" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- ======================= 4/5: cadenas de falla ======================= -->
+  <section id="cadenas">
+    <h2><span class="num">3</span>Si una pieza falla, ¿qué arrastra?</h2>
+    <p>En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.</p>
+    <div class="cadenas" id="listaCadenas"></div>
+  </section>
+
+  <section id="plan">
+    <h2><span class="num">4</span>Cuándo revisar y cambiar (coherente con el plan de TallerYa)</h2>
+    <div class="tarjeta tabla">
+      <table>
+        <thead><tr><th>Qué</th><th>Cuándo</th><th>De dónde sale</th></tr></thead>
+        <tbody>
+          <tr><td>Pastillas (9): revisar el desgaste</td><td>Cada <b>6.000 km</b>. Se cambian cuando la ranura indicadora casi desaparece.</td><td>Plan general de TallerYa (tarea «Pastillas de freno delanteras»). El manual de Yamaha pide revisarlas en cada servicio: a los 1.000 km y luego cada 6.000 km. <span class="s-ok">Seguro</span></td></tr>
+          <tr><td>Líquido de frenos DOT 4: cambiar</td><td>Cada <b>2 años</b>, ruede lo que ruede</td><td>Plan de la NMAX en TallerYa = manual del propietario (cuadro de mantenimiento, p. 9-4). <span class="s-ok">Seguro</span></td></tr>
+          <tr><td>Mangueras del freno: cambiar</td><td>Cada <b>4 años</b>, y revisar grietas en cada servicio</td><td>Manual del propietario, p. 9-4. En TallerYa solo aparece como nota del líquido. <span class="s-ok">Seguro</span></td></tr>
+          <tr><td>Disco (1): medir grosor y mirar si está torcido</td><td>En cada cambio de pastillas</td><td>Ficha de TallerYa y práctica de taller. El grosor mínimo viene grabado en el disco («MIN TH»). <span class="s-ap">Sin cifra de fábrica</span></td></tr>
+          <tr><td>Caliper (3), pasadores (12, 13) y guardapolvos (6, 7): limpiar y revisar</td><td>En cada cambio de pastillas</td><td>Fichas de TallerYa y práctica de taller (el manual no da intervalo para estas piezas). <span class="s-ap">Práctica de taller</span></td></tr>
+          <tr><td>Empaques del caliper (5), y también los de la bomba</td><td>Cada <b>2 años, junto con el líquido</b>, o antes si hay fuga o el freno queda pegado</td><td>Manual del propietario: p. 9-7 («cada dos años cambie los componentes internos de las bombas de freno y de las pinzas») y p. 9-25 («Juntas de freno: cada 2 años»). La ficha de TallerYa no da intervalo (contradicción 9). <span class="s-ok">Seguro</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="contradicciones">
+    <h2><span class="num">5</span>Contradicciones encontradas en TallerYa</h2>
+    <div class="tarjeta" style="padding:12px 18px">
+      <ol class="lista-c">
+        <li><b>El dibujo genérico no es el de la NMAX.</b> La lámina 22 usa el dibujo <code>freno_disco</code> de <code>garaje/diagramas.py</code>, que trae <b>dos pistones</b>, caliper rojo y disco tipo pétalo. El catálogo de la NMAX trae <b>un solo pistón</b> (un «PISTON ASSY» y un kit de dos sellos) y un disco <b>redondo</b>.</li>
+        <li><b>Pastillas: «la manigueta llega más cerca del puño».</b> La ficha <code>BRAKE PAD KIT</code> lo pone como señal de pastillas gastadas. En un freno hidráulico el pistón se ajusta solo: con pastillas gastadas lo que baja es el <b>nivel del depósito</b> (manual, p. 9-24). Una manigueta que llega al puño o se siente esponjosa indica aire, líquido viejo o una fuga.</li>
+        <li><b>Caliper: «la moto se va hacia un lado al frenar».</b> La ficha <code>CALIPER ASSY</code> trae un síntoma de carro. En una moto con un solo disco delantero no aplica. Mejor: «la rueda queda frenada o caliente», «olor a quemado», «una pastilla se gasta más que la otra».</li>
+        <li><b>Pastillas: criterio de desgaste.</b> La guía dice «más de 2 mm». El manual de la NMAX usa las <b>ranuras indicadoras</b>. No se contradicen, pero conviene poner primero el criterio de Yamaha.</li>
+        <li><b>Nombres repetidos.</b> El glosario traduce <code>BOLT</code> y <code>SCREW</code> como «Tornillo». En esta lámina son dos piezas distintas: el tornillo del disco (2) y los del soporte del caliper (15). Conviene nombrarlos por su lugar.</li>
+        <li><b>Guardapolvos.</b> <code>BOOT, CALIPER</code> = «Guardapolvo del caliper» se confunde con el guardapolvo del pistón, que viene en el kit de empaques (5). Mejor: «Guardapolvo del pasador del caliper».</li>
+        <li><b>Plan de la NMAX.</b> No tiene tarea propia de pastillas: usa la general de 6.000 km, que coincide con el manual salvo la revisión de los 1.000 km. Las mangueras (cada 4 años) no tienen tarea.</li>
+        <li><b>«SUPPORT, PAD».</b> El glosario dice «Lámina soporte de las pastillas» y la ficha dice «lámina-resorte». Es lo mismo; «Resorte de las pastillas» se entiende mejor en el taller.</li>
+        <li><b>Empaques del caliper sin intervalo.</b> La ficha <code>CALIPER SEAL KIT</code> dice «cada vez que se repara o se limpia a fondo el caliper». El manual de la NMAX manda cambiar los componentes internos de la bomba y del caliper <b>cada 2 años, junto con el líquido</b> (pp. 9-7 y 9-25). Este piloto, en su v1, también lo tenía mal.</li>
+        <li><b>Pastillas: «revísalas cada 3.000 km».</b> Lo dice la ficha <code>BRAKE PAD KIT</code>, pero el plan de TallerYa y el manual dicen <b>6.000 km</b> (y la primera revisión a los 1.000 km).</li>
+        <li><b>Manguera: «revísala cada año».</b> Lo dice la ficha <code>HOSE</code> del freno, pero el manual pide revisarla <b>en cada servicio</b> y cambiarla cada 4 años.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="fuentes">
+    <h2><span class="num">6</span>Qué es seguro, qué es aproximado y fuentes</h2>
+    <div class="dos">
+      <div class="tarjeta" style="padding:12px 18px">
+        <h3>Seguro</h3>
+        <ul>
+          <li>Números, nombres y cantidad de piezas: catálogo de partes de la NMAX BBE4, figura 22 «Front brake caliper».</li>
+          <li>Caliper flotante de <b>un pistón</b>, con soporte y dos guardapolvos de pasador (catálogo).</li>
+          <li><b>Tres tornillos</b> del disco (catálogo, fig. 22, ref. 2) y <b>dos mangueras</b>: bomba → ABS y ABS → caliper (fig. 26, ref. 15 y 18).</li>
+          <li>Empaques de la bomba y del caliper cada 2 años, junto con el líquido (manual, pp. 9-7 y 9-25).</li>
+          <li>Disco delantero de <b>230 mm</b> (ficha técnica de Yamaha y 1000PS).</li>
+          <li>Líquido DOT 4 cada 2 años, mangueras cada 4 años, pastillas con ranura indicadora, revisión de frenos en cada servicio (manual del propietario).</li>
+          <li>El líquido DOT 4 absorbe agua y su punto de ebullición baja (mínimos de la norma: 230 °C seco, 155 °C húmedo).</li>
+        </ul>
+      </div>
+      <div class="tarjeta" style="padding:12px 18px">
+        <h3>Aproximado</h3>
+        <ul>
+          <li>Proporciones del dibujo: se tomaron del plano y de fotos, no se midió una pieza real.</li>
+          <li>Disco de 4 mm de espesor nuevo, con agujeros de 10,5 mm (dato de un disco de repuesto). El grosor mínimo no lo tenemos: viene grabado en el disco.</li>
+          <li>Orden de desarme: el procedimiento general de un caliper flotante. El manual de servicio de la NMAX no está en la carpeta.</li>
+          <li>Cifras de la animación: la palanca y la diferencia de tamaño de los pistones multiplican la fuerza «varias veces», el disco pasa de 200 °C y el sello devuelve el pistón «una fracción de milímetro». Son órdenes de magnitud, no medidas.</li>
+          <li>Torques de los tornillos: no se dan porque no tenemos el manual de servicio.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tarjeta" style="padding:12px 18px;margin-top:14px">
+      <h3>Fuentes</h3>
+      <ul class="fuentes">
+        <li>Catálogo de partes Yamaha NMAX 155 BBE4 (Colombia, 2024), fig. 22 «Front brake caliper». Copia local, solo referencia (catálogo público en <a href="https://motoblu.co/catalogo/catalogo-partes-despiece-yamaha-n-max/">motoblu.co</a>).</li>
+        <li>Manual del propietario Yamaha NM-X 2022 B6Y4 (Yamaha Motor Argentina): cuadro de mantenimiento p. 9-4; pastillas y líquido pp. 9-23 a 9-25; especificaciones. Copia local.</li>
+        <li>Ficha técnica Yamaha GPD155 (NMAX 155) 2018, disco delantero de 230 mm: <a href="https://cdn2.yamaha-motor.eu/prod/product-assets/2018/GPD155/Factsheets/2018-GPD155_en.pdf">yamaha-motor.eu</a></li>
+        <li>Ficha NMAX 155 2025: <a href="https://www.1000ps.com/en-us/model/8865/yamaha-nmax-155/2025">1000ps.com</a></li>
+        <li>Disco de repuesto 230 × 115 × 4 mm, agujeros de 10,5 mm: <a href="https://www.omniaracing.net/en/front-brake-disc-230mm-fixed-wave-accossato-yamaha-nmax-155-2020-2024-p-988855.html">omniaracing.net</a> · disco NG de tres agujeros: <a href="https://www.brixiamoto.com/en/ng-motorcycle-brake-disc-1574x-1567045.html">brixiamoto.com</a></li>
+        <li>Fotos del caliper delantero de la N-Max (referencia de forma): <a href="https://www.easyparts.com/Front-brake-caliper-YAMAHA-N-Max-125-155-2021-2024-p33749727">easyparts.com</a> · fotos de la moto en Wikimedia Commons: <a href="https://commons.wikimedia.org/wiki/File:Yamaha_Nmax_155_front.jpg">frente</a>, <a href="https://commons.wikimedia.org/wiki/File:2020_Yamaha_NMAX_155_ABS_(20200810)_01.jpg">lado</a></li>
+        <li>Líquido DOT 4, puntos de ebullición (FMVSS 116): <a href="https://azupim01.motul.com/media/motulData/DO/base/27300_en.pdf">ficha Motul</a> · por qué envejece: <a href="https://blog.febi.com/en/brake-fluid-safety-in-liquid-form/">febi</a></li>
+        <li>Grosor mínimo del disco y cómo medirlo: <a href="https://www.bremboparts.com/europe/en/support/maintenance/minimum-brake-disc-thickness-212337">Brembo</a> · <a href="https://www.hella.com/techworld/es/ti/pdf/Comprobar-el-grosor-minimo-del-disco-de-freno/Comprobar-el-grosor-minimo-del-disco-de-freno.pdf">Hella</a></li>
+        <li>Caliper pegado, pasadores y guardapolvos: <a href="https://haynes.com/en-gb/tips-tutorials/how-to-unseize-brake-caliper">Haynes</a> · pasadores y grapas: <a href="https://www.mymechanic.sg/roadside-assistance-malaysia-singaporean-drivers/brake-pad-pin-seizure-rattle-clip">MyMechanic</a></li>
+        <li>No se encontró un video confiable del desarme del caliper de la NMAX en esta pasada. Queda pendiente para la v2.</li>
+      </ul>
+    </div>
+  </section>
+  <footer>TallerYa · piloto de esquema v2 · 15-nov-2026 · solo local</footer>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   Geometría base
+   C = centro del caliper armado; D = centro del disco (pantalla)
+   Las piezas del caliper se dibujan en coordenadas propias, giradas 15°.
+   El disco se dibuja en su plano y se proyecta con matrix(0.78,-0.16,0,1).
+   ============================================================ */
+const C=[407,355], D=[540,390], ROT=15, SX=0.86;
+const rc=Math.cos(ROT*Math.PI/180), rs=Math.sin(ROT*Math.PI/180);
+const R=(x,y)=>{x*=SX;return [C[0]+x*rc-y*rs, C[1]+x*rs+y*rc]};          // local caliper → pantalla
+const LOC=`translate(${C[0]} ${C[1]}) rotate(${ROT}) scale(${SX} 1)`;
+const PD=(u,v)=>[D[0]+0.78*u, D[1]-0.16*u+v];              // plano del disco → pantalla
+const f=n=>Math.round(n*10)/10;
+
+function hexa(cx,cy,r,rot=0){let p=[];for(let i=0;i<6;i++){const a=(i*60+rot)*Math.PI/180;p.push(f(cx+r*Math.cos(a))+","+f(cy+r*Math.sin(a)))}return p.join(" ")}
+function extruir(d,dx,dy,pasos,fill){let s="";for(let k=pasos;k>=1;k--){s+=`<path d="${d}" transform="translate(${f(dx*k/pasos)} ${f(dy*k/pasos)})" fill="${fill}"/>`}return s}
+// profundidad hacia atrás (opuesta a la normal que mira al lector), en coordenadas locales del caliper
+const ATRAS=[-14,-1];
+
+/* ---------- definiciones (gradientes, texturas, filtros) ---------- */
+document.getElementById("defs").innerHTML=`
+<radialGradient id="gFondo" cx="48%" cy="48%" r="70%"><stop offset="0" stop-color="#232c2f"/><stop offset="1" stop-color="#111517"/></radialGradient>
+<linearGradient id="gCara" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6e9eb"/><stop offset=".35" stop-color="#b4bbbf"/><stop offset=".55" stop-color="#d9dde0"/><stop offset="1" stop-color="#8a9297"/></linearGradient>
+<linearGradient id="gPista" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f1f3f4"/><stop offset=".3" stop-color="#a9b0b5"/><stop offset=".5" stop-color="#e3e6e8"/><stop offset=".75" stop-color="#9aa2a7"/><stop offset="1" stop-color="#c9ced1"/></linearGradient>
+<linearGradient id="gCanto" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4b5256"/><stop offset="1" stop-color="#7c8489"/></linearGradient>
+<linearGradient id="gCal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5d646a"/><stop offset=".45" stop-color="#3a4045"/><stop offset="1" stop-color="#202427"/></linearGradient>
+<linearGradient id="gCalLado" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#16191b"/><stop offset="1" stop-color="#2a2f33"/></linearGradient>
+<radialGradient id="gDomo" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#7b838a"/><stop offset=".5" stop-color="#454c52"/><stop offset="1" stop-color="#23272a"/></radialGradient>
+<linearGradient id="gSop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a8187"/><stop offset=".5" stop-color="#4f565b"/><stop offset="1" stop-color="#33393d"/></linearGradient>
+<linearGradient id="gAcero" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef0f1"/><stop offset=".5" stop-color="#a7aeb2"/><stop offset="1" stop-color="#6c7479"/></linearGradient>
+<linearGradient id="gCromoV" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f8f9"/><stop offset=".35" stop-color="#a3abb0"/><stop offset=".55" stop-color="#eef1f2"/><stop offset="1" stop-color="#5d656a"/></linearGradient>
+<linearGradient id="gCaucho" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset=".5" stop-color="#1c1c1c"/><stop offset="1" stop-color="#0c0c0c"/></linearGradient>
+<linearGradient id="gPlaca" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b9bfc3"/><stop offset="1" stop-color="#5f676c"/></linearGradient>
+<linearGradient id="gLamina" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b7177"/><stop offset="1" stop-color="#30353a"/></linearGradient>
+<linearGradient id="gManguera" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#0d0d0d"/><stop offset=".45" stop-color="#3c3c3c"/><stop offset="1" stop-color="#0d0d0d"/></linearGradient>
+<pattern id="pFric" width="7" height="7" patternUnits="userSpaceOnUse"><rect width="7" height="7" fill="#4e4035"/><circle cx="1.6" cy="2" r=".9" fill="#7a6553"/><circle cx="5" cy="5.2" r=".8" fill="#2c231c"/><circle cx="5.4" cy="1.4" r=".5" fill="#9a8570"/></pattern>
+<pattern id="pGrano" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".6" fill="#fff" opacity=".07"/><circle cx="3.5" cy="3" r=".5" fill="#000" opacity=".18"/></pattern>
+<pattern id="pRosca" width="4" height="12" patternUnits="userSpaceOnUse"><rect width="4" height="12" fill="#a7aeb2"/><line x1="0" y1="0" x2="0" y2="12" stroke="#5e666b" stroke-width="1.6"/></pattern>
+<filter id="fSombra" x="-20%" y="-20%" width="150%" height="150%"><feDropShadow dx="4" dy="7" stdDeviation="5" flood-color="#000" flood-opacity=".55"/></filter>
+<filter id="fSel" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#f2611d" flood-opacity="1"/><feDropShadow dx="0" dy="0" stdDeviation="9" flood-color="#ff9a3c" flood-opacity=".6"/></filter>
+<mask id="mDisco" maskUnits="userSpaceOnUse" x="-230" y="-230" width="460" height="460"><g id="mDiscoCont"></g></mask>
+`;
+
+/* ---------- disco (1) ---------- */
+// Agujeros (dibujo propio): dos filas de 12 en la pista, 6 ranuras en el porta-disco, 3 agujeros de tornillo.
+const R_EXT=200, R_INT=100, R_PISTA=148, R_TOR=115;
+function agujerosDisco(color){
+  let s="";
+  for(let k=0;k<12;k++){const a=(k*30)*Math.PI/180;s+=`<circle cx="${f(165*Math.cos(a))}" cy="${f(165*Math.sin(a))}" r="5.5" fill="${color}"/>`}
+  for(let k=0;k<12;k++){const a=(k*30+15)*Math.PI/180;s+=`<circle cx="${f(184*Math.cos(a))}" cy="${f(184*Math.sin(a))}" r="4.8" fill="${color}"/>`}
+  for(let k=0;k<6;k++){const g=k*60+30;s+=`<rect x="-14" y="-4.5" width="28" height="9" rx="4.5" fill="${color}" transform="rotate(${g}) translate(0 -128) rotate(90) rotate(-90) translate(0 0)"/>`}
+  [90,210,330].forEach(g=>{const a=g*Math.PI/180;s+=`<circle cx="${f(R_TOR*Math.cos(a))}" cy="${f(R_TOR*Math.sin(a))}" r="9" fill="${color}"/>`});
+  return s;
+}
+document.getElementById("mDiscoCont").innerHTML=`<circle r="${R_EXT}" fill="#fff"/><circle r="${R_INT}" fill="#000"/>${agujerosDisco("#000")}`;
+function arteDisco(){
+  // canto: la cara de atrás corrida hacia la izquierda-arriba (opuesto a la normal)
+  const anillosMaq=[];for(let r=150;r<=198;r+=4)anillosMaq.push(`<circle r="${r}" fill="none" stroke="#fff" stroke-opacity="${r%8?'.05':'.09'}" stroke-width="1"/>`);
+  return `<g transform="translate(${D[0]} ${D[1]}) matrix(0.78,-0.16,0,1,0,0)">
+    <g mask="url(#mDisco)" transform="translate(-6.4 -2.8)"><circle r="${R_EXT}" fill="url(#gCanto)"/></g>
+    <g mask="url(#mDisco)" transform="translate(-3.2 -1.4)"><circle r="${R_EXT}" fill="#5c6468"/></g>
+    <g mask="url(#mDisco)">
+      <circle r="${R_EXT}" fill="url(#gCara)"/>
+      <path d="M${R_EXT} 0 A${R_EXT} ${R_EXT} 0 1 0 -${R_EXT} 0 A${R_EXT} ${R_EXT} 0 1 0 ${R_EXT} 0 Z M${R_PISTA} 0 A${R_PISTA} ${R_PISTA} 0 1 1 -${R_PISTA} 0 A${R_PISTA} ${R_PISTA} 0 1 1 ${R_PISTA} 0 Z" fill="url(#gPista)" fill-rule="evenodd"/>
+      ${anillosMaq.join("")}
+      <circle r="${R_PISTA}" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.5"/>
+      <circle r="${R_INT+1}" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="2"/>
+      <path d="M-150 -120 A200 200 0 0 1 60 -190" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="10" stroke-linecap="round"/>
+      <text x="0" y="-108" font-family="Archivo" font-size="9" font-weight="700" fill="#5a6166" text-anchor="middle" letter-spacing="1">MIN TH</text>
+    </g>
+    <circle r="${R_EXT}" fill="none" stroke="#2c3336" stroke-width="1.2"/>
+  </g>`;
+}
+function arteTornillosDisco(){
+  let s="";
+  [90,210,330].forEach(g=>{const a=g*Math.PI/180;const [x,y]=PD(R_TOR*Math.cos(a),R_TOR*Math.sin(a));
+    s+=`<ellipse cx="${f(x-2)}" cy="${f(y-1)}" rx="10.5" ry="12" fill="#3d4447"/>
+        <ellipse cx="${f(x)}" cy="${f(y)}" rx="10" ry="11.5" fill="url(#gAcero)" stroke="#3a4144" stroke-width="1"/>
+        <polygon points="${hexa(x,y,5.2,0)}" fill="#3b4246" transform="translate(${f(x)} ${f(y)}) scale(.8 1) translate(${f(-x)} ${f(-y)})"/>`;});
+  return s;
+}
+
+/* ---------- caliper (3) ---------- */
+const P_CUERPO="M-36,-84 Q-36,-98 -22,-98 L18,-98 Q34,-98 37,-82 L41,-40 Q45,0 41,40 L37,82 Q34,98 18,98 L-22,98 Q-36,98 -36,84 Z";
+const P_PUENTE="M-36,-82 L-50,-78 Q-58,0 -50,78 L-36,82 Z";
+const P_OREJAS="M26,-84 A13,13 0 1 1 26,-60 Z M26,62 A13,13 0 1 1 26,86 Z";
+function arteCaliper(){
+  return `<g transform="${LOC}" filter="url(#fSombra)">
+    ${extruir(P_PUENTE,ATRAS[0],ATRAS[1],6,"#15181a")}
+    ${extruir(P_CUERPO,ATRAS[0],ATRAS[1],7,"url(#gCalLado)")}
+    <circle cx="38" cy="-72" r="13" fill="#2c3135"/><circle cx="38" cy="74" r="13" fill="#2c3135"/>
+    <circle cx="38" cy="-72" r="7" fill="#15181a"/><circle cx="38" cy="74" r="7" fill="#15181a"/>
+    <path d="${P_PUENTE}" fill="#24292c"/>
+    <path d="M-36,-82 L-50,-78" stroke="#6b7379" stroke-width="1.2"/>
+    <rect x="-26" y="-122" width="32" height="28" rx="8" fill="url(#gCal)"/>
+    <path d="${P_CUERPO}" fill="url(#gCal)"/>
+    <path d="${P_CUERPO}" fill="url(#pGrano)"/>
+    <path d="M4,-36 L4,-94 M4,42 L4,94" stroke="#1b1e21" stroke-width="7" stroke-linecap="round"/>
+    <path d="M1,-36 L1,-92 M1,42 L1,92" stroke="#6e767c" stroke-width="1.4" stroke-linecap="round"/>
+    <circle cx="4" cy="4" r="36" fill="#1d2023"/>
+    <circle cx="4" cy="4" r="34" fill="url(#gDomo)"/>
+    <circle cx="4" cy="4" r="24" fill="none" stroke="#1a1d20" stroke-opacity=".6" stroke-width="2"/>
+    <path d="M-20,-16 A30,30 0 0 1 14,-26" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3" stroke-linecap="round"/>
+    <path d="M-36,84 L-36,-84 Q-36,-98 -22,-98 L18,-98" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="1.8"/>
+    <!-- racor de la manguera (banjo) -->
+    <ellipse cx="-10" cy="-124" rx="15" ry="6" fill="#8d959a"/>
+    <polygon points="${hexa(-10,-128,9,0)}" fill="url(#gAcero)" stroke="#3a4144"/>
+    <circle cx="-10" cy="-128" r="3" fill="#3a4144"/>
+    <!-- base del purgador -->
+    <rect x="12" y="-106" width="16" height="12" rx="4" fill="#2c3135"/>
+  </g>`;
+}
+
+/* ---------- soporte del caliper (13) y tornillos (15) ---------- */
+// Soporte en C: espina con las dos orejas de los tornillos (15) contra la barra y dos brazos que terminan
+// en los pasadores deslizantes salientes (donde van los guardapolvos 6 y 7 y por donde flota el caliper).
+const P_SOP="M66,-100 Q106,-96 105,-60 L100,-32 Q93,0 100,32 L105,60 Q106,96 66,100 L36,90 Q24,86 24,73 Q24,61 36,59 L60,57 Q72,54 75,42 L79,0 L75,-42 Q72,-54 60,-57 L36,-59 Q24,-61 24,-73 Q24,-86 36,-90 Z";
+function pasadorSop(y){
+  return `<rect x="-6" y="${y-6}" width="36" height="12" rx="6" fill="url(#gCromoV)" stroke="#5d656a" stroke-width=".8"/>
+    <ellipse cx="-6" cy="${y}" rx="3" ry="6" fill="#c9ced1"/>
+    <rect x="22" y="${y-9}" width="6" height="18" rx="2" fill="#3b4246"/>`;
+}
+function arteSoporte(){
+  return `<g transform="${LOC}" filter="url(#fSombra)">
+    ${pasadorSop(-73)}${pasadorSop(73)}
+    ${extruir(P_SOP,-9,-1,5,"#2a2f33")}
+    <path d="${P_SOP}" fill="url(#gSop)"/>
+    <path d="${P_SOP}" fill="url(#pGrano)"/>
+    <path d="M78,-36 Q86,0 78,36" fill="none" stroke="#2a2f33" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="86" cy="-54" r="18" fill="#5b6267" stroke="#2a2f33" stroke-width="1.5"/>
+    <circle cx="86" cy="56" r="18" fill="#5b6267" stroke="#2a2f33" stroke-width="1.5"/>
+    <circle cx="86" cy="-54" r="9" fill="#1b1f22"/><circle cx="86" cy="56" r="9" fill="#1b1f22"/>
+    <circle cx="34" cy="-73" r="9" fill="#454c51" stroke="#2a2f33"/><circle cx="34" cy="73" r="9" fill="#454c51" stroke="#2a2f33"/>
+    <path d="M36,-90 L66,-100 Q106,-96 105,-60" fill="none" stroke="#fff" stroke-opacity=".32" stroke-width="1.6"/>
+  </g>`;
+}
+function tornilloBrida(x,y){
+  return `<g transform="translate(${x} ${y})">
+    <g class="oculto-arm"><rect x="-58" y="-6" width="46" height="12" fill="url(#pRosca)" stroke="#4b5256" stroke-width=".8"/><path d="M-58,-6 L-62,0 L-58,6" fill="#8a9297"/></g>
+    <circle r="15" fill="#3c4347"/><circle r="14" fill="url(#gAcero)" stroke="#3a4144"/>
+    <polygon points="${hexa(0,0,10,15)}" fill="url(#gAcero)" stroke="#4b5256" stroke-width="1.2"/>
+    <polygon points="${hexa(0,0,10,15)}" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width=".8" transform="translate(-.8 -.8)"/>
+  </g>`;
+}
+function arteTornillosCal(){return `<g transform="${LOC}" filter="url(#fSombra)">${tornilloBrida(86,-54)}${tornilloBrida(86,56)}</g>`}
+
+/* ---------- guardapolvos (6 y 7) ---------- */
+function fuelle(x,y,r,largo){
+  let s=`<rect x="${x-2}" y="${y-r}" width="${largo}" height="${2*r}" rx="${r*0.45}" fill="url(#gCaucho)"/>`;
+  for(let i=1;i<4;i++){const xx=x-2+i*largo/4;s+=`<line x1="${f(xx)}" y1="${f(y-r+1)}" x2="${f(xx)}" y2="${f(y+r-1)}" stroke="#4a4a4a" stroke-width="1.6"/>`}
+  s+=`<ellipse cx="${x+largo-2}" cy="${y}" rx="${r*0.32}" ry="${r}" fill="#262626" stroke="#4a4a4a"/>`;
+  return s;
+}
+const arteBota6=()=>`<g transform="${LOC}">${fuelle(4,73,12,24)}</g>`;
+const arteBota7=()=>`<g transform="${LOC}">${fuelle(4,-73,10,22)}</g>`;
+
+/* ---------- pastillas (9), lámina (14), resorte (11) ---------- */
+// Pastilla en proporción ~2:1 (alto:ancho en pantalla; la x local va escalada por SX), esquinas redondeadas,
+// oreja con el agujero del pasador (12) arriba y la ranura indicadora de desgaste a lo largo del material.
+const P_PLACA_PAST="M-26,-38 Q-26,-45 -19,-45 L-9,-45 L-9,-49 A9,9 0 0 1 9,-49 L9,-45 L19,-45 Q26,-45 26,-38 L26,38 Q26,45 19,45 L-19,45 Q-26,45 -26,38 Z";
+const P_FRIC="M-21,-33 Q-21,-39 -15,-39 L15,-39 Q21,-39 21,-33 L21,33 Q21,39 15,39 L-15,39 Q-21,39 -21,33 Z";
+function artePastilla(dx,dy,giro){
+  return `<g transform="${LOC} translate(${dx} ${dy}) rotate(${giro})" filter="url(#fSombra)">
+    <path d="${P_PLACA_PAST}" transform="translate(-4 -1.5)" fill="#3e4549"/>
+    <path d="${P_PLACA_PAST}" fill="url(#gPlaca)" stroke="#4b5256" stroke-width="1"/>
+    <circle cx="0" cy="-50" r="4.2" fill="#1b1f22"/>
+    <path d="${P_FRIC}" fill="url(#pFric)" stroke="#2c231c" stroke-width="1"/>
+    <path d="M0,-37 L0,37" stroke="#1d1712" stroke-width="3.2"/>
+    <path d="M-21,-33 Q-21,-39 -15,-39 L15,-39" fill="none" stroke="#a89380" stroke-opacity=".7" stroke-width="1"/>
+    <path d="M-26,-38 Q-26,-45 -19,-45 L-9,-45" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1"/>
+  </g>`;
+}
+// Lámina antirruido: misma silueta que la placa de la pastilla, con recubrimiento oscuro y una pestaña de agarre
+const arteLamina=()=>`<g transform="${LOC} translate(6 6)">
+    <path d="${P_PLACA_PAST}" transform="translate(-3 -1)" fill="#1d2023"/>
+    <path d="${P_PLACA_PAST}" fill="url(#gLamina)" stroke="#8a9297" stroke-width="1.1"/>
+    <circle cx="0" cy="-50" r="4.2" fill="#14171a"/>
+    <path d="M-20,-38 L20,-38 M-20,38 L20,38" stroke="#000" stroke-opacity=".3" stroke-width="1"/>
+    <path d="M-26,-10 L-33,-8 L-33,8 L-26,10 Z" fill="#4a5055" stroke="#8a9297"/>
+    <path d="M-26,-38 Q-26,-45 -19,-45 L-9,-45" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1"/>
+  </g>`;
+// Resorte de las pastillas: lámina estampada con ventana central, pestañas dobladas en las puntas y una lengüeta que apoya sobre las pastillas
+const arteResorte=()=>`<g transform="${LOC} translate(-4 -84)" filter="url(#fSombra)">
+    <path d="M-38,10 L-44,26 L-36,29 L-31,12 Z" fill="#7d858a" stroke="#4b5256" stroke-width=".8"/>
+    <path d="M34,4 L40,21 L32,24 L28,7 Z" fill="#7d858a" stroke="#4b5256" stroke-width=".8"/>
+    <path d="M-36,8 L36,2 L36,6 L-36,13 Z" fill="#5d656a"/>
+    <path d="M-38,-6 Q-38,-12 -32,-12 L30,-17 Q37,-17 37,-11 L36,2 L-36,8 Q-39,8 -38,2 Z" fill="url(#gAcero)" stroke="#4b5256" stroke-width="1"/>
+    <path d="M-18,-6 L14,-9 Q17,-9 17,-6 L17,-3 L-18,0 Q-21,0 -21,-3 Z" fill="#23282b"/>
+    <path d="M-6,6 Q-2,20 10,22 L14,18 Q4,16 2,5 Z" fill="url(#gAcero)" stroke="#4b5256" stroke-width=".8"/>
+    <path d="M-38,-6 Q-38,-12 -32,-12 L30,-17" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1"/>
+  </g>`;
+
+/* ---------- pistón (4) y empaques (5) ---------- */
+// eje del cilindro casi horizontal (hacia el lector), por eso las tapas son elipses angostas
+const artePiston=()=>`<g transform="${LOC} translate(4 4)" filter="url(#fSombra)">
+    <rect x="-16" y="-25" width="32" height="50" fill="url(#gCromoV)"/>
+    <ellipse cx="-16" cy="0" rx="7" ry="25" fill="#8b9398"/>
+    <ellipse cx="16" cy="0" rx="7" ry="25" fill="#dfe3e5" stroke="#7d858a"/>
+    <ellipse cx="17" cy="0" rx="4" ry="17" fill="#6c7479"/>
+    <ellipse cx="18" cy="0" rx="2.4" ry="12" fill="#3b4246"/>
+  </g>`;
+const arteSello=(dx,ry,gr,labio)=>`<g transform="${LOC} translate(${dx} 4)">
+    <ellipse rx="7" ry="${ry}" fill="none" stroke="#0e0e0e" stroke-width="${gr}"/>
+    <ellipse rx="7" ry="${ry}" fill="none" stroke="#fff" stroke-opacity=".14" stroke-width="1" transform="translate(-1.5 -1.5)"/>
+    ${labio?`<ellipse cx="3" rx="4.5" ry="${ry-5}" fill="none" stroke="#1d1d1d" stroke-width="2"/>`:""}
+  </g>`;
+
+/* ---------- purgador (8), pasador (12), grapas (10) ---------- */
+const artePurgador=()=>`<g transform="${LOC} translate(20 -104) rotate(-8)">
+    <g class="oculto-arm"><rect x="-4" y="6" width="8" height="14" fill="url(#pRosca)" transform="rotate(90 0 13) rotate(-90 0 13)"/></g>
+    <polygon points="${hexa(0,0,8,0)}" fill="url(#gAcero)" stroke="#3a4144"/>
+    <rect x="-3.5" y="-17" width="7" height="12" fill="#a7aeb2"/>
+    <rect x="-6.5" y="-29" width="13" height="14" rx="5" fill="url(#gCaucho)"/>
+  </g>`;
+const artePasador=()=>`<g transform="${LOC} translate(-20 -64)">
+    <g class="oculto-arm"><rect x="-100" y="-3.5" width="96" height="7" rx="3.5" fill="url(#gCromoV)"/><rect x="-92" y="-4" width="3" height="8" fill="#4b5256"/></g>
+    <circle r="8" fill="#3c4347"/><circle r="7" fill="url(#gAcero)"/>
+    <polygon points="${hexa(0,0,3.6,0)}" fill="#2a2f33"/>
+  </g>`;
+const grapa=()=>`<path d="M-4,-10 C-16,-8 -16,8 -4,10 L12,10" fill="none" stroke="#2a2f33" stroke-width="4" stroke-linecap="round"/>
+    <path d="M-4,-10 C-16,-8 -16,8 -4,10 L12,10" fill="none" stroke="url(#gAcero)" stroke-width="2.3" stroke-linecap="round"/>`;
+const arteGrapaA=()=>`<g transform="${LOC} translate(-14 -64)">${grapa()}</g>`;
+const arteGrapaB=()=>`<g class="oculto-arm" transform="${LOC} translate(-30 -60)">${grapa()}</g>`;
+
+/* ---------- contexto: barra y manguera (otras láminas) ---------- */
+function arteBarra(){
+  const ax=548, ay=404, ux=-0.44, uy=-0.9, px=0.9, py=-0.44, w=40, L=440;
+  const p=[[ax-w*px,ay-w*py],[ax+ux*L-w*px,ay+uy*L-w*py],[ax+ux*L+w*px,ay+uy*L+w*py],[ax+w*px,ay+w*py]];
+  const [s1x,s1y]=R(86,-54),[s2x,s2y]=R(86,56);
+  return `<g class="ctx ctx-barra" data-ctx="barra">
+    <path d="M${f(p[0][0])},${f(p[0][1])} L${f(p[1][0])},${f(p[1][1])} L${f(p[2][0])},${f(p[2][1])} L${f(p[3][0])},${f(p[3][1])} A40,40 0 0 1 ${f(p[0][0])},${f(p[0][1])} Z"
+      fill="#b9c2c7" fill-opacity=".07" stroke="#c9bfa7" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="7 5" pointer-events="visibleStroke"/>
+    <circle cx="${f(s1x)}" cy="${f(s1y)}" r="24" fill="none" stroke="#c9bfa7" stroke-opacity=".5" stroke-dasharray="5 4"/>
+    <circle cx="${f(s2x)}" cy="${f(s2y)}" r="24" fill="none" stroke="#c9bfa7" stroke-opacity=".5" stroke-dasharray="5 4"/>
+    <circle cx="${D[0]}" cy="${D[1]}" r="16" fill="#c9bfa7" fill-opacity=".12" stroke="#c9bfa7" stroke-opacity=".55" stroke-dasharray="4 3"/>
+    <rect x="${f(ax+ux*300-60)}" y="${f(ay+uy*300-8)}" width="120" height="40" fill="transparent"/>
+    <text class="ctx-txt" x="282" y="150">Barra derecha</text>
+    <text class="ctx-txt" x="282" y="165">(lámina 18)</text>
+  </g>`;
+}
+function arteManguera(){
+  const [bx,by]=R(-10,-128);
+  return `<g class="ctx ctx-manguera" data-ctx="manguera">
+    <path d="M${f(bx)},${f(by-6)} C${f(bx-6)},${f(by-60)} ${f(bx-20)},${f(by-120)} ${f(bx-46)},${f(by-180)} L${f(bx-70)},${f(by-240)}" fill="none" stroke="#0b0b0b" stroke-width="15" stroke-linecap="round"/>
+    <path d="M${f(bx)},${f(by-6)} C${f(bx-6)},${f(by-60)} ${f(bx-20)},${f(by-120)} ${f(bx-46)},${f(by-180)} L${f(bx-70)},${f(by-240)}" fill="none" stroke="#3a3a3a" stroke-width="5" stroke-linecap="round" transform="translate(-3 0)"/>
+    <text class="ctx-txt" x="282" y="196">Manguera</text>
+    <text class="ctx-txt" x="282" y="211">(lámina 26)</text>
+  </g>`;
+}
+
+/* ============================================================
+   Piezas: id, número de lámina, arte, ancla de la etiqueta y su corrimiento,
+   y si la etiqueta se ve armado ("arm") o solo en el despiece ("exp").
+   ============================================================ */
+const PIEZAS=[
+  {id:"1",  n:"1",  arte:arteDisco,               anc:PD(-100,175), et:[-80,8], vis:"arm"},
+  {id:"2",  n:"2",  arte:arteTornillosDisco,      anc:PD(0,115),    et:[34,52],  vis:"arm"},
+  {id:"9a", n:"9",  arte:()=>artePastilla(-8,0,0),anc:R(-8,30),     et:[-52,34], vis:"exp"},
+  {id:"9b", n:"9",  arte:()=>artePastilla(-1,3,0),anc:R(-1,30),     et:[46,34],  vis:"exp"},
+  {id:"14", n:"14", arte:arteLamina,              anc:R(8,30),      et:[40,30],  vis:"exp"},
+  {id:"11", n:"11", arte:arteResorte,             anc:R(-20,-86),   et:[-40,-20],vis:"exp"},
+  {id:"4",  n:"4",  arte:artePiston,              anc:R(4,-20),     et:[-6,76],vis:"exp"},
+  {id:"5a", n:"5",  arte:()=>arteSello(4,26,6,false),anc:R(4,-26),  et:[30,82], vis:"exp", chica:1},
+  {id:"5b", n:"5",  arte:()=>arteSello(4,25,4,true), anc:R(4,-25),  et:[44,10], vis:"exp", chica:1},
+  {id:"13", n:"13", arte:arteSoporte,             anc:R(100,0),     et:[44,10],  vis:"arm"},
+  {id:"6",  n:"6",  arte:arteBota6,               anc:R(16,86),     et:[20,34], chica:1,  vis:"exp"},
+  {id:"7",  n:"7",  arte:arteBota7,               anc:R(16,-84),    et:[44,12], chica:1, vis:"exp"},
+  {id:"3",  n:"3",  arte:arteCaliper,             anc:R(-46,30),    et:[-62,22], vis:"arm"},
+  {id:"8",  n:"8",  arte:artePurgador,            anc:R(22,-128),   et:[42,-8], vis:"arm", chica:1},
+  {id:"12", n:"12", arte:artePasador,             anc:R(-24,-64),   et:[-30,34],vis:"arm", chica:1},
+  {id:"10a",n:"10", arte:arteGrapaA,              anc:R(-28,-72),   et:[-30,-40],vis:"exp", chica:1},
+  {id:"10b",n:"10", arte:arteGrapaB,              anc:R(-42,-68),   et:[20,-40],vis:"exp", chica:1},
+  {id:"15", n:"15", arte:arteTornillosCal,        anc:R(86,-54),    et:[44,-36], vis:"arm"},
+];
+
+/* ============================================================
+   Orden de desarme (cada paso mueve unas piezas; los corrimientos se suman)
+   ============================================================ */
+const U=[-30,-40]; // el caliper con su soporte sale de la barra como un conjunto
+const CONJ=["3","4","5a","5b","6","7","8","9a","9b","10a","10b","11","12","13","14"];
+const d3=[-83,-122], d13=[187,-138];
+const PASOS=[
+  {t:"<b>Paso 1 de 14 · Tornillos del soporte (15).</b> Con la moto en el gato central y la rueda delantera en el aire, se aflojan los dos tornillos que sujetan el soporte a la barra.",
+   m:{"15":[300,-250]}},
+  {t:"<b>Paso 2 de 14 · Sacar el caliper de la barra.</b> El caliper sale con su soporte, deslizándolo fuera del disco. Para cambiar pastillas no hace falta soltar la manguera; se deja colgando sin estirarla. Para el desarme completo, antes se drena el líquido y se suelta el racor.",
+   m:Object.fromEntries(CONJ.map(k=>[k,U])), manguera:false},
+  {t:"<b>Paso 3 de 14 · Grapas (10).</b> Se sacan las dos grapas que impiden que el pasador se salga.",
+   m:{"10a":[-300,-185],"10b":[-140,-215]}},
+  {t:"<b>Paso 4 de 14 · Pasador de las pastillas (12).</b> Se saca el pasador. Es lo único que sostiene las pastillas: por eso las grapas importan.",
+   m:{"12":[-222,-112]}},
+  {t:"<b>Paso 5 de 14 · Pastillas (9).</b> Salen las dos pastillas. Aquí se mira la ranura indicadora: si casi no se ve, se cambia el juego completo.",
+   m:{"9a":[-183,88],"9b":[-93,108]}},
+  {t:"<b>Paso 6 de 14 · Lámina antirruido (14).</b> Va detrás de la pastilla del lado del pistón y evita chillidos.",
+   m:{"14":[-3,128]}},
+  {t:"<b>Paso 7 de 14 · Resorte de las pastillas (11).</b> Las mantiene firmes para que no traqueteen. Hasta aquí llega un cambio de pastillas normal.",
+   m:{"11":[-275,60]}},
+  {t:"<b>Paso 8 de 14 · Separar el cuerpo del soporte (3 y 13).</b> El cuerpo del caliper se desliza fuera de los pasadores del soporte. Así flota el caliper: por eso esos pasadores deben estar limpios y engrasados.",
+   m:{"3":d3,"4":d3,"5a":d3,"5b":d3,"8":d3,"13":d13,"6":d13,"7":d13}},
+  {t:"<b>Paso 9 de 14 · Guardapolvos de los pasadores (6 y 7).</b> Son cauchos que protegen los pasadores del agua y del polvo. Si están rotos, el pasador se oxida.",
+   m:{"6":[-89,114],"7":[-108,-3]}},
+  {t:"<b>Paso 10 de 14 · Purgador (8).</b> Se desenrosca con cuidado: es de acero y el caliper es de aluminio, así que la rosca del caliper se daña fácil si se aprieta de más.",
+   m:{"8":[54,-35]}},
+  {t:"<b>Paso 11 de 14 · Pistón (4).</b> Se saca con aire comprimido a poca presión por la entrada del líquido, con un trapo delante. Nunca con los dedos delante del pistón.",
+   m:{"4":[113,-2]}},
+  {t:"<b>Paso 12 de 14 · Empaques (5).</b> Se sacan el sello y el guardapolvo del pistón con un palillo de plástico, sin rayar las ranuras. Se cambian siempre los dos, nunca se reutilizan.",
+   m:{"5a":[160,22],"5b":[222,40]}},
+  {t:"<b>Paso 13 de 14 · Tornillos del disco (2).</b> Con la rueda desmontada (otra lámina), se aflojan en cruz los tornillos del disco. Llevan fijador de rosca.",
+   m:{"2":[40,14]}},
+  {t:"<b>Paso 14 de 14 · Disco (1).</b> El disco sale del rin. Se mide el grosor en varios puntos y se compara con el mínimo grabado («MIN TH»).",
+   m:{"1":[150,30],"2":[150,30]}},
+];
+const TXT_ARMADO="<b>Armado.</b> El caliper abraza el borde del disco y su soporte se atornilla a la barra. Lo de adentro (pistón, pastillas, resorte) no se ve: tócalo en la lista y aparece con rayos X.";
+
+/* ============================================================
+   Construcción del SVG
+   ============================================================ */
+const capas=document.getElementById("capas");
+let html="";
+PIEZAS.forEach(p=>{
+  const [ax,ay]=p.anc, lx=ax+p.et[0], ly=ay+p.et[1];
+  html+=`<g class="pz" id="pz-${p.id}" data-n="${p.n}" tabindex="0" role="button" aria-label="Pieza ${p.n}: ${NOMBRES_TMP(p.n)}">
+    <g class="arte"><g class="esc${p.chica?" chica":""}">${p.arte()}</g></g>
+    <g class="et et-${p.vis}"><line x1="${f(ax)}" y1="${f(ay)}" x2="${f(lx)}" y2="${f(ly)}"/><g class="bola" data-x="${f(lx)}" data-y="${f(ly)}"><circle cx="${f(lx)}" cy="${f(ly)}" r="15"/><text x="${f(lx)}" y="${f(ly)}">${p.n}</text></g></g>
+  </g>`;
+  if(p.id==="2") html+=arteBarra();
+});
+function NOMBRES_TMP(n){return ({"1":"disco","2":"tornillos del disco","3":"caliper","4":"pistón","5":"empaques","6":"guardapolvo","7":"guardapolvo","8":"purgador","9":"pastillas","10":"grapas","11":"resorte","12":"pasador","13":"soporte","14":"lámina antirruido","15":"tornillos del soporte"})[n]||n}
+capas.innerHTML=html;
+// la barra se dibuja encima, como fantasma: se mueve al final para que quede sobre el caliper
+capas.appendChild(capas.querySelector(".ctx-barra"));
+capas.insertAdjacentHTML("beforeend",arteManguera());
+
+/* ============================================================
+   Fichas de cada pieza
+   ============================================================ */
+const PLAN_PAST="Revisión cada 6.000 km (plan de TallerYa). El manual de Yamaha pide revisarlas a los 1.000 km y luego en cada servicio de 6.000 km.";
+const FICHAS={
+"1":{nombre:"Disco de freno",cat:"DISK, BRAKE (RIGHT) · 1 pieza",
+ que:"Una placa redonda de acero de 230 mm, atornillada al rin. Gira siempre con la rueda.",
+ sirve:"Es la superficie que aprietan las pastillas. Convierte el movimiento de la moto en calor y lo bota al aire. Los huecos lo enfrían, botan el agua y el polvo y lo hacen más liviano.",
+ fallas:[["desgaste","Cada frenada le quita un poquito de material. Con los años se adelgaza hasta el mínimo grabado («MIN TH»)."],
+         ["calor","Bajadas largas frenando todo el tiempo (Las Palmas, la vía a Santa Elena) lo recalientan y lo pueden torcer."],
+         ["maluso","Pastillas gastadas hasta el metal le hacen surcos. Grasa, lubricante de cadena o líquido de frenos lo dejan resbaloso."],
+         ["golpe","Un golpe o una caída lo pueden torcer. También los tornillos apretados disparejos."]],
+ sintomas:["La manigueta palpita o vibra al frenar (disco torcido)","Surcos o rayas que se sienten con la uña","Frena menos aunque las pastillas estén nuevas","Un «chas-chas» rítmico a poca velocidad","Manchas azuladas por recalentamiento"],
+ cuando:"Medir el grosor y mirar si está torcido en cada cambio de pastillas. Se cambia al llegar al mínimo grabado, o si está torcido o rajado entre los huecos.",
+ decision:"cambia",
+ compra:"El disco completo y, siempre, pastillas nuevas: las viejas ya tomaron la forma del disco gastado. En moto no se rectifica: tiene muy poco espesor de sobra. Si solo está untado de grasa, se lava con limpiador de frenos y lo que se cambia son las pastillas.",
+ dif:"taller", conecta:["2","9","3","rueda"],
+ efectos:[["9","Un disco torcido o delgado gasta las pastillas nuevas muy rápido y de forma despareja."],["4","El disco torcido empuja el pistón hacia atrás en cada vuelta: por eso la manigueta palpita."],["liquido","Un disco delgado se calienta más, el calor pasa al líquido y este puede hervir en una bajada."]],
+ certeza:[["ok","230 mm de diámetro (ficha técnica de Yamaha)."],["ap","4 mm de espesor nuevo (dato de un disco de repuesto). El mínimo exacto no lo tenemos: está grabado en el disco."]]},
+"2":{nombre:"Tornillos del disco",cat:"BOLT · 3 piezas",
+ que:"Los tornillos que unen el disco al rin.",
+ sirve:"Pasan toda la fuerza del frenado del disco a la rueda. Son pocos y trabajan mucho.",
+ fallas:[["maluso","Se aflojan si se montan sin fijador de rosca o sin el torque correcto."],["maluso","La cabeza se barre con una llave que no es la del tamaño exacto."],["humedad","Se oxidan y luego no salen, sobre todo si nunca se han tocado."]],
+ sintomas:["Un clic o golpe al empezar a frenar","El disco tiene juego al moverlo con la mano","Cabeza redondeada (barrida)"],
+ cuando:"Se revisan cada vez que se desmonta la rueda o el disco.",
+ decision:"cambia",
+ compra:"Tornillos nuevos si están barridos o si el fabricante no permite reutilizarlos. Siempre con fijador de rosca y apretados en cruz.",
+ dif:"taller", conecta:["1","rueda"],
+ efectos:[["1","Un tornillo flojo deja golpear el disco: los agujeros se ovalan y el disco se puede rajar."]],
+ certeza:[["ok","Tres tornillos: catálogo, fig. 22, ref. 2."],["ap","No damos torque porque no tenemos el manual de servicio."]]},
+"3":{nombre:"Caliper (cuerpo)",cat:"CALIPER ASSY (RIGHT) · conjunto completo",
+ que:"La «pinza» del freno: un cuerpo de aluminio con un cilindro adentro. En la NMAX es flotante y de un solo pistón.",
+ sirve:"Convierte la presión del líquido en fuerza sobre las pastillas. Al ser flotante, el pistón empuja una pastilla y el cuerpo se corre en sus pasadores para jalar la otra.",
+ fallas:[["humedad","El líquido viejo tiene agua: oxida el cilindro y el pistón por dentro y el pistón se pega."],
+         ["edad","Los empaques se endurecen con los años y el calor: aparecen fugas o el pistón no regresa."],
+         ["humedad","Si los pasadores se oxidan, el cuerpo deja de flotar y solo trabaja una pastilla."],
+         ["maluso","La rosca del purgador se daña si se aprieta de más. También daña lavar con hidrolavadora a presión directa."]],
+ sintomas:["La rueda queda frenada o caliente después de rodar","Olor a quemado después de frenar","Una pastilla gastada mucho más que la otra","Manchas de líquido alrededor","El nivel del depósito baja sin que las pastillas estén gastadas"],
+ cuando:"Limpiarlo y revisarlo en cada cambio de pastillas. Por dentro (empaques) se renueva cada 2 años, junto con el líquido (manual), o antes si hay fuga o el freno queda pegado.",
+ decision:"repara",
+ compra:"Casi nunca el caliper completo: se compra el kit de empaques (5) y, si está picado, el pistón (4). El caliper completo solo si el cilindro está rayado o corroído, o si la rosca del purgador o una oreja se dañaron.",
+ dif:"taller", conecta:["4","5","8","9","12","13","6","7","manguera"],
+ efectos:[["9","Si no flota, la pastilla de un solo lado se gasta hasta el metal."],["1","El freno pegado recalienta el disco y lo puede torcer."],["liquido","El calor del freno pegado pasa al líquido y lo envejece más rápido."]],
+ certeza:[["ok","Flotante de un pistón: el catálogo trae un solo «PISTON ASSY» y un kit de dos sellos."],["ap","La forma exacta del cuerpo se dibujó a partir del plano y de fotos, no se midió."]]},
+"4":{nombre:"Pistón del caliper",cat:"PISTON ASSY, CALIPER · 1 pieza",
+ que:"Un cilindro metálico, hueco por delante, que vive dentro del caliper.",
+ sirve:"El líquido lo empuja por detrás y él empuja la pastilla. Como es mucho más grande que el pistón de la bomba, multiplica la fuerza de tu mano.",
+ fallas:[["humedad","El agua del líquido viejo lo pica por dentro (corrosión)."],["desgaste","Con pastillas muy gastadas sale de más y la mugre se le pega. Al meterlo para poner pastillas nuevas, esa parte sucia raya el sello."],["calor","El calor de un freno pegado lo dilata y empeora el problema."]],
+ sintomas:["El freno no suelta del todo","Fuga de líquido detrás de la pastilla","La pastilla del lado del pistón se gasta más"],
+ cuando:"Se revisa cada vez que se abre el caliper: cada 2 años, al cambiar los empaques junto con el líquido (manual), o antes si hay problemas. Antes de meterlo para poner pastillas nuevas, se limpia la parte que queda afuera.",
+ decision:"cambia",
+ compra:"El pistón solo si está picado, rayado u oxidado; siempre junto con el kit de empaques (5). Si está sano, se limpia y se reutiliza.",
+ dif:"taller", conecta:["3","5","9"],
+ efectos:[["5","Un pistón picado corta el sello y aparece una fuga."],["9","Si se pega, deja la pastilla rozando: se gasta y se cristaliza."]],
+ certeza:[["ok","Un pistón (catálogo)."],["ap","El diámetro no lo tenemos."]]},
+"5":{nombre:"Kit de empaques del caliper",cat:"CALIPER SEAL KIT · sello del pistón + guardapolvo",
+ que:"Dos anillos de caucho: el sello del pistón (adentro) y el guardapolvo (afuera).",
+ sirve:"El sello no deja salir el líquido y, además, regresa el pistón cuando sueltas: se tuerce un poquito al frenar y, al soltar, lo jala de vuelta. El guardapolvo no deja entrar agua ni mugre.",
+ fallas:[["edad","Se endurecen con los años y el calor: pierden elasticidad y ya no regresan el pistón."],["maluso","Se hinchan y se dañan con un líquido equivocado (DOT 5, aceite, gasolina usada para «lavar»)."],["humedad","Si el guardapolvo se rompe, entra agua y el pistón se oxida."]],
+ sintomas:["El freno queda pegado o la rueda se calienta","Fuga de líquido en el caliper","La manigueta se va al fondo (entró aire)"],
+ cuando:"Cada 2 años, junto con el líquido (manual de Yamaha, pp. 9-7 y 9-25: «Juntas de freno: cada 2 años»), o antes si hay fuga o el freno queda pegado.",
+ decision:"cambia",
+ compra:"El kit completo. Es barato y es la reparación normal de un caliper: no hace falta cambiar el caliper entero.",
+ dif:"taller", conecta:["4","3"],
+ efectos:[["9","Una fuga moja las pastillas de líquido y ya no frenan: hay que cambiarlas."],["liquido","Si baja el nivel entra aire: la manigueta se vuelve esponjosa."]],
+ certeza:[["ok","Kit de dos piezas (catálogo y plano)."],["ok","Cambio cada 2 años con el líquido (manual)."],["ap","Que el pistón regrese «una fracción de milímetro» es un orden de magnitud."]]},
+"6":{nombre:"Guardapolvo del pasador del caliper",cat:"BOOT, CALIPER · 1 pieza",
+ que:"Un fuelle de caucho entre el cuerpo del caliper y uno de los pasadores del soporte.",
+ sirve:"Protege el pasador para que el caliper siga deslizándose (flotando) sin oxidarse.",
+ fallas:[["edad","El caucho se reseca y se raja."],["calor","El calor del freno lo endurece."],["maluso","Se hincha con grasa común (no de frenos) o se sale de su sitio al montar mal."]],
+ sintomas:["Caucho rajado o fuera de su sitio","El caliper no se deja mover con la mano (desmontado)","Desgaste disparejo de las pastillas"],
+ cuando:"Mirarlo en cada cambio de pastillas.",
+ decision:"cambia",
+ compra:"Solo el guardapolvo (es barato) y grasa de silicona para frenos en el pasador.",
+ dif:"media", conecta:["13","3"],
+ efectos:[["13","Sin guardapolvo, el pasador del soporte se oxida y se traba."],["9","Con el caliper trabado trabaja una sola pastilla."]],
+ certeza:[["ok","Pieza del catálogo."],["ap","Cuál de los dos pasadores lleva cada guardapolvo: lo deducimos del plano."]]},
+"7":{nombre:"Guardapolvo del otro pasador",cat:"BOOT · 1 pieza",
+ que:"El fuelle de caucho del segundo pasador deslizante.",
+ sirve:"Igual que el 6: mantiene limpio y seco el pasador para que el caliper flote.",
+ fallas:[["edad","Se reseca y se raja con los años."],["humedad","Si está roto, entra agua: el pasador se oxida."]],
+ sintomas:["Caucho roto","Freno que queda rozando","Una pastilla gastada en cuña"],
+ cuando:"En cada cambio de pastillas.",
+ decision:"cambia",
+ compra:"El guardapolvo solo, con grasa para frenos.",
+ dif:"media", conecta:["13","3"],
+ efectos:[["3","El caliper deja de flotar y el freno queda rozando."]],
+ certeza:[["ok","Pieza del catálogo."]]},
+"8":{nombre:"Purgador",cat:"BLEED SCREW KIT · tornillo hueco + tapa de caucho",
+ que:"Un tornillo hueco en la parte alta del caliper, con una tapita de caucho.",
+ sirve:"Por ahí se saca el aire y el líquido viejo cuando se cambia el líquido o se purga.",
+ fallas:[["maluso","Se parte o barre la rosca del caliper si se aprieta de más."],["humedad","Sin tapita entran agua y mugre, el agujero se tapa y el purgador se pega por óxido."]],
+ sintomas:["Gotas de líquido en el purgador","No deja purgar (está tapado)","La manigueta sigue esponjosa después de purgar"],
+ cuando:"Se usa en cada cambio de líquido: cada 2 años (plan de TallerYa = manual de Yamaha, DOT 4).",
+ decision:"cambia",
+ compra:"El kit del purgador si está dañado. Si la que se barrió es la rosca del caliper: inserto de rosca en taller o caliper nuevo.",
+ dif:"taller", conecta:["3","manguera"],
+ efectos:[["liquido","Una fuga en el purgador deja entrar aire: manigueta esponjosa."]],
+ certeza:[["ok","Líquido DOT 4 y cambio cada 2 años (manual)."]]},
+"9":{nombre:"Pastillas de freno (juego)",cat:"BRAKE PAD KIT · 2 pastillas",
+ que:"Dos placas de acero con un bloque de material de fricción pegado. Tienen una ranura en el centro que avisa el desgaste.",
+ sirve:"Son las que rozan el disco. Se gastan a propósito para que el disco dure.",
+ fallas:[["desgaste","Normal: cada frenada las gasta. En Medellín se gastan más rápido por las lomas, el trancón y frenar solo con el delantero."],
+         ["calor","Con calor sostenido se cristalizan: la cara queda brillante, chillan y frenan menos."],
+         ["maluso","Aceite, grasa o líquido de frenos las contaminan. Una pastilla untada no se recupera."],
+         ["desgaste","Si llegan al metal, el acero raya el disco."]],
+ sintomas:["La ranura del centro ya casi no se ve","Chillido metálico o raspado al frenar","Frena menos y hay que apretar más","El nivel del depósito baja poco a poco"],
+ cuando:PLAN_PAST+" Se cambian cuando la ranura indicadora casi desaparece.",
+ decision:"cambia",
+ compra:"Siempre el juego de dos. Los primeros 100 a 200 km se frena suave para que asienten. Si el disco está rayado o torcido, se cambia también.",
+ dif:"media", conecta:["1","4","12","11","14"],
+ efectos:[["1","Al llegar al metal rayan el disco: la reparación pasa de pastillas a pastillas más disco."],["4","Con pastillas muy gastadas el pistón sale de más, se ensucia y daña el sello."],["liquido","Al gastarse baja el nivel del depósito; si alguien lo rellena, al poner pastillas nuevas se rebosa."]],
+ certeza:[["ok","Ranura indicadora y revisión en cada servicio (manual de Yamaha)."],["ok","6.000 km: plan general de TallerYa."]]},
+"10":{nombre:"Grapas del pasador",cat:"CLIP · 2 en el plano",
+ que:"Dos grapas de alambre de acero (en forma de R) que se meten en el pasador.",
+ sirve:"Impiden que el pasador de las pastillas se salga con la vibración.",
+ fallas:[["maluso","Se pierden al cambiar pastillas o se deforman al sacarlas con alicate."],["edad","Pierden tensión con el tiempo."]],
+ sintomas:["La grapa falta o está floja","El pasador se mueve o se sale"],
+ cuando:"En cada cambio de pastillas.",
+ decision:"cambia",
+ compra:"Grapas nuevas si están deformadas: cuestan muy poco y aguantan las pastillas.",
+ dif:"facil", conecta:["12"],
+ efectos:[["12","Sin grapa el pasador se puede salir: las pastillas quedan sueltas y el freno se pierde."]],
+ certeza:[["ok","Dos llamadas «10» en el plano."]]},
+"11":{nombre:"Resorte de las pastillas",cat:"SUPPORT, PAD · 1 pieza (lámina soporte)",
+ que:"Una lámina de acero doblada que hace de resorte sobre las pastillas.",
+ sirve:"Las mantiene firmes contra el pasador para que no traqueteen ni vibren.",
+ fallas:[["edad","Pierde tensión."],["humedad","Se oxida."],["maluso","Se monta al revés al cambiar pastillas."]],
+ sintomas:["Traqueteo en los huecos o en el empedrado","Chillido","Pastillas gastadas en cuña"],
+ cuando:"En cada cambio de pastillas.",
+ decision:"cambia",
+ compra:"El resorte solo, si está deformado u oxidado.",
+ dif:"media", conecta:["9","3"],
+ efectos:[["9","Con pastillas sueltas el desgaste es disparejo y aparecen ruidos."]],
+ certeza:[["ok","Pieza del catálogo."]]},
+"12":{nombre:"Pasador de las pastillas",cat:"PIN, PAD · 1 pieza",
+ que:"Una varilla de acero que atraviesa el caliper y las orejas de las pastillas.",
+ sirve:"Sostiene las pastillas y las deja deslizarse hacia el disco y de regreso.",
+ fallas:[["humedad","Se oxida y las pastillas no deslizan."],["desgaste","Las orejas de las pastillas le hacen surcos con la vibración."],["golpe","Se dobla si se saca a golpes."]],
+ sintomas:["Una pastilla no se despega del disco","Ruido metálico","Surcos en el pasador"],
+ cuando:"Limpiarlo en cada cambio de pastillas. Se deja sin grasa o con muy poca grasa especial: la grasa común junta polvo.",
+ decision:"cambia",
+ compra:"El pasador si tiene surcos u óxido.",
+ dif:"media", conecta:["9","10","3"],
+ efectos:[["9","Si las pastillas no deslizan, se gastan disparejo y el freno roza."]],
+ certeza:[["ok","Pieza del catálogo."]]},
+"13":{nombre:"Soporte del caliper",cat:"SUPT. BRKT. ASSY · con sus pasadores deslizantes",
+ que:"Una pieza fundida que se atornilla a la barra. En sus dos pasadores se desliza el cuerpo del caliper.",
+ sirve:"Aguanta la fuerza del frenado y deja flotar el caliper para que las dos pastillas aprieten parejo.",
+ fallas:[["humedad","Los pasadores se oxidan si los guardapolvos (6 y 7) están rotos."],["golpe","Se dobla en una caída o con un golpe en la rueda."],["maluso","Las roscas se dañan si se aprietan de más los tornillos (15)."]],
+ sintomas:["El caliper no se desliza","Pastillas gastadas en cuña","El freno roza aunque los empaques estén nuevos"],
+ cuando:"Revisar los pasadores en cada cambio de pastillas: limpiar y engrasar con grasa de silicona para frenos.",
+ decision:"repara",
+ compra:"Casi siempre basta con limpiar los pasadores y cambiar los guardapolvos. El soporte se cambia solo si está doblado.",
+ dif:"media", conecta:["3","15","6","7","barra"],
+ efectos:[["3","Si el soporte no deja flotar el caliper, el freno roza y se calienta."],["1","Un soporte doblado deja el caliper torcido: raya el borde del disco."]],
+ certeza:[["ok","Pieza del catálogo."],["ap","Forma dibujada a partir del plano."]]},
+"14":{nombre:"Lámina antirruido",cat:"SHIM, CALIPER · 1 pieza",
+ que:"Una lámina delgada que va detrás de la pastilla, entre ella y el pistón.",
+ sirve:"Amortigua la vibración que produce el chillido al frenar.",
+ fallas:[["maluso","Se pierde o se olvida al cambiar pastillas."],["humedad","Se oxida y se deforma."]],
+ sintomas:["Chillido agudo al frenar suave"],
+ cuando:"En cada cambio de pastillas.",
+ decision:"cambia",
+ compra:"La lámina, si falta o está deformada. Algunas pastillas de repuesto ya la traen.",
+ dif:"facil", conecta:["9","4"],
+ efectos:[["9","Sin ella las pastillas vibran y chillan, aunque frenan igual."]],
+ certeza:[["ok","Pieza del catálogo."],["ap","Que vaya del lado del pistón: lo deducimos del plano."]]},
+"15":{nombre:"Tornillos del soporte del caliper",cat:"SCREW · 2 piezas",
+ que:"Los dos tornillos que fijan el soporte del caliper a las orejas de la barra.",
+ sirve:"Aguantan toda la fuerza del frenado de la rueda delantera. Son de seguridad.",
+ fallas:[["maluso","Quedan flojos si después de montar la rueda no se aprietan con torquímetro."],["maluso","Se barren si se aprietan de más; sin fijador se aflojan con la vibración."]],
+ sintomas:["Golpe o clic al frenar","El caliper se mueve con la mano","Marcas del caliper en el rin o en el disco"],
+ cuando:"Revisar el apriete después de cualquier trabajo en la rueda o en los frenos.",
+ decision:"cambia",
+ compra:"Tornillos nuevos si están barridos o estirados, con fijador y al torque del manual de servicio.",
+ dif:"taller", conecta:["13","barra"],
+ efectos:[["13","Con el soporte suelto el caliper golpea y el freno puede fallar de golpe: es lo más peligroso de la lámina."],["1","El caliper suelto puede morder el disco."]],
+ certeza:[["ok","Dos tornillos (catálogo)."],["ap","No damos torque: no tenemos el manual de servicio."]]},
+// --- contexto (otras láminas) ---
+"barra":{ctx:true,nombre:"Barra derecha de la suspensión",cat:"Lámina 18 (dirección y suspensión)",
+ que:"La barra donde va atornillado el soporte del caliper.",
+ sirve:"Sostiene la rueda y el freno.",
+ fallas:[["edad","Si su retenedor bota aceite, el aceite baja por la barra y puede caer en el disco y las pastillas."]],
+ sintomas:["Aceite en la barra o en el disco","El freno pierde agarre de repente"],
+ cuando:"Mirar si hay aceite en la barra en cada lavada.",decision:"repara",
+ compra:"El retenedor de la barra. Si el aceite ya tocó las pastillas, también pastillas nuevas.",
+ dif:"taller",conecta:["13","15"],
+ efectos:[["9","Pastillas untadas de aceite ya no frenan: se cambian."],["1","El disco se lava con limpiador de frenos."]],certeza:[]},
+"manguera":{ctx:true,nombre:"Mangueras del freno (2) y ABS",cat:"Lámina 26 · HOSE, BRAKE 1 (bomba → ABS, ref. 15) y HOSE, BRAKE 2 (ABS → caliper, ref. 18)",
+ que:"Dos mangueras: la 1 va de la bomba a la unidad ABS y la 2, del ABS al caliper (es la que ves en el dibujo). Cada punta va con un tornillo banjo (racor hueco) y dos arandelas de sello.",
+ sirve:"Pasan la presión de tu mano al caliper. En el camino está la unidad ABS: si la rueda se va a bloquear, afloja la presión y la vuelve a dar varias veces por segundo, para que la llanta no patine.",
+ fallas:[["edad","El caucho se agrieta y se infla con los años."],["golpe","Se pellizca si queda mal guiada al girar el manubrio."]],
+ sintomas:["Manigueta esponjosa","Grietas o humedad en la manguera"],
+ cuando:"Revisar en cada servicio. Cambiar cada 4 años (manual de Yamaha).",decision:"cambia",
+ compra:"La manguera con arandelas nuevas en los dos tornillos banjo (las arandelas no se reutilizan). Después se purga. Con ABS, la purga es trabajo de taller: puede quedar aire dentro de la unidad.",
+ dif:"taller",conecta:["3","8"],
+ efectos:[["liquido","Una manguera inflada se come parte de la presión: el freno se siente blando."]],certeza:[["ok","Cambio cada 4 años (manual, p. 9-4)."],["ok","Dos mangueras con tornillos banjo y arandelas (catálogo, fig. 26)."]]},
+"rueda":{ctx:true,nombre:"Rueda delantera",cat:"Lámina 21",que:"El rin donde va atornillado el disco.",sirve:"",fallas:[],sintomas:[],cuando:"",decision:"",compra:"",dif:"",conecta:["1","2"],efectos:[],certeza:[]},
+"liquido":{ctx:true,nombre:"Líquido de frenos DOT 4",cat:"Lámina 26 · plan de TallerYa",
+ que:"El líquido que llena la bomba, la manguera y el caliper.",
+ sirve:"No se deja comprimir: por eso pasa la fuerza de tu mano al caliper al instante.",
+ fallas:[["humedad","Absorbe la humedad del aire con los años. Con agua hierve antes: nuevo hierve sobre 230 °C y con humedad puede bajar a unos 155 °C (mínimos de la norma)."],["calor","Si hierve en una bajada larga se forman burbujas, que sí se comprimen."]],
+ sintomas:["Manigueta esponjosa o que se va al fondo después de frenar mucho","Líquido oscuro en el visor"],
+ cuando:"Cambiarlo cada 2 años, ruede lo que ruede (plan de la NMAX = manual). En ese mismo servicio el manual manda cambiar los empaques de la bomba y del caliper.",decision:"cambia",
+ compra:"Líquido DOT 4 de envase sellado. No mezclar con DOT 5.",
+ dif:"taller",conecta:["3","8","manguera"],
+ efectos:[["4","El agua del líquido viejo oxida el pistón por dentro."],["5","Y endurece los empaques."]],certeza:[["ok","DOT 4, cada 2 años (manual)."],["ok","230 °C / 155 °C: mínimos de la norma FMVSS 116."]]}
+};
+const CAUSA={desgaste:"Desgaste",calor:"Calor",humedad:"Humedad",maluso:"Mal uso",golpe:"Golpe",edad:"Edad"};
+const DIF={facil:"Lo puedes hacer tú",media:"Con herramienta y algo de práctica",taller:"Mejor en el taller"};
+const nombreDe=k=>FICHAS[k]?FICHAS[k].nombre:k;
+const etiq=k=>FICHAS[k]&&FICHAS[k].ctx?"·":k;
+
+/* ---------- chips ---------- */
+const ORDEN_CHIPS=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","barra","manguera","liquido"];
+document.getElementById("chips").innerHTML=ORDEN_CHIPS.map(k=>{const c=FICHAS[k].ctx;
+  return `<button class="chip${c?' ctx':''}" data-k="${k}"><span class="n">${c?'·':k}</span>${FICHAS[k].nombre}</button>`}).join("");
+
+/* ---------- selección ---------- */
+const svg=document.getElementById("lamina");
+const OCULTAS=["4","5","9","11","14","10"];
+let seleccion=null;
+function seleccionar(k,{desplazar=false}={}){
+  seleccion=k;
+  document.querySelectorAll(".pz").forEach(g=>g.classList.toggle("sel",g.dataset.n===k));
+  document.querySelectorAll(".chip").forEach(b=>b.classList.toggle("sel",b.dataset.k===k));
+  svg.classList.toggle("haysel",!!document.querySelector(".pz.sel"));
+  svg.classList.toggle("rayosx",paso===0 && OCULTAS.includes(k));
+  pintarFicha(k);
+  if(desplazar){document.getElementById("despiece").scrollIntoView({behavior:"smooth",block:"start"})}
+}
+function boton(k){return `<button data-k="${k}">${FICHAS[k]&&!FICHAS[k].ctx?k+" · ":""}${nombreDe(k)}</button>`}
+function pintarFicha(k){
+  const F=FICHAS[k], el=document.getElementById("ficha");
+  if(!F){el.innerHTML='<p class="vacia">Sin ficha.</p>';return}
+  const filas=[], mas=[];
+  if(F.que)filas.push(`<dt>Qué es</dt><dd>${F.que}</dd>`);
+  if(F.sirve)mas.push(`<dt>Para qué sirve</dt><dd>${F.sirve}</dd>`);
+  if(F.fallas.length)filas.push(`<dt>Cómo falla y por qué</dt><dd><ul>${F.fallas.map(([c,t])=>`<li><span class="causa c-${c}">${CAUSA[c]}</span>${t}</li>`).join("")}</ul></dd>`);
+  if(F.sintomas.length)filas.push(`<dt>Síntomas</dt><dd><ul>${F.sintomas.map(s=>`<li>${s}</li>`).join("")}</ul></dd>`);
+  if(F.cuando)filas.push(`<dt>Cuándo revisar o cambiar</dt><dd>${F.cuando}</dd>`);
+  if(F.decision)filas.push(`<dt>¿Se repara o se cambia?</dt><dd><span class="decision ${F.decision==='repara'?'d-repara':'d-cambia'}">${F.decision==='repara'?'Se repara':'Se cambia'}</span><p style="margin:.4em 0 0">${F.compra}</p></dd>`);
+  if(F.conecta.length)mas.push(`<dt>Se conecta con</dt><dd class="enlaces">${F.conecta.map(boton).join("")}</dd>`);
+  if(F.efectos.length)mas.push(`<dt>Si falla, ¿qué les pasa a las demás?</dt><dd>${F.efectos.map(([o,t])=>`<div class="efecto">${boton(o)}${t}</div>`).join("")}</dd>`);
+  const cert=F.certeza.length?`<div class="certeza">${F.certeza.map(([s,t])=>`<div><span class="${s==='ok'?'s-ok':'s-ap'}">${s==='ok'?'Seguro':'Aproximado'}:</span> ${t}</div>`).join("")}</div>`:"";
+  el.innerHTML=`<div class="cab"><div class="badge${F.ctx?' ctx':''}">${F.ctx?'otra':k}</div><div><h3>${F.nombre}</h3><div class="cat">${F.cat}</div>${F.dif?`<div class="dif">${DIF[F.dif]}</div>`:""}</div></div><dl>${filas.join("")}</dl>${mas.length||cert?`<details class="mas"${innerWidth>=960?" open":""}><summary>Para qué sirve, con qué se conecta y qué arrastra si falla</summary><dl>${mas.join("")}</dl>${cert}</details>`:""}`;
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-k]");
+  if(b){seleccionar(b.dataset.k,{desplazar:!!b.closest("#cadenas")});return}
+  const g=e.target.closest(".pz");
+  if(g){seleccionar(g.dataset.n);return}
+  const c=e.target.closest("[data-ctx]");
+  if(c){seleccionar(c.dataset.ctx)}
+});
+document.addEventListener("keydown",e=>{
+  if((e.key==="Enter"||e.key===" ")&&e.target.classList&&e.target.classList.contains("pz")){e.preventDefault();seleccionar(e.target.dataset.n)}
+});
+
+/* ---------- encuadre: armado se ve de cerca, despiece completo ---------- */
+const VB_ARM=[230,140,600,467];
+let VB_EXP=[0,0,900,700];
+// El encuadre del despiece se calcula con las posiciones finales de las piezas y sus números
+function calcularVBExp(){
+  const suma={};
+  PASOS.forEach(P=>{for(const [id,[dx,dy]] of Object.entries(P.m)){suma[id]=suma[id]||[0,0];suma[id][0]+=dx;suma[id][1]+=dy}});
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  PIEZAS.forEach(p=>{const g=document.getElementById("pz-"+p.id), s=suma[p.id]||[0,0];
+    const b=g.querySelector(".arte").getBBox(), m=p.chica?Math.max(b.width,b.height)*.25:0;
+    const lx=p.anc[0]+p.et[0], ly=p.anc[1]+p.et[1];
+    x0=Math.min(x0,b.x-m+s[0],lx-20+s[0]);y0=Math.min(y0,b.y-m+s[1],ly-20+s[1]);
+    x1=Math.max(x1,b.x+b.width+m+s[0],lx+20+s[0]);y1=Math.max(y1,b.y+b.height+m+s[1],ly+20+s[1]);});
+  x0-=14;y0-=14;x1+=14;y1+=14;
+  let w=x1-x0,h=y1-y0;const asp=900/700;
+  if(w/h<asp){const nw=h*asp;x0-=(nw-w)/2;w=nw}else{const nh=w/asp;y0-=(nh-h)/2;h=nh}
+  VB_EXP=[x0,y0,w,h].map(f);
+}
+let vbActual=VB_ARM.slice(), vbAnim=null;
+function escalarEtiquetas(){
+  const px=svg.getBoundingClientRect().width||900;
+  const objetivo=px<600?14:10;                                // radio en px: números de 28 px en el celular (y la pieza entera también se toca)
+  const s=Math.max(1,(vbActual[2]/px)*objetivo/15);
+  document.querySelectorAll(".bola").forEach(b=>{const x=+b.dataset.x,y=+b.dataset.y;
+    b.setAttribute("transform",s===1?"":`translate(${x} ${y}) scale(${f(s)}) translate(${-x} ${-y})`)});
+}
+function encuadrar(destino){
+  cancelAnimationFrame(vbAnim);
+  const ini=vbActual.slice(), t0=performance.now(), dur=matchMedia("(prefers-reduced-motion:reduce)").matches?0:650;
+  const paso_=t=>{const p=dur?Math.min(1,(t-t0)/dur):1, e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+    vbActual=ini.map((v,i)=>v+(destino[i]-v)*e);svg.setAttribute("viewBox",vbActual.map(f).join(" "));escalarEtiquetas();
+    if(p<1)vbAnim=requestAnimationFrame(paso_)};
+  vbAnim=requestAnimationFrame(paso_);
+}
+svg.setAttribute("viewBox",VB_ARM.join(" "));
+calcularVBExp();
+addEventListener("resize",escalarEtiquetas);
+
+/* ---------- despiece paso a paso ---------- */
+let paso=0, temporizador=null;
+function aplicar(k){
+  const antes=paso;
+  paso=k;
+  if((antes===0)!==(k===0)||k===0)encuadrar(k===0?VB_ARM:VB_EXP);
+  const suma={};
+  for(let i=0;i<k;i++){for(const [id,[dx,dy]] of Object.entries(PASOS[i].m)){suma[id]=suma[id]||[0,0];suma[id][0]+=dx;suma[id][1]+=dy}}
+  PIEZAS.forEach(p=>{const g=document.getElementById("pz-"+p.id);const s=suma[p.id]||[0,0];
+    g.style.transform=`translate(${s[0]}px,${s[1]}px)`;g.classList.toggle("fuera",s[0]!==0||s[1]!==0)});
+  svg.classList.toggle("explotado",k>0);
+  svg.classList.toggle("sinmanguera",k>=2);
+  if(k>0)svg.classList.remove("rayosx"); else if(seleccion&&OCULTAS.includes(seleccion))svg.classList.add("rayosx");
+  document.getElementById("textoPaso").innerHTML=k===0?TXT_ARMADO:PASOS[k-1].t;
+  document.getElementById("bAtras").disabled=k===0;
+  document.getElementById("bAdel").disabled=k===PASOS.length;
+  document.getElementById("bTodo").textContent=k===PASOS.length?"Armar":(temporizador?"Pausa":"Desarmar");
+}
+function parar(){clearInterval(temporizador);temporizador=null}
+document.getElementById("bTodo").addEventListener("click",()=>{
+  if(temporizador){parar();aplicar(paso);return}
+  const armar=paso===PASOS.length;
+  temporizador=setInterval(()=>{
+    const sig=armar?paso-1:paso+1;
+    if(sig<0||sig>PASOS.length){parar();aplicar(paso);return}
+    aplicar(sig);
+    if(sig===0||sig===PASOS.length){parar();aplicar(sig)}
+  },armar?420:900);
+  aplicar(armar?paso-1:paso+1);
+});
+document.getElementById("bAtras").addEventListener("click",()=>{parar();if(paso>0)aplicar(paso-1)});
+document.getElementById("bAdel").addEventListener("click",()=>{parar();if(paso<PASOS.length)aplicar(paso+1)});
+aplicar(0);
+
+/* ============================================================
+   Cómo funciona (7 pasos)
+   ============================================================ */
+const FN=[
+ {t:"<b>1 · En reposo.</b> La rueda gira y el disco gira con ella. Las pastillas quedan casi tocando el disco, a una fracción de milímetro (aquí el espacio está exagerado para que se vea).",
+  s:{lever:0,mp:0,pulso:false,piston:0,cuerpo:0,calor:0,rueda:""}},
+ {t:"<b>2 · Aprietas la manigueta derecha.</b> La manigueta es una palanca: con poco esfuerzo empuja un pistón pequeño dentro de la bomba, en el manubrio.",
+  s:{lever:-4,mp:22,pulso:false,piston:0,cuerpo:0,calor:0,rueda:""}},
+ {t:"<b>3 · La presión viaja por el líquido.</b> El líquido no se deja comprimir, así que la presión llega al caliper al instante. La palanca y la diferencia de tamaño de los pistones (el del caliper es mucho más grande que el de la bomba) multiplican tu fuerza varias veces (aprox.). En el camino está la unidad ABS: si la rueda se va a bloquear, afloja la presión y la vuelve a dar varias veces por segundo.",
+  s:{lever:-4,mp:22,pulso:true,piston:0,cuerpo:0,calor:0,rueda:""}},
+ {t:"<b>4 · El pistón empuja una pastilla.</b> La presión saca el pistón del caliper y este pega la pastilla de su lado contra el disco. El sello del pistón se tuerce un poquito: eso servirá al soltar.",
+  s:{lever:-4,mp:22,pulso:true,piston:7,cuerpo:0,calor:0,rueda:""}},
+ {t:"<b>5 · El caliper flota y jala la otra.</b> El cuerpo del caliper está montado en pasadores y puede deslizarse. Al empujar, el cuerpo se corre hacia el otro lado y trae la otra pastilla: el disco queda prensado por los dos lados. Si los pasadores están oxidados, este paso falla y frena una sola pastilla.",
+  s:{lever:-4,mp:22,pulso:true,piston:7,cuerpo:-7,calor:0,rueda:"lento"}},
+ {t:"<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y con él la rueda. Toda la energía del movimiento se vuelve calor: en una bajada larga el disco puede pasar de 200 °C (aprox.). Ese calor llega al líquido, y por eso el líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
+  s:{lever:-4,mp:22,pulso:true,piston:7,cuerpo:-7,calor:1,rueda:"quieto"}},
+ {t:"<b>7 · Sueltas.</b> La presión cae. El sello, que estaba torcido, regresa el pistón y las pastillas se despegan apenas del disco. Si el sello está viejo o el pistón sucio, el pistón no regresa: el freno queda pegado y se calienta solo.",
+  s:{lever:0,mp:0,pulso:false,piston:0,cuerpo:0,calor:.35,rueda:""}},
+];
+let fnPaso=0, fnTimer=null;
+const $=id=>document.getElementById(id);
+function fnAplicar(i){
+  fnPaso=i;const s=FN[i].s;
+  $("fn-lever").style.transform=`rotate(${s.lever}deg)`;
+  $("fn-mpiston").style.transform=`translate(${s.mp}px,0)`;
+  $("fn-piston").style.transform=`translate(${s.piston}px,0)`;
+  $("fn-cuerpo").style.transform=`translate(${s.cuerpo}px,0)`;
+  $("fn-calor").style.opacity=s.calor;
+  ["fn-pulso1","fn-pulso2","fn-pulso2m"].forEach(id=>{$(id).classList.toggle("pulso",s.pulso);$(id).style.opacity=s.pulso?1:0});
+  ["fn-fluido1","fn-fluido2","fn-fluido2m"].forEach(id=>$(id).setAttribute("stroke",s.pulso?"#ff9a3c":"#e8a92a"));
+  const r=$("fn-rueda"),m=$("fn-mov");
+  r.classList.remove("lento","quieto");m.classList.remove("lento","quieto");
+  if(s.rueda){r.classList.add(s.rueda);m.classList.add(s.rueda)}
+  $("fnTexto").innerHTML=FN[i].t;
+  $("fnAtras").disabled=i===0;$("fnAdel").disabled=i===FN.length-1;
+}
+function fnParar(){clearInterval(fnTimer);fnTimer=null;$("fnPlay").textContent="▶ Reproducir"}
+$("fnPlay").addEventListener("click",()=>{
+  if(fnTimer){fnParar();return}
+  fnAplicar(0);$("fnPlay").textContent="Pausa";
+  fnTimer=setInterval(()=>{if(fnPaso>=FN.length-1){fnParar();return}fnAplicar(fnPaso+1)},3600);
+});
+$("fnAtras").addEventListener("click",()=>{fnParar();if(fnPaso>0)fnAplicar(fnPaso-1)});
+$("fnAdel").addEventListener("click",()=>{fnParar();if(fnPaso<FN.length-1)fnAplicar(fnPaso+1)});
+const mqFn=matchMedia("(max-width:700px)");
+function fnEncuadre(){$("fn").setAttribute("viewBox",mqFn.matches?"0 14 500 700":"0 0 900 440")}
+mqFn.addEventListener("change",fnEncuadre);fnEncuadre();
+fnAplicar(0);
+
+/* ============================================================
+   Cadenas de falla
+   ============================================================ */
+const CADENAS=[
+ {t:"Pastillas que llegan al metal",p:[["9","La pastilla se gasta y nadie revisa la ranura."],["1","La placa de acero raya el disco: ahora hay que cambiar disco y pastillas."],["4","El pistón salió de más para alcanzar el disco, y la mugre se le pega."],["5","Al meter el pistón para poner pastillas nuevas, esa parte sucia raya el sello y aparece una fuga. Por eso se limpia el pistón antes de empujarlo."]]},
+ {t:"Líquido y empaques de más de 2 años",p:[["liquido","El líquido absorbió agua y hierve antes."],["4","El agua oxida el pistón por dentro."],["5","Los empaques, que el manual manda cambiar junto con el líquido cada 2 años, se endurecen y ya no regresan el pistón."],["9","La pastilla queda rozando, se calienta y se cristaliza."]]},
+ {t:"Guardapolvo roto",p:[["6","El caucho se raja y entra agua."],["13","El pasador del soporte se oxida y se traba."],["3","El caliper deja de flotar."],["9","Solo trabaja la pastilla del pistón y se gasta sola."],["1","El disco se recalienta de un lado y se puede torcer."]]},
+ {t:"Retenedor de la barra que bota aceite",p:[["barra","El aceite baja por la barra."],["1","Cae al disco: el freno pierde agarre de golpe."],["9","Las pastillas se untan y no se recuperan: se cambian."]]},
+ {t:"Tornillos sin apretar después de montar la rueda",p:[["15","Los tornillos quedan flojos."],["13","El soporte se mueve y golpea al frenar."],["1","El caliper muerde el disco: es lo más peligroso de la lámina."]]},
+];
+$("listaCadenas").innerHTML=CADENAS.map(c=>`<div class="tarjeta cadena"><h3>${c.t}</h3><ol>${c.p.map(([k,t])=>`<li>${boton(k)} ${t}</li>`).join("")}</ol></div>`).join("");
+</script>
+</body>
+</html>
