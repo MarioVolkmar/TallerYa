@@ -92,8 +92,32 @@ def turnos_por_dia(taller):
     return datos
 
 
+def _hora(h):
+    texto = f"{h.hour % 12 or 12}" + (f":{h.minute:02d}" if h.minute else "")
+    return texto + ("am" if h.hour < 12 else "pm")
+
+
+def texto_horario(turnos):
+    """[(dia, abre, cierra)] → «Lun-Vie 8am-6pm · Sáb 8am-2pm» (días seguidos con el mismo turno se juntan)."""
+    nombres = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
+    por_dia = {}
+    for d, a, c in sorted(turnos):
+        por_dia.setdefault(d, []).append(f"{_hora(a)}-{_hora(c)}")
+    grupos = []  # [[dia_ini, dia_fin, "8am-12pm y 2pm-6pm"]]
+    for d in sorted(por_dia):
+        franja = " y ".join(por_dia[d])
+        if grupos and grupos[-1][2] == franja and grupos[-1][1] == d - 1:
+            grupos[-1][1] = d
+        else:
+            grupos.append([d, d, franja])
+    return " · ".join(f"{nombres[i] if i == f else nombres[i] + '-' + nombres[f]} {t}" for i, f, t in grupos)[:120]
+
+
 def guardar_turnos(taller, turnos):
-    """Reemplaza el horario: turnos = [(dia, abre, cierra), ...]."""
+    """Reemplaza el horario: turnos = [(dia, abre, cierra), ...]. El horario público se actualiza con ellos."""
     with transaction.atomic():
         taller.horarios.all().delete()
         HorarioTaller.objects.bulk_create([HorarioTaller(taller=taller, dia=d, abre=a, cierra=c) for d, a, c in turnos])
+        if turnos:
+            taller.horario = texto_horario(turnos)
+            taller.save(update_fields=["horario"])

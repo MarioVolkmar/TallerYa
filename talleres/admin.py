@@ -14,7 +14,7 @@ class HorarioTallerInline(admin.TabularInline):
 class FotoTallerInline(admin.TabularInline):
     model = FotoTaller
     extra = 0
-    fields = ("imagen", "descripcion", "orden")
+    fields = ("imagen", "video", "descripcion", "orden")
 
 
 @admin.register(Taller)

@@ -5,6 +5,7 @@ from django.templatetags.static import static
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 
+from talleres import perfil
 from talleres.seo import es_indexable
 
 register = template.Library()
@@ -44,6 +45,26 @@ def json_ld_taller(context, taller):
     }
     if taller.descripcion:
         d["description"] = taller.descripcion[:300]
+    # Información estandarizada del perfil: especialidades y marcas, equipo, garantía y precios «desde»
+    sabe = perfil.especialidades_texto(taller.especialidades) + [m.nombre for m in taller.marcas.all()]
+    if sabe:
+        d["knowsAbout"] = sabe
+    equipo = perfil.equipo_limpio(taller.equipo)
+    if equipo:
+        d["employee"] = [{"@type": "Person", "name": m["nombre"], **({"jobTitle": m["rol"]} if m["rol"] else {})}
+                         for m in equipo]
+    if taller.garantia_meses:
+        d["amenityFeature"] = [{"@type": "LocationFeatureSpecification", "name": "Garantía en mano de obra",
+                                "value": f"{taller.garantia_meses} meses"}]
+    ofertas = {}
+    for p in taller.precios.select_related("servicio"):
+        actual = ofertas.get(p.servicio.nombre)
+        if actual is None or p.desde < actual:
+            ofertas[p.servicio.nombre] = p.desde
+    if ofertas:
+        d["makesOffer"] = [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": n},
+                            "priceSpecification": {"@type": "PriceSpecification", "minPrice": v, "priceCurrency": "COP"}}
+                           for n, v in sorted(ofertas.items())]
     if taller.foto:
         d["image"] = request.build_absolute_uri(taller.foto.url)
     if taller.latitud is not None and taller.longitud is not None:

@@ -1,0 +1,21 @@
+Fotos y videos de los talleres demo (cargar_demo). Todos de Pexels.
+Licencia Pexels (https://www.pexels.com/license/): uso gratis, también comercial, sin atribución obligatoria;
+no se permite venderlos sin modificar ni dar a entender que una persona o marca que aparece respalda el producto.
+Optimizados: fotos a WebP calidad 72, máx. 1600 px; pósters de video a 1260 px; videos en la versión SD de Pexels (640 px, 11-19 s).
+Descargados el 15-nov-2026.
+
+Taller Doble Leva (Belén)
+  dobleleva-portada.webp  https://www.pexels.com/photo/a-mechanic-checking-the-gray-motorcycle-12741656/
+  dobleleva-1.webp        https://www.pexels.com/photo/close-up-shot-of-a-person-fixing-an-engine-of-a-motorcycle-11890956/
+  dobleleva-2.webp        https://www.pexels.com/photo/close-up-of-motorcycle-rear-wheel-with-disc-brake-32683778/
+  dobleleva-3.webp        https://www.pexels.com/photo/toolbox-with-small-metal-parts-placed-on-metal-workbench-in-garage-3855226/
+  dobleleva-4.webp        https://www.pexels.com/photo/a-person-tightening-screws-of-a-motorbike-5794260/
+  dobleleva-video.mp4     https://www.pexels.com/video/a-man-tinkering-a-motorcycle-7170227/  (póster: dobleleva-video.webp)
+
+Torque Sur Motos (Envigado)
+  torquesur-portada.webp  https://www.pexels.com/photo/retro-motorbikes-parked-in-row-on-special-platform-in-garage-3817843/
+  torquesur-1.webp        https://www.pexels.com/photo/close-up-shot-of-a-person-fixing-an-engine-of-a-motorcycle-11890955/
+  torquesur-2.webp        https://www.pexels.com/photo/anonymous-adult-male-mechanic-fixing-motorbike-in-garage-3855222/
+  torquesur-3.webp        https://www.pexels.com/photo/person-a-wrench-beside-the-spokes-5803351/
+  torquesur-4.webp        https://www.pexels.com/photo/close-up-shot-of-a-person-fixing-an-engine-of-a-motorcycle-11890966/
+  torquesur-video.mp4     https://www.pexels.com/video/person-fixing-a-motorcycle-9606874/  (póster: torquesur-video.webp)

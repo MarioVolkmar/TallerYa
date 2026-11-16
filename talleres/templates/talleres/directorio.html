@@ -88,6 +88,7 @@
         </div>
         {% else %}
         <div class="papel dir-vacio">
+          {% include "parciales/vacio.html" %}
           <p class="titulo text-2xl">{% if filtros.favoritos %}Aún no tienes favoritos{% else %}Sin resultados{% endif %}</p>
           <p class="text-suave mt-2">{% if filtros.favoritos %}Toca el corazón de un taller para guardarlo aquí.{% else %}No encontramos talleres con esos filtros. Prueba quitando alguno.{% endif %}</p>
           <a href="{% url 'talleres:directorio' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver todos</a>

@@ -1,5 +1,6 @@
 from django import forms
 
+from . import perfil
 from .models import CIUDADES, Barrio, PrecioServicio, Resena, SolicitudCita, Taller
 from .utils import normalizar_celular
 
@@ -144,24 +145,70 @@ class RegistroTallerForm(EstiloMixin, forms.ModelForm):
 
 class PerfilTallerForm(EstiloMixin, forms.ModelForm):
     """Lo que el taller puede cambiar de su perfil público."""
+    especialidades = forms.MultipleChoiceField(choices=perfil.ESPECIALIDADES, required=False,
+                                               widget=forms.CheckboxSelectMultiple, label="Especialidades")
+    compromisos = forms.MultipleChoiceField(choices=[(c, t) for c, t, _ in perfil.COMPROMISOS], required=False,
+                                            widget=forms.CheckboxSelectMultiple, label="Cómo trabajan")
+    garantia_meses = forms.TypedChoiceField(
+        label="Garantía en mano de obra", required=False, coerce=int, empty_value=None,
+        choices=[("", "Sin garantía publicada")] + [(n, f"{n} {'mes' if n == 1 else 'meses'}") for n in (1, 2, 3, 6, 12)])
+
     class Meta:
         model = Taller
-        fields = ["descripcion", "horario", "nivel_precio", "servicios", "marcas", "foto"]
-        labels = {"descripcion": "Sobre el taller", "foto": "Foto de portada"}
+        fields = ["descripcion", "horario", "nivel_precio", "servicios", "marcas", "foto", "especialidades",
+                  "garantia_meses", "compromisos"]
+        labels = {"descripcion": "Descripción corta", "foto": "Foto de portada"}
         widgets = {
-            "descripcion": forms.Textarea(attrs={"rows": 5, "maxlength": 1200,
-                                                 "placeholder": "Cuéntale a los moteros quiénes son, desde cuándo trabajan y en qué son buenos."}),
+            "descripcion": forms.Textarea(attrs={"rows": 3, "maxlength": perfil.MAXIMO_DESCRIPCION,
+                                                 "placeholder": "Ej: Taller familiar en Belén desde 2012. Motos de trabajo y scooters hasta 200 cc."}),
             "horario": forms.TextInput(attrs={"placeholder": "Ej: Lun-Sáb 8am-6pm"}),
             "servicios": forms.CheckboxSelectMultiple,
             "marcas": forms.CheckboxSelectMultiple,
             "foto": forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Con agenda por turnos, el horario público se arma desde ella: así las franjas y lo que ve el motero nunca difieren.
+        if self.instance.pk and self.instance.horarios.exists():
+            self.fields["horario"].disabled = True
+            self.fields["horario"].help_text = "Se arma solo con los turnos de tu agenda. Para cambiarlo, edita «Agenda y horario»."
+
     def clean_foto(self):
         foto = self.cleaned_data.get("foto")
         if foto and getattr(foto, "size", 0) > 5 * 1024 * 1024:
             raise forms.ValidationError("La foto debe pesar máximo 5 MB.")
         return foto
+
+
+class MecanicoForm(EstiloMixin, forms.Form):
+    """Una persona del equipo («Quiénes te atienden»). Una fila vacía se ignora."""
+    nombre = forms.CharField(max_length=60, required=False, widget=forms.TextInput(attrs={"placeholder": "Ej: Jhon Fredy"}))
+    rol = forms.CharField(max_length=40, required=False, widget=forms.TextInput(attrs={"placeholder": "Ej: Jefe de taller"}))
+    anios = forms.IntegerField(label="Años de experiencia", min_value=0, max_value=60, required=False)
+    especialidad = forms.CharField(max_length=60, required=False,
+                                   widget=forms.TextInput(attrs={"placeholder": "Ej: Inyección y carburación"}))
+
+    def clean(self):
+        datos = super().clean()
+        if not datos.get("nombre", "").strip() and any(datos.get(c) for c in ("rol", "anios", "especialidad")):
+            self.add_error("nombre", "Escribe el nombre o borra la fila.")
+        return datos
+
+
+def equipo_formset(taller, data=None):
+    """Formset del equipo: las personas guardadas más filas vacías (mínimo 3 filas, máximo perfil.MAXIMO_EQUIPO)."""
+    inicial = perfil.equipo_limpio(taller.equipo)
+    extra = max(3 - len(inicial), 1) if len(inicial) < perfil.MAXIMO_EQUIPO else 0
+    Formset = forms.formset_factory(MecanicoForm, extra=extra, max_num=perfil.MAXIMO_EQUIPO, validate_max=True)
+    return Formset(data, initial=inicial, prefix="equipo")
+
+
+def equipo_de(formset):
+    """Lista para Taller.equipo a partir de un formset válido (sin filas vacías)."""
+    return [{"nombre": f.cleaned_data["nombre"].strip(), "rol": f.cleaned_data.get("rol", "").strip(),
+             "anios": f.cleaned_data.get("anios") or None, "especialidad": f.cleaned_data.get("especialidad", "").strip()}
+            for f in formset.forms if f.cleaned_data.get("nombre", "").strip()]
 
 
 class AgendaForm(EstiloMixin, forms.ModelForm):

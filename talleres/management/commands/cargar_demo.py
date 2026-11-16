@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 from cupones.models import Cupon
 from foro.models import Pregunta, Respuesta
 
+from talleres.demo_talleres import primero_o_crear
 from talleres.models import Barrio, Marca, Resena, Servicio, Taller
 
 # Clave usada en DEMO -> (barrio o zona, ciudad)
@@ -46,12 +47,12 @@ class Command(BaseCommand):
     help = "Carga barrios, servicios, marcas y talleres de ejemplo"
 
     def handle(self, *args, **opts):
-        barrios = {k: Barrio.objects.get_or_create(nombre=n, ciudad=c)[0] for k, (n, c) in BARRIOS.items()}
+        barrios = {k: primero_o_crear(Barrio, nombre=n, ciudad=c)[0] for k, (n, c) in BARRIOS.items()}
         servicios = [Servicio.objects.get_or_create(nombre=n)[0] for n in SERVICIOS]
         marcas = [Marca.objects.get_or_create(nombre=n)[0] for n in MARCAS]
 
         for nombre, barrio, s_idx, m_idx, verificado, destacado in DEMO:
-            t, creado = Taller.objects.get_or_create(nombre=nombre, defaults={
+            t, creado = primero_o_crear(Taller, nombre=nombre, defaults={
                 "responsable": "Demo", "whatsapp": "573000000000",
                 "direccion": "Calle 00 # 00-00", "barrio": barrios[barrio],
                 "horario": "Lun-Sáb 8am-6pm", "descripcion": "Taller de ejemplo.",
@@ -78,12 +79,12 @@ class Command(BaseCommand):
             (None, "Lavado y lubricación de cadena gratis", "Regalo mensual Plus en talleres aliados.", False, True),
         ]
         for taller, titulo, condiciones, solo_plus, regalo in plus:
-            Cupon.objects.get_or_create(titulo=titulo, defaults={
+            primero_o_crear(Cupon, titulo=titulo, defaults={
                 "taller": Taller.objects.filter(nombre=taller).first() if taller else None,
                 "condiciones": condiciones, "solo_plus": solo_plus, "regalo_mensual": regalo,
             })
         for taller, titulo, condiciones, hasta, cupo, publico, premio in cupones:
-            Cupon.objects.get_or_create(titulo=titulo, defaults={
+            primero_o_crear(Cupon, titulo=titulo, defaults={
                 "taller": Taller.objects.filter(nombre=taller).first() if taller else None,
                 "condiciones": condiciones, "valido_hasta": hasta, "cupo": cupo,
                 "publico": publico, "premio_referido": premio,
@@ -94,6 +95,9 @@ class Command(BaseCommand):
         call_command("cargar_cupones_puntos")  # cupones que se canjean con puntos de insignias
         if settings.DEBUG:
             self.cargar_garaje()
+        # Dos perfiles completos (fotos, video, precios, reseñas); sus citas con servicio solo si hay motos demo
+        from talleres import demo_talleres
+        demo_talleres.cargar()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))
         if settings.DEBUG:  # en producción los PIN se consultan en el admin, no en los logs
             self.stdout.write("PIN de canje por taller (solo para pruebas):")

@@ -54,7 +54,13 @@ NIVELES_PRECIO = [(1, "$ · Económico"), (2, "$$ · Intermedio"), (3, "$$$ · P
 class Taller(models.Model):
     nombre = models.CharField(max_length=120)
     slug = models.SlugField(max_length=140, unique=True, blank=True)
-    descripcion = models.TextField(blank=True)
+    descripcion = models.TextField("descripción corta", max_length=300, blank=True)
+    # Información estandarizada del perfil (listas en talleres/perfil.py)
+    equipo = models.JSONField("quiénes atienden", default=list, blank=True,
+                              help_text='Lista de {"nombre", "rol", "anios", "especialidad"}')
+    especialidades = models.JSONField(default=list, blank=True, help_text="Claves de perfil.ESPECIALIDADES")
+    garantia_meses = models.PositiveSmallIntegerField("garantía en mano de obra (meses)", null=True, blank=True)
+    compromisos = models.JSONField("cómo trabajamos", default=list, blank=True, help_text="Claves de perfil.COMPROMISOS")
     responsable = models.CharField(max_length=120)
     whatsapp = models.CharField(max_length=20, help_text="Con indicativo, solo números. Ej: 573001234567")
     direccion = models.CharField(max_length=200)
@@ -188,10 +194,16 @@ class SolicitudCita(models.Model):
 
 
 class FotoTaller(models.Model):
-    """Fotos que el taller sube a su perfil (local, trabajos, equipo)."""
+    """Fotos (y videos cortos) que el taller sube a su perfil (local, trabajos, equipo).
+
+    Un video es una entrada con `video`; `imagen` es entonces su póster (opcional: sin póster se muestra el
+    primer cuadro del video)."""
     MAXIMO = 8
+    MAXIMO_VIDEOS = 2
     taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="fotos")
-    imagen = models.ImageField(upload_to="talleres/galeria/")
+    imagen = models.ImageField(upload_to="talleres/galeria/", blank=True)
+    video = models.FileField(upload_to="talleres/videos/", blank=True,
+                             help_text="MP4 o WEBM corto (máx. 20 MB). La imagen hace de póster.")
     descripcion = models.CharField(max_length=120, blank=True)
     orden = models.PositiveSmallIntegerField(default=0)
     creado = models.DateTimeField(auto_now_add=True)

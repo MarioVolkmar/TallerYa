@@ -16,8 +16,8 @@ from django.db.models import Avg, Count, F, FloatField, OuterRef, Subquery
 from django.db.models.functions import Coalesce, Lower
 from django.views.decorators.http import require_POST
 
-from .forms import PerfilTallerForm, RegistroTallerForm, ResenaForm, SolicitudCitaForm
-from . import agenda, estadisticas
+from .forms import PerfilTallerForm, RegistroTallerForm, equipo_de, equipo_formset, ResenaForm, SolicitudCitaForm
+from . import agenda, estadisticas, perfil
 from . import seo as seo_
 from . import precios as precios_ref
 from .models import Barrio, EventoDiario, FotoTaller, Marca, Resena, Servicio, SolicitudCita, Taller, TallerFavorito
@@ -263,9 +263,26 @@ def _contar_publicacion(request, taller, accion):
     from cuentas.limites import sumar
     sumar(_claves_publicar(request, taller, accion)[0], 3600)
 
+def _tabla_precios(taller):
+    """Precios «desde» en tabla corta: una fila por servicio y una columna por cilindraje publicado."""
+    from .models import CILINDRAJES
+
+    precios = list(taller.precios.select_related("servicio"))
+    usados = [c for c, _ in CILINDRAJES if any(p.cilindraje == c for p in precios)]
+    cortos = {"": "Cualquier cc", "baja": "Hasta 150 cc", "media": "150–400 cc", "alta": "Más de 400 cc"}
+    columnas = [(c, cortos.get(c, t)) for c, t in CILINDRAJES if c in usados]
+    filas = {}
+    for p in sorted(precios, key=lambda p: p.servicio.nombre):
+        fila = filas.setdefault(p.servicio_id, {"pk": p.servicio_id, "servicio": p.servicio.nombre, "celdas": {}})
+        fila["celdas"][p.cilindraje] = pesos(p.desde)
+    for fila in filas.values():
+        fila["celdas"] = [fila["celdas"].get(c, "") for c, _ in columnas]
+    return {"columnas": [t for _, t in columnas], "filas": list(filas.values())}
+
+
 
 def detalle(request, slug):
-    taller = get_object_or_404(Taller.objects.select_related("barrio", "usuario__perfil").prefetch_related("servicios", "marcas"),
+    taller = get_object_or_404(Taller.objects.select_related("barrio", "usuario__perfil").prefetch_related("servicios", "marcas", "horarios"),
                                slug=slug, activo=True)
     if request.method == "GET":
         estadisticas.registrar(request, taller, EventoDiario.Tipo.VISITA)
@@ -320,16 +337,25 @@ def detalle(request, slug):
     # La nota media sale de las reseñas ya cargadas (evita otra consulta en la plantilla).
     taller.calificacion = sum(r.estrellas for r in resenas) / len(resenas) if resenas else None
     fotos = list(taller.fotos.all())
-    precios = [{"servicio": p.servicio.nombre, "cilindraje": p.get_cilindraje_display() if p.cilindraje else "",
-                "desde": pesos(p.desde), "hasta": pesos(p.hasta)} for p in taller.precios.select_related("servicio")]
+    tabla_precios = _tabla_precios(taller)
+    con_precio = {fila["pk"] for fila in tabla_precios["filas"]}
+    otros_servicios = [x for x in taller.servicios.all() if x.pk not in con_precio]
     cupones = Cupon.objects.disponibles().con_nota_taller().filter(Q(taller=taller) | Q(taller__isnull=True))
+    equipo = perfil.equipo_limpio(taller.equipo)
+    especialidades = perfil.especialidades_texto(taller.especialidades)
+    marcas = list(taller.marcas.all())
+    compromisos = perfil.compromisos_lista(taller)
     # Numeración de las secciones según las que existan, para que siempre sea 01, 02, 03…
-    nombres = ["sobre", "servicios"] + (["fotos"] if fotos else []) + (["cupones"] if cupones else []) + ["resenas"]
+    nombres = (["equipo"] if equipo else []) + (["trabajo"] if especialidades or marcas or compromisos else [])         + (["cupones"] if cupones else []) + ["resenas", "ubicacion"]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
     lugar = f"{taller.barrio.nombre}, {taller.barrio.ciudad}"
     servicios_txt = ", ".join(x.nombre.lower() for x in list(taller.servicios.all())[:4])
     seo_desc = (" ".join(taller.descripcion.split())[:170] + " " if taller.descripcion.strip() else "")
     seo_desc += f"Taller de motos en {lugar}." + (f" Servicios: {servicios_txt}." if servicios_txt else "")
+    if especialidades:
+        seo_desc += f" Especialistas en {', '.join(e.lower() for e in especialidades[:3])}."
+    if taller.garantia_meses:
+        seo_desc += f" Garantía de {taller.garantia_meses} mes{'es' if taller.garantia_meses > 1 else ''}."
     if resenas:
         seo_desc += f" Calificación {taller.calificacion:.1f}/5 ({len(resenas)} reseñas)."
     seo_desc += " Pide tu cita por WhatsApp."
@@ -341,7 +367,13 @@ def detalle(request, slug):
         "resenas": resenas,
         "reparto": [(n, c, round(c * 100 / len(resenas)) if resenas else 0) for n, c in reparto.items()],
         "fotos": fotos,
-        "precios": precios,
+        "tabla_precios": tabla_precios,
+        "otros_servicios": otros_servicios,
+        "estado_horario": perfil.estado_horario(taller, list(taller.horarios.all())),
+        "equipo": equipo,
+        "especialidades": especialidades,
+        "marcas": marcas,
+        "compromisos": compromisos,
         "cupones": cupones,
         "numeros": numeros,
         "cita_form": cita_form,
@@ -360,6 +392,8 @@ def editar_perfil(request):
         messages.info(request, "Esta sección es para cuentas de taller.")
         return redirect("cuentas:mi_cuenta")
     form = PerfilTallerForm(request.POST or None, request.FILES or None, instance=taller)
+    # El equipo solo se toca si el formulario lo trae (un POST viejo o de otra pantalla no lo borra)
+    equipo = equipo_formset(taller, request.POST if "equipo-TOTAL_FORMS" in request.POST else None)
     if request.method == "POST":
         nuevas = request.FILES.getlist("galeria")
         libres = FotoTaller.MAXIMO - taller.fotos.count()
@@ -369,16 +403,33 @@ def editar_perfil(request):
         for f in nuevas:
             if f.size > 5 * 1024 * 1024 or (f.content_type or "") not in ("image/jpeg", "image/png", "image/webp"):
                 errores_fotos.append(f"«{f.name}» no se subió: usa JPG, PNG o WEBP de máximo 5 MB.")
-        if form.is_valid() and not errores_fotos:
-            form.save()
+        video = request.FILES.get("video")
+        if video:
+            if len(nuevas) + 1 > libres:
+                errores_fotos.append(f"Puedes tener máximo {FotoTaller.MAXIMO} fotos y videos; te quedan {max(libres, 0)}.")
+            elif taller.fotos.exclude(video="").count() >= FotoTaller.MAXIMO_VIDEOS:
+                errores_fotos.append(f"Puedes tener máximo {FotoTaller.MAXIMO_VIDEOS} videos.")
+            elif video.size > 20 * 1024 * 1024 or (video.content_type or "") not in ("video/mp4", "video/webm")                     or not video.name.lower().endswith((".mp4", ".webm")):
+                errores_fotos.append(f"«{video.name}» no se subió: usa un video MP4 o WEBM de máximo 20 MB.")
+        equipo_ok = not equipo.is_bound or equipo.is_valid()
+        if form.is_valid() and equipo_ok and not errores_fotos:
+            taller = form.save(commit=False)
+            if equipo.is_bound:
+                taller.equipo = equipo_de(equipo)
+            taller.save()
+            form.save_m2m()
             for i, f in enumerate(nuevas):
                 FotoTaller.objects.create(taller=taller, imagen=f, orden=taller.fotos.count() + i)
+            if video:
+                FotoTaller.objects.create(taller=taller, video=video, orden=taller.fotos.count())
             messages.success(request, "¡Perfil actualizado!")
             return redirect("talleres:editar_perfil")
         for e in errores_fotos:
             messages.error(request, e)
     return render(request, "talleres/editar_perfil.html", {
-        "form": form, "taller": taller, "fotos": taller.fotos.all(), "maximo": FotoTaller.MAXIMO,
+        "form": form, "equipo": equipo, "completitud": _completitud(taller),
+        "taller": taller, "fotos": taller.fotos.all(), "maximo": FotoTaller.MAXIMO,
+        "videos": taller.fotos.exclude(video="").count(), "maximo_videos": FotoTaller.MAXIMO_VIDEOS,
     })
 
 
@@ -387,6 +438,7 @@ def editar_perfil(request):
 def eliminar_foto(request, pk):
     foto = get_object_or_404(FotoTaller, pk=pk, taller__usuario=request.user)
     foto.imagen.delete(save=False)
+    foto.video.delete(save=False)
     foto.delete()
     messages.success(request, "Foto eliminada.")
     return redirect("talleres:editar_perfil")
@@ -434,14 +486,19 @@ def _taller_de(request):
 
 def _completitud(taller):
     """Qué le falta al perfil para verse completo en el directorio."""
+    largo = len(taller.descripcion.strip())
     puntos = [
         ("Foto principal", bool(taller.foto)),
         ("Fotos del taller", taller.fotos.exists()),
-        ("Descripción", len(taller.descripcion.strip()) >= 40),
+        ("Descripción" if largo == 0 else f"Descripción (mínimo 40 caracteres: te faltan {40 - largo})", largo >= 40),
         ("Horario", bool(taller.horario.strip())),
         ("Servicios", taller.servicios.exists()),
         ("Marcas que atiendes", taller.marcas.exists()),
         ("Rango de precios", taller.nivel_precio is not None),
+        ("Precios por servicio", taller.precios.exists()),
+        ("Quiénes atienden", bool(perfil.equipo_limpio(taller.equipo))),
+        ("Especialidades", bool(taller.especialidades)),
+        ("Garantía o cómo trabajan", bool(taller.garantia_meses or taller.compromisos)),
     ]
     hechos = sum(ok for _, ok in puntos)
     return {"pct": round(hechos * 100 / len(puntos)), "faltan": [n for n, ok in puntos if not ok]}

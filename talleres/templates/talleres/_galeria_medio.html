@@ -1,0 +1,3 @@
+{# Foto o video de la galería del taller (miniatura). Un video sin póster muestra su primer cuadro. #}
+{% if f.imagen %}<img src="{{ f.imagen.url }}" alt="{{ f.descripcion|default:taller.nombre }}" loading="lazy" decoding="async">{% elif f.video %}<video src="{{ f.video.url }}#t=0.5" muted playsinline preload="metadata" aria-hidden="true"></video>{% endif %}
+{% if f.video %}<i class="perfil-video" aria-hidden="true">▶</i><span class="sr-only">Video</span>{% endif %}

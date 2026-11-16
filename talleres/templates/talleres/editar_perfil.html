@@ -9,6 +9,11 @@
     {% if taller.activo %}<a href="{{ taller.get_absolute_url }}" class="boton-seccion" target="_blank" rel="noopener">Ver cómo lo ven los moteros →</a>{% endif %}
   </div>
   <p class="text-suave mt-2">Un perfil completo, con fotos de tu local y tus trabajos, genera más confianza y más citas.</p>
+  <div class="pt-completo{% if completitud.pct == 100 %} listo{% endif %} mt-5">
+    <span class="pt-completo-fila"><span>Perfil completo</span><strong>{{ completitud.pct }}%</strong></span>
+    <span class="pt-barra"><span style="width: {{ completitud.pct }}%"></span></span>
+    {% if completitud.faltan %}<span class="pt-faltan">Te falta: {{ completitud.faltan|join:", "|lower }}</span>{% else %}<span class="pt-faltan">¡Tu perfil está completo!</span>{% endif %}
+  </div>
 
   <form method="post" enctype="multipart/form-data" class="mt-6 space-y-6">
     {% csrf_token %}
@@ -16,8 +21,12 @@
 
     <section class="papel p-6 md:p-8 space-y-5">
       <h2 class="form-seccion">Presentación</h2>
-      <label class="campo-label">{{ form.descripcion.label }}{{ form.descripcion }}</label>
-      {% for e in form.descripcion.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <div>
+        <label class="campo-label">{{ form.descripcion.label }}{{ form.descripcion }}</label>
+        <p class="contador-texto" data-contador-de="{{ form.descripcion.id_for_label }}">{{ taller.descripcion|length }} / 300</p>
+        <p class="text-xs text-suave">Una o dos frases: desde cuándo trabajan y en qué motos. El equipo, las especialidades y la garantía van abajo, cada una en su lugar.</p>
+        {% for e in form.descripcion.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
       <label class="campo-label">Horario{{ form.horario }}</label>
       {% for e in form.horario.errors %}<p class="error">{{ e }}</p>{% endfor %}
       <div>
@@ -32,9 +41,39 @@
     </section>
 
     <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">Quiénes atienden</h2>
+      <p class="text-sm text-suave mt-2">Hasta 6 personas. Los moteros confían más cuando saben quién les va a revisar la moto. Deja vacía una fila para quitarla.</p>
+      {{ equipo.management_form }}
+      {% for e in equipo.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <div class="space-y-3 mt-4">
+        {% for f in equipo %}
+        <div class="equipo-fila">
+          <label class="campo-label">Nombre{{ f.nombre }}</label>
+          <label class="campo-label">Rol{{ f.rol }}</label>
+          <label class="campo-label">Años{{ f.anios }}</label>
+          <label class="campo-label">Especialidad{{ f.especialidad }}</label>
+        </div>
+        {% for campo in f %}{% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}{% endfor %}
+        {% endfor %}
+      </div>
+      {% if equipo.total_form_count < 6 %}<p class="text-xs text-suave mt-2">¿Son más? Guarda y aparece otra fila.</p>{% endif %}
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">Especialidades</h2>
+      <p class="text-sm text-suave mt-2">Marca solo en lo que de verdad son fuertes (mejor 3 a 5).</p>
+      <div class="perfil-checks mt-4">{% for c in form.especialidades %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+      <h2 class="form-seccion mt-7">Garantía y cómo trabajan</h2>
+      <label class="campo-label mt-4 max-w-xs">{{ form.garantia_meses.label }}{{ form.garantia_meses }}</label>
+      {% for e in form.garantia_meses.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <div class="perfil-checks mt-4">{% for c in form.compromisos %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+    </section>
+
+    <section class="papel p-6 md:p-8">
       <h2 class="form-seccion">Servicios que ofreces</h2>
       <div class="perfil-checks mt-4">{% for c in form.servicios %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
       {% for e in form.servicios.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <p class="text-sm text-suave mt-3">Los precios «desde» por cilindraje se publican en <a href="{% url 'talleres:precios' %}" class="text-lava underline">Precios de referencia</a>.</p>
       <h2 class="form-seccion mt-7">Marcas que trabajas</h2>
       <div class="perfil-checks mt-4">{% for c in form.marcas %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
     </section>
@@ -48,6 +87,13 @@
         <span class="doc-subir-texto" data-vacio="Agregar fotos (puedes elegir varias)">Agregar fotos (puedes elegir varias)</span>
       </label>
       <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP · máximo 5 MB cada una.</p>
+      {% if videos < maximo_videos %}
+      <label class="doc-subir mt-4">
+        <input type="file" name="video" accept="video/mp4,video/webm">
+        <span class="doc-subir-texto" data-vacio="Agregar un video corto">Agregar un video corto</span>
+      </label>
+      <p class="text-xs text-suave mt-1.5">MP4 o WEBM · máximo 20 MB (unos 20-30 segundos) · hasta {{ maximo_videos }} videos. Cuentan dentro de las {{ maximo }}.</p>
+      {% endif %}
       {% endif %}
     </section>
 
@@ -58,7 +104,8 @@
   <div class="editar-galeria mt-6">
     {% for f in fotos %}
     <div class="editar-galeria-foto">
-      <img src="{{ f.imagen.url }}" alt="">
+      {% if f.imagen %}<img src="{{ f.imagen.url }}" alt="">{% elif f.video %}<video src="{{ f.video.url }}#t=0.5" muted playsinline preload="metadata"></video>{% endif %}
+      {% if f.video %}<i class="perfil-video" aria-hidden="true">▶</i>{% endif %}
       <form method="post" action="{% url 'talleres:eliminar_foto' f.pk %}">
         {% csrf_token %}<button class="editar-galeria-quitar" aria-label="Eliminar foto" title="Eliminar foto">×</button>
       </form>
@@ -68,6 +115,12 @@
   {% endif %}
 </div>
 <script>
+  document.querySelectorAll("[data-contador-de]").forEach(function (c) {
+    var campo = document.getElementById(c.dataset.contadorDe);
+    if (!campo) return;
+    var pintar = function () { c.textContent = campo.value.length + " / " + (campo.maxLength > 0 ? campo.maxLength : 300); };
+    campo.addEventListener("input", pintar); pintar();
+  });
   document.querySelectorAll(".doc-subir input[type=file]").forEach(function (input) {
     input.addEventListener("change", function () {
       var texto = input.parentElement.querySelector(".doc-subir-texto");
