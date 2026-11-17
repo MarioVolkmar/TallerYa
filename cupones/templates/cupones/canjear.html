@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Validar cupón · TallerYa{% endblock %}
 
 {% block content %}
@@ -56,7 +57,7 @@
     {% if not taller %}<p class="text-xs text-suave mt-5">¿No tienes tu PIN? Entra con la cuenta del taller o escríbenos y te lo enviamos.</p>{% endif %}
   </section>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js" defer></script>
+<script src="{% static 'cupones/vendor/jsQR-1.4.0.min.js' %}" defer></script>
 <script>
   // Escáner: usa la cámara trasera. Lee el QR con BarcodeDetector (si el navegador lo trae) o con jsQR.
   (function () {

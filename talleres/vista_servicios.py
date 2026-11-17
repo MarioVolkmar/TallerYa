@@ -86,6 +86,9 @@ def servicio_cita(request, pk):
     return _formulario(request, taller, moto, ServicioTaller.Origen.CITA, cita=cita, motos=motos)
 
 
+CODIGOS_FALLIDOS_HORA = 20
+
+
 @login_required
 def registrar_servicio(request):
     """Moto que llega sin cita: se busca con el código/QR del dueño (queda verificado de una vez) o por placa
@@ -101,10 +104,14 @@ def registrar_servicio(request):
     placa = st.normalizar_placa(datos.get("placa", ""))
     error = ""
     if codigo:
-        obj = hoja_vida.buscar_codigo(codigo)
-        if obj:
+        clave_cod = f"codigo-taller:{taller.pk}"  # freno a probar códigos al azar (cada uno abre la moto de alguien)
+        if limites.superado(clave_cod, CODIGOS_FALLIDOS_HORA):
+            error = "Demasiados códigos no válidos en la última hora. Intenta más tarde o busca la moto por placa."
+        elif obj := hoja_vida.buscar_codigo(codigo):
             return _formulario(request, taller, obj.moto, ServicioTaller.Origen.CODIGO, codigo=codigo)
-        error = "El código no es válido o ya caducó. Pídele al motero uno nuevo."
+        else:
+            limites.sumar(clave_cod, 3600)
+            error = "El código no es válido o ya caducó. Pídele al motero uno nuevo."
     elif placa:
         clave = f"placa-taller:{taller.pk}"
         nueva = request.method == "GET"

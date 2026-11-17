@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model, password_validation
+from django.contrib.admin.forms import AdminAuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 
 from cupones.models import Motociclista
@@ -99,24 +100,15 @@ class CuentaTallerForm(EstiloMixin, forms.Form):
         return datos
 
 
-class EntrarForm(EstiloMixin, AuthenticationForm):
-    """Inicio de sesión con el correo (guardado como nombre de usuario)."""
+class FrenoIntentosMixin:
+    """Freno contra adivinar contraseñas: por correo (10 fallos en 15 min) y por IP (30 fallos, muchas cuentas).
+    Lo usan el login del sitio y el de /admin/ (config/urls.py), que antes no tenía límite."""
 
-    username = forms.EmailField(label="Correo", widget=forms.EmailInput(attrs={"autofocus": True, "autocomplete": "email"}))
-    error_messages = {
-        **AuthenticationForm.error_messages,
-        "invalid_login": "El correo o la contraseña no coinciden. Revisa que estén bien escritos o recupera tu contraseña.",
-    }
-
-    def clean_username(self):
-        return self.cleaned_data["username"].strip().lower()
-
-    # Freno contra adivinar contraseñas: por correo (10 fallos en 15 min) y por IP (30 fallos, muchas cuentas).
     MAX_FALLOS_CORREO, MAX_FALLOS_IP, VENTANA = 10, 30, 15 * 60
 
     def clean(self):
         from cuentas.limites import ip_cliente, limpiar, sumar, superado
-        correo = self.cleaned_data.get("username", "")
+        correo = (self.cleaned_data.get("username") or "").strip().lower()
         ip = ip_cliente(self.request) if self.request else "sin-ip"
         claves = (f"login-correo:{correo}", self.MAX_FALLOS_CORREO), (f"login-ip:{ip}", self.MAX_FALLOS_IP)
         if any(superado(c, m) for c, m in claves):
@@ -131,6 +123,22 @@ class EntrarForm(EstiloMixin, AuthenticationForm):
         limpiar(claves[0][0])
         return datos
 
+
+class EntrarAdminForm(FrenoIntentosMixin, AdminAuthenticationForm):
+    """Login de /admin/ con el mismo freno que el del sitio."""
+
+
+class EntrarForm(FrenoIntentosMixin, EstiloMixin, AuthenticationForm):
+    """Inicio de sesión con el correo (guardado como nombre de usuario)."""
+
+    username = forms.EmailField(label="Correo", widget=forms.EmailInput(attrs={"autofocus": True, "autocomplete": "email"}))
+    error_messages = {
+        **AuthenticationForm.error_messages,
+        "invalid_login": "El correo o la contraseña no coinciden. Revisa que estén bien escritos o recupera tu contraseña.",
+    }
+
+    def clean_username(self):
+        return self.cleaned_data["username"].strip().lower()
 
 
 MAX_FOTO = 4 * 1024 * 1024  # 4 MB antes de recortar

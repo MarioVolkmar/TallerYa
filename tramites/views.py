@@ -128,6 +128,8 @@ def pago_prueba(request, pk):
     pedido = _pedido_de(request, pk)
     volver = f"{reverse('tramites:soat')}?moto={pedido.moto_id}"
     if not pagos.simulado() or pedido.estado != PedidoSoat.Estado.LISTA_PAGAR:
+        if not pagos.simulado():
+            messages.info(request, "El pago en línea todavía no está disponible. Te escribimos para coordinarlo.")
         return redirect(volver)
     if request.method == "POST":
         pagos.confirmar_pago(pedido)

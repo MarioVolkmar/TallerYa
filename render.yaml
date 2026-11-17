@@ -29,6 +29,8 @@ services:
         value: "1"
       - key: WEB_CONCURRENCY
         value: "2"
+      # OJO: 1 = carga talleres, cupones y foro DE EJEMPLO (sirve para la demo de Ruta N). Poner "0" antes de abrir al
+      # público, o el directorio mostrará talleres que no existen (revisión de seguridad 17-nov-2026).
       - key: CARGAR_DEMO
         value: "1"
       # Se piden al crear el Blueprint (no quedan en el repositorio):

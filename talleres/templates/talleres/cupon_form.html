@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{% if cupon %}Editar cupón{% else %}Nuevo cupón{% endif %} · TallerYa{% endblock %}
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 md:mt-10">
@@ -42,7 +43,7 @@
     </aside>
   </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script src="{% static 'cupones/vendor/qrcode-generator-1.4.4.min.js' %}"></script>
 <script>
   // QR de muestra (no cambia con el formulario: el QR real es distinto para cada motero)
   (function () {

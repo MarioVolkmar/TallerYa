@@ -131,10 +131,15 @@ def canjear_cupon(request):
             else:
                 form = CanjeForm()
     elif request.method == "GET" and inicial["codigo"]:
-        try:
-            vista = buscar_codigo(inicial["codigo"])
-            vista.otro_taller = bool(taller and not vista.valido_en(taller))
-        except ErrorCanje as e:
-            form.add_error(None, str(e))
+        form.cleaned_data = {}  # formulario sin enviar: add_error lo necesita (antes, un código malo daba error 500)
+        if bloqueado:  # la vista previa también cuenta: sin freno, servía para adivinar códigos válidos
+            form.add_error(None, "Demasiados intentos fallidos. Espera 15 minutos e inténtalo de nuevo.")
+        else:
+            try:
+                vista = buscar_codigo(inicial["codigo"])
+                vista.otro_taller = bool(taller and not vista.valido_en(taller))
+            except ErrorCanje as e:
+                cache.set(clave, cache.get(clave, 0) + 1, BLOQUEO_SEGUNDOS)
+                form.add_error(None, str(e))
 
     return render(request, "cupones/canjear.html", {"form": form, "resultado": resultado, "vista": vista, "taller": taller})

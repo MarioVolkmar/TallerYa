@@ -23,3 +23,6 @@ build_js/
 
 # Trabajo de emprendimiento (personal, no va al repo)
 trabajo_emprendimiento/
+
+# Última medición de velocidad de la skill revisar-seguridad (cambia en cada corrida)
+.claude/skills/revisar-seguridad/ultima_velocidad.json

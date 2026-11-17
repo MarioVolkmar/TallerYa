@@ -1,9 +1,9 @@
-<!-- Detalle del cupón: se abre al tocar el cupón (no sus botones) -->
+{% load static %}<!-- Detalle del cupón: se abre al tocar el cupón (no sus botones) -->
 <dialog class="papel rp-dialogo cd-dialogo cu-dialogo" id="dialogo-cupon" aria-label="Detalle del cupón">
   <button type="button" class="cajon-cerrar cd-cerrar" data-cerrar aria-label="Cerrar">×</button>
   <div class="cu-contenido"></div>
 </dialog>
-<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+<script src="{% static 'cupones/vendor/qrcode-generator-1.4.4.min.js' %}"></script>
 <script>
   (function () {
     var dialogo = document.getElementById("dialogo-cupon"); if (!dialogo) return;

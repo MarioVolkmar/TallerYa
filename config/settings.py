@@ -61,6 +61,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "config.cabeceras.CabecerasSeguridad",  # CSP y Permissions-Policy
     "whitenoise.middleware.WhiteNoiseMiddleware",
     # Comprime el HTML (~48 KB -> ~9 KB): carga más rápido con datos móviles. Los estáticos ya los comprime WhiteNoise.
     "django.middleware.gzip.GZipMiddleware",
@@ -195,6 +196,9 @@ PLUS_NEQUI = os.environ.get("PLUS_NEQUI", "300 000 0000")
 # Chispa (la mascota) en estados vacíos y páginas 404/500. Ponlo en False para quitarla de todo el sitio.
 CHISPA_EN_VACIOS = env_bool("CHISPA_EN_VACIOS", True)
 PLUS_DIAS = 30
+# Pago de PRUEBA del SOAT (no cobra): solo en local y pruebas. En producción apagado salvo que se active a propósito,
+# para que nadie marque su pedido como pagado sin pagar (tramites/pagos.py).
+SOAT_PAGO_SIMULADO = env_bool("SOAT_PAGO_SIMULADO", DEBUG or sys.argv[1:2] == ["test"])
 
 # Contacto de TallerYa para el footer. Lo que quede vacío no se muestra.
 CONTACTO = {

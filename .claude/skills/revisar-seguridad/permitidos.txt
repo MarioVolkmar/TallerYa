@@ -1,0 +1,36 @@
+# Casos revisados a mano y aceptados: revisar.py no los vuelve a mostrar.
+# Formato: ruta (prefijo)|patrón (regex sobre la línea)|motivo y fecha. Usos nuevos en otros archivos sí salen.
+# En el patrón no uses | suelto (es el separador; para "a o b" usa una clase como [a-z]+HTML). Un \| escapado sí vale (| literal).
+garaje/vista_tareas.py|csrf_exempt|token Bearer ≥20 caracteres con hmac.compare_digest, lista cerrada de comandos, 404 sin token (17-nov-2026)
+consola/templatetags/consola.py|mark_safe|SVG de íconos propios y atributos fijos (17-nov-2026)
+cuentas/avatares.py|mark_safe|SVG de avatares prediseñados del código (17-nov-2026)
+cuentas/templates/cuentas/_campos.html|\|safe|help_text escrito en el código, nunca por usuarios (17-nov-2026)
+foro/menciones.py|mark_safe|escape() de todo el texto + format_html para los enlaces (17-nov-2026)
+foro/templatetags/foro_extras.py|mark_safe|SVG propio con tamaño int() (17-nov-2026)
+garaje/vista_hoja_vida.py|mark_safe|SVG del QR generado en el servidor (17-nov-2026)
+talleres/templatetags/seo.py|mark_safe|json.dumps con </ escapado dentro de format_html (17-nov-2026)
+cuentas/views.py|get_object_or_404\(Taller, pk=pk\)|aprobar_taller: solo staff (staff_member_required) (17-nov-2026)
+tramites/views.py|get_object_or_404\(PedidoSoat, pk=pk\)|póliza/tarjeta: solo staff; el dueño pasa por _pedido_de (17-nov-2026)
+# innerHTML: revisado línea a línea el 17-nov-2026; solo constantes, SVG propios, HTML que arma el servidor (ya escapado)
+# o números/fechas. El texto de usuarios se pone con textContent.
+ayuda/static/|innerHTML|constantes SVG
+cuentas/templates/|innerHTML|constantes y HTML del servidor
+cupones/templates/|innerHTML|SVG de la librería qrcode
+foro/static/foro/js/hilo.js|[a-z]+HTML|HTML del servidor; nombres con textContent
+garaje/static/garaje/js/|innerHTML|constantes, SVG, HTML del servidor, números
+garaje/templates/garaje/form_moto.html|innerHTML|HTML del servidor y constantes
+talleres/static/talleres/js/|innerHTML|constantes y SVG
+talleres/templates/|innerHTML|constantes, SVG de qrcode, plantillas <template>
+# Archivos subidos: validados en sus formularios (ImageField + Pillow, tamaño) o por firma; los privados fuera de /media/
+cuentas/|ImageField\(|AvatarForm: ImageField + 4 MB, se recorta
+garaje/models.py|FileField\(|documentos: PRIVADO_ROOT (sin URL), 5 MB, extensión + firma, solo al dueño
+garaje/models.py|ImageField\(|despiece: solo admin; foto de servicio: formulario con ImageField + 6 MB
+garaje/forms_servicio_taller.py|ImageField\(|ImageField + 6 MB
+noticias/models.py|ImageField\(|solo admin/importador
+talleres/models.py|ImageField\(|galería: talleres/subidas.py (firma + Pillow, nombre aleatorio); foto principal: formulario ImageField + 5 MB
+talleres/models.py|FileField\(|video: talleres/subidas.py (firma MP4/WEBM, nombre aleatorio, 20 MB)
+tramites/models.py|FileField\(|almacén privado, firma, solo dueño/staff
+# Secretos: falsos positivos
+cuentas/google.py|TOKEN = "https://|URL pública del endpoint de Google, no un secreto
+garaje/despiece_guia_mecanica.py|Clave:|texto de la guía ("Clave: ...")
+talleres/management/commands/cargar_demo.py|DEMO_CLAVE|clave de la cuenta demo; solo se crea con DEBUG (local)

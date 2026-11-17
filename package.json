@@ -1,13 +1,15 @@
 {
   "name": "tallerya",
   "private": true,
-  "description": "Herramientas de build (el sitio es Django): Tailwind para el CSS y terser para minificar el JS del 3D.",
+  "description": "Herramientas de build (el sitio es Django): Tailwind para el CSS y terser para minificar el JS del 3D. jsqr y qrcode-generator: origen verificado (integrity del registro) de las copias minificadas en cupones/static/cupones/vendor/.",
   "scripts": {
     "css": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --minify",
     "css:vigilar": "tailwindcss -c tailwind/tailwind.config.js -i tailwind/entrada.css -o talleres/static/talleres/css/tw.css --watch",
     "js": "node tailwind/minificar_3d.mjs"
   },
   "devDependencies": {
+    "jsqr": "1.4.0",
+    "qrcode-generator": "1.4.4",
     "tailwindcss": "3.4.19",
     "terser": "5.31.6"
   }

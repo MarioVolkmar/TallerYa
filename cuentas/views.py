@@ -34,10 +34,29 @@ from .models import Perfil, Suscripcion
 User = get_user_model()
 
 
+def _motos_con_plan(motociclista):
+    """Como Mi garaje: precarga lo de todas las motos de una vez para que las consultas no crezcan con cada moto."""
+    from garaje.models import Despiece, TareaMantenimiento
+    motos = list(motociclista.motos.select_related("linea", "linea__marca")
+                 .prefetch_related("mantenimientos", "ajustes", "lecturas"))
+    tareas = list(TareaMantenimiento.objects.filter(activo=True).select_related("servicio"))
+    Despiece.precargar(motos)
+    return [(m, calcular_plan(m, tareas=tareas)) for m in motos]
+
+
+REGISTRO_MAX_POR_HORA = 20  # envíos del formulario por IP (con errores incluidos); uno normal usa 1-3
+
+
 def registro(request):
     """Crear cuenta: primero se elige el tipo (motero o taller)."""
     if request.user.is_authenticated:
         return redirect("cuentas:mi_cuenta")
+    if request.method == "POST":  # freno a la enumeración de correos/celulares y a probar códigos de cupón
+        clave = f"registro:ip:{limites.ip_cliente(request)}"
+        if limites.superado(clave, REGISTRO_MAX_POR_HORA):
+            messages.error(request, "Demasiados intentos de registro desde tu conexión. Espera una hora e inténtalo de nuevo.")
+            return redirect(request.get_full_path())
+        limites.sumar(clave, 3600)
     tipo = request.GET.get("tipo")
     if tipo == "taller":
         return _registro_taller(request)
@@ -95,29 +114,23 @@ def historial_servicios(moto_perfil, limite=200):
     """Servicios tomados por el motero: mantenimientos registrados, cupones canjeados y citas pedidas a talleres."""
     from garaje.models import Mantenimiento
     from talleres.models import SolicitudCita
-    from talleres.utils import normalizar_celular
 
     eventos = []
     for m in (Mantenimiento.objects.filter(moto__motociclista=moto_perfil)
-              .select_related("tarea", "taller", "moto", "moto__linea", "moto__linea__marca")[:limite]):
+              .select_related("tarea", "taller", "taller__barrio", "moto", "moto__linea", "moto__linea__marca")[:limite]):
         eventos.append({"fecha": m.fecha, "tipo": "mantenimiento", "titulo": m.tarea.nombre, "moto": str(m.moto),
                         "sistema": m.tarea.get_pieza_display(),
                         "detalle": f"{m.moto} · {m.km:,} km".replace(",", "."), "lugar": m.donde,
                         "url": m.taller.get_absolute_url() if m.taller else "", "taller": m.taller})
     for c in (moto_perfil.codigos.filter(canjeado_en__isnull=False)
-              .select_related("cupon", "canjeado_taller").order_by("-canjeado_en")[:limite]):
+              .select_related("cupon", "canjeado_taller", "canjeado_taller__barrio").order_by("-canjeado_en")[:limite]):
         eventos.append({"fecha": timezone.localtime(c.canjeado_en).date(), "tipo": "cupon", "titulo": c.cupon.titulo, "moto": "",
                         "detalle": "Cupón canjeado", "lugar": str(c.canjeado_taller or ""),
                         "url": c.canjeado_taller.get_absolute_url() if c.canjeado_taller else "", "taller": c.canjeado_taller})
-    # Las citas no tienen cuenta: se reconocen por el celular del motero.
-    ultimos = moto_perfil.celular[-4:]  # prefiltro amplio; abajo se compara el número completo normalizado
-    for s in (SolicitudCita.objects.filter(telefono__contains=ultimos).select_related("taller", "servicio")
-              .prefetch_related("servicios_hechos")[:limite]):
-        try:
-            if normalizar_celular(s.telefono) != moto_perfil.celular:
-                continue
-        except Exception:
-            continue
+    # Solo las citas pedidas con la sesión abierta. Antes también las anónimas con el mismo celular, pero el celular no
+    # se verifica: quien registrara el número de otra persona veía sus citas (revisión de seguridad 17-nov-2026).
+    for s in (SolicitudCita.objects.filter(usuario_id=moto_perfil.usuario_id).select_related("taller", "taller__barrio", "servicio")
+              .prefetch_related("servicios_hechos").order_by("-creado")[:limite] if moto_perfil.usuario_id else []):
         eventos.append({"fecha": timezone.localtime(s.creado).date(), "tipo": "cita", "moto": "",
                         "atendida": (s.estado == SolicitudCita.Estado.ATENDIDA
                                      or any(h.estado != "rechazado" for h in s.servicios_hechos.all())),
@@ -211,7 +224,7 @@ def mi_cuenta(request):
             "actividad": actividad_con_talleres(servicios, request.user),
             "invitacion_whatsapp": "Encuentra talleres de motos de confianza en TallerYa y llévate un cupón: "
                                    + request.build_absolute_uri(reverse("cupones:referido", args=[moto.codigo_referido])),
-            "motos": [(m, calcular_plan(m)) for m in moto.motos.select_related("linea", "linea__marca")],
+            "motos": _motos_con_plan(moto),
         })
     if hasattr(request.user, "taller"):
         contexto["taller"] = request.user.taller

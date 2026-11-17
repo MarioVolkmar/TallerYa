@@ -81,7 +81,7 @@ class NotificacionesTests(TestCase):
 
 
 class HistorialServiciosTests(TestCase):
-    def test_junta_mantenimientos_y_citas_del_celular(self):
+    def test_junta_mantenimientos_y_citas_de_la_cuenta(self):
         from cuentas.views import historial_servicios
         usuario = User.objects.create_user("h@x.com", "h@x.com", "x")
         perfil = Motociclista.objects.create(nombre="H", celular="573009990000", usuario=usuario)
@@ -93,8 +93,11 @@ class HistorialServiciosTests(TestCase):
         Mantenimiento.objects.create(moto=moto, tarea=TareaMantenimiento.objects.get(clave="aceite"), km=2500,
                                      taller=taller)
         SolicitudCita.objects.create(taller=taller, nombre="H", telefono="300 999 0000", moto="NMAX",
+                                     fecha_preferida=timezone.localdate(), usuario=usuario)
+        # Anónima con el mismo celular: no se muestra (el celular no se verifica; ver config/tests_seguridad.py)
+        SolicitudCita.objects.create(taller=taller, nombre="¿H?", telefono="300 999 0000", moto="NMAX",
                                      fecha_preferida=timezone.localdate())
         SolicitudCita.objects.create(taller=taller, nombre="Otro", telefono="311 222 3333", moto="NMAX",
                                      fecha_preferida=timezone.localdate())
         tipos = sorted(e["tipo"] for e in historial_servicios(perfil))
-        self.assertEqual(tipos, ["cita", "mantenimiento"])  # la cita de otro celular no aparece
+        self.assertEqual(tipos, ["cita", "mantenimiento"])  # solo la cita pedida con la sesión

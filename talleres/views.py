@@ -17,7 +17,7 @@ from django.db.models.functions import Coalesce, Lower
 from django.views.decorators.http import require_POST
 
 from .forms import PerfilTallerForm, RegistroTallerForm, equipo_de, equipo_formset, ResenaForm, SolicitudCitaForm
-from . import agenda, estadisticas, perfil
+from . import agenda, estadisticas, perfil, subidas
 from . import seo as seo_
 from . import precios as precios_ref
 from .models import Barrio, EventoDiario, FotoTaller, Marca, Resena, Servicio, SolicitudCita, Taller, TallerFavorito
@@ -400,17 +400,22 @@ def editar_perfil(request):
         errores_fotos = []
         if len(nuevas) > libres:
             errores_fotos.append(f"Puedes tener máximo {FotoTaller.MAXIMO} fotos; te quedan {max(libres, 0)}.")
-        for f in nuevas:
-            if f.size > 5 * 1024 * 1024 or (f.content_type or "") not in ("image/jpeg", "image/png", "image/webp"):
+        for f in nuevas:  # el contenido manda: nombre y Content-Type los inventa quien sube (talleres/subidas.py)
+            tipo = f.size <= 5 * 1024 * 1024 and subidas.tipo_real(f, subidas.IMAGENES)
+            if not tipo:
                 errores_fotos.append(f"«{f.name}» no se subió: usa JPG, PNG o WEBP de máximo 5 MB.")
+            else:
+                subidas.renombrar(f, tipo)
         video = request.FILES.get("video")
         if video:
             if len(nuevas) + 1 > libres:
                 errores_fotos.append(f"Puedes tener máximo {FotoTaller.MAXIMO} fotos y videos; te quedan {max(libres, 0)}.")
             elif taller.fotos.exclude(video="").count() >= FotoTaller.MAXIMO_VIDEOS:
                 errores_fotos.append(f"Puedes tener máximo {FotoTaller.MAXIMO_VIDEOS} videos.")
-            elif video.size > 20 * 1024 * 1024 or (video.content_type or "") not in ("video/mp4", "video/webm")                     or not video.name.lower().endswith((".mp4", ".webm")):
+            elif video.size > 20 * 1024 * 1024 or not (tipo := subidas.tipo_real(video, subidas.VIDEOS)):
                 errores_fotos.append(f"«{video.name}» no se subió: usa un video MP4 o WEBM de máximo 20 MB.")
+            else:
+                subidas.renombrar(video, tipo)
         equipo_ok = not equipo.is_bound or equipo.is_valid()
         if form.is_valid() and equipo_ok and not errores_fotos:
             taller = form.save(commit=False)

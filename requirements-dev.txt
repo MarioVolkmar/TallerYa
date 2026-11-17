@@ -1,3 +1,4 @@
 # Herramientas solo para desarrollo local (no se instalan en Render)
 -r requirements.txt
 pymupdf>=1.24
+pip-audit>=2.7  # revisión de dependencias (skill revisar-seguridad)
