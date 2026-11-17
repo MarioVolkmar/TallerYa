@@ -52,7 +52,8 @@ Qué hace cada sección:
 Mira solo lo que cambió desde la última revisión (`git diff --stat <commit de la revisión anterior>`).
 1. **Autorización por objeto**: en cada vista nueva, ¿el queryset filtra por `request.user` (o `taller=request.user.taller`,
    `moto__motociclista=...`)? ¿Los POST cambian solo lo propio? ¿Las acciones de staff usan `solo_admin` / `staff_member_required`?
-2. **Lógica de negocio**: pagos (Plus, SOAT: `SOAT_PAGO_SIMULADO` apagado en producción), cupones (PIN y frenos), citas
+2. **Lógica de negocio**: pagos (Plus, SOAT: `SOAT_PAGO_SIMULADO` apagado en producción), cupones (PIN por taller con
+   hash, nunca buscar el taller por el PIN; marcado con UPDATE condicional; aviso al dueño), citas
    (estados válidos), reseñas (no a uno mismo, límite por hora), códigos de un solo uso, cosas que se puedan repetir.
 3. **Subidas**: contenido real (firma + Pillow, como `talleres/subidas.py`), tamaño, nombre aleatorio; lo privado fuera de
    `MEDIA_ROOT`; `/media/` solo entrega imágenes y videos (`config/urls.py: servir_media`).

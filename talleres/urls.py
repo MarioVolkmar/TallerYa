@@ -24,6 +24,7 @@ urlpatterns = [
     path("mi-taller/agenda/", views.agenda_taller, name="agenda"),
     path("mi-taller/estadisticas/", views.estadisticas_taller, name="estadisticas"),
     path("mi-taller/", views.panel, name="panel"),
+    path("mi-taller/pin/", views.pin_canje, name="pin_canje"),
     path("mi-taller/citas/", views.citas_taller, name="citas_taller"),
     path("mi-taller/resenas/", views.resenas_taller, name="resenas_taller"),
     path("mi-taller/cita/<int:pk>/estado/", views.cambiar_estado_cita, name="cita_estado"),

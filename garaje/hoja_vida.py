@@ -133,10 +133,11 @@ def registrar_verificado(taller, codigo, *, fecha, km, servicios, notas="", cost
     with transaction.atomic():
         obj = CodigoServicio.objects.select_for_update().filter(
             codigo=normalizar(codigo), usado__isnull=True, vence__gt=timezone.now()).first()
-        if not obj or not taller:
+        # Actualización condicional: solo un envío gasta el código aunque lleguen dos a la vez
+        if not obj or not taller or not CodigoServicio.objects.filter(pk=obj.pk, usado__isnull=True).update(
+                usado=timezone.now()):
             raise CodigoInvalido("El código no es válido o ya caducó. Pídele al motero uno nuevo.")
-        obj.usado = timezone.now()
-        obj.save(update_fields=["usado"])
+        obj.refresh_from_db()
         # Si el dueño ya lo había anotado (p. ej. "Ya le hice este mantenimiento" con este taller), ese registro
         # pasa a verificado con los datos del taller en vez de quedar dos veces.
         # 1) el registro pendiente ligado al código; 2) uno pendiente con este taller en fecha cercana; 3) uno nuevo.

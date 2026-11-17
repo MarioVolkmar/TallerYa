@@ -1,5 +1,7 @@
 from django import forms
 
+from talleres.models import Taller
+
 from talleres.forms import EstiloMixin
 from talleres.utils import normalizar_celular
 
@@ -21,6 +23,10 @@ class CanjeForm(EstiloMixin, forms.Form):
     codigo = forms.CharField(
         label="Código del cupón", max_length=12,
         widget=forms.TextInput(attrs={"placeholder": "TY-XXXXXX", "autocapitalize": "characters", "autocomplete": "off"}),
+    )
+    taller = forms.ModelChoiceField(
+        label="Tu taller", required=False, to_field_name="slug", empty_label="Elige tu taller",
+        queryset=Taller.objects.filter(activo=True).order_by("nombre").only("pk", "nombre", "slug"),
     )
     pin = forms.CharField(
         label="PIN del taller", max_length=6, min_length=6, required=False,

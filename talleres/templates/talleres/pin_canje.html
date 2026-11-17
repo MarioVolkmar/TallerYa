@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}PIN de canje · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto mt-10">
+  {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
+  <p class="etiqueta">Cupones</p>
+  <h1 class="titulo text-4xl mt-3">PIN de <span class="text-lava">canje</span></h1>
+  <p class="text-suave mt-3">Con el PIN, tu equipo valida cupones en otro celular sin la cuenta del taller. Se guarda cifrado:
+    nadie puede verlo después, ni siquiera TallerYa. Si lo olvidas o alguien que no debe lo sabe, genera uno nuevo.</p>
+
+  {% if pin %}
+  <section class="papel exito p-6 mt-6">
+    <p class="text-sm text-suave">Tu PIN nuevo (anótalo ahora: no se vuelve a mostrar)</p>
+    <p class="titulo text-5xl mt-2" style="letter-spacing:.2em">{{ pin }}</p>
+    <p class="text-xs text-suave mt-3">El PIN anterior ya no sirve.</p>
+  </section>
+  {% elif taller.tiene_pin %}
+  <p class="mensaje mt-6 text-sm">Tu taller ya tiene PIN. Si no lo recuerdas, genera uno nuevo.</p>
+  {% else %}
+  <p class="mensaje mt-6 text-sm">Tu taller aún no tiene PIN: mientras tanto se valida solo con la cuenta del taller.</p>
+  {% endif %}
+
+  <section class="papel p-6 mt-6">
+    <form method="post">{% csrf_token %}
+      <button class="btn btn-lava w-full py-3 text-sm">{% if taller.tiene_pin %}Generar PIN nuevo{% else %}Generar PIN{% endif %}</button>
+    </form>
+    <p class="text-sm mt-5"><strong>Enlace para tu equipo</strong> (ya trae tu taller elegido; guárdalo en el celular del taller):</p>
+    <p class="text-xs text-suave mt-1" style="word-break:break-all">{{ enlace }}</p>
+  </section>
+</div>
+{% endblock %}

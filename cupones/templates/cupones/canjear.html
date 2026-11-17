@@ -11,7 +11,7 @@
   {% if resultado %}
   <section class="papel exito p-6 mt-6">
     <p class="titulo text-2xl">✔ Cupón validado</p>
-    <p class="text-sm text-suave mt-1">Aplica el descuento al motero: el cupón ya quedó marcado como usado.</p>
+    <p class="text-sm text-suave mt-1">{% if resultado.repetido %}Ya lo habías validado hace un momento: no se volvió a marcar.{% else %}Aplica el descuento al motero: el cupón ya quedó marcado como usado y le avisamos.{% endif %}</p>
     <p class="mt-2"><strong>{{ resultado.cupon.titulo }}</strong></p>
     <p class="text-sm text-suave mt-1">Cliente: {{ resultado.motociclista.nombre }} · {{ resultado.motociclista.celular_oculto }} · Código {{ resultado.codigo }}</p>
     {% if resultado.cupon.condiciones %}<p class="text-xs text-suave mt-3">Condiciones: {{ resultado.cupon.condiciones }}</p>{% endif %}
@@ -22,12 +22,17 @@
   <section class="papel cj-vista mt-6">
     <p class="cj-vista-etiqueta">Cupón escaneado</p>
     <p class="titulo text-2xl mt-1">{{ vista.cupon.titulo }}</p>
+    {# Sin la sesión del taller se muestra lo mínimo: ni el dueño ni si ya se usó (eso sale al validar con el PIN) #}
+    {% if not taller %}<p class="text-sm text-suave mt-1">Código {{ vista.codigo }}</p>
+    <p class="cj-aviso">Elige tu taller y escribe su PIN para validarlo.</p>
+    {% else %}
     <p class="text-sm text-suave mt-1">{{ vista.motociclista.nombre }} · {{ vista.motociclista.celular_oculto }} · {{ vista.codigo }}</p>
     {% if vista.canjeado %}<p class="cj-aviso cj-aviso-malo">Este cupón ya se usó el {{ vista.canjeado_en|date:"j M Y, g:i a"|lower }}{% if vista.canjeado_taller %} en {{ vista.canjeado_taller }}{% endif %}.</p>
     {% elif not vista.cupon.vigente %}<p class="cj-aviso cj-aviso-malo">Este cupón ya venció o fue desactivado.</p>
     {% elif vista.otro_taller %}<p class="cj-aviso cj-aviso-malo">Este cupón es de otro taller ({{ vista.cupon.taller }}).</p>
     {% else %}<p class="cj-aviso cj-aviso-bien">Cupón vigente: puedes validarlo{% if vista.cupon.valido_hasta %} · vence el {{ vista.cupon.valido_hasta|date:"j M Y"|lower }}{% endif %}.</p>
       {% if vista.cupon.condiciones %}<p class="text-xs text-suave mt-2">Condiciones: {{ vista.cupon.condiciones }}</p>{% endif %}
+    {% endif %}
     {% endif %}
   </section>
   {% endif %}
@@ -49,12 +54,14 @@
       {% for e in form.codigo.errors %}<p class="error">{{ e }}</p>{% endfor %}
       {% if taller %}
       {% else %}
+      <label class="campo-label">{{ form.taller.label }}{{ form.taller }}</label>
+      {% for e in form.taller.errors %}<p class="error">{{ e }}</p>{% endfor %}
       <label class="campo-label">{{ form.pin.label }}{{ form.pin }}</label>
       {% for e in form.pin.errors %}<p class="error">{{ e }}</p>{% endfor %}
       {% endif %}
-      <button class="btn {% if vista and not vista.canjeado and vista.cupon.vigente and not vista.otro_taller %}btn-lava{% else %}btn-borde{% endif %} w-full py-3 text-sm">{% if vista %}Validar este cupón{% else %}Validar cupón{% endif %}</button>
+      <button class="btn {% if vista and not vista.canjeado and vista.cupon.vigente and not vista.otro_taller or vista and not taller %}btn-lava{% else %}btn-borde{% endif %} w-full py-3 text-sm">{% if vista %}Validar este cupón{% else %}Validar cupón{% endif %}</button>
     </form>
-    {% if not taller %}<p class="text-xs text-suave mt-5">¿No tienes tu PIN? Entra con la cuenta del taller o escríbenos y te lo enviamos.</p>{% endif %}
+    {% if not taller %}<p class="text-xs text-suave mt-5">¿No tienes tu PIN? El dueño del taller lo genera en Mi taller (se ve una sola vez), o entra con la cuenta del taller.</p>{% endif %}
   </section>
 </div>
 <script src="{% static 'cupones/vendor/jsQR-1.4.0.min.js' %}" defer></script>

@@ -25,16 +25,20 @@ class TallerAdmin(admin.ModelAdmin):
     list_editable = ("verificado", "activo", "destacado")
     search_fields = ("nombre", "responsable", "direccion")
     filter_horizontal = ("servicios", "marcas")
-    readonly_fields = ("slug", "pin_canje")
+    readonly_fields = ("slug", "tiene_pin")
     raw_id_fields = ("usuario",)
     actions = ["regenerar_pin"]
 
-    @admin.action(description="Generar nuevo PIN de canje")
+    @admin.display(boolean=True, description="Tiene PIN de canje")
+    def tiene_pin(self, obj):
+        return obj.tiene_pin
+
+    @admin.action(description="Generar nuevo PIN de canje (se muestra una sola vez)")
     def regenerar_pin(self, request, queryset):
-        for taller in queryset:
-            taller.pin_canje = Taller.generar_pin()
-            taller.save(update_fields=["pin_canje"])
-        self.message_user(request, f"PIN regenerado para {queryset.count()} taller(es).")
+        """Solo se guarda el hash: el PIN en claro se ve aquí una vez para dárselo al taller. El taller también
+        puede generarlo él mismo en Mi taller."""
+        nuevos = [f"{t.nombre}: {t.nuevo_pin()}" for t in queryset]
+        self.message_user(request, "PIN nuevos (anótalos ahora, no se vuelven a mostrar): " + " · ".join(nuevos))
 
 
 @admin.register(SolicitudCita)

@@ -49,11 +49,14 @@ def _avisar(usuario, clave, titulo, texto, url):
     notificar(usuario, clave, titulo, texto, url)
 
 
-def crear(taller, moto, *, origen, fecha, km, tareas, otros="", costo=None, notas="", foto=None, cita=None):
-    """Guarda el servicio, lo aplica si ya hay consentimiento (cita o código) y le avisa al dueño."""
+def crear(taller, moto, *, origen, fecha, km, tareas, otros="", costo=None, notas="", foto=None, cita=None,
+          registrado_por=None, ip=None):
+    """Guarda el servicio, lo aplica si ya hay consentimiento (cita o código) y le avisa al dueño.
+    Queda la bitácora: taller, cuenta que lo registró, IP y fecha; el dueño lo ve y puede rechazarlo (rechazar)."""
     with transaction.atomic():
         s = ServicioTaller.objects.create(taller=taller, moto=moto, cita=cita, fecha=fecha, km=km, otros=otros,
-                                          costo=costo, notas=notas, foto=foto or "", origen=origen)
+                                          costo=costo, notas=notas, foto=foto or "", origen=origen, ip=ip,
+                                          registrado_por=registrado_por if getattr(registrado_por, "pk", None) else None)
         s.tareas.set(tareas)
         if origen != ServicioTaller.Origen.PLACA:
             aplicar(s)

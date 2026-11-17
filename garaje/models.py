@@ -822,6 +822,10 @@ class ServicioTaller(models.Model):
     estado = models.CharField(max_length=14, choices=Estado.choices, default=Estado.POR_CONFIRMAR)
     origen = models.CharField(max_length=8, choices=Origen.choices)
     respondido = models.DateTimeField(null=True, blank=True)
+    # Bitácora: qué cuenta lo registró y desde qué IP (el taller y la fecha ya están arriba)
+    registrado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                       related_name="+", editable=False)
+    ip = models.GenericIPAddressField(null=True, blank=True, editable=False)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:

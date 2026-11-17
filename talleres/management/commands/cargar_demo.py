@@ -99,10 +99,12 @@ class Command(BaseCommand):
         from talleres import demo_talleres
         demo_talleres.cargar()
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))
-        if settings.DEBUG:  # en producción los PIN se consultan en el admin, no en los logs
-            self.stdout.write("PIN de canje por taller (solo para pruebas):")
-            for nombre, pin in Taller.objects.values_list("nombre", "pin_canje"):
-                self.stdout.write(f"  {nombre}: {pin}")
+        if settings.DEBUG:  # solo en local: PIN nuevo para los talleres que no tienen (en producción, Mi taller o el admin)
+            sin_pin = [t for t in Taller.objects.filter(pin_hash="") if t.activo]
+            if sin_pin:
+                self.stdout.write("PIN de canje nuevos (solo para pruebas; se guardan con hash):")
+                for t in sin_pin:
+                    self.stdout.write(f"  {t.nombre}: {t.nuevo_pin()}")
 
     def cargar_foro(self):
         """Usuarios demo sin contraseña utilizable: nadie puede iniciar sesión con ellos."""

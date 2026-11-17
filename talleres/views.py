@@ -543,6 +543,22 @@ def _nota(resenas):
 
 
 @login_required
+def pin_canje(request):
+    """PIN para validar cupones sin la sesión del taller. GET: si tiene y el enlace del equipo. POST: genera uno nuevo
+    (el anterior deja de servir) y lo muestra una sola vez en esta respuesta (no va a mensajes ni cookies)."""
+    taller = _taller_de(request)
+    if not taller:
+        return redirect("cuentas:mi_cuenta")
+    pin = None
+    if request.method == "POST":
+        pin = taller.nuevo_pin()
+    enlace = request.build_absolute_uri(reverse("cupones:canjear") + f"?taller={taller.slug}")
+    respuesta = render(request, "talleres/pin_canje.html", {"taller": taller, "pin": pin, "enlace": enlace})
+    respuesta["Cache-Control"] = "no-store"
+    return respuesta
+
+
+@login_required
 def panel(request):
     taller = _taller_de(request)
     if not taller:

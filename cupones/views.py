@@ -104,13 +104,17 @@ def _ip(request):
     return ip_cliente(request)
 
 
+COOKIE_TALLER = "taller_canje"  # el taller elegido para el PIN se recuerda en este dispositivo (firmado, 180 días)
+
+
 def canjear_cupon(request):
-    """Canje de cupones. Con la sesión del taller abierta no pide PIN. Al escanear el QR llega ?codigo=... y se
-    muestra una vista previa del cupón antes de canjearlo."""
+    """Canje de cupones. Con la sesión del taller abierta no pide PIN. Sin sesión: el taller elegido (o el del enlace
+    /canjear/?taller=<slug>) y su PIN. Al escanear el QR llega ?codigo=... y se muestra una vista previa."""
     taller = getattr(request.user, "taller", None) if request.user.is_authenticated else None
     if taller and not taller.activo:
         taller = None
-    inicial = {"codigo": request.GET.get("codigo", "")}
+    recordado = request.GET.get("taller") or request.get_signed_cookie(COOKIE_TALLER, default="", salt=COOKIE_TALLER)
+    inicial = {"codigo": request.GET.get("codigo", ""), "taller": recordado}
     form = CanjeForm(request.POST or None, initial=inicial)
     clave = f"canje-intentos:{_ip(request)}"
     bloqueado = cache.get(clave, 0) >= MAX_INTENTOS_CANJE
@@ -120,16 +124,18 @@ def canjear_cupon(request):
         form.is_valid()
         form.add_error(None, "Demasiados intentos fallidos. Espera 15 minutos e inténtalo de nuevo.")
     elif request.method == "POST" and form.is_valid():
-        if not taller and not form.cleaned_data.get("pin"):
+        d = form.cleaned_data
+        if not taller and not d.get("pin"):
             form.add_error("pin", "Escribe el PIN de tu taller (o entra con la cuenta del taller).")
         else:
             try:
-                resultado = canjear(form.cleaned_data["codigo"], form.cleaned_data.get("pin"), taller=taller)
+                resultado = canjear(d["codigo"], d.get("pin"), taller=taller, taller_elegido=d.get("taller"),
+                                    usuario=request.user, ip=_ip(request))
             except ErrorCanje as e:
                 cache.set(clave, cache.get(clave, 0) + 1, BLOQUEO_SEGUNDOS)
                 form.add_error(None, str(e))
             else:
-                form = CanjeForm()
+                form = CanjeForm(initial={"taller": d.get("taller").slug if d.get("taller") else ""})
     elif request.method == "GET" and inicial["codigo"]:
         form.cleaned_data = {}  # formulario sin enviar: add_error lo necesita (antes, un código malo daba error 500)
         if bloqueado:  # la vista previa también cuenta: sin freno, servía para adivinar códigos válidos
@@ -142,4 +148,10 @@ def canjear_cupon(request):
                 cache.set(clave, cache.get(clave, 0) + 1, BLOQUEO_SEGUNDOS)
                 form.add_error(None, str(e))
 
-    return render(request, "cupones/canjear.html", {"form": form, "resultado": resultado, "vista": vista, "taller": taller})
+    respuesta = render(request, "cupones/canjear.html", {"form": form, "resultado": resultado, "vista": vista,
+                                                         "taller": taller})
+    if resultado and resultado.canje_via == "pin":
+        respuesta.set_signed_cookie(COOKIE_TALLER, resultado.canjeado_taller.slug, salt=COOKIE_TALLER,
+                                    max_age=180 * 24 * 3600, httponly=True, samesite="Lax",
+                                    secure=request.is_secure())
+    return respuesta

@@ -178,6 +178,12 @@ class CodigoCupon(models.Model):
     canjeado_taller = models.ForeignKey(
         Taller, on_delete=models.SET_NULL, null=True, blank=True, related_name="canjes",
     )
+    # Bitácora del canje: quién lo hizo (cuenta del taller, si entró con ella), cómo y desde qué IP
+    canjeado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                     related_name="+", editable=False)
+    canje_via = models.CharField(max_length=8, blank=True, editable=False,
+                                 choices=[("cuenta", "Cuenta del taller"), ("pin", "PIN del taller")])
+    canje_ip = models.GenericIPAddressField(null=True, blank=True, editable=False)
 
     class Meta:
         ordering = ["-creado"]

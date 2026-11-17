@@ -9,7 +9,8 @@ recuperar contraseña y reseñas, IP real tras el proxy, documentos privados, N+
 
 **Skill nueva:** `.claude/skills/revisar-seguridad/` (`SKILL.md`, `revisar.py`, `permitidos.txt`). Correrla antes de cada
 despliegue: `venv/Scripts/python.exe .claude/skills/revisar-seguridad/revisar.py --sin-red` (~1 min). Resultado final:
-**0 fallas · 9 avisos (pip-audit sin instalar, npm de compilación y bajos propuestos abajo) · 30 OK**.
+**0 fallas · 8 avisos (npm de compilación y bajos propuestos abajo) · 31 OK**; `pip-audit`: 31 paquetes sin
+vulnerabilidades conocidas.
 
 ## Resumen
 
@@ -78,8 +79,6 @@ prueba por cada arreglo) y `cuentas/tests_velocidad.py`.
 | Baja | **HSTS de 1 año + `includeSubDomains`** (`DJANGO_HSTS_SECONDS=31536000` y `SECURE_HSTS_INCLUDE_SUBDOMAINS`). | Solo cuando el dominio propio sea definitivo: con HSTS largo no hay vuelta atrás si algo queda en http. |
 | Baja | Mensajes de registro neutros ("Si el correo no está registrado…") para cerrar la enumeración del todo. | Rompe el flujo: el aviso "Ya existe una cuenta… ¿Quieres entrar?" es la salida de quien olvidó que tenía cuenta, y un mensaje neutro exigiría mandar correo en vez de mostrar el error. Queda con el freno de 20 envíos por IP y hora. |
 | Baja | **`npm audit`: 10 altas**, todas por `picomatch` (ReDoS con extglobs, GHSA-fc5q-39xc-vjpf) en la cadena de `tailwindcss` 3. | `npm audit fix` (sin `--force`) no encuentra arreglo: **no existe versión parcheada** (afecta ≤4.0.7 y la última publicada es 4.0.7) y `--force` llevaría a Tailwind 4 (cambio mayor). No es explotable aquí: solo corre al compilar y los patrones vienen de `tailwind/tailwind.config.js`, no de usuarios. `npm run css` y `npm run js` dan exactamente el mismo resultado (comparado byte a byte). Revisar cuando salga picomatch ≥4.0.8 o al migrar a Tailwind 4. |
-| Media | **`pip-audit`** no se pudo correr: instalarlo en el venv fue rechazado por el control de permisos de esta sesión y no lo reintenté. Versiones actuales: Django 5.2.19, Pillow 13.0.0, whitenoise 6.12, gunicorn 27, psycopg 3.3.9, cryptography 50.0.2, requests 2.34.2. | Instalarlo una vez: `venv/Scripts/pip install pip-audit` (ya está en `requirements-dev.txt`) y correr la skill sin `--sin-red`. |
-| Baja | PIN de canje global de 6 dígitos (cualquier PIN de cualquier taller sirve): con N talleres, cada intento acierta con prob. N/10⁶; el freno es 8 por IP cada 15 min. | Con IPs distribuidas sería abusable a gran escala; pasar a PIN por taller + código del cupón cambia el flujo del canje. |
 | Baja | `render.yaml` trae `CARGAR_DEMO=1`: en producción real carga talleres, cupones y foro de ejemplo (la cuenta demo no, porque exige DEBUG). | Útil para la demo de Ruta N; ponerlo en 0 al abrir al público (aviso añadido en `render.yaml`). |
 
 Pendiente de verificar a mano: abrir con sesión el garaje, una ficha de moto, la vista 3D, el despiece y la consola y mirar
@@ -129,3 +128,36 @@ devDependencies exactas), `render.yaml` (aviso de `CARGAR_DEMO`), `.env.example`
 ## 6. Cierre (Auxiliares, 17-nov-2026)
 - **pip-audit** sobre `requirements.txt`: *No known vulnerabilities found*.
 - **CSP con sesión iniciada** (garaje, ficha de moto con 3D, Mi cuenta, consola como superadmin), revisada con el test client: todas llevan la cabecera; los únicos orígenes externos cargados son Google Fonts (permitido en `style-src`/`font-src`). three.js y sus addons salen de `static/` por importmap en línea (cubierto por `'unsafe-inline'`), sin fetch a otros dominios. Falta solo la prueba en navegador real con sesión (el navegador de la sesión no tuvo permiso para abrir localhost).
+
+## 6. PIN, canjes y registros de terceros (2.ª tanda, 17-nov-2026)
+
+Alcance: todo flujo donde un tercero confirma algo sobre la cuenta de otro. Revisados: canje de cupones (PIN, vista
+previa, QR), servicios que el taller anota en la hoja de vida (código de 6 caracteres, por placa y por cita), referidos,
+citas (enlace público con token) y la "confirmación" por WhatsApp (solo enlaces; no confirma nada por sí sola).
+
+| Criterio | Antes | Ahora | Prueba (`cupones/tests_transacciones.py`) |
+|---|---|---|---|
+| **PIN por taller** | Un PIN de 6 dígitos **en claro**, único entre talleres, y el taller se **buscaba por su PIN**: con N talleres, cada intento al azar acertaba con prob. N/10⁶ y canjeaba como ese taller. | El taller sale de la sesión o del taller elegido en el formulario (o del enlace `/canjear/?taller=<slug>`); el PIN se compara **solo con ese taller** (`check_password`, tiempo constante). Se guarda **solo el hash** (`Taller.pin_hash`, no editable); dos talleres pueden tener el mismo PIN. El taller lo genera en **Mi taller → PIN** (se muestra una vez, respuesta `no-store`); el equipo, en el admin (acción que lo muestra una vez). | `test_el_pin_de_otro_taller_no_sirve`, `test_pin_en_la_base_solo_como_hash`, `test_regenerar_pin_desde_mi_taller` |
+| **Migración** | — | `talleres/0019_pin_con_hash`: hashea cada PIN existente y borra la columna en claro. Cada taller **sigue usando su PIN de siempre**. Aplicada también a `db.sqlite3` local. | `MigracionPinTests` (lenta) |
+| **Freno** | 8 fallos por IP / 15 min. | Además, **5 PIN errados por taller** bloquean el PIN de ese taller 15 min (ni con el bueno; la cuenta del taller sigue sirviendo y los demás talleres no se afectan). Códigos de servicio: 20 fallos/hora **por taller y por IP**. | `test_bloqueo_del_pin_del_taller_tras_fallos`, `test_fuerza_bruta_de_codigos_frenada` |
+| **Atómico / idempotente** | `select_for_update` (en SQLite no bloquea nada) y `save`. | Marcado con **actualización condicional** (`UPDATE … WHERE canjeado_en IS NULL` / `usado IS NULL`): de dos clics o dos talleres a la vez, solo uno gana, también en SQLite. Reenviar el mismo canje del mismo taller en 5 min responde "ya lo habías validado" sin repetir premio ni aviso. | `test_dos_talleres_a_la_vez_solo_uno_gana`, `test_doble_clic_es_idempotente`, `test_codigo_reusado_no_sirve` |
+| **Consentimiento del dueño** | Ya: código de un solo uso, 30 min, `secrets` y alfabeto sin 0/O/1/I/L; por placa queda "por confirmar"; por cita solo motos del motero que la pidió con su cuenta; el dueño puede rechazar. | Igual, más **bitácora**: `ServicioTaller.registrado_por` (cuenta) e `ip` (el taller y la fecha ya estaban). El código de una moto no escribe en otra. | `test_registro_con_codigo_queda_verificado_con_bitacora_y_aviso`, `test_codigo_vencido_no_sirve`, `test_codigo_de_una_moto_no_escribe_en_otra`, `test_el_dueno_puede_rechazar_lo_registrado` |
+| **Bitácora del canje** | Solo taller y fecha. | `CodigoCupon.canjeado_por` (cuenta del taller si entró con ella), `canje_via` (cuenta/PIN) y `canje_ip`. | `test_canje_queda_con_quien_como_y_desde_donde_y_avisa_al_dueno`, `test_canje_con_pin_registra_via_pin` |
+| **Aviso al dueño** | Servicios: sí. Canje: no. | Cada canje avisa al dueño del cupón ("Usaste tu cupón en … ¿No fuiste tú?"), después de confirmar la transacción. | ídem |
+| **Sin fugas** | La vista previa mostraba a cualquiera nombre, celular enmascarado y si ya se usó (dónde y cuándo). | Sin la sesión del taller, la vista previa muestra solo el título y el código. Con PIN errado, el mensaje es el mismo exista o no el código ("El código o el PIN no son correctos"); el detalle (ya usado, vencido, de otro taller) sale solo después de comprobar el PIN o con la sesión. | `test_vista_previa_sin_sesion_no_muestra_al_dueno_ni_el_estado`, `test_con_pin_malo_no_se_sabe_si_el_codigo_existe` |
+
+**Cambio de experiencia (el más simple posible):** sin la sesión del taller, el formulario de canje pide además **"Tu
+taller"** (lista de talleres publicados). Se elige una vez: queda recordado en ese celular (cookie firmada, 180 días) y
+el enlace de Mi taller → PIN ya lo trae elegido para guardarlo en el celular del equipo. Con la sesión del taller no
+cambia nada (ni taller ni PIN). Los talleres nuevos empiezan **sin PIN** (validan con su cuenta) hasta que lo generan.
+
+**Sin cambios, a propósito:** los códigos de cupón (`TY-XXXXXX`) no caducan en minutos: son el cupón del motero y valen
+hasta que vence el cupón; se usan una sola vez y sin PIN/sesión del taller no sirven. Los referidos ya eran de una vez
+por motero nuevo (con bloqueo de fila). El enlace público de la cita usa `token_urlsafe(16)`.
+
+Archivos de esta tanda: `talleres/models.py` (PIN con hash), `talleres/migrations/0019_pin_con_hash.py`,
+`talleres/admin.py`, `talleres/views.py` + `urls.py` + `templates/talleres/pin_canje.html` + `panel.html` (botón PIN),
+`talleres/vista_servicios.py`, `talleres/management/commands/cargar_demo.py`, `cupones/servicios.py`, `cupones/views.py`,
+`cupones/forms.py`, `cupones/models.py` + `migrations/0004_bitacora_canje.py`, `cupones/templates/cupones/canjear.html`,
+`cupones/tests.py`, `cupones/tests_transacciones.py`, `garaje/models.py` + `migrations/0035_bitacora_servicio_taller.py`,
+`garaje/servicio_taller.py`, `garaje/hoja_vida.py`. Suites: rápida 594 OK, completa 638 OK; skill: 0 fallas.

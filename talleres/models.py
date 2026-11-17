@@ -80,10 +80,9 @@ class Taller(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="taller",
         help_text="Cuenta del taller: sus respuestas en el foro salen con insignia de taller.",
     )
-    pin_canje = models.CharField(
-        "PIN de canje", max_length=6, unique=True, null=True, blank=True,
-        help_text="El taller lo usa para validar cupones en /canjear/. Compártelo solo con el taller.",
-    )
+    # PIN para validar cupones en /canjear/ sin la sesión del taller. Solo se guarda su hash (como una contraseña):
+    # nadie, ni el equipo, puede leerlo. El taller lo genera en Mi taller y se le muestra una sola vez (nuevo_pin).
+    pin_hash = models.CharField("PIN de canje (hash)", max_length=128, blank=True, editable=False)
     # Agenda con franjas: el taller define su horario (HorarioTaller), la duración de cada franja y el cupo
     agenda_activa = models.BooleanField("reservas por franjas", default=False,
                                         help_text="El motero elige un horario libre al pedir la cita.")
@@ -116,16 +115,29 @@ class Taller(models.Model):
             while Taller.objects.filter(slug=slug).exclude(pk=self.pk).exists():
                 slug, n = f"{base}-{n}", n + 1
             self.slug = slug
-        if not self.pin_canje:
-            self.pin_canje = self.generar_pin()
         super().save(*args, **kwargs)
 
-    @staticmethod
-    def generar_pin():
-        while True:
-            pin = codigo_aleatorio(6, "0123456789")
-            if not Taller.objects.filter(pin_canje=pin).exists():
-                return pin
+    LARGO_PIN = 6
+
+    def nuevo_pin(self):
+        """Genera un PIN nuevo (el anterior deja de servir), guarda solo su hash y devuelve el PIN en claro para
+        mostrarlo una vez. Distintos talleres pueden tener el mismo PIN: el taller nunca se busca por su PIN."""
+        from django.contrib.auth.hashers import make_password
+        pin = codigo_aleatorio(self.LARGO_PIN, "0123456789")
+        self.pin_hash = make_password(pin)
+        if self.pk:
+            Taller.objects.filter(pk=self.pk).update(pin_hash=self.pin_hash)
+        return pin
+
+    def pin_correcto(self, pin):
+        """Compara el PIN con el de ESTE taller (check_password compara en tiempo constante)."""
+        from django.contrib.auth.hashers import check_password
+        pin = (pin or "").strip()
+        return bool(self.pin_hash and len(pin) == self.LARGO_PIN and pin.isdigit() and check_password(pin, self.pin_hash))
+
+    @property
+    def tiene_pin(self):
+        return bool(self.pin_hash)
 
     def get_absolute_url(self):
         return reverse("talleres:detalle", args=[self.slug])

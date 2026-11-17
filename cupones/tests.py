@@ -20,19 +20,32 @@ class CuponesTests(TestCase):
                                           direccion="Cra 2", barrio=barrio, activo=True)
         self.cupon = Cupon.objects.create(taller=self.taller, titulo="15% en aceite")
         self.premio = Cupon.objects.create(titulo="$20.000 de premio", publico=False, premio_referido=True)
+        self.pin, self.pin_otro = self.taller.nuevo_pin(), self.otro.nuevo_pin()
 
     def obtener(self, cupon=None, celular="300 111 2233", nombre="Juan"):
         cupon = cupon or self.cupon
         return self.client.post(reverse("cupones:obtener", args=[cupon.pk]), {"nombre": nombre, "celular": celular})
 
-    def canjear(self, codigo, pin=None):
-        return self.client.post(reverse("cupones:canjear"), {"codigo": codigo, "pin": pin or self.taller.pin_canje})
+    def canjear(self, codigo, pin=None, taller=None):
+        """Sin sesión: el taller elegido en el formulario y su PIN."""
+        taller = taller or self.taller
+        pin = pin or (self.pin if taller == self.taller else self.pin_otro)
+        return self.client.post(reverse("cupones:canjear"), {"codigo": codigo, "pin": pin, "taller": taller.slug})
 
     # --- Obtener ---
 
-    def test_taller_recibe_pin_unico(self):
-        self.assertRegex(self.taller.pin_canje, r"^\d{6}$")
-        self.assertNotEqual(self.taller.pin_canje, self.otro.pin_canje)
+    def test_pin_se_guarda_con_hash_y_solo_vale_para_su_taller(self):
+        self.assertRegex(self.pin, r"^\d{6}$")
+        self.taller.refresh_from_db()
+        self.assertNotIn(self.pin, self.taller.pin_hash)
+        self.assertTrue(self.taller.pin_correcto(self.pin))
+        self.assertFalse(self.otro.pin_correcto(self.pin) and self.pin != self.pin_otro)
+        viejo = self.pin
+        self.pin = self.taller.nuevo_pin()
+        self.taller.refresh_from_db()
+        self.assertTrue(self.taller.pin_correcto(self.pin))
+        if viejo != self.pin:
+            self.assertFalse(self.taller.pin_correcto(viejo))
 
     def test_obtener_crea_codigo_y_normaliza_celular(self):
         r = self.obtener()
@@ -80,13 +93,22 @@ class CuponesTests(TestCase):
         codigo.refresh_from_db()
         self.assertTrue(codigo.canjeado)
         self.assertEqual(codigo.canjeado_taller, self.taller)
-        self.assertContains(self.canjear(codigo.codigo), "ya se usó")
+        self.assertContains(self.canjear(codigo.codigo), "no se volvió a marcar")  # reenvío: idempotente
+        general = Cupon.objects.create(titulo="Lavado gratis")
+        self.obtener(cupon=general)
+        otro_codigo = CodigoCupon.objects.get(cupon=general)
+        self.canjear(otro_codigo.codigo)
+        self.assertContains(self.canjear(otro_codigo.codigo, taller=self.otro), "ya se usó")
 
     def test_canje_con_pin_incorrecto_o_de_otro_taller(self):
         self.obtener()
         codigo = CodigoCupon.objects.get()
-        self.assertContains(self.canjear(codigo.codigo, pin="000000" if self.taller.pin_canje != "000000" else "111111"), "PIN incorrecto")
-        self.assertContains(self.canjear(codigo.codigo, pin=self.otro.pin_canje), "es de otro taller")
+        malo = "000000" if self.pin != "000000" else "111111"
+        self.assertContains(self.canjear(codigo.codigo, pin=malo), "El código o el PIN no son correctos")
+        # El PIN de otro taller no sirve para este taller (nunca se busca el taller por el PIN)
+        if self.pin_otro != self.pin:
+            self.assertContains(self.canjear(codigo.codigo, pin=self.pin_otro), "El código o el PIN no son correctos")
+        self.assertContains(self.canjear(codigo.codigo, taller=self.otro), "es de otro taller")
         codigo.refresh_from_db()
         self.assertFalse(codigo.canjeado)
 
@@ -94,7 +116,7 @@ class CuponesTests(TestCase):
         general = Cupon.objects.create(titulo="Lavado gratis")
         self.obtener(cupon=general)
         codigo = CodigoCupon.objects.get()
-        self.assertContains(self.canjear(codigo.codigo, pin=self.otro.pin_canje), "Cupón validado")
+        self.assertContains(self.canjear(codigo.codigo, taller=self.otro), "Cupón validado")
 
     def test_bloqueo_tras_intentos_fallidos(self):
         self.obtener()

@@ -21,13 +21,9 @@ def _gastar_codigo(codigo, moto):
     """Marca como usado el código del dueño (que siga vigente y sea de esa moto). False si ya no sirve."""
     from garaje.hoja_vida import normalizar
     from garaje.models import CodigoServicio
-    obj = (CodigoServicio.objects.select_for_update()
-           .filter(codigo=normalizar(codigo), moto=moto, usado__isnull=True, vence__gt=timezone.now()).first())
-    if not obj:
-        return False
-    obj.usado = timezone.now()
-    obj.save(update_fields=["usado"])
-    return True
+    # Actualización condicional: dos envíos a la vez (doble clic, dos pestañas) no gastan el mismo código dos veces
+    return CodigoServicio.objects.filter(codigo=normalizar(codigo), moto=moto, usado__isnull=True,
+                                         vence__gt=timezone.now()).update(usado=timezone.now()) == 1
 
 
 def _formulario(request, taller, moto, origen, *, cita=None, motos=(), codigo="", placa=""):
@@ -42,7 +38,9 @@ def _formulario(request, taller, moto, origen, *, cita=None, motos=(), codigo=""
             if origen == ServicioTaller.Origen.CODIGO and not _gastar_codigo(codigo, moto):
                 form.add_error(None, "El código ya caducó o se usó. Pídele al motero uno nuevo.")
             else:
-                s = st.crear(taller, moto, origen=origen, cita=cita, **form.datos())
+                from cuentas.limites import ip_cliente
+                s = st.crear(taller, moto, origen=origen, cita=cita, registrado_por=request.user,
+                             ip=ip_cliente(request), **form.datos())
         if not form.errors:
             if s.estado == ServicioTaller.Estado.VERIFICADO:
                 messages.success(request, f"Registrado y verificado en la hoja de vida de la moto. "
@@ -104,13 +102,15 @@ def registrar_servicio(request):
     placa = st.normalizar_placa(datos.get("placa", ""))
     error = ""
     if codigo:
-        clave_cod = f"codigo-taller:{taller.pk}"  # freno a probar códigos al azar (cada uno abre la moto de alguien)
-        if limites.superado(clave_cod, CODIGOS_FALLIDOS_HORA):
+        # Freno a probar códigos al azar (cada acierto abre la moto de alguien): por taller y por IP
+        clave_cod, clave_ip = f"codigo-taller:{taller.pk}", f"codigo-ip:{limites.ip_cliente(request)}"
+        if limites.superado(clave_cod, CODIGOS_FALLIDOS_HORA) or limites.superado(clave_ip, CODIGOS_FALLIDOS_HORA):
             error = "Demasiados códigos no válidos en la última hora. Intenta más tarde o busca la moto por placa."
         elif obj := hoja_vida.buscar_codigo(codigo):
             return _formulario(request, taller, obj.moto, ServicioTaller.Origen.CODIGO, codigo=codigo)
         else:
             limites.sumar(clave_cod, 3600)
+            limites.sumar(clave_ip, 3600)
             error = "El código no es válido o ya caducó. Pídele al motero uno nuevo."
     elif placa:
         clave = f"placa-taller:{taller.pk}"
