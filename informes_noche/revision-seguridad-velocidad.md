@@ -125,3 +125,7 @@ sin N+1), `cupones/views.py` (freno de la vista previa, 500), `talleres/views.py
 (freno de códigos), `tramites/views.py` (aviso sin pago simulado), 4 plantillas de cupones (scripts locales),
 `notificaciones/tests.py` (citas solo con sesión), `package.json`/`package-lock.json` (jsqr y qrcode-generator como
 devDependencies exactas), `render.yaml` (aviso de `CARGAR_DEMO`), `.env.example`, `.gitignore`, `requirements-dev.txt`.
+
+## 6. Cierre (Auxiliares, 17-nov-2026)
+- **pip-audit** sobre `requirements.txt`: *No known vulnerabilities found*.
+- **CSP con sesión iniciada** (garaje, ficha de moto con 3D, Mi cuenta, consola como superadmin), revisada con el test client: todas llevan la cabecera; los únicos orígenes externos cargados son Google Fonts (permitido en `style-src`/`font-src`). three.js y sus addons salen de `static/` por importmap en línea (cubierto por `'unsafe-inline'`), sin fetch a otros dominios. Falta solo la prueba en navegador real con sesión (el navegador de la sesión no tuvo permiso para abrir localhost).
