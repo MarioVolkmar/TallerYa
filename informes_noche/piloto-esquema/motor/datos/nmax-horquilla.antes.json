@@ -1,0 +1,4453 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 18",
+  "titulo": "Horquilla y dirección · Yamaha NMAX 155",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la fig. 18 «Steering» del catálogo de partes NMAX BBE4 (2024): las dos barras de la horquilla, la tija inferior y los cojinetes de la dirección."
+ },
+ "visor": {
+  "titulo": "Horquilla delantera: barras, resortes y retenes",
+  "sub": "Fig. 18 · 50 números · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la horquilla y la dirección",
+  "laminaAria": "Dibujo de las dos barras de la horquilla delantera de la NMAX, vistas de frente, con la tija inferior y los cojinetes de la dirección en el centro. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Cómo trabaja una barra en cinco pasos: el resorte sostiene la moto y el aceite frena el movimiento.",
+  "introCadenas": "Tres fallas que empiezan chiquitas y terminan en una horquilla que bota aceite o una dirección que se traba.",
+  "introCuando": "Qué revisar y cuándo, según el manual del propietario y la práctica de taller."
+ },
+ "pie": "TallerYa · piloto del esquema · horquilla y dirección NMAX · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  -20,
+  10,
+  820,
+  638
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "-6 0 482 760",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Quieta, contigo encima.</b> Tu peso ya comprime un poco el resorte: la barra baja un par de centímetros dentro de la botella. Es el punto de partida.",
+    "s": {
+     "comp": 0.25,
+     "flujo": "",
+     "estado": "Con tu peso"
+    }
+   },
+   {
+    "t": "<b>2 · Frenas o pasas un bache.</b> La barra baja, el resorte se comprime y el aceite pasa por los orificios del amortiguador. Ese paso estrecho frena el golpe.",
+    "s": {
+     "comp": 0.7,
+     "flujo": "baja",
+     "estado": "Comprime"
+    }
+   },
+   {
+    "t": "<b>3 · Golpe fuerte.</b> Al final del recorrido la pieza de tope encierra el aceite y hace de cojín: la barra no golpea metal con metal.",
+    "s": {
+     "comp": 1,
+     "flujo": "baja",
+     "tope": true,
+     "estado": "Tope de aceite"
+    }
+   },
+   {
+    "t": "<b>4 · La rueda vuelve.</b> El resorte empuja la barra arriba y el aceite regresa por los orificios: frena el rebote. Al final, el resorte de rebote suaviza la llegada.",
+    "s": {
+     "comp": 0.3,
+     "flujo": "sube",
+     "estado": "Se extiende"
+    }
+   },
+   {
+    "t": "<b>5 · Retén gastado.</b> Cada bajada saca una película de aceite que queda en la barra. Con menos aceite la horquilla rebota y golpea, y se hunde más al frenar.",
+    "s": {
+     "comp": 0.6,
+     "flujo": "baja",
+     "fuga": true,
+     "estado": "Fuga de aceite"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, cantidades y códigos de las 53 referencias: catálogo de partes NMAX BBE4 (2024), fig. 18 «Steering»."
+  ],
+  "aproximado": [
+   "Vista de frente de la moto, con las barras verticales y los anillos de lado; las barras parten de otra lámina de horquilla de TallerYa, ajustadas a ojo.",
+   "Orden de las pistas y jaulas de la dirección: deducido de los nombres del catálogo, no del plano.",
+   "Recorrido de «Cómo funciona», fallas e intervalos: práctica de taller.",
+   "Aceite de horquilla, torques y ajuste de la dirección: sin dato (manual de servicio)."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha NMAX BBE4 (2024), fig. 18.",
+   "Manual del propietario NMAX 155 B6Y4 (2022), pp. 9-6, 9-27 y 9-28."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#hqSombra)",
+  "colores": {
+   "acero": "url(#hqAcero)",
+   "cromo": "url(#hqCromo)"
+  }
+ },
+ "lamina": "nmax-horquilla",
+ "moto": "nmax-bbe4",
+ "figura": 18,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-horquilla",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51",
+  "52",
+  "53"
+ ],
+ "nombres": {
+  "14": "Resorte de la horquilla",
+  "7": "Barra cromada",
+  "9": "Resorte de rebote",
+  "19": "Botella derecha",
+  "11": "Cono de tope",
+  "10": "Aro del pistón",
+  "8": "Amortiguador (varilla)",
+  "4": "Retén",
+  "3": "Botella izquierda",
+  "13": "Tornillo allen del fondo",
+  "16": "Tapón de la barra",
+  "12": "Empaque del allen",
+  "5": "Seguro del retén",
+  "6": "Guardapolvo",
+  "15": "Empaque del tapón",
+  "50": "Pinza de la manguera del freno",
+  "51": "Tornillo de la pinza",
+  "17": "Seguro del tapón",
+  "20": "Retén",
+  "21": "Seguro del retén",
+  "22": "Guardapolvo",
+  "23": "Barra cromada",
+  "24": "Amortiguador (varilla)",
+  "25": "Resorte de rebote",
+  "26": "Aro del pistón",
+  "27": "Cono de tope",
+  "28": "Empaque del allen",
+  "29": "Tornillo allen del fondo",
+  "30": "Resorte de la horquilla",
+  "31": "Empaque del tapón",
+  "32": "Tapón de la barra",
+  "33": "Seguro del tapón",
+  "52": "Pinza de la manguera del freno",
+  "53": "Tornillo de la pinza",
+  "34": "Tija inferior",
+  "35": "Guardapolvo de la tija",
+  "36": "Cojinete de abajo de la dirección",
+  "37": "Perno de la tija",
+  "38": "Pista de abajo",
+  "39": "Jaula de bolas de abajo",
+  "40": "Pista de arriba (en el chasis)",
+  "41": "Pista de arriba (en el eje)",
+  "42": "Jaula de bolas de arriba",
+  "43": "Tapa del cojinete de abajo",
+  "44": "Tapa del cojinete de arriba",
+  "45": "Tuerca de la dirección",
+  "46": "Arandela plana de la dirección",
+  "47": "Arandela de traba",
+  "48": "Tapón del eje",
+  "49": "Tapa de abajo de la tija"
+ },
+ "ordenChips": [
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51",
+  "52",
+  "53"
+ ],
+ "ocultas": [
+  "14",
+  "9",
+  "11",
+  "10",
+  "8",
+  "4",
+  "12",
+  "5",
+  "15",
+  "17",
+  "30",
+  "25",
+  "27",
+  "26",
+  "24",
+  "20",
+  "28",
+  "21",
+  "31",
+  "33"
+ ],
+ "piezas": [
+  {
+   "id": "49",
+   "n": "49",
+   "arte": "arteTapaTija",
+   "args": [
+    390,
+    292
+   ],
+   "anc": [
+    430,
+    296
+   ],
+   "et": [
+    110,
+    30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "34",
+   "n": "34",
+   "arte": "arteTija",
+   "args": [
+    390,
+    255
+   ],
+   "anc": [
+    450,
+    252
+   ],
+   "et": [
+    -30,
+    60
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteBarra",
+   "args": [
+    220,
+    291
+   ],
+   "anc": [
+    220,
+    200
+   ],
+   "et": [
+    -50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "arte": "arteBarra",
+   "args": [
+    560,
+    291
+   ],
+   "anc": [
+    560,
+    200
+   ],
+   "et": [
+    50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteBotella",
+   "args": [
+    220,
+    465,
+    "izq"
+   ],
+   "anc": [
+    240,
+    450
+   ],
+   "et": [
+    44,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "arte": "arteBotella",
+   "args": [
+    560,
+    465,
+    "der"
+   ],
+   "anc": [
+    580,
+    450
+   ],
+   "et": [
+    44,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "arte": "arteGuardapolvo",
+   "args": [
+    220,
+    322
+   ],
+   "anc": [
+    220,
+    322
+   ],
+   "et": [
+    -54,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "arte": "arteResorte",
+   "args": [
+    220,
+    230
+   ],
+   "anc": [
+    232,
+    230
+   ],
+   "et": [
+    28,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteAsiento",
+   "args": [
+    220,
+    440
+   ],
+   "anc": [
+    227,
+    440
+   ],
+   "et": [
+    26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "arte": "arteAro",
+   "args": [
+    220,
+    346
+   ],
+   "anc": [
+    208,
+    346
+   ],
+   "et": [
+    -38,
+    4
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    209,
+    372
+   ],
+   "et": [
+    -40,
+    0
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "x": 220,
+    "y": 372,
+    "r": 11,
+    "largo": 40,
+    "vueltas": 6,
+    "alambre": 2.4,
+    "color": "#c9a23a",
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "arte": "arteTope",
+   "args": [
+    220,
+    550
+   ],
+   "anc": [
+    234,
+    550
+   ],
+   "et": [
+    26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "arte": "arteTapon",
+   "args": [
+    220,
+    100
+   ],
+   "anc": [
+    220,
+    100
+   ],
+   "et": [
+    -50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    233,
+    112
+   ],
+   "et": [
+    28,
+    0
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "x": 220,
+    "y": 112,
+    "r": 13,
+    "g": 3,
+    "eje": "vertical"
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "arte": "arteSeguro",
+   "args": [
+    220,
+    340
+   ],
+   "anc": [
+    240,
+    340
+   ],
+   "et": [
+    30,
+    -10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteReten",
+   "args": [
+    220,
+    350
+   ],
+   "anc": [
+    242,
+    352
+   ],
+   "et": [
+    30,
+    10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    230,
+    601
+   ],
+   "et": [
+    30,
+    0
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "x": 220,
+    "y": 600,
+    "r": 10,
+    "ri": 6,
+    "e": 2,
+    "cara": "#b9a05a",
+    "lado": "#4a3d1c",
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "arte": "arteAllen",
+   "args": [
+    220,
+    612
+   ],
+   "anc": [
+    220,
+    619
+   ],
+   "et": [
+    -38,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "50",
+   "n": "50",
+   "arte": "artePinza",
+   "args": [
+    182,
+    420
+   ],
+   "anc": [
+    176,
+    420
+   ],
+   "et": [
+    -34,
+    -14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "51",
+   "n": "51",
+   "arte": "arteTornPinza",
+   "args": [
+    186,
+    420
+   ],
+   "anc": [
+    180,
+    422
+   ],
+   "et": [
+    -20,
+    22
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "comun": "seguro",
+   "p": {
+    "x": 220,
+    "y": 126,
+    "r": 13,
+    "eje": "vertical"
+   },
+   "anc": [
+    233,
+    126
+   ],
+   "et": [
+    30,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "arte": "arteGuardapolvo",
+   "args": [
+    560,
+    322
+   ],
+   "anc": [
+    560,
+    322
+   ],
+   "et": [
+    54,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "30",
+   "n": "30",
+   "arte": "arteResorte",
+   "args": [
+    560,
+    230
+   ],
+   "anc": [
+    548,
+    230
+   ],
+   "et": [
+    -28,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "arte": "arteAsiento",
+   "args": [
+    560,
+    440
+   ],
+   "anc": [
+    553,
+    440
+   ],
+   "et": [
+    -26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "arte": "arteAro",
+   "args": [
+    560,
+    346
+   ],
+   "anc": [
+    572,
+    346
+   ],
+   "et": [
+    38,
+    4
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "anc": [
+    571,
+    372
+   ],
+   "et": [
+    40,
+    0
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "x": 560,
+    "y": 372,
+    "r": 11,
+    "largo": 40,
+    "vueltas": 6,
+    "alambre": 2.4,
+    "color": "#c9a23a",
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "27",
+   "n": "27",
+   "arte": "arteTope",
+   "args": [
+    560,
+    550
+   ],
+   "anc": [
+    546,
+    550
+   ],
+   "et": [
+    -26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "32",
+   "n": "32",
+   "arte": "arteTapon",
+   "args": [
+    560,
+    100
+   ],
+   "anc": [
+    560,
+    100
+   ],
+   "et": [
+    50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "31",
+   "n": "31",
+   "anc": [
+    547,
+    112
+   ],
+   "et": [
+    -28,
+    0
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "x": 560,
+    "y": 112,
+    "r": 13,
+    "g": 3,
+    "eje": "vertical"
+   }
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "arte": "arteSeguro",
+   "args": [
+    560,
+    340
+   ],
+   "anc": [
+    540,
+    340
+   ],
+   "et": [
+    -30,
+    -10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "arte": "arteReten",
+   "args": [
+    560,
+    350
+   ],
+   "anc": [
+    538,
+    352
+   ],
+   "et": [
+    -30,
+    10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "28",
+   "n": "28",
+   "anc": [
+    550,
+    601
+   ],
+   "et": [
+    -30,
+    0
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "x": 560,
+    "y": 600,
+    "r": 10,
+    "ri": 6,
+    "e": 2,
+    "cara": "#b9a05a",
+    "lado": "#4a3d1c",
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "29",
+   "n": "29",
+   "arte": "arteAllen",
+   "args": [
+    560,
+    612
+   ],
+   "anc": [
+    560,
+    619
+   ],
+   "et": [
+    38,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "52",
+   "n": "52",
+   "arte": "artePinza",
+   "args": [
+    598,
+    420
+   ],
+   "anc": [
+    604,
+    420
+   ],
+   "et": [
+    40,
+    -52
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "53",
+   "n": "53",
+   "arte": "arteTornPinza",
+   "args": [
+    594,
+    420
+   ],
+   "anc": [
+    600,
+    422
+   ],
+   "et": [
+    20,
+    22
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "33",
+   "n": "33",
+   "comun": "seguro",
+   "p": {
+    "x": 560,
+    "y": 126,
+    "r": 13,
+    "eje": "vertical"
+   },
+   "anc": [
+    547,
+    126
+   ],
+   "et": [
+    -30,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "37",
+   "n": "37",
+   "comun": "tornillo",
+   "p": {
+    "x": 190,
+    "y": 248,
+    "cabeza": 7,
+    "largo": 30,
+    "d": 7,
+    "tipo": "allen",
+    "copias": [
+     [
+      0,
+      16
+     ],
+     [
+      400,
+      0
+     ],
+     [
+      400,
+      16
+     ]
+    ]
+   },
+   "anc": [
+    190,
+    248
+   ],
+   "et": [
+    -70,
+    8
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "35",
+   "n": "35",
+   "comun": "reten",
+   "p": {
+    "x": 390,
+    "y": 236,
+    "r": 15,
+    "ri": 9,
+    "ancho": 4,
+    "eje": "vertical"
+   },
+   "anc": [
+    405,
+    236
+   ],
+   "et": [
+    -60,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "36",
+   "n": "36",
+   "comun": "rodamiento",
+   "p": {
+    "x": 390,
+    "y": 224,
+    "r": 16,
+    "ri": 9,
+    "ancho": 7,
+    "eje": "vertical"
+   },
+   "anc": [
+    406,
+    224
+   ],
+   "et": [
+    60,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "38",
+   "n": "38",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 212,
+    "r": 16,
+    "ri": 10,
+    "e": 2,
+    "eje": "vertical"
+   },
+   "anc": [
+    406,
+    212
+   ],
+   "et": [
+    -60,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "39",
+   "n": "39",
+   "comun": "rodamiento",
+   "p": {
+    "x": 390,
+    "y": 202,
+    "r": 15,
+    "ri": 10,
+    "ancho": 5,
+    "eje": "vertical"
+   },
+   "anc": [
+    405,
+    202
+   ],
+   "et": [
+    60,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "40",
+   "n": "40",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 150,
+    "r": 16,
+    "ri": 10,
+    "e": 2,
+    "eje": "vertical"
+   },
+   "anc": [
+    406,
+    150
+   ],
+   "et": [
+    -60,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "42",
+   "n": "42",
+   "comun": "rodamiento",
+   "p": {
+    "x": 390,
+    "y": 140,
+    "r": 15,
+    "ri": 10,
+    "ancho": 5,
+    "eje": "vertical"
+   },
+   "anc": [
+    405,
+    140
+   ],
+   "et": [
+    60,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "41",
+   "n": "41",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 130,
+    "r": 16,
+    "ri": 10,
+    "e": 2,
+    "eje": "vertical"
+   },
+   "anc": [
+    406,
+    130
+   ],
+   "et": [
+    -60,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "43",
+   "n": "43",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 122,
+    "r": 17,
+    "ri": 10,
+    "e": 2,
+    "material": "plast",
+    "eje": "vertical"
+   },
+   "anc": [
+    407,
+    122
+   ],
+   "et": [
+    60,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "44",
+   "n": "44",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 114,
+    "r": 17,
+    "ri": 10,
+    "e": 2,
+    "material": "plast",
+    "eje": "vertical"
+   },
+   "anc": [
+    407,
+    114
+   ],
+   "et": [
+    -60,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "47",
+   "n": "47",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 104,
+    "r": 14,
+    "ri": 9,
+    "e": 2,
+    "eje": "vertical"
+   },
+   "anc": [
+    404,
+    104
+   ],
+   "et": [
+    60,
+    -30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "45",
+   "n": "45",
+   "comun": "tuerca",
+   "p": {
+    "x": 390,
+    "y": 94,
+    "r": 14,
+    "alto": 7,
+    "eje": "vertical"
+   },
+   "anc": [
+    404,
+    94
+   ],
+   "et": [
+    60,
+    -60
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "46",
+   "n": "46",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 84,
+    "r": 13,
+    "ri": 9,
+    "e": 2,
+    "eje": "vertical"
+   },
+   "anc": [
+    403,
+    84
+   ],
+   "et": [
+    -60,
+    -75
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "48",
+   "n": "48",
+   "comun": "arandela",
+   "p": {
+    "x": 390,
+    "y": 74,
+    "r": 9,
+    "ri": 1,
+    "e": 4,
+    "material": "plast",
+    "eje": "vertical"
+   },
+   "anc": [
+    399,
+    74
+   ],
+   "et": [
+    0,
+    -40
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "m": {
+    "50": [
+     -122,
+     209
+    ],
+    "51": [
+     -126,
+     246
+    ],
+    "52": [
+     118,
+     223
+    ],
+    "53": [
+     126,
+     245
+    ]
+   },
+   "t": "<b>Barras fuera.</b> Moto en el gato central y rueda delantera en el aire. Quita la rueda, la pinza del freno y el guardabarros (otras láminas). Suelta las [[50|pinzas de la manguera]] y afloja los pernos de la tija de arriba y los [[37|de abajo]]."
+  },
+  {
+   "m": {
+    "16": [
+     -330,
+     -5
+    ],
+    "15": [
+     -337,
+     18
+    ],
+    "17": [
+     -305,
+     72
+    ],
+    "37": [
+     0,
+     40
+    ]
+   },
+   "t": "<b>Tapón.</b> Con la barra aún apretada en la tija, empuja el [[16|tapón]] hacia abajo y saca el [[17|seguro del tapón]]; el resorte lo empuja: sujétalo. Saca la barra hacia abajo. Al armar: [[15|empaque]] nuevo."
+  },
+  {
+   "m": {
+    "14": [
+     -336,
+     111
+    ]
+   },
+   "t": "<b>Resorte y aceite.</b> Saca el [[14|resorte]], vacía el aceite boca abajo en un recipiente y bombea la barra hasta que no salga más. Al armar: aceite de horquilla nuevo, con la cantidad y el nivel del manual de servicio."
+  },
+  {
+   "m": {
+    "13": [
+     0,
+     66
+    ],
+    "12": [
+     0,
+     28
+    ]
+   },
+   "t": "<b>Tornillo allen del fondo.</b> Suéltalo con la barra cerrada: si el [[8|amortiguador]] gira, sujétalo con la herramienta de taller. Al armar: [[12|empaque]] nuevo, traba roscas y torque del manual de servicio."
+  },
+  {
+   "m": {
+    "7": [
+     -120,
+     -31
+    ],
+    "6": [
+     -120,
+     140
+    ],
+    "5": [
+     -120,
+     156
+    ],
+    "4": [
+     -120,
+     201
+    ]
+   },
+   "t": "<b>Barra y retén.</b> Quita el [[6|guardapolvo]] y el [[5|seguro]], saca el [[4|retén]] con un extractor sin rayar la botella y sube la barra. Al armar: retén nuevo, untado de aceite y metido derecho con su herramienta."
+  },
+  {
+   "m": {
+    "3": [
+     0,
+     10
+    ],
+    "8": [
+     -254,
+     -111
+    ],
+    "10": [
+     -278,
+     -114
+    ],
+    "9": [
+     -260,
+     93
+    ],
+    "11": [
+     -260,
+     -20
+    ]
+   },
+   "t": "<b>Amortiguador interno.</b> Saca de la barra el [[8|amortiguador]] con su [[9|resorte de rebote]], y del fondo de la botella el [[11|cono de tope]] si se quedó allí. Revisa el [[10|aro]]: si está gastado o roto, cámbialo."
+  },
+  {
+   "m": {
+    "32": [
+     330,
+     -5
+    ],
+    "31": [
+     337,
+     18
+    ],
+    "33": [
+     305,
+     72
+    ],
+    "30": [
+     336,
+     111
+    ],
+    "29": [
+     0,
+     66
+    ],
+    "28": [
+     0,
+     28
+    ],
+    "23": [
+     120,
+     -31
+    ],
+    "22": [
+     119,
+     139
+    ],
+    "21": [
+     132,
+     179
+    ],
+    "20": [
+     116,
+     221
+    ],
+    "19": [
+     8,
+     -17
+    ],
+    "24": [
+     254,
+     -111
+    ],
+    "26": [
+     278,
+     -114
+    ],
+    "25": [
+     260,
+     93
+    ],
+    "27": [
+     264,
+     -32
+    ]
+   },
+   "t": "<b>Barra derecha.</b> Lo mismo en la [[19|botella derecha]]. Lava todo y revisa que las barras estén rectas y sin picaduras. Al armar: mismo aceite y nivel en las dos, barras a la misma altura y pernos de la tija con el torque del manual de servicio."
+  },
+  {
+   "m": {
+    "48": [
+     -75,
+     -69
+    ],
+    "45": [
+     -105,
+     -1
+    ],
+    "46": [
+     -120,
+     -60
+    ],
+    "47": [
+     120,
+     -30
+    ],
+    "44": [
+     -120,
+     0
+    ],
+    "41": [
+     -120,
+     30
+    ],
+    "42": [
+     120,
+     30
+    ],
+    "40": [
+     -120,
+     60
+    ]
+   },
+   "t": "<b>Cojinetes de arriba.</b> Sin el manubrio ni la tija de arriba (otra lámina), quita el [[48|tapón del eje]], las [[45|tuercas]] con llave de gancho y las [[47|arandelas]]; salen la [[44|tapa]], la [[41|pista]] y las [[42|bolas]]. Sujeta la tija desde abajo: se cae."
+  },
+  {
+   "m": {
+    "34": [
+     0,
+     150
+    ],
+    "49": [
+     0,
+     175
+    ],
+    "35": [
+     -121,
+     146
+    ],
+    "36": [
+     102,
+     138
+    ],
+    "38": [
+     -119,
+     124
+    ],
+    "39": [
+     121,
+     116
+    ],
+    "43": [
+     0,
+     120
+    ]
+   },
+   "t": "<b>Tija inferior.</b> Quita la [[49|tapa de abajo]] y baja la [[34|tija]] con su [[36|cojinete]] y el [[35|guardapolvo de la tija]]. Revisa pistas y bolas: picadas, cambia el juego entero. Al armar: grasa nueva, sin juego ni dureza al girar; ajuste del manual de servicio."
+  }
+ ],
+ "textoArmado": "<b>Armado, fuera de la moto.</b> Las dos barras entran en la tija inferior, que gira dentro del tubo de la dirección del chasis. Lo de adentro (resortes, amortiguadores, retenes, cojinetes) no se ve: elige «Transparente» o tócalo en la lista.",
+ "fichas": {
+  "14": {
+   "nombre": "Resorte de la horquilla (izquierda)",
+   "cat": "SPRING, FRONT FORK · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Los resortes largos de acero, uno dentro de cada barra, entre el tapón y el amortiguador.",
+   "sirve": "Sostiene el peso de la moto y el tuyo, y la devuelve arriba después de cada bache.",
+   "sintomas": [
+    "La moto se hunde mucho al frenar.",
+    "Toca fondo en los huecos.",
+    "Un lado queda más bajo que el otro."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con los años se cansa y queda más corto."
+    ],
+    [
+     "maluso",
+     "Andar siempre con mucho peso lo vence antes."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Vencido no se recupera: se cambia, y mejor en las dos barras.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite o los retenes.",
+   "arrastra": [
+    "resorte cansado → la [[7|barra]] toca fondo y golpea el [[11|tope]]"
+   ],
+   "conecta": [
+    "16",
+    "8",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-F3141-00"
+  },
+  "7": {
+   "nombre": "Barra cromada (izquierda)",
+   "cat": "INNER TUBE COMP.1 · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tubo cromado que sube y baja dentro de la botella. Es la parte que ves brillante arriba de la rueda.",
+   "sirve": "Guía el recorrido y sella contra el retén: por eso tiene que estar liso y recto.",
+   "sintomas": [
+    "Ves puntos de óxido o rayas en el cromo.",
+    "Aceite en la barra después de rodar.",
+    "La dirección se siente torcida tras una caída."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El cromo se pica con el óxido si la moto duerme a la intemperie."
+    ],
+    [
+     "golpe",
+     "Una caída la tuerce."
+    ],
+    [
+     "desgaste",
+     "La mugre raya el cromo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está picada o torcida, rompe cada retén nuevo; enderezarla no es seguro.",
+   "dif": "taller",
+   "cuando": "Revísala en cada lavada y al cambiar retenes.",
+   "arrastra": [
+    "picaduras → cortan el [[4|retén]] y sale el aceite"
+   ],
+   "conecta": [
+    "4",
+    "6",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3110-00"
+  },
+  "9": {
+   "nombre": "Resorte de rebote (izquierda)",
+   "cat": "SPRING, SUB · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El resorte corto que va en la varilla del amortiguador, debajo de su pistón.",
+   "sirve": "Frena el final del recorrido hacia arriba, para que la barra no golpee al extenderse de una.",
+   "sintomas": [
+    "Golpe seco al levantar la rueda o al salir de un hueco."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se cansa con los años."
+    ],
+    [
+     "desgaste",
+     "Roza con el aceite sucio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barato y se cambia si está corto o roto, ya con la barra abierta.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando abras la barra.",
+   "arrastra": [
+    "roto → golpe al extenderse en el [[8|amortiguador]]"
+   ],
+   "conecta": [
+    "8",
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2K5-23152-00"
+  },
+  "19": {
+   "nombre": "Botella derecha",
+   "cat": "TUBE, OUTER · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tubo de aluminio de abajo de la barra derecha, igual por dentro a la izquierda.",
+   "sirve": "Guarda el aceite, recibe la barra y sostiene el eje de la rueda.",
+   "sintomas": [
+    "Aceite por la boca de la botella.",
+    "Rayas o golpes donde va el retén."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Una caída la raja o la tuerce."
+    ],
+    [
+     "humedad",
+     "El aluminio se corroe en la boca del retén."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una botella rajada o torcida no se suelda: se cambia.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar retenes.",
+   "arrastra": [
+    "boca rayada → el [[20|retén derecho]] nuevo no sella"
+   ],
+   "conecta": [
+    "23",
+    "20",
+    "29",
+    "52"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3136-00"
+  },
+  "11": {
+   "nombre": "Cono de tope (izquierda)",
+   "cat": "SPINDLE, TAPER · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "La pieza cónica del fondo de la botella donde se apoya la varilla del [[8|amortiguador]].",
+   "sirve": "Al final del recorrido encierra el aceite y hace de cojín: la barra no golpea metal con metal.",
+   "sintomas": [
+    "Golpe seco al tocar fondo en un hueco."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Casi no falla; puede quedar mal puesta al armar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está golpeada se vuelve a poner; va bien centrada en el amortiguador.",
+   "dif": "taller",
+   "cuando": "Revísala cuando abras la barra.",
+   "arrastra": [
+    "mal puesta → la [[7|barra]] golpea al tocar fondo"
+   ],
+   "conecta": [
+    "8",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3173-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@tope6",
+      "color": "acero"
+     }
+    ]
+   }
+  },
+  "10": {
+   "nombre": "Aro del pistón (izquierda)",
+   "cat": "RING, PISTON · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Un anillo que rodea la cabeza del amortiguador del amortiguador y roza por dentro de la barra.",
+   "sirve": "Obliga al aceite a pasar por los orificios del amortiguador: de ahí sale el frenado.",
+   "sintomas": [
+    "La horquilla rebota como si no tuviera aceite, aunque lo tenga."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta con el aceite sucio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastado deja pasar el aceite por el lado y la barra queda sin frenado.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite.",
+   "arrastra": [
+    "gastado → el [[8|amortiguador]] deja de frenar el rebote"
+   ],
+   "conecta": [
+    "8",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3157-00"
+  },
+  "8": {
+   "nombre": "Amortiguador (varilla) (izquierda)",
+   "cat": "CYLINDER COMP., FRONT FORK · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "La varilla con pistón que va adentro de la barra cromada: el aceite pasa por sus agujeros.",
+   "sirve": "El aceite pasa por sus orificios al subir y bajar la barra: ese paso estrecho frena el golpe.",
+   "sintomas": [
+    "La moto rebota varias veces tras un bache.",
+    "Se hunde de golpe al frenar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los orificios se tapan con el aceite sucio."
+    ],
+    [
+     "golpe",
+     "Un golpe fuerte lo dobla."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se lava y se vuelve a poner; doblado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite.",
+   "arrastra": [
+    "orificios tapados → la horquilla queda dura y golpea en cada hueco"
+   ],
+   "conecta": [
+    "10",
+    "9",
+    "11",
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3170-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@asiento8",
+      "color": "acero"
+     }
+    ]
+   }
+  },
+  "4": {
+   "nombre": "Retén (izquierda)",
+   "cat": "OIL SEAL · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El anillo de caucho con resorte que sella la barra en la boca de la botella.",
+   "sirve": "No deja salir el aceite ni entrar la mugre mientras la barra sube y baja.",
+   "sintomas": [
+    "Aceite en la barra o en el guardapolvo.",
+    "Anillo de mugre húmeda en la barra.",
+    "La horquilla rebota más que antes."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El labio se gasta con los kilómetros."
+    ],
+    [
+     "edad",
+     "El caucho se endurece."
+    ],
+    [
+     "maluso",
+     "Lavar con hidrolavadora de cerca lo daña."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Sale dañado al sacarlo: va siempre nuevo y los dos lados juntos.",
+   "dif": "taller",
+   "cuando": "Cámbialo cuando veas aceite en la barra.",
+   "arrastra": [
+    "fuga → poco aceite y el [[8|amortiguador]] no frena",
+    "aceite en la rueda → frena mal"
+   ],
+   "conecta": [
+    "7",
+    "5",
+    "6",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3HB-F3145-00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@reten9",
+      "color": "caucho"
+     }
+    ]
+   }
+  },
+  "3": {
+   "nombre": "Botella izquierda",
+   "cat": "TUBE, OUTER (L.H) · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tubo de aluminio de abajo de la barra izquierda: por dentro lleva el aceite y por fuera sostiene el eje de la rueda.",
+   "sirve": "Guarda el aceite, recibe la barra y sostiene el eje de la rueda.",
+   "sintomas": [
+    "Aceite por la boca de la botella.",
+    "Rayas o golpes donde va el retén."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Una caída la raja o la tuerce."
+    ],
+    [
+     "humedad",
+     "El aluminio se corroe en la boca del retén."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una botella rajada o torcida no se suelda: se cambia.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar retenes.",
+   "arrastra": [
+    "boca rayada → el [[4|retén]] nuevo no sella"
+   ],
+   "conecta": [
+    "7",
+    "4",
+    "13",
+    "50"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3126-00"
+  },
+  "13": {
+   "nombre": "Tornillo allen del fondo (izquierda)",
+   "cat": "BOLT, HEXAGON SOCKET HEAD · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tornillo allen que entra por debajo de la botella y se enrosca en el fondo del amortiguador.",
+   "sirve": "Une el amortiguador a la botella.",
+   "sintomas": [
+    "Gotea aceite por debajo de la botella."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado sin empaque nuevo gotea."
+    ],
+    [
+     "desgaste",
+     "Una cabeza redondeada no deja soltarlo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar con traba roscas y su empaque nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando abras la barra.",
+   "arrastra": [
+    "flojo → el [[8|amortiguador]] gira y la barra gotea"
+   ],
+   "conecta": [
+    "8",
+    "12",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "278-F3181-50"
+  },
+  "16": {
+   "nombre": "Tapón de la barra (izquierda)",
+   "cat": "BOLT, CAP · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tapón roscado que cierra la barra por arriba.",
+   "sirve": "Cierra el aceite y sostiene el resorte por arriba.",
+   "sintomas": [
+    "Aceite en la parte de arriba de la barra."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin empaque nuevo, suda aceite."
+    ],
+    [
+     "desgaste",
+     "Hexágono redondeado por herramienta mala."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a usar con [[15|empaque]] nuevo.",
+   "dif": "taller",
+   "cuando": "Ábrelo al cambiar el aceite.",
+   "arrastra": [
+    "empaque viejo → suda aceite por la [[7|barra]]"
+   ],
+   "conecta": [
+    "15",
+    "14",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3111-00"
+  },
+  "12": {
+   "nombre": "Empaque del allen (izquierda)",
+   "cat": "GASKET · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "La arandela que va bajo la cabeza del tornillo allen del fondo.",
+   "sirve": "Sella el tornillo para que no gotee el aceite.",
+   "sintomas": [
+    "Gota por debajo de la botella."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta al apretar y ya no sella."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se aplasta al apretar: va nuevo cada vez.",
+   "dif": "taller",
+   "cuando": "Cámbialo cada vez que sueltes el allen.",
+   "arrastra": [
+    "viejo → gotea el [[13|allen]]"
+   ],
+   "conecta": [
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2BU-F3158-00"
+  },
+  "5": {
+   "nombre": "Seguro del retén (izquierda)",
+   "cat": "RING, SNAP · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Un seguro de acero en la boca de la botella, encima del retén.",
+   "sirve": "Mantiene el retén en su lugar.",
+   "sintomas": [
+    "El retén se sale de su sitio."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se deforma al sacarlo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano y sin óxido se vuelve a poner; deformado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar retenes.",
+   "arrastra": [
+    "mal puesto → se sale el [[4|retén]]"
+   ],
+   "conecta": [
+    "4",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3V3-F3156-00"
+  },
+  "6": {
+   "nombre": "Guardapolvo (izquierda)",
+   "cat": "SEAL, DUST · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Un capuchón de caucho que cubre la boca de la botella.",
+   "sirve": "Limpia la barra y frena la mugre antes de que llegue al retén.",
+   "sintomas": [
+    "Está rajado o suelto.",
+    "Mugre pegada a la barra."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El sol lo reseca y lo raja."
+    ],
+    [
+     "humedad",
+     "El barro lo desgasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Barato: va nuevo con el retén.",
+   "dif": "taller",
+   "cuando": "Míralo en cada lavada.",
+   "arrastra": [
+    "rajado → la mugre corta el [[4|retén]]"
+   ],
+   "conecta": [
+    "4",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3HB-F3144-00"
+  },
+  "15": {
+   "nombre": "Empaque del tapón (izquierda)",
+   "cat": "GASKET · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El anillo de caucho delgado que sella el tapón de la barra.",
+   "sirve": "Sella el tapón para que no salga aceite por arriba.",
+   "sintomas": [
+    "Aceite alrededor del tapón."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cuesta poco: va nuevo cada vez que abras el tapón.",
+   "dif": "taller",
+   "cuando": "Cámbialo al abrir el tapón.",
+   "arrastra": [
+    "viejo → suda aceite el [[16|tapón]]"
+   ],
+   "conecta": [
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3Y6-23114-00"
+  },
+  "50": {
+   "nombre": "Pinza de la manguera del freno (izquierda)",
+   "cat": "HOLDER, BRAKE HOSE 1 · 1 pieza",
+   "que": "Una pinza de plástico atornillada a la botella izquierda.",
+   "sirve": "Sujeta la manguera del freno para que no roce la rueda ni se doble al girar.",
+   "sintomas": [
+    "La manguera cuelga o roza la llanta."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El plástico se reseca y se parte."
+    ],
+    [
+     "golpe",
+     "Se rompe en una caída."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rota no sujeta: se cambia; la manguera suelta es un peligro.",
+   "dif": "facil",
+   "cuando": "Revísala al desmontar la rueda.",
+   "arrastra": [
+    "rota → la manguera del freno roza y se gasta"
+   ],
+   "conecta": [
+    "3",
+    "51"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-F5875-00"
+  },
+  "51": {
+   "nombre": "Tornillo de la pinza (izquierda)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "El tornillo que sujeta la pinza de la manguera a la botella.",
+   "sirve": "Fija la pinza.",
+   "sintomas": [
+    "La pinza se mueve."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar.",
+   "dif": "facil",
+   "cuando": "Revísalo al desmontar la rueda.",
+   "arrastra": [
+    "flojo → se suelta la [[50|pinza]]"
+   ],
+   "conecta": [
+    "50"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95D02-06012"
+  },
+  "17": {
+   "nombre": "Seguro del tapón (izquierda)",
+   "cat": "RING, SNAP · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El anillo de acero que traba el [[16|tapón]] dentro de la barra, en una ranura de arriba.",
+   "sirve": "Sostiene el tapón contra la fuerza del resorte.",
+   "sintomas": [
+    "El tapón se ve torcido o hundido."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se dobla si se saca sin empujar antes el tapón."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si sale doblado o flojo en la ranura, va nuevo: si se suelta, el tapón sale disparado.",
+   "dif": "taller",
+   "cuando": "Se saca cada vez que abres la barra.",
+   "arrastra": [
+    "Seguro flojo → el tapón se sale con el resorte."
+   ],
+   "conecta": [
+    "16",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "porque": "ap"
+   },
+   "codigo": "2DP-F3153-00"
+  },
+  "20": {
+   "nombre": "Retén (derecha)",
+   "cat": "OIL SEAL · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El anillo de caucho con resorte que sella la barra en la boca de la botella.",
+   "sirve": "No deja salir el aceite ni entrar la mugre mientras la barra sube y baja.",
+   "sintomas": [
+    "Aceite en la barra o en el guardapolvo.",
+    "Anillo de mugre húmeda en la barra.",
+    "La horquilla rebota más que antes."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El labio se gasta con los kilómetros."
+    ],
+    [
+     "edad",
+     "El caucho se endurece."
+    ],
+    [
+     "maluso",
+     "Lavar con hidrolavadora de cerca lo daña."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Sale dañado al sacarlo: va siempre nuevo y los dos lados juntos.",
+   "dif": "taller",
+   "cuando": "Cámbialo cuando veas aceite en la barra.",
+   "arrastra": [
+    "fuga → poco aceite y el [[24|amortiguador derecho]] no frena",
+    "aceite en la rueda → frena mal"
+   ],
+   "conecta": [
+    "23",
+    "21",
+    "22",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3HB-F3145-00"
+  },
+  "21": {
+   "nombre": "Seguro del retén (derecha)",
+   "cat": "RING, SNAP · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Un seguro de acero en la boca de la botella, encima del retén.",
+   "sirve": "Mantiene el retén en su lugar.",
+   "sintomas": [
+    "El retén se sale de su sitio."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se deforma al sacarlo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano y sin óxido se vuelve a poner; deformado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar retenes.",
+   "arrastra": [
+    "mal puesto → se sale el [[20|retén derecho]]"
+   ],
+   "conecta": [
+    "20",
+    "22"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3V3-F3156-00"
+  },
+  "22": {
+   "nombre": "Guardapolvo (derecha)",
+   "cat": "SEAL, DUST · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Un capuchón de caucho que cubre la boca de la botella.",
+   "sirve": "Limpia la barra y frena la mugre antes de que llegue al retén.",
+   "sintomas": [
+    "Está rajado o suelto.",
+    "Mugre pegada a la barra."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El sol lo reseca y lo raja."
+    ],
+    [
+     "humedad",
+     "El barro lo desgasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Barato: va nuevo con el retén.",
+   "dif": "taller",
+   "cuando": "Míralo en cada lavada.",
+   "arrastra": [
+    "rajado → la mugre corta el [[20|retén derecho]]"
+   ],
+   "conecta": [
+    "20",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3HB-F3144-00"
+  },
+  "23": {
+   "nombre": "Barra cromada (derecha)",
+   "cat": "INNER TUBE COMP.1 · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tubo cromado que sube y baja dentro de la botella. Es la parte que ves brillante arriba de la rueda.",
+   "sirve": "Guía el recorrido y sella contra el retén: por eso tiene que estar liso y recto.",
+   "sintomas": [
+    "Ves puntos de óxido o rayas en el cromo.",
+    "Aceite en la barra después de rodar.",
+    "La dirección se siente torcida tras una caída."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El cromo se pica con el óxido si la moto duerme a la intemperie."
+    ],
+    [
+     "golpe",
+     "Una caída la tuerce."
+    ],
+    [
+     "desgaste",
+     "La mugre raya el cromo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está picada o torcida, rompe cada retén nuevo; enderezarla no es seguro.",
+   "dif": "taller",
+   "cuando": "Revísala en cada lavada y al cambiar retenes.",
+   "arrastra": [
+    "picaduras → cortan el [[20|retén derecho]] y sale el aceite"
+   ],
+   "conecta": [
+    "20",
+    "22",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3110-00"
+  },
+  "24": {
+   "nombre": "Amortiguador (varilla) (derecha)",
+   "cat": "CYLINDER COMP., FRONT FORK · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "La varilla con pistón que va adentro de la barra cromada: el aceite pasa por sus agujeros.",
+   "sirve": "El aceite pasa por sus orificios al subir y bajar la barra: ese paso estrecho frena el golpe.",
+   "sintomas": [
+    "La moto rebota varias veces tras un bache.",
+    "Se hunde de golpe al frenar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los orificios se tapan con el aceite sucio."
+    ],
+    [
+     "golpe",
+     "Un golpe fuerte lo dobla."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se lava y se vuelve a poner; doblado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite.",
+   "arrastra": [
+    "orificios tapados → la horquilla queda dura y golpea en cada hueco"
+   ],
+   "conecta": [
+    "26",
+    "25",
+    "27",
+    "29"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3170-00"
+  },
+  "25": {
+   "nombre": "Resorte de rebote (derecha)",
+   "cat": "SPRING, SUB · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El resorte corto que va en la varilla del amortiguador, debajo de su pistón.",
+   "sirve": "Frena el final del recorrido hacia arriba, para que la barra no golpee al extenderse de una.",
+   "sintomas": [
+    "Golpe seco al levantar la rueda o al salir de un hueco."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se cansa con los años."
+    ],
+    [
+     "desgaste",
+     "Roza con el aceite sucio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barato y se cambia si está corto o roto, ya con la barra abierta.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando abras la barra.",
+   "arrastra": [
+    "roto → golpe al extenderse en el [[24|amortiguador derecho]]"
+   ],
+   "conecta": [
+    "24",
+    "26"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2K5-23152-00"
+  },
+  "26": {
+   "nombre": "Aro del pistón (derecha)",
+   "cat": "RING, PISTON · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Un anillo que rodea la cabeza del amortiguador del amortiguador y roza por dentro de la barra.",
+   "sirve": "Obliga al aceite a pasar por los orificios del amortiguador: de ahí sale el frenado.",
+   "sintomas": [
+    "La horquilla rebota como si no tuviera aceite, aunque lo tenga."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta con el aceite sucio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastado deja pasar el aceite por el lado y la barra queda sin frenado.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite.",
+   "arrastra": [
+    "gastado → el [[24|amortiguador derecho]] deja de frenar el rebote"
+   ],
+   "conecta": [
+    "24",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3157-00"
+  },
+  "27": {
+   "nombre": "Cono de tope (derecha)",
+   "cat": "SPINDLE, TAPER · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "La pieza cónica del fondo de la botella donde se apoya la varilla del [[24|amortiguador derecho]].",
+   "sirve": "Al final del recorrido encierra el aceite y hace de cojín: la barra no golpea metal con metal.",
+   "sintomas": [
+    "Golpe seco al tocar fondo en un hueco."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Casi no falla; puede quedar mal puesta al armar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está golpeada se vuelve a poner; va bien centrada en el amortiguador.",
+   "dif": "taller",
+   "cuando": "Revísala cuando abras la barra.",
+   "arrastra": [
+    "mal puesta → la [[23|barra derecha]] golpea al tocar fondo"
+   ],
+   "conecta": [
+    "24",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3173-00"
+  },
+  "28": {
+   "nombre": "Empaque del allen (derecha)",
+   "cat": "GASKET · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "La arandela que va bajo la cabeza del tornillo allen del fondo.",
+   "sirve": "Sella el tornillo para que no gotee el aceite.",
+   "sintomas": [
+    "Gota por debajo de la botella."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta al apretar y ya no sella."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se aplasta al apretar: va nuevo cada vez.",
+   "dif": "taller",
+   "cuando": "Cámbialo cada vez que sueltes el allen.",
+   "arrastra": [
+    "viejo → gotea el [[29|allen derecho]]"
+   ],
+   "conecta": [
+    "29"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2BU-F3158-00"
+  },
+  "29": {
+   "nombre": "Tornillo allen del fondo (derecha)",
+   "cat": "BOLT, HEXAGON SOCKET HEAD · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tornillo allen que entra por debajo de la botella y se enrosca en el fondo del amortiguador.",
+   "sirve": "Une el amortiguador a la botella.",
+   "sintomas": [
+    "Gotea aceite por debajo de la botella."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado sin empaque nuevo gotea."
+    ],
+    [
+     "desgaste",
+     "Una cabeza redondeada no deja soltarlo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar con traba roscas y su empaque nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando abras la barra.",
+   "arrastra": [
+    "flojo → el [[24|amortiguador derecho]] gira y la barra gotea"
+   ],
+   "conecta": [
+    "24",
+    "28",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "278-F3181-50"
+  },
+  "30": {
+   "nombre": "Resorte de la horquilla (derecha)",
+   "cat": "SPRING, FRONT FORK · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "Los resortes largos de acero, uno dentro de cada barra, entre el tapón y el amortiguador.",
+   "sirve": "Sostiene el peso de la moto y el tuyo, y la devuelve arriba después de cada bache.",
+   "sintomas": [
+    "La moto se hunde mucho al frenar.",
+    "Toca fondo en los huecos.",
+    "Un lado queda más bajo que el otro."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con los años se cansa y queda más corto."
+    ],
+    [
+     "maluso",
+     "Andar siempre con mucho peso lo vence antes."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Vencido no se recupera: se cambia, y mejor en las dos barras.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite o los retenes.",
+   "arrastra": [
+    "resorte cansado → la [[23|barra derecha]] toca fondo y golpea el [[27|tope derecho]]"
+   ],
+   "conecta": [
+    "32",
+    "24",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-F3141-00"
+  },
+  "31": {
+   "nombre": "Empaque del tapón (derecha)",
+   "cat": "GASKET · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El anillo de caucho delgado que sella el tapón de la barra.",
+   "sirve": "Sella el tapón para que no salga aceite por arriba.",
+   "sintomas": [
+    "Aceite alrededor del tapón."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cuesta poco: va nuevo cada vez que abras el tapón.",
+   "dif": "taller",
+   "cuando": "Cámbialo al abrir el tapón.",
+   "arrastra": [
+    "viejo → suda aceite el [[32|tapón derecho]]"
+   ],
+   "conecta": [
+    "32"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "3Y6-23114-00"
+  },
+  "32": {
+   "nombre": "Tapón de la barra (derecha)",
+   "cat": "BOLT, CAP · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El tapón roscado que cierra la barra por arriba.",
+   "sirve": "Cierra el aceite y sostiene el resorte por arriba.",
+   "sintomas": [
+    "Aceite en la parte de arriba de la barra."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin empaque nuevo, suda aceite."
+    ],
+    [
+     "desgaste",
+     "Hexágono redondeado por herramienta mala."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a usar con [[31|empaque derecho]] nuevo.",
+   "dif": "taller",
+   "cuando": "Ábrelo al cambiar el aceite.",
+   "arrastra": [
+    "empaque viejo → suda aceite por la [[23|barra derecha]]"
+   ],
+   "conecta": [
+    "31",
+    "30",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2DP-F3111-00"
+  },
+  "33": {
+   "nombre": "Seguro del tapón (derecha)",
+   "cat": "RING, SNAP · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10)",
+   "que": "El anillo de acero que traba el [[32|tapón derecho]] dentro de la barra, en una ranura de arriba.",
+   "sirve": "Sostiene el tapón contra la fuerza del resorte.",
+   "sintomas": [
+    "El tapón se ve torcido o hundido."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se dobla si se saca sin empujar antes el tapón."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo cada vez que lo sacas: si se suelta, el tapón sale disparado.",
+   "dif": "taller",
+   "cuando": "Se saca cada vez que abres la barra.",
+   "arrastra": [
+    "Seguro flojo → el tapón se sale con el resorte."
+   ],
+   "conecta": [
+    "32",
+    "30"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "porque": "ap"
+   },
+   "codigo": "2DP-F3153-00"
+  },
+  "52": {
+   "nombre": "Pinza de la manguera del freno (derecha)",
+   "cat": "HOLDER, BRAKE HOSE 2 · 1 pieza",
+   "que": "Una pinza de plástico atornillada a la botella izquierda.",
+   "sirve": "Sujeta la manguera del freno para que no roce la rueda ni se doble al girar.",
+   "sintomas": [
+    "La manguera cuelga o roza la llanta."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El plástico se reseca y se parte."
+    ],
+    [
+     "golpe",
+     "Se rompe en una caída."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rota no sujeta: se cambia; la manguera suelta es un peligro.",
+   "dif": "facil",
+   "cuando": "Revísala al desmontar la rueda.",
+   "arrastra": [
+    "rota → la manguera del freno roza y se gasta"
+   ],
+   "conecta": [
+    "19",
+    "53"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "B6H-F5876-00"
+  },
+  "53": {
+   "nombre": "Tornillo de la pinza (derecha)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "El tornillo que sujeta la pinza de la manguera a la botella.",
+   "sirve": "Fija la pinza.",
+   "sintomas": [
+    "La pinza se mueve."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar.",
+   "dif": "facil",
+   "cuando": "Revísalo al desmontar la rueda.",
+   "arrastra": [
+    "flojo → se suelta la [[50|pinza]]"
+   ],
+   "conecta": [
+    "52"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "95D02-06012"
+  },
+  "34": {
+   "nombre": "Tija inferior",
+   "cat": "UNDER BRACKET COMP · 1 pieza",
+   "codigo": "B6H-F2403-00",
+   "que": "La pieza de abajo que une las dos barras con el eje que sube por el tubo de la dirección.",
+   "sirve": "Sostiene las barras y gira con el manubrio sobre las bolas de la dirección.",
+   "sintomas": [
+    "La moto jala hacia un lado.",
+    "Las barras no quedan paralelas."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Un choque de frente la tuerce."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Torcida no se endereza: va nueva. Revisa también las barras.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Tija torcida → barras chuecas → la moto jala hacia un lado."
+   ],
+   "conecta": [
+    "7",
+    "23",
+    "36",
+    "37"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "35": {
+   "nombre": "Guardapolvo de la tija",
+   "cat": "SEAL, DUST · 1 pieza",
+   "codigo": "B63-F3462-00",
+   "que": "El anillo de caucho que va sobre el cojinete de abajo, en el eje de la tija.",
+   "sirve": "No deja entrar agua ni polvo al [[36|cojinete]].",
+   "sintomas": [
+    "Óxido o grasa seca en el cojinete de abajo."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece y se raja."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo cada vez que bajas la tija: es barato.",
+   "dif": "taller",
+   "cuando": "Cámbialo cuando cambies el juego de la dirección.",
+   "arrastra": [
+    "Guardapolvo roto → entra agua → cojinete picado."
+   ],
+   "conecta": [
+    "36",
+    "34"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "36": {
+   "nombre": "Cojinete de abajo de la dirección",
+   "cat": "BEARING, STEERING LOWER · 1 pieza",
+   "codigo": "2TD-F3875-00",
+   "que": "El cojinete de bolas que va prensado en el eje de la tija, debajo del tubo de la dirección.",
+   "sirve": "Deja girar la dirección suave y aguanta los golpes de la rueda.",
+   "sintomas": [
+    "La dirección se queda «marcada» en el centro.",
+    "Golpeteo adelante al frenar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los huecos de la carretera marcan las pistas."
+    ],
+    [
+     "agua",
+     "Se oxida si se lava a presión."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Cojinete picado → dirección marcada → la moto culebrea a baja velocidad."
+   ],
+   "conecta": [
+    "34",
+    "35",
+    "38"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "37": {
+   "nombre": "Perno de la tija",
+   "cat": "BOLT 1 · 4 piezas",
+   "codigo": "5YW-F3346-10",
+   "que": "Uno de los cuatro pernos allen que aprietan cada barra en la tija inferior (dos por barra).",
+   "sirve": "Sujetan las barras a la tija.",
+   "sintomas": [
+    "Una barra se corre al frenar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretados de más tuercen la abrazadera de la tija."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutilizan si la rosca está sana; barridos, van nuevos. Al armar: torque del manual de servicio, parejo.",
+   "dif": "taller",
+   "cuando": "Se aflojan cada vez que sacas una barra.",
+   "arrastra": [
+    "Perno flojo → la barra se corre → la rueda queda torcida."
+   ],
+   "conecta": [
+    "34",
+    "7",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "38": {
+   "nombre": "Pista de abajo",
+   "cat": "RACE, BALL 2 · 1 pieza",
+   "codigo": "1KL-F3412-10",
+   "que": "El anillo de acero prensado en la parte de abajo del tubo de la dirección.",
+   "sirve": "Es el camino del cojinete de abajo.",
+   "sintomas": [
+    "La dirección se queda marcada en el centro."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los golpes la marcan."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez. Se saca y se mete a presión, derecha.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Pista marcada → dirección dura en el centro."
+   ],
+   "conecta": [
+    "36",
+    "39"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "39": {
+   "nombre": "Jaula de bolas de abajo",
+   "cat": "RETAINER, BALL BEARING · 1 pieza",
+   "codigo": "5VL-F341E-10",
+   "que": "El aro con bolas sueltas que rueda entre las pistas de abajo.",
+   "sirve": "Deja girar la dirección con poco esfuerzo.",
+   "sintomas": [
+    "Ruido o dureza al girar el manubrio."
+   ],
+   "fallas": [
+    [
+     "seco",
+     "Se queda sin grasa."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Sin grasa → bolas picadas → dirección dura."
+   ],
+   "conecta": [
+    "38",
+    "36"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "40": {
+   "nombre": "Pista de arriba (en el chasis)",
+   "cat": "RACE, BALL 2 · 1 pieza",
+   "codigo": "4RT-F3412-10",
+   "que": "El anillo de acero prensado en la parte de arriba del tubo de la dirección.",
+   "sirve": "Es el camino de las bolas de arriba.",
+   "sintomas": [
+    "Juego adelante al frenar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los golpes la marcan."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Pista marcada → juego → golpeteo al frenar."
+   ],
+   "conecta": [
+    "42",
+    "41"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "41": {
+   "nombre": "Pista de arriba (en el eje)",
+   "cat": "RACE, BALL 1 · 1 pieza",
+   "codigo": "4RT-F3411-10",
+   "que": "El anillo de acero que va sobre las bolas de arriba y que aprietan las tuercas.",
+   "sirve": "Cierra el cojinete de arriba y fija el ajuste.",
+   "sintomas": [
+    "Juego adelante al frenar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca igual que las otras pistas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Pista suelta → juego en la dirección."
+   ],
+   "conecta": [
+    "42",
+    "45"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "42": {
+   "nombre": "Jaula de bolas de arriba",
+   "cat": "RETAINER, BALL BEARING · 1 pieza",
+   "codigo": "1P6-F341E-10",
+   "que": "El aro con bolas que rueda entre las dos pistas de arriba.",
+   "sirve": "Deja girar la dirección con poco esfuerzo.",
+   "sintomas": [
+    "Ruido o dureza al girar el manubrio."
+   ],
+   "fallas": [
+    [
+     "seco",
+     "Se queda sin grasa."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Sin grasa → bolas picadas → dirección dura."
+   ],
+   "conecta": [
+    "40",
+    "41"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "43": {
+   "nombre": "Tapa del cojinete de abajo",
+   "cat": "COVER, BALL RACE 2 · 1 pieza",
+   "codigo": "3AY-F3416-00",
+   "que": "La tapa delgada que cubre el cojinete de abajo.",
+   "sirve": "Lo protege del agua y el polvo.",
+   "sintomas": [
+    "Mugre en el cojinete."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se dobla al desarmar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si no está doblada.",
+   "dif": "taller",
+   "cuando": "Revísala cuando bajes la tija.",
+   "arrastra": [
+    "Tapa doblada → entra mugre → cojinete picado."
+   ],
+   "conecta": [
+    "36"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "44": {
+   "nombre": "Tapa del cojinete de arriba",
+   "cat": "COVER, BALL RACE 1 · 1 pieza",
+   "codigo": "B65-F3415-00",
+   "que": "La tapa delgada que cubre el cojinete de arriba, debajo de las tuercas.",
+   "sirve": "Lo protege del agua y el polvo.",
+   "sintomas": [
+    "Mugre en el cojinete."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se dobla al desarmar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si no está doblada.",
+   "dif": "taller",
+   "cuando": "Revísala cuando desarmes la dirección.",
+   "arrastra": [
+    "Tapa doblada → entra mugre → cojinete picado."
+   ],
+   "conecta": [
+    "41"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "45": {
+   "nombre": "Tuerca de la dirección",
+   "cat": "NUT · 3 piezas",
+   "codigo": "90179-25810",
+   "que": "Una de las tres tuercas redondas con ranuras que van en el eje de la tija.",
+   "sirve": "La de abajo ajusta el juego de la dirección; las otras la frenan.",
+   "sintomas": [
+    "Juego adelante al frenar.",
+    "Dirección dura."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretada de más pica las pistas; floja, deja juego."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutilizan si las ranuras están sanas. Al armar: ajuste y torque del manual de servicio, con llave de gancho, y la dirección debe girar suave y sin juego.",
+   "dif": "taller",
+   "cuando": "Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.",
+   "arrastra": [
+    "Tuerca floja → juego → golpeteo y cojinetes picados."
+   ],
+   "conecta": [
+    "41",
+    "47",
+    "46"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "46": {
+   "nombre": "Arandela plana de la dirección",
+   "cat": "WASHER, PLATE · 1 pieza",
+   "codigo": "90202-26142",
+   "que": "La arandela plana que va entre las tuercas de la dirección.",
+   "sirve": "Reparte el apriete.",
+   "sintomas": [
+    "Arandela marcada."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se olvida, el ajuste queda corrido."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si está plana.",
+   "dif": "taller",
+   "cuando": "Se saca con las tuercas.",
+   "arrastra": [
+    "Arandela olvidada → ajuste corrido."
+   ],
+   "conecta": [
+    "45"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "47": {
+   "nombre": "Arandela de traba",
+   "cat": "WASHER, SPECIAL · 1 pieza",
+   "codigo": "1SK-F3418-00",
+   "que": "La arandela con lengüetas que frena las tuercas de la dirección para que no se suelten.",
+   "sirve": "Traba una tuerca con la otra.",
+   "sintomas": [
+    "Tuercas que se aflojan solas."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Las lengüetas se parten si se doblan muchas veces."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si las lengüetas están dobladas o rotas, va nueva.",
+   "dif": "taller",
+   "cuando": "Se saca con las tuercas.",
+   "arrastra": [
+    "Arandela sin traba → tuerca floja → juego en la dirección."
+   ],
+   "conecta": [
+    "45"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "48": {
+   "nombre": "Tapón del eje",
+   "cat": "PLUG, HOLE · 1 pieza",
+   "codigo": "B6H-F312G-00",
+   "que": "El tapón de caucho que tapa el hueco de arriba del eje de la dirección.",
+   "sirve": "No deja entrar agua por arriba.",
+   "sintomas": [
+    "Óxido dentro del eje."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece y se cae."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si se perdió o está duro, va nuevo.",
+   "dif": "taller",
+   "cuando": "Míralo cuando laves la moto.",
+   "arrastra": [
+    "Sin tapón → entra agua → cojinete oxidado."
+   ],
+   "conecta": [
+    "45"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "49": {
+   "nombre": "Tapa de abajo de la tija",
+   "cat": "COVER, UNDER 1 · 1 pieza",
+   "codigo": "B65-F3123-00",
+   "que": "La tapa de plástico que va debajo de la tija inferior.",
+   "sirve": "Tapa el eje y los pernos por debajo.",
+   "sintomas": [
+    "Ruido de plástico suelto adelante."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se raja con piedras."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si no está rota.",
+   "dif": "taller",
+   "cuando": "Se quita cuando bajas la tija.",
+   "arrastra": [
+    "Tapa suelta → ruido."
+   ],
+   "conecta": [
+    "34"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, cantidad y código: catálogo de partes NMAX BBE4 (2024), fig. 18."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Barra picada que rompe el retén",
+   "p": [
+    [
+     "7",
+     "La barra tiene puntos de óxido o un golpe en el cromo."
+    ],
+    [
+     "4",
+     "Cada recorrido raya el labio del retén y empieza la fuga."
+    ],
+    [
+     "8",
+     "Con poco aceite el amortiguador no frena: la moto rebota y se hunde al frenar."
+    ]
+   ]
+  },
+  {
+   "t": "Guardapolvo rajado",
+   "p": [
+    [
+     "6",
+     "El sol lo raja y deja entrar barro."
+    ],
+    [
+     "4",
+     "La mugre llega al retén y le corta el labio."
+    ],
+    [
+     "7",
+     "El barro raya la barra: el retén nuevo se vuelve a dañar si no la cambias."
+    ]
+   ]
+  },
+  {
+   "t": "Cojinete seco que marca la dirección",
+   "p": [
+    [
+     "35",
+     "El guardapolvo se raja y entra agua."
+    ],
+    [
+     "36",
+     "La grasa se lava y las bolas pican las pistas."
+    ],
+    [
+     "38",
+     "La dirección se queda marcada en el centro y la moto culebrea."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Revisar la horquilla",
+   "cuando": "En cada mantenimiento de la tabla menos el primero: que suba y baje suave y que no bote aceite.",
+   "fuente": "Manual del propietario NMAX 155 B6Y4 (2022, otra versión), tabla de mantenimiento, fila 18 «Horquilla delantera», p. 9-6; comprobación en p. 9-27. Los km de las columnas no se leyeron del texto. <span class=\"esq-s-ap\">Aprox.</span>"
+  },
+  {
+   "que": "Revisar la dirección",
+   "cuando": "Con la rueda en el aire: que gire suave de lado a lado y sin juego al empujar las barras.",
+   "fuente": "Manual del propietario NMAX 155 B6Y4 (2022, otra versión), «Comprobación de la dirección», p. 9-28. <span class=\"esq-s-ap\">Aprox.</span>"
+  }
+ ],
+ "sujeta": {
+  "51": [
+   "50"
+  ],
+  "53": [
+   "52"
+  ],
+  "16": [
+   "14"
+  ],
+  "32": [
+   "30"
+  ],
+  "13": [
+   "8",
+   "11"
+  ],
+  "29": [
+   "24",
+   "27"
+  ],
+  "5": [
+   "4"
+  ],
+  "21": [
+   "20"
+  ],
+  "17": [
+   "16"
+  ],
+  "33": [
+   "32"
+  ],
+  "37": [
+   "7",
+   "23"
+  ],
+  "45": [
+   "34"
+  ],
+  "49": [
+   "34"
+  ]
+ },
+ "v2": {
+  "inicio": "Piezas de la horquilla",
+  "con3d": [
+   "8",
+   "4",
+   "11"
+  ],
+  "toqueExtra": [
+   "4",
+   "5",
+   "6"
+  ],
+  "grupos": [
+   {
+    "id": "izq",
+    "nombre": "Barra izquierda",
+    "corto": "Izquierda",
+    "piezas": [
+     "16",
+     "15",
+     "17",
+     "14",
+     "7",
+     "6",
+     "5",
+     "4",
+     "8",
+     "10",
+     "9",
+     "11",
+     "3",
+     "50"
+    ],
+    "torn": [
+     {
+      "nombre": "Allen del fondo",
+      "corto": "Allen",
+      "ids": [
+       "13",
+       "12"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tornillo de la pinza",
+      "corto": "Tornillo",
+      "ids": [
+       "51"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "marca": [
+     150,
+     470
+    ]
+   },
+   {
+    "id": "der",
+    "nombre": "Barra derecha",
+    "corto": "Derecha",
+    "piezas": [
+     "32",
+     "31",
+     "33",
+     "30",
+     "23",
+     "22",
+     "21",
+     "20",
+     "24",
+     "26",
+     "25",
+     "27",
+     "19",
+     "52"
+    ],
+    "torn": [
+     {
+      "nombre": "Allen del fondo",
+      "corto": "Allen",
+      "ids": [
+       "29",
+       "28"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tornillo de la pinza",
+      "corto": "Tornillo",
+      "ids": [
+       "53"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     0,
+     6
+    ],
+    "marca": [
+     630,
+     470
+    ]
+   },
+   {
+    "id": "tija",
+    "nombre": "Tija inferior",
+    "corto": "Tija",
+    "piezas": [
+     "34",
+     "49",
+     "35",
+     "36",
+     "38",
+     "39",
+     "43"
+    ],
+    "torn": [
+     {
+      "nombre": "Pernos de la tija",
+      "corto": "Pernos",
+      "ids": [
+       "37"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     1,
+     8
+    ],
+    "marca": [
+     390,
+     330
+    ]
+   },
+   {
+    "id": "cojinetes",
+    "nombre": "Cojinetes de arriba",
+    "corto": "Cojinetes",
+    "piezas": [
+     "40",
+     "42",
+     "41",
+     "44",
+     "48"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuercas y arandelas de la dirección",
+      "corto": "Tuercas",
+      "ids": [
+       "45",
+       "46",
+       "47"
+      ],
+      "cant": 5
+     }
+    ],
+    "pasos": [
+     7
+    ],
+    "marca": [
+     390,
+     60
+    ]
+   }
+  ]
+ },
+ "carcasas": [
+  {
+   "id": "7",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  },
+  {
+   "id": "3",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  },
+  {
+   "id": "23",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  },
+  {
+   "id": "19",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  }
+ ],
+ "kits": {
+  "1": [
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17",
+   "19",
+   "20",
+   "21",
+   "22",
+   "23",
+   "24",
+   "25",
+   "26",
+   "27",
+   "28",
+   "29",
+   "30",
+   "31",
+   "32",
+   "33"
+  ],
+  "2": [
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17"
+  ],
+  "18": [
+   "19",
+   "20",
+   "21",
+   "22",
+   "23",
+   "24",
+   "25",
+   "26",
+   "27",
+   "28",
+   "29",
+   "30",
+   "31",
+   "32",
+   "33"
+  ]
+ },
+ "perfiles": {
+  "asiento8": [
+   [
+    0,
+    0
+   ],
+   [
+    7,
+    0
+   ],
+   [
+    7,
+    186
+   ],
+   [
+    11,
+    186
+   ],
+   [
+    11,
+    200
+   ],
+   [
+    0,
+    200
+   ]
+  ],
+  "reten9": [
+   [
+    11,
+    0
+   ],
+   [
+    17,
+    0
+   ],
+   [
+    17,
+    9
+   ],
+   [
+    15,
+    11
+   ],
+   [
+    11,
+    9
+   ]
+  ],
+  "tope6": [
+   [
+    4,
+    0
+   ],
+   [
+    14,
+    0
+   ],
+   [
+    9,
+    20
+   ],
+   [
+    4,
+    20
+   ]
+  ]
+ },
+ "pendientes": [
+  "Orden exacto de pistas, jaulas y tapas de la dirección (38-44): verificar en el plano de la fig. 18.",
+  "Km de la fila «Horquilla delantera» de la tabla de mantenimiento: no se leen del texto del manual.",
+  "Cantidad y tipo de aceite de horquilla y torques: manual de servicio (no está en local).",
+  "remapear_hermana.py: un número que se queda igual (8 → 8) da error de choque; se pasó por «x8»."
+ ],
+ "hermana": "cb125f-horquilla",
+ "remapeo": {
+  "desde": "cb125f-horquilla",
+  "mapa": {
+   "2": "14",
+   "3": "7",
+   "4": "9",
+   "5": "19",
+   "6": "11",
+   "7": "10",
+   "8": "8",
+   "9": "4",
+   "10": "2",
+   "11": "3",
+   "12": "13",
+   "13": "16",
+   "14": "12",
+   "15": "5",
+   "16": "6",
+   "17": "15",
+   "18": "50",
+   "19": "51"
+  }
+ }
+}

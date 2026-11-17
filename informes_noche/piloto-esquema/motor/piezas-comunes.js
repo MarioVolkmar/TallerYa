@@ -21,6 +21,15 @@ function suave(p){if(p.length<2)return "";let d=`M${f(p[0][0])},${f(p[0][1])}`;f
 const COLOR_BASE={acero:"#b9c0c4",cromo:"#d5dadd",rosca:"#2a3034",plast:"#e0d0ae",caucho:"#2a2a2a",estrias:"#4a5257",alum:"#b9c0c4",fibra:"#8c7b5c",plastNegro:"#2b2f33"};
 
 /* ---------- arte 2D ---------- */
+// ronda 6: dientes de piñón/corona ([a,b] relativos, y hacia abajo) y camino de una cadena (tramo o vuelta a dos piñones)
+function dientesPts(r,n,h){const P=[],ri=r-h/2,re=r+h/2;for(let i=0;i<n;i++){const a=i/n*2*Math.PI,t=2*Math.PI/n;
+  [[0,ri],[.18,ri],[.33,re],[.55,re],[.7,ri]].forEach(([u,rr])=>{const b=a+u*t;P.push([rr*Math.cos(b),rr*Math.sin(b)])})}return P}
+function caminoCadena(p){const x=p.x||0,y=p.y||0;
+  if(p.c1&&p.c2){const [x1,y1]=[p.c1[0]+x,p.c1[1]+y],[x2,y2]=[p.c2[0]+x,p.c2[1]+y],r1=p.r1||20,r2=p.r2||50,d=Math.hypot(x2-x1,y2-y1)||1,
+      th=Math.atan2(y2-y1,x2-x1),be=Math.acos(Math.max(-1,Math.min(1,(r1-r2)/d))),P=[];
+    const arco=(cx,cy,r,a0,da)=>{const n=Math.max(4,Math.ceil(Math.abs(da)*r/4));for(let k=0;k<=n;k++){const a=a0+da*k/n;P.push([cx+r*Math.cos(a),cy+r*Math.sin(a)])}};
+    arco(x2,y2,r2,th+be,-2*be);arco(x1,y1,r1,th-be,-(2*Math.PI-2*be));P.push(P[0]);return P}
+  return (p.puntos||[[0,0],[80,0]]).map(([a,b])=>[a+x,b+y])}
 function crear(cfg={},marcos={}){
   const B=cfg.atras||[0.5,-0.32], BL=Math.hypot(B[0],B[1])||1, N=[-B[1]/BL,B[0]/BL], C=Object.assign({},COLOR_BASE,cfg.colores||{});
   const SOMBRA=cfg.sombra||"", angAtras=Math.atan2(B[1],B[0])*180/Math.PI;
@@ -106,6 +115,40 @@ function crear(cfg={},marcos={}){
       const D="M"+pts.join(" L")+" Z"+(p.huecos||[]).map(([a,b,r])=>{const cx=x+a,cy=y+b;return ` M${f(cx+r)} ${f(cy)} A${r} ${r} 0 1 0 ${f(cx-r)} ${f(cy)} A${r} ${r} 0 1 0 ${f(cx+r)} ${f(cy)} Z`}).join("");
       let s="";for(let k=e;k>0;k-=1){const [bx,by]=atras(0,0,k);s+=`<path d="${D}" transform="translate(${f(bx)} ${f(by)})" fill="${lado}" fill-rule="evenodd"/>`}
       return s+`<path d="${D}" fill="${cara}" fill-rule="evenodd" stroke="#1b2023" stroke-width=".8"/>`},
+    /* ronda 6: rueda y transmisión final, de frente (eje hacia el lector). rin: radios cruzados (o tipo:"aleacion" con brazos);
+       llanta: caucho con tacos; pinon: piñón o corona dentados (huecos de aligerado, pernos); cadena: tramo (puntos) o vuelta
+       a dos piñones (c1,r1,c2,r2); eje: cabeza y vástago (el vástago solo se ve desarmado); tensor: placa con ranura y perno. */
+    rin:p=>{const {x,y}=p,r=p.r||110,ri=p.ri||Math.round(r*.24),an=p.ancho||10,n=p.radios===undefined?36:p.radios,cara=p.cara||C.cromo,pe=p.pestana||9;
+      let s=anillo(x,y,r,r-pe,an,cara,"#5b6469")+`<circle cx="${x}" cy="${y}" r="${f(r-pe*.5)}" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="1"/>`;
+      if(p.tipo==="aleacion"){const k=p.brazos||5;for(let i=0;i<k;i++){const a=i/k*2*Math.PI+(p.giro||0)*Math.PI/180,c=Math.cos(a),sn=Math.sin(a),w=Math.max(5,r*.07),R=r-pe+1;
+          s+=`<path d="M${f(x+c*ri-sn*w)} ${f(y+sn*ri+c*w)} L${f(x+c*R-sn*w*.7)} ${f(y+sn*R+c*w*.7)} L${f(x+c*R+sn*w*.7)} ${f(y+sn*R-c*w*.7)} L${f(x+c*ri+sn*w)} ${f(y+sn*ri-c*w)} Z" fill="${cara}" stroke="#1b2023" stroke-width=".8"/>`}}
+      else{let a1="",a2="";const R=r-pe+1,h=ri*.8;for(let i=0;i<n;i++){const a=i/n*2*Math.PI,b=a+(i%2?1:-1)*.42,d=`M${f(x+h*Math.cos(b))} ${f(y+h*Math.sin(b))} L${f(x+R*Math.cos(a))} ${f(y+R*Math.sin(a))} `;if(i%2)a1+=d;else a2+=d}
+        s+=`<path d="${a2}" stroke="#7d868b" stroke-width="1.4" fill="none"/><path d="${a1}" stroke="${C.cromo}" stroke-width="1.6" fill="none"/>`}
+      return s+cil(x,y,ri,p.largoCubo||20,p.caraCubo||C.alum,"#5d666b")+`<circle cx="${x}" cy="${y}" r="${f(ri*.42)}" fill="#20262a" stroke="#4b5256"/>`},
+    llanta:p=>{const {x,y}=p,r=p.r||140,ri=p.ri||Math.round(r*.8),n=p.tacos||Math.round(r/4);let t="";
+      for(let i=0;i<n;i++){const a=i/n*2*Math.PI,c=Math.cos(a),sn=Math.sin(a),r2=r-(r-ri)*.3;t+=`M${f(x+c*(r-1))} ${f(y+sn*(r-1))} L${f(x+c*r2)} ${f(y+sn*r2)} `}
+      return anillo(x,y,r,ri,p.ancho||14,p.cara||"#262626","#0f0f0f")+`<path d="${t}" stroke="#0a0a0a" stroke-width="${f(Math.max(2,r*.022))}"/>`+
+        `<circle cx="${x}" cy="${y}" r="${f((r+ri)/2)}" fill="none" stroke="#454545" stroke-width="1" stroke-dasharray="3 5"/>`},
+    pinon:p=>{const {x,y}=p,r=p.r||40,n=p.dientes||Math.max(10,Math.round(r/2.9)),h=p.alto||Math.max(3,r*.09),ri=p.ri||Math.round(r*.3),e=p.e||5;
+      const hueco=(cx,cy,rr)=>` M${f(cx+rr)} ${f(cy)} A${f(rr)} ${f(rr)} 0 1 0 ${f(cx-rr)} ${f(cy)} A${f(rr)} ${f(rr)} 0 1 0 ${f(cx+rr)} ${f(cy)} Z`;
+      let D="M"+dientesPts(r,n,h).map(([a,b])=>f(x+a)+" "+f(y+b)).join(" L")+" Z"+hueco(x,y,ri);
+      const k=p.huecos||0,rm=(ri+r-h)/2,rh=Math.max(3,(r-h-ri)*.28);for(let i=0;i<k;i++){const a=(i+.5)/k*2*Math.PI;D+=hueco(x+rm*Math.cos(a),y+rm*Math.sin(a),rh)}
+      let s="";for(let q=e;q>0;q-=1.5){const [bx,by]=atras(0,0,q);s+=`<path d="${D}" transform="translate(${f(bx)} ${f(by)})" fill="#3e464b" fill-rule="evenodd"/>`}
+      s+=`<path d="${D}" fill="${p.cara||C.acero}" fill-rule="evenodd" stroke="#1b2023" stroke-width=".8"/>`;
+      const np=p.pernos||0,rp=p.rPernos||ri*1.45;for(let i=0;i<np;i++){const a=i/np*2*Math.PI;s+=`<circle cx="${f(x+rp*Math.cos(a))}" cy="${f(y+rp*Math.sin(a))}" r="3.2" fill="${C.cromo}" stroke="#262c30" stroke-width=".7"/>`}
+      return s},
+    cadena:p=>{const P=caminoCadena(p),g=p.g||8,paso=p.paso||9;let d="M"+P.map(([a,b])=>f(a)+" "+f(b)).join(" L"),pins="",acc=0;
+      for(let i=1;i<P.length;i++){const [a,b]=P[i-1],[c,e]=P[i],L=Math.hypot(c-a,e-b);let t=(paso-acc%paso)%paso;
+        while(t<=L){pins+=`<circle cx="${f(a+(c-a)*t/L)}" cy="${f(b+(e-b)*t/L)}" r="${f(g*.26)}"/>`;t+=paso}acc+=L}
+      return `<path d="${d}" fill="none" stroke="#14181a" stroke-width="${f(g+4)}" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${p.cara||"#7a8388"}" stroke-width="${g}" stroke-dasharray="${f(paso*.56)} ${f(paso*.44)}" stroke-linejoin="round"/>`+
+        `<g fill="${C.cromo}" stroke="#262c30" stroke-width=".5">${pins}</g><path d="${d}" fill="none" stroke="#000" stroke-opacity="0" stroke-width="${f(g+10)}" pointer-events="stroke"/>`},
+    eje:p=>A.tornillo(Object.assign({cabeza:12,d:14,largo:160},p)),
+    tensor:p=>{const {x,y}=p,w=p.w||34,h=p.h||24,e=p.e||4,L=p.largo||26;
+      const placa=A.placa({x:0,y:0,material:"acero",e,lado:"#3e464b",contorno:[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]],huecos:[[-w*.12,0,Math.min(h*.3,9)]]});
+      let marcas="";for(let i=-2;i<=2;i++)marcas+=`M${f(i*w*.12)} ${f(-h/2)} v${i?3:5} `;
+      return `<g transform="translate(${f(x)} ${f(y)}) rotate(${p.giro||0})">${placa}<path d="${marcas}" stroke="#262c30" stroke-width="1"/>`+
+        `<rect x="${f(w/2)}" y="-3.5" width="${L}" height="7" fill="${C.rosca}" stroke="#4b5256" stroke-width=".8"/>`+
+        `<polygon points="${hexa(w/2+L*.55,0,7,0)}" fill="${C.acero}" stroke="#262c30"/><polygon points="${hexa(w/2+L+5,0,6.5,0)}" fill="${C.acero}" stroke="#262c30"/></g>`},
     revolucion:p=>rev2d(p)
   };
   // pieza de revolución por perfil [[r,z],...] (z hacia el lector): discos apilados de atrás hacia adelante; las caras que miran al lector, claras
@@ -123,9 +166,34 @@ function crear(cfg={},marcos={}){
     if(rmin>.5)s+=`<circle cx="${p.x}" cy="${p.y}" r="${rmin}" fill="#20262a"/>`;
     return s;
   }
+  // ronda 4: eje en el plano del dibujo (p.eje:"vertical", o "horizontal" = la misma girada 90°): para horquillas, amortiguadores
+  // y pilas verticales. Anillos de canto (elipse de arriba + banda), resorte y tornillo/tuerca de lado. k = aplastado de la elipse.
+  const tq=(x,y,w,h)=>`<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" fill="#000" fill-opacity="0" pointer-events="all"/>`;
+  const el=(x,y,r,k)=>`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(r)}" ry="${f(r*k)}"`;
+  function anilloV(x,y,r,ri,e,cara,lado,k){   // (x,y) = centro de la cara de arriba; la banda baja e
+    const ar=(rr)=>`M${f(x-rr)} ${f(y)} a${f(rr)} ${f(rr*k)} 0 1 0 ${f(2*rr)} 0 a${f(rr)} ${f(rr*k)} 0 1 0 ${f(-2*rr)} 0 Z`;
+    return `<path d="M${f(x-r)} ${f(y)} v${f(e)} a${f(r)} ${f(r*k)} 0 0 0 ${f(2*r)} 0 v${f(-e)}" fill="${lado}" stroke="#1b2023" stroke-width=".8"/>`+
+      `<path d="${ar(r)} ${ri>0?ar(ri):""}" fill="${cara}" fill-rule="evenodd" stroke="#1b2023" stroke-width=".8"/>`+tq(x-r-2,y-r*k-2,2*r+4,e+2*r*k+4);
+  }
+  const V={
+    arandela:p=>{const m=p.material||"acero",k=p.k||.3;return anilloV(p.x,p.y,p.r,p.ri,p.e||3,p.cara||C[m],p.lado||(m==="plast"?"#7f735b":"#4f585e"),k)},
+    reten:p=>{const r=p.r||20,ri=p.ri||r-7,k=p.k||.3;return anilloV(p.x,p.y,r,ri,p.ancho||5,p.cara||"#202020","#0c0c0c",k)+`${el(p.x,p.y,r-3.5,k)} fill="none" stroke="#5a5a5a" stroke-width="1"/>`},
+    oring:p=>{const g=p.g||3,k=p.k||.3;return `${el(p.x,p.y,p.r,k)} fill="none" stroke="#0b0b0b" stroke-width="${f(g+2)}"/>${el(p.x,p.y,p.r,k)} fill="none" stroke="${p.cara||"#3b3b3b"}" stroke-width="${f(g*.66)}"/>`+tq(p.x-p.r-2,p.y-p.r*k-3,2*p.r+4,2*p.r*k+6)},
+    seguro:p=>{const k=p.k||.3;return `${el(p.x,p.y,p.r,k)} fill="none" stroke="#2a3034" stroke-width="4.5" stroke-dasharray="${f(p.r*5.6)} ${f(p.r*.7)}"/>${el(p.x,p.y,p.r,k)} fill="none" stroke="${C.acero}" stroke-width="2.4" stroke-dasharray="${f(p.r*5.6)} ${f(p.r*.7)}"/>`+tq(p.x-p.r-2,p.y-p.r*k-3,2*p.r+4,2*p.r*k+6)},
+    resorte:p=>{const v=p.vueltas||6,r=p.r,L=p.largo,al=p.alambre||3.2,y0=p.y-L/2,ps=L/v,col=p.color||C.cromo;let a="",b="";   // centrado en (x,y)
+      for(let i=0;i<v;i++){const t=y0+i*ps;a+=`M${f(p.x-r)} ${f(t+ps/2)} L${f(p.x+r)} ${f(t)} `;b+=`M${f(p.x-r)} ${f(t+ps/2)} L${f(p.x+r)} ${f(t+ps)} `}
+      return `<path d="${b}" stroke="#2a2f33" stroke-width="${al}" stroke-linecap="round" fill="none"/><path d="${a}" stroke="#1b1f22" stroke-width="${f(al+1.6)}" stroke-linecap="round" fill="none"/><path d="${a}" stroke="${col}" stroke-width="${al}" stroke-linecap="round" fill="none"/>`+tq(p.x-r-1,y0,2*r+2,L)},
+    tornillo:p=>{const c=p.cabeza||10,d=p.d||8,L=p.largo||30,h=p.alto||Math.round(c*.7),s=p.abajo?-1:1;   // cabeza arriba (p.abajo: cabeza abajo); (x,y) = centro de la cabeza
+      const y1=p.y+s*h/2, cab=p.tipo==="allen"?`<rect x="${f(p.x-c*.8)}" y="${f(p.y-h/2)}" width="${f(c*1.6)}" height="${h}" rx="2" fill="${C.acero}" stroke="#262c30"/>`
+        :`<rect x="${f(p.x-c*.87)}" y="${f(p.y-h/2)}" width="${f(c*1.74)}" height="${h}" fill="${C.acero}" stroke="#262c30"/><path d="M${f(p.x-c*.3)} ${f(p.y-h/2)} v${h} M${f(p.x+c*.3)} ${f(p.y-h/2)} v${h}" stroke="#262c30" stroke-width=".8"/>`;
+      let rosca="";for(let t=4;t<L-2;t+=3)rosca+=`M${f(p.x-d/2)} ${f(y1+s*t)} l${d} ${f(s*-1.2)} `;
+      return `<rect x="${f(p.x-d/2)}" y="${f(Math.min(y1,y1+s*L))}" width="${d}" height="${L}" fill="${C.rosca}" stroke="#4b5256" stroke-width=".8"/><path d="${rosca}" stroke="#4b5256" stroke-width=".7"/>`+cab},
+    tuerca:p=>{const r=p.r||14,h=p.alto||8;return `<rect x="${f(p.x-r)}" y="${f(p.y-h/2)}" width="${2*r}" height="${h}" fill="${C.acero}" stroke="#262c30"/><path d="M${f(p.x-r/2)} ${f(p.y-h/2)} v${h} M${f(p.x+r/2)} ${f(p.y-h/2)} v${h}" stroke="#262c30" stroke-width=".8"/>`},
+  };
   return {
-    arte(pz){const p=pz.p, fn=A[pz.comun];if(!fn)throw new Error("pieza común desconocida: "+pz.comun);
+    arte(pz){const p=pz.p, eje=p.eje==='vertical'||p.eje==='horizontal'?p.eje:null, fn=(eje&&V[pz.comun])||A[pz.comun];if(!fn)throw new Error("pieza común desconocida: "+pz.comun);
       const copias=p.copias||[[0,0]];let s=copias.map(([dx,dy])=>fn(Object.assign({},p,{x:(p.x||0)+dx,y:(p.y||0)+dy}))).join("");
+      if(eje==='horizontal'&&V[pz.comun])s=`<g transform="rotate(-90 ${p.x||0} ${p.y||0})">${s}</g>`;
       const sombra=p.sombra===undefined?["tuerca","tornillo"].includes(pz.comun):p.sombra;
       const m=pz.marco?` transform="${marcos[pz.marco]}"`:"";
       return `<g${m}${sombra&&SOMBRA?` filter="${SOMBRA}"`:""}>${s}</g>`},
@@ -181,6 +249,15 @@ const F3={
     const r0=p.r0||14,r1=p.r1||r0;return [{tipo:"torno",perfil:[[r0*.75,0],[r0,0],[r1,L],[r1*.72,L]],color:"caucho"}]},
   placa:p=>[{tipo:"prisma",contorno:(p.contorno||[[-30,-20],[30,-20],[30,20],[-30,20]]).map(([a,b])=>[a,-b]),huecos:(p.huecos||[]).map(([a,b,r])=>({r,pos:[a,-b]})),
     z:[0,p.e||2],color:p.material==="acero"?"acero":p.material==="caucho"?"caucho":"#8c7b5c"}],
+  rin:p=>{const r=p.r||110,ri=p.ri||Math.round(r*.24),an=p.ancho||10,pe=p.pestana||9;
+    return [{tipo:"torno",perfil:tubo(r,r-pe,-an,an),color:"acero"},{tipo:"torno",perfil:tubo(ri,ri*.42,-(p.largoCubo||20)/2-6,(p.largoCubo||20)/2+6),color:"acero"}]},
+  llanta:p=>{const r=p.r||140,ri=p.ri||Math.round(r*.8),rc=(r+ri)/2,a=(r-ri)/2,b=Math.max(a*.9,(p.ancho||14)*1.4);
+    return [{tipo:"torno",perfil:Array.from({length:16},(_,i)=>{const t=i/16*2*Math.PI;return [rc+a*Math.cos(t),b*Math.sin(t)]}),color:"caucho",suave:true}]},
+  pinon:p=>{const r=p.r||40,n=p.dientes||Math.max(10,Math.round(r/2.9)),h=p.alto||Math.max(3,r*.09),ri=p.ri||Math.round(r*.3);
+    return [{tipo:"prisma",contorno:dientesPts(r,n,h).map(([a,b])=>[a,-b]),huecos:[{r:ri}],z:[0,p.e||5],color:"acero"}]},
+  eje:p=>{const c=p.cabeza||12,d=(p.d||14)/2,L=p.largo||160;
+    return [{tipo:"prisma",contorno:{n:6,r:c,giro:15},z:[0,c*.7],color:"acero"},{tipo:"torno",perfil:[[0,-L],[d,-L],[d,0],[0,0]],color:"acero"}]},
+  tensor:p=>{const w=p.w||34,h=p.h||24;return [{tipo:"prisma",contorno:[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]],huecos:[{r:Math.min(h*.3,9),pos:[-w*.12,0]}],z:[0,p.e||4],color:"acero"}]},
   revolucion:p=>[{tipo:"torno",perfil:p.perfil,color:p.color3d||"acero"}]
 };
 function forma3d(comun,p){const g=F3[comun];return g?{partes:g(p)}:null}

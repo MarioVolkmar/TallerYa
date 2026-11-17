@@ -3,7 +3,8 @@
 // Muestrea una rejilla de puntos sobre cada pieza; en cada punto donde la pieza está dibujada (y se ve: opacidad > 0,15),
 // cuenta si encima hay dibujo de otra pieza. tapado = puntos con otra pieza encima / puntos donde la pieza está dibujada.
 // Devuelve {lados:{lado:{piezas:[{id,tapado,pts}], peor, invisibles:[ids]}}}. No deja la lámina cambiada: vuelve a armar.
-async function medir_solape(N){N=N||14;const S=ms=>new Promise(r=>setTimeout(r,ms)),svg=document.getElementById("lamina");
+async function medir_solape(N,G){N=N||14;G=G?String(G).split(","):null;   // G: ids de pieza o grupo (data-g), para medir solo lo que cambió
+  const S=ms=>new Promise(r=>setTimeout(r,ms)),svg=document.getElementById("lamina");
   const st=document.createElement("style");
   st.textContent="#lamina,#lamina *{transition:none!important;animation:none!important}#lamina .esq-pz .esq-arte,#lamina .esq-pz .esq-arte *{pointer-events:visiblePainted!important}"+
     "#lamina .esq-marca,#lamina .esq-marca *,#lamina #guiasG,#lamina #guiasG *,#lamina .esq-toque-pz,#lamina .esq-et,#lamina .esq-et *{pointer-events:none!important}";
@@ -18,7 +19,7 @@ async function medir_solape(N){N=N||14;const S=ms=>new Promise(r=>setTimeout(r,m
     // la lámina puede reencuadrarse al terminar de cargar (letras, tamaño): se repite el último paso para fijar su encuadre
     await document.fonts.ready;await S(600);const bt0=document.getElementById("bAtras");if(bt0&&!bt0.disabled){bt0.click();await S(60);ad.click()}
     svg.scrollIntoView({block:"center"});await S(900);op.clear();
-    const pz=[...svg.querySelectorAll("#capas .esq-pz")].filter(e=>{const a=e.querySelector(".esq-arte");return a&&opac(a)>.15&&a.getBoundingClientRect().width>0&&(!bl||e.classList.contains("esq-lado-"+bl.dataset.lado))});   // con lados, solo las del lado elegido (las otras quedan atenuadas de contexto)
+    const pz=[...svg.querySelectorAll("#capas .esq-pz")].filter(e=>{const a=e.querySelector(".esq-arte");return a&&opac(a)>.15&&a.getBoundingClientRect().width>0&&(!G||G.includes(e.id.slice(3))||G.includes(e.dataset.g))&&(!bl||e.classList.contains("esq-lado-"+bl.dataset.lado))});   // con lados, solo las del lado elegido (las otras quedan atenuadas de contexto)
     const out=[],inv=[];
     for(const p of pz){const r=p.querySelector(".esq-arte").getBoundingClientRect();let pts=0,tap=0;const por={};const nx=Math.min(40,Math.max(N,Math.ceil(r.width/3))),ny=Math.min(40,Math.max(N,Math.ceil(r.height/3)));
       for(let i=0;i<nx;i++)for(let j=0;j<ny;j++){const x=r.left+(i+.5)*r.width/nx,y=r.top+(j+.5)*r.height/ny;if(x<0||y<0||x>innerWidth||y>innerHeight)continue;

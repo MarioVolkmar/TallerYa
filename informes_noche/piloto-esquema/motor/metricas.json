@@ -113,7 +113,8 @@
     "«Desarmar» a 360 bajo el borde al llegar",
     "ranuras del cuello de la 13 como calcomanía"
    ],
-   "explicacion": ""
+   "explicacion": "",
+   "revision_externa": true
   },
   "nmax-fig26": {
    "lamina": "nmax-fig26",
@@ -224,7 +225,8 @@
    ],
    "explicacion": "Proximidad 4,7 contra 4,8: el botón Transparente (carcasas de la bomba y la tapa, para ver el kit) agrega una tercera fila de controles a 360; se dejó porque el kit no se ve de otra forma en el armado. pct_seguro = 49/49 (catálogo); pct_certeza_total 59 % porque la práctica de taller va como Aproximado, a propósito, sin manual de servicio.",
    "pct_seguro_nota": "67 de 113 marcas de certeza (fichas y Cuándo); 100 % de números, nombres y cantidades del catálogo (49/49)",
-   "pct_certeza_total": 64
+   "pct_certeza_total": 64,
+   "revision_externa": true
   },
   "nmax-fig26-v2": {
    "lamina": "nmax-fig26-v2",
@@ -254,7 +256,8 @@
    "pct_seguro": null,
    "pct_certeza_total": null,
    "pendientes": [],
-   "explicacion": ""
+   "explicacion": "",
+   "revision_externa": true
   },
   "nmax-fig22": {
    "lamina": "nmax-fig22",
@@ -280,7 +283,8 @@
    "pct_seguro": null,
    "pct_certeza_total": null,
    "pendientes": [],
-   "explicacion": ""
+   "explicacion": "",
+   "revision_externa": true
   },
   "nmax-fig8": {
    "lamina": "nmax-fig8",
@@ -356,7 +360,8 @@
     "unión 22 lisa (real corrugada)",
     "3D solo 16, 33, 19"
    ],
-   "explicacion": "catalogo +1 min: grupos revisados contra la grilla. Criterio 6 queda en 3 (9 piezas chicas < 24 px a 360), igual que fig. 22 y CVT; no se puló fuera de presupuesto."
+   "explicacion": "catalogo +1 min: grupos revisados contra la grilla. Criterio 6 queda en 3 (9 piezas chicas < 24 px a 360), igual que fig. 22 y CVT; no se puló fuera de presupuesto.",
+   "revision_externa": true
   },
   "nmax-fig24": {
    "lamina": "nmax-fig24",
@@ -436,7 +441,8 @@
     "14 (2 láminas) dibujada una sola vez, como en la fig. 22",
     "pieza 4 a 23 px a 360 (1 px bajo la meta)"
    ],
-   "explicacion": "Reutiliza el JSON y el arte de la fig. 22 (misma numeración 1-15 en el catálogo): solo cambian códigos, contexto (brazo trasero), disco, manigueta izquierda, mangueras 34/38 e intervalo de pastillas (manual 6.000 km contra plan 8.000). Por eso 6 min en vez de 15."
+   "explicacion": "Reutiliza el JSON y el arte de la fig. 22 (misma numeración 1-15 en el catálogo): solo cambian códigos, contexto (brazo trasero), disco, manigueta izquierda, mangueras 34/38 e intervalo de pastillas (manual 6.000 km contra plan 8.000). Por eso 6 min en vez de 15.",
+   "revision_externa": true
   },
   "nmax-fig11": {
    "lamina": "nmax-fig11",
@@ -511,7 +517,8 @@
     "6 (tubo de drenaje) a 22 px a 360 y no responde armado (aviso)",
     "sin torques: falta el manual de servicio"
    ],
-   "explicacion": "catalogo +3 min: no había grilla de la fig. 11 (se renderizó la página 20 del PDF al scratchpad) y se leyó en el manual lo del filtro de la correa y el tubo colector. contenido sale en 0 min porque el script del JSON se escribió dentro de dibujo2d (las dos fases van juntas en la práctica). validacion +2: el encuadre se ajustó y se midió dos veces."
+   "explicacion": "catalogo +3 min: no había grilla de la fig. 11 (se renderizó la página 20 del PDF al scratchpad) y se leyó en el manual lo del filtro de la correa y el tubo colector. contenido sale en 0 min porque el script del JSON se escribió dentro de dibujo2d (las dos fases van juntas en la práctica). validacion +2: el encuadre se ajustó y se midió dos veces.",
+   "revision_externa": true
   },
   "nmax-fig7": {
    "lamina": "nmax-fig7",
@@ -585,7 +592,8 @@
     "cárter como contorno aproximado de contexto",
     "bomba: tipo interno y torque de sus tornillos sin dato (manual de servicio)"
    ],
-   "explicacion": "Resorte y junta tórica de la biblioteca se veían armados (no admiten esq-oculto-arm): pasaron a arte propio y se midió dos veces. Criterio 6 en 4: el resorte queda a 20 px a 360."
+   "explicacion": "Resorte y junta tórica de la biblioteca se veían armados (no admiten esq-oculto-arm): pasaron a arte propio y se midió dos veces. Criterio 6 en 4: el resorte queda a 20 px a 360.",
+   "revision_externa": true
   },
   "nmax-fig10": {
    "lamina": "nmax-fig10",
@@ -660,7 +668,8 @@
     "respiradero 29 a 23 px a 360; 10 y 30 no responden armados (aviso)",
     "sin torques de tornillos de tapas (manual de servicio)"
    ],
-   "explicacion": "32 refs. Sin grilla de la fig. 10 (render de la pág. 18 del PDF al scratchpad). Validación +: dos rondas de medir por la píldora de pasadores sobre una pieza oculta y la junta tórica 20 delgada. Además, el respaldo de Oswald bajó el criterio 8 en 5 láminas (Archivo más ancho sin red); se limitó a las 8 reglas sin respaldo y volvió a 4,7."
+   "explicacion": "32 refs. Sin grilla de la fig. 10 (render de la pág. 18 del PDF al scratchpad). Validación +: dos rondas de medir por la píldora de pasadores sobre una pieza oculta y la junta tórica 20 delgada. Además, el respaldo de Oswald bajó el criterio 8 en 5 láminas (Archivo más ancho sin red); se limitó a las 8 reglas sin respaldo y volvió a 4,7.",
+   "revision_externa": true
   },
   "nmax-fig1": {
    "lamina": "nmax-fig1",
@@ -727,7 +736,8 @@
    "pct_seguro": 100,
    "pct_certeza_total": 21,
    "pendientes": 2,
-   "explicacion": "catalogo 2 min (meta 1): bujia, torque y avisos de frio y radiador buscados en el manual del propietario con pymupdf. validacion 8 min: incluye una correccion del encuadre (numero 25 al borde), una de la pasta de pasadores del cilindro sin toque y una de las marcas de grupo a 42 px, mas el autocontrol manual"
+   "explicacion": "catalogo 2 min (meta 1): bujia, torque y avisos de frio y radiador buscados en el manual del propietario con pymupdf. validacion 8 min: incluye una correccion del encuadre (numero 25 al borde), una de la pasta de pasadores del cilindro sin toque y una de las marcas de grupo a 42 px, mas el autocontrol manual",
+   "revision_externa": true
   },
   "boxer-embrague": {
    "lamina": "boxer-embrague",
@@ -789,7 +799,8 @@
    "pct_seguro": 100,
    "pct_certeza_total": 20,
    "pendientes": 4,
-   "explicacion": "catalogo 5/1: extraer_catalogo.py solo sirve para Yamaha (0 figuras con Bajaj); fig. 14 extraida a mano. mediciones 8/1: la primera medicion completa dio un bloqueante (etiquetas montadas en Como funciona) y la medicion tarda ~2 min cada vez. UX 4,4 < 4,5: notas a ojo de 4 (falta revision de ux-piloto); pct_certeza 20 %: la mecanica del mando es deducida del plano y no hay manual de servicio"
+   "explicacion": "catalogo 5/1: extraer_catalogo.py solo sirve para Yamaha (0 figuras con Bajaj); fig. 14 extraida a mano. mediciones 8/1: la primera medicion completa dio un bloqueante (etiquetas montadas en Como funciona) y la medicion tarda ~2 min cada vez. UX 4,4 < 4,5: notas a ojo de 4 (falta revision de ux-piloto); pct_certeza 20 %: la mecanica del mando es deducida del plano y no hay manual de servicio",
+   "revision_externa": true
   },
   "akt-embrague": {
    "lamina": "akt-embrague",
@@ -851,17 +862,530 @@
    "pct_seguro": 100,
    "pct_certeza_total": null,
    "pendientes": 6,
-   "explicacion": "notas_ux 4.4 < 4.5: las notas a ojo (4) son estimacion prudente de la creadora sin revision UX; los medibles dan 4.72. Pendiente la revision de ux-piloto"
+   "explicacion": "notas_ux 4.4 < 4.5: las notas a ojo (4) son estimacion prudente de la creadora sin revision UX; los medibles dan 4.72. Pendiente la revision de ux-piloto",
+   "revision_externa": true
+  },
+  "cb125f-freno": {
+   "lamina": "cb125f-freno",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T15:46",
+     "fin": "2026-11-16T15:47"
+    },
+    "dibujo2d": {
+     "inicio": "2026-11-16T15:47",
+     "fin": "2026-11-16T15:52"
+    },
+    "contenido": {
+     "inicio": "2026-11-16T15:52",
+     "fin": "2026-11-16T15:52"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T15:52",
+     "fin": "2026-11-16T15:53"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T15:53",
+     "fin": "2026-11-16T15:55"
+    },
+    "revision_mecanica": {
+     "inicio": "2026-11-16T16:04",
+     "fin": "2026-11-16T16:06"
+    },
+    "revision_ux": {
+     "inicio": "2026-11-16T16:04",
+     "fin": "2026-11-16T16:05"
+    },
+    "correcciones": {
+     "inicio": "2026-11-16T16:06",
+     "fin": "2026-11-16T16:08"
+    }
+   },
+   "rondas_revision": 2,
+   "rondas_correccion": 1,
+   "errores_revisoras": {},
+   "piezas_3d": 0,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {},
+   "pct_seguro": 100,
+   "pct_certeza_total": 34,
+   "pendientes": 4,
+   "explicacion": "dibujo2d 5 min (meta 4): incluye también el contenido (mismo script desde la fig. 22) y una vuelta extra por exportaciones del arte y enlaces [[liquido]] heredados; contenido figura 0 min por eso.",
+   "tokens": {
+    "inicio": 100020,
+    "fin": 168175
+   },
+   "notas_revision": {
+    "mecanica": 4.0,
+    "ux": 4.2
+   }
+  },
+  "cb125f-culata": {
+   "lamina": "cb125f-culata",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "fin": "2026-11-16T16:37"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T16:37",
+     "fin": "2026-11-16T16:44"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T16:44",
+     "fin": "2026-11-16T16:47"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T16:47"
+    },
+    "revision": {
+     "inicio": "2026-11-16T16:50",
+     "fin": "2026-11-16T17:00"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": {
+    "graves": 11,
+    "menores": 17,
+    "graves_corregidos": 11,
+    "menores_corregidos": 8
+   },
+   "piezas_3d": 2,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {},
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": 6,
+   "explicacion": "Revisión 10 min (corte): fichas de plantilla con relleno en tornillería y pasadores obligaron a reescribir 12 fichas; extractor sin soporte para E-1-2. Hubo una pausa (interrupción) entre validación y revisión que no debe contarse.",
+   "notas_revision": {
+    "mecanica": 3,
+    "ux": 2
+   },
+   "tokens": {
+    "inicio": 101475,
+    "fin": 211472,
+    "revisoras": 170240
+   },
+   "mediciones_completas": 2
+  },
+  "cb125f-clutch": {
+   "lamina": "cb125f-clutch",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "fin": "2026-11-16T18:32"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T18:32",
+     "fin": "2026-11-16T18:39"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T18:39",
+     "fin": "2026-11-16T18:43"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T18:43",
+     "fin": "2026-11-16T18:45"
+    },
+    "revision": {
+     "inicio": "2026-11-16T18:45",
+     "fin": "2026-11-16T18:47"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 3,
+   "piezas_3d": 2,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "6": 3.5,
+    "8": 4.7,
+    "9": 5.0,
+    "10": 5.0,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.63
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 18,
+   "pendientes": 5,
+   "explicacion": "dibujo_contenido 7 min (meta 4): 15 fichas escritas a mano (la hermana tenía 12 y otros nombres), 4 corridas del script por errores de comillas y anclas, y 2 ajustes del despiece por solape de la quinta capa de discos.",
+   "notas_revision": {
+    "mecanica": 4,
+    "ux": 4
+   },
+   "tokens": {
+    "inicio": 101978,
+    "fin": 202627,
+    "creacion": 100649,
+    "revisora_mecanica": 85521,
+    "revisora_ux": 80222
+   },
+   "mediciones_completas": 1
+  },
+  "cb125f-horquilla": {
+   "lamina": "cb125f-horquilla",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "fin": "2026-11-16T19:36"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T19:36",
+     "fin": "2026-11-16T19:43"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T19:43",
+     "fin": "2026-11-16T19:45"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T19:45",
+     "fin": "2026-11-16T19:48"
+    },
+    "revision": {
+     "inicio": "2026-11-16T19:45",
+     "fin": "2026-11-16T19:54"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 12,
+   "piezas_3d": 3,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4,
+    "4": 4.5,
+    "5": 4.5,
+    "7": 4.5,
+    "medible": 4.8,
+    "promedio": 4.6
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 16,
+   "pendientes": 4,
+   "explicacion": "catalogo 3 min: buscar la figura en el índice y elegir columna; dibujo_contenido 7 min: sin hermana, todo el arte (17 funciones) y las 17 fichas desde cero, la biblioteca no sirve para piezas de revolución en vista vertical",
+   "notas_revision": {
+    "mecanica": 4.3,
+    "ux": 4.4
+   },
+   "tokens": {
+    "inicio": 103197,
+    "fin": 203439,
+    "revisora": 92389
+   }
+  },
+  "crypton-freno": {
+   "lamina": "crypton-freno",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T21:49",
+     "fin": "2026-11-16T21:51"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T21:51",
+     "fin": "2026-11-16T21:56"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T21:56",
+     "fin": "2026-11-16T21:57"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T21:57",
+     "fin": "2026-11-16T21:59"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-16T21:58",
+     "fin": "2026-11-16T22:01"
+    },
+    "revision": {
+     "inicio": "2026-11-16T22:01",
+     "fin": "2026-11-16T22:02"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 7,
+   "piezas_3d": 0,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 5,
+    "2": 4,
+    "3": 5,
+    "4": 4,
+    "5": 4,
+    "7": 5,
+    "promedio": 4.5
+   },
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": 1,
+   "explicacion": "catalogo +0,5: el extractor juntó las columnas español+inglés del catálogo Yamaha Colombia y hubo que separarlas a mano. dibujo_contenido +1: rastros de la NMAX (ABS, páginas 9-x, láminas 18/26) y fichas nuevas 1 y 13. Notas de la revisora (3,9/3,6) son de antes de corregir: el bug de doble remapeo de enlaces y cadenas ya está corregido en el script; sin segunda revisión.",
+   "notas_revision": {
+    "mecanica": 3.9,
+    "ux": 3.6
+   },
+   "tokens": {
+    "inicio": 45000,
+    "fin": 219955,
+    "revisora": 103592
+   }
+  },
+  "nkd-transmision": {
+   "lamina": "nkd-transmision",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T22:18",
+     "fin": "2026-11-16T22:20"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T22:20",
+     "fin": "2026-11-16T22:27"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T22:27",
+     "fin": "2026-11-16T22:29"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T22:30",
+     "fin": "2026-11-16T22:32"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-16T22:29",
+     "fin": "2026-11-16T22:31"
+    },
+    "revision": {
+     "inicio": "2026-11-16T22:31",
+     "fin": "2026-11-16T22:31"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 0,
+   "piezas_3d": 2,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "6": 5,
+    "8": 4.7,
+    "9": 5.0,
+    "10": 5.0,
+    "11": 4.8,
+    "12": 4.8,
+    "ojo": 4.33,
+    "promedio": 4.88
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 17,
+   "pendientes": 3,
+   "explicacion": "dibujo_contenido 7/4: sin hermana, 15 piezas de arte propio y 26 fichas a mano. Mediciones 2: la primera dio error de consola porque v2.grupos.torn iba como lista de ids y el validador no lo detecta. Revisora 4/4 (< 4,8): 4 graves de texto (seguridad del freno tras tensar, sinónimo leva, cadena no causal) corregidos.",
+   "notas_revision": {
+    "mecanica": 4,
+    "ux": 4
+   },
+   "tokens": {
+    "inicio": 127772,
+    "fin": 225509,
+    "revisora": 90497
+   },
+   "mediciones_completas": 2
+  },
+  "nmax-horquilla": {
+   "lamina": "nmax-horquilla",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T22:54",
+     "fin": "2026-11-16T22:56"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T22:56",
+     "fin": "2026-11-16T23:02"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T23:02",
+     "fin": "2026-11-16T23:04"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-16T23:04",
+     "fin": "2026-11-16T23:07"
+    },
+    "revision": {
+     "inicio": "2026-11-16T23:07",
+     "fin": "2026-11-16T23:10"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 0,
+   "piezas_3d": [],
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {},
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": [],
+   "explicacion": "Revisión 3 min (meta 1,5): 9 graves de rastros de la Honda (tija de arriba, asiento, o-ring) y del gato central; varios a mano en el script porque se repetían en la barra derecha.",
+   "tokens": {
+    "inicio": 122000,
+    "fin": 220000,
+    "nota": "inicio estimado: no se midio al empezar"
+   },
+   "notas_revision": {
+    "mecanica": 3.5,
+    "ux": 3.9
+   }
+  },
+  "boxer-carburador": {
+   "lamina": "boxer-carburador",
+   "fecha": "2026-11-16",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-16T23:32",
+     "fin": "2026-11-16T23:35"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-16T23:35",
+     "fin": "2026-11-16T23:44"
+    },
+    "validacion": {
+     "inicio": "2026-11-16T23:44",
+     "fin": "2026-11-16T23:45"
+    },
+    "mediciones": {
+     "inicio": "2026-11-16T23:45",
+     "fin": "2026-11-16T23:47"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-16T23:45",
+     "fin": "2026-11-16T23:47"
+    },
+    "revision": {
+     "inicio": "2026-11-16T23:47",
+     "fin": "2026-11-16T23:55"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 15,
+   "piezas_3d": 3,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4,
+    "2": 4,
+    "3": 5,
+    "4": 4,
+    "5": 4,
+    "7": 4,
+    "6": 5,
+    "8": 4.3,
+    "9": 5,
+    "10": 5,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.82
+   },
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": 4,
+   "explicacion": "Catálogo +1,5: el extractor no lee la fig. 16 «(TEC-S1D)» y el plano de esqueleto_v2 era de la página anterior. Dibujo +5: sin hermana ni biblioteca de carburación, 15 funciones de arte y 19 fichas desde cero. Revisión +6,5: dos --final más por el criterio 6 (número 5 repetido en dos grupos y toque de la aguja 20). Mecánica 4,0 < 4,8 antes de corregir: 4 graves (cadenas no causales, aviso del tornillo de aire y armado de la cortina), corregidos; no medida después.",
+   "notas_revision": {
+    "mecanica": 4.0,
+    "ux": 4.3
+   },
+   "tokens": {
+    "inicio": 123015,
+    "fin": 251069,
+    "revisora": 91056
+   }
+  },
+  "cb125f-suspension-trasera": {
+   "lamina": "cb125f-suspension-trasera",
+   "fecha": "2026-11-17",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-17T00:21",
+     "fin": "2026-11-17T00:23"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-17T00:23",
+     "fin": "2026-11-17T00:30"
+    },
+    "validacion": {
+     "inicio": "2026-11-17T00:30",
+     "fin": "2026-11-17T00:30"
+    },
+    "mediciones": {
+     "inicio": "2026-11-17T00:30",
+     "fin": "2026-11-17T00:32"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-17T00:31",
+     "fin": "2026-11-17T00:33"
+    },
+    "revision": {
+     "inicio": "2026-11-17T00:33",
+     "fin": "2026-11-17T00:34"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": {},
+   "piezas_3d": [],
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 5,
+    "7": 4,
+    "promedio": 4.2
+   },
+   "pct_seguro": null,
+   "pct_certeza_total": null,
+   "pendientes": 2,
+   "explicacion": "Sin hermana de suspensión trasera: arte propio solo de la tijera y biblioteca para lo demás. Mecánica de la revisora 4,0 antes de corregir (3 graves de texto, ya aplicados). UX a ojo 4,2 < 4,5: el dibujo queda chico a 1280 y el «Cómo funciona» es nuevo y más simple que el de la CVT. Dibujo y contenido pasó 3 min el presupuesto (manual sin índice y «Cómo funciona» hecho de cero).",
+   "tokens": {
+    "inicio": 70000,
+    "fin": 207590,
+    "nota": "inicio estimado: la sesión venía compactada de otra tarea"
+   },
+   "notas_revision": {
+    "mecanica": 4.0,
+    "ux": 4.3
+   }
   }
  },
  "creacion_meta_min": 10,
  "sin_paralelo": true,
  "meta_fases": {
-  "catalogo": 1,
-  "dibujo2d": 4,
-  "contenido": 2,
-  "3d": 0.5,
-  "verificacion": 2
+  "catalogo": 1.5,
+  "dibujo_contenido": 4,
+  "verificacion": 2.5,
+  "revision": 1.5,
+  "margen": 0.5
  },
  "meta_nota": "Meta del usuario (16-nov-2026, ajustada): una lámina del catálogo a lista para revisión en 10 min de reloj, sin paralelo, verificación incluida: catálogo 1 · dibujo 4 · contenido 2 (con el 3D) · verificación 2 (previa + una sola medición completa) · 1 de margen. Fase > meta: ⚠ y una línea; fase > 2× meta: corte. Revisiones aparte: 10 min cada una, en paralelo.",
  "meta_revision_min": {

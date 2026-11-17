@@ -1,0 +1,294 @@
+/* Consola de administración de TallerYa. Usa la paleta del sitio (tallerya.css) con tokens propios
+   para poder ofrecer tema claro sin tocar el resto de la página. Oscuro por defecto, como TallerYa. */
+.consola {
+  --cs-fondo: var(--carbon, #111517);
+  --cs-papel: var(--pizarra, #1d2427);
+  --cs-papel-2: var(--pizarra-2, #252e31);
+  --cs-borde: var(--borde, #354044);
+  --cs-texto: var(--crema, #ede3cc);
+  --cs-suave: var(--crema-2, #c9bfa7);
+  --cs-acento: var(--lava, #f2611d);
+  --cs-acento-texto: #111517;
+  --cs-enlace: var(--lava-2, #ff9a3c);
+  --cs-ok: #4ade80;
+  --cs-off: #ff8a70;
+  --cs-peligro: #ff5a3c;
+  --cs-sombra: 4px 4px 0 #0b0e0f;
+  --cs-foco: var(--crema, #ede3cc);
+  display: grid;
+  grid-template-columns: 15.5rem minmax(0, 1fr);
+  gap: 1.75rem;
+  margin-top: 1.5rem;
+  color: var(--cs-texto);
+}
+html[data-consola-tema="claro"] .consola {
+  --cs-fondo: #f4efe3;
+  --cs-papel: #fffdf7;
+  --cs-papel-2: #efe8d8;
+  --cs-borde: #c9bfa7;
+  --cs-texto: #1d2427;
+  --cs-suave: #4a5356;
+  --cs-acento: #b8430f;
+  --cs-acento-texto: #fffdf7;
+  --cs-enlace: #a63c0c;
+  --cs-ok: #17703a;
+  --cs-off: #a3290f;
+  --cs-peligro: #b3200a;
+  --cs-sombra: 4px 4px 0 #c9bfa7;
+  --cs-foco: #1d2427;
+  color-scheme: light;
+}
+html[data-consola-tema="claro"] body:has(.consola) { background-color: #f4efe3; }
+html[data-consola-tema="claro"] body:has(.consola) main > .mensaje,
+html[data-consola-tema="claro"] body:has(.consola) .aviso-correo,
+html[data-consola-tema="claro"] body:has(.consola) .aviso-correo strong { color: #1d2427; }
+
+.consola a { color: var(--cs-enlace); }
+.consola :focus-visible { outline: 3px solid var(--cs-foco); outline-offset: 2px; border-radius: 6px; }
+.consola .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- Barra lateral ---------- */
+.cs-lateral {
+  position: sticky; top: 5rem; align-self: start;
+  /* Cabe siempre en la pantalla: si las secciones no caben, se desplaza la lista por dentro (sin arrastrar la página) */
+  max-height: calc(100vh - 6rem); max-height: calc(100dvh - 6rem); display: flex; flex-direction: column;
+  background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 14px;
+  box-shadow: var(--cs-sombra); padding: 1rem .75rem;
+}
+.cs-quien { display: flex; align-items: center; gap: .75rem; padding: .25rem .5rem 1rem; border-bottom: 1px solid var(--cs-borde); }
+.cs-quien-txt { min-width: 0; }
+.cs-quien-nombre { font-weight: 700; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cs-quien-rol { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .18em; font-size: .72rem; color: var(--cs-acento); }
+html[data-consola-tema="claro"] .cs-quien-rol { color: var(--cs-acento); }
+.cs-nav { display: flex; flex-direction: column; gap: 2px; margin-top: .75rem; min-height: 0; flex: 1 1 auto;
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--cs-borde) transparent; padding-right: 2px; }
+.cs-quien { flex: none; }
+.cs-nav-item {
+  display: flex; align-items: center; gap: .65rem; padding: .55rem .65rem; border-radius: 9px;
+  color: var(--cs-texto) !important; text-decoration: none; font-size: .95rem; font-weight: 600;
+}
+.cs-nav-item:hover { background: var(--cs-papel-2); }
+.cs-nav-item[aria-current="page"] { background: var(--cs-acento); color: var(--cs-acento-texto) !important; }
+.cs-nav-label { flex: 1; }
+.cs-nav-pronto { color: var(--cs-suave) !important; font-weight: 500; }
+.cs-nav-pronto[aria-current="page"] { color: var(--cs-acento-texto) !important; }
+.cs-pronto { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; opacity: .8; }
+.cs-badge {
+  min-width: 1.5rem; padding: 0 .4rem; border-radius: 999px; text-align: center;
+  font-size: .75rem; font-weight: 700; line-height: 1.5rem;
+  background: var(--mostaza, #e3a72f); color: #111517;
+}
+/* Botón de tema: pill secundario como .btn-borde del sitio, pero con los tokens de la consola (sirve en claro y oscuro) */
+.consola .cs-tema {
+  margin-top: .45rem; padding: .3rem .75rem; min-height: 2rem; font-size: .68rem; letter-spacing: .12em;
+  background: transparent; color: var(--cs-texto); border: 1.5px solid var(--cs-borde);
+}
+@media (hover: hover) { .consola .cs-tema:hover { background: var(--cs-texto); color: var(--cs-papel); border-color: var(--cs-texto); } }
+.consola .cs-tema:focus-visible { outline: 3px solid var(--cs-foco); outline-offset: 2px; border-radius: 999px; }
+.cs-tema > span { display: inline-flex; align-items: center; gap: .4rem; }
+.cs-tema-claro { display: none !important; }
+html[data-consola-tema="claro"] .cs-tema-claro { display: inline-flex !important; }
+html[data-consola-tema="claro"] .cs-tema-oscuro { display: none !important; }
+
+/* Celular: desplegable en lugar de la barra */
+.cs-movil { display: none; }
+@media (max-width: 860px) {
+  .consola { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .cs-lateral { display: none; }
+  .cs-movil {
+    display: block; background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; padding: .75rem;
+  }
+  .cs-movil-cabeza { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .45rem; }
+  .cs-movil-cabeza .cs-tema { margin-top: 0; }
+  .cs-movil-label { display: block; font-size: .85rem; color: var(--cs-suave); }
+  .cs-movil-label strong { color: var(--mostaza, #e3a72f); }
+  html[data-consola-tema="claro"] .cs-movil-label strong { color: #8a5a00; }
+  .cs-movil-fila { display: flex; gap: .5rem; }
+}
+
+/* ---------- Contenido ---------- */
+.cs-principal { min-width: 0; }
+.cs-cabeza { margin-bottom: 1.25rem; }
+.cs-ficha-cabeza { display: flex; gap: 1rem; align-items: center; }
+.cs-h1 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.05; }
+.cs-h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-weight: 600; font-size: 1.1rem; letter-spacing: .02em; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; }
+.cs-h4 { font-weight: 700; margin: .75rem 0 .25rem; font-size: .9rem; }
+.cs-sub { color: var(--cs-suave); margin-top: .25rem; }
+.cs-peq { font-size: .85rem; color: var(--cs-suave); }
+.cs-id { color: var(--cs-suave); font-weight: 500; font-size: .8em; }
+.cs-volver { display: inline-flex; align-items: center; gap: .3rem; font-size: .9rem; margin-bottom: .75rem; text-decoration: none; }
+.cs-vacio { color: var(--cs-suave); font-style: italic; }
+.cs-linea { padding: .3rem 0; border-bottom: 1px dashed var(--cs-borde); font-size: .92rem; }
+.cs-linea:last-child { border-bottom: 0; }
+.cs-fecha { color: var(--cs-suave); font-size: .85rem; white-space: nowrap; }
+.cs-cuenta-n { font-family: "Archivo", sans-serif; font-size: .8rem; background: var(--cs-papel-2); padding: 0 .5rem; border-radius: 999px; }
+
+.cs-filtros { display: flex; flex-wrap: wrap; gap: .75rem; align-items: flex-end; margin-bottom: 1.25rem; }
+.cs-filtro { display: flex; flex-direction: column; gap: .25rem; }
+.cs-filtro-ancho { flex: 1 1 14rem; }
+.cs-etq { font-size: .78rem; color: var(--cs-suave); font-weight: 600; }
+.cs-campo {
+  width: 100%; min-height: 2.6rem; padding: .45rem .7rem; border-radius: 9px;
+  background: var(--cs-fondo); color: var(--cs-texto); border: 1.5px solid var(--cs-borde); font: inherit; font-size: .95rem;
+}
+.cs-campo:focus { border-color: var(--cs-acento); }
+.cs-form { display: flex; flex-direction: column; gap: .75rem; }
+
+.cs-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 2.6rem;
+  padding: .45rem 1rem; border-radius: 9px; border: 0; cursor: pointer; font: inherit; font-weight: 700; font-size: .92rem;
+  background: var(--cs-acento); color: var(--cs-acento-texto); box-shadow: 3px 3px 0 #0b0e0f; text-decoration: none;
+}
+.consola a.cs-btn, .cs-dialogo .cs-btn { color: var(--cs-acento-texto); }
+.cs-btn-sec { background: transparent; color: var(--cs-texto) !important; border: 1.5px solid var(--cs-borde); box-shadow: none; }
+.cs-btn-sec:hover { background: var(--cs-papel-2); }
+.cs-btn-peligro { background: var(--cs-peligro); color: #fff !important; }
+.cs-btn[aria-busy="true"] { opacity: .7; cursor: progress; }
+.cs-btn[aria-busy="true"]::before {
+  content: ""; width: .9em; height: .9em; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent;
+  animation: cs-gira .7s linear infinite;
+}
+@keyframes cs-gira { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .cs-btn[aria-busy="true"]::before { animation: none; } }
+.cs-acciones-fila { display: flex; flex-wrap: wrap; gap: .5rem; }
+.cs-sep { border: 0; border-top: 1px solid var(--cs-borde); margin: 1rem 0; }
+
+/* Tabla */
+.cs-tabla-caja { overflow-x: auto; background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; }
+.cs-tabla { width: 100%; border-collapse: collapse; font-size: .92rem; }
+.cs-tabla th, .cs-tabla td { padding: .65rem .85rem; text-align: left; border-bottom: 1px solid var(--cs-borde); vertical-align: middle; }
+.cs-tabla thead th { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--cs-suave); }
+.cs-tabla tbody tr:last-child > * { border-bottom: 0; }
+.cs-tabla tbody tr:hover { background: var(--cs-papel-2); }
+.cs-cuenta { display: flex; align-items: center; gap: .65rem; color: var(--cs-texto) !important; text-decoration: none; }
+.cs-cuenta-nombre { display: block; font-weight: 700; }
+.cs-cuenta-correo { display: block; font-size: .82rem; color: var(--cs-suave); word-break: break-all; }
+.cs-rol { display: inline-block; padding: .1rem .55rem; border-radius: 999px; font-size: .78rem; font-weight: 700; border: 1px solid currentColor; }
+.cs-rol-admin { color: var(--cs-acento); }
+.cs-rol-taller { color: #6cc4ff; }
+.cs-rol-motero { color: var(--cs-ok); }
+.cs-rol-sin_perfil { color: var(--cs-suave); }
+html[data-consola-tema="claro"] .cs-rol-taller { color: #0b5f99; }
+.cs-estado { font-weight: 700; font-size: .85rem; }
+.cs-ok { color: var(--cs-ok); }
+.cs-off { color: var(--cs-off); }
+.cs-paginacion { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem 1rem; margin-top: 1rem; font-size: .9rem; color: var(--cs-suave); }
+.cs-pag-info strong { color: var(--cs-texto); }
+.cs-paginas { display: flex; align-items: center; gap: .3rem; flex-wrap: wrap; }
+.cs-pag { min-width: 2.3rem; height: 2.3rem; display: inline-flex; align-items: center; justify-content: center; padding: 0 .5rem;
+  border-radius: 999px; border: 1.5px solid var(--cs-borde); color: var(--cs-texto) !important; text-decoration: none; font-weight: 700; }
+a.cs-pag:hover { background: var(--cs-papel-2); }
+span.cs-pag[aria-hidden="true"] { opacity: .35; }
+.cs-pag[aria-current="page"] { background: var(--cs-acento); border-color: var(--cs-acento); color: var(--cs-acento-texto) !important; }
+.cs-pag-elipsis { padding: 0 .2rem; }
+.cs-por-pagina { margin: 0; }
+.cs-filtro-linea { display: flex; align-items: center; gap: .5rem; }
+.cs-filtro-linea .cs-campo, .cs-filtro-linea .selector { width: 5.5rem; }
+@media (max-width: 560px) { .cs-paginacion { justify-content: center; } }
+
+/* Tarjetas */
+.cs-rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1rem; }
+.cs-tarjeta { background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; padding: 1rem 1.1rem; }
+.cs-ancha { grid-column: 1 / -1; }
+.cs-peligro { border-color: var(--cs-peligro); }
+.cs-deps { margin: 0 0 1rem; padding-left: 1.1rem; list-style: disc; }
+.cs-deps li { margin: .25rem 0; font-size: .92rem; }
+.cs-dep-bloquea strong { color: var(--cs-peligro); }
+.cs-bloqueo { padding: .65rem .8rem; border-radius: 9px; background: var(--cs-papel-2); margin-bottom: .75rem; font-size: .92rem; }
+.cs-datos { display: grid; grid-template-columns: max-content 1fr; gap: .4rem 1rem; margin-bottom: 1.25rem; }
+.cs-datos dt { color: var(--cs-suave); font-size: .85rem; }
+
+/* Bitácora */
+.cs-bitacora { list-style: none; padding: 0; margin: 0; background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; }
+.cs-bitacora li + li { border-top: 1px solid var(--cs-borde); }
+.cs-bit-item { display: block; padding: .7rem .9rem; text-decoration: none; color: var(--cs-texto) !important; }
+.cs-bit-item:hover { background: var(--cs-papel-2); }
+.cs-bit-frase { display: block; font-weight: 600; }
+.cs-bit-meta { display: block; font-size: .82rem; color: var(--cs-suave); }
+.cs-cambios .cs-antes { color: var(--cs-off); text-decoration: line-through; text-decoration-thickness: 1px; }
+.cs-cambios .cs-despues { color: var(--cs-ok); font-weight: 700; }
+
+/* Diálogos y avisos */
+.cs-dialogo {
+  max-width: min(28rem, calc(100vw - 2rem)); padding: 1.25rem; border-radius: 14px;
+  background: var(--pizarra, #1d2427); color: var(--crema, #ede3cc); border: 1px solid var(--borde, #354044);
+}
+.cs-dialogo::backdrop { background: rgba(0, 0, 0, .6); }
+.cs-dialogo p { margin-bottom: 1rem; }
+.cs-dialogo .cs-acciones-fila { justify-content: flex-end; }
+.cs-dialogo { --cs-acento: var(--lava, #f2611d); --cs-acento-texto: #111517; --cs-texto: var(--crema, #ede3cc); --cs-borde: var(--borde, #354044); --cs-peligro: #ff5a3c; --cs-papel-2: #252e31; }
+.cs-clave { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.cs-clave code { font-size: 1.2rem; letter-spacing: .08em; padding: .3rem .6rem; background: #111517; border-radius: 6px; user-select: all; }
+.cs-toasts { position: fixed; right: 1rem; bottom: 1rem; z-index: 60; display: flex; flex-direction: column; gap: .5rem; max-width: min(24rem, calc(100vw - 2rem)); }
+.cs-toast {
+  padding: .75rem 1rem; border-radius: 10px; font-weight: 600; font-size: .92rem; box-shadow: 0 10px 24px -8px rgba(0, 0, 0, .7);
+  background: #17703a; color: #fff; border-left: 5px solid #4ade80;
+}
+.cs-toast-error { background: #7a1a0c; border-left-color: #ff8a70; }
+.cs-ayuda { font-size: .78rem; color: var(--cs-suave); max-width: 16rem; }
+.cs-incompleto { padding: .75rem 1rem; border-radius: 10px; margin-bottom: 1rem; background: var(--cs-papel); border: 1px solid var(--mostaza, #e3a72f); border-left-width: 5px; font-size: .92rem; }
+.consola .cs-tecnico { display: block; margin: .9rem .65rem 0; font-size: .78rem; color: var(--cs-suave); text-decoration: underline; text-underline-offset: 2px; }
+.consola .cs-tecnico:hover { color: var(--cs-texto); }
+
+/* ---------- Desplegables de toda la consola ----------
+   Los <select class="campo"> y las fechas los convierte talleres/js/controles.js en una lista propia (en escritorio;
+   en pantallas táctiles quedan nativos). Aquí solo se viste con los tokens de la consola, en claro y en oscuro. */
+.consola .campo { margin-top: 0; }
+.consola .selector { width: 100%; }
+.consola .selector-boton, .consola .fecha-boton {
+  min-height: 2.6rem; padding: .45rem 2.2rem .45rem .7rem; border-radius: 9px; font-size: .95rem; font-weight: 500;
+  background: var(--cs-fondo); color: var(--cs-texto); border: 1.5px solid var(--cs-borde);
+}
+.consola .fecha-boton { padding-right: .7rem; }
+.consola .selector-boton:hover, .consola .fecha-boton:hover { border-color: var(--cs-suave); }
+.consola .selector-boton::after { border-color: var(--cs-suave); right: .85rem; }
+.consola .selector.abierto .selector-boton, .consola .selector-boton:focus, .consola .fecha-boton:focus {
+  border-color: var(--cs-acento); box-shadow: 0 0 0 3px color-mix(in srgb, var(--cs-acento) 22%, transparent); outline: none;
+}
+.consola .selector-boton.vacio .selector-texto { color: var(--cs-suave); }
+.consola .selector-lista, .consola .calendario {
+  background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; color: var(--cs-texto);
+  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, .55), var(--cs-sombra);
+}
+.consola .selector-opcion { color: var(--cs-texto); font-size: .93rem; }
+.consola .selector-opcion.activa { background: var(--cs-papel-2); }
+.consola .selector-opcion[aria-selected="true"] { color: var(--cs-enlace); }
+.consola .selector-opcion.selector-vacia { color: var(--cs-suave); }
+.consola .selector-lista { scrollbar-color: var(--cs-borde) transparent; }
+/* Nativos (celular y sin JS): misma flecha y colores */
+.consola select.cs-campo {
+  appearance: none; -webkit-appearance: none; padding-right: 2.2rem; cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, var(--cs-suave) 50%), linear-gradient(135deg, var(--cs-suave) 50%, transparent 50%);
+  background-position: calc(100% - 1.15rem) 55%, calc(100% - .8rem) 55%; background-size: .35rem .35rem; background-repeat: no-repeat;
+}
+.consola select.cs-campo option { background: var(--cs-papel); color: var(--cs-texto); }
+.consola .calendario-titulo, .consola .calendario-dia, .consola .calendario-accion { color: var(--cs-texto); }
+.consola .calendario-nav { color: var(--cs-suave); }
+.consola .calendario-nav:hover, .consola .calendario-dia:hover:not(:disabled), .consola .calendario-dia.foco { background: var(--cs-papel-2); color: var(--cs-texto); }
+.consola .calendario-dia[aria-pressed="true"] { background: var(--cs-acento); color: var(--cs-acento-texto); }
+.consola .calendario-pie { border-top-color: var(--cs-borde); }
+.consola .calendario-accion:hover { background: var(--cs-texto); color: var(--cs-papel); }
+html[data-consola-tema="claro"] .consola .calendario-semana { color: #8a5a00; }
+
+/* Secciones de fase 2 (Talleres, Cupones, Citas, Moderación) */
+.cs-btn-chico { min-height: 2.1rem; padding: .3rem .8rem; font-size: .82rem; }
+.cs-btn-ok { background: transparent; color: var(--cs-ok) !important; border: 1.5px solid var(--cs-ok); box-shadow: none; }
+.cs-form-linea { display: inline-flex; gap: .4rem; align-items: center; margin: 0; }
+.cs-tabla .cs-acciones-fila { gap: .4rem; }
+.cs-pend { color: var(--mostaza, #e3a72f); }
+html[data-consola-tema="claro"] .cs-pend { color: #8a5a00; }
+.cs-est-vigente { color: var(--cs-ok); }
+.cs-est-vencido { color: var(--cs-suave); }
+.cs-est-desactivado { color: var(--cs-off); }
+.cs-cita-pendiente { color: var(--mostaza, #e3a72f); }
+.cs-cita-confirmada, .cs-cita-atendida { color: var(--cs-ok); }
+.cs-cita-cancelada { color: var(--cs-off); }
+.cs-cita-reprogramada { color: var(--cs-enlace); }
+html[data-consola-tema="claro"] .cs-cita-pendiente { color: #8a5a00; }
+.cs-no-borra { font-size: .8rem; color: var(--cs-suave); border-bottom: 1px dotted currentColor; cursor: help; }
+.cs-campo-chico { min-height: 2.1rem; padding: .3rem .55rem; font-size: .85rem; width: 9rem; }
+.cs-mod-item { padding: .8rem .95rem; }
+.cs-mod-item .cs-acciones-fila { margin-top: .5rem; gap: .4rem; }
+.cs-oculto { background: var(--cs-papel-2); }
+.cs-cita { margin: .35rem 0; padding: .4rem .7rem; border-left: 3px solid var(--cs-borde); color: var(--cs-texto); font-size: .9rem; }
+@media (max-width: 700px) { .cs-cancelar { flex-wrap: wrap; } .cs-campo-chico { width: 100%; } }

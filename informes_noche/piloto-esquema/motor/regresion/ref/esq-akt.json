@@ -1,0 +1,963 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina E4",
+  "titulo": "Sistema clutch slipper · akt-nkd125",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Sistema clutch slipper",
+  "sub": "Lámina E4 · 15 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina E4",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "_reg-akt",
+ "moto": "akt-nkd125",
+ "figura": "E4",
+ "catalogo": "akt-nkd125",
+ "intervalos": "",
+ "arte": "_reg-akt",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "nombres": {
+  "1": "Manzana slipper clutch completa",
+  "2": "Manzana clutch slipper",
+  "3": "Portadiscos slipper",
+  "4": "Presionador clutch slipper",
+  "5": "Juego de discos clutch",
+  "6": "Juego de separadores clutch",
+  "7": "Juego de disco separadores slipper clutch",
+  "8": "Resorte clutch",
+  "9": "Portabalinera slipper clutch",
+  "10": "Empujador clutch",
+  "11": "Balinera",
+  "12": "Arandela presionador",
+  "13": "Pin prensa clutch",
+  "14": "Tornillo prensa clutch 6x25",
+  "15": "Centro clutch slipper"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 350,
+    "y": 90
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    630,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 630,
+    "y": 90
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    770,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 770,
+    "y": 90
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    830,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    770,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    830,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 830,
+    "y": 145
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    770,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 770,
+    "y": 200
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    70,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 70,
+    "y": 420
+   }
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    70,
+    475
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 70,
+    "y": 475
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    130,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Manzana slipper clutch completa.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Manzana clutch slipper.</b> (texto del paso)",
+   "m": {
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Juego de discos clutch.</b> (texto del paso)",
+   "m": {
+    "5": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Juego de separadores clutch.</b> (texto del paso)",
+   "m": {
+    "6": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Juego de disco separadores slipper clutch.</b> (texto del paso)",
+   "m": {
+    "7": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte clutch.</b> (texto del paso)",
+   "m": {
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Pin prensa clutch.</b> (texto del paso)",
+   "m": {
+    "13": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Manzana slipper clutch completa",
+   "cat": "Manzana Slipper Clutch Cta 125NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "500280465-0001"
+  },
+  "2": {
+   "nombre": "Manzana clutch slipper",
+   "cat": "Manza Clutch Slipper 125NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "190330141-0001"
+  },
+  "3": {
+   "nombre": "Portadiscos slipper",
+   "cat": "Portadiscos Slipper CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "PORTA_SLIP_CGR"
+  },
+  "4": {
+   "nombre": "Presionador clutch slipper",
+   "cat": "Presionador Clutch Slip CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "PRES_CLUTCH_SL"
+  },
+  "5": {
+   "nombre": "Juego de discos clutch",
+   "cat": "Jgo Discos Clutch 125 x 6 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1904500PP-0001x6"
+  },
+  "6": {
+   "nombre": "Juego de separadores clutch",
+   "cat": "Jgo Separad Clutch x4 125S · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "22215-0125S-0000"
+  },
+  "7": {
+   "nombre": "Juego de disco separadores slipper clutch",
+   "cat": "Jgo Disco Separadores Sliper Clutch CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "JGO_DIS_SLIP_CG"
+  },
+  "8": {
+   "nombre": "Resorte clutch",
+   "cat": "Resorte Clutch 125S · 3 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "190550001-0001"
+  },
+  "9": {
+   "nombre": "Portabalinera slipper clutch",
+   "cat": "Portabalinera Sliper Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "10": {
+   "nombre": "Empujador clutch",
+   "cat": "Empujador Clutch 125CGR/200Sm · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "190730007-0001"
+  },
+  "11": {
+   "nombre": "Balinera",
+   "cat": "Balinera 16003/P6 125CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380630267-0001"
+  },
+  "12": {
+   "nombre": "Arandela presionador",
+   "cat": "Arandela Presionador 125CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380500001-0001"
+  },
+  "13": {
+   "nombre": "Pin prensa clutch",
+   "cat": "Pin Prensa Clutch 125CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380550014-0001"
+  },
+  "14": {
+   "nombre": "Tornillo prensa clutch 6x25",
+   "cat": "Tornillo Prensa Clutch 6x25 125 · 3 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "15": {
+   "nombre": "Centro clutch slipper",
+   "cat": "Centro Clutch Slipper CGR · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. E4."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "PrensCluSliCGR"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "manzana-slippe",
+    "nombre": "Manzana slipper clutch completa",
+    "piezas": [
+     "1"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "manzana-clutch",
+    "nombre": "Manzana clutch slipper",
+    "piezas": [
+     "2",
+     "3",
+     "4"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "juego-de-disco",
+    "nombre": "Juego de discos clutch",
+    "piezas": [
+     "5"
+    ],
+    "torn": [],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "juego-de-separ",
+    "nombre": "Juego de separadores clutch",
+    "piezas": [
+     "6"
+    ],
+    "torn": [],
+    "pasos": [
+     3
+    ]
+   },
+   {
+    "id": "juego-de-disco-2",
+    "nombre": "Juego de disco separadores slipper clutch",
+    "piezas": [
+     "7"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ]
+   },
+   {
+    "id": "resorte-clutch",
+    "nombre": "Resorte clutch",
+    "piezas": [
+     "8",
+     "9",
+     "10",
+     "11"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandela presionador",
+      "corto": "Arandela",
+      "ids": [
+       "12"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     5
+    ]
+   },
+   {
+    "id": "pin-prensa-clu",
+    "nombre": "Pin prensa clutch",
+    "piezas": [
+     "13",
+     "15"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo prensa clutch 6x25s",
+      "corto": "Tornillo",
+      "ids": [
+       "14"
+      ],
+      "cant": 3
+     }
+    ],
+    "pasos": [
+     6
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: sistema clutch slipper"
+ }
+}

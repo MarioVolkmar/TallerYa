@@ -1,0 +1,772 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F10",
+  "titulo": "Front brake caliper · honda-cb125f",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Front brake caliper",
+  "sub": "Lámina F10 · 13 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina F10",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "_reg-honda",
+ "moto": "honda-cb125f",
+ "figura": "F10",
+ "catalogo": "honda-cb125f",
+ "intervalos": "",
+ "arte": "_reg-honda",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13"
+ ],
+ "nombres": {
+  "1": "Sello",
+  "2": "Pad Set, Fr.",
+  "3": "Tornillo (pistón)",
+  "4": "Tapa",
+  "5": "Pistón",
+  "6": "Resorte",
+  "7": "Bush B",
+  "8": "Boot B, Bush",
+  "9": "Tapón",
+  "10": "Pasador",
+  "11": "Cáliper",
+  "12": "Soporte",
+  "13": "Tornillo (soporte)"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    130,
+    310
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 130,
+    "y": 310
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    130,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    70,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 70,
+    "y": 200
+   }
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    130,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 130,
+    "y": 200
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    70,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 70,
+    "y": 255
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    130,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 130,
+    "y": 255
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    70,
+    310
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 70,
+    "y": 310
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    410,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 410,
+    "y": 90
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Pistón.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Cáliper.</b> (texto del paso)",
+   "m": {
+    "11": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Soporte.</b> (texto del paso)",
+   "m": {
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Sello",
+   "cat": "SEAL SET, PISTON · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "06451-KSY-901"
+  },
+  "2": {
+   "nombre": "Pad Set, Fr.",
+   "cat": "PAD SET, FR. · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "06455-KYA-621"
+  },
+  "3": {
+   "nombre": "Tornillo (pistón)",
+   "cat": "SCREW, BLEEDER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "43352-KSY-901"
+  },
+  "4": {
+   "nombre": "Tapa",
+   "cat": "CAP, BLEEDER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "43353-KSY-901"
+  },
+  "5": {
+   "nombre": "Pistón",
+   "cat": "PISTON · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45107-KSY-901"
+  },
+  "6": {
+   "nombre": "Resorte",
+   "cat": "SPRING, PAD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45108-KSY-901"
+  },
+  "7": {
+   "nombre": "Bush B",
+   "cat": "BUSH B · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45132-KSY-901"
+  },
+  "8": {
+   "nombre": "Boot B, Bush",
+   "cat": "BOOT B, BUSH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45133-KSY-901"
+  },
+  "9": {
+   "nombre": "Tapón",
+   "cat": "PLUG, PIN · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45203-KRF-C91"
+  },
+  "10": {
+   "nombre": "Pasador",
+   "cat": "PIN, HANGER · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45215-KRF-C91"
+  },
+  "11": {
+   "nombre": "Cáliper",
+   "cat": "CALIPER SUB ASSY., R. FR. · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45250-KRF-C91"
+  },
+  "12": {
+   "nombre": "Soporte",
+   "cat": "BRACKET SUB ASSY., R. FR. · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45290-KRF-C91"
+  },
+  "13": {
+   "nombre": "Tornillo (soporte)",
+   "cat": "BOLT, FLANGE, 8X25 · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90155-KEH-950"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "piston",
+    "nombre": "Pistón",
+    "piezas": [
+     "1",
+     "2",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "3"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "caliper",
+    "nombre": "Cáliper",
+    "piezas": [
+     "11"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "soporte",
+    "nombre": "Soporte",
+    "piezas": [
+     "12"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos",
+      "corto": "Tornillos",
+      "ids": [
+       "13"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     2
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: front brake caliper"
+ }
+}

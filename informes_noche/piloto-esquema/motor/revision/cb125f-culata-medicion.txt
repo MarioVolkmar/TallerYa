@@ -1,0 +1,19 @@
+informes_noche/piloto-esquema/motor/cb125f-culata.html · 164 s · 6 anchos · modelo v2
+  360×740: dibujo 304×236 completo · apoyo 12 % · en grupo: Desarmar sí · unico: 5 marcas de 46 px, fallas 0, solapes 0 · hoja 12 % (tapa 0 % de la pieza)
+  390×844: dibujo 334×260 completo · apoyo 10 % · en grupo: Desarmar sí · unico: 5 marcas de 46 px, fallas 0, solapes 0 · hoja 10 % (tapa 0 % de la pieza)
+  768×1024: dibujo 708×551 completo · apoyo 4 % · en grupo: Desarmar sí · unico: 5 marcas de 46 px, fallas 0, solapes 0 · hoja 7 % (tapa 0 % de la pieza)
+  1024×768: dibujo 573×381 completo · apoyo 12 % · en grupo: Desarmar sí · unico: 5 marcas de 46 px, fallas 0, solapes 0
+  1280×800: dibujo 681×520 completo · apoyo 5 % · en grupo: Desarmar sí · unico: 5 marcas de 46 px, fallas 0, solapes 0
+  1440×900: dibujo 681×530 completo · apoyo 4 % · en grupo: Desarmar sí · unico: 5 marcas de 46 px, fallas 0, solapes 0
+  Lista: 5 grupos (0 abiertos), 21 piezas; buscador «bomba» → 0
+  Ficha: 10 secciones, 776 px a 1280 / 1424 px a 360; ‹ › funcionan
+  Piezas a 360: 14 de 14 con área tocable ≥ 24 px de diámetro
+  Cómo funciona: 6 pasos · etiquetas ✓ · letra 14/12.1 px ✓ · cambios por paso [11, 11, 12, 10, 14] ✓ · texto ≤ 266 car. ✗ · indicador 100°, 0° · detalle 63 formas / 25 degradados → mínimo NO CUMPLE
+  Para criterios a ojo: toques hasta la ficha 3 (adentro 4, desarme ≤ 1.4 s) → subnota del 1: 4 · ficha a 360: «¿Se repara?» a 0.7 pantallas, «Pedir» a 1.15 → subnota del 3: 5
+  3D: abre (Bujía, Vista 1 de 4, )
+Notas estimadas (criterios medibles): 6: 3.5 · 8: 4.7 · 9: 5.0 · 10: 5.0 · 11: 4.8 · 12: 4.8  → promedio 4.63
+Bloqueantes: Cómo funciona: un paso tiene 266 caracteres (pedir ≤ 250) · Medible NO APRUEBA
+Con los criterios a ojo (1,2,3,4,5,7 = 4.5,4.5,4,4.5,4,4.5): promedio de los 12 = 4.48 → NO APRUEBA
+  - marcas que se rozan o se solapan: 390:unico:Portalevas→Guías
+  - botones de menos de 44 px: 1280: Bujía 32×22 (Piezas)
+  - aviso: 4 botones < 44 px en otras pestañas, p. ej. Bujía 32×22 (Cuándo); Bujía 32×22 (Cómo funciona); Bujía 32×22 (Si falla)

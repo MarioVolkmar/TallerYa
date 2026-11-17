@@ -313,7 +313,7 @@
     0,
     -26
    ],
-   "vis": "exp",
+   "vis": "arm",
    "arte": "arteSelloU"
   },
   {
@@ -626,7 +626,7 @@
     0,
     -26
    ],
-   "vis": "exp",
+   "vis": "arm",
    "comun": "placa",
    "p": {
     "contorno": [
@@ -946,7 +946,8 @@
     "porque": "ap",
     "cuando": "ok"
    },
-   "codigo": "B6H-E5411-01"
+   "codigo": "B6H-E5411-01",
+   "rodar": "pronto"
   },
   "2": {
    "nombre": "Empaque de la tapa",
@@ -996,7 +997,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B6H-E5451-00"
+   "codigo": "B6H-E5451-00",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave o copa de la tapa que lo sujeta; empaque nuevo",
+    "min": 20
+   }
   },
   "3": {
    "nombre": "Pasador de centrado",
@@ -1037,7 +1043,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "99530-10114"
+   "codigo": "99530-10114",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Destornillador de estrella",
+    "min": 15
+   }
   },
   "4": {
    "nombre": "Tornillos de la tapa",
@@ -1086,7 +1097,12 @@
     "cuando": "ap",
     "que": "ok"
    },
-   "codigo": "95E32-06035"
+   "codigo": "95E32-06035",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave o copa del tamaño del tornillo (y de torque si es del motor)",
+    "min": 10
+   }
   },
   "5": {
    "nombre": "Respiradero de la caja",
@@ -1128,7 +1144,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "5LW-E5371-01"
+   "codigo": "5LW-E5371-01",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador o alicate",
+    "min": 10
+   }
   },
   "6": {
    "nombre": "Tubo de drenaje de la caja",
@@ -1179,7 +1200,12 @@
     "porque": "ok",
     "cuando": "ap"
    },
-   "codigo": "4ST-E443E-00"
+   "codigo": "4ST-E443E-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Alicate",
+    "min": 10
+   }
   },
   "7": {
    "nombre": "Grapa del tubo de drenaje",
@@ -1221,7 +1247,12 @@
     "cuando": "ap",
     "que": "ok"
    },
-   "codigo": "90467-11106"
+   "codigo": "90467-11106",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Alicate",
+    "min": 10
+   }
   },
   "8": {
    "nombre": "Tapa exterior de la transmisión",
@@ -1273,7 +1304,12 @@
     "porque": "ap",
     "cuando": "ok"
    },
-   "codigo": "B6H-E5431-00"
+   "codigo": "B6H-E5431-00",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Destornillador de estrella",
+    "min": 15
+   }
   },
   "9": {
    "nombre": "Sello de caucho del filtro",
@@ -1314,7 +1350,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2DP-E5495-00"
+   "codigo": "2DP-E5495-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "A mano; sello nuevo",
+    "min": 10
+   }
   },
   "10": {
    "nombre": "Sello redondo del ducto",
@@ -1355,7 +1396,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B65-E5472-00"
+   "codigo": "B65-E5472-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "A mano; sello nuevo",
+    "min": 10
+   }
   },
   "11": {
    "nombre": "Filtro de la correa",
@@ -1468,6 +1514,11 @@
       ]
      }
     ]
+   },
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Destornillador de estrella",
+    "min": 15
    }
   },
   "12": {
@@ -1513,7 +1564,12 @@
     "cuando": "ap",
     "que": "ok"
    },
-   "codigo": "B63-E5481-00"
+   "codigo": "B63-E5481-00",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave o copa del tamaño del tornillo (y de torque si es del motor)",
+    "min": 10
+   }
   },
   "13": {
    "nombre": "Sello del ducto de arriba",
@@ -1554,7 +1610,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2DP-E5474-00"
+   "codigo": "2DP-E5474-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "A mano; sello nuevo",
+    "min": 10
+   }
   },
   "14": {
    "nombre": "Espuma redonda",
@@ -1595,7 +1656,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B6H-E5316-00"
+   "codigo": "B6H-E5316-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "15": {
    "nombre": "Espuma en bloque",
@@ -1636,7 +1702,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B6H-E5326-00"
+   "codigo": "B6H-E5326-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "16": {
    "nombre": "Espuma del centro, arriba",
@@ -1677,7 +1748,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90520-10856"
+   "codigo": "90520-10856",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "17": {
    "nombre": "Espuma del centro, abajo",
@@ -1718,7 +1794,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90520-40801"
+   "codigo": "90520-40801",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "18": {
    "nombre": "Espuma de atrás, abajo",
@@ -1759,7 +1840,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90520-10851"
+   "codigo": "90520-10851",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "19": {
    "nombre": "Espuma de abajo, junto al filtro",
@@ -1800,7 +1886,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90520-50801"
+   "codigo": "90520-50801",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "20": {
    "nombre": "Espuma en L",
@@ -1841,7 +1932,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B6H-E533C-00"
+   "codigo": "B6H-E533C-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "21": {
    "nombre": "Espuma de adelante, abajo",
@@ -1882,7 +1978,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90520-40800"
+   "codigo": "90520-40800",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "22": {
    "nombre": "Espuma curva",
@@ -1923,7 +2024,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B6H-E533E-00"
+   "codigo": "B6H-E533E-00",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   },
   "23": {
    "nombre": "Espuma de la esquina de atrás",
@@ -1964,7 +2070,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90520-10855"
+   "codigo": "90520-10855",
+   "rodar": "sigue",
+   "hazlo": {
+    "herr": "Destornillador de estrella y agua con jabón suave",
+    "min": 20
+   }
   }
  },
  "cadenas": [

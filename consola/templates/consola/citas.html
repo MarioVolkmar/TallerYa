@@ -1,0 +1,36 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Citas y servicios</h1>
+  <p class="cs-sub">{{ total }} cita{{ total|pluralize }}{% if pendientes_seccion %} · <strong>{{ pendientes_seccion }} pendiente{{ pendientes_seccion|pluralize }}</strong> de respuesta del taller{% endif %}</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  {% include "consola/_filtros_inicio.html" with clave="citas" placeholder="Motero, taller, moto o correo" %}
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>
+    <select name="estado" class="cs-campo campo"><option value="">Todos</option>
+      {% for v, n in estados %}<option value="{{ v }}" {% if form.estado.value == v %}selected{% endif %}>{{ n }}</option>{% endfor %}</select></label>
+  <label class="cs-filtro"><span class="cs-etq">Desde</span><input type="date" name="desde" value="{{ form.desde.value|default:'' }}" class="cs-campo campo"></label>
+  <label class="cs-filtro"><span class="cs-etq">Hasta</span><input type="date" name="hasta" value="{{ form.hasta.value|default:'' }}" class="cs-campo campo"></label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if pagina.object_list %}
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Citas</caption>
+  <thead><tr><th scope="col">Cita</th><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col">Acciones</th></tr></thead>
+  <tbody>
+  {% for c in pagina %}
+  <tr>
+    <td><span class="cs-cuenta-nombre">{{ c.fecha_preferida|date:"j M Y" }}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %}</span> <span class="cs-id">#{{ c.pk }}</span>
+      <span class="cs-cuenta-correo">{{ c.nombre }} · {{ c.moto }}{% if c.servicio %} · {{ c.servicio }}{% endif %}{% if c.usuario %} · <a href="?seccion=usuarios&amp;id={{ c.usuario_id }}">cuenta</a>{% endif %}</span></td>
+    <td>{{ c.taller.nombre }}</td>
+    <td><span class="cs-estado cs-cita-{{ c.estado }}">{{ c.get_estado_display }}</span>{% if c.motivo_cancelacion %}<span class="cs-cuenta-correo">{{ c.motivo_cancelacion|truncatechars:60 }}</span>{% endif %}</td>
+    <td>{% if c.estado in abiertas %}
+      <form method="post" action="{% url 'consola:accion' 'citas.cancelar' c.pk %}" data-accion data-confirmar="¿Cancelar la cita #{{ c.pk }} en {{ c.taller.nombre }}?" class="cs-form-linea cs-cancelar">
+        {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        <input name="motivo" class="cs-campo cs-campo-chico" placeholder="Motivo" required {% limite "motivo" %} aria-label="Motivo de la cancelación">
+        <button class="cs-btn cs-btn-chico cs-btn-sec">Cancelar</button>
+      </form>{% else %}<span class="cs-peq">—</span>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">No hay citas con esos filtros.</p>{% endif %}

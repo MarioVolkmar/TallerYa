@@ -1,0 +1,62 @@
+[
+ {
+  "campo": "funciona.pasos.4.t",
+  "reemplazar": "hasta el juego del manual y marcas iguales. Si solo corres uno, la rueda queda torcida.",
+  "por": "hasta el juego del manual y marcas iguales; aprietas la tuerca con su torque y reajustas el pedal del freno, porque al correr la rueda cambia su juego. Si solo corres uno, la rueda queda torcida."
+ },
+ {
+  "campo": "fichas.5.que",
+  "reemplazar": "La leva de adentro del tambor: un eje con una punta plana",
+  "por": "El eje que atraviesa el [[3|portabandas]], con una punta plana adentro del tambor"
+ },
+ {
+  "campo": "cadenas.1.p.1.1",
+  "reemplazar": "El eje queda torcido y la rueda no va en línea.",
+  "por": "El eje queda cruzado y la rueda no va en línea con el piñón."
+ },
+ {
+  "campo": "pasos.1.t",
+  "reemplazar": "Saca el [[1|eje]] y anota",
+  "por": "Quita la tuerca y saca el [[1|eje]] sosteniendo la rueda; anota"
+ },
+ {
+  "campo": "pasos.4.t",
+  "reemplazar": "Saca el [[3|portabandas]] del tambor.",
+  "por": "Saca el [[3|portabandas]] y limpia el polvo con trapo húmedo, sin soplarlo."
+ },
+ {
+  "campo": "fichas.8.fallas.1.1",
+  "reemplazar": "Se cristalizan con agua y lodo.",
+  "por": "Con agua y lodo pierden agarre y se rayan."
+ },
+ {
+  "campo": "fuentes.aproximado.2",
+  "reemplazar": "(el manual dice 500 km)",
+  "por": "(el manual dice 500 km, según la lectura del auditor del manual escaneado)"
+ },
+ {
+  "campo": "fichas.15.que",
+  "reemplazar": "Los seis tacos de caucho",
+  "por": "Los tacos de caucho"
+ },
+ {
+  "campo": "fichas.1.que",
+  "reemplazar": "los bujes y la [[12|campana]]",
+  "por": "los bujes, el [[17|porta sprocket]] y la [[12|campana]]"
+ },
+ {
+  "campo": "fichas.22.fallas.0.1",
+  "reemplazar": "Se cambia con el del freno al armar.",
+  "por": "Se cambia con el buje del portabandas al armar."
+ },
+ {
+  "campo": "fichas.26.arrastra.0",
+  "reemplazar": "patinas al frenar con el [[8|freno]] trasero.",
+  "por": "la rueda trasera patina al frenar."
+ },
+ {
+  "campo": "fichas.26.que",
+  "reemplazar": "La llanta 3.00-18 de la rueda trasera.",
+  "por": "La cubierta de caucho con labrado, medida 3.00-18, montada en el [[14|rin]] y con el [[25|neumático]] adentro."
+ }
+]

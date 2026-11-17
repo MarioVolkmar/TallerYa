@@ -535,7 +535,8 @@
     "material": "espuma",
     "x": 520,
     "y": 440
-   }
+   },
+   "oculto": true
   },
   {
    "id": "19",
@@ -613,7 +614,8 @@
     "material": "espuma",
     "x": 270,
     "y": 440
-   }
+   },
+   "oculto": true
   },
   {
    "id": "23",
@@ -652,7 +654,8 @@
     "material": "espuma",
     "x": 620,
     "y": 410
-   }
+   },
+   "oculto": true
   },
   {
    "id": "8",

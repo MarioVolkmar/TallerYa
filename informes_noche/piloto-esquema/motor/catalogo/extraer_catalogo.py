@@ -1,6 +1,7 @@
 """Extrae las tablas de partes de un catálogo (PDF, solo lectura) a JSON.
 Uso:
-  python extraer_catalogo.py <pdf> <salida.json>                              Yamaha (cabecera 'PART NO.'): todas las figuras
+  python extraer_catalogo.py <pdf> <salida.json>                              Yamaha (cabecera 'PART NO.'): todas las figuras [--moto crypton-bf24]
+      Yamaha Colombia (bilingüe, «DESCRIPCION/DESCRIPTION»): «descripcion» en español y «descripcion_en» en inglés.
   python extraer_catalogo.py <pdf> <salida.json> --figura 14 --columna TEC [--moto boxer-ct100]
       Otros catálogos (Auteco/Bajaj y genéricos en español: cabecera 'PARTE'/'CÓDIGO' + 'DESCRIPCIÓN' + columnas de
       versión o de cantidad): extrae solo la figura N por palabras y la agrega a <salida.json> si ya existe.
@@ -9,6 +10,9 @@ Uso:
       Catálogo AKT (cabecera 'Ref.'/'Descripciones'/'Cant', figuras 'E- 4' = motor y 'F- 4' = chasis): la figura se
       guarda con letra y número («E4», así no choca con «F4»). Los conjuntos («Cta», «Completo») quedan en «partes»
       porque tienen número en la foto; el código se separa del EAN-13 pegado y puede ir vacío.
+  python extraer_catalogo.py <pdf> <salida.json> --figura F10 --columna C [--saltar 2U] [--moto honda-cb125f]
+      Catálogo Honda (inglés; 'Reqd. QTY' por versión con columnas «7 8 A C» y códigos de mercado): se guarda como «F10».
+      Sin --columna lista las versiones. Las filas de reemplazo heredan la ref; --saltar descarta mercados (2U = Nissin).
 Usa pymupdf (words) y agrupa por columnas relativas a la cabecera."""
 import argparse, json, os, re, sys
 if hasattr(sys.stdout, "reconfigure"): sys.stdout.reconfigure(encoding="utf-8"); sys.stderr.reconfigure(encoding="utf-8")  # consola de Windows (cp1252)
@@ -29,6 +33,8 @@ def filas_pagina(page):
     if px is None:
         return []
     ytab = next(a[3] for a in w if a[4] == "PART")  # bajo la cabecera
+    # Yamaha Colombia (bilingüe): cabecera «DESCRIPCION» sobre «DESCRIPTION» y cada fila en dos renglones, español arriba
+    bilingue = any(a[4] == "DESCRIPCION" for a in w) and any(a[4] == "DESCRIPTION" for a in w)
     w = [a for a in w if a[1] > ytab + 1]
     refs = [a for a in w if a[0] < px - 22 and re.fullmatch(r"\*?\d+[a-zA-Z]?", a[4])]
     if not refs:
@@ -45,16 +51,18 @@ def filas_pagina(page):
         f["w"].append(a)
     out = []
     for f in filas:
-        cols = {"codigo": [], "desc": [], "cant": [], "nota": []}
+        cols = {"codigo": [], "desc": [], "desc_en": [], "cant": [], "nota": []}
         for a in sorted(f["w"], key=lambda a: (round(a[1] / 4), a[0])):
             x = a[0] - px
             k = "codigo" if x < 50 else "desc" if x < 205 else "cant" if x < 270 else "nota"
+            if k == "desc" and bilingue and (a[1] + a[3]) / 2 > f["y"] + 3: k = "desc_en"   # renglón de abajo = inglés
             cols[k].append(a[4])
         cant = " ".join(cols["cant"]).strip()
-        out.append({"ref": f["ref"], "descripcion": limpiar(" ".join(cols["desc"])),
-                    "cantidad": int(cant) if cant.isdigit() else cant,
-                    "codigo": limpiar("".join(cols["codigo"])),
-                    "nota": limpiar(" ".join(cols["nota"]))})
+        fila = {"ref": f["ref"], "descripcion": limpiar(" ".join(cols["desc"]))}
+        if bilingue: fila["descripcion_en"] = limpiar(" ".join(cols["desc_en"]))
+        fila.update({"cantidad": int(cant) if cant.isdigit() else cant, "codigo": limpiar("".join(cols["codigo"])),
+                     "nota": limpiar(" ".join(cols["nota"]))})
+        out.append(fila)
     return out
 
 
@@ -64,7 +72,8 @@ NO_VERSION = {"DESCRIPCIÓN", "DESCRIPCION", "OBSERVACIÓN", "OBSERVACION", "OBS
 
 def figura_generica(page):
     t = re.sub(r"\s+", " ", page.get_text())
-    m = re.search(r"FIGURA\s*N\W{0,2}\s*(\d+)\s*:?\s*([^(\d]+?)\s*(\(\s*\d+\s*/\s*\d+\s*\)|FIG\.|PARTE|\d|$)", t)
+    # ronda 8: «16A» es otra figura (no la 16) y el título puede cerrar con un paréntesis de letras: «CARBURADOR (TEC-S1D)»
+    m = re.search(r"FIGURA\s*N\W{0,2}\s*(\d+[A-Z]?)(?![A-Za-z0-9])\s*:?\s*([^(\d]+?)\s*(\(\s*\d+\s*/\s*\d+\s*\)|\([^)]*\)|FIG\.|PARTE|\d|$)", t)
     return (m.group(1), m.group(2).strip(" :")) if m else None
 
 def filas_genericas(page):
@@ -161,9 +170,72 @@ def main_akt(pdf, salida, figura, moto):
         return 0
     return None
 
-def main_generico(pdf, salida, figura, columna, moto):
+# ---------- catálogo Honda: «F-10» + tabla Ref. No. | Part No. | Description | Reqd. QTY por versión (7 8 A C) | mercados ----------
+COD_HONDA = r"\d{5}-[A-Z0-9]{3,5}(?:-[A-Z0-9]{2,5})?"   # también tornillería estándar «95701-06014-00» y sin sufijo «92812-20000» (ronda 9)
+
+def main_honda(pdf, salida, figura, columna, moto, saltar):
+    """Filas de reemplazo (sin número) heredan la ref de la anterior; se toma la primera fila con cantidad en la columna
+    cuyo mercado no esté en «saltar» (p. ej. 2U = versión Nissin)."""
+    m = re.fullmatch(r"([A-Z])-?(\d+)(?:-(\d+))?", str(figura).upper().replace(" ", ""))   # «F10», «F-10» y de tres niveles «E-1-2» / «E1-2»
+    if not m: return None
+    letra, num, sub = m.groups(); clave = letra + num + (f"-{sub}" if sub else "")
+    eti = f"{letra}-{num}" + (f"-{sub}" if sub else "")
+    d = pymupdf.open(pdf); textos, paginas, titulo, cols = [], [], "", []
+    for i, page in enumerate(d):
+        t = page.get_text()
+        if "Parts catalogue code" not in t or not re.search(rf"(?m)^\s*{eti}\s*$", t):
+            continue
+        tm = re.search(rf"(?m)^\s*{eti}\s*\n(?:\s*\d+\s*\n)?\s*([A-Z][^\n]+)", t)   # en la 2.ª página va el número de página antes del título
+        tt = re.sub(r"[^\x20-\x7e]", "", tm.group(1)).strip() if tm else ""
+        if not tt or (titulo and tt != titulo):   # índices u otras páginas que solo nombran la figura
+            continue
+        titulo = tt
+        cm = re.search(r"(?m)^([ \t]*[0-9A-Z]{1,2}(?:[ \t]+[0-9A-Z]{1,2})+)[ \t]*\nSerial No\.", t)
+        cols = cols or (cm.group(1).split() if cm else [])
+        textos.append(t); paginas.append(i + 1)
+    if not textos or not cols: return None
+    if columna is None and len(cols) > 1:
+        print(f"figura {clave} «{titulo}», pp. {paginas}: varias columnas de versión {cols}. Pasa --columna <una> (y --saltar mercados, p. ej. 2U)."); return 2
+    col = columna or cols[0]
+    if col not in cols:
+        print(f"columna «{col}» no está; hay {cols}"); return 2
+    k = cols.index(col); n = len(cols)
+    pat = re.compile(rf"(?:^|\n)[ \t]*(?:\(?(\d+)\)?[ \t]+)?({COD_HONDA})(?:[ \t]*\n|[ \t]+(?=[A-Z]))(.*?)((?:[ \t\n]+\(?[\d-]+\)?){{{n}}})(?:[ \t\n]+-{{4,}}[ \t\n]+-{{4,}}[ \t\n]+([A-Z0-9,]*))?", re.S)   # sin guiones de serie (E-1-2) no hay mercados: no tomar la ref de la fila siguiente
+    ref, base, partes, vistos = None, "", [], set()
+    salta = set(x.strip() for x in (saltar or "").split(",") if x.strip())
+    for t in textos:
+        for mm in pat.finditer(t):
+            r, cod, desc, qs, mk = mm.groups(); mk = mk or ""
+            desc = re.sub(r"\s+", " ", re.sub(r"[^\x20-\x7e]", " ", desc)).strip()
+            desc = re.sub(r"\s*\*[A-Z0-9]+\*.*$", "", desc).strip()   # ronda 9: color en la 2.ª línea («*NH303M* MAT AXIS GRAY…»)
+            if r: ref, base = r, desc
+            q = qs.split()[k]
+            if q.startswith("("):   # «(1)»: alternativa (otra bujía, etc.); se toma la fila con cantidad normal
+                continue
+            if ref is None or ref in vistos or q == "-" or (salta and set(mk.split(",")) <= salta):
+                continue
+            vistos.add(ref)
+            partes.append({"ref": ref, "descripcion": desc or base, "descripcion_en": desc or base, "cantidad": int(q), "codigo": cod,
+                           "nota": f"columna {col}; mercados {mk}"})
+    partes.sort(key=lambda p: int(p["ref"]))
+    res = json.load(open(salida, encoding="utf-8")) if os.path.exists(salida) else {"moto": moto or os.path.splitext(os.path.basename(salida))[0], "fuente": os.path.basename(pdf), "figuras": {}}
+    viejo = res["figuras"].get(clave, {})
+    for p in partes:
+        q = next((x for x in viejo.get("partes", []) if x.get("ref") == p["ref"]), {})
+        for kk, v in q.items(): p.setdefault(kk, v)
+    res["figuras"][clave] = {"titulo": titulo, "paginas": paginas, "columna": col, "columnas": cols, "saltar": sorted(salta), "partes": partes}
+    with open(salida, "w", encoding="utf-8") as fh:
+        json.dump(res, fh, indent=1, ensure_ascii=False)
+    print(f"figura {clave} «{titulo}», pp. {paginas}, columna {col}" + (f", sin {','.join(sorted(salta))}" if salta else "") + f": {len(partes)} piezas")
+    for p in partes: print(f"  {p['ref']:>3} {p['codigo']:14} {p['cantidad']:>2} {p['descripcion']}")
+    return 0
+
+def main_generico(pdf, salida, figura, columna, moto, saltar=None):
     if clave_fig(figura):   # «E4», «E-4»: catálogo AKT
         r = main_akt(pdf, salida, figura, moto)
+        if r is not None: return r
+    if clave_fig(figura) or re.fullmatch(r"\s*[A-Za-z]-?\d+-\d+\s*", str(figura)):
+        r = main_honda(pdf, salida, figura, columna, moto, saltar)   # «F10», «F-10», «E-1-2»: catálogo Honda
         if r is not None: return r
     d = pymupdf.open(pdf)
     filas, paginas, titulo, columnas = [], [], "", []
@@ -177,7 +249,7 @@ def main_generico(pdf, salida, figura, columna, moto):
         titulo = titulo or re.sub(r"\s*\(.*$", "", fg[1]); paginas.append(i + 1); filas += fs
         columnas = columnas or cs
     if not filas:
-        print(f"figura {figura}: no encontré su tabla (cabecera PARTE/CÓDIGO + DESCRIPCIÓN, o AKT «Ref./Descripciones» con figura E-N)"); return 1
+        print(f"figura {figura}: no encontré su tabla (cabecera PARTE/CÓDIGO + DESCRIPCIÓN, AKT «Ref./Descripciones» con figura E-N, u Honda «Parts catalogue code» con figura F-N)"); return 1
     if columna is None and len(columnas) > 1:
         print(f"figura {figura} «{titulo}», pp. {paginas}: varias columnas de versión {columnas}. Pasa --columna <una>."); return 2
     col = columna or columnas[0]
@@ -215,7 +287,7 @@ def main_generico(pdf, salida, figura, columna, moto):
     for p in partes: print(f"  {p['ref']:>3} {p['codigo']:12} {p['cantidad']:>2} {p['descripcion']}")
     return 0
 
-def main(pdf, salida):
+def main(pdf, salida, moto=None):
     d = pymupdf.open(pdf)
     figuras = {}
     for i, page in enumerate(d):
@@ -226,7 +298,7 @@ def main(pdf, salida):
         f = figuras.setdefault(num, {"titulo": tit, "paginas": [], "partes": []})
         f["paginas"].append(i + 1)
         f["partes"].extend(filas_pagina(page))
-    res = {"moto": "nmax-bbe4", "fuente": os.path.basename(pdf), "figuras": figuras}
+    res = {"moto": moto or "nmax-bbe4", "fuente": os.path.basename(pdf), "figuras": figuras}
     with open(salida, "w", encoding="utf-8") as fh:
         json.dump(res, fh, indent=1, ensure_ascii=False)
     print(len(figuras), "figuras,", sum(len(f["partes"]) for f in figuras.values()), "filas")
@@ -234,8 +306,8 @@ def main(pdf, salida):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("pdf"); ap.add_argument("salida")
-    ap.add_argument("--figura"); ap.add_argument("--columna"); ap.add_argument("--moto")
+    ap.add_argument("--figura"); ap.add_argument("--columna"); ap.add_argument("--moto"); ap.add_argument("--saltar")
     a = ap.parse_args()
     if a.figura:
-        sys.exit(main_generico(a.pdf, a.salida, a.figura, a.columna, a.moto))
-    main(a.pdf, a.salida)
+        sys.exit(main_generico(a.pdf, a.salida, a.figura, a.columna, a.moto, a.saltar))
+    main(a.pdf, a.salida, a.moto)

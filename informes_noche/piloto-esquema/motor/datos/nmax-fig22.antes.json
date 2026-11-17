@@ -660,7 +660,7 @@
    }
   },
   {
-   "t": "<b>Disco.</b> Sale del rin. Mide el grosor en varios puntos y compáralo con el mínimo grabado («MIN TH»). <b>Al armar todo:</b> tornillos con fijador de rosca y apretados en cruz con el torque del manual de servicio, pastillas nuevas si cambiaste el disco, líquido DOT 4 nuevo y purgar hasta que la manigueta quede firme; con ABS, la purga se hace en el taller. <b>Antes de rodar, prueba el freno con la moto quieta.</b>",
+   "t": "<b>Disco.</b> <b>Al armar:</b> tornillos con fijador de rosca, en cruz y con el torque del manual de servicio; pastillas nuevas si cambiaste el disco; líquido DOT 4 nuevo y purgar hasta que la manigueta quede firme (con ABS, la purga se hace en el taller). <b>Antes de rodar, prueba el freno con la moto quieta.</b>",
    "m": {
     "1": [
      150,
@@ -735,7 +735,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2DP-F582U-00"
+   "codigo": "2DP-F582U-00",
+   "rodar": "no"
   },
   "2": {
    "nombre": "Tornillos del disco",
@@ -790,7 +791,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90109-08232"
+   "codigo": "90109-08232",
+   "rodar": "no"
   },
   "3": {
    "nombre": "Cáliper (cuerpo)",
@@ -858,7 +860,8 @@
     "porque": "ap",
     "cuando": "ok"
    },
-   "codigo": "B6H-F580U-00"
+   "codigo": "B6H-F580U-00",
+   "rodar": "no"
   },
   "4": {
    "nombre": "Pistón del cáliper",
@@ -914,7 +917,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2BM-F5802-00"
+   "codigo": "2BM-F5802-00",
+   "rodar": "no"
   },
   "5": {
    "nombre": "Empaques del cáliper",
@@ -973,7 +977,8 @@
     "porque": "ap",
     "cuando": "ok"
    },
-   "codigo": "5YP-F5803-50"
+   "codigo": "5YP-F5803-50",
+   "rodar": "no"
   },
   "6": {
    "nombre": "Guardapolvo de un pasador del cáliper",
@@ -1028,7 +1033,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2BM-F5917-00"
+   "codigo": "2BM-F5917-00",
+   "rodar": "pronto"
   },
   "7": {
    "nombre": "Guardapolvo del segundo pasador",
@@ -1075,7 +1081,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "5YP-F5937-00"
+   "codigo": "5YP-F5937-00",
+   "rodar": "pronto"
   },
   "8": {
    "nombre": "Purgador",
@@ -1122,7 +1129,8 @@
     "porque": "ap",
     "cuando": "ok"
    },
-   "codigo": "4C9-W0048-00"
+   "codigo": "4C9-W0048-00",
+   "rodar": "no"
   },
   "9": {
    "nombre": "Pastillas de freno (juego)",
@@ -1186,7 +1194,8 @@
     "porque": "ap",
     "cuando": "ok"
    },
-   "codigo": "2DP-F5805-00"
+   "codigo": "2DP-F5805-00",
+   "rodar": "no"
   },
   "10": {
    "nombre": "Grapas del pasador",
@@ -1219,7 +1228,7 @@
      "Dos llamadas «10» en el plano."
     ]
    ],
-   "porque": "Son baratas: si falta una o está floja, cámbiala.",
+   "porque": "Son baratas: si falta una, está floja o deformada, pon una nueva.",
    "arrastra": [
     "Grapa floja → el [[12|pasador]] se sale y las pastillas quedan sueltas."
    ],
@@ -1231,7 +1240,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "5YP-F5925-01"
+   "codigo": "5YP-F5925-01",
+   "rodar": "no",
+   "hazlo": {
+    "herr": "Alicate de punta",
+    "min": 15
+   }
   },
   "11": {
    "nombre": "Resorte de las pastillas",
@@ -1282,7 +1296,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2BM-F5919-00"
+   "codigo": "2BM-F5919-00",
+   "rodar": "pronto"
   },
   "12": {
    "nombre": "Pasador de las pastillas",
@@ -1334,7 +1349,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "5YP-F5924-00"
+   "codigo": "5YP-F5924-00",
+   "rodar": "no"
   },
   "13": {
    "nombre": "Soporte del cáliper",
@@ -1392,7 +1408,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "2DP-F5920-00"
+   "codigo": "2DP-F5920-00",
+   "rodar": "no"
   },
   "14": {
    "nombre": "Lámina antirruido",
@@ -1441,7 +1458,12 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "B8A-F5827-00"
+   "codigo": "B8A-F5827-00",
+   "rodar": "pronto",
+   "hazlo": {
+    "herr": "Llave para el pasador de las pastillas y grasa para frenos",
+    "min": 25
+   }
   },
   "15": {
    "nombre": "Tornillos del soporte del cáliper",
@@ -1492,7 +1514,8 @@
     "porque": "ap",
     "cuando": "ap"
    },
-   "codigo": "90149-10805"
+   "codigo": "90149-10805",
+   "rodar": "no"
   },
   "barra": {
    "ctx": true,
@@ -1518,7 +1541,7 @@
     "15"
    ],
    "certeza": [],
-   "porque": "Si hay aceite, se arregla el retenedor y se limpia el disco; las pastillas untadas se cambian.",
+   "porque": "Si hay aceite, se arregla el retenedor y se limpia el disco; si el aceite tocó las pastillas, van pastillas nuevas.",
    "arrastra": [
     "Retenedor que bota aceite → [[1|disco]] y pastillas untados."
    ],
@@ -1819,7 +1842,7 @@
     }
    },
    {
-    "t": "<b>3 · La presión viaja por el líquido.</b> El líquido no se deja comprimir, así que la presión llega al caliper al instante. La palanca y la diferencia de tamaño de los pistones (el del caliper es mucho más grande que el de la bomba) multiplican tu fuerza varias veces (aprox.). En el camino está la unidad ABS: si la rueda se va a bloquear, afloja la presión y la vuelve a dar varias veces por segundo.",
+    "t": "<b>3 · La presión viaja por el líquido.</b> El líquido no se comprime: la presión llega al caliper al instante y su pistón, más grande que el de la bomba, multiplica tu fuerza (aprox.). Si la rueda se va a bloquear, el ABS afloja y vuelve a dar presión.",
     "s": {
      "lever": -4,
      "mp": 22,
@@ -1843,7 +1866,7 @@
     }
    },
    {
-    "t": "<b>5 · El caliper flota y jala la otra.</b> El cuerpo del caliper está montado en pasadores y puede deslizarse. Al empujar, el cuerpo se corre hacia el otro lado y trae la otra pastilla: el disco queda prensado por los dos lados. Si los pasadores están oxidados, este paso falla y frena una sola pastilla.",
+    "t": "<b>5 · El caliper flota y jala la otra.</b> El cuerpo del caliper se desliza sobre pasadores: al empujar, se corre al otro lado y trae la otra pastilla, y el disco queda prensado por los dos lados. Si los pasadores están oxidados, frena una sola pastilla.",
     "s": {
      "lever": -4,
      "mp": 22,
@@ -1855,7 +1878,7 @@
     }
    },
    {
-    "t": "<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y con él la rueda. Toda la energía del movimiento se vuelve calor: en una bajada larga el disco puede pasar de 200 °C (aprox.). Ese calor llega al líquido, y por eso el líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
+    "t": "<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y la rueda, y el movimiento se vuelve calor: en una bajada larga el disco pasa de 200 °C (aprox.). El líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
     "s": {
      "lever": -4,
      "mp": 22,

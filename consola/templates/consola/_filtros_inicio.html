@@ -1,0 +1,4 @@
+{# Inicio común de los filtros: sección, tamaño de página y búsqueda. Parámetros: clave, placeholder #}
+<input type="hidden" name="seccion" value="{{ clave }}">{% if request.GET.por %}<input type="hidden" name="por" value="{{ por }}">{% endif %}
+<label class="cs-filtro cs-filtro-ancho"><span class="cs-etq">Buscar</span>
+  <input type="search" name="q" value="{{ form.q.value|default:'' }}" class="cs-campo" placeholder="{{ placeholder }}" maxlength="80"></label>

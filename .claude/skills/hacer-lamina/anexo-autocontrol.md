@@ -34,3 +34,19 @@ Además:
 - **10, ficha vacía:** ¿el texto sirve de verdad (plan, km, estado)?
 - **12, espaciados:** ¿ritmo parejo entre bloques? El script pone 4 por defecto.
 - **Lo propio de la lámina:** ¿el dibujo es fiel a la forma? ¿«Cómo funciona» se entiende en el celular, con el texto pegado al dibujo? ¿El 3D de cada pieza propia se reconoce en las 4 vistas?
+
+## Validador y toques (pasado desde SKILL.md, paso 6-7)
+- El validador revisa campos, catálogo, nombres, desarme, cifras y torques sin fuente, intervalos, certeza, estilo y seguridad v2, y la estructura v2 (grupos, `torn`, pasos, `certezaDe`, `con3d`, piezas sin grupo). Los **avisos** se leen todos: «¿nombre viejo?» casi siempre es un error de verdad.
+- Errores de toque en el despiece: `--separar` corre antes `separar_numeros.py --escribir`. Si armas el JSON con un script propio, córrelo después de cada regeneración.
+- Una pieza que no recibe el toque dentro de su grupo: píntala después (orden de `piezas`) o ponla en `v2.toqueExtra` (pocas: tapan a las vecinas). Dos píldoras de grupo encimadas: `marca` a mano.
+- Rastros de la hermana (ronda 5): con `"hermana"` en el JSON, `--rapido` da error si un enlace `[[n|…]]` o un eslabón de «Si falla» copiado de la hermana no tiene el número remapeado (viejo o remapeado dos veces), o si la cinta, un texto o un rótulo del arte nombra la figura de la hermana; y aviso si una «fig./lámina N» está igual que en una hermana de otro catálogo. La marca propia, «sin ABS» y el verbo «junta» ya no son falsos positivos.
+
+## Regresión de la skill y del motor (`M/regresion.py`)
+- `regresion.py` (sin argumentos) mira `git status` y, de eso, solo lo que cambió desde la corrida anterior (`regresion/estado.json`); con archivos como argumentos, decide por ellos.
+  - **Siempre** (5-10 s): validador en todas las láminas (en paralelo) y extractor (NMAX, Boxer, AKT, Honda y Crypton bilingüe) + esqueleto comparados byte a byte con `regresion/ref/`.
+  - **Cambió el motor** (`esquema*.js/css`, `piezas-comunes.js`, `medir_*`, `chequeo_rapido.py`): chequeo en el navegador (360/390/1280) y firmas en las representativas (`REPRESENTATIVAS` en `regresion.py`: CVT, culata Honda y la última lámina creada), más las láminas que también cambiaron. Las firmas ignoran `guiasG`/`marcasG` (ruido).
+  - **Cambiaron los datos, el arte o la página de una lámina:** solo esa en el navegador (390/1280).
+  - **Catálogo, plantillas, esqueleto, validador o texto de la skill:** nada de navegador.
+- `regresion.py --todas`: las láminas en el navegador, 5 a la vez en un solo Chrome, con el solape en la misma pestaña y la confirmación sin carga de lo que bloquee. **Caché:** una lámina cuyo JSON, arte, página y motor no cambiaron desde su último OK se salta. Con el motor cambiado usa 360/390/1280; si no, 390/1280. `--sin-cache` las revisa todas. Córrelo en segundo plano; el resumen queda en `regresion/ultimo.md`.
+- `regresion.py --aceptar`: tras un cambio querido del extractor, del esqueleto o del dibujo, guarda las referencias nuevas (extractor, esqueleto y firmas).
+- Lo de antes, a mano, sigue sirviendo para un caso puntual: `firma_lamina.py <páginas> --guardar|--comparar <archivo>` y `chequeo_rapido.py <página>`.

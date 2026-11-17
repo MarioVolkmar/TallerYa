@@ -1,0 +1,32 @@
+[
+ {
+  "campo": "pasos.5.t",
+  "reemplazar": "Hasta aquí llega un cambio de pastillas normal.",
+  "por": "Hasta aquí llega un cambio de pastillas normal. Al armar: tornillos del soporte a 35 N·m, y bombea la manigueta hasta que quede firme antes de rodar."
+ },
+ {
+  "campo": "fichas.5.cuando",
+  "reemplazar": "Antes de meterlo para poner pastillas nuevas, límpiale la parte que queda afuera.",
+  "por": "Antes de meterlo para poner pastillas nuevas, límpiale la parte que queda afuera y mételo con el purgador abierto y una manguera a un frasco (manual de taller, p. 6-26)."
+ },
+ {
+  "campo": "fichas.10.porque",
+  "reemplazar": "y el soporte de las pastillas nuevos",
+  "por": "y la [[13|guía]] nuevos"
+ },
+ {
+  "campo": "fichas.13.porque",
+  "reemplazar": "el resorte y el soporte de las pastillas en conjunto",
+  "por": "el resorte y esta guía en conjunto"
+ },
+ {
+  "campo": "pasos.1.t",
+  "reemplazar": "suelta el racor",
+  "por": "suelta el perno de unión de la manguera"
+ },
+ {
+  "campo": "pasos.0.t",
+  "reemplazar": "Con la moto en el gato central y la rueda delantera en el aire,",
+  "por": "Con la moto en el gato central y un calzo firme bajo el motor (el gato solo levanta la trasera) para dejar la rueda delantera en el aire,"
+ }
+]

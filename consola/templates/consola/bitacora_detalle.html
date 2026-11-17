@@ -1,0 +1,22 @@
+{% load consola %}
+<a href="?seccion=bitacora" class="cs-volver">{% icono "atras" 16 %} Toda la bitácora</a>
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">{{ r.frase }}</h1>
+  <p class="cs-sub">{{ r.actor_nombre }} · <time datetime="{{ r.creado|date:'c' }}">{{ r.creado|date:"l j \d\e F \d\e Y, H:i:s" }}</time></p>
+</header>
+<dl class="cs-tarjeta cs-datos">
+  <dt>Acción</dt><dd>{{ nombre_accion }} <code class="cs-peq">{{ r.accion }}</code></dd>
+  <dt>Sobre</dt><dd>{% if r.objeto_tipo == "user" %}<a href="?seccion=usuarios&amp;id={{ r.objeto_id }}">Usuario #{{ r.objeto_id }}</a>{% else %}{{ r.objeto_tipo }} #{{ r.objeto_id }}{% endif %} · {{ r.objeto_repr }}</dd>
+  {% if r.ip %}<dt>Desde la IP</dt><dd>{{ r.ip }}</dd>{% endif %}
+</dl>
+<h2 class="cs-h3">Detalle campo por campo</h2>
+{% if r.cambios %}
+<div class="cs-tabla-caja">
+<table class="cs-tabla cs-cambios">
+  <thead><tr><th scope="col">Campo</th><th scope="col">Antes</th><th scope="col" aria-hidden="true"></th><th scope="col">Después</th></tr></thead>
+  <tbody>
+  {% for c in r.cambios %}<tr><th scope="row">{{ c.etiqueta }}</th><td class="cs-antes">{{ c.antes }}</td><td aria-hidden="true">→</td><td class="cs-despues">{{ c.despues }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}<p class="cs-vacio">Sin cambios de campos.</p>{% endif %}

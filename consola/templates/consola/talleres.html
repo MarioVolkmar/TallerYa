@@ -1,0 +1,34 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Talleres</h1>
+  <p class="cs-sub">{{ total }} taller{{ total|pluralize:"es" }}{% if pendientes_seccion %} · <strong>{{ pendientes_seccion }} por aprobar</strong>{% endif %}</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  {% include "consola/_filtros_inicio.html" with clave="talleres" placeholder="Nombre, barrio, responsable o correo" %}
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>{{ form.estado }}</label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if filas %}
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Talleres</caption>
+  <thead><tr><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col">Citas</th><th scope="col">Acciones</th></tr></thead>
+  <tbody>
+  {% for t, analisis in filas %}{% url 'consola:accion' 'talleres.publicar' t.pk as a_pub %}{% url 'consola:accion' 'talleres.verificar' t.pk as a_ver %}{% url 'consola:accion' 'talleres.eliminar' t.pk as a_eli %}
+  <tr>
+    <td><a href="{{ t.get_absolute_url }}" class="cs-cuenta-nombre">{{ t.nombre }}</a> <span class="cs-id">#{{ t.pk }}</span>
+      <span class="cs-cuenta-correo">{{ t.barrio }}{% if t.usuario %} · <a href="?seccion=usuarios&amp;id={{ t.usuario_id }}">{{ t.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span></td>
+    <td>{% if t.activo %}<span class="cs-estado cs-ok">Publicado</span>{% else %}<span class="cs-estado cs-pend">Por aprobar</span>{% endif %}
+      {% if t.verificado %}<span class="cs-rol cs-rol-motero">Verificado</span>{% endif %}</td>
+    <td>{{ t.n_citas }}</td>
+    <td><div class="cs-acciones-fila">
+      {% if t.activo %}{% include "consola/_boton_accion.html" with url=a_pub valor="0" texto="Despublicar" confirmar="¿Despublicar el taller? Deja de salir en el directorio." %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Publicar" clase="cs-btn-ok" %}{% endif %}
+      {% if t.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" %}{% endif %}
+      {% include "consola/_eliminar_fila.html" with url=a_eli que="el taller" %}
+    </div></td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">No hay talleres con esos filtros.</p>{% endif %}

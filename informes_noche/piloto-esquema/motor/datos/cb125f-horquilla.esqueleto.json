@@ -1,0 +1,1200 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F8",
+  "titulo": "Front fork · honda-cb125f",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Front fork",
+  "sub": "Lámina F8 · 19 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina F8",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "cb125f-horquilla",
+ "moto": "honda-cb125f",
+ "figura": "F8",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-horquilla",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19"
+ ],
+ "nombres": {
+  "1": "Fork Assy., R. Fr.",
+  "2": "Resorte",
+  "3": "Tubo (resorte)",
+  "4": "Resorte",
+  "5": "Case, R. Bottom",
+  "6": "Piece, Oil Lock",
+  "7": "Ring, Piston",
+  "8": "Tubo (pistón)",
+  "9": "Sello (pistón)",
+  "10": "Fork Assy., L. Fr.",
+  "11": "Case, L. Bottom",
+  "12": "Tornillo (case, l. bottom)",
+  "13": "Tornillo (case, l. bottom, otro)",
+  "14": "Arandela",
+  "15": "Ring, Oil Seal Stopper",
+  "16": "Sello (case, l. bottom)",
+  "17": "O-ring",
+  "18": "Clamper B, Fr. Brake Hose",
+  "19": "Tornillo (clamper b, fr. brake hose)"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 210,
+    "y": 90
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      20
+     ],
+     [
+      80,
+      20
+     ]
+    ],
+    "x": 270,
+    "y": 90
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 210,
+    "y": 145
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    270,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "caja",
+   "p": {
+    "w": 120,
+    "h": 90,
+    "prof": 18,
+    "tapa": true,
+    "x": 270,
+    "y": 145
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      20
+     ],
+     [
+      80,
+      20
+     ]
+    ],
+    "x": 550,
+    "y": 90
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    490,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    630,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    770,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "caja",
+   "p": {
+    "w": 120,
+    "h": 90,
+    "prof": 18,
+    "tapa": true,
+    "x": 770,
+    "y": 90
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    770,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 770,
+    "y": 200
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    830,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 830,
+    "y": 200
+   }
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    770,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 770,
+    "y": 255
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    830,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "reten",
+   "p": {
+    "r": 18,
+    "ri": 10,
+    "x": 830,
+    "y": 90
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    770,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    830,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "r": 12,
+    "g": 3,
+    "x": 830,
+    "y": 145
+   }
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    70,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      20
+     ],
+     [
+      80,
+      20
+     ]
+    ],
+    "x": 70,
+    "y": 420
+   }
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    130,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 130,
+    "y": 420
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Fork Assy., R. Fr..</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte.</b> (texto del paso)",
+   "m": {
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Piece, Oil Lock.</b> (texto del paso)",
+   "m": {
+    "6": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Pistón.</b> (texto del paso)",
+   "m": {
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Fork Assy., L. Fr..</b> (texto del paso)",
+   "m": {
+    "10": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Case, L. Bottom.</b> (texto del paso)",
+   "m": {
+    "11": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "16": [
+     0,
+     0
+    ],
+    "17": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Clamper B, Fr. Brake Hose.</b> (texto del paso)",
+   "m": {
+    "18": [
+     0,
+     0
+    ],
+    "19": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Fork Assy., R. Fr.",
+   "cat": "FORK ASSY., R. FR. · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51400-KVC-A00"
+  },
+  "2": {
+   "nombre": "Resorte",
+   "cat": "SPRING, FR. FORK · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51401-KPN-A00"
+  },
+  "3": {
+   "nombre": "Tubo (resorte)",
+   "cat": "PIPE COMP., FR. FORK · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51410-KPN-A00"
+  },
+  "4": {
+   "nombre": "Resorte",
+   "cat": "SPRING, REBOUND · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51413-KPN-A00"
+  },
+  "5": {
+   "nombre": "Case, R. Bottom",
+   "cat": "CASE, R. BOTTOM · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51420-KVC-A00"
+  },
+  "6": {
+   "nombre": "Piece, Oil Lock",
+   "cat": "PIECE, OIL LOCK · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51432-KRF-H71"
+  },
+  "7": {
+   "nombre": "Ring, Piston",
+   "cat": "RING, PISTON · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51437-KRF-H71"
+  },
+  "8": {
+   "nombre": "Tubo (pistón)",
+   "cat": "PIPE, SEAT · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51440-KPN-A00"
+  },
+  "9": {
+   "nombre": "Sello (pistón)",
+   "cat": "SEAL SET, FR. FORK · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51490-KRF-H71"
+  },
+  "10": {
+   "nombre": "Fork Assy., L. Fr.",
+   "cat": "FORK ASSY., L. FR. · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51500-KPN-A00"
+  },
+  "11": {
+   "nombre": "Case, L. Bottom",
+   "cat": "CASE, L. BOTTOM · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "51520-KVC-910"
+  },
+  "12": {
+   "nombre": "Tornillo (case, l. bottom)",
+   "cat": "BOLT, SOCKET, 8X30 · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90116-KRF-H71"
+  },
+  "13": {
+   "nombre": "Tornillo (case, l. bottom, otro)",
+   "cat": "BOLT, FR. FORK · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90123-KRF-H71"
+  },
+  "14": {
+   "nombre": "Arandela",
+   "cat": "WASHER, SPECIAL, 8MM · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90544-KRF-H71"
+  },
+  "15": {
+   "nombre": "Ring, Oil Seal Stopper",
+   "cat": "RING, OIL SEAL STOPPER · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90651-KRF-H71"
+  },
+  "16": {
+   "nombre": "Sello (case, l. bottom)",
+   "cat": "SEAL, DUST · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "91254-KRF-H71"
+  },
+  "17": {
+   "nombre": "O-ring",
+   "cat": "O-RING, 22X2.8 · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "91351-KRF-H71"
+  },
+  "18": {
+   "nombre": "Clamper B, Fr. Brake Hose",
+   "cat": "CLAMPER B, FR. BRAKE HOSE · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "45156-KVX-620"
+  },
+  "19": {
+   "nombre": "Tornillo (clamper b, fr. brake hose)",
+   "cat": "BOLT, FLANGE, 6X12 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "96001-06012-00"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "fork-assy-r-fr",
+    "nombre": "Fork Assy., R. Fr.",
+    "piezas": [
+     "1"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "resorte",
+    "nombre": "Resorte",
+    "piezas": [
+     "2",
+     "3",
+     "4",
+     "5"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "piece-oil-lock",
+    "nombre": "Piece, Oil Lock",
+    "piezas": [
+     "6"
+    ],
+    "torn": [],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "piston",
+    "nombre": "Pistón",
+    "piezas": [
+     "7",
+     "8",
+     "9"
+    ],
+    "torn": [],
+    "pasos": [
+     3
+    ]
+   },
+   {
+    "id": "fork-assy-l-fr",
+    "nombre": "Fork Assy., L. Fr.",
+    "piezas": [
+     "10"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ]
+   },
+   {
+    "id": "case-l-bottom",
+    "nombre": "Case, L. Bottom",
+    "piezas": [
+     "11",
+     "15",
+     "16",
+     "17"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos",
+      "corto": "Tornillos",
+      "ids": [
+       "12"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tornillos",
+      "corto": "Tornillos",
+      "ids": [
+       "13"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Arandelas",
+      "corto": "Arandelas",
+      "ids": [
+       "14"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     5
+    ]
+   },
+   {
+    "id": "clamper-b-fr-b",
+    "nombre": "Clamper B, Fr. Brake Hose",
+    "piezas": [
+     "18"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "19"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     6
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: front fork"
+ }
+}

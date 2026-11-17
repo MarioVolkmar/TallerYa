@@ -1,0 +1,1564 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F8",
+  "titulo": "Rueda trasera · akt-nkd125",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Rueda trasera",
+  "sub": "Lámina F8 · 27 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina F8",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "nkd-transmision",
+ "moto": "akt-nkd125",
+ "figura": "F8",
+ "catalogo": "akt-nkd125",
+ "intervalos": "akt_nkd_125",
+ "arte": "nkd-transmision",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "20A",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26"
+ ],
+ "nombres": {
+  "1": "Eje rueda trasera",
+  "2": "Buje porta bandas 26x15x34",
+  "3": "Portabandas trasero negro sl",
+  "4": "Leva portabandas",
+  "5": "Eje abrebandas",
+  "6": "Indicador desgaste bandas sl",
+  "7": "Tornillo bujado m8×30 zinc",
+  "8": "Juego de bandas",
+  "9": "Resorte bandas trasero",
+  "10": "Balinera -2rs rueda",
+  "11": "Retenedor 22x35x5",
+  "12": "Campana trasera negra",
+  "13": "Juego de radios traseros",
+  "14": "Rin negro trasero",
+  "15": "Juego de caucho campana",
+  "16": "Buje portasprocket",
+  "17": "Porta sprocket negro",
+  "18": "Balinera -2rs",
+  "19": "Reten 26x42x6.5",
+  "20": "Kit arrast sl-",
+  "20A": "Kit arrastre kontrol ak125sl",
+  "21": "Kit tornillos sprocket",
+  "22": "Buje trasero izquierdo 26x20x25",
+  "23": "Tensor cadena euro 3 (cuadrado)",
+  "24": "Tuerca rueda trasera m14",
+  "25": "Neumatico -",
+  "26": "Llanta 3.-"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "20A",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 130,
+    "y": 90
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    130,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 210,
+    "y": 145
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 490,
+    "y": 90
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 550,
+    "y": 90
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    490,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "reten",
+   "p": {
+    "r": 18,
+    "ri": 10,
+    "x": 490,
+    "y": 145
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    550,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    630,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    770,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    770,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 10,
+    "ri": 4,
+    "e": 6,
+    "material": "plast",
+    "x": 770,
+    "y": 200
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    830,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 830,
+    "y": 90
+   }
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    770,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    830,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 830,
+    "y": 145
+   }
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    70,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "reten",
+   "p": {
+    "r": 18,
+    "ri": 10,
+    "x": 70,
+    "y": 420
+   }
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    210,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20A",
+   "n": "20A",
+   "anc": [
+    350,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    410,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 410,
+    "y": 420
+   }
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "anc": [
+    490,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 490,
+    "y": 420
+   }
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "anc": [
+    550,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "anc": [
+    490,
+    530
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 490,
+    "y": 530
+   }
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "anc": [
+    490,
+    475
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "anc": [
+    550,
+    475
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Eje rueda trasera.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Eje abrebandas.</b> (texto del paso)",
+   "m": {
+    "5": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Juego de bandas.</b> (texto del paso)",
+   "m": {
+    "8": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte bandas trasero.</b> (texto del paso)",
+   "m": {
+    "9": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Juego de radios traseros.</b> (texto del paso)",
+   "m": {
+    "13": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Rin negro trasero.</b> (texto del paso)",
+   "m": {
+    "14": [
+     0,
+     0
+    ],
+    "16": [
+     0,
+     0
+    ],
+    "17": [
+     0,
+     0
+    ],
+    "18": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Reten 26x42x6.5.</b> (texto del paso)",
+   "m": {
+    "19": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Kit arrast sl-.</b> (texto del paso)",
+   "m": {
+    "20": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Kit arrastre kontrol ak125sl.</b> (texto del paso)",
+   "m": {
+    "20A": [
+     0,
+     0
+    ],
+    "21": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Buje trasero izquierdo 26x20x25.</b> (texto del paso)",
+   "m": {
+    "22": [
+     0,
+     0
+    ],
+    "23": [
+     0,
+     0
+    ],
+    "25": [
+     0,
+     0
+    ],
+    "26": [
+     0,
+     0
+    ],
+    "24": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Eje rueda trasera",
+   "cat": "Eje Rueda Trasera 125Sl/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380870020-0002"
+  },
+  "2": {
+   "nombre": "Buje porta bandas 26x15x34",
+   "cat": "Buje Porta Bandas 26x15x34 125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380820297-0002"
+  },
+  "3": {
+   "nombre": "Portabandas trasero negro sl",
+   "cat": "Portabandas Trasero Negro SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290920003-0001"
+  },
+  "4": {
+   "nombre": "Leva portabandas",
+   "cat": "Leva Portabandas 08 125 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290870012-0001"
+  },
+  "5": {
+   "nombre": "Eje abrebandas",
+   "cat": "Eje Abrebandas 08 125 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290860012-0001"
+  },
+  "6": {
+   "nombre": "Indicador desgaste bandas sl",
+   "cat": "Indicador Desgaste Bandas SL/NKD/110S · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290550021-0001"
+  },
+  "7": {
+   "nombre": "Tornillo bujado m8×30 zinc",
+   "cat": "Tornillo Bujado M8×30 Zinc · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380020056-0002"
+  },
+  "8": {
+   "nombre": "Juego de bandas",
+   "cat": "Jgo Bandas 08 125 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290940011-0001"
+  },
+  "9": {
+   "nombre": "Resorte bandas trasero",
+   "cat": "Resorte Bandas Trasero 125S · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "381140258-0001"
+  },
+  "10": {
+   "nombre": "Balinera -2rs rueda",
+   "cat": "Balinera 6202-2RS Rueda AKT · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380630030-0001"
+  },
+  "11": {
+   "nombre": "Retenedor 22x35x5",
+   "cat": "Retenedor 22x35x5 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "12": {
+   "nombre": "Campana trasera negra",
+   "cat": "Campana Trasera Negra 125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290280040-0001"
+  },
+  "13": {
+   "nombre": "Juego de radios traseros",
+   "cat": "Jgo Radios Traseros 125 08 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "29024A0SL-0001"
+  },
+  "14": {
+   "nombre": "Rin negro trasero",
+   "cat": "Rin Negro Trasero 100S/SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290230043-0001"
+  },
+  "15": {
+   "nombre": "Juego de caucho campana",
+   "cat": "Jgo Caucho Campana 125/SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290380159-0001"
+  },
+  "16": {
+   "nombre": "Buje portasprocket",
+   "cat": "Buje Portasprocket 125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380821551-0001"
+  },
+  "17": {
+   "nombre": "Porta sprocket negro",
+   "cat": "Porta Sprocket Negro 125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "290390048-0001"
+  },
+  "18": {
+   "nombre": "Balinera -2rs",
+   "cat": "Balinera 6004-2RS 125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380630290-0001"
+  },
+  "19": {
+   "nombre": "Reten 26x42x6.5",
+   "cat": "Reten 26x42x6.5 125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380650424-0001"
+  },
+  "20": {
+   "nombre": "Kit arrast sl-",
+   "cat": "Kit Arrast 15/38x104H SL-NKDRp · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2600100SL-A999"
+  },
+  "20A": {
+   "nombre": "Kit arrastre kontrol ak125sl",
+   "cat": "Kit Arrastre KONTROL 15/38x108 AK125SL/NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "4811128 X DUO"
+  },
+  "21": {
+   "nombre": "Kit tornillos sprocket",
+   "cat": "Kit Tornillos Sprocket 125NKD/SL · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380140JGO-0006"
+  },
+  "22": {
+   "nombre": "Buje trasero izquierdo 26x20x25",
+   "cat": "Buje Trasero Izquierdo 26x20x25 NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380821785-0001"
+  },
+  "23": {
+   "nombre": "Tensor cadena euro 3 (cuadrado)",
+   "cat": "Tensor Cadena 125NKD Euro 3 (Cuadrado) · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "311430150-0001"
+  },
+  "24": {
+   "nombre": "Tuerca rueda trasera m14",
+   "cat": "Tuerca Rueda Trasera M14 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "380400011-0002"
+  },
+  "25": {
+   "nombre": "Neumatico -",
+   "cat": "Neumatico 275/300-18Rp · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "26": {
+   "nombre": "Llanta 3.-",
+   "cat": "Llanta 3.00-18 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   }
+  }
+ },
+ "cadenas": [],
+ "cuando": [
+  {
+   "que": "Cadena lubricar",
+   "cuando": "Cada <b>600 km</b>.",
+   "fuente": "Manual del propietario AKT NKD 125 (escaneado, sin cuadro de intervalos por km), copia entregada por el usuario; lectura del Auditor mecánico; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026) <span class=\"esq-s-ap\">Aproximado</span>",
+   "tarea": "cadena-lubricar"
+  }
+ ],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "eje-rueda-tras",
+    "nombre": "Eje rueda trasera",
+    "piezas": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "eje-abrebandas",
+    "nombre": "Eje abrebandas",
+    "piezas": [
+     "5",
+     "6"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo bujado m8×30 zinc",
+      "corto": "Tornillo",
+      "ids": [
+       "7"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "juego-de-banda",
+    "nombre": "Juego de bandas",
+    "piezas": [
+     "8"
+    ],
+    "torn": [],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "resorte-bandas",
+    "nombre": "Resorte bandas trasero",
+    "piezas": [
+     "9",
+     "10",
+     "11",
+     "12"
+    ],
+    "torn": [],
+    "pasos": [
+     3
+    ]
+   },
+   {
+    "id": "juego-de-radio",
+    "nombre": "Juego de radios traseros",
+    "piezas": [
+     "13"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ]
+   },
+   {
+    "id": "rin-negro-tras",
+    "nombre": "Rin negro trasero",
+    "piezas": [
+     "14",
+     "16",
+     "17",
+     "18"
+    ],
+    "torn": [
+     {
+      "nombre": "Juego de caucho campana",
+      "corto": "Juego",
+      "ids": [
+       "15"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     5
+    ]
+   },
+   {
+    "id": "reten-x-x",
+    "nombre": "Reten 26x42x6.5",
+    "piezas": [
+     "19"
+    ],
+    "torn": [],
+    "pasos": [
+     6
+    ]
+   },
+   {
+    "id": "kit-arrast-sl",
+    "nombre": "Kit arrast sl-",
+    "piezas": [
+     "20"
+    ],
+    "torn": [],
+    "pasos": [
+     7
+    ]
+   },
+   {
+    "id": "kit-arrastre-k",
+    "nombre": "Kit arrastre kontrol ak125sl",
+    "piezas": [
+     "20A"
+    ],
+    "torn": [
+     {
+      "nombre": "Kit tornillos sprocket",
+      "corto": "Kit",
+      "ids": [
+       "21"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     8
+    ]
+   },
+   {
+    "id": "buje-trasero-i",
+    "nombre": "Buje trasero izquierdo 26x20x25",
+    "piezas": [
+     "22",
+     "23",
+     "25",
+     "26"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuerca rueda trasera m14",
+      "corto": "Tuerca",
+      "ids": [
+       "24"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     9
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: rueda trasera"
+ }
+}

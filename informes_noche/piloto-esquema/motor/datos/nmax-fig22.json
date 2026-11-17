@@ -442,7 +442,7 @@
  "textoArmado": "<b>Armado.</b> El cáliper abraza el borde del disco y su soporte se atornilla a la barra. Lo de adentro (pistón, pastillas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista. Toca una pieza para abrir su ficha.",
  "pasos": [
   {
-   "t": "<b>Tornillos del soporte.</b> Con la moto en el gato central y la rueda delantera en el aire, afloja los dos tornillos que sujetan el soporte a la barra.",
+   "t": "<b>Tornillos del soporte.</b> Con la moto en el gato central y un calzo firme bajo el chasis (el gato solo levanta la trasera) para dejar la rueda delantera en el aire, afloja los dos tornillos que sujetan el soporte a la barra.",
    "m": {
     "15": [
      300,

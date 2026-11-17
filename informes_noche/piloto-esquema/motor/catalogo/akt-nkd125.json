@@ -206,6 +206,203 @@
      "nota": ""
     }
    ]
+  },
+  "F8": {
+   "titulo": "Rueda Trasera",
+   "paginas": [
+    21
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "Eje Rueda Trasera 125Sl/NKD",
+     "cantidad": 1,
+     "codigo": "380870020-0002",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "Buje Porta Bandas 26x15x34 125SL/NKD",
+     "cantidad": 1,
+     "codigo": "380820297-0002",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "Portabandas Trasero Negro SL/NKD",
+     "cantidad": 1,
+     "codigo": "290920003-0001",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "Leva Portabandas 08 125",
+     "cantidad": 1,
+     "codigo": "290870012-0001",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "Eje Abrebandas 08 125",
+     "cantidad": 1,
+     "codigo": "290860012-0001",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "Indicador Desgaste Bandas SL/NKD/110S",
+     "cantidad": 1,
+     "codigo": "290550021-0001",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "Tornillo Bujado M8×30 Zinc",
+     "cantidad": 1,
+     "codigo": "380020056-0002",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "Jgo Bandas 08 125",
+     "cantidad": 1,
+     "codigo": "290940011-0001",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "Resorte Bandas Trasero 125S",
+     "cantidad": 2,
+     "codigo": "381140258-0001",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "Balinera 6202-2RS Rueda AKT",
+     "cantidad": 2,
+     "codigo": "380630030-0001",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "Retenedor 22x35x5",
+     "cantidad": 1,
+     "codigo": "",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "Campana Trasera Negra 125SL/NKD",
+     "cantidad": 1,
+     "codigo": "290280040-0001",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "Jgo Radios Traseros 125 08",
+     "cantidad": 1,
+     "codigo": "29024A0SL-0001",
+     "nota": "Internos/Externos 16cm"
+    },
+    {
+     "ref": "14",
+     "descripcion": "Rin Negro Trasero 100S/SL/NKD",
+     "cantidad": 1,
+     "codigo": "290230043-0001",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "Jgo Caucho Campana 125/SL/NKD",
+     "cantidad": 1,
+     "codigo": "290380159-0001",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "Buje Portasprocket 125SL/NKD",
+     "cantidad": 1,
+     "codigo": "380821551-0001",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "Porta Sprocket Negro 125SL/NKD",
+     "cantidad": 1,
+     "codigo": "290390048-0001",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "Balinera 6004-2RS 125SL/NKD",
+     "cantidad": 1,
+     "codigo": "380630290-0001",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "Reten 26x42x6.5 125SL/NKD",
+     "cantidad": 1,
+     "codigo": "380650424-0001",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "Kit Arrast 15/38x104H SL-NKDRp",
+     "cantidad": 1,
+     "codigo": "2600100SL-A999",
+     "nota": ""
+    },
+    {
+     "ref": "20A",
+     "descripcion": "Kit Arrastre KONTROL 15/38x108 AK125SL/NKD",
+     "cantidad": 1,
+     "codigo": "4811128 X DUO",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "Kit Tornillos Sprocket 125NKD/SL",
+     "cantidad": 1,
+     "codigo": "380140JGO-0006",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "Buje Trasero Izquierdo 26x20x25 NKD",
+     "cantidad": 1,
+     "codigo": "380821785-0001",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "Tensor Cadena 125NKD Euro 3 (Cuadrado)",
+     "cantidad": 2,
+     "codigo": "311430150-0001",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "Tuerca Rueda Trasera M14",
+     "cantidad": 1,
+     "codigo": "380400011-0002",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "Neumatico 275/300-18Rp",
+     "cantidad": 1,
+     "codigo": "",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "Llanta 3.00-18",
+     "cantidad": 1,
+     "codigo": "",
+     "nota": ""
+    }
+   ]
   }
  }
 }

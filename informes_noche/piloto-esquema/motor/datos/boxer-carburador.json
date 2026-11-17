@@ -1,0 +1,2013 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 16",
+  "titulo": "Carburador · Bajaj Boxer CT100",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la fig. 16 del catálogo Auteco (carburador PB-16, versión TEC, desde marzo de 2006). Las fig. 16A y 16B (Keihin) son de versiones anteriores."
+ },
+ "visor": {
+  "titulo": "Carburador: cortina, aguja, chiclés y flota",
+  "sub": "Fig. 16 · 19 números · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del carburador",
+  "laminaAria": "Dibujo de lado del carburador de la Boxer CT100: paso del aire, torre de la cortina, taza y tornillos de ajuste. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Cómo mezcla el carburador la gasolina con el aire, en seis pasos: la flota guarda el nivel y la cortina con su aguja dosifican.",
+  "introCadenas": "Tres fallas que empiezan chiquitas y terminan en una moto que no prende, se apaga o huele a gasolina.",
+  "introCuando": "Qué revisar y cuándo, según el manual del propietario y la práctica de taller."
+ },
+ "pie": "TallerYa · piloto del esquema · carburador Boxer CT100 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  195,
+  120,
+  500,
+  389
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "-6 0 482 760",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Abres la llave.</b> La gasolina baja del tanque y entra por la [[20|aguja de corte]], abierta porque la [[21|flota]] está abajo. La taza se va llenando.",
+    "s": {
+     "acel": 0,
+     "nivel": 0.45,
+     "entra": true,
+     "aire": false,
+     "estado": "Llenando la taza"
+    }
+   },
+   {
+    "t": "<b>2 · Taza llena.</b> La flota sube con la gasolina y empuja la aguja contra su asiento: cierra la entrada. Así el nivel queda siempre igual, como el flotador de un tanque de agua.",
+    "s": {
+     "acel": 0,
+     "nivel": 1,
+     "aire": false,
+     "estado": "Nivel justo: entrada cerrada"
+    }
+   },
+   {
+    "t": "<b>3 · Ralentí.</b> La [[12|cortina]] está casi cerrada. El aire que pasa por debajo chupa gasolina por el [[19|boquerel de baja]]: poca, la justa para unas 1.300 rpm.",
+    "s": {
+     "acel": 0.08,
+     "nivel": 1,
+     "baja": true,
+     "estado": "Ralentí"
+    }
+   },
+   {
+    "t": "<b>4 · Aceleras.</b> El cable sube la cortina y con ella la [[18|aguja]]. Entra más aire y la aguja, que es cónica, destapa más el [[10|chiclé]]: sale más gasolina en la misma proporción.",
+    "s": {
+     "acel": 0.5,
+     "nivel": 0.9,
+     "baja": true,
+     "alta": true,
+     "entra": true,
+     "estado": "Media aceleración"
+    }
+   },
+   {
+    "t": "<b>5 · A fondo.</b> La cortina queda arriba y la aguja casi afuera: ahora manda el tamaño del chiclé. El nivel baja un poco, la flota cae y la aguja de corte abre para reponer.",
+    "s": {
+     "acel": 1,
+     "nivel": 0.78,
+     "alta": true,
+     "entra": true,
+     "estado": "A fondo"
+    }
+   },
+   {
+    "t": "<b>6 · Aguja de corte gastada.</b> Ya no sella: la gasolina sigue entrando con la taza llena, rebosa y moja el motor. Huele a gasolina, la bujía se ahoga y el consumo sube.",
+    "s": {
+     "acel": 0.08,
+     "nivel": 1.15,
+     "baja": true,
+     "entra": true,
+     "rebose": true,
+     "estado": "Rebose de gasolina"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, cantidades y códigos de las 22 referencias: catálogo de partes Auteco Bajaj Boxer CT100, fig. 16 «Carburador (TEC-S1D)», columna TEC.",
+   "Kits del catálogo: ref. 4 (kit del carburador), ref. 5 (empaques), ref. 6 (flota y aguja) y ref. 22 (sensor completo)."
+  ],
+  "aproximado": [
+   "Vista de lado, con el paso del aire horizontal y la torre vertical: proporciones a ojo, sin lámina hermana. Qué piezas trae cada kit sale de las líneas del plano.",
+   "Ralentí 1.300 rpm y la tabla de limpieza: manual del propietario de la CT 100 BS VI de India (otra versión, con cebador automático).",
+   "Función del imán y el cable del sensor (13, 14): práctica de taller; el catálogo no la describe."
+  ],
+  "lista": [
+   "Catálogo de partes Auteco Bajaj Boxer CT100 (2017), fig. 16.",
+   "Manual del propietario Bajaj CT 100 BS VI."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#cbSombra)",
+  "colores": {
+   "acero": "url(#cbAcero)"
+  }
+ },
+ "lamina": "boxer-carburador",
+ "moto": "boxer-ct100",
+ "figura": 16,
+ "catalogo": "boxer-ct100",
+ "intervalos": "auteco_bajaj_boxer_ct_100",
+ "arte": "boxer-carburador",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22"
+ ],
+ "nombres": {
+  "1": "cuerpo del carburador",
+  "2": "aislador del carburador",
+  "3": "o-ring del aislador",
+  "5": "empaques de la taza y la tapa",
+  "7": "tornillo de la mezcla",
+  "8": "tornillo del ralentí",
+  "9": "tornillos del carburador",
+  "10": "chiclé de alta",
+  "11": "tornillos de la taza",
+  "12": "cortina",
+  "13": "imán del sensor",
+  "14": "cable del sensor",
+  "15": "tornillo del imán",
+  "16": "tapa del carburador",
+  "17": "resorte de la cortina",
+  "18": "aguja de la cortina",
+  "19": "boquerel de baja",
+  "20": "aguja de corte de la flota",
+  "21": "flota"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "5",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21"
+ ],
+ "ocultas": [
+  "17",
+  "12",
+  "18",
+  "10",
+  "19",
+  "21",
+  "20"
+ ],
+ "piezas": [
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    302,
+    282
+   ],
+   "et": [
+    -12,
+    -40
+   ],
+   "vis": "arm",
+   "arte": "arteTornillo2",
+   "args": [
+    297,
+    282,
+    -1,
+    50,
+    76
+   ]
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    372,
+    402
+   ],
+   "et": [
+    -36,
+    22
+   ],
+   "vis": "arm",
+   "arte": "arteTornTaza2",
+   "args": [
+    372,
+    398,
+    116
+   ]
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    330,
+    300
+   ],
+   "et": [
+    14,
+    -64
+   ],
+   "vis": "arm",
+   "arte": "arteCuerpo",
+   "args": [
+    430,
+    320
+   ]
+  },
+  {
+   "id": "1t",
+   "n": "1",
+   "anc": [
+    474,
+    440
+   ],
+   "et": [
+    48,
+    12
+   ],
+   "vis": "arm",
+   "arte": "arteTaza",
+   "args": [
+    430,
+    425
+   ]
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    262,
+    300
+   ],
+   "et": [
+    -40,
+    -30
+   ],
+   "vis": "arm",
+   "arte": "arteAislador",
+   "args": [
+    262,
+    320
+   ]
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    278,
+    350
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "arm",
+   "arte": "arteOringLado",
+   "args": [
+    278,
+    320
+   ]
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    484,
+    390
+   ],
+   "et": [
+    40,
+    -12
+   ],
+   "vis": "arm",
+   "arte": "arteAnilloH",
+   "args": [
+    430,
+    390,
+    54
+   ]
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    446,
+    242
+   ],
+   "et": [
+    40,
+    0
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "x": 430,
+    "y": 242,
+    "r": 14,
+    "largo": 46,
+    "vueltas": 7,
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    452,
+    285
+   ],
+   "et": [
+    40,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteCortina",
+   "args": [
+    430,
+    285
+   ]
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    432,
+    330
+   ],
+   "et": [
+    40,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteAguja",
+   "args": [
+    430,
+    330
+   ]
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    440,
+    380
+   ],
+   "et": [
+    48,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteChicle",
+   "args": [
+    430,
+    384
+   ]
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    458,
+    372
+   ],
+   "et": [
+    40,
+    -10
+   ],
+   "vis": "exp",
+   "arte": "arteBoquerel",
+   "args": [
+    454,
+    382
+   ]
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    474,
+    432
+   ],
+   "et": [
+    48,
+    -24
+   ],
+   "vis": "exp",
+   "arte": "arteFlota",
+   "args": [
+    430,
+    432
+   ]
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    404,
+    396
+   ],
+   "et": [
+    -40,
+    0
+   ],
+   "vis": "exp",
+   "arte": "arteAgujaFlota",
+   "args": [
+    408,
+    396
+   ]
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    410,
+    190
+   ],
+   "et": [
+    -50,
+    -22
+   ],
+   "vis": "arm",
+   "arte": "arteTapa",
+   "args": [
+    430,
+    196
+   ]
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    354,
+    372
+   ],
+   "et": [
+    -40,
+    10
+   ],
+   "vis": "arm",
+   "arte": "arteTornillo",
+   "args": [
+    360,
+    372,
+    1,
+    36,
+    1
+   ]
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    506,
+    262
+   ],
+   "et": [
+    30,
+    -20
+   ],
+   "vis": "arm",
+   "arte": "arteTornillo",
+   "args": [
+    500,
+    262,
+    -1,
+    38,
+    1
+   ]
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    630,
+    375
+   ],
+   "et": [
+    30,
+    10
+   ],
+   "vis": "arm",
+   "arte": "arteCable",
+   "args": [
+    600,
+    350
+   ]
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    575,
+    294
+   ],
+   "et": [
+    0,
+    -34
+   ],
+   "vis": "arm",
+   "arte": "arteIman",
+   "args": [
+    575,
+    300
+   ]
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    606,
+    300
+   ],
+   "et": [
+    30,
+    -20
+   ],
+   "vis": "arm",
+   "arte": "arteTornillo",
+   "args": [
+    600,
+    300,
+    -1,
+    14,
+    0,
+    6
+   ]
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Antes.</b> Motor frío, llave de gasolina en OFF y sin chispas cerca. Afloja la [[16|tapa]] y saca con el cable la [[12|cortina]], el [[17|resorte]] y la [[18|aguja]], sin doblarla. Al armar, la cortina entra en su guía, el acelerador vuelve solo y nada gotea.",
+   "m": {
+    "16": [
+     -280,
+     -86
+    ],
+    "17": [
+     -280,
+     -42
+    ],
+    "12": [
+     -275,
+     -9
+    ],
+    "18": [
+     -285,
+     23
+    ]
+   }
+  },
+  {
+   "t": "<b>Carburador fuera.</b> Suelta la manguera de gasolina sobre un trapo (sin chispas), el ducto del filtro y el [[14|conector del sensor]]. Quita los [[9|tornillos]]: el [[2|aislador]] y su [[3|o-ring]] quedan en el motor. Al armar, que no gotee.",
+   "m": {
+    "9": [
+     -40,
+     -110
+    ],
+    "2": [
+     -55,
+     -1
+    ],
+    "3": [
+     -36,
+     7
+    ],
+    "13": [
+     80,
+     -30
+    ],
+    "15": [
+     100,
+     -30
+    ],
+    "14": [
+     93,
+     8
+    ]
+   }
+  },
+  {
+   "t": "<b>Taza.</b> Lejos de chispas, vacía la gasolina en un recipiente. Quita los [[11|tornillos]] y baja la taza con su [[5|empaque]]. Agua o mugre en el fondo explican que se apague. Al armar: empaque nuevo y que no gotee.",
+   "m": {
+    "11": [
+     0,
+     190
+    ],
+    "1t": [
+     0,
+     120
+    ],
+    "5": [
+     0,
+     62
+    ]
+   }
+  },
+  {
+   "t": "<b>Flota y aguja de corte.</b> Saca el pasador y levanta la [[21|flota]] con la [[20|aguja]] colgada. Mira la punta de la aguja: con un escalón o rayas no sella y la taza rebosa.",
+   "m": {
+    "21": [
+     187,
+     12
+    ],
+    "20": [
+     212,
+     -50
+    ]
+   }
+  },
+  {
+   "t": "<b>Chiclés.</b> Desenrosca el [[10|chiclé de alta]] y el [[19|boquerel de baja]] con un destornillador justo. Límpialos con limpiador y aire, nunca con alambre: agranda el orificio.",
+   "m": {
+    "10": [
+     -90,
+     110
+    ],
+    "19": [
+     -150,
+     112
+    ]
+   }
+  },
+  {
+   "t": "<b>Ajuste.</b> Cierra el [[7|tornillo de la mezcla]] suave, sin forzar, contando las vueltas y anótalas antes de sacarlo. Al armar: mismas vueltas, empaques nuevos, sin fugas y ralentí a 1.300 rpm en caliente con el [[8|tornillo del ralentí]].",
+   "m": {
+    "7": [
+     -51,
+     10
+    ],
+    "8": [
+     60,
+     -10
+    ]
+   }
+  }
+ ],
+ "textoArmado": "<b>Armado, fuera de la moto.</b> El carburador visto de lado: el aire entra por la derecha y sale al motor por la izquierda. Lo de adentro (cortina, aguja, chiclés y flota) no se ve: elige «Transparente» o tócalo en la lista.",
+ "fichas": {
+  "1": {
+   "nombre": "Cuerpo del carburador",
+   "cat": "Carburador (PB-16) · 1 pieza",
+   "que": "El bloque de aluminio del carburador: el paso del aire, la torre de la cortina y los conductos de gasolina. Abajo lleva la taza.",
+   "sirve": "Junta el aire que entra del filtro con la gasolina de la taza y le manda la mezcla al motor.",
+   "sintomas": [
+    "La moto no prende o se apaga en ralentí.",
+    "Huele a gasolina cerca del carburador.",
+    "Gotea gasolina por la taza."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "La gasolina vieja deja barniz y tapa los conductos finos."
+    ],
+    [
+     "golpe",
+     "Una caída tuerce la torre y la cortina se pega."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Casi siempre basta limpiarlo y cambiar empaques; si la torre está rayada o torcida, se cambia completo.",
+   "dif": "taller",
+   "cuando": "Límpialo cuando la moto prenda mal o cada vez que limpies la taza.",
+   "arrastra": [
+    "conductos tapados → el [[19|boquerel de baja]] no chupa y el ralentí se cae"
+   ],
+   "conecta": [
+    "12",
+    "10",
+    "21"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121009"
+  },
+  "2": {
+   "nombre": "Aislador del carburador",
+   "cat": "Insulador Carburador · 1 pieza",
+   "que": "El acople de caucho y plástico entre el carburador y la culata.",
+   "sirve": "Sella el paso de la mezcla y aísla el carburador del calor del motor para que la gasolina no hierva.",
+   "sintomas": [
+    "El ralentí sube y baja solo.",
+    "Se oye un silbido de aire con el motor prendido.",
+    "Ves grietas en el caucho."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "El calor del motor endurece y raja el caucho."
+    ],
+    [
+     "apriete",
+     "Los tornillos muy apretados lo deforman."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rajado deja entrar aire falso: no se repara.",
+   "dif": "facil",
+   "cuando": "Revísalo cada vez que saques el carburador.",
+   "arrastra": [
+    "rajado → entra aire falso y la mezcla queda pobre"
+   ],
+   "conecta": [
+    "3",
+    "9",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU101057"
+  },
+  "3": {
+   "nombre": "O-ring del aislador",
+   "cat": "Anillo Retén Múltiple Admisión · 1 pieza",
+   "que": "El anillo de caucho entre el aislador y el carburador.",
+   "sirve": "Sella la unión para que no entre aire sin pasar por el carburador.",
+   "sintomas": [
+    "Ralentí inestable.",
+    "Silbido en la unión del carburador."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplana y endurece con el calor."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barato y viene en el kit de empaques: va nuevo siempre que lo desarmes.",
+   "dif": "facil",
+   "cuando": "Cámbialo cada vez que saques el carburador.",
+   "arrastra": [
+    "aplanado → aire falso y mezcla pobre"
+   ],
+   "conecta": [
+    "2",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39128321"
+  },
+  "5": {
+   "nombre": "Empaques de la taza y la tapa",
+   "cat": "Kit Empaques Carburador · 1 pieza",
+   "que": "Los empaques de caucho: el de la taza (el grande) y el o-ring de la tapa de la cortina. Vienen en el kit de empaques.",
+   "sirve": "Sellan la taza para que no gotee gasolina y la tapa para que no entre agua ni mugre a la cortina.",
+   "sintomas": [
+    "Gotea gasolina por la unión de la taza.",
+    "Huele a gasolina con la moto parada."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "La gasolina los hincha o los endurece."
+    ],
+    [
+     "mal armado",
+     "Si queda mordido al cerrar la taza, gotea desde el primer día."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Un empaque que gotea gasolina es riesgo de incendio: va nuevo siempre que abras la taza.",
+   "dif": "taller",
+   "cuando": "Cámbialos cada vez que abras la taza.",
+   "arrastra": [
+    "empaque duro → gotea gasolina sobre el motor caliente"
+   ],
+   "conecta": [
+    "11",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "36DU1204"
+  },
+  "7": {
+   "nombre": "Tornillo de la mezcla",
+   "cat": "Tornillo Carburador · 1 pieza",
+   "que": "El tornillo pequeño con resorte en el costado del cuerpo: regula el aire del circuito de baja (el manual lo llama tornillo de aire).",
+   "sirve": "Regula cuánta mezcla pasa en ralentí: al cerrarlo o abrirlo cambias qué tan rica queda la mezcla con la cortina casi cerrada.",
+   "sintomas": [
+    "El ralentí queda inestable después de una limpieza.",
+    "La moto se apaga al soltar el acelerador."
+   ],
+   "fallas": [
+    [
+     "mal ajuste",
+     "Alguien lo movió sin contar vueltas."
+    ],
+    [
+     "golpe",
+     "Apretarlo a fondo daña la punta y su asiento."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar; si la punta está marcada, se cambia.",
+   "dif": "taller",
+   "cuando": "Ajústalo solo si el ralentí queda mal después de limpiar el carburador.",
+   "arrastra": [
+    "mal ajustado → el ralentí se cae o el motor queda rico"
+   ],
+   "conecta": [
+    "8",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "36DU1202"
+  },
+  "8": {
+   "nombre": "Tornillo del ralentí",
+   "cat": "Tornillo Carburador · 1 pieza",
+   "que": "El tornillo con resorte de la torre, con la cabeza moleteada para girarlo con los dedos.",
+   "sirve": "Topa la cortina para que no cierre del todo: fija las vueltas del motor en ralentí.",
+   "sintomas": [
+    "El motor se apaga en los semáforos.",
+    "El ralentí queda muy acelerado."
+   ],
+   "fallas": [
+    [
+     "vibración",
+     "Se va aflojando y el ralentí baja."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar; el resorte lo mantiene en su sitio.",
+   "dif": "facil",
+   "cuando": "Ajusta el ralentí a 1.300 rpm aprox. con el motor caliente.",
+   "arrastra": [
+    "muy bajo → la moto se apaga al frenar"
+   ],
+   "conecta": [
+    "12",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "36DU1203"
+  },
+  "9": {
+   "nombre": "Tornillos del carburador",
+   "cat": "Tornillo Carburador · 2 piezas",
+   "que": "Los dos tornillos que pasan por la brida del carburador y lo sujetan al motor.",
+   "sirve": "Aprietan el carburador contra el aislador para que no entre aire.",
+   "sintomas": [
+    "Silbido de aire en la unión.",
+    "El carburador se mueve con la mano."
+   ],
+   "fallas": [
+    [
+     "vibración",
+     "Se aflojan."
+    ],
+    [
+     "apriete",
+     "Pasarse de fuerza raja la brida de aluminio."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sanos se vuelven a usar, apretados parejo y sin exceso.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando saques el carburador.",
+   "arrastra": [
+    "flojos → aire falso y ralentí inestable"
+   ],
+   "conecta": [
+    "2",
+    "3",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39167504"
+  },
+  "10": {
+   "nombre": "Chiclé de alta",
+   "cat": "Difusor · 1 pieza · también en el kit ref. 4 (kit del carburador, 36DU1206)",
+   "que": "El chiclé de bronce con su difusor, debajo de la torre: el difusor es el tubo con huecos por donde entra la aguja.",
+   "sirve": "Mide la gasolina que pasa con media y mucha aceleración: el orificio calibrado pone el tope.",
+   "sintomas": [
+    "No tiene fuerza arriba y no pasa de cierta velocidad.",
+    "Se apaga al abrir el acelerador de golpe."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "La gasolina vieja o con agua lo tapa."
+    ],
+    [
+     "mal limpiado",
+     "Un alambre agranda el orificio y la mezcla queda rica."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Tapado se limpia con limpiador y aire; agrandado o rayado se cambia por uno del mismo número.",
+   "dif": "taller",
+   "cuando": "Límpialo cada vez que limpies la taza.",
+   "arrastra": [
+    "tapado → sin fuerza al acelerar"
+   ],
+   "conecta": [
+    "18",
+    "19",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121028",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@chicle10",
+      "color": "#d9a441"
+     }
+    ]
+   }
+  },
+  "11": {
+   "nombre": "Tornillos de la taza",
+   "cat": "Tornillos Taza Carburador · 2 piezas",
+   "que": "Los dos tornillos que sujetan la taza al cuerpo del carburador.",
+   "sirve": "Aprietan la taza contra su empaque.",
+   "sintomas": [
+    "Gotea gasolina por la taza."
+   ],
+   "fallas": [
+    [
+     "apriete",
+     "Pasarse de fuerza barre la rosca del aluminio."
+    ],
+    [
+     "edad",
+     "La cabeza se daña con el destornillador equivocado."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sanos se vuelven a usar con un destornillador justo y apriete parejo.",
+   "dif": "taller",
+   "cuando": "Revísalos cada vez que abras la taza.",
+   "arrastra": [
+    "flojos → la taza gotea gasolina"
+   ],
+   "conecta": [
+    "5",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DD121171"
+  },
+  "12": {
+   "nombre": "Cortina",
+   "cat": "Cortina Carburador · 1 pieza",
+   "que": "El cilindro metálico que sube y baja dentro de la torre, colgado del cable del acelerador.",
+   "sirve": "Abre y cierra el paso del aire: con ella dosificas la potencia. Lleva la aguja en el centro.",
+   "sintomas": [
+    "El acelerador se queda pegado o vuelve lento.",
+    "Ralentí alto que no baja."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "Barniz de gasolina vieja en la torre."
+    ],
+    [
+     "desgaste",
+     "Rayas por polvo que entra sin filtro."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Pegada se limpia; rayada o con juego se cambia.",
+   "dif": "facil",
+   "cuando": "Revísala si el acelerador no vuelve solo.",
+   "arrastra": [
+    "pegada → el acelerador no cierra: peligro al frenar"
+   ],
+   "conecta": [
+    "16",
+    "17",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121017",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@cortina12",
+      "color": "acero"
+     }
+    ]
+   }
+  },
+  "13": {
+   "nombre": "Imán del sensor",
+   "cat": "Imán Swiche Gato Lateral · 1 pieza · también en el kit ref. 22 (sensor completo, DD111046)",
+   "que": "El imán pequeño que va con el sensor de posición del acelerador. El catálogo lo llama «imán swiche gato lateral».",
+   "sirve": "Junto con el sensor y su cable, le dice al encendido qué tanto acelera la moto.",
+   "sintomas": [
+    "Testigo del motor prendido.",
+    "La moto falla a media aceleración."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se suelta o se rompe al desarmar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Roto no se repara: se pide solo o con el sensor completo.",
+   "dif": "taller",
+   "cuando": "Revísalo si el testigo del motor prende (si tu versión lo trae) o la moto falla a media aceleración.",
+   "arrastra": [
+    "suelto → el encendido no sabe cuánto aceleras"
+   ],
+   "conecta": [
+    "14",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DH121101"
+  },
+  "14": {
+   "nombre": "Cable del sensor",
+   "cat": "Instalación Eléctrica Carburador · 1 pieza · también en el kit ref. 22 (sensor completo, DD111046)",
+   "que": "El cable con sus conectores que sale del sensor del carburador.",
+   "sirve": "Lleva la señal del sensor al encendido.",
+   "sintomas": [
+    "Testigo del motor prendido.",
+    "Falla al acelerar al pasar baches."
+   ],
+   "fallas": [
+    [
+     "vibración",
+     "El conector se suelta o se sulfata."
+    ],
+    [
+     "roce",
+     "El cable se pela contra el chasis."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Un conector sucio se limpia; un cable pelado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo si el testigo del motor prende (si tu versión lo trae) o la moto falla al pasar baches.",
+   "arrastra": [
+    "conector sulfatado → la moto falla al acelerar"
+   ],
+   "conecta": [
+    "13",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DH121102"
+  },
+  "15": {
+   "nombre": "Tornillo del imán",
+   "cat": "Tornillo · 1 pieza · también en el kit ref. 22 (sensor completo, DD111046)",
+   "que": "El tornillo pequeño que fija el imán del sensor.",
+   "sirve": "Mantiene el imán en su sitio.",
+   "sintomas": [
+    "El imán se mueve."
+   ],
+   "fallas": [
+    [
+     "vibración",
+     "Se afloja."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando cambies el sensor.",
+   "arrastra": [
+    "flojo → se mueve el [[13|imán]]"
+   ],
+   "conecta": [
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "39106204"
+  },
+  "16": {
+   "nombre": "Tapa del carburador",
+   "cat": "Tapa Carburador · 1 pieza",
+   "que": "La tapa roscada de la torre, con el codo por donde entra el cable del acelerador.",
+   "sirve": "Cierra la torre y guía el cable hasta la cortina.",
+   "sintomas": [
+    "El acelerador se siente duro.",
+    "Entra agua a la torre al lavar la moto."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "El codo se parte."
+    ],
+    [
+     "roscas",
+     "Se barre si la enroscas torcida."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sana se vuelve a usar con su o-ring en buen estado.",
+   "dif": "facil",
+   "cuando": "Revísala cuando saques la cortina.",
+   "arrastra": [
+    "rosca torcida → entra agua y mugre"
+   ],
+   "conecta": [
+    "12",
+    "17",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121022"
+  },
+  "17": {
+   "nombre": "Resorte de la cortina",
+   "cat": "Resorte Carburador · 1 pieza · también en el kit ref. 4 (kit del carburador, 36DU1206)",
+   "que": "El resorte largo entre la tapa y la cortina.",
+   "sirve": "Empuja la cortina abajo para que el acelerador cierre solo al soltarlo.",
+   "sintomas": [
+    "El acelerador no vuelve solo.",
+    "El ralentí queda alto."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se cansa y pierde fuerza."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si el acelerador no vuelve solo, es un riesgo al frenar: se cambia.",
+   "dif": "facil",
+   "cuando": "Revísalo cuando saques la cortina.",
+   "arrastra": [
+    "cansado → la cortina no cierra"
+   ],
+   "conecta": [
+    "12",
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121021"
+  },
+  "18": {
+   "nombre": "Aguja de la cortina",
+   "cat": "Aguja Cortina Carburador · 1 pieza · también en el kit ref. 4 (kit del carburador, 36DU1206)",
+   "que": "La aguja cónica que cuelga de la cortina y entra en el difusor. Arriba tiene ranuras para su seguro.",
+   "sirve": "Al subir con la cortina destapa más el difusor, encima del chiclé: así la gasolina crece con el aire a media aceleración.",
+   "sintomas": [
+    "La moto tironea a media aceleración.",
+    "Humo negro o consumo alto."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta por el roce con el difusor."
+    ],
+    [
+     "golpe",
+     "Se dobla al sacarla."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Doblada o gastada no se repara: va nueva, con el seguro en la misma ranura.",
+   "dif": "facil",
+   "cuando": "Revísala cuando saques la cortina.",
+   "arrastra": [
+    "gastada → mezcla rica a media aceleración"
+   ],
+   "conecta": [
+    "12",
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121018",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@aguja18",
+      "color": "acero"
+     }
+    ]
+   }
+  },
+  "19": {
+   "nombre": "Boquerel de baja",
+   "cat": "Boquerel de Baja · 1 pieza · también en el kit ref. 4 (kit del carburador, 36DU1206)",
+   "que": "El chiclé delgado de bronce, al lado del de alta.",
+   "sirve": "Mide la gasolina del ralentí y del primer toque del acelerador.",
+   "sintomas": [
+    "La moto no queda prendida en ralentí.",
+    "Prende solo con el cebador."
+   ],
+   "fallas": [
+    [
+     "mugre",
+     "Es el orificio más fino: se tapa primero con gasolina vieja."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se limpia con limpiador y aire; si no queda limpio, se cambia.",
+   "dif": "taller",
+   "cuando": "Límpialo cada vez que limpies la taza.",
+   "arrastra": [
+    "tapado → la moto se apaga en ralentí"
+   ],
+   "conecta": [
+    "7",
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121013"
+  },
+  "20": {
+   "nombre": "Aguja de corte de la flota",
+   "cat": "Aguja Flota Carburador · 1 pieza · también en el kit ref. 6 (flota y aguja, 36DU1205)",
+   "que": "La aguja pequeña con punta de caucho que cuelga de la flota: es la válvula que corta la entrada de gasolina.",
+   "sirve": "Cuando la taza se llena, la flota la empuja contra su asiento y cierra el paso de gasolina.",
+   "sintomas": [
+    "Gotea gasolina por el rebose.",
+    "La moto se ahoga y huele a gasolina.",
+    "Bujía negra."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La punta se marca y deja de sellar."
+    ],
+    [
+     "mugre",
+     "Un grano de mugre la deja abierta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Marcada no sella: va nueva, mejor junto con la flota (vienen en el mismo kit).",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras la taza.",
+   "arrastra": [
+    "no sella → la taza rebosa y moja el motor"
+   ],
+   "conecta": [
+    "21",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DD121168"
+  },
+  "21": {
+   "nombre": "Flota",
+   "cat": "Flota Carburador · 1 pieza · también en el kit ref. 6 (flota y aguja, 36DU1205)",
+   "que": "Los dos flotadores de plástico unidos, dentro de la taza.",
+   "sirve": "Suben con la gasolina y cierran la aguja de corte: guardan el nivel siempre igual.",
+   "sintomas": [
+    "La taza rebosa.",
+    "La moto se ahoga, la bujía sale negra y el consumo sube."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "El plástico se raja y le entra gasolina: pesa más y no sube."
+    ],
+    [
+     "desgaste",
+     "El pasador gasta su bisagra."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una flota con gasolina adentro no se repara: va nueva con su aguja.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras la taza: sacúdela, no debe sonar líquido adentro.",
+   "arrastra": [
+    "rajada → no sube, la aguja no cierra y la taza rebosa"
+   ],
+   "conecta": [
+    "20",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "DU121015"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Agua en la gasolina",
+   "p": [
+    [
+     "1",
+     "El agua pesa más que la gasolina y se va al fondo de la taza."
+    ],
+    [
+     "19",
+     "Tapa primero el boquerel de baja, el más fino: el ralentí se cae."
+    ],
+    [
+     "10",
+     "Si sigue, llega al chiclé de alta: la moto se apaga al acelerar."
+    ]
+   ]
+  },
+  {
+   "t": "Aguja de corte rayada",
+   "p": [
+    [
+     "20",
+     "La punta se marca con los años y deja de sellar."
+    ],
+    [
+     "21",
+     "Aunque la flota suba y empuje, la aguja rayada no sella: la taza rebosa."
+    ],
+    [
+     "5",
+     "Si además el empaque de la taza está duro, la gasolina gotea sobre el motor caliente: riesgo de incendio."
+    ]
+   ]
+  },
+  {
+   "t": "Aislador rajado",
+   "p": [
+    [
+     "2",
+     "El caucho del aislador se raja con el calor del motor."
+    ],
+    [
+     "3",
+     "Aunque el o-ring esté nuevo, el aire entra por la grieta del aislador sin pasar por el carburador."
+    ],
+    [
+     "7",
+     "La mezcla queda pobre: el ralentí sube y baja y ningún ajuste del tornillo lo arregla."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Filtro aire",
+   "cuando": "Cada <b>15.000 km</b>.",
+   "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento; consultado el 14-nov-2026 <span class=\"esq-s-ap\">Aproximado</span>",
+   "tarea": "filtro-aire"
+  },
+  {
+   "que": "Bujía",
+   "cuando": "Cada <b>30.000 km</b>.",
+   "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento, fila 8 'Spark plug clean & check gap' (CL,A a los 10.000 y 20.000 km; R a los 30.000); consultado el 14-nov-2026 <span class=\"esq-s-ap\">Aproximado</span>",
+   "tarea": "bujia"
+  },
+  {
+   "que": "Limpiar la taza del carburador",
+   "cuando": "En los mantenimientos de la tabla del manual («Carburettor float chamber cleaning»). En taller, también cuando la moto prenda mal o se apague.",
+   "fuente": "Manual del propietario Bajaj CT 100 BS VI (India, otra versión), tabla de mantenimiento, p. 30. Los km de esa fila no se leen del texto. <span class=\"esq-s-ap\">Aprox.</span>"
+  },
+  {
+   "que": "Revisar el ralentí",
+   "cuando": "Con el motor caliente: <b>1.300 ± 100 rpm</b>.",
+   "fuente": "Manual del propietario Bajaj CT 100 BS VI (India, otra versión), p. 5. <span class=\"esq-s-ap\">Aprox.</span>"
+  }
+ ],
+ "sujeta": {
+  "16": [
+   "17",
+   "12",
+   "18"
+  ],
+  "9": [
+   "1"
+  ],
+  "11": [
+   "1t",
+   "5"
+  ],
+  "15": [
+   "13"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "tapa",
+    "nombre": "Tapa, cortina y aguja",
+    "corto": "Cortina",
+    "piezas": [
+     "16",
+     "17",
+     "12",
+     "18"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ],
+    "marca": [
+     362,
+     204
+    ]
+   },
+   {
+    "id": "montaje",
+    "nombre": "Montaje al motor",
+    "corto": "Montaje",
+    "piezas": [
+     "2",
+     "3"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del carburador",
+      "corto": "Tornillos",
+      "ids": [
+       "9"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     1
+    ],
+    "marca": [
+     262,
+     374
+    ]
+   },
+   {
+    "id": "sensor",
+    "nombre": "Sensor del acelerador",
+    "corto": "Sensor",
+    "piezas": [
+     "13",
+     "14"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo del imán",
+      "corto": "Tornillo",
+      "ids": [
+       "15"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     1
+    ],
+    "marca": [
+     612,
+     332
+    ]
+   },
+   {
+    "id": "cuerpo",
+    "nombre": "Cuerpo y taza",
+    "corto": "Taza",
+    "piezas": [
+     "1",
+     "1t",
+     "5"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la taza",
+      "corto": "Tornillos",
+      "ids": [
+       "11"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     2
+    ],
+    "marca": [
+     392,
+     452
+    ]
+   },
+   {
+    "id": "flota",
+    "nombre": "Flota y aguja de corte",
+    "corto": "Flota",
+    "piezas": [
+     "21",
+     "20"
+    ],
+    "torn": [],
+    "pasos": [
+     3
+    ],
+    "marca": [
+     470,
+     440
+    ]
+   },
+   {
+    "id": "chicles",
+    "nombre": "Chiclés",
+    "corto": "Chiclés",
+    "piezas": [
+     "10",
+     "19"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ],
+    "marca": [
+     404,
+     368
+    ]
+   },
+   {
+    "id": "ajuste",
+    "nombre": "Tornillos de ajuste",
+    "corto": "Ajuste",
+    "piezas": [
+     "7",
+     "8"
+    ],
+    "torn": [],
+    "pasos": [
+     5
+    ],
+    "marca": [
+     508,
+     262
+    ]
+   }
+  ],
+  "con3d": [
+   "12",
+   "18",
+   "10"
+  ],
+  "toqueExtra": [
+   "20"
+  ],
+  "inicio": "Piezas del carburador"
+ },
+ "carcasas": [
+  {
+   "id": "1",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  },
+  {
+   "id": "1t",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  }
+ ],
+ "kits": {
+  "4": [
+   "10",
+   "17",
+   "18",
+   "19"
+  ],
+  "6": [
+   "20",
+   "21"
+  ],
+  "22": [
+   "13",
+   "14",
+   "15"
+  ]
+ },
+ "perfiles": {
+  "cortina12": [
+   [
+    0,
+    0
+   ],
+   [
+    11,
+    0
+   ],
+   [
+    11,
+    30
+   ],
+   [
+    0,
+    30
+   ]
+  ],
+  "aguja18": [
+   [
+    0,
+    0
+   ],
+   [
+    0.4,
+    0
+   ],
+   [
+    1.6,
+    22
+   ],
+   [
+    1.6,
+    32
+   ],
+   [
+    0,
+    32
+   ]
+  ],
+  "chicle10": [
+   [
+    0,
+    0
+   ],
+   [
+    3.5,
+    0
+   ],
+   [
+    4,
+    4
+   ],
+   [
+    4,
+    7
+   ],
+   [
+    2.5,
+    7
+   ],
+   [
+    2.5,
+    22
+   ],
+   [
+    0,
+    22
+   ]
+  ]
+ },
+ "pendientes": [
+  "Número del chiclé de alta y del boquerel de baja, vueltas del tornillo de la mezcla y nivel de la flota: sin manual de servicio de la Boxer CT100.",
+  "Función exacta del imán 13 («imán swiche gato lateral» en el catálogo) y del cable 14: sin dato en el manual.",
+  "El o-ring de la tapa (parte del kit 5) no se dibuja aparte: lo nombra la ficha 5. La taza va dibujada aparte (número 1, parte del carburador completo); el plano no le da número propio, y por eso el grupo «Cuerpo y taza» lista el 1 dos veces.",
+  "El extractor de catálogo no reconoce la fig. 16 por el «(TEC-S1D)» del título; se agregó con un parser del scratchpad."
+ ]
+}

@@ -1,0 +1,17 @@
+informes_noche/piloto-esquema/motor/boxer-carburador.html · 117 s · 6 anchos · modelo v2
+  (modo final: «Cómo funciona» y solape del desarme los revisa chequeo_rapido.py)
+  360×740: dibujo 304×237 completo · apoyo 15 % · en grupo: Desarmar sí · unico: 7 marcas de 46 px, fallas 0, solapes 0 · hoja 12 % (tapa 0 % de la pieza)
+  390×844: dibujo 334×260 completo · apoyo 13 % · en grupo: Desarmar sí · unico: 7 marcas de 46 px, fallas 0, solapes 0 · hoja 10 % (tapa 0 % de la pieza)
+  768×1024: dibujo 708×551 completo · apoyo 9 % · en grupo: Desarmar sí · unico: 7 marcas de 46 px, fallas 0, solapes 0 · hoja 7 % (tapa 0 % de la pieza)
+  1024×768: dibujo 573×360 completo · apoyo 12 % · en grupo: Desarmar sí · unico: 7 marcas de 46 px, fallas 0, solapes 0
+  1280×800: dibujo 681×448 completo · apoyo 11 % · en grupo: Desarmar sí · unico: 7 marcas de 46 px, fallas 0, solapes 0
+  1440×900: dibujo 681×530 completo · apoyo 10 % · en grupo: Desarmar sí · unico: 7 marcas de 46 px, fallas 0, solapes 0
+  Lista: 7 grupos (0 abiertos), 19 piezas; buscador «bomba» → 0
+  Ficha: 10 secciones, 776 px a 1280 / 1039 px a 360; ‹ › funcionan
+  Piezas a 360: 17 de 17 con área tocable ≥ 24 px de diámetro
+  Para criterios a ojo: toques hasta la ficha 3 (adentro 4, desarme ≤ 0.1 s) → subnota del 1: 4 · ficha a 360: «¿Se repara?» a 0.34 pantallas, «Pedir» a 0.66 → subnota del 3: 5
+  3D: abre (Cortina, Vista 1 de 4, )
+Notas estimadas (criterios medibles): 6: 5 · 8: 4.3 · 9: 5.0 · 10: 5.0 · 11: 4.8 · 12: 4.8  → promedio 4.82
+Bloqueantes: ninguno · Medible APRUEBA
+Con los criterios a ojo (1,2,3,4,5,7 = 4,4,5,4,4,4): promedio de los 12 = 4.49 → APRUEBA
+  - aviso: 2 botones < 44 px en otras pestañas, p. ej. aguja de corte 100×25 (Cómo funciona); flota 31×25 (Cómo funciona)

@@ -1,0 +1,6 @@
+{# Botón de acción de la consola. Parámetros: url, texto, valor (opcional), confirmar (opcional), clase (opcional). #}
+<form method="post" action="{{ url }}" data-accion {% if confirmar %}data-confirmar="{{ confirmar }}"{% endif %} class="cs-form-linea">
+  {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+  {% if valor != None and valor != "" %}<input type="hidden" name="valor" value="{{ valor }}">{% endif %}
+  <button class="cs-btn cs-btn-chico {{ clase|default:'cs-btn-sec' }}">{{ texto }}</button>
+</form>

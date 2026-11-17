@@ -1,0 +1,136 @@
+{
+ "moto": "honda-f22",
+ "fuente": "honda-cb125f-glh125sh-catalogo-partes.pdf",
+ "figuras": {
+  "F22-1": {
+   "titulo": "SWINGARM/CHAIN CASE(GLH125SH)",
+   "paginas": [
+    100
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [
+    "2U"
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CASE, DRIVE CHAIN",
+     "descripcion_en": "CASE, DRIVE CHAIN",
+     "cantidad": 1,
+     "codigo": "40510-KPN-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "2",
+     "descripcion": "CHAIN, DRIVE(428H-120L)",
+     "descripcion_en": "CHAIN, DRIVE(428H-120L)",
+     "cantidad": 1,
+     "codigo": "40530-KVX-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "3",
+     "descripcion": "JOINT, DRIVE CHAIN",
+     "descripcion_en": "JOINT, DRIVE CHAIN",
+     "cantidad": 1,
+     "codigo": "40531-KTT-890",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "4",
+     "descripcion": "ARM, RR. BRAKE STOPPER",
+     "descripcion_en": "ARM, RR. BRAKE STOPPER",
+     "cantidad": 1,
+     "codigo": "43431-KVX-600",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "5",
+     "descripcion": "BOLT, SWINGARM PIVOT",
+     "descripcion_en": "BOLT, SWINGARM PIVOT",
+     "cantidad": 1,
+     "codigo": "52101-KVX-600",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "6",
+     "descripcion": "SLIDER, CHAIN",
+     "descripcion_en": "SLIDER, CHAIN",
+     "cantidad": 1,
+     "codigo": "52170-KYA-600",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "7",
+     "descripcion": "SWINGARM SUB ASSY., RR.",
+     "descripcion_en": "SWINGARM SUB ASSY., RR.",
+     "cantidad": 1,
+     "codigo": "52200-KPN-A00ZA",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOLT, FLANGE, 6MM",
+     "descripcion_en": "BOLT, FLANGE, 6MM",
+     "cantidad": 2,
+     "codigo": "90119-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "9",
+     "descripcion": "NUT, FLANGE, 12MM(PT)",
+     "descripcion_en": "NUT, FLANGE, 12MM(PT)",
+     "cantidad": 1,
+     "codigo": "90306-KYA-601",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT A, BRAKE STOPPER ARM",
+     "descripcion_en": "BOLT A, BRAKE STOPPER ARM",
+     "cantidad": 1,
+     "codigo": "92812-20000",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "11",
+     "descripcion": "NUT, HEX., 8MM",
+     "descripcion_en": "NUT, HEX., 8MM",
+     "cantidad": 1,
+     "codigo": "94001-08000-0S",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "12",
+     "descripcion": "WASHER, PLAIN, 8MM",
+     "descripcion_en": "WASHER, PLAIN, 8MM",
+     "cantidad": 1,
+     "codigo": "94101-08000",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "13",
+     "descripcion": "WASHER, SPRING, 10MM",
+     "descripcion_en": "WASHER, SPRING, 10MM",
+     "cantidad": 1,
+     "codigo": "94111-10000",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "14",
+     "descripcion": "PIN, SPLIT, 2.0X15",
+     "descripcion_en": "PIN, SPLIT, 2.0X15",
+     "cantidad": 1,
+     "codigo": "94201-20150",
+     "nota": "columna C; mercados "
+    }
+   ]
+  }
+ }
+}

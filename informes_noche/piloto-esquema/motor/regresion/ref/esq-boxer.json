@@ -1,0 +1,978 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 14",
+  "titulo": "Clutch · boxer-ct100",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Clutch",
+  "sub": "Lámina 14 · 15 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina 14",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "_reg-boxer",
+ "moto": "boxer-ct100",
+ "figura": 14,
+ "catalogo": "boxer-ct100",
+ "intervalos": "",
+ "arte": "_reg-boxer",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "nombres": {
+  "1": "Corona clutch",
+  "2": "Soporte balinera clutch",
+  "3": "Arandela corona clutch",
+  "4": "Buje corona clutch",
+  "5": "Porta resorte clutch",
+  "6": "Kit discos clutch",
+  "7": "Discos metálicos clutch",
+  "8": "Manzana clutch",
+  "9": "Resortes clutch",
+  "10": "Tornillo resorte clutch",
+  "11": "Tuerca cigüeñal",
+  "12": "Balinera eje clutch",
+  "13": "Impulsor clutch",
+  "14": "Leva interna clutch",
+  "15": "Arandela porta resortes"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 210,
+    "y": 90
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    210,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 210,
+    "y": 200
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 270,
+    "y": 90
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 210,
+    "y": 145
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    270,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 270,
+    "y": 145
+   }
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 350,
+    "y": 90
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    410,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    350,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 350,
+    "y": 145
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    350,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 350,
+    "y": 200
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    410,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 410,
+    "y": 200
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    410,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 410,
+    "y": 145
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    490,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 490,
+    "y": 145
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Corona clutch.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Soporte balinera clutch.</b> (texto del paso)",
+   "m": {
+    "2": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Discos metálicos clutch.</b> (texto del paso)",
+   "m": {
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Impulsor clutch.</b> (texto del paso)",
+   "m": {
+    "13": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Corona clutch",
+   "cat": "Corona Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DX101054"
+  },
+  "2": {
+   "nombre": "Soporte balinera clutch",
+   "cat": "Soporte Balinera Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "28101195"
+  },
+  "3": {
+   "nombre": "Arandela corona clutch",
+   "cat": "Arandela Corona Clutch · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39260011"
+  },
+  "4": {
+   "nombre": "Buje corona clutch",
+   "cat": "Buje Corona Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU101109"
+  },
+  "5": {
+   "nombre": "Porta resorte clutch",
+   "cat": "Porta Resorte Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DD101492"
+  },
+  "6": {
+   "nombre": "Kit discos clutch",
+   "cat": "Kit Discos Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "36DD4008"
+  },
+  "7": {
+   "nombre": "Discos metálicos clutch",
+   "cat": "Discos Metálicos Clutch · 4 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "30101096"
+  },
+  "8": {
+   "nombre": "Manzana clutch",
+   "cat": "Manzana Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DD101493"
+  },
+  "9": {
+   "nombre": "Resortes clutch",
+   "cat": "Resortes Clutch · 6 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "28101214"
+  },
+  "10": {
+   "nombre": "Tornillo resorte clutch",
+   "cat": "Tornillo Resorte Clutch · 6 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39098004"
+  },
+  "11": {
+   "nombre": "Tuerca cigüeñal",
+   "cat": "Tuerca Cigüeñal · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39105315"
+  },
+  "12": {
+   "nombre": "Balinera eje clutch",
+   "cat": "Balinera Eje Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39240320"
+  },
+  "13": {
+   "nombre": "Impulsor clutch",
+   "cat": "Impulsor Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "31101148"
+  },
+  "14": {
+   "nombre": "Leva interna clutch",
+   "cat": "Leva Interna Clutch · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DX101035"
+  },
+  "15": {
+   "nombre": "Arandela porta resortes",
+   "cat": "Arandela Porta Resortes · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "31101137"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "corona-clutch",
+    "nombre": "Corona clutch",
+    "piezas": [
+     "1"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "soporte-baline",
+    "nombre": "Soporte balinera clutch",
+    "piezas": [
+     "2",
+     "4",
+     "5",
+     "6"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandela corona clutchs",
+      "corto": "Arandela",
+      "ids": [
+       "3"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "discos-metalic",
+    "nombre": "Discos metálicos clutch",
+    "piezas": [
+     "7",
+     "8",
+     "9",
+     "12"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo resorte clutchs",
+      "corto": "Tornillo",
+      "ids": [
+       "10"
+      ],
+      "cant": 6
+     },
+     {
+      "nombre": "Tuerca cigüeñal",
+      "corto": "Tuerca",
+      "ids": [
+       "11"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "impulsor-clutc",
+    "nombre": "Impulsor clutch",
+    "piezas": [
+     "13",
+     "14",
+     "15"
+    ],
+    "torn": [],
+    "pasos": [
+     3
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: clutch"
+ }
+}

@@ -179,7 +179,7 @@ class RolesTests(TestCase):
         self.assertContains(r, "Validar cupón")
         self.assertNotContains(r, ">Crear cuenta<")
         self.client.force_login(self.admin)
-        self.assertContains(self.client.get(reverse("talleres:inicio")), "Administración")
+        self.assertContains(self.client.get(reverse("talleres:inicio")), 'class="nav-plus nav-consola')  # cabecera corta del admin
 
     def test_crear_cuenta_pregunta_el_tipo(self):
         r = self.client.get(reverse("cuentas:registro"))

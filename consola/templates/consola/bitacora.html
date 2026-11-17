@@ -1,0 +1,40 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Bitácora</h1>
+  <p class="cs-sub">{{ total }} acci{{ total|pluralize:"ón,ones" }} de administrador{% if hay_filtros %} con estos filtros · <a href="?seccion=bitacora">quitar filtros</a>{% endif %}</p>
+</header>
+
+<form method="get" class="cs-filtros" role="search">
+  <input type="hidden" name="seccion" value="bitacora">{% if request.GET.por %}<input type="hidden" name="por" value="{{ por }}">{% endif %}
+  <label class="cs-filtro cs-filtro-ancho"><span class="cs-etq">Buscar</span>
+    <input type="search" name="q" value="{{ form.q.value|default:'' }}" class="cs-campo" placeholder="Frase, cuenta o administrador" {% limite "busqueda" %}></label>
+  <label class="cs-filtro"><span class="cs-etq">Acción</span>
+    <select name="accion" class="cs-campo campo"><option value="">Todas</option>
+      {% for clave, nombre in acciones %}<option value="{{ clave }}" {% if form.accion.value == clave %}selected{% endif %}>{{ nombre }}</option>{% endfor %}
+    </select></label>
+  <label class="cs-filtro"><span class="cs-etq">Quién</span>
+    <select name="actor" class="cs-campo campo"><option value="">Todos</option>
+      {% for pk, nombre in actores %}<option value="{{ pk }}" {% if form.actor.value|stringformat:"s" == pk|stringformat:"s" %}selected{% endif %}>{{ nombre }}</option>{% endfor %}
+    </select></label>
+  <label class="cs-filtro"><span class="cs-etq">Desde</span><input type="date" name="desde" value="{{ form.desde.value|default:'' }}" class="cs-campo campo"></label>
+  <label class="cs-filtro"><span class="cs-etq">Hasta</span><input type="date" name="hasta" value="{{ form.hasta.value|default:'' }}" class="cs-campo campo"></label>
+  {% if form.objeto.value %}<input type="hidden" name="objeto" value="{{ form.objeto.value }}">{% endif %}
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if form.objeto.value %}<p class="cs-peq">Solo lo hecho sobre <strong>{{ form.objeto.value }}</strong>.</p>{% endif %}
+
+{% if pagina.object_list %}
+<ol class="cs-bitacora">
+  {% for r in pagina %}
+  <li>
+    <a href="?seccion=bitacora&amp;id={{ r.pk }}" class="cs-bit-item">
+      <span class="cs-bit-frase">{{ r.frase }}</span>
+      <span class="cs-bit-meta">{{ r.actor_nombre }} · <time datetime="{{ r.creado|date:'c' }}">{{ r.creado|date:"j M Y, H:i" }}</time>{% if r.cambios %} · {{ r.cambios|length }} campo{{ r.cambios|length|pluralize }}{% endif %}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ol>
+{% include "consola/_paginacion.html" %}
+{% else %}
+<p class="cs-vacio">Aún no hay acciones registradas{% if hay_filtros %} con esos filtros{% endif %}.</p>
+{% endif %}

@@ -1,6 +1,6 @@
 # Guía de revisión rápida (cualquier lámina del esquema)
 
-**Tiempo objetivo: 10 min por revisión.** La revisión mecánica y la de UX corren **en paralelo**, cada una en su sesión. Cada revisora cronometra la suya con `motor/metricas.py inicio|fin <lamina> revision_mecanica|revision_ux`.
+**Revisión integrada (paso 9 de la skill, desde la ronda 3):** una sola revisora hace en una pasada las dos listas de abajo, Mecánica y UX, sin repetir en UX lo que ya dijo en Mecánica. Devuelve solo `{"nota":{"mecanica":x,"ux":y},"hallazgos":[…]}`: máximo 15, graves primero, con `campo`/`reemplazar`/`por` exactos cuando es texto (formato en `motor/aplicar_hallazgos.py`). Un hallazgo de dibujo o de grupos nombra **solo ids que existen** (los de «Grupos» del resumen, entre paréntesis): mira esa lista antes de sugerir uno; no inventes otro para una pieza que ya tiene id («1-taza» cuando ya está `1t`). No hay archivo de salida: la creadora lo aplica con `aplicar_hallazgos.py`. Una revisión externa o de auditoría usa la sección «Salida» de abajo.
 
 ## Antes de empezar (1 min)
 1. `venv/Scripts/python.exe informes_noche/piloto-esquema/motor/autocontrol.py <lamina> --informe` → `motor/revision/<lamina>.md`. Trae los textos de desarme, fichas, «Cómo funciona», cadenas y «Cuándo», además de las certezas, los pendientes, el validador, la última medición y las capturas.

@@ -1622,18 +1622,24 @@
    "que": "El conjunto del inyector: el inyector con su tubo, sus O-rings y su grapa.",
    "sirve": "Se pide completo cuando el [[5|inyector]] o su [[8|tubo]] fallan juntos.",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "La moto tironea o falla al acelerar.",
+    "Huele a gasolina cerca del inyector.",
+    "Hay humedad de gasolina en el tubo o en la base del inyector."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "edad",
+     "La punta del inyector se tapa y los O-rings se endurecen."
+    ],
+    [
+     "maluso",
+     "Un golpe o un mal montaje rompe el tubo o la grapa."
     ]
    ],
    "decision": "cambia",
    "porque": "Se vende como conjunto; casi siempre basta con limpiar el inyector y cambiar los O-rings.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Solo si el inyector falla o hay fuga de gasolina; primero se prueba limpiarlo.",
    "arrastra": [],
    "conecta": [
     "5",
@@ -2092,23 +2098,32 @@
   "14": {
    "nombre": "Placa del motor de ralentí",
    "cat": "PLATE · 1 pieza",
-   "que": "El conjunto en esta parte.",
-   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "que": "Una platina pequeña que, con su [[13|tornillo]], sujeta el [[16|motor de ralentí]] al [[12|cuerpo de aceleración]].",
+   "sirve": "Mantiene el motor de ralentí apretado en su puesto para que no se salga ni entre aire por su [[17|O-ring]].",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "El motor de ralentí se mueve o se ve flojo.",
+    "Ralentí inestable después de desarmar esa parte."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "maluso",
+     "Se dobla si se aprieta el tornillo de más o se hace palanca al sacar el motor de ralentí."
+    ],
+    [
+     "humedad",
+     "El óxido la debilita en motos lavadas a presión."
     ]
    ],
-   "decision": "repara",
-   "porque": "(Qué se cambia por separado y cuándo va el conjunto completo.)",
+   "decision": "reutiliza",
+   "porque": "Si está derecha y sin óxido, se vuelve a poner. Si se dobló, se pide sola: no hace falta cambiar el cuerpo de aceleración.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Revísala cuando se saque el motor de ralentí para limpiarlo.",
    "arrastra": [],
-   "conecta": [],
+   "conecta": [
+    "12",
+    "13",
+    "16"
+   ],
    "certeza": [
     [
      "ok",
@@ -2116,12 +2131,12 @@
     ]
    ],
    "certezaDe": {
+    "que": "ok",
     "sirve": "ap",
     "sintomas": "ap",
     "fallas": "ap",
     "porque": "ap",
-    "cuando": "ap",
-    "que": "ok"
+    "cuando": "ap"
    },
    "codigo": "54P-E4243-00",
    "rodar": "pronto"
@@ -3206,23 +3221,31 @@
   "37": {
    "nombre": "Soporte del múltiple",
    "cat": "PLATE · 1 pieza",
-   "que": "El conjunto en esta parte.",
-   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "que": "Una platina de lámina que va encima del [[1|múltiple]] y se sujeta con sus mismos [[3|tornillos]].",
+   "sirve": "Sirve de soporte para fijar cables o mangueras que pasan cerca del múltiple, para que no rocen ni vibren.",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "Un cable o una manguera cerca del múltiple quedó suelto o rozando.",
+    "La platina está doblada o rajada."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "maluso",
+     "Se dobla al desarmar o se olvida ponerla al armar."
+    ],
+    [
+     "humedad",
+     "El óxido la debilita con los años."
     ]
    ],
-   "decision": "repara",
-   "porque": "(Qué se cambia por separado y cuándo va el conjunto completo.)",
+   "decision": "reutiliza",
+   "porque": "Si no está doblada ni rajada, se vuelve a poner. Si se dañó, se pide sola; el múltiple no se cambia por eso.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Revísala cada vez que se suelte el múltiple; al armar, que no se quede por fuera.",
    "arrastra": [],
-   "conecta": [],
+   "conecta": [
+    "1",
+    "3"
+   ],
    "certeza": [
     [
      "ok",
@@ -3230,12 +3253,12 @@
     ]
    ],
    "certezaDe": {
+    "que": "ok",
     "sirve": "ap",
     "sintomas": "ap",
     "fallas": "ap",
     "porque": "ap",
-    "cuando": "ap",
-    "que": "ok"
+    "cuando": "ap"
    },
    "codigo": "B6H-E4146-00",
    "rodar": "pronto"

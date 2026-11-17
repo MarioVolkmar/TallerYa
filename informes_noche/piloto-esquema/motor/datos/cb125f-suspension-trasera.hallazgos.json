@@ -1,0 +1,62 @@
+[
+ {
+  "campo": "funciona.pasos.4.t",
+  "reemplazar": "Al subir la tijera, la cadena se tensa. Por eso se mide la holgura con la moto quieta: 25-35 mm.",
+  "por": "Al subir la tijera, la cadena se tensa. Por eso se le deja holgura: 25-35 mm, medida en el gato central."
+ },
+ {
+  "campo": "pasos.2.t",
+  "reemplazar": "Quita el [[14|pasador]]",
+  "por": "En la tijera, quita el [[14|pasador]]"
+ },
+ {
+  "campo": "fichas.13.que",
+  "reemplazar": "La arandela partida de presión que va con la [[11|tuerca]] del brazo del freno.",
+  "por": "La arandela partida de presión de 10 mm del [[10|tornillo]] del brazo del freno."
+ },
+ {
+  "campo": "funciona.pasos.0.t",
+  "reemplazar": "la subes si llevas parrillero o carga.",
+  "por": "súbela si llevas parrillero o carga, igual en los dos y sin saltar de 1 a 5."
+ },
+ {
+  "campo": "funciona.pasos.0.t",
+  "reemplazar": "La precarga viene",
+  "por": "La precarga (cuánto viene apretado el resorte) viene"
+ },
+ {
+  "campo": "funciona.pasos.5.t",
+  "reemplazar": "El eje de la tijera baila:",
+  "por": "La tijera baila en su eje:"
+ },
+ {
+  "campo": "cadenas.1.p.0.1",
+  "reemplazar": "El eje se oxida dentro de los bujes de la tijera.",
+  "por": "Sin grasa, el eje se oxida y gasta los bujes de la tijera."
+ },
+ {
+  "campo": "fichas.2.cuando",
+  "reemplazar": "25-35 mm a mitad de camino.",
+  "por": "25-35 mm en el tramo de abajo, entre piñón y corona."
+ },
+ {
+  "campo": "fichas.2.sintomas.2",
+  "reemplazar": "Holgura de más de 35 mm aunque la ajustes.",
+  "por": "Los tensores llegan al tope y la holgura sigue pasando de 35 mm."
+ },
+ {
+  "campo": "fichas.10.que",
+  "reemplazar": "a su soporte.",
+  "por": "a la [[7|tijera]]."
+ },
+ {
+  "campo": "pasos.3.t",
+  "reemplazar": "Afloja la [[9|tuerca]]",
+  "por": "Quita la [[9|tuerca]]"
+ },
+ {
+  "campo": "fichas.5.que",
+  "reemplazar": "la tijera gira sobre él.",
+  "por": "la tijera gira sobre él, en unos bujes (casquillos) metidos en ella."
+ }
+]

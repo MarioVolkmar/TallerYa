@@ -100,14 +100,34 @@ def main():
         for k in ["que", "cuando", "fuente"]:
             if not r.get(k):
                 err.append(f"cuando[{i}] sin «{k}»")
+    # Relleno de plantilla sin escribir («(Escribe…)», «(Cuándo revisarlo.)»): error, salvo en --previa (aviso),
+    # para que no llegue a la revisión integrada.
+    RELLENO = re.compile(r"\((?:Escribe|Señales propias|Por qué se daña|Qué se cambia|Cuándo revisarlo)|^\([A-ZÁÉÍÓÚÑ¿][^()]*\.\)$")
+    def textos_de(x, ruta=""):
+        if isinstance(x, str):
+            yield ruta, x
+        elif isinstance(x, dict):
+            for k, v in x.items():
+                yield from textos_de(v, f"{ruta}.{k}" if ruta else k)
+        elif isinstance(x, list):
+            for i, v in enumerate(x):
+                yield from textos_de(v, f"{ruta}[{i}]")
+    rell = [r for r, s in textos_de({k: D.get(k) for k in ("fichas", "funciona", "cuando", "textos", "cadenas")}) if RELLENO.search(s.strip())]
+    if rell:
+        (avi if a.previa else err).append(f"relleno de plantilla sin escribir en {len(rell)} campos: " + ", ".join(rell[:6]) + (" …" if len(rell) > 6 else ""))
     for k in ["seguro", "aproximado", "lista"]:
         if not D["fuentes"].get(k):
             avi.append(f"fuentes.{k} vacío")
     vb = D["encuadreArmado"]
     if len(vb) != 4:
         err.append("encuadreArmado debe ser [x, y, ancho, alto]")
-    elif abs(vb[2] / vb[3] - ASPECTO) > 0.01:
-        err.append(f"encuadreArmado con proporción {vb[2]/vb[3]:.3f}; debe ser 900:700 = {ASPECTO:.3f} (si no, el encuadre salta)")
+    elif vb[3] <= 0 or abs(vb[2] / vb[3] - ASPECTO) > 0.01:
+        # ronda 8: el formato es [x, y, ancho, alto]; [x0, y0, x1, y1] se reconoce porque ancho/alto pasan de x/y y su resta sí da 9:7
+        w, h = vb[2] - vb[0], vb[3] - vb[1]
+        pista = (f" Parece [x0, y0, x1, y1]: como [x, y, ancho, alto] sería [{vb[0]}, {vb[1]}, {w}, {h}]"
+                 if vb[2] > vb[0] and vb[3] > vb[1] and h > 0 and abs(w / h - ASPECTO) < 0.05 else "")
+        if vb[3] <= 0: err.append(f"encuadreArmado {vb}: el alto (4.º número) tiene que ser positivo; formato [x, y, ancho, alto]")
+        else: err.append(f"encuadreArmado {vb} va como [x, y, ancho, alto] con ancho:alto = 900:700 ({ASPECTO:.3f}); hoy da {vb[2] / vb[3]:.3f} (si no, el encuadre salta).{pista}")
 
     piezas = D["piezas"]
     ids = set()

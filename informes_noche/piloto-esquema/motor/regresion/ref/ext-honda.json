@@ -1,0 +1,129 @@
+{
+ "moto": "honda",
+ "fuente": "honda-cb125f-glh125sh-catalogo-partes.pdf",
+ "figuras": {
+  "F10": {
+   "titulo": "FRONT BRAKE CALIPER",
+   "paginas": [
+    65,
+    66
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [
+    "2U"
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "SEAL SET, PISTON",
+     "descripcion_en": "SEAL SET, PISTON",
+     "cantidad": 2,
+     "codigo": "06451-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "2",
+     "descripcion": "PAD SET, FR.",
+     "descripcion_en": "PAD SET, FR.",
+     "cantidad": 1,
+     "codigo": "06455-KYA-621",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "3",
+     "descripcion": "SCREW, BLEEDER",
+     "descripcion_en": "SCREW, BLEEDER",
+     "cantidad": 1,
+     "codigo": "43352-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "4",
+     "descripcion": "CAP, BLEEDER",
+     "descripcion_en": "CAP, BLEEDER",
+     "cantidad": 1,
+     "codigo": "43353-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "5",
+     "descripcion": "PISTON",
+     "descripcion_en": "PISTON",
+     "cantidad": 2,
+     "codigo": "45107-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "6",
+     "descripcion": "SPRING, PAD",
+     "descripcion_en": "SPRING, PAD",
+     "cantidad": 1,
+     "codigo": "45108-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "7",
+     "descripcion": "BUSH B",
+     "descripcion_en": "BUSH B",
+     "cantidad": 1,
+     "codigo": "45132-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOOT B, BUSH",
+     "descripcion_en": "BOOT B, BUSH",
+     "cantidad": 1,
+     "codigo": "45133-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "9",
+     "descripcion": "PLUG, PIN",
+     "descripcion_en": "PLUG, PIN",
+     "cantidad": 2,
+     "codigo": "45203-KRF-C91",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "10",
+     "descripcion": "PIN, HANGER",
+     "descripcion_en": "PIN, HANGER",
+     "cantidad": 2,
+     "codigo": "45215-KRF-C91",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "11",
+     "descripcion": "CALIPER SUB ASSY., R. FR.",
+     "descripcion_en": "CALIPER SUB ASSY., R. FR.",
+     "cantidad": 1,
+     "codigo": "45250-KRF-C91",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "12",
+     "descripcion": "BRACKET SUB ASSY., R. FR.",
+     "descripcion_en": "BRACKET SUB ASSY., R. FR.",
+     "cantidad": 1,
+     "codigo": "45290-KRF-C91",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, FLANGE, 8X25",
+     "descripcion_en": "BOLT, FLANGE, 8X25",
+     "cantidad": 2,
+     "codigo": "90155-KEH-950",
+     "nota": "columna C; mercados 1CO,1SA,2AG,2CL,2LA,2PE,2TU,2U,3SA,4AG,4LA"
+    }
+   ]
+  }
+ }
+}

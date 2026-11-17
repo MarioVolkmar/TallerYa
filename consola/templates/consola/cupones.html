@@ -1,0 +1,31 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Cupones</h1>
+  <p class="cs-sub">{{ total }} cup{{ total|pluralize:"ón,ones" }}</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  {% include "consola/_filtros_inicio.html" with clave="cupones" placeholder="Título o taller" %}
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>{{ form.estado }}</label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if filas %}
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Cupones</caption>
+  <thead><tr><th scope="col">Cupón</th><th scope="col">Estado</th><th scope="col">Códigos</th><th scope="col">Acciones</th></tr></thead>
+  <tbody>
+  {% for c, est, analisis in filas %}{% url 'consola:accion' 'cupones.activo' c.pk as a_act %}{% url 'consola:accion' 'cupones.eliminar' c.pk as a_eli %}
+  <tr>
+    <td><span class="cs-cuenta-nombre">{{ c.titulo }}</span> <span class="cs-id">#{{ c.pk }}</span>
+      <span class="cs-cuenta-correo">{{ c.taller.nombre|default:"Todos los talleres aliados" }}{% if c.valido_hasta %} · hasta {{ c.valido_hasta|date:"j M Y" }}{% endif %}{% if c.solo_plus %} · Plus{% endif %}</span></td>
+    <td><span class="cs-estado cs-est-{{ est.0 }}">{{ est.1 }}</span></td>
+    <td>{{ c.n_codigos }}{% if c.cupo %} / {{ c.cupo }}{% endif %}<span class="cs-cuenta-correo">{{ c.n_canjes }} canjeado{{ c.n_canjes|pluralize }}</span></td>
+    <td><div class="cs-acciones-fila">
+      {% if c.activo %}{% include "consola/_boton_accion.html" with url=a_act valor="0" texto="Desactivar" confirmar="¿Desactivar el cupón? No se entregarán más códigos; los ya entregados siguen valiendo." %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_act valor="1" texto="Activar" clase="cs-btn-ok" %}{% endif %}
+      {% include "consola/_eliminar_fila.html" with url=a_eli que="el cupón" %}
+    </div></td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">No hay cupones con esos filtros.</p>{% endif %}

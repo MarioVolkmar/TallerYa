@@ -7,7 +7,8 @@
     <p class="etiqueta">Administración</p>
     <h1 class="titulo text-4xl md:text-5xl mt-3">Usuarios y <span class="text-lava">talleres</span></h1>
   </div>
-  <a href="{% url 'admin:index' %}" class="btn barra-datos">Panel completo de Django</a>
+  {# Solo superusuarios: a los demás administradores /admin/ no les deja ver nada. Lo cotidiano se hace en la Consola. #}
+  {% if user.is_superuser %}<a href="{% url 'admin:index' %}" class="text-sm underline opacity-80" title="Editar tablas directamente; solo para el equipo técnico">Admin técnico (Django)</a>{% endif %}
 </div>
 
 <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 mt-8">

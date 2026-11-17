@@ -37,7 +37,10 @@ def main():
     ap.add_argument("--final", action="store_true", help="medición final corta (medir_lamina --final): sin «Cómo funciona» ni solape, que ya revisó chequeo_rapido.py en --previa")
     ap.add_argument("--antes", action="store_true", help="guarda datos/<lamina>.antes.json (la versión antes de corregir) y sale; el validador avisa después si se pierde una palabra de seguridad o de procedimiento")
     ap.add_argument("-v", action="store_true", help="detalle: todos los errores y avisos")
-    ap.add_argument("--informe", action="store_true", help="escribe revision/<lamina>.md para las revisoras y sale")
+    ap.add_argument("--informe", action="store_true", help="escribe revision/<lamina>.md (resumen compacto) para las revisoras y sale")
+    ap.add_argument("--grupo", help="con --previa: solape solo de estas piezas (ids separados por coma) o de este grupo (data-g)")
+    ap.add_argument("--solo-solape", action="store_true", help="con --previa: solo el solape (y la captura), en segundos; para el grupo que cambió")
+    ap.add_argument("--hermana",help="con --informe: lámina de la que se partió; lo heredado sin cambio va resumido")
     ap.add_argument("--previa", action="store_true", help="validador + captura a 1280 + etiquetas montadas de «Cómo funciona» (~35 s): mírala y luego corre la medición completa con --ojo")
     a = ap.parse_args()
     if a.antes:
@@ -45,7 +48,7 @@ def main():
         print(f"guardada {src.with_suffix('.antes.json').name}: corrige y corre --rapido"); sys.exit(0)
     js = AQUI / f"datos/{a.lamina}.json"
     if a.informe:
-        import informe_revision; print(informe_revision.escribir(a.lamina)); sys.exit(0)
+        import informe_revision; print(informe_revision.escribir(a.lamina, a.hermana)); sys.exit(0)
     rel = lambda p: str(p.relative_to(RAIZ)).replace("\\", "/")
     if a.separar:
         out, _ = correr([rel(AQUI / "separar_numeros.py"), rel(js), "--escribir"]); print("separar_numeros:", out.strip().splitlines()[-1] if out.strip() else "-")
@@ -71,9 +74,11 @@ def main():
         else:
             args = [rel(AQUI / "medir_lamina.py"), rel(pag)] + (["--ojo", a.ojo] if a.ojo else []) + (["--captura", str(res(a.captura).resolve())] if a.captura else [])
             if a.previa:
-                out, _ = correr(args + ["--solo-captura"] + ([] if a.captura else ["--captura", str((AQUI / f"{a.lamina}-1280.jpg").resolve())]))
-                print("MEDIR (previa): " + (out.strip().splitlines() or [""])[-1])
-                fo, fc = correr([rel(AQUI / "chequeo_rapido.py"), rel(pag)] + (["-v"] if a.v else []))   # lo que la medición completa bloquearía
+                # ronda 3: una sola corrida de Chrome: «Cómo funciona» a 360/390/1280, solape del desarme y la captura del armado
+                cap = str(res(a.captura).resolve()) if a.captura else str((AQUI / f"{a.lamina}-1280.jpg").resolve())
+                fo, fc = correr([rel(AQUI / "chequeo_rapido.py"), rel(pag), "--captura", cap] + (["--grupo", a.grupo] if a.grupo else [])
+                                + (["--solo-solape"] if a.solo_solape else []) + (["-v"] if a.v else []))
+                print(f"CAPTURA: {pathlib.Path(cap).name}")
                 for l in fo.strip().splitlines(): print(l[:300])
                 sys.exit(1 if errores or fc else 0)
             out, _ = correr(args + (["--final"] if a.final else []))
@@ -87,6 +92,10 @@ def main():
             if bl and "ninguno" not in bl: bloq.append(bl)
     elif errores and not a.rapido:
         print("MEDIR: no se mide con errores del validador (corrígelos primero)")
+    # ronda 6: el resumen de la revisora nunca queda viejo: --final lo rehace siempre, y cualquier corrida lo rehace si el JSON cambió
+    import informe_revision
+    if not errores and (a.final or informe_revision.viejo(a.lamina)):
+        print("INFORME: " + informe_revision.escribir(a.lamina, a.hermana) + ("" if a.final else " · rehecho: el JSON cambió desde el anterior"))
     out, _ = correr([rel(AQUI / "metricas.py"), "informe", a.lamina])
     ls = [l for l in out.splitlines() if l.strip()]
     if ls and "no hay" not in out.lower():

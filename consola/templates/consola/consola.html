@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static avatares consola %}
+{% block title %}{{ seccion.label }} · Consola{% endblock %}
+{% block seo %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block chat_ayuda %}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'consola/consola.css' %}">
+<script>try{var t=localStorage.getItem("consola-tema");if(t)document.documentElement.dataset.consolaTema=t;}catch(e){}</script>
+<div class="consola" id="consola" data-csrf="{{ csrf_token }}">
+  <aside class="cs-lateral" aria-label="Consola de administración">
+    <div class="cs-quien">
+      {% avatar user 44 %}
+      <div class="cs-quien-txt">
+        <p class="cs-quien-nombre">{{ user.get_full_name|default:user.email }}</p>
+        <p class="cs-quien-rol">{{ rol_nombre }}</p>
+        {% include "consola/_tema.html" %}
+      </div>
+    </div>
+    <nav class="cs-nav" aria-label="Secciones">
+      {% for s, n in secciones %}
+      <a href="?seccion={{ s.key }}" class="cs-nav-item{% if not s.lista %} cs-nav-pronto{% endif %}"
+         {% if s.key == seccion.key %}aria-current="page"{% endif %}>
+        {% icono s.icon %}<span class="cs-nav-label">{{ s.label }}</span>
+        {% if n %}<span class="cs-badge" aria-label="{{ n }} pendiente{{ n|pluralize }}">{{ n }}</span>{% endif %}
+        {% if not s.lista %}<span class="cs-pronto">pronto</span>{% endif %}
+      </a>
+      {% endfor %}
+    </nav>
+    {% if user.is_superuser %}<a href="{% url 'admin:index' %}" class="cs-tecnico" title="Editar tablas directamente; solo para el equipo técnico">Admin técnico (Django)</a>{% endif %}
+  </aside>
+
+  {# Celular: desplegable con la sección actual y el total de pendientes #}
+  <form class="cs-movil" method="get" action="">
+    <div class="cs-movil-cabeza">
+      <label for="cs-seccion-movil" class="cs-movil-label">Sección{% if total_pendientes %} · <strong>{{ total_pendientes }} pendiente{{ total_pendientes|pluralize }}</strong>{% endif %}</label>
+      {% include "consola/_tema.html" %}
+    </div>
+    <div class="cs-movil-fila">
+      <select id="cs-seccion-movil" name="seccion" class="cs-campo campo" data-navegar>
+        {% for s, n in secciones %}
+        <option value="{{ s.key }}" {% if s.key == seccion.key %}selected{% endif %}>{{ s.label }}{% if n %} ({{ n }}){% endif %}{% if not s.lista %} · pronto{% endif %}</option>
+        {% endfor %}
+      </select>
+      <noscript><button class="cs-btn">Ir</button></noscript>
+    </div>
+  </form>
+
+  <section class="cs-principal" aria-labelledby="cs-titulo">
+    {% include plantilla %}
+  </section>
+</div>
+
+{# Confirmación reutilizable y resultado (contraseña temporal) #}
+<dialog class="cs-dialogo" id="cs-confirmar" aria-labelledby="cs-confirmar-titulo">
+  <form method="dialog">
+    <h2 class="cs-h3" id="cs-confirmar-titulo">¿Seguro?</h2>
+    <p data-texto></p>
+    <div class="cs-acciones-fila">
+      <button value="no" class="cs-btn cs-btn-sec">Cancelar</button>
+      <button value="si" class="cs-btn cs-btn-peligro" data-si>Sí, continuar</button>
+    </div>
+  </form>
+</dialog>
+<dialog class="cs-dialogo" id="cs-resultado" aria-labelledby="cs-resultado-titulo">
+  <form method="dialog">
+    <h2 class="cs-h3" id="cs-resultado-titulo">Contraseña temporal</h2>
+    <p data-texto></p>
+    <p class="cs-clave"><code data-clave></code> <button type="button" class="cs-btn cs-btn-sec" data-copiar>Copiar</button></p>
+    <div class="cs-acciones-fila"><button value="ok" class="cs-btn">Listo</button></div>
+  </form>
+</dialog>
+<div class="cs-toasts" id="cs-toasts" role="status" aria-live="polite"></div>
+<script src="{% static 'consola/consola.js' %}" defer></script>
+{% endblock %}

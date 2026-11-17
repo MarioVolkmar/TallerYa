@@ -1,0 +1,12 @@
+[
+ {
+  "campo": "pasos.0.t",
+  "reemplazar": "Moto en el gato central y rueda delantera en el aire.",
+  "por": "Rueda delantera al aire con elevador bajo el chasis."
+ },
+ {
+  "campo": "pasos.0.t",
+  "reemplazar": "Quita la rueda, la pinza del freno y el guardabarros (otras láminas).",
+  "por": "Quita la rueda, la pinza y el guardabarros."
+ }
+]

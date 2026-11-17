@@ -156,7 +156,7 @@ D.piezas.forEach(p=>{if(p.p&&p.p.perfil)p.p.perfil=perfilDe(p.p.perfil);const F=
   if(p.comun&&F&&!F.forma3d&&!p.sin3d&&window.ESQ_COMUN&&(!D.v2||(D.v2.con3d||[]).includes(p.n)))F.forma3d=ESQ_COMUN.forma3d(p.comun,p.p)});
 Object.values(D.fichas).forEach(F=>{if(F.forma3d)F.forma3d.partes.forEach(q=>{if(q.perfil)q.perfil=perfilDe(q.perfil)})});
 // "oculto":true en una pieza común (resorte, o-ring…) la esconde armada, como esq-oculto-arm en el arte propio
-const PIEZAS=D.piezas.map(p=>Object.assign({},p,{arte:()=>p.comun?(p.oculto?`<g class="esq-oculto-arm">${COMUN.arte(p)}</g>`:COMUN.arte(p)):A[p.arte](...(p.args||[]))}));
+const PIEZAS=D.piezas.map(p=>Object.assign({},p,{arte:()=>p.comun?(p.oculto?`<g class="esq-oculto-arm">${COMUN.arte(p)}</g>`:COMUN.arte(p)):(p.tr?`<g transform="${p.tr}">${A[p.arte](...(p.args||[]))}</g>`:A[p.arte](...(p.args||[])))}));
 const PASOS=D.pasos, TXT_ARMADO=D.textoArmado, FICHAS=D.fichas, ORDEN_CHIPS=D.ordenChips, OCULTAS=D.ocultas, VB_ARM=D.encuadreArmado, FN=D.funciona.pasos, CADENAS=D.cadenas;
 const NOMBRES_TMP=n=>D.nombres[n]||n;
 /* ============================================================
@@ -371,9 +371,22 @@ function iniciarGesto(){
   else if(p.length===1&&zoom>1.01)gesto={tipo:1,ini:p[0],vb0:vbActual.slice()};
   else gesto=null;
 }
-svg.addEventListener("pointerdown",e=>{if(!dedos.size)anularClic=false;if(e.pointerType==="mouse")return;dedos.set(e.pointerId,[e.clientX,e.clientY]);iniciarGesto()});
+// v12: también con el mouse (botón principal): con zoom, arrastrar recorre el dibujo, como en el despiece del garaje
+svg.addEventListener("pointerdown",e=>{if(!dedos.size)anularClic=false;if(e.pointerType==="mouse"&&e.button!==0)return;dedos.set(e.pointerId,[e.clientX,e.clientY]);iniciarGesto()});
+// rueda: acerca o aleja sobre el punto del cursor. Sin zoom, solo con Ctrl (o el pellizco del touchpad) para no atrapar el scroll de la página
+svg.addEventListener("wheel",e=>{
+  const fac=e.deltaY<0?1.18:1/1.18;
+  if(zoom<=1.01&&(fac<1||!e.ctrlKey&&!e.metaKey))return;
+  const r=svg.getBoundingClientRect();if(!r.width)return;
+  e.preventDefault();
+  const B=V2H.vb?V2H.vb():(paso===0?VB_ARM:VB_EXP), a=aDibujo(e.clientX,e.clientY);
+  const z=Math.min(ZMAX,Math.max(1,zoom*fac)), w=B[2]/z, h=B[3]/z;
+  fijarZoom(z,a[0]-(e.clientX-r.left)*w/r.width+w/2,a[1]-(e.clientY-r.top)*h/r.height+h/2,false);
+},{passive:false});
 svg.addEventListener("pointermove",e=>{
-  if(!dedos.has(e.pointerId))return;dedos.set(e.pointerId,[e.clientX,e.clientY]);if(!gesto)return;
+  if(!dedos.has(e.pointerId))return;
+  if(e.pointerType==="mouse"&&!(e.buttons&1)){soltar(e);return}   // se soltó fuera del dibujo antes de arrastrar
+  dedos.set(e.pointerId,[e.clientX,e.clientY]);if(!gesto)return;
   const p=[...dedos.values()], r=svg.getBoundingClientRect(), B=V2H.vb?V2H.vb():(paso===0?VB_ARM:VB_EXP);
   if(gesto.tipo===2&&p.length>=2){
     const z=Math.min(ZMAX,Math.max(1,gesto.z0*Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])/gesto.d0)), w=B[2]/z, h=B[3]/z;
@@ -384,10 +397,11 @@ svg.addEventListener("pointermove",e=>{
   }else if(gesto.tipo===1){
     const dx=p[0][0]-gesto.ini[0], dy=p[0][1]-gesto.ini[1];
     if(!anularClic&&Math.hypot(dx,dy)<8)return;
+    if(!anularClic){try{svg.setPointerCapture(e.pointerId)}catch(_){}svg.classList.add("esq-arrastrando")}
     anularClic=true;const v=gesto.vb0;fijarZoom(zoom,v[0]+v[2]/2-dx*v[2]/r.width,v[1]+v[3]/2-dy*v[3]/r.height,false);
   }
 });
-const soltar=e=>{if(dedos.delete(e.pointerId))iniciarGesto()};
+const soltar=e=>{if(dedos.delete(e.pointerId))iniciarGesto();if(!dedos.size)svg.classList.remove("esq-arrastrando")};
 svg.addEventListener("pointerup",soltar);svg.addEventListener("pointercancel",soltar);
 svg.addEventListener("click",e=>{if(anularClic){e.stopPropagation();e.preventDefault();anularClic=false}},true);
 
@@ -616,7 +630,8 @@ V2H.toquesAuto=sm=>{const s=grupo?sumaG(grupo,gPaso):{}, act=grupo?T_INFO.filter
   // sueltas, recortados contra los círculos y el dibujo de las piezas enteras (un racimo nunca achica a otra pieza). Una pieza con un
   // racimo de 24 px o más no recibe círculos.
   const quedan=new Set(),puede=t=>!t.man&&!(t.oculta&&!t.el.classList.contains("esq-fuera"));
-  const pon=(t,z,r)=>{if(!z.c){t.esc.insertAdjacentHTML("beforeend",`<circle class="esq-toque-pz esq-toque-auto" cx="${f(z.cx)}" cy="${f(z.cy)}"/>`);z.c=t.esc.lastElementChild}z.c.setAttribute("cx",f(z.cx));z.c.setAttribute("cy",f(z.cy));z.c.setAttribute("r",f(r));quedan.add(z)};
+  const subir=new Set(act.filter(t=>t.man));
+  const pon=(t,z,r)=>{subir.add(t);if(!z.c){t.esc.insertAdjacentHTML("beforeend",`<circle class="esq-toque-pz esq-toque-auto" cx="${f(z.cx)}" cy="${f(z.cy)}"/>`);z.c=t.esc.lastElementChild}z.c.setAttribute("cx",f(z.cx));z.c.setAttribute("cy",f(z.cy));z.c.setAttribute("r",f(r));quedan.add(z)};
   const centros=act.map(t=>{const d=s[t.id]||[0,0],z=t.zonas[0];return {t,z,d,x:z.cx+d[0],y:z.cy+d[1]}});
   // entera chica: su caja mide < 24 px, o es delgada (resorte, alambre, aro): caja < 48 px y lo dibujado equivale a un círculo de < 36 px
   // (areaDib suma trazos encimados, así que sobrestima: 36 px estimados son ≈ 18-24 px reales de toque)
@@ -628,7 +643,12 @@ V2H.toquesAuto=sm=>{const s=grupo?sumaG(grupo,gPaso):{}, act=grupo?T_INFO.filter
     let z=C.z,x=C.x,y=C.y;if(!chico(C.z)&&lejos(x,y)<13*sm){const op=[[0,-1],[0,1],[-1,0],[1,0]].map(([u,v])=>[C.z.cx+u*C.z.w/2,C.z.cy+v*C.z.h/2]).sort((a,b)=>lejos(b[0]+C.d[0],b[1]+C.d[1])-lejos(a[0]+C.d[0],a[1]+C.d[1]))[0];
       z=C.t.zonas[1]||(C.t.zonas[1]={w:0,h:0,c:null});z.cx=op[0];z.cy=op[1];x=op[0]+C.d[0];y=op[1]+C.d[1]}
     let r=15*sm;otros.forEach(Q=>r=Math.min(r,Math.hypot(Q.x-x,Q.y-y)/2));
-    r=Math.max(r,13*sm);if(chico(C.z)&&r<=Math.min(z.w,z.h)/2)return;pon(C.t,z,r);circ.push({x,y,r})});
+    r=Math.max(r,13*sm);if(chico(C.z)&&r<=Math.min(z.w,z.h)/2)return;
+    // con el mínimo de 13 px puede encimarse con un círculo ya puesto: este se pinta después y le quitaría toque,
+    // así que se corre lo que se encima, alejándose de él (el anterior conserva sus 26 px)
+    let mov=false;circ.forEach(K=>{const dx=x-K.x,dy=y-K.y,dd=Math.hypot(dx,dy)||1,s=K.r+r-dd;if(s>.5){x+=dx/dd*s;y+=dy/dd*s;mov=true}});
+    if(mov){z=C.t.zonas[2]||(C.t.zonas[2]={w:z.w,h:z.h,c:null});z.cx=x-C.d[0];z.cy=y-C.d[1]}
+    pon(C.t,z,r);circ.push({x,y,r})});
   const conRac=centros.filter(C=>!chico(C.z)&&!delgada(C)&&C.t.racimos&&puede(C.t)&&C.t.racimos.every(chico));
   const rz=[];conRac.forEach(C=>C.t.racimos.forEach(z=>rz.push({C,z,x:z.cx+C.d[0],y:z.cy+C.d[1]})));
   const cajaD=(E,x,y)=>{const b=E.t.todo,x0=b.x+E.d[0],y0=b.y+E.d[1];return Math.hypot(Math.max(x0-x,0,x-x0-b.width),Math.max(y0-y,0,y-y0-b.height))};
@@ -639,7 +659,25 @@ V2H.toquesAuto=sm=>{const s=grupo?sumaG(grupo,gPaso):{}, act=grupo?T_INFO.filter
       centros.forEach(Q=>{if(Q!==C&&!chico(Q.z))r=Math.min(r,Math.hypot(Q.x-R.x,Q.y-R.y)/2)});
       rz.forEach(Q=>{if(Q.C!==C)r=Math.min(r,Math.hypot(Q.x-R.x,Q.y-R.y)/2)});
       if(r<=Math.min(R.z.w,R.z.h)/2)continue;pon(C.t,R.z,r);if(r>=12*sm)break}});
-  T_INFO.forEach(t=>t.zonas.concat(t.racimos||[]).forEach(z=>{if(z.c&&!quedan.has(z)){z.c.remove();z.c=null}}))};
+  T_INFO.forEach(t=>t.zonas.concat(t.racimos||[]).forEach(z=>{if(z.c&&!quedan.has(z)){z.c.remove();z.c=null}}));
+  // ronda 7: los círculos de toque que se enciman (los puestos a mano con toqueExtra y los automáticos) se separan entre sí,
+  // sin que el centro salga de la caja de su pieza; así dos piezas vecinas se reparten el espacio en vez de taparse.
+  const K=[];act.forEach(t=>{const d=s[t.id]||[0,0],b=t.todo;t.esc.querySelectorAll(".esq-toque-pz").forEach(c=>{const r=+c.getAttribute("r");
+    if(!c.classList.contains("esq-toque-auto")){if(c.dataset.cx0==null){c.dataset.cx0=c.getAttribute("cx");c.dataset.cy0=c.getAttribute("cy")}c.setAttribute("cx",c.dataset.cx0);c.setAttribute("cy",c.dataset.cy0)}   // a mano: parte siempre de su lugar
+    if(r>0)K.push({c,d,r,x:+c.getAttribute("cx")+d[0],y:+c.getAttribute("cy")+d[1],b:[b.x+d[0],b.y+d[1],b.x+b.width+d[0],b.y+b.height+d[1]]})})});
+  for(let it=0;it<16;it++){let hubo=false;
+    for(let i=0;i<K.length;i++)for(let j=i+1;j<K.length;j++){const A=K[i],B=K[j];if(A.c.closest(".esq-pz")===B.c.closest(".esq-pz"))continue;
+      let dx=B.x-A.x,dy=B.y-A.y,dd=Math.hypot(dx,dy);if(dd<1e-3){dx=1;dy=0;dd=1}const sobra=A.r+B.r-dd;if(sobra<=.5)continue;hubo=true;
+      [[A,-1],[B,1]].forEach(([Q,sg])=>{Q.x+=sg*dx/dd*sobra/2;Q.y+=sg*dy/dd*sobra/2;Q.x=Math.min(Math.max(Q.x,Q.b[0]),Q.b[2]);Q.y=Math.min(Math.max(Q.y,Q.b[1]),Q.b[3])})}
+    if(!hubo)break}
+  K.forEach(Q=>{Q.c.setAttribute("cx",f(Q.x-Q.d[0]));Q.c.setAttribute("cy",f(Q.y-Q.d[1]))});
+  // ronda 7: dentro del grupo, las piezas chicas (con círculo de toque) se pintan encima de las demás, para que una pieza grande
+  // pintada después no les tape el toque; fuera del grupo todo vuelve al orden original (la vista general no cambia).
+  if(!V2H.orden){V2H.orden=new Map();T_INFO.forEach(t=>{const pa=t.el.parentNode;if(pa&&!V2H.orden.has(pa))V2H.orden.set(pa,[...pa.children])})}
+  const sube=[...subir].sort((u,v)=>v.todo.width*v.todo.height-u.todo.width*u.todo.height).map(t=>t.el);   // la más chica, arriba de todo
+  V2H.orden.forEach((orig,pa)=>{const u=orig.map(e=>e.classList&&e.classList.contains("esq-pz")).lastIndexOf(true),mias=sube.filter(e=>orig.includes(e));
+    const quiero=orig.slice(0,u+1).filter(e=>!mias.includes(e)).concat(mias,orig.slice(u+1));   // antes de guiasG/marcasG
+    const hoy=[...pa.children].filter(e=>orig.includes(e));if(hoy.some((e,i)=>e!==quiero[i]))quiero.forEach(e=>pa.appendChild(e))})};
 $("iNum").addEventListener("click",()=>V2H.marcas());
 
 /* ---------- encuadre y desarme del grupo ---------- */
@@ -722,14 +760,14 @@ bAdel.addEventListener("click",()=>{pararG();if(gPaso<nPasos())aplicarG(grupo?gP
 
 const volver=$("v2Volver"), titulo=$("v2Titulo"), BL=[...document.querySelectorAll(".esq-v2-lado [data-lado]")];
 function quitarSel(){seleccion=null;document.querySelectorAll(".esq-pz.esq-sel").forEach(x=>x.classList.remove("esq-sel"));svg.classList.remove("esq-haysel")}
-function entrarGrupo(g){pararG();grupo=g;const ids=new Set(idsDe(g));
+function entrarGrupo(g){pararG();grupo=g;V2H.tocado=true;const ids=new Set(idsDe(g));
   document.querySelectorAll("#capas .esq-pz").forEach(el=>el.classList.toggle("esq-engr",ids.has(el.id.slice(3))));
   svg.classList.add("esq-engrupo");gPaso=0;VB_G=encuadreGrupo(g,0);zoom=1;aplicarG(0);encuadrar(VB_G);estadoZoom();
   volver.hidden=false;titulo.textContent=gTxt(g," · ");
-  quitarSel();refrescarLista();pintarInicio()}
+  quitarSel();refrescarLista();pintarInicio();requestAnimationFrame(medirAlto)}   // ronda 7: la fila de controles cambia («‹ Vista general»): «Desarmar» no queda bajo el borde
 function salirGrupo(){pararG();grupo=null;document.querySelectorAll(".esq-pz.esq-engr").forEach(el=>el.classList.remove("esq-engr"));
   svg.classList.remove("esq-engrupo");zoom=1;aplicarG(0);encuadrar(VB_ARM);estadoZoom();
-  volver.hidden=true;titulo.textContent="Toca un grupo del dibujo";quitarSel();refrescarLista();pintarInicio();cerrarHoja2()}
+  volver.hidden=true;titulo.textContent="Toca un grupo del dibujo";quitarSel();refrescarLista();pintarInicio();cerrarHoja2();requestAnimationFrame(medirAlto)}
 function ponerLado(l,interno){const k=seleccion&&!interno?contraparte(seleccion):null;lado=l;
   Object.keys(LADOS).forEach(x=>svg.classList.toggle("esq-l-"+x,x===l));
   BL.forEach(b=>b.setAttribute("aria-pressed",b.dataset.lado===l));
@@ -744,6 +782,7 @@ BL.forEach(b=>b.addEventListener("click",()=>{if(lado!==b.dataset.lado)ponerLado
 V2H.sel=(k,desplazar)=>{
   if(desplazar&&k!=null)activarPestana(document.getElementById("t-piezas"));   // antes de medir: con la pestaña oculta el dibujo no tiene tamaño
   if(k==null){quitarSel();pintarInicio();marcarLista();cerrarHoja2();return}
+  V2H.tocado=true;
   const g=grupoDe(k);
   if(g&&g.lado!==lado)ponerLado(g.lado,true);
   if(g&&grupo!==g)entrarGrupo(g);
@@ -880,7 +919,7 @@ function pintarInicio(){
   fichaEl.innerHTML=`<div class="esq-v2-inicio"><h3 tabindex="-1">${grupo?gTxt(grupo," · "):LADO_TXT[lado]?`Piezas del ${LADO_TXT[lado]}`:(V2.inicio||"Piezas de la lámina")}</h3>
     ${conj?`<p class="esq-v2-sub">${conj.titulo}: gírala con las flechas.</p>${v3d(conj.titulo)}`:""}
     <p class="esq-vacia">${grupo?"Toca una pieza del dibujo o de la lista.":"Toca un grupo del dibujo o una pieza de la lista."}</p>
-    ${(()=>{const u=!grupo&&leerUlt();return u&&(FICHAS[u]||V2T[u])?`<p class="esq-v2-seguir">Seguir con: <button type="button" class="esq-enl" data-k="${u}">${nombreDe(u)}</button></p>`:""})()}
+    ${(()=>{const u=!grupo&&V2H.tocado&&leerUlt();   /* ronda 9: solo después de elegir una pieza o un grupo en esta visita */return u&&(FICHAS[u]||V2T[u])?`<p class="esq-v2-seguir">Seguir con: <button type="button" class="esq-enl" data-k="${u}">${nombreDe(u)}</button></p>`:""})()}
     ${grupo?"":kitsInicio()}<div class="esq-ficha-lista">${listaHTML()}</div></div>`;
   montar3d(conj?{partes:conj.partes}:null,conj&&conj.titulo);marcarLista();
   if(innerWidth>=960){const d=fichaEl.querySelector(".esq-v2-grupo[open]");fichaEl.scrollTop=d?Math.max(0,d.getBoundingClientRect().top-fichaEl.getBoundingClientRect().top+fichaEl.scrollTop-56):0}}

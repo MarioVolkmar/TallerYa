@@ -1,0 +1,2512 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F-8",
+  "titulo": "Rueda trasera y transmisión final · AKT NKD 125",
+  "aviso": "Prototipo local. Dibujos propios. Figura F-8 del catálogo (catálogo 2025): rueda trasera con el kit de arrastre; la tijera, el deslizador y el guardacadena van en la F-14."
+ },
+ "visor": {
+  "titulo": "Rueda trasera y transmisión final",
+  "sub": "Lámina F-8 · 26 números"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la rueda trasera",
+  "laminaAria": "Dibujo de la rueda trasera de la AKT NKD 125 desde el lado de la cadena: corona, cadena, porta sprocket, tensores, eje y, detrás, el freno de tambor. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Cómo llega la fuerza del motor a la rueda, en cinco pasos. A la izquierda, piñón, cadena y corona; a la derecha, los cauchos de la campana y las marcas de los tensores.",
+  "introCadenas": "En la transmisión final una pieza mala gasta a las demás: así se encadenan las fallas.",
+  "introCuando": "Lo que pide el manual y lo que conviene mirar en cada revisión."
+ },
+ "pie": "Dibujos propios de TallerYa a partir del catálogo de partes AKT NKD 125 2025 (fig. F-8). Datos sin fuente marcados como aproximados.",
+ "encuadreArmado": [
+  140,
+  95,
+  567,
+  441
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": [
+   {
+    "t": "<b>1 · Motor en neutro.</b> El piñón del motor está quieto aunque el motor esté prendido: la cadena y la rueda no se mueven. La cadena cuelga un poco por abajo: ese es su juego.",
+    "s": {
+     "gira": "quieto",
+     "juego": "ok",
+     "tiro": false,
+     "cauchos": "ok",
+     "marcas": "iguales",
+     "km": "0 km/h",
+     "estado": "Moto quieta"
+    }
+   },
+   {
+    "t": "<b>2 · Arrancas en primera.</b> El piñón de 15 dientes jala la cadena por el tramo de arriba, que se tensa; la corona de 38 dientes gira más despacio y con más fuerza. Los cauchos se aprietan y suavizan el tirón.",
+    "s": {
+     "gira": "lento",
+     "juego": "ok",
+     "tiro": true,
+     "cauchos": "ok",
+     "marcas": "iguales",
+     "km": "15 km/h",
+     "estado": "Tira: los cauchos amortiguan"
+    }
+   },
+   {
+    "t": "<b>3 · Andando con buen juego.</b> Con el juego que pide el manual y las marcas de los dos tensores iguales, la cadena entra derecha en la corona y se gasta poco.",
+    "s": {
+     "gira": null,
+     "juego": "ok",
+     "tiro": true,
+     "cauchos": "ok",
+     "marcas": "iguales",
+     "km": "50 km/h",
+     "estado": "Gira parejo"
+    }
+   },
+   {
+    "t": "<b>4 · Cadena floja y cauchos gastados.</b> Al soltar y acelerar, la cadena da latigazos y golpea el deslizador; con los cauchos gastados se siente un «tac». Si sigue así, la cadena salta de la corona.",
+    "s": {
+     "gira": null,
+     "juego": "flojo",
+     "tiro": true,
+     "cauchos": "gastados",
+     "marcas": "iguales",
+     "km": "50 km/h",
+     "estado": "Latigazos: ajusta ya"
+    }
+   },
+   {
+    "t": "<b>5 · Ajustas con los tensores.</b> Moto apagada, en neutro: aflojas la tuerca del eje y giras los dos tensores igual, hasta el juego del manual y marcas iguales. Aprietas la tuerca con su torque y reajustas el pedal del freno.",
+    "s": {
+     "gira": "quieto",
+     "juego": "ok",
+     "tiro": false,
+     "cauchos": "ok",
+     "marcas": "distintas",
+     "km": "0 km/h",
+     "estado": "Marcas distintas: iguálalas"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21).",
+   "Kit de arrastre 15/38 × 104 y rodamientos 6202-2RS y 6004-2RS, retenes 22×35×5 y 26×42×6,5, llanta 3.00-18 y tuerca M14: mismo catálogo.",
+   "Cadena 428 × 104: catálogo, fig. F-14."
+  ],
+  "aproximado": [
+   "Vista desde el lado izquierdo, en caballera: el freno queda detrás de la rueda; proporciones dibujadas a ojo.",
+   "Orden del desarme, fallas y síntomas: práctica de taller.",
+   "Lubricación cada 600 km: decisión de TallerYa (el manual dice 500 km, según la lectura del auditor del manual escaneado)."
+  ],
+  "lista": [
+   "Catálogo de partes AKT NKD 125 2025",
+   "Manual del propietario AKT NKD 125 (escaneado)"
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#ntSombra)",
+  "colores": {
+   "acero": "url(#ntAcero)",
+   "cromo": "url(#ntCromo)",
+   "rosca": "url(#ntRosca)",
+   "plast": "url(#ntPlast)",
+   "estrias": "url(#ntEstrias)"
+  }
+ },
+ "lamina": "nkd-transmision",
+ "moto": "akt-nkd125",
+ "figura": "F8",
+ "catalogo": "akt-nkd125",
+ "intervalos": "akt_nkd_125",
+ "arte": "nkd-transmision",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "20A",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26"
+ ],
+ "nombres": {
+  "1": "Eje de la rueda trasera",
+  "2": "Buje del portabandas",
+  "3": "Portabandas",
+  "4": "Leva del freno",
+  "5": "Eje abrebandas",
+  "6": "Indicador de desgaste",
+  "7": "Tornillo de la leva",
+  "8": "Bandas del freno",
+  "9": "Resortes de las bandas",
+  "10": "Rodamientos de la rueda",
+  "11": "Retén de la campana",
+  "12": "Campana trasera",
+  "13": "Radios",
+  "14": "Rin",
+  "15": "Cauchos de la campana",
+  "16": "Buje del porta sprocket",
+  "17": "Porta sprocket",
+  "18": "Rodamiento del porta sprocket",
+  "19": "Retén del porta sprocket",
+  "20": "Kit de arrastre",
+  "21": "Tornillos de la corona",
+  "22": "Buje izquierdo",
+  "23": "Tensores de la cadena",
+  "24": "Tuerca del eje",
+  "25": "Neumático",
+  "26": "Llanta"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteEje",
+   "args": [
+    540.0,
+    262.8
+   ],
+   "anc": [
+    540.0,
+    262.8
+   ],
+   "et": [
+    -26,
+    18
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "artePortaBandas",
+   "args": [
+    585.0,
+    234.0
+   ],
+   "anc": [
+    585.0,
+    234.0
+   ],
+   "et": [
+    0,
+    -64
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "pasador",
+   "p": {
+    "r": 5,
+    "largo": 18,
+    "x": 585,
+    "y": 204
+   },
+   "anc": [
+    585,
+    204
+   ],
+   "et": [
+    0,
+    -22
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteBandas",
+   "args": [
+    580.0,
+    237.2
+   ],
+   "anc": [
+    580.0,
+    237.2
+   ],
+   "et": [
+    52,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "resorte",
+   "p": {
+    "r": 4,
+    "largo": 26,
+    "copias": [
+     [
+      0,
+      26
+     ]
+    ],
+    "x": 580,
+    "y": 226
+   },
+   "anc": [
+    580,
+    226
+   ],
+   "et": [
+    -28,
+    10
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteLeva",
+   "args": [
+    591,
+    200
+   ],
+   "anc": [
+    591,
+    200
+   ],
+   "et": [
+    -24,
+    -22
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "arte": "arteIndicador",
+   "args": [
+    591,
+    200
+   ],
+   "anc": [
+    591,
+    200
+   ],
+   "et": [
+    -26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "largo": 18,
+    "d": 7,
+    "x": 600,
+    "y": 195
+   },
+   "anc": [
+    600,
+    195
+   ],
+   "et": [
+    -26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "comun": "buje",
+   "p": {
+    "r": 10,
+    "ri": 6,
+    "largo": 14,
+    "x": 593.0,
+    "y": 228.9
+   },
+   "anc": [
+    593.0,
+    228.9
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "23b",
+   "n": "23",
+   "arte": "arteTensor",
+   "args": [
+    602.0,
+    223.1
+   ],
+   "anc": [
+    602.0,
+    223.1
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "rodamiento",
+   "p": {
+    "r": 14,
+    "ri": 7,
+    "copias": [
+     [
+      17,
+      -11
+     ]
+    ],
+    "x": 558.0,
+    "y": 251.3
+   },
+   "anc": [
+    558.0,
+    251.3
+   ],
+   "et": [
+    -26,
+    14
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "reten",
+   "p": {
+    "r": 15,
+    "ri": 8,
+    "x": 575.0,
+    "y": 240.4
+   },
+   "anc": [
+    575.0,
+    240.4
+   ],
+   "et": [
+    0,
+    -28
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "arteCampana",
+   "args": [
+    560,
+    250
+   ],
+   "anc": [
+    618,
+    232
+   ],
+   "et": [
+    54,
+    -8
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "arte": "arteRadios",
+   "args": [
+    560,
+    250
+   ],
+   "anc": [
+    499,
+    228
+   ],
+   "et": [
+    -34,
+    -52
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "arte": "arteRin",
+   "args": [
+    560,
+    250
+   ],
+   "anc": [
+    611,
+    161
+   ],
+   "et": [
+    30,
+    -42
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "arte": "arteNeumatico",
+   "args": [
+    560,
+    250
+   ],
+   "anc": [
+    560,
+    361
+   ],
+   "et": [
+    0,
+    0
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "arte": "arteLlanta",
+   "args": [
+    560,
+    250
+   ],
+   "anc": [
+    643,
+    333
+   ],
+   "et": [
+    42,
+    40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "arte": "arteCauchos",
+   "args": [
+    560,
+    250
+   ],
+   "anc": [
+    560,
+    250
+   ],
+   "et": [
+    0,
+    -46
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "comun": "reten",
+   "p": {
+    "r": 14,
+    "ri": 8,
+    "x": 556.0,
+    "y": 252.6
+   },
+   "anc": [
+    556.0,
+    252.6
+   ],
+   "et": [
+    0,
+    -28
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "comun": "rodamiento",
+   "p": {
+    "r": 14,
+    "ri": 8,
+    "x": 555.0,
+    "y": 253.2
+   },
+   "anc": [
+    555.0,
+    253.2
+   ],
+   "et": [
+    0,
+    -28
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 16,
+    "x": 553.0,
+    "y": 254.5
+   },
+   "anc": [
+    553.0,
+    254.5
+   ],
+   "et": [
+    0,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "arte": "artePortaSprocket",
+   "args": [
+    553.0,
+    254.5
+   ],
+   "anc": [
+    553.0,
+    254.5
+   ],
+   "et": [
+    54,
+    10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "20a",
+   "n": "20",
+   "arte": "arteCorona",
+   "args": [
+    550.0,
+    256.4
+   ],
+   "anc": [
+    550,
+    316
+   ],
+   "et": [
+    -24,
+    48
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "largo": 16,
+    "d": 7,
+    "copias": [
+     [
+      -56.6,
+      0
+     ],
+     [
+      -56.6,
+      56.6
+     ],
+     [
+      0,
+      56.6
+     ]
+    ],
+    "x": 578.3,
+    "y": 228.1
+   },
+   "anc": [
+    578.3,
+    228.1
+   ],
+   "et": [
+    24,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20b",
+   "n": "20",
+   "arte": "arteCadena",
+   "args": [
+    550,
+    256.4,
+    250,
+    236
+   ],
+   "anc": [
+    400,
+    203
+   ],
+   "et": [
+    0,
+    -40
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "comun": "buje",
+   "p": {
+    "r": 11,
+    "ri": 7,
+    "largo": 14,
+    "x": 546.0,
+    "y": 259.0
+   },
+   "anc": [
+    546.0,
+    259.0
+   ],
+   "et": [
+    0,
+    -28
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "23a",
+   "n": "23",
+   "arte": "arteTensor",
+   "args": [
+    543.0,
+    260.9
+   ],
+   "anc": [
+    491,
+    261
+   ],
+   "et": [
+    -40,
+    36
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 537.0,
+    "y": 264.7
+   },
+   "anc": [
+    537.0,
+    264.7
+   ],
+   "et": [
+    -76,
+    -6
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Rueda en el aire y cadena.</b> Motor apagado, en neutro y la moto en el gato central. Afloja la [[24|tuerca del eje]] y los [[23|tensores]], empuja la rueda adelante y saca la [[20|cadena]] de la corona. Nunca gires la rueda con la mano entre cadena y corona.",
+   "m": {
+    "24": [
+     -478,
+     276
+    ],
+    "20b": [
+     -40,
+     -100
+    ]
+   }
+  },
+  {
+   "t": "<b>Eje, tensores y bujes.</b> Suelta la varilla del freno y el brazo de torque. Quita la tuerca y saca el [[1|eje]] sosteniendo la rueda; anota de qué lado va cada buje: el [[22|izquierdo]] y el [[2|del portabandas]] no son iguales. Al armar: eje con grasa y tuerca con torque del manual.",
+   "m": {
+    "1": [
+     -380,
+     337
+    ],
+    "23a": [
+     -412,
+     209
+    ],
+    "23b": [
+     198,
+     297
+    ],
+    "22": [
+     -306,
+     248
+    ],
+    "2": [
+     267,
+     211
+    ]
+   }
+  },
+  {
+   "t": "<b>Porta sprocket y cauchos.</b> Con la rueda afuera, el [[17|porta sprocket]] sale con la corona jalándolo hacia ti. Saca los [[15|cauchos]]. Para cambiar la corona, quita los [[21|tornillos]] en cruz. Al armar: tornillos con fijador y torque en cruz.",
+   "m": {
+    "17": [
+     -53,
+     358
+    ],
+    "20a": [
+     -190,
+     304
+    ],
+    "21": [
+     122,
+     303
+    ],
+    "15": [
+     -110,
+     202
+    ]
+   }
+  },
+  {
+   "t": "<b>Rodamiento del porta sprocket.</b> Saca el [[19|retén]], el [[16|buje]] y el [[18|rodamiento]] con extractor o un botador desde el otro lado, sin golpear la pista de adentro. Al armar: rodamiento y retén nuevos, metidos por la pista de afuera.",
+   "m": {
+    "19": [
+     -37,
+     252
+    ],
+    "18": [
+     80,
+     221
+    ],
+    "16": [
+     28,
+     248
+    ]
+   }
+  },
+  {
+   "t": "<b>Freno de tambor.</b> Saca el [[3|portabandas]]; limpia el polvo con trapo húmedo, sin soplarlo. Quita las [[8|bandas]] con sus [[9|resortes]]. Marca la [[4|leva]], afloja el [[7|tornillo]] y saca leva, [[6|indicador]] y [[5|eje abrebandas]]. Al armar: poca grasa y prueba el freno.",
+   "m": {
+    "3": [
+     215,
+     -64
+    ],
+    "8": [
+     220,
+     63
+    ],
+    "9": [
+     210,
+     142
+    ],
+    "7": [
+     180,
+     -135
+    ],
+    "4": [
+     99,
+     -130
+    ],
+    "6": [
+     19,
+     -148
+    ],
+    "5": [
+     277,
+     46
+    ]
+   }
+  },
+  {
+   "t": "<b>Rueda.</b> Cambiar la [[26|llanta]] o el [[25|neumático]] es trabajo de desmontadora. Los [[10|rodamientos]] y el [[11|retén]] salen de la [[12|campana]] con extractor. [[13|Radios]] y [[14|rin]]: ajuste y centrado en taller.",
+   "m": {
+    "10": [
+     161,
+     162
+    ],
+    "11": [
+     65,
+     400
+    ],
+    "25": [
+     -241,
+     50
+    ],
+    "26": [
+     -383,
+     98
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "La rueda trasera vista desde el lado de la cadena. El freno de tambor va del otro lado, detrás de la rueda. Toca un grupo para ver sus piezas.",
+ "fichas": {
+  "1": {
+   "nombre": "Eje de la rueda trasera",
+   "cat": "Eje Rueda Trasera 125Sl/NKD · 1 pieza",
+   "codigo": "380870020-0002",
+   "que": "La varilla de acero que atraviesa los [[23|tensores]], los bujes, el [[17|porta sprocket]] y la [[12|campana]], y se cierra con la [[24|tuerca]].",
+   "sirve": "Sostiene la rueda en la tijera y la deja girar sobre los rodamientos.",
+   "sintomas": [
+    "La rueda se mueve de lado.",
+    "Cuesta sacarlo o meterlo."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se tuerce en un hueco fuerte o una caída."
+    ],
+    [
+     "humedad",
+     "Se oxida y se pega a los bujes si se arma seco."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Torcido no se endereza: hace que la rueda vaya chueca y gasta los rodamientos.",
+   "dif": "media",
+   "cuando": "Engrásalo cada vez que saques la rueda.",
+   "arrastra": [
+    "Eje torcido → los [[10|rodamientos]] se gastan de lado."
+   ],
+   "conecta": [
+    "23",
+    "22",
+    "2",
+    "24"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "2": {
+   "nombre": "Buje del portabandas",
+   "cat": "Buje Porta Bandas 26x15x34 125SL/NKD · 1 pieza",
+   "codigo": "380820297-0002",
+   "que": "El separador corto del lado derecho, entre la tijera y el [[3|portabandas]].",
+   "sirve": "Deja el freno a la distancia justa y apretado contra la rueda.",
+   "sintomas": [
+    "Tambor que roza.",
+    "Rueda corrida a un lado."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se oxida por fuera."
+    ],
+    [
+     "maluso",
+     "Se arma del lado que no es."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está oxidado o picado, va nuevo: es barato.",
+   "dif": "facil",
+   "cuando": "Revísalo cuando saques la rueda.",
+   "arrastra": [
+    "Buje cambiado de lado → la [[20|cadena]] queda desalineada."
+   ],
+   "conecta": [
+    "1",
+    "3",
+    "22"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "3": {
+   "nombre": "Portabandas",
+   "cat": "Portabandas Trasero Negro SL/NKD · 1 pieza",
+   "codigo": "290920003-0001",
+   "que": "El plato del freno de tambor: lleva las [[8|bandas]], el [[5|eje abrebandas]] y la [[4|leva]].",
+   "sirve": "Sostiene las bandas adentro del tambor de la [[12|campana]] y se ancla con el brazo de torque.",
+   "sintomas": [
+    "Ruido de roce al rodar.",
+    "Freno trasero desigual."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se raja si se aprieta chueco."
+    ],
+    [
+     "humedad",
+     "Entra agua y polvo y se pega el eje abrebandas."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se limpia y se engrasa; solo se cambia si está rajado.",
+   "dif": "media",
+   "cuando": "Límpialo cada vez que cambies las bandas.",
+   "arrastra": [
+    "Portabandas suelto del brazo de torque → el freno se traba de golpe."
+   ],
+   "conecta": [
+    "8",
+    "5",
+    "4",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "4": {
+   "nombre": "Leva del freno",
+   "cat": "Leva Portabandas 08 125 · 1 pieza",
+   "codigo": "290870012-0001",
+   "que": "El brazo que va en la punta del [[5|eje abrebandas]], donde llega la varilla del pedal.",
+   "sirve": "Convierte el tirón de la varilla en el giro que abre las bandas.",
+   "sintomas": [
+    "Pedal muy largo.",
+    "El freno no suelta del todo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las estrías se comen si el [[7|tornillo]] queda flojo."
+    ],
+    [
+     "maluso",
+     "Se monta un diente corrido para tapar bandas gastadas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Con las estrías comidas resbala y el freno falla: va nueva.",
+   "dif": "media",
+   "cuando": "Revisa que no tenga juego cada vez que ajustes el freno.",
+   "arrastra": [
+    "Leva corrida un diente → el [[6|indicador]] ya no dice la verdad."
+   ],
+   "conecta": [
+    "5",
+    "6",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "5": {
+   "nombre": "Eje abrebandas",
+   "cat": "Eje Abrebandas 08 125 · 1 pieza",
+   "codigo": "290860012-0001",
+   "que": "El eje que atraviesa el [[3|portabandas]], con una punta plana adentro del tambor que separa las [[8|bandas]] al girar.",
+   "sirve": "Abre las bandas contra el tambor cuando pisas el freno.",
+   "sintomas": [
+    "Pedal duro.",
+    "El freno se queda pegado."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y se pega en el [[3|portabandas]]."
+    ],
+    [
+     "desgaste",
+     "La punta se gasta con los años."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se limpia y se engrasa poco; si la punta está gastada, va nuevo.",
+   "dif": "media",
+   "cuando": "Engrásalo cuando cambies las bandas.",
+   "arrastra": [
+    "Eje pegado → las [[8|bandas]] se quedan rozando y se recalienta el tambor."
+   ],
+   "conecta": [
+    "3",
+    "4",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "6": {
+   "nombre": "Indicador de desgaste",
+   "cat": "Indicador Desgaste Bandas SL/NKD/110S · 1 pieza",
+   "codigo": "290550021-0001",
+   "que": "La flechita sobre el [[5|eje abrebandas]] que apunta a una escala del [[3|portabandas]].",
+   "sirve": "Te dice cuándo las [[8|bandas]] llegaron al límite sin desarmar.",
+   "sintomas": [
+    "La flecha sale de la escala."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se monta corrida y marca mal."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está doblada o corrida no sirve: va en su posición, con la leva.",
+   "dif": "facil",
+   "cuando": "Míralo cada vez que lubriques la cadena.",
+   "arrastra": [
+    "Indicador mal puesto → corres con [[8|bandas]] gastadas sin saberlo."
+   ],
+   "conecta": [
+    "5",
+    "4",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "7": {
+   "nombre": "Tornillo de la leva",
+   "cat": "Tornillo Bujado M8×30 Zinc · 1 pieza",
+   "codigo": "380020056-0002",
+   "que": "El tornillo con buje que aprieta la [[4|leva]] sobre el [[5|eje abrebandas]].",
+   "sirve": "Mantiene la leva fija en su diente.",
+   "sintomas": [
+    "La leva tiene juego.",
+    "Pedal que cambia de altura."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se aprieta de más y se barre la rosca."
+    ],
+    [
+     "edad",
+     "Se oxida."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Barrido o estirado no aprieta: va nuevo.",
+   "dif": "facil",
+   "cuando": "Revisa que esté firme cada vez que ajustes el freno.",
+   "arrastra": [
+    "Tornillo flojo → la [[4|leva]] se come las estrías."
+   ],
+   "conecta": [
+    "4",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "8": {
+   "nombre": "Bandas del freno",
+   "cat": "Jgo Bandas 08 125 · 1 pieza",
+   "codigo": "290940011-0001",
+   "que": "Las dos bandas con forro que van adentro del tambor de la [[12|campana]].",
+   "sirve": "Frenan la rueda trasera al rozar contra el tambor.",
+   "sintomas": [
+    "Freno trasero débil.",
+    "Chirrido o rayón de metal.",
+    "El [[6|indicador]] en el límite."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El forro se acaba con el uso."
+    ],
+    [
+     "humedad",
+     "Con agua y lodo pierden agarre y se rayan."
+    ],
+    [
+     "calor",
+     "Se queman si vas con el pie en el pedal."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastadas o con aceite no frenan: van nuevas, las dos juntas.",
+   "dif": "media",
+   "cuando": "Revisa el indicador cada vez que lubriques la cadena.",
+   "arrastra": [
+    "Bandas en el metal → rayan el tambor de la [[12|campana]]."
+   ],
+   "conecta": [
+    "3",
+    "5",
+    "9",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "9": {
+   "nombre": "Resortes de las bandas",
+   "cat": "Resorte Bandas Trasero 125S · 2 piezas",
+   "codigo": "381140258-0001",
+   "que": "Los dos resortes que unen las [[8|bandas]] por sus puntas.",
+   "sirve": "Las recogen cuando sueltas el pedal para que no rocen.",
+   "sintomas": [
+    "El freno no suelta.",
+    "Rueda que se calienta."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se cansan con el calor del freno."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Estirados no recogen las bandas: van nuevos con las bandas.",
+   "dif": "media",
+   "cuando": "Cámbialos cuando cambies las bandas.",
+   "arrastra": [
+    "Resorte cansado → las [[8|bandas]] rozan y se gastan."
+   ],
+   "conecta": [
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "10": {
+   "nombre": "Rodamientos de la rueda",
+   "cat": "Balinera 6202-2RS Rueda AKT · 2 piezas",
+   "codigo": "380630030-0001",
+   "que": "Los dos rodamientos sellados que van adentro de la [[12|campana]].",
+   "sirve": "Dejan girar la rueda suave sobre el [[1|eje]].",
+   "sintomas": [
+    "Juego de la rueda de lado.",
+    "Zumbido al rodar.",
+    "La rueda no gira libre."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Entra agua al lavar a presión."
+    ],
+    [
+     "desgaste",
+     "Se gastan con los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "No se reparan: si tienen juego o suenan, van nuevos los dos.",
+   "dif": "taller",
+   "cuando": "Revisa el juego de la rueda cada vez que la saques.",
+   "arrastra": [
+    "Rodamiento con juego → la [[20|cadena]] y la corona se gastan de lado."
+   ],
+   "conecta": [
+    "12",
+    "11",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ],
+    [
+     "ok",
+     "Medida 6202-2RS: catálogo, fig. F-8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "11": {
+   "nombre": "Retén de la campana",
+   "cat": "Retenedor 22x35x5 · 1 pieza",
+   "codigo": "",
+   "que": "El retén de caucho que tapa un rodamiento de la [[12|campana]].",
+   "sirve": "No deja entrar agua ni polvo al [[10|rodamiento]].",
+   "sintomas": [
+    "Óxido junto al rodamiento."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se endurece."
+    ],
+    [
+     "maluso",
+     "Se daña al sacarlo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia nuevo cada vez que se saca.",
+   "dif": "taller",
+   "cuando": "Cámbialo cuando cambies los rodamientos.",
+   "arrastra": [
+    "Retén roto → entra agua al [[10|rodamiento]]."
+   ],
+   "conecta": [
+    "10",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ],
+    [
+     "ok",
+     "Medida 22×35×5: catálogo, fig. F-8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "12": {
+   "nombre": "Campana trasera",
+   "cat": "Campana Trasera Negra 125SL/NKD · 1 pieza",
+   "codigo": "290280040-0001",
+   "que": "La manzana de la rueda: el cubo con los radios y el tambor del freno del lado derecho.",
+   "sirve": "Une la rueda con el freno y recibe el giro del [[17|porta sprocket]] por los [[15|cauchos]].",
+   "sintomas": [
+    "Freno que vibra.",
+    "Tambor rayado."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El tambor se raya con bandas gastadas."
+    ],
+    [
+     "golpe",
+     "Se rajan las pestañas de los radios."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "El tambor rayado se rectifica en taller si da la medida; rajada, va nueva.",
+   "dif": "taller",
+   "cuando": "Revisa el tambor cada vez que cambies las bandas.",
+   "arrastra": [
+    "Tambor ovalado → el freno pulsa."
+   ],
+   "conecta": [
+    "10",
+    "13",
+    "15",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "13": {
+   "nombre": "Radios",
+   "cat": "Jgo Radios Traseros 125 08 · 1 pieza",
+   "codigo": "29024A0SL-0001",
+   "que": "Los rayos que unen la [[12|campana]] con el [[14|rin]].",
+   "sirve": "Sostienen el peso y mantienen la rueda redonda.",
+   "sintomas": [
+    "Sonido de lata al rodar.",
+    "Rueda que se ve ladeada."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se aflojan o se parten con huecos."
+    ],
+    [
+     "edad",
+     "Se oxidan."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Flojos se ajustan y centran en taller; partidos se cambian.",
+   "dif": "taller",
+   "cuando": "Toca los radios cada vez que lubriques la cadena: deben sonar parejo.",
+   "arrastra": [
+    "Radio flojo → el [[14|rin]] se tuerce."
+   ],
+   "conecta": [
+    "12",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "14": {
+   "nombre": "Rin",
+   "cat": "Rin Negro Trasero 100S/SL/NKD · 1 pieza",
+   "codigo": "290230043-0001",
+   "que": "El aro de acero negro donde va montada la [[26|llanta]].",
+   "sirve": "Le da la forma redonda a la rueda.",
+   "sintomas": [
+    "Vibración a cierta velocidad.",
+    "La rueda bambolea de lado."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se dobla en huecos."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Un rin poco torcido se centra con los radios; doblado, va nuevo.",
+   "dif": "taller",
+   "cuando": "Míralo girar cuando saques la rueda.",
+   "arrastra": [
+    "Rin torcido → la [[26|llanta]] se gasta disparejo."
+   ],
+   "conecta": [
+    "13",
+    "26"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "15": {
+   "nombre": "Cauchos de la campana",
+   "cat": "Jgo Caucho Campana 125/SL/NKD · 1 pieza",
+   "codigo": "290380159-0001",
+   "que": "Los tacos de caucho que van entre la [[12|campana]] y el [[17|porta sprocket]].",
+   "sirve": "Amortiguan los tirones de la cadena al acelerar y al cambiar.",
+   "sintomas": [
+    "Golpe «tac» al soltar el clutch.",
+    "El porta sprocket se mueve con la mano."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurecen y se parten."
+    ],
+    [
+     "maluso",
+     "Se gastan más con arranques bruscos."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastados o partidos no amortiguan: va el juego completo.",
+   "dif": "media",
+   "cuando": "Revísalos cada vez que saques la rueda.",
+   "arrastra": [
+    "Cauchos gastados → la [[20|cadena]] da tirones y se estira más rápido."
+   ],
+   "conecta": [
+    "12",
+    "17"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "16": {
+   "nombre": "Buje del porta sprocket",
+   "cat": "Buje Portasprocket 125SL/NKD · 1 pieza",
+   "codigo": "380821551-0001",
+   "que": "El tubo que va adentro del [[18|rodamiento]] del porta sprocket, donde pasa el [[1|eje]].",
+   "sirve": "Deja el rodamiento apretado y a la medida.",
+   "sintomas": [
+    "Porta sprocket con juego."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está picado, va nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando cambies el rodamiento.",
+   "arrastra": [
+    "Buje picado → el [[18|rodamiento]] se gasta."
+   ],
+   "conecta": [
+    "18",
+    "1",
+    "17"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "17": {
+   "nombre": "Porta sprocket",
+   "cat": "Porta Sprocket Negro 125SL/NKD · 1 pieza",
+   "codigo": "290390048-0001",
+   "que": "La pieza que lleva la corona atornillada y entra en la [[12|campana]] sobre los [[15|cauchos]].",
+   "sirve": "Pasa el giro de la [[20|cadena]] a la rueda.",
+   "sintomas": [
+    "La corona bambolea.",
+    "Golpe al acelerar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se comen los asientos de los cauchos."
+    ],
+    [
+     "golpe",
+     "Se raja si se aprietan los tornillos chuecos."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se le cambian rodamiento y retén; rajado, va nuevo.",
+   "dif": "taller",
+   "cuando": "Revisa su juego cada vez que cambies el kit de arrastre.",
+   "arrastra": [
+    "Porta sprocket con juego → la corona se tuerce y la [[20|cadena]] se sale."
+   ],
+   "conecta": [
+    "20",
+    "15",
+    "18",
+    "21"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "18": {
+   "nombre": "Rodamiento del porta sprocket",
+   "cat": "Balinera 6004-2RS 125SL/NKD · 1 pieza",
+   "codigo": "380630290-0001",
+   "que": "El rodamiento sellado que va adentro del [[17|porta sprocket]].",
+   "sirve": "Lo deja girar centrado sobre el [[1|eje]].",
+   "sintomas": [
+    "Corona que bambolea.",
+    "Zumbido del lado de la cadena."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Entra agua si el [[19|retén]] está roto."
+    ],
+    [
+     "desgaste",
+     "Se gasta con los años."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "No se repara: con juego, va nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que cambies el kit de arrastre.",
+   "arrastra": [
+    "Rodamiento con juego → la [[20|cadena]] se come los dientes de lado."
+   ],
+   "conecta": [
+    "17",
+    "19",
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ],
+    [
+     "ok",
+     "Medida 6004-2RS: catálogo, fig. F-8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "19": {
+   "nombre": "Retén del porta sprocket",
+   "cat": "Reten 26x42x6.5 125SL/NKD · 1 pieza",
+   "codigo": "380650424-0001",
+   "que": "El retén del lado de afuera del [[17|porta sprocket]].",
+   "sirve": "Tapa el [[18|rodamiento]] del agua y del lubricante de la cadena.",
+   "sintomas": [
+    "Óxido o grasa sucia junto al rodamiento."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece."
+    ],
+    [
+     "maluso",
+     "Se daña al sacarlo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia nuevo cada vez que se saca.",
+   "dif": "taller",
+   "cuando": "Cámbialo con el rodamiento.",
+   "arrastra": [
+    "Retén roto → entra agua al [[18|rodamiento]]."
+   ],
+   "conecta": [
+    "18",
+    "17"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ],
+    [
+     "ok",
+     "Medida 26×42×6,5: catálogo, fig. F-8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "20": {
+   "nombre": "Kit de arrastre",
+   "cat": "Kit Arrast 15/38x104H SL-NKD· 1 pieza · el kit KONTROL ref. 20A (4811128 X DUO) trae el mismo juego con cadena de 108 eslabones",
+   "codigo": "2600100SL-A999",
+   "que": "La cadena 428 de 104 eslabones, el piñón de 15 dientes del motor y la corona de 38 dientes de la rueda.",
+   "sirve": "Lleva la fuerza del motor a la rueda trasera.",
+   "sintomas": [
+    "Cadena que suena o salta.",
+    "Tirones al acelerar.",
+    "Dientes de la corona en punta."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Sin lubricar, la cadena se estira y los dientes se afilan."
+    ],
+    [
+     "maluso",
+     "Se tensa de más o se deja floja."
+    ],
+    [
+     "humedad",
+     "Se oxida si no la lubricas después de la lluvia."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cadena, piñón y corona se cambian juntos: una cadena nueva en dientes gastados dura poco.",
+   "dif": "media",
+   "cuando": "Lubrícala cada 600 km; revisa el juego cada vez que la lubricas.",
+   "arrastra": [
+    "Cadena estirada → los [[23|tensores]] llegan al tope.",
+    "Cadena floja → golpea el deslizador de la tijera y se puede salir."
+   ],
+   "conecta": [
+    "17",
+    "21",
+    "23",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ],
+    [
+     "ok",
+     "15/38 dientes y 104 eslabones: catálogo, fig. F-8 (kit 2600100SL); cadena 428: fig. F-14."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "21": {
+   "nombre": "Tornillos de la corona",
+   "cat": "Kit Tornillos Sprocket 125NKD/SL · 1 pieza",
+   "codigo": "380140JGO-0006",
+   "que": "Los tornillos y tuercas que sujetan la corona al [[17|porta sprocket]].",
+   "sirve": "Mantienen la corona firme y centrada.",
+   "sintomas": [
+    "Clic al arrancar.",
+    "La corona bambolea."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se aprietan sin orden y la corona queda chueca."
+    ],
+    [
+     "edad",
+     "Se aflojan con la vibración."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si están estirados o con la rosca dañada, va el juego nuevo.",
+   "dif": "media",
+   "cuando": "Revisa que estén firmes cada vez que cambies el kit.",
+   "arrastra": [
+    "Tornillo flojo → la corona se mueve y daña el [[17|porta sprocket]]."
+   ],
+   "conecta": [
+    "17",
+    "20"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "22": {
+   "nombre": "Buje izquierdo",
+   "cat": "Buje Trasero Izquierdo 26x20x25 NKD · 1 pieza",
+   "codigo": "380821785-0001",
+   "que": "El separador largo del lado de la cadena, entre el [[23|tensor]] y el [[17|porta sprocket]].",
+   "sirve": "Deja la corona en línea con el piñón.",
+   "sintomas": [
+    "Cadena que roza un lado."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se cambia con el buje del portabandas al armar."
+    ],
+    [
+     "humedad",
+     "Se oxida."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está oxidado o gastado, va nuevo.",
+   "dif": "facil",
+   "cuando": "Revísalo cuando saques la rueda.",
+   "arrastra": [
+    "Buje equivocado → la [[20|cadena]] queda desalineada."
+   ],
+   "conecta": [
+    "1",
+    "17",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "23": {
+   "nombre": "Tensores de la cadena",
+   "cat": "Tensor Cadena 125NKD Euro 3 (Cuadrado) · 2 piezas",
+   "codigo": "311430150-0001",
+   "que": "Los dos bloques cuadrados en las puntas de la tijera, con su tornillo de ajuste y la escala.",
+   "sirve": "Corren el [[1|eje]] hacia atrás para dar el juego de la cadena y dejar la rueda derecha.",
+   "sintomas": [
+    "Cadena que no se deja ajustar.",
+    "Marcas distintas a cada lado."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se ajusta solo un lado y la rueda queda torcida."
+    ],
+    [
+     "humedad",
+     "Se oxida el tornillo de ajuste."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se limpian y se engrasan; con la rosca dañada, van nuevos.",
+   "dif": "facil",
+   "cuando": "Úsalos cada vez que la cadena tenga más juego del que pide el manual.",
+   "arrastra": [
+    "Marcas distintas → la [[20|cadena]] se come los costados de los dientes."
+   ],
+   "conecta": [
+    "1",
+    "24",
+    "20"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "24": {
+   "nombre": "Tuerca del eje",
+   "cat": "Tuerca Rueda Trasera M14 · 1 pieza",
+   "codigo": "380400011-0002",
+   "que": "La tuerca grande M14 que cierra el [[1|eje]] trasero.",
+   "sirve": "Aprieta todo el conjunto de la rueda contra los [[23|tensores]].",
+   "sintomas": [
+    "La rueda se corre al frenar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se deja floja después de ajustar la cadena."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si la rosca está dañada, va nueva.",
+   "dif": "facil",
+   "cuando": "Apriétala con el torque del manual cada vez que ajustes la cadena.",
+   "arrastra": [
+    "Tuerca floja → el eje se corre y la [[20|cadena]] se suelta."
+   ],
+   "conecta": [
+    "1",
+    "23"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "25": {
+   "nombre": "Neumático",
+   "cat": "Neumatico 275/300-18· 1 pieza",
+   "codigo": "",
+   "que": "La cámara de caucho que va adentro de la [[26|llanta]], con su válvula.",
+   "sirve": "Guarda el aire que sostiene la moto.",
+   "sintomas": [
+    "Llanta que se baja.",
+    "La moto se va de lado atrás."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Se pincha o se pellizca con un hueco."
+    ],
+    [
+     "edad",
+     "Se reseca."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Un pinchazo chico se parcha; si está reseco o el corte es grande, va nuevo.",
+   "dif": "media",
+   "cuando": "Revisa la presión cada semana.",
+   "arrastra": [
+    "Neumático bajo → la [[26|llanta]] se calienta y se gasta por los lados."
+   ],
+   "conecta": [
+    "26",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "26": {
+   "nombre": "Llanta",
+   "cat": "Llanta 3.00-18 · 1 pieza",
+   "codigo": "",
+   "que": "La cubierta de caucho con labrado, medida 3.00-18, montada en el [[14|rin]] y con el [[25|neumático]] adentro.",
+   "sirve": "Da el agarre al piso y amortigua.",
+   "sintomas": [
+    "Labrado liso.",
+    "Grietas en los lados.",
+    "Patina en mojado."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El labrado se acaba."
+    ],
+    [
+     "edad",
+     "El caucho se cuartea."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Lisa o cuarteada no agarra: va nueva.",
+   "dif": "taller",
+   "cuando": "Mira el labrado cada vez que revises la presión.",
+   "arrastra": [
+    "Llanta lisa → la rueda trasera patina al frenar."
+   ],
+   "conecta": [
+    "14",
+    "25"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes AKT NKD 125 2025, fig. F-8 «Rueda trasera» (p. 21)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en ruedas traseras con cadena y freno de tambor."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Cadena sin lubricar",
+   "p": [
+    [
+     "20",
+     "Seca, la cadena se estira y los dientes de la corona se afilan."
+    ],
+    [
+     "23",
+     "Corres los tensores hasta el tope y ya no alcanzan."
+    ],
+    [
+     "15",
+     "Los tirones de la cadena floja rompen los cauchos."
+    ],
+    [
+     "17",
+     "El porta sprocket golpea la campana y se come sus asientos."
+    ]
+   ]
+  },
+  {
+   "t": "Tensores desiguales",
+   "p": [
+    [
+     "23",
+     "Corres uno de los tensores más que el otro."
+    ],
+    [
+     "1",
+     "El eje queda cruzado y la rueda no va en línea con el piñón."
+    ],
+    [
+     "20",
+     "La cadena se come los costados de los dientes y se puede salir."
+    ],
+    [
+     "18",
+     "El rodamiento del porta sprocket recibe carga de lado y se gasta."
+    ]
+   ]
+  },
+  {
+   "t": "Retén del porta sprocket roto",
+   "p": [
+    [
+     "19",
+     "El retén se reseca y deja entrar agua."
+    ],
+    [
+     "18",
+     "El rodamiento se oxida y toma juego."
+    ],
+    [
+     "17",
+     "El porta sprocket bambolea con la corona."
+    ],
+    [
+     "20",
+     "La cadena trabaja torcida y se estira más rápido."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Cadena lubricar",
+   "cuando": "Cada <b>600 km</b>.",
+   "fuente": "Manual del propietario AKT NKD 125 (escaneado, sin cuadro de intervalos por km), copia entregada por el usuario; lectura del Auditor mecánico; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026) <span class=\"esq-s-ap\">Aproximado</span>",
+   "tarea": "cadena-lubricar"
+  },
+  {
+   "que": "Revisar juego y desgaste de la cadena",
+   "cuando": "Cada vez que la lubricas (cada <b>600 km</b>).",
+   "fuente": "Práctica de taller: el juego exacto está en el manual del propietario de la NKD 125 (escaneado; cifra por confirmar) <span class=\"esq-s-ap\">Aproximado</span>"
+  },
+  {
+   "que": "Revisar las bandas del freno",
+   "cuando": "Mira el <b>indicador de desgaste</b> cada vez que lubriques la cadena.",
+   "fuente": "Práctica de taller; el indicador viene en el catálogo, fig. F-8, ref. 6 <span class=\"esq-s-ap\">Aproximado</span>"
+  }
+ ],
+ "sujeta": {
+  "24": [
+   "1"
+  ],
+  "1": [
+   "22",
+   "2",
+   "17",
+   "3"
+  ],
+  "21": [
+   "20a"
+  ],
+  "17": [
+   "16",
+   "18",
+   "19"
+  ],
+  "9": [
+   "8"
+  ],
+  "7": [
+   "4"
+  ],
+  "4": [
+   "6",
+   "5"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "eje",
+    "nombre": "Eje y tensores",
+    "corto": "Eje",
+    "piezas": [
+     "1",
+     "22",
+     "2",
+     "23a",
+     "23b"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuerca del eje",
+      "corto": "Tuerca",
+      "ids": [
+       "24"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     430,
+     330
+    ]
+   },
+   {
+    "id": "arrastre",
+    "nombre": "Cadena, corona y porta sprocket",
+    "corto": "Arrastre",
+    "piezas": [
+     "20a",
+     "20b",
+     "17",
+     "15",
+     "16",
+     "18",
+     "19"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de la corona",
+      "corto": "Tornillos",
+      "ids": [
+       "21"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     0,
+     2,
+     3
+    ],
+    "marca": [
+     330,
+     170
+    ]
+   },
+   {
+    "id": "freno",
+    "nombre": "Freno de tambor",
+    "corto": "Freno",
+    "piezas": [
+     "3",
+     "8",
+     "9",
+     "4",
+     "6",
+     "5"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo de la leva",
+      "corto": "Tornillo",
+      "ids": [
+       "7"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     4
+    ],
+    "marca": [
+     690,
+     150
+    ]
+   },
+   {
+    "id": "rueda",
+    "nombre": "Rueda",
+    "corto": "Rueda",
+    "piezas": [
+     "12",
+     "10",
+     "11",
+     "13",
+     "14",
+     "25",
+     "26"
+    ],
+    "torn": [],
+    "pasos": [
+     5
+    ],
+    "marca": [
+     680,
+     380
+    ]
+   }
+  ],
+  "con3d": [
+   "17",
+   "12"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas de la rueda trasera"
+ },
+ "contexto": [
+  {
+   "arte": "arteTijera",
+   "alPrincipio": true
+  }
+ ],
+ "kits": {
+  "20A": [
+   "20"
+  ]
+ },
+ "pendientes": [
+  "Juego de la cadena y torque de la tuerca del eje y de los tornillos de la corona: el manual del propietario está escaneado; confirmar con el manual de servicio AKT.",
+  "Lado de la tuerca del eje y orden exacto de los bujes: confirmar con la moto o el manual de servicio.",
+  "El piñón de salida va en el kit, pero se monta en el motor (tapa del piñón, fig. E-6): aquí se dibuja solo como parte de la cadena."
+ ]
+}

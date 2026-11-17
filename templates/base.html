@@ -35,6 +35,18 @@
       {% url 'cupones:lista' as u_cupones %}{% url 'foro:lista' as u_foro %}{% url 'cuentas:plus' as u_plus %}
       <div class="flex items-center gap-3 lg:gap-6">
       <nav class="hidden lg:flex items-center gap-6 nav-escritorio" aria-label="Principal">
+        {% if rol == "admin" %}
+        {# Administrador: solo lo de su trabajo (la consola y sus secciones más usadas) y el sitio como lo ve un usuario #}
+        {% with sec=request.GET.seccion|default:"usuarios" en_consola=request.path|slice:":9" %}
+        <a href="{% url 'consola:inicio' %}" class="nav-plus nav-consola {% if en_consola == '/consola/' %}activo{% endif %}">Consola</a>
+        <a href="{% url 'consola:inicio' %}?seccion=usuarios" class="nav-link {% if en_consola == '/consola/' and sec == 'usuarios' %}activo{% endif %}">Usuarios</a>
+        <a href="{% url 'consola:inicio' %}?seccion=talleres" class="nav-link {% if en_consola == '/consola/' and sec == 'talleres' %}activo{% endif %}">Talleres</a>
+        <a href="{% url 'consola:inicio' %}?seccion=moderacion" class="nav-link {% if en_consola == '/consola/' and sec == 'moderacion' %}activo{% endif %}">Moderación</a>
+        {% endwith %}
+        <span class="nav-separador" aria-hidden="true"></span>
+        <a href="{% url 'talleres:directorio' %}" class="nav-link" title="El directorio como lo ve un usuario">Ver sitio</a>
+        {% if user.is_superuser %}<a href="{% url 'admin:index' %}" class="nav-link nav-tecnico" title="Editar tablas directamente; solo para el equipo técnico">Admin técnico</a>{% endif %}
+        {% else %}
         <a href="{% url 'talleres:directorio' %}" class="nav-link {% if request.path|slice:':9' == '/talleres' or request.path|slice:':8' == '/taller/' %}activo{% endif %}">Talleres</a>
         <a href="{{ u_cupones }}" class="nav-link {% if request.path|slice:':8' == '/cupones' %}activo{% endif %}">Cupones</a>
         <a href="{{ u_foro }}" class="nav-link {% if request.path|slice:':5' == '/foro' %}activo{% endif %}">Foro</a>
@@ -43,7 +55,6 @@
         {# Enlaces según el rol: motero (garaje), taller (canjear cupones) y administrador (gestión) #}
         {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}" class="nav-link {% if request.path|slice:':7' == '/garaje' %}activo{% endif %}">Mi garaje</a>{% endif %}
         {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}" class="nav-link {% if request.path|slice:':8' == '/canjear' %}activo{% endif %}">Validar cupón</a>{% endif %}
-        {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}" class="nav-link {% if request.path|slice:':20' == '/cuenta/administraci' %}activo{% endif %}">Administración</a>{% endif %}
         {# Plus va con la cuenta, no entre las secciones: separador y luego Plus, Entrar/Crear cuenta o el avatar #}
         {% if rol != "taller" %}<a href="{% url 'talleres:emergencias' %}" class="nav-emergencia{% if request.path|slice:':12' == '/emergencias' %} activo{% endif %}" title="Grúa, pinchazo, no prende, sin gasolina o accidente" aria-label="¿Te varaste? Emergencias"><span class="ib-emergencia-punto" aria-hidden="true"></span><span class="nav-emergencia-texto">¿Te varaste?</span></a>{% endif %}
         <span class="nav-separador" aria-hidden="true"></span>
@@ -54,6 +65,7 @@
         {% if not user.is_authenticated %}
           <a href="{% url 'cuentas:entrar' %}" class="nav-link">Entrar</a>
           <a href="{% url 'cuentas:registro' %}" class="btn btn-borde text-xs px-4 py-2 nav-registro" aria-label="Crear cuenta"><span class="txt-largo">Crear cuenta</span><span class="txt-corto" aria-hidden="true">Registro</span></a>
+        {% endif %}
         {% endif %}
       </nav>
       {% if user.is_authenticated %}
@@ -87,6 +99,14 @@
       <details class="menu-movil lg:hidden">
         <summary class="btn btn-borde text-xs px-4 py-2" aria-label="Abrir menú">Menú</summary>
         <nav class="papel menu-panel" aria-label="Principal">
+          {% if rol == "admin" %}
+          <a href="{% url 'consola:inicio' %}" class="menu-plus">Consola</a>
+          <a href="{% url 'consola:inicio' %}?seccion=usuarios" class="menu-sub">Usuarios</a>
+          <a href="{% url 'consola:inicio' %}?seccion=talleres" class="menu-sub">Talleres</a>
+          <a href="{% url 'consola:inicio' %}?seccion=moderacion" class="menu-sub">Moderación</a>
+          <a href="{% url 'talleres:directorio' %}">Ver sitio</a>
+          {% if user.is_superuser %}<a href="{% url 'admin:index' %}" title="Editar tablas directamente; solo para el equipo técnico">Admin técnico (Django)</a>{% endif %}
+          {% else %}
           {% if rol != "taller" %}<a href="{% url 'talleres:emergencias' %}" class="menu-emergencia"><span class="ib-emergencia-punto" aria-hidden="true"></span>¿Te varaste? Emergencias</a>{% endif %}
           <a href="{% url 'talleres:directorio' %}">Talleres</a>
           <a href="{{ u_cupones }}">Cupones</a>
@@ -102,7 +122,7 @@
           {% if rol != "taller" %}<a href="{% url 'garaje:garaje' %}">Mi garaje</a>{% endif %}
           {% if user.is_authenticated and rol != "taller" %}<a href="{% url 'logros:mis_insignias' %}">Mis insignias</a>{% endif %}
           {% if rol == "taller" %}<a href="{% url 'cupones:canjear' %}">Validar cupón</a>{% endif %}
-          {% if rol == "admin" %}<a href="{% url 'cuentas:administracion' %}">Administración</a>{% endif %}
+          {% endif %}
           <a href="#" data-instalar-app hidden>Instalar app</a>
           {% if user.is_authenticated %}
             <a href="{% if rol == "taller" %}{% url 'talleres:panel' %}{% else %}{% url 'cuentas:mi_cuenta' %}{% endif %}" class="menu-cuenta">{% avatar user 28 %}<span class="nav-cuenta-nombre">{% if rol == "taller" %}{{ user.taller.nombre }}{% else %}{{ user.first_name|default:"Mi cuenta" }}{% endif %}</span></a>

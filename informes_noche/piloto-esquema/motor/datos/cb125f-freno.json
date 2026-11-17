@@ -1,0 +1,1599 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · fig. F-10",
+  "titulo": "Freno delantero · Honda CB 125F",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la figura F-10 del catálogo de partes Honda (GLH125SH, versión con disco)."
+ },
+ "visor": {
+  "titulo": "Cáliper de freno delantero y pastillas",
+  "sub": "Fig. F-10 · 13 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del freno",
+  "laminaAria": "Dibujo del freno delantero de la CB 125F. Cada número abre la ficha de su pieza.",
+  "introFunciona": "De la mano al disco en siete pasos. El cáliper aparece cortado por la mitad, como si lo miraras desde arriba: de sus dos pistones ves uno.",
+  "introCadenas": "En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo mismo que pide el plan de mantenimiento de TallerYa para esta moto."
+ },
+ "pie": "TallerYa · piloto de esquema v8 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  223,
+  140,
+  613,
+  477
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "-6 14 512 700",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · En reposo.</b> La rueda gira y el disco gira con ella. Las pastillas quedan casi tocando el disco, a una fracción de milímetro (aquí el espacio está exagerado para que se vea).",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la manigueta derecha.</b> La manigueta es una palanca: con poco esfuerzo empuja un pistón pequeño dentro de la bomba, en el manubrio.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>3 · La presión viaja por el líquido.</b> El líquido no se comprime: la presión llega al cáliper al instante, y sus dos pistones, con mucha más área que el de la bomba, multiplican tu fuerza (aprox.).",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>4 · Los pistones empujan una pastilla.</b> La presión saca los dos pistones (en el corte ves uno) y pegan la pastilla de su lado contra el disco. Cada sello se tuerce un poquito: eso servirá al soltar.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>5 · El cáliper flota y jala la otra.</b> El cuerpo del cáliper se desliza sobre pasadores: al empujar, se corre al otro lado y trae la otra pastilla, y el disco queda prensado por los dos lados. Si los pasadores están oxidados, frena una sola pastilla.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 0,
+     "rueda": "lento"
+    }
+   },
+   {
+    "t": "<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y la rueda. En una bajada larga el disco se calienta tanto que no se puede tocar. El líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 1,
+     "rueda": "quieto"
+    }
+   },
+   {
+    "t": "<b>7 · Sueltas.</b> La presión cae. El sello, que estaba torcido, regresa el pistón y las pastillas se despegan apenas del disco. Si el sello está viejo o el pistón sucio, el pistón no regresa: el freno queda pegado y se calienta solo.",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0.35,
+     "rueda": ""
+    }
+   }
+  ],
+  "sinIndicador": true
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidad de piezas: catálogo de partes Honda CB 125F, figura F-10 «Front brake caliper», columna GLH125SH (versión con disco; sin las piezas Nissin).",
+   "Cáliper flotante de <b>dos pistones</b>, con soporte, un guardapolvo y un buje de pasador (catálogo).",
+   "Líquido DOT3 o DOT4, cambio cada 2 años, nivel sobre la marca LOWER y pastillas hasta el indicador de desgaste: manual del propietario, págs. impresas 40, 55, 64 y 65."
+  ],
+  "aproximado": [
+   "Dibujo propio de TallerYa, adaptado del cáliper de otra lámina del esquema: vista de lado, proporciones aproximadas.",
+   "Se dibujan uno de los dos pasadores y uno de los dos tapones; el catálogo trae 2 de cada uno.",
+   "El disco y la barra son contexto (el disco está en la fig. F-11-3 de la rueda).",
+   "Torques: el manual que tenemos es el del propietario y no los trae («manual de servicio»)."
+  ],
+  "lista": [
+   "Catálogo de partes Honda CB 125F (GLH125SH), fig. F-10 «Front brake caliper», págs. 126-127. Copia local, solo referencia.",
+   "Manual del propietario Honda CB125F (español): inspección previa p. 40, líquido de frenos p. 55 y 64, pastillas delanteras p. 65, cuadro de mantenimiento. Copia local."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -1,
+   0
+  ],
+  "sombra": "url(#fSombra)",
+  "colores": {
+   "acero": "url(#gAcero)",
+   "cromo": "url(#gCromoV)",
+   "rosca": "url(#pRosca)"
+  }
+ },
+ "lamina": "cb125f-freno",
+ "moto": "honda-cb125f",
+ "figura": "F10",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-freno",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13"
+ ],
+ "nombres": {
+  "1": "Sellos del pistón (juego)",
+  "2": "Pastillas de freno (juego)",
+  "3": "Purgador",
+  "4": "Tapa del purgador",
+  "5": "Pistón del cáliper",
+  "6": "Resorte de las pastillas",
+  "7": "Buje del pasador",
+  "8": "Guardapolvo del pasador",
+  "9": "Tapón del pasador",
+  "10": "Pasador de las pastillas",
+  "11": "Cáliper (cuerpo)",
+  "12": "Soporte del cáliper",
+  "13": "Tornillos del soporte"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13"
+ ],
+ "ocultas": [
+  "5",
+  "1",
+  "2",
+  "6",
+  "7"
+ ],
+ "piezas": [
+  {
+   "id": "2a",
+   "n": "2",
+   "arte": "artePastilla",
+   "args": [
+    -8,
+    0,
+    0
+   ],
+   "anc": [
+    392.59,
+    382.197
+   ],
+   "et": [
+    -52,
+    34
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "2b",
+   "n": "2",
+   "arte": "artePastilla",
+   "args": [
+    -1,
+    3,
+    0
+   ],
+   "anc": [
+    398.405,
+    383.755
+   ],
+   "et": [
+    36,
+    50
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "arte": "arteResorte",
+   "anc": [
+    412.645,
+    267.479
+   ],
+   "et": [
+    -40,
+    -20
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "5a",
+   "n": "5",
+   "arte": "artePiston",
+   "anc": [
+    422.2,
+    311.5
+   ],
+   "et": [
+    -30,
+    -40
+   ],
+   "vis": "exp",
+   "args": [
+    -26
+   ]
+  },
+  {
+   "id": "5b",
+   "n": "5",
+   "arte": "artePiston",
+   "anc": [
+    408.8,
+    361.7
+   ],
+   "et": [
+    -26,
+    60
+   ],
+   "vis": "exp",
+   "args": [
+    26
+   ]
+  },
+  {
+   "id": "1a",
+   "n": "1",
+   "arte": "arteSello",
+   "args": [
+    4,
+    17,
+    5,
+    false,
+    -26
+   ],
+   "anc": [
+    423.7,
+    305.9
+   ],
+   "et": [
+    36,
+    86
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "1b",
+   "n": "1",
+   "arte": "arteSello",
+   "args": [
+    4,
+    17,
+    5,
+    true,
+    26
+   ],
+   "anc": [
+    410.3,
+    356.1
+   ],
+   "et": [
+    29,
+    -20
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "arteSoporte",
+   "anc": [
+    490.07,
+    377.258
+   ],
+   "et": [
+    44,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "comun": "buje",
+   "p": {
+    "r": 8,
+    "ri": 4.5,
+    "largo": 16,
+    "x": 391,
+    "y": 426
+   },
+   "anc": [
+    391,
+    426
+   ],
+   "et": [
+    -40,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteBota6",
+   "anc": [
+    398.033,
+    441.631
+   ],
+   "et": [
+    20,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    403.628,
+    287.839
+   ],
+   "et": [
+    -30,
+    34
+   ],
+   "vis": "arm",
+   "chica": 1,
+   "comun": "pasador",
+   "marco": "LOC",
+   "p": {
+    "x": -20,
+    "y": -64,
+    "cuerpo": "lateral",
+    "r": 3.5,
+    "largo": 96,
+    "cabeza": 7
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "arte": "arteCaliper",
+   "anc": [
+    361.023,
+    373.739
+   ],
+   "et": [
+    -62,
+    22
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "artePurgador",
+   "anc": [
+    458.404,
+    236.258
+   ],
+   "et": [
+    42,
+    -8
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteTapaPurga",
+   "anc": [
+    456,
+    236
+   ],
+   "et": [
+    16,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "arte": "arteTapon",
+   "anc": [
+    387.1,
+    283.4
+   ],
+   "et": [
+    -30,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    492.416,
+    321.982
+   ],
+   "et": [
+    44,
+    -36
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "marco": "LOC",
+   "p": {
+    "x": 0,
+    "y": 0,
+    "brida": 14,
+    "cabeza": 10,
+    "largo": 46,
+    "d": 12,
+    "copias": [
+     [
+      86,
+      -54
+     ],
+     [
+      86,
+      56
+     ]
+    ],
+    "sombra": true
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Tornillos del soporte.</b> Rueda delantera al aire con elevador o soporte bajo el chasis (el gato central no la levanta) y freno frío. Cubre pintura y plásticos: el líquido de frenos los daña. Afloja los dos tornillos que sujetan el soporte a la barra.",
+   "m": {
+    "13": [
+     300,
+     -250
+    ]
+   }
+  },
+  {
+   "t": "<b>Sacar el cáliper.</b> Sale con su soporte, deslizándolo fuera del disco. Para cambiar pastillas no sueltes la manguera: déjala colgando sin estirarla. No aprietes la manigueta con el cáliper afuera: los pistones se salen.",
+   "manguera": false,
+   "m": {
+    "11": [
+     -30,
+     -40
+    ],
+    "12": [
+     -30,
+     -40
+    ],
+    "8": [
+     -30,
+     -40
+    ],
+    "7": [
+     -30,
+     -40
+    ],
+    "3": [
+     -30,
+     -40
+    ],
+    "4": [
+     -30,
+     -40
+    ],
+    "5a": [
+     -30,
+     -40
+    ],
+    "5b": [
+     -30,
+     -40
+    ],
+    "1a": [
+     -30,
+     -40
+    ],
+    "1b": [
+     -30,
+     -40
+    ],
+    "2a": [
+     -30,
+     -40
+    ],
+    "2b": [
+     -30,
+     -40
+    ],
+    "6": [
+     -30,
+     -40
+    ],
+    "10": [
+     -30,
+     -40
+    ],
+    "9": [
+     -30,
+     -40
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapón del pasador.</b> Desenróscalo con la herramienta que calce en su cabeza. Guárdalo donde no se pierda.",
+   "m": {
+    "9": [
+     -300,
+     -185
+    ]
+   }
+  },
+  {
+   "t": "<b>Pasador de las pastillas.</b> Sácalo. Es lo que sostiene las pastillas: al salir, caen. Si está oxidado o doblado, va uno nuevo.",
+   "m": {
+    "10": [
+     -222,
+     -112
+    ]
+   }
+  },
+  {
+   "t": "<b>Pastillas.</b> Salen las dos. Mira el indicador de desgaste: si una llegó a él, cambia las dos (manual del propietario). <b>Al armar:</b> limpia los pistones antes de empujarlos, despacio y vigilando el depósito: el líquido daña la pintura.",
+   "m": {
+    "2a": [
+     -183,
+     88
+    ],
+    "2b": [
+     -93,
+     108
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte de las pastillas.</b> Las mantiene firmes para que no traqueteen. Al armar, va en la misma posición.",
+   "m": {
+    "6": [
+     -275,
+     60
+    ]
+   }
+  },
+  {
+   "t": "<b>Separar el cuerpo del soporte.</b> El cuerpo del cáliper se desliza fuera de los pasadores del soporte. Para desarmar los pistones, antes drena el líquido en un recipiente (no se reutiliza) y suelta el racor.",
+   "dif": "taller",
+   "m": {
+    "11": [
+     -83,
+     -122
+    ],
+    "3": [
+     -83,
+     -122
+    ],
+    "4": [
+     -83,
+     -122
+    ],
+    "5a": [
+     -83,
+     -122
+    ],
+    "5b": [
+     -83,
+     -122
+    ],
+    "1a": [
+     -83,
+     -122
+    ],
+    "1b": [
+     -83,
+     -122
+    ],
+    "12": [
+     187,
+     -138
+    ],
+    "8": [
+     187,
+     -138
+    ],
+    "7": [
+     187,
+     -138
+    ]
+   }
+  },
+  {
+   "t": "<b>Guardapolvo y buje.</b> Protegen el pasador del soporte para que el cáliper flote. Si el caucho está roto o duro, va nuevo. <b>Al armar:</b> grasa de silicona en el pasador.",
+   "m": {
+    "8": [
+     -89,
+     114
+    ],
+    "7": [
+     -90,
+     5
+    ]
+   }
+  },
+  {
+   "t": "<b>Purgador.</b> Quita la tapa y desenróscalo con cuidado: es de acero y el cáliper de aluminio. Si está pegado, no lo fuerces.",
+   "m": {
+    "3": [
+     54,
+     -35
+    ],
+    "4": [
+     54,
+     -70
+    ]
+   }
+  },
+  {
+   "t": "<b>Pistones.</b> Sácalos con aire comprimido a poca presión por la entrada del líquido, cáliper sujeto, trapo grueso delante y gafas. Nunca los dedos: salen con fuerza. Si están picados o rayados, van nuevos.",
+   "dif": "taller",
+   "m": {
+    "5a": [
+     113,
+     -12
+    ],
+    "5b": [
+     95,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Sellos.</b> Sácalos con un palillo de plástico, sin rayar la ranura. Van siempre nuevos. <b>Al armar:</b> líquido DOT3 o DOT4 de envase sellado, purgar y probar la manigueta antes de rodar.",
+   "dif": "taller",
+   "m": {
+    "1a": [
+     159,
+     22
+    ],
+    "1b": [
+     223,
+     40
+    ]
+   }
+  }
+ ],
+ "textoArmado": "<b>Armado.</b> El cáliper abraza el borde del disco y su soporte se atornilla a la barra. Lo de adentro (dos pistones, pastillas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista.",
+ "fichas": {
+  "1": {
+   "nombre": "Sellos del pistón (juego)",
+   "cat": "SEAL SET, PISTON · 2 piezas",
+   "que": "Dos juegos de cauchos, uno por [[5|pistón]]: el sello va en la ranura del cáliper y el guardapolvo afuera.",
+   "sirve": "El sello no deja salir el líquido y, al soltar el freno, jala el [[5|pistón]] de vuelta: se tuerce un poquito al frenar y regresa. El guardapolvo no deja entrar agua ni mugre.",
+   "fallas": [
+    [
+     "edad",
+     "Se endurecen con los años y el calor: pierden elasticidad y ya no regresan el pistón."
+    ],
+    [
+     "maluso",
+     "Se hinchan y se dañan con un líquido equivocado (DOT 5, aceite, gasolina usada para «lavar»)."
+    ],
+    [
+     "humedad",
+     "Si el guardapolvo se rompe, entra agua y el pistón se oxida."
+    ]
+   ],
+   "sintomas": [
+    "El freno queda pegado o la rueda se calienta.",
+    "Fuga de líquido en el cáliper.",
+    "La manigueta se va al fondo (entró aire)."
+   ],
+   "cuando": "Van nuevos cada vez que abras el cáliper. Revísalos al cambiar el líquido, cada 2 años (manual del propietario), o antes si hay fuga o el freno no suelta.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "5",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "El caucho no se repara. Se cambian siempre los dos, nunca se reutilizan.",
+   "arrastra": [
+    "Sello endurecido → el [[5|pistón]] no regresa y las pastillas rozan el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "06451-KSY-901",
+   "rodar": "no"
+  },
+  "2": {
+   "nombre": "Pastillas de freno (juego)",
+   "cat": "PAD SET, FR. · 1 pieza",
+   "que": "Dos placas de acero con un bloque de material de fricción pegado. Tienen una ranura en el centro que avisa el desgaste.",
+   "sirve": "Son las que rozan el disco. Se gastan a propósito para que el disco dure.",
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada las gasta. En Medellín se gastan más rápido por las lomas, el trancón y frenar solo con el delantero."
+    ],
+    [
+     "calor",
+     "Con calor sostenido se cristalizan: la cara queda brillante, chillan y frenan menos."
+    ],
+    [
+     "maluso",
+     "Aceite, grasa o líquido de frenos las contaminan. Una pastilla untada no se recupera."
+    ],
+    [
+     "desgaste",
+     "Si llegan al metal, el acero raya el disco."
+    ]
+   ],
+   "sintomas": [
+    "La ranura del centro ya casi no se ve.",
+    "Chillido metálico o raspado al frenar.",
+    "Frena menos y tienes que apretar más.",
+    "El nivel del depósito baja poco a poco."
+   ],
+   "cuando": "Revísalas antes de rodar y en cada servicio (manual del propietario). Cámbialas cuando una llegue al indicador de desgaste, siempre el juego completo.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "5",
+    "10",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Se cambia el juego completo, siempre, cuando la ranura casi desaparece.",
+   "arrastra": [
+    "Pastillas al metal → rayan el disco.",
+    "Pastillas untadas → frenas menos y toca cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ok",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "06455-KYA-621",
+   "rodar": "no"
+  },
+  "3": {
+   "nombre": "Purgador",
+   "cat": "SCREW, BLEEDER · 1 pieza",
+   "que": "Un tornillo hueco en la parte alta del [[11|cáliper]], con una tapita de caucho.",
+   "sirve": "Por ahí sale el aire y el líquido viejo cuando cambias el líquido o purgas.",
+   "fallas": [
+    [
+     "maluso",
+     "Se parte o barre la rosca del cáliper si lo aprietas de más."
+    ],
+    [
+     "humedad",
+     "Sin tapita entran agua y mugre, el agujero se tapa y el purgador se pega por óxido."
+    ]
+   ],
+   "sintomas": [
+    "Gotas de líquido en el purgador.",
+    "No deja purgar (está tapado).",
+    "La manigueta sigue esponjosa después de purgar."
+   ],
+   "cuando": "Se usa en cada cambio de líquido: cada 2 años, con DOT3 o DOT4 (manual del propietario Honda).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Si está pegado, barrido o tapado, va uno nuevo.",
+   "arrastra": [
+    "Purgador tapado → no sale el aire y la manigueta queda esponjosa."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "43352-KSY-901",
+   "rodar": "no"
+  },
+  "4": {
+   "nombre": "Tapa del purgador",
+   "cat": "CAP, BLEEDER · 1 pieza",
+   "que": "El capuchón de caucho que tapa la punta del [[3|purgador]].",
+   "sirve": "Evita que entren agua y mugre por el agujero del purgador; si se tapa, no podrás purgar.",
+   "sintomas": [
+    "Purgador oxidado o tapado.",
+    "Cuesta purgar el freno."
+   ],
+   "fallas": [
+    [
+     "sol",
+     "El sol y el calor lo resecan y se parte."
+    ],
+    [
+     "perdida",
+     "Se pierde al purgar y nadie lo vuelve a poner."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cuesta poco: si está partido o falta, va uno nuevo.",
+   "dif": "facil",
+   "cuando": "Míralo cada vez que purgues el freno.",
+   "arrastra": [
+    "Sin tapa → el [[3|purgador]] se oxida y se pega."
+   ],
+   "conecta": [
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "43353-KSY-901"
+  },
+  "5": {
+   "nombre": "Pistón del cáliper",
+   "cat": "PISTON · 2 piezas",
+   "que": "Un cilindro metálico, hueco por delante, que vive dentro del [[11|cáliper]]. Este cáliper lleva dos, uno al lado del otro.",
+   "sirve": "El líquido los empuja por detrás y ellos empujan la [[2|pastilla]]. Juntos tienen mucha más área que el pistón de la bomba: así multiplican la fuerza de tu mano.",
+   "fallas": [
+    [
+     "humedad",
+     "El agua del líquido viejo lo pica por dentro (corrosión)."
+    ],
+    [
+     "desgaste",
+     "Con pastillas muy gastadas sale de más y se le pega mugre. Al meterlo para poner pastillas nuevas, esa parte sucia raya el [[1|sello]]."
+    ],
+    [
+     "calor",
+     "El calor de un freno pegado lo dilata y empeora el problema."
+    ]
+   ],
+   "sintomas": [
+    "El freno no suelta del todo.",
+    "Fuga de líquido detrás de la pastilla.",
+    "La pastilla del lado del pistón se gasta más."
+   ],
+   "cuando": "Revísalos cada vez que abras el cáliper o cambies el líquido (cada 2 años, manual). Antes de meterlos para poner pastillas nuevas, límpiales la parte que queda afuera.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "11",
+    "1",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ],
+    [
+     "ap",
+     "El diámetro no lo tenemos."
+    ]
+   ],
+   "porque": "Si está picado o rayado no sella y va uno nuevo.",
+   "arrastra": [
+    "Pistón sucio o picado → rompe el [[1|sello]] y el cáliper bota líquido."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45107-KSY-901",
+   "rodar": "no"
+  },
+  "6": {
+   "nombre": "Resorte de las pastillas",
+   "cat": "SPRING, PAD · 1 pieza",
+   "que": "Una lámina de acero doblada que hace de resorte sobre las [[2|pastillas]].",
+   "sirve": "Las mantiene firmes contra el pasador para que no traqueteen ni vibren.",
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión."
+    ],
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se monta al revés al cambiar pastillas."
+    ]
+   ],
+   "sintomas": [
+    "Traqueteo en los huecos o en el empedrado.",
+    "Chillido.",
+    "Pastillas gastadas en cuña."
+   ],
+   "cuando": "En cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Si perdió tensión o está oxidado, cámbialo; es barato.",
+   "arrastra": [
+    "Resorte flojo → las [[2|pastillas]] traquetean y se gastan en cuña."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45108-KSY-901",
+   "rodar": "pronto"
+  },
+  "7": {
+   "nombre": "Buje del pasador",
+   "cat": "BUSH B · 1 pieza",
+   "que": "Un buje que va dentro del [[8|guardapolvo]], sobre el pasador del [[12|soporte]].",
+   "sirve": "Deja que el [[11|cáliper]] se deslice suave y sin juego sobre el pasador.",
+   "sintomas": [
+    "El cáliper traquetea.",
+    "Una pastilla se gasta más que la otra."
+   ],
+   "fallas": [
+    [
+     "oxido",
+     "Sin grasa y con agua, se oxida y se traba."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está liso y sin juego se reutiliza con grasa de silicona; si está gastado o trabado, va nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que separes el cáliper del soporte.",
+   "arrastra": [
+    "Buje trabado → el cáliper no flota y frena una sola [[2|pastilla]]."
+   ],
+   "conecta": [
+    "8",
+    "12",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45132-KSY-901"
+  },
+  "8": {
+   "nombre": "Guardapolvo del pasador",
+   "cat": "BOOT B, BUSH · 1 pieza",
+   "que": "Un fuelle de caucho entre el cuerpo del [[11|cáliper]] y uno de los pasadores del [[12|soporte]].",
+   "sirve": "Protege el pasador para que el cáliper siga deslizándose (flotando) sin oxidarse.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se reseca y se raja."
+    ],
+    [
+     "calor",
+     "El calor del freno lo endurece."
+    ],
+    [
+     "maluso",
+     "Se hincha con grasa común (no de frenos) o se sale de su sitio si lo montas mal."
+    ]
+   ],
+   "sintomas": [
+    "El caucho está rajado o fuera de su sitio.",
+    "Con el cáliper desmontado, el pasador del soporte no se mueve con la mano.",
+    "Las pastillas se gastan disparejo."
+   ],
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Si está rajado o suelto, cámbialo; con el caucho roto el pasador se oxida.",
+   "arrastra": [
+    "Guardapolvo roto → entra agua, el pasador del [[12|soporte]] se oxida y el cáliper deja de flotar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45133-KSY-901",
+   "rodar": "pronto"
+  },
+  "9": {
+   "nombre": "Tapón del pasador",
+   "cat": "PLUG, PIN · 2 piezas",
+   "que": "Un tapón roscado que cierra la punta del [[10|pasador]] de las pastillas.",
+   "sirve": "Evita que el pasador se salga y le entre mugre.",
+   "fallas": [
+    [
+     "perdida",
+     "Se pierde al cambiar pastillas."
+    ],
+    [
+     "rosca",
+     "Se barre la ranura si se usa el destornillador equivocado."
+    ]
+   ],
+   "sintomas": [
+    "Falta el tapón.",
+    "El pasador está sucio u oxidado."
+   ],
+   "cuando": "Cada vez que cambies pastillas.",
+   "decision": "reutiliza",
+   "dif": "facil",
+   "conecta": [
+    "10"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Se reutiliza si la ranura está sana; si falta o está barrido, va uno nuevo.",
+   "arrastra": [
+    "Sin tapón → el [[10|pasador]] se oxida y las [[2|pastillas]] no se deslizan."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45203-KRF-C91",
+   "rodar": "no",
+   "hazlo": {
+    "herr": "Alicate de punta",
+    "min": 15
+   }
+  },
+  "10": {
+   "nombre": "Pasador de las pastillas",
+   "cat": "PIN, HANGER · 2 piezas",
+   "que": "Una varilla de acero que atraviesa el [[11|cáliper]] y las orejas de las [[2|pastillas]].",
+   "sirve": "Sostiene las pastillas y las deja deslizarse hacia el disco y de regreso.",
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y las pastillas no deslizan."
+    ],
+    [
+     "desgaste",
+     "Las orejas de las pastillas le hacen surcos con la vibración."
+    ],
+    [
+     "golpe",
+     "Se dobla si lo sacas a golpes."
+    ]
+   ],
+   "sintomas": [
+    "Una pastilla no se despega del disco.",
+    "Ruido metálico.",
+    "Se le ven surcos."
+   ],
+   "cuando": "Límpialo en cada cambio de pastillas. Déjalo sin grasa o con muy poca grasa especial: la grasa común junta polvo.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "9",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Si está oxidado, doblado o con surcos, cámbialo.",
+   "arrastra": [
+    "Pasador oxidado → una pastilla queda pegada al disco y se calienta."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45215-KRF-C91",
+   "rodar": "no"
+  },
+  "11": {
+   "nombre": "Cáliper (cuerpo)",
+   "cat": "CALIPER SUB ASSY., R. FR. · 1 pieza",
+   "que": "La «pinza» del freno: un cuerpo de aluminio con dos cilindros adentro. En la CB 125F es flotante y de dos pistones, uno al lado del otro.",
+   "sirve": "Convierte la presión del líquido en fuerza sobre las [[2|pastillas]]. Los [[5|pistones]] empujan una pastilla y el cuerpo se corre en sus pasadores para jalar la otra.",
+   "fallas": [
+    [
+     "humedad",
+     "El líquido viejo trae agua: oxida el cilindro y el pistón por dentro y el pistón se pega."
+    ],
+    [
+     "edad",
+     "Los sellos se endurecen con los años y el calor: aparecen fugas o el pistón no regresa."
+    ],
+    [
+     "humedad",
+     "Si los pasadores se oxidan, el cuerpo deja de flotar y solo trabaja una pastilla."
+    ],
+    [
+     "maluso",
+     "La rosca del purgador se daña si lo aprietas de más. La hidrolavadora a presión directa también lo daña."
+    ]
+   ],
+   "sintomas": [
+    "La rueda queda frenada o caliente después de rodar.",
+    "Olor a quemado después de frenar.",
+    "Una pastilla se gasta mucho más que la otra.",
+    "Manchas de líquido alrededor, o el nivel del depósito baja sin que las pastillas estén gastadas."
+   ],
+   "cuando": "Límpialo y revísalo en cada cambio de pastillas. Los sellos de adentro se renuevan cada 2 años con el líquido (manual del propietario), o antes si hay fuga o el freno queda pegado.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "5",
+    "1",
+    "3",
+    "2",
+    "10",
+    "12",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "El cuerpo se limpia y se le cambian los [[1|sellos]] y el líquido. Solo se cambia entero si el cilindro está picado.",
+   "arrastra": [
+    "Cáliper que no flota → una sola pastilla se gasta y el disco se recalienta de un lado.",
+    "Cilindro oxidado → el [[5|pistón]] se pega y el freno queda arrastrando."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "45250-KRF-C91",
+   "rodar": "no"
+  },
+  "12": {
+   "nombre": "Soporte del cáliper",
+   "cat": "BRACKET SUB ASSY., R. FR. · 1 pieza",
+   "que": "Una pieza fundida que se atornilla a la barra. En sus dos pasadores se desliza el cuerpo del [[11|cáliper]].",
+   "sirve": "Aguanta la fuerza del frenado y deja flotar el cáliper para que las dos pastillas aprieten parejo.",
+   "fallas": [
+    [
+     "humedad",
+     "Los pasadores se oxidan si el guardapolvo está roto."
+    ],
+    [
+     "golpe",
+     "Se dobla en una caída o con un golpe en la rueda."
+    ],
+    [
+     "maluso",
+     "Las roscas se dañan si aprietas de más los [[13|tornillos]]."
+    ]
+   ],
+   "sintomas": [
+    "El cáliper no se desliza.",
+    "Pastillas gastadas en cuña.",
+    "El freno roza aunque los sellos sean nuevos."
+   ],
+   "cuando": "Revisa los pasadores en cada cambio de pastillas: límpialos y engrásalos con grasa de silicona para frenos.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "11",
+    "13",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Si los pasadores solo están sucios, se limpian y engrasan. Si está doblado o los pasadores están picados, se cambia.",
+   "arrastra": [
+    "Pasadores oxidados → el [[11|cáliper]] deja de flotar y una sola pastilla trabaja."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45290-KRF-C91",
+   "rodar": "no"
+  },
+  "13": {
+   "nombre": "Tornillos del soporte",
+   "cat": "BOLT, FLANGE, 8X25 · 2 piezas",
+   "que": "Los dos tornillos que fijan el [[12|soporte]] a las orejas de la barra.",
+   "sirve": "Aguantan toda la fuerza del frenado de la rueda delantera. Son de seguridad.",
+   "fallas": [
+    [
+     "maluso",
+     "Quedan flojos si después de montar la rueda no los aprietas con torquímetro."
+    ],
+    [
+     "maluso",
+     "Se barren si aprietas de más; sin fijador se aflojan con la vibración."
+    ]
+   ],
+   "sintomas": [
+    "Golpe o clic al frenar.",
+    "El cáliper se mueve con la mano.",
+    "Marcas del cáliper en el rin o en el disco."
+   ],
+   "cuando": "Revisa el apriete después de cualquier trabajo en la rueda o en los frenos.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. 10."
+    ]
+   ],
+   "porque": "Si están barridos o dudosos, van nuevos, con el torque y el fijador que indique el manual de servicio.",
+   "arrastra": [
+    "Tornillo flojo → el [[12|soporte]] golpea al frenar y el cáliper puede morder el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90155-KEH-950",
+   "rodar": "no"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Pastillas que llegan al metal",
+   "p": [
+    [
+     "2",
+     "Se gastan y nadie mira el indicador de desgaste."
+    ],
+    [
+     "2",
+     "La placa de acero raya el disco: ahora toca cambiar disco y pastillas."
+    ],
+    [
+     "5",
+     "Los pistones salieron de más para alcanzar el disco y se les pegó mugre."
+    ],
+    [
+     "1",
+     "Al meterlos para poner pastillas nuevas, la parte sucia raya el sello y aparece una fuga. Por eso se limpian antes de empujarlos."
+    ]
+   ]
+  },
+  {
+   "t": "Líquido de más de 2 años",
+   "p": [
+    [
+     "5",
+     "El líquido viejo tiene agua y pica los pistones."
+    ],
+    [
+     "1",
+     "El pistón picado rompe el sello: fuga y freno que no suelta."
+    ],
+    [
+     "2",
+     "La pastilla queda rozando, se recalienta y se cristaliza: frena menos."
+    ]
+   ]
+  },
+  {
+   "t": "Pasador del soporte seco",
+   "p": [
+    [
+     "8",
+     "El guardapolvo roto deja entrar agua y polvo."
+    ],
+    [
+     "7",
+     "El buje se oxida y el cáliper deja de flotar."
+    ],
+    [
+     "2",
+     "Frena una sola pastilla: se gasta dispareja y la moto frena menos."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Líquido de frenos: cambiar",
+   "cuando": "Cada <b>2 años</b>, aunque la moto ruede poco: el líquido absorbe agua. Usa DOT3 o DOT4 de envase sellado. Si no tienes experiencia purgando, hazlo en el taller (el manual lo pide así).",
+   "fuente": "Manual del propietario Honda CB125F (español), cuadro de mantenimiento (págs. impresas 35-36), fila «Líquido de frenos»: 2 años; pág. 55: DOT3 o DOT4. <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "liquido-frenos"
+  },
+  {
+   "que": "Pastillas y nivel del líquido: revisar",
+   "cuando": "Antes de rodar y en cada servicio. Cambia las dos pastillas del cáliper cuando una llegue al indicador de desgaste; si el nivel baja de la marca LOWER, revísalas.",
+   "fuente": "Manual del propietario Honda CB125F (español), págs. impresas 40, 64 y 65: inspección previa, nivel del líquido y pastillas delanteras. <span class=\"esq-s-ok\">Seguro</span>"
+  }
+ ],
+ "sujeta": {
+  "13": [
+   "12",
+   "11"
+  ],
+  "10": [
+   "2a",
+   "2b"
+  ],
+  "9": [
+   "10"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "caliper",
+    "nombre": "Cáliper",
+    "piezas": [
+     "11",
+     "12",
+     "8",
+     "7",
+     "3",
+     "4",
+     "5a",
+     "5b",
+     "1a",
+     "1b"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del soporte",
+      "corto": "Tornillos",
+      "ids": [
+       "13"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     0,
+     1,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "marca": [
+     450,
+     290
+    ]
+   },
+   {
+    "id": "pastillas",
+    "nombre": "Pastillas",
+    "piezas": [
+     "2a",
+     "2b",
+     "6",
+     "10",
+     "9"
+    ],
+    "torn": [],
+    "pasos": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "marca": [
+     370,
+     440
+    ]
+   }
+  ],
+  "con3d": [],
+  "inicio": "Piezas del freno delantero",
+  "toqueExtra": [
+   "9",
+   "10"
+  ]
+ },
+ "carcasas": [
+  {
+   "id": "11",
+   "transparente": 0.26,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "12",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  },
+  {
+   "id": "8",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  }
+ ],
+ "contexto": [
+  {
+   "arte": "arteDisco",
+   "alPrincipio": true,
+   "clase": "esq-ctx-disco"
+  },
+  {
+   "arte": "arteTornillosDisco",
+   "alPrincipio": true,
+   "clase": "esq-ctx-disco"
+  },
+  {
+   "arte": "arteBarra",
+   "despuesDe": "9",
+   "alFrente": true,
+   "clase": "esq-ctx-barra"
+  },
+  {
+   "arte": "arteManguera",
+   "alFinal": true
+  }
+ ],
+ "mapa": "",
+ "pendientes": [
+  "Torques de los tornillos del soporte, del purgador y del tapón: falta el manual de servicio Honda (el PDF «manual-cb125f» es el del propietario).",
+  "Fila «Pastillas y nivel» sin tarea en garaje/intervalos/honda_cb_125f.json.",
+  "Sin 3D propio (con3d vacío): el cáliper de dos pistones no se modeló.",
+  "Catálogo Honda extraído a mano con un script: extraer_catalogo.py no lee el formato Honda.",
+  "Revisión UX: en transparente, 6 y 9 quedan a 3,9 px (solo al tocar la pieza).",
+  "Revisión UX: el «cat» muestra el nombre del catálogo en inglés (así en todas las láminas)."
+ ]
+}

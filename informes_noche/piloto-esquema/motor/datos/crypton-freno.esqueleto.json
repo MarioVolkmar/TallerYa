@@ -1,0 +1,913 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 25",
+  "titulo": "Calibre freno delantera · crypton-bf24",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Calibre freno delantera",
+  "sub": "Lámina 25 · 16 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina 25",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "crypton-freno",
+ "moto": "crypton-bf24",
+ "figura": 25,
+ "catalogo": "crypton-bf24",
+ "intervalos": "yamaha_crypton_fi_115",
+ "arte": "crypton-freno",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16"
+ ],
+ "nombres": {
+  "1": "Placa",
+  "2": "Disco de freno",
+  "3": "Tornillo (placa)",
+  "4": "Cáliper",
+  "5": "Pistón",
+  "6": "Cáliper",
+  "7": "Boot, Caliper",
+  "8": "Boot",
+  "9": "Tornillo (cáliper)",
+  "10": "Pastillas",
+  "11": "Grapa",
+  "12": "Soporte",
+  "13": "Pad, Support",
+  "14": "Support, Pad",
+  "15": "Pasador",
+  "16": "Tornillo (cáliper, otro)"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 70,
+    "y": 90
+   }
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 70,
+    "y": 145
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    270,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    210,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    270,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 270,
+    "y": 200
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    210,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    270,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "abrazadera",
+   "p": {
+    "r": 9,
+    "x": 270,
+    "y": 255
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    210,
+    310
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    270,
+    310
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    210,
+    365
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    270,
+    365
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 270,
+    "y": 365
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    210,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 210,
+    "y": 420
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Placa.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Cáliper.</b> (texto del paso)",
+   "m": {
+    "4": [
+     0,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "16": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Placa",
+   "cat": "PLATE, FITTING · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1DY-F518A-10"
+  },
+  "2": {
+   "nombre": "Disco de freno",
+   "cat": "DISK, BRAKE (RIGHT) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1FD-F582U-00"
+  },
+  "3": {
+   "nombre": "Tornillo (placa)",
+   "cat": "BOLT,HEX. SOCKET BUTTON · 4 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90111-08815"
+  },
+  "4": {
+   "nombre": "Cáliper",
+   "cat": "CALIPER ASSY (RIGHT) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1FD-F580U-01"
+  },
+  "5": {
+   "nombre": "Pistón",
+   "cat": "PISTON ASSY, CALIPER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BM-F5802-00"
+  },
+  "6": {
+   "nombre": "Cáliper",
+   "cat": "CALIPER SEAL KIT · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "5YP-F5803-50"
+  },
+  "7": {
+   "nombre": "Boot, Caliper",
+   "cat": "BOOT, CALIPER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BM-F5917-00"
+  },
+  "8": {
+   "nombre": "Boot",
+   "cat": "BOOT 2 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "5YP-F5937-00"
+  },
+  "9": {
+   "nombre": "Tornillo (cáliper)",
+   "cat": "BLEED SCREW KIT · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "4C9-W0048-00"
+  },
+  "10": {
+   "nombre": "Pastillas",
+   "cat": "BRAKE PAD KIT · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BM-F5805-00"
+  },
+  "11": {
+   "nombre": "Grapa",
+   "cat": "CLIP · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "5YP-F5925-01"
+  },
+  "12": {
+   "nombre": "Soporte",
+   "cat": "SUPPORT BRACKET ASSY · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BM-F5920-00"
+  },
+  "13": {
+   "nombre": "Pad, Support",
+   "cat": "PAD, SUPPORT 2 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BM-F5939-00"
+  },
+  "14": {
+   "nombre": "Support, Pad",
+   "cat": "SUPPORT, PAD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BM-F5919-00"
+  },
+  "15": {
+   "nombre": "Pasador",
+   "cat": "PIN, PAD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "5YP-F5924-00"
+  },
+  "16": {
+   "nombre": "Tornillo (cáliper, otro)",
+   "cat": "SCREW · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90149-10805"
+  }
+ },
+ "cadenas": [],
+ "cuando": [
+  {
+   "que": "Liquido frenos",
+   "cuando": "Cada 2 años.",
+   "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento y sección 'Líquido de frenos'; consultado el 14-nov-2026 <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "liquido-frenos"
+  }
+ ],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "placa",
+    "nombre": "Placa",
+    "piezas": [
+     "1",
+     "2"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos",
+      "corto": "Tornillos",
+      "ids": [
+       "3"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "caliper",
+    "nombre": "Cáliper",
+    "piezas": [
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos",
+      "corto": "Tornillos",
+      "ids": [
+       "16"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     1
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: calibre freno delantera"
+ }
+}

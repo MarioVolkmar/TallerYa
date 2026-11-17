@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "logros",
     "tramites",
     "ayuda",
+    "consola",
 ]
 
 MIDDLEWARE = [

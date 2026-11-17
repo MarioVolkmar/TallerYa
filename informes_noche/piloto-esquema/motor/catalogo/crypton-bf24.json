@@ -1,0 +1,5364 @@
+{
+ "moto": "crypton-bf24",
+ "fuente": "yamaha-crypton-fi-115-2019-bf24-colombia-catalogo-partes.pdf",
+ "figuras": {
+  "1": {
+   "titulo": "CULATA DE CILINDRO",
+   "paginas": [
+    9
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CULATA DE CILINDRO COMPLETA",
+     "descripcion_en": "CYLINDER HEAD ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-E1102-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".GUIA DE VALVULA 1",
+     "descripcion_en": ".GUIDE, VALVE 1",
+     "cantidad": 2,
+     "codigo": "54P-E1133-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".SEGURO",
+     "descripcion_en": ".CIRCLIP",
+     "cantidad": 2,
+     "codigo": "93440-10153",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-10014",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "JUNTA",
+     "descripcion_en": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-10807",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PERNO DE PUNTAL",
+     "descripcion_en": "BOLT, STUD",
+     "cantidad": 2,
+     "codigo": "95612-08625",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TAPA CULATA DE CILINDRO 1",
+     "descripcion_en": "COVER, CYLINDER HEAD 1",
+     "cantidad": 1,
+     "codigo": "1FD-E1191-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "ARANDELA SELLO",
+     "descripcion_en": "WASHER, SEALING",
+     "cantidad": 2,
+     "codigo": "54P-E1173-00",
+     "nota": "UR UR"
+    },
+    {
+     "ref": "10",
+     "descripcion": "WASHER, SEALING EMPAQUE",
+     "descripcion_en": "GASKET, HEAD COVER 1",
+     "cantidad": 1,
+     "codigo": "1FD-E1193-00",
+     "nota": "UR"
+    },
+    {
+     "ref": "11",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 4,
+     "codigo": "90179-08518",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "BUJIA (NGK CR6HSA)",
+     "descripcion_en": "PLUG, SPARK (NGK CR6HSA)",
+     "cantidad": 1,
+     "codigo": "94700-00372",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "JUNTA, DE CULATA 1",
+     "descripcion_en": "GASKET, CYLINDER HEAD 1",
+     "cantidad": 1,
+     "codigo": "54P-E1181-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "91810-14809",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "TORNILLO ALLEN",
+     "descripcion_en": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "90110-06868",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "CILINDRO",
+     "descripcion_en": "CYLINDER",
+     "cantidad": 1,
+     "codigo": "2SU-E1310-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "JUNTA, DE CILINDRO",
+     "descripcion_en": "GASKET, CYLINDER",
+     "cantidad": 1,
+     "codigo": "1FC-E1351-00",
+     "nota": ""
+    }
+   ]
+  },
+  "2": {
+   "titulo": "CIGUENAL & PISTON",
+   "paginas": [
+    10
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CIGUENAL COMPLETO",
+     "descripcion_en": "CRANKSHAFT ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-WE140-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".PASADOR MANIVELA 1",
+     "descripcion_en": ".PIN, CRANK 1",
+     "cantidad": 1,
+     "codigo": "1DY-E1681-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".COJINETE DE RODILLOS",
+     "descripcion_en": ".BEARING",
+     "cantidad": 1,
+     "codigo": "93310-528YA",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".BIELA",
+     "descripcion_en": ".ROD, CONNECTING",
+     "cantidad": 1,
+     "codigo": "1DY-E1651-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".MANIVELA 2",
+     "descripcion_en": ".CRANK 2",
+     "cantidad": 1,
+     "codigo": "1DY-E1422-10",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-355Y2",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CUNA WOODRUFF",
+     "descripcion_en": "KEY, WOODRUFF",
+     "cantidad": 1,
+     "codigo": "90280-03017",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "PISTON (NORMA)",
+     "descripcion_en": "PISTON (STD)",
+     "cantidad": 1,
+     "codigo": "1DY-E1631-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "PISTON (1.00MM O/S) PASADOR, PISTON",
+     "descripcion_en": "PIN, PISTON",
+     "cantidad": 1,
+     "codigo": "54P-E1633-10",
+     "nota": "AP"
+    },
+    {
+     "ref": "10",
+     "descripcion": "SEGURO",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 2,
+     "codigo": "93450-14088",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "JUEGO DE ANILLOS (NORMA)",
+     "descripcion_en": "PISTON RING SET (STD)",
+     "cantidad": 1,
+     "codigo": "1DY-E1603-10",
+     "nota": ""
+    }
+   ]
+  },
+  "3": {
+   "titulo": "VALVULA",
+   "paginas": [
+    11
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "VALVULA DE ADMISION",
+     "descripcion_en": "VALVE, INTAKE",
+     "cantidad": 1,
+     "codigo": "2PH-E2111-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "VALVULA DE ESCAPE",
+     "descripcion_en": "VALVE, EXHAUST",
+     "cantidad": 1,
+     "codigo": "1FD-E2121-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "SELLO DE ACEITE VALVULA",
+     "descripcion_en": "SEAL, VALVE STEM",
+     "cantidad": 2,
+     "codigo": "54P-E2119-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "RESORTE VALVULA INTERNA",
+     "descripcion_en": "SPRING, VALVE INNER",
+     "cantidad": 2,
+     "codigo": "2XC-E2113-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SEGURO DE VALVULA",
+     "descripcion_en": "LOCK, VALVE SPRING RETAINER",
+     "cantidad": 4,
+     "codigo": "5TL-E2118-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "RETEN RESORTE DE VALVULA",
+     "descripcion_en": "RETAINER, VALVE SPRING",
+     "cantidad": 2,
+     "codigo": "1KP-E2117-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "ASIENTO RESORTE DE VALVULA2",
+     "descripcion_en": "SEAT, VALVE SPRING 2",
+     "cantidad": 2,
+     "codigo": "2PH-E2126-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "BRAZO DE BALANCIN DE VALVULA",
+     "descripcion_en": "ARM, VALVE ROCKER",
+     "cantidad": 2,
+     "codigo": "2PH-E2151-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 2,
+     "codigo": "90170-05803",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "TORNILLO DE AJUSTE DE VALVULA",
+     "descripcion_en": "SCREW, VALVE ADJUSTING",
+     "cantidad": 2,
+     "codigo": "33S-E2159-01",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "COLLAR 1",
+     "descripcion_en": "COLLAR 1",
+     "cantidad": 2,
+     "codigo": "44D-E2662-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "ARBOL DE BALANCIN",
+     "descripcion_en": "SHAFT, ROCKER",
+     "cantidad": 2,
+     "codigo": "54P-E2146-00",
+     "nota": ""
+    }
+   ]
+  },
+  "4": {
+   "titulo": "ARBOL DE LEVAS & CADENA",
+   "paginas": [
+    12
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "ARBOL DE LEVAS COMPLETO 1",
+     "descripcion_en": "CAMSHAFT ASSY 1",
+     "cantidad": 1,
+     "codigo": "1DY-E2170-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".ANILLO O",
+     "descripcion_en": ".O-RING",
+     "cantidad": 1,
+     "codigo": "93210-12801",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-002XK",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PLACA",
+     "descripcion_en": "PLATE",
+     "cantidad": 1,
+     "codigo": "54P-E111F-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-088E1",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "CATALINA DE CADENA",
+     "descripcion_en": "SPROCKET, CAM CHAIN",
+     "cantidad": 1,
+     "codigo": "1DY-E2176-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CADENA",
+     "descripcion_en": "CHAIN",
+     "cantidad": 1,
+     "codigo": "94568-H5090",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TOPE DE GUIA 1",
+     "descripcion_en": "GUIDE, STOPPER 1",
+     "cantidad": 1,
+     "codigo": "54P-E2231-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TOPE DE GUIA 2",
+     "descripcion_en": "GUIDE, STOPPER 2",
+     "cantidad": 1,
+     "codigo": "54P-E2241-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "TENSOR CADENA DE LEVA",
+     "descripcion_en": "TENSIONER ASSY, CAM CHAIN",
+     "cantidad": 1,
+     "codigo": "2PH-E2210-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".TAPON",
+     "descripcion_en": ".PLUG",
+     "cantidad": 1,
+     "codigo": "5MX-E2222-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "EMPAQUE DE CAJA TENSOR",
+     "descripcion_en": "GASKET, TENSIONER CASE",
+     "cantidad": 1,
+     "codigo": "2SU-E2213-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 1,
+     "codigo": "52B-E2228-00",
+     "nota": ""
+    }
+   ]
+  },
+  "5": {
+   "titulo": "BOMBA DE ACEITE",
+   "paginas": [
+    13
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "BOMBA DE ACEITE COMPLETA",
+     "descripcion_en": "OIL PUMP ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-E3300-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "TORNILLO ALLEN",
+     "descripcion_en": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "90110-05801",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TORNILLO, DE DRENAJE",
+     "descripcion_en": "PLUG, STRAIGHT SCREW",
+     "cantidad": 1,
+     "codigo": "90340-12816",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "JUNTA",
+     "descripcion_en": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-12803",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "FILTRO DE ACEITE",
+     "descripcion_en": "STRAINER, OIL",
+     "cantidad": 1,
+     "codigo": "4LS-E3411-00",
+     "nota": "UR UR"
+    },
+    {
+     "ref": "6",
+     "descripcion": "STRAINER, OIL ELEMENTO FILTRO DE ACEITE",
+     "descripcion_en": "ELEMENT ASSY, OIL CLEANER",
+     "cantidad": 1,
+     "codigo": "38B-E3440-00",
+     "nota": "UR UR UR"
+    },
+    {
+     "ref": "7",
+     "descripcion": "ELEMENT ASSY, OIL CLEANER ENGRANAJE TRACC. DE BOMBA",
+     "descripcion_en": "GEAR, PUMP DRIVE",
+     "cantidad": 1,
+     "codigo": "5D9-E3324-00",
+     "nota": "UR"
+    },
+    {
+     "ref": "8",
+     "descripcion": "TAPA DEL ELEMENTO",
+     "descripcion_en": "COVER, OIL ELEMENT",
+     "cantidad": 1,
+     "codigo": "1FD-E3447-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06100",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-60800",
+     "nota": ""
+    }
+   ]
+  },
+  "6": {
+   "titulo": "ADMISION",
+   "paginas": [
+    14,
+    15
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MULTIPLE",
+     "descripcion_en": "MANIFOLD",
+     "cantidad": 1,
+     "codigo": "1FD-E3585-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-27804",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 2,
+     "codigo": "91332-06020",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CAJA DE ACELERADOR COMPL.",
+     "descripcion_en": "THROTTLE BODY ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-E3750-10",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "INYECTOR",
+     "descripcion_en": "INJECTOR ASSY",
+     "cantidad": 1,
+     "codigo": "2SU-E3770-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".INYECTOR",
+     "descripcion_en": ".INJECTOR",
+     "cantidad": 1,
+     "codigo": "2SU-E3761-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "..ANILLO O",
+     "descripcion_en": "..O-RING",
+     "cantidad": 1,
+     "codigo": "2SU-E4147-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "..ANILLO DE SELLO",
+     "descripcion_en": "..SEAL RING",
+     "cantidad": 1,
+     "codigo": "2SU-E41A1-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".TUBO DE ADMISION",
+     "descripcion_en": ".PIPE",
+     "cantidad": 1,
+     "codigo": "2SU-E3938-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".PRESILLA",
+     "descripcion_en": ".CLIP",
+     "cantidad": 1,
+     "codigo": "1ST-E4137-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-06025",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "BANDA",
+     "descripcion_en": "BAND",
+     "cantidad": 1,
+     "codigo": "54P-E3575-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CAJA FILTRO DEL AIRE 1",
+     "descripcion_en": "CASE, AIR CLEANER 1",
+     "cantidad": 1,
+     "codigo": "1FD-E4411-10",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "ELEMENTO DEL FILTRO DEL AIRE",
+     "descripcion_en": "AIR CLEANER ELEMENT ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-WE445-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "TAPA CAJA DEL FILTRO 1",
+     "descripcion_en": "CAP, CLEANER CASE 1",
+     "cantidad": 1,
+     "codigo": "1FD-E4412-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "UNION DEL FILTRO DEL AIRE 1",
+     "descripcion_en": "JOINT, AIR CLEANER 1",
+     "cantidad": 1,
+     "codigo": "1FD-E4453-10",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SELLO",
+     "descripcion_en": "SEAL",
+     "cantidad": 1,
+     "codigo": "1FD-E4462-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "SELLO",
+     "descripcion_en": "SEAL",
+     "cantidad": 1,
+     "codigo": "1FD-E4452-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 7,
+     "codigo": "97702-50030",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "TUBO, DRENAJE",
+     "descripcion_en": "PIPE, DRAIN",
+     "cantidad": 1,
+     "codigo": "4ST-E443E-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "PRESILLA",
+     "descripcion_en": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-110A3",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "TUBO, DRENAJE 2",
+     "descripcion_en": "PIPE, DRAIN 2",
+     "cantidad": 1,
+     "codigo": "5D9-E443G-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "PRESILLA",
+     "descripcion_en": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-12802",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "AMORTIGUADOR 2",
+     "descripcion_en": "DAMPER 2",
+     "cantidad": 1,
+     "codigo": "1FD-E4426-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "AMORTIGUADOR 3",
+     "descripcion_en": "DAMPER 3",
+     "cantidad": 1,
+     "codigo": "1FD-E442G-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-06803",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "TORNILLO CON ARANDELA",
+     "descripcion_en": "BOLT, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90119-06810",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "PRESILLA",
+     "descripcion_en": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-13808",
+     "nota": ""
+    }
+   ]
+  },
+  "7": {
+   "titulo": "DESCARGA",
+   "paginas": [
+    16
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "SILENCIADOR 1",
+     "descripcion_en": "MUFFLER 1",
+     "cantidad": 1,
+     "codigo": "1FD-E4711-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "PROTECTOR DE SILENCIADOR 1",
+     "descripcion_en": "PROTECTOR, MUFFLER 1",
+     "cantidad": 1,
+     "codigo": "1FD-E4718-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT,HEX. SOCKET BUTTON",
+     "cantidad": 3,
+     "codigo": "90111-06807",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-06023",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 1,
+     "codigo": "90480-12581",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-06079",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TORNILLO DE LIGAR",
+     "descripcion_en": "SCREW, BIND",
+     "cantidad": 1,
+     "codigo": "98980-06016",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-08020",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-08055",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-08116",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TUERCA DE BRIDA",
+     "descripcion_en": "NUT, FLANGE",
+     "cantidad": 4,
+     "codigo": "95702-08500",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-08040",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "JUNTA, TUBO DE ESCAPE",
+     "descripcion_en": "GASKET, EXHAUST PIPE",
+     "cantidad": 1,
+     "codigo": "14D-E4613-00",
+     "nota": ""
+    }
+   ]
+  },
+  "8": {
+   "titulo": "CARTER",
+   "paginas": [
+    17
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CARTER COMPLETO",
+     "descripcion_en": "CRANKCASE ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-E5150-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "RESPIRADERO",
+     "descripcion_en": "BREATHER",
+     "cantidad": 1,
+     "codigo": "4ST-E5371-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TUBO RESPIRADERO 1",
+     "descripcion_en": "PIPE, BREATHER 1",
+     "cantidad": 1,
+     "codigo": "1FD-E1166-10",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PRESILLA",
+     "descripcion_en": "CLIP",
+     "cantidad": 1,
+     "codigo": "90467-13808",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "BOQUILLA 3",
+     "descripcion_en": "NOZZLE 3",
+     "cantidad": 1,
+     "codigo": "5D9-E5155-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "91810-14809",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95E32-06055",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 8,
+     "codigo": "95E32-06040",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "91810-14809",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ESPARRAGO",
+     "descripcion_en": "BOLT, STUD",
+     "cantidad": 4,
+     "codigo": "90116-08843",
+     "nota": ""
+    }
+   ]
+  },
+  "9": {
+   "titulo": "CUBIERTA DE CARTER 1",
+   "paginas": [
+    18
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CUBIERTA DE CARTER 1",
+     "descripcion_en": "COVER, CRANKCASE 1",
+     "cantidad": 1,
+     "codigo": "1FD-E5411-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "EMPAQ DE CUBIERTA DE CARTER",
+     "descripcion_en": "GASKET, CRANKCASE COVER 1",
+     "cantidad": 1,
+     "codigo": "1FC-E5451-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "91810-14809",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-06893",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95E32-06050",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06060",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TORNILLO, DE DRENAJE",
+     "descripcion_en": "PLUG, STRAIGHT SCREW",
+     "cantidad": 1,
+     "codigo": "90340-14806",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-148F8",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "PLACA",
+     "descripcion_en": "PLATE",
+     "cantidad": 1,
+     "codigo": "31B-E5113-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "CUBIERTA CAJA DE CADENA",
+     "descripcion_en": "COVER, CHAIN CASE",
+     "cantidad": 1,
+     "codigo": "1FD-E5418-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D02-06016",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "GUIA DE ENTRADA",
+     "descripcion_en": "GUIDE, INLET",
+     "cantidad": 1,
+     "codigo": "16S-E5377-01",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "TAPA DE CARTER DERECHA",
+     "descripcion_en": "COVER, CRANKCASE 2",
+     "cantidad": 1,
+     "codigo": "1FD-E5421-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "JUNTA TAPA CARTER DERECHO 2",
+     "descripcion_en": "GASKET, CRANKCASE COVER 2",
+     "cantidad": 1,
+     "codigo": "1FC-E5461-10",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "91810-14809",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 8,
+     "codigo": "95E32-06040",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06030",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06050",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "TAPON DEL NIVEL DE ACEITE",
+     "descripcion_en": "PLUG, OIL LEVEL",
+     "cantidad": 1,
+     "codigo": "5D9-E5362-10",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-198F9",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "SELLO ACEITE",
+     "descripcion_en": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93101-10810",
+     "nota": ""
+    }
+   ]
+  },
+  "10": {
+   "titulo": "ARRANQUE",
+   "paginas": [
+    19
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "EJE DE PEDAL DE ARRANQUE",
+     "descripcion_en": "AXLE, KICK",
+     "cantidad": 1,
+     "codigo": "5D9-E5661-20",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "ENGRANAJE PEDAL ARRANQUE",
+     "descripcion_en": "GEAR, KICK",
+     "cantidad": 1,
+     "codigo": "5D9-E5641-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PRESILLA",
+     "descripcion_en": "CLIP",
+     "cantidad": 1,
+     "codigo": "90468-23194",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "RUEDA DE TRINQUETE",
+     "descripcion_en": "WHEEL, RATCHET",
+     "cantidad": 1,
+     "codigo": "5D9-E5671-10",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "CUNA",
+     "descripcion_en": "SHIM",
+     "cantidad": 1,
+     "codigo": "4WH-E5644-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PRESILLA REDONDA",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 2,
+     "codigo": "99009-19400",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "RESORTE DE TORSION",
+     "descripcion_en": "SPRING, TORSION",
+     "cantidad": 1,
+     "codigo": "90508-26808",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "FLACA",
+     "descripcion_en": "PLATE",
+     "cantidad": 1,
+     "codigo": "5D9-E5645-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "GUIA DE RESORTE",
+     "descripcion_en": "GUIDE, SPRING",
+     "cantidad": 1,
+     "codigo": "5D9-E5664-20",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ARANDELA ONDULADA",
+     "descripcion_en": "WASHER, WAVE",
+     "cantidad": 1,
+     "codigo": "90206-19802",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "PEDAL DE ARRANQUE COMPLETO",
+     "descripcion_en": "KICK CRANK ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-E5620-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-10821",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "SELLO ACEITE",
+     "descripcion_en": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-16801",
+     "nota": ""
+    }
+   ]
+  },
+  "11": {
+   "titulo": "EMBRAGUE DEL ARRANQUE",
+   "paginas": [
+    20
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "ENGRENAJE NEUTRO",
+     "descripcion_en": "GEAR, IDLER 1",
+     "cantidad": 1,
+     "codigo": "2P2-E5512-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 1,
+     "codigo": "93608-34800",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "RUEDA DE ARRANQUE",
+     "descripcion_en": "WHEEL, STARTER",
+     "cantidad": 1,
+     "codigo": "1DY-E5524-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "COJINETE DE RODILLOS",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93310-419X6",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-19801",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ENSAMBLE EXT.EMBRAGUE ARRANQUE",
+     "descripcion_en": "STARTER CLUTCH OUTER ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-E5580-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TORNILLO ALLEN",
+     "descripcion_en": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 3,
+     "codigo": "91312-06012",
+     "nota": ""
+    }
+   ]
+  },
+  "12": {
+   "titulo": "EMBRAGUE",
+   "paginas": [
+    21
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "COLLAR 1",
+     "descripcion_en": "COLLAR 1",
+     "cantidad": 1,
+     "codigo": "1FD-E6116-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "CAJA DE EMBRAGUE COMPLETO",
+     "descripcion_en": "CLUTCH HOUSING COMP.",
+     "cantidad": 1,
+     "codigo": "1DY-E6611-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PORTADOR DE EMBRAGUE COMPLETO",
+     "descripcion_en": "CLUTCH CARRIER ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-E6620-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".RESORTE CONTRAPESO EMBRAGUE 1",
+     "descripcion_en": ".SPRING, CLUTCH WEIGHT 1",
+     "cantidad": 3,
+     "codigo": "1FD-E6626-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-167P7",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "COPA DE CAJA DE EMBRAGUE",
+     "descripcion_en": "BOSS, CLUTCH HOUSING",
+     "cantidad": 1,
+     "codigo": "5LM-E6512-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "MEDITOR",
+     "descripcion_en": "CAGE",
+     "cantidad": 1,
+     "codigo": "5D9-E6586-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 3,
+     "codigo": "93606-10800",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "RESORTE DE COMPRESION",
+     "descripcion_en": "SPRING, COMPRESSION",
+     "cantidad": 2,
+     "codigo": "90501-04805",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12019",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-12802",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-20810",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "CAMPANA DE EMBRAGUE",
+     "descripcion_en": "PRIMARY DRIVEN GEAR COMP.",
+     "cantidad": 1,
+     "codigo": "1FD-E6150-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CUBO, DE EMBRAGUE",
+     "descripcion_en": "BOSS, CLUTCH",
+     "cantidad": 1,
+     "codigo": "1FD-E6371-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "PLACA DE EMBRAGUE",
+     "descripcion_en": "PLATE, CLUTCH 1",
+     "cantidad": 2,
+     "codigo": "1FD-E6324-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "PLACA DE PRESION COMPLETA",
+     "descripcion_en": "PRESSURE PLATE ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-E6350-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "PLACA DE FRICCION",
+     "descripcion_en": "PLATE, FRICTION",
+     "cantidad": 4,
+     "codigo": "1FD-E6321-00",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "RESORTE.,COJIN",
+     "descripcion_en": "SPRING.,CUSHION",
+     "cantidad": 3,
+     "codigo": "1FD-E6383-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "PLATO DE PRESION",
+     "descripcion_en": "PLATE, PRESSURE 1",
+     "cantidad": 1,
+     "codigo": "1FD-E6351-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "RESORTE DE EMBRAGUE 1",
+     "descripcion_en": "SPRING, CLUTCH 1",
+     "cantidad": 4,
+     "codigo": "1PB-E6333-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "TORNILLO, CABEZA HEXAGONAL",
+     "descripcion_en": "BOLT, HEXAGON WITH WASHER",
+     "cantidad": 4,
+     "codigo": "1PB-E6194-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "ARANDELA",
+     "descripcion_en": "WASHER",
+     "cantidad": 1,
+     "codigo": "1PB-E6628-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "ARANDELA DE CIERRE",
+     "descripcion_en": "WASHER, LOCK",
+     "cantidad": 1,
+     "codigo": "1FD-E6135-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-14001",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "VARILLA DE EMPUJE 2",
+     "descripcion_en": "ROD, PUSH 2",
+     "cantidad": 1,
+     "codigo": "5D9-E6357-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "VARILLA DE EMPUJE 1",
+     "descripcion_en": "ROD, PUSH 1",
+     "cantidad": 1,
+     "codigo": "1FD-E6356-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "ESFERA",
+     "descripcion_en": "BALL",
+     "cantidad": 1,
+     "codigo": "93503-16807",
+     "nota": ""
+    }
+   ]
+  },
+  "13": {
+   "titulo": "TRANSMISION",
+   "paginas": [
+    22,
+    23
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "EJE PRIMARIO (12T)",
+     "descripcion_en": "AXLE, MAIN (12T)",
+     "cantidad": 1,
+     "codigo": "1FD-E7411-10",
+     "nota": "UR UR"
+    },
+    {
+     "ref": "2",
+     "descripcion": "AXLE, MAIN (12T) ENGRANAJE PINON DE 3RA (17T)",
+     "descripcion_en": "GEAR, 3RD PINION (17T)",
+     "cantidad": 1,
+     "codigo": "1DY-E7131-00",
+     "nota": "UR"
+    },
+    {
+     "ref": "3",
+     "descripcion": "ENGRANAJE PINON DE 4TA (22T)",
+     "descripcion_en": "GEAR, 4TH PINION (22T)",
+     "cantidad": 1,
+     "codigo": "1DY-E7141-01",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "ARANDELA DE SEPARACION",
+     "descripcion_en": "WASHER",
+     "cantidad": 1,
+     "codigo": "90209-17285",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SEGURO",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "93410-20038",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ENGRANAJE DE PINON DE 2DA(16T)",
+     "descripcion_en": "GEAR, 2ND PINION (16T)",
+     "cantidad": 1,
+     "codigo": "1DY-E7121-01",
+     "nota": "UR UR"
+    },
+    {
+     "ref": "7",
+     "descripcion": "GEAR, 2ND PINION (16T) ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-15700",
+     "nota": "UR"
+    },
+    {
+     "ref": "8",
+     "descripcion": "PRESILLA REDONDA",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99009-15400",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-054Y2",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-252XR",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "PLACA, DE CUBIERTA",
+     "descripcion_en": "PLATE, COVER",
+     "cantidad": 1,
+     "codigo": "3C1-E7471-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 2,
+     "codigo": "91332-06012",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "EJE DE TRACCION COMPLETO",
+     "descripcion_en": "DRIVE AXLE ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-E7402-10",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "ARANDELA DE SEPARACION",
+     "descripcion_en": "WASHER",
+     "cantidad": 1,
+     "codigo": "90209-18208",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "SEGURO",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "93410-22039",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "ENGRANAJE DE RUEDA 4TA (23T)",
+     "descripcion_en": "GEAR, 4TH WHEEL (23T)",
+     "cantidad": 1,
+     "codigo": "1FD-E7241-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "ENGRANAJE RUEDA DE 3RA (23T)",
+     "descripcion_en": "GEAR, 3RD WHEEL (23T)",
+     "cantidad": 1,
+     "codigo": "1DY-E7231-01",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "ENGRANAJE RUEDA DE 1 RA (34T)",
+     "descripcion_en": "GEAR, 1ST WHEEL (34T)",
+     "cantidad": 1,
+     "codigo": "1DY-E7211-00",
+     "nota": "UR UR"
+    },
+    {
+     "ref": "19",
+     "descripcion": "GEAR, 1ST WHEEL (34T) ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-15817",
+     "nota": "UR"
+    },
+    {
+     "ref": "20",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-15700",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "PRESILLA REDONDA",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99009-15400",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-002XK",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-254Y1",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "SELLO ACEITE",
+     "descripcion_en": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-20892",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "CORONA (14T)",
+     "descripcion_en": "SPROCKET, DRIVE (14T)",
+     "cantidad": 1,
+     "codigo": "93812-14818",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "SOPORTE DE CORONA",
+     "descripcion_en": "HOLDER, SPROCKET",
+     "cantidad": 1,
+     "codigo": "1S7-E7456-00",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06010",
+     "nota": ""
+    }
+   ]
+  },
+  "14": {
+   "titulo": "LEVA DE CAMBIO & HORQUILLA",
+   "paginas": [
+    24
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "LEVA DEL CAMBIO COMPLETA",
+     "descripcion_en": "SHIFT CAM ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-E8540-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "SEGMENTO DE RETENCION",
+     "descripcion_en": "SEGMENT",
+     "cantidad": 1,
+     "codigo": "2SU-E8185-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TORNILLO DE REGLAJE",
+     "descripcion_en": "SCREW",
+     "cantidad": 1,
+     "codigo": "90149-06159",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 2,
+     "codigo": "93604-12831",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "PUNTO MUERTO",
+     "descripcion_en": "POINT, NEUTRAL",
+     "cantidad": 1,
+     "codigo": "5TP-E8542-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "RESORTE DE COMPRESION",
+     "descripcion_en": "SPRING, COMPRESSION",
+     "cantidad": 1,
+     "codigo": "90501-06022",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "PALANCA DE SELECTOR COMPLETO",
+     "descripcion_en": "SHIFT LEVER ASSY",
+     "cantidad": 1,
+     "codigo": "1JD-E8120-11",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".RESORTE DE TORSION",
+     "descripcion_en": ".SPRING, TORSION",
+     "cantidad": 1,
+     "codigo": "90508-26815",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "BARRA GUIA HORQ. CAMBIO 1",
+     "descripcion_en": "BAR, SHIFT FORK GUIDE 1",
+     "cantidad": 1,
+     "codigo": "5D9-E8531-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "RESORTE DE COMPRESION",
+     "descripcion_en": "SPRING, COMPRESSION",
+     "cantidad": 2,
+     "codigo": "90501-06800",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "HORQUILLA DEL CAMBIO 1",
+     "descripcion_en": "FORK, SHIFT 1",
+     "cantidad": 1,
+     "codigo": "5D9-E8511-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "HORQUILLA DEL CAMBIO 2",
+     "descripcion_en": "FORK, SHIFT 2",
+     "cantidad": 1,
+     "codigo": "5D9-E8512-00",
+     "nota": ""
+    }
+   ]
+  },
+  "15": {
+   "titulo": "EJE DE CAMBIO & PEDAL",
+   "paginas": [
+    25
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "EJE SELECTOR COMPLETO",
+     "descripcion_en": "SHIFT SHAFT ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-E8101-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "GUIA",
+     "descripcion_en": "GUIDE",
+     "cantidad": 1,
+     "codigo": "1FD-E8179-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "GUIA DE CAMBIO",
+     "descripcion_en": "GUIDE, SHIFT",
+     "cantidad": 1,
+     "codigo": "1FD-E8172-10",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "SOSTEN DE SUJETADOR",
+     "descripcion_en": "HOLDER, PAWL",
+     "cantidad": 1,
+     "codigo": "5D9-E8181-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "SELLO ACEITE",
+     "descripcion_en": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93102-12891",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 1,
+     "codigo": "93608-50149",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "PALANCA DE TOPE COMPLETA",
+     "descripcion_en": "STOPPER LEVER ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-E8140-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "RESORTE",
+     "descripcion_en": "SPRING",
+     "cantidad": 1,
+     "codigo": "1FD-E8337-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "GANCHO DE RESORTE",
+     "descripcion_en": "HOOK, SPRING",
+     "cantidad": 1,
+     "codigo": "5HV-E6346-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-127F4",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "COJINETES CON RODAMIENTOS",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93340-212Y2",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "PASADOR DE CLAVIJA",
+     "descripcion_en": "PIN, DOWEL",
+     "cantidad": 1,
+     "codigo": "93604-10801",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "RESORTE DE COMPRESION",
+     "descripcion_en": "SPRING, COMPRESSION",
+     "cantidad": 1,
+     "codigo": "90501-125E9",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12824",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "PASADOR CAMBIO",
+     "descripcion_en": "PIN, SHIFT",
+     "cantidad": 1,
+     "codigo": "5LM-E8173-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "BRAZO, DE CAMBIO 3",
+     "descripcion_en": "ARM, SHIFT 3",
+     "cantidad": 1,
+     "codigo": "1FD-E817A-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "TORNILLO DE AJUSTE",
+     "descripcion_en": "SCREW, ADJUSTING",
+     "cantidad": 1,
+     "codigo": "5D9-E8186-00",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-068F7",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "TUERCA DE BRIDA",
+     "descripcion_en": "NUT, FLANGE",
+     "cantidad": 1,
+     "codigo": "95702-06500",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "PRESILLA REDONDA",
+     "descripcion_en": "CIRCLIP",
+     "cantidad": 1,
+     "codigo": "99009-17400",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-178D3",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "COPA 1",
+     "descripcion_en": "BOSS 1",
+     "cantidad": 1,
+     "codigo": "1DY-E8699-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "PEDAL DE CAMBIO COMPLETO",
+     "descripcion_en": "SHIFT PEDAL ASSY",
+     "cantidad": 1,
+     "codigo": "BF2-E8110-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": ".FUNDA DEL PEDAL DEL CAMBIO",
+     "descripcion_en": ".COVER, SHIFT PEDAL",
+     "cantidad": 1,
+     "codigo": "1EG-E8113-01",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 1,
+     "codigo": "91337-08020",
+     "nota": ""
+    }
+   ]
+  },
+  "16": {
+   "titulo": "CUADRO",
+   "paginas": [
+    26
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "ARMAZON COMPLETO",
+     "descripcion_en": "FRAME COMP.",
+     "cantidad": 1,
+     "codigo": "BF2-F1110-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-088E0",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TORNILLO DE REBORDE",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "95812-10120",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-088D9",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-08043",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-10831",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TUERCA DE AUTO-CIERRE",
+     "descripcion_en": "NUT, U FLANGE",
+     "cantidad": 2,
+     "codigo": "95602-08200",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-10805",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "CUBIERTA 2",
+     "descripcion_en": "COVER 2",
+     "cantidad": 2,
+     "codigo": "1FD-F139R-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-01559",
+     "nota": ""
+    }
+   ]
+  },
+  "17": {
+   "titulo": "GUARDABARRO",
+   "paginas": [
+    27
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "GUARDABARRO DELANTERO",
+     "descripcion_en": "FENDER, FRONT",
+     "cantidad": 1,
+     "codigo": "BF2-F1511-10-P0",
+     "nota": "UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "2",
+     "descripcion": "FENDER, FRONT GUARDABARRO, DELANTERO 2",
+     "descripcion_en": "FENDER, FRONT 2",
+     "cantidad": 1,
+     "codigo": "BF2-F1556-00",
+     "nota": "UR FOR RM7"
+    },
+    {
+     "ref": "3",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 3,
+     "codigo": "90387-06857",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT, HEXAGON",
+     "cantidad": 3,
+     "codigo": "97022-06020",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50012",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "GUARDABARRO TRASERO",
+     "descripcion_en": "FENDER, REAR",
+     "cantidad": 1,
+     "codigo": "1FD-F1611-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TORNILLO CON ARANDELA",
+     "descripcion_en": "BOLT, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90119-068B7",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-07819",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT, HEXAGON",
+     "cantidad": 2,
+     "codigo": "97022-06016",
+     "nota": ""
+    }
+   ]
+  },
+  "18": {
+   "titulo": "CUBIERTA LATERAL",
+   "paginas": [
+    28,
+    29
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CUBIERTA LATERAL 1",
+     "descripcion_en": "COVER, SIDE 1",
+     "cantidad": 1,
+     "codigo": "1FD-F1711-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "CUBIERTA LATERAL 2",
+     "descripcion_en": "COVER, SIDE 2",
+     "cantidad": 1,
+     "codigo": "1FD-F1721-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TAPA LATERAL 3",
+     "descripcion_en": "COVER, SIDE 3",
+     "cantidad": 1,
+     "codigo": "BF2-F1731-00-P0",
+     "nota": "SMX SMX"
+    },
+    {
+     "ref": "6",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 1,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TORNILLO CON VALONA",
+     "descripcion_en": "SCREW, WITH WASHER",
+     "cantidad": 1,
+     "codigo": "90159-06810",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TAPA LATERAL 4",
+     "descripcion_en": "COVER, SIDE 4",
+     "cantidad": 1,
+     "codigo": "BF2-F1741-00-P0",
+     "nota": "SMX SMX"
+    },
+    {
+     "ref": "9",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 1,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "TORNILLO CON VALONA",
+     "descripcion_en": "SCREW, WITH WASHER",
+     "cantidad": 1,
+     "codigo": "90159-06810",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "CUBIERTA LATERAL 5",
+     "descripcion_en": "COVER, SIDE 5",
+     "cantidad": 1,
+     "codigo": "1FD-F171E-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50020",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-12808",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-068L6",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-08085",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "TORNILLO CON VALONA",
+     "descripcion_en": "SCREW, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90159-06810",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-01813",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SOPORTE,CUBIERTA LATERAL 1",
+     "descripcion_en": "STAY, SIDE COVER 1",
+     "cantidad": 1,
+     "codigo": "1FD-F172E-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "EMBLEMA",
+     "descripcion_en": "EMBLEM",
+     "cantidad": 1,
+     "codigo": "BF2-F1737-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "GRAFICO, 1",
+     "descripcion_en": "GRAPHIC 1",
+     "cantidad": 1,
+     "codigo": "BF2-F173E-A0",
+     "nota": "UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "21",
+     "descripcion": "GRAPHIC 1 GRAFICO 2",
+     "descripcion_en": "GRAPHIC 2",
+     "cantidad": 1,
+     "codigo": "BF2-F173F-A0",
+     "nota": "UR FOR RM7 UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "22",
+     "descripcion": "GRAFICO 3",
+     "descripcion_en": "GRAPHIC 3",
+     "cantidad": 1,
+     "codigo": "BF2-F174G-A0",
+     "nota": "UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "23",
+     "descripcion": "GRAPHIC 3 GRAFICO 4",
+     "descripcion_en": "GRAPHIC 4",
+     "cantidad": 1,
+     "codigo": "BF2-F174H-A0",
+     "nota": "UR FOR RM7 UR PARA WM6 UR FOR WM6"
+    }
+   ]
+  },
+  "19": {
+   "titulo": "BRAZO TRASERO & SUSPENSION",
+   "paginas": [
+    30
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "BRAZO TRASERO COMPLETO",
+     "descripcion_en": "REAR ARM ASSY",
+     "cantidad": 1,
+     "codigo": "BF2-F2100-10-33",
+     "nota": "YB YB"
+    },
+    {
+     "ref": "2",
+     "descripcion": ".BUJE 1",
+     "descripcion_en": ".BUSH 1",
+     "cantidad": 2,
+     "codigo": "3HB-F2123-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "SELLO DE GUARDA",
+     "descripcion_en": "SEAL, GUARD",
+     "cantidad": 1,
+     "codigo": "1FD-F2151-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "EJE DEL BARCULANTE",
+     "descripcion_en": "SHAFT, PIVOT",
+     "cantidad": 1,
+     "codigo": "1FD-F2141-10",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12834",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12028",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TUERCA DE AUTO-CIERRE",
+     "descripcion_en": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "95602-12200",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "CABRECADENA",
+     "descripcion_en": "CASE, CHAIN",
+     "cantidad": 1,
+     "codigo": "1FD-F2311-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TORNILLO CON ARANDELA",
+     "descripcion_en": "BOLT, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90119-06117",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "AMORTIGUADOR TRASERO COMPLETO",
+     "descripcion_en": "SHOCK ABSORBER ASSY, REAR",
+     "cantidad": 2,
+     "codigo": "1FD-F2210-10",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-10879",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 2,
+     "codigo": "90105-10882",
+     "nota": ""
+    }
+   ]
+  },
+  "20": {
+   "titulo": "DIRECCION",
+   "paginas": [
+    31
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "PISTA DE BOLAS 2",
+     "descripcion_en": "RACE, BALL 2",
+     "cantidad": 1,
+     "codigo": "50P-F3412-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "RETEN DE COJINETE",
+     "descripcion_en": "RETAINER, BALL BEARING",
+     "cantidad": 1,
+     "codigo": "50P-F341E-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PISTA DE BOLAS 2",
+     "descripcion_en": "RACE, BALL 2",
+     "cantidad": 1,
+     "codigo": "50P-F3412-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PISTA DE BOLAS 1",
+     "descripcion_en": "RACE, BALL 1",
+     "cantidad": 1,
+     "codigo": "50P-F3411-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "RETEN DE COJINETE",
+     "descripcion_en": "RETAINER, BALL BEARING",
+     "cantidad": 1,
+     "codigo": "50P-F341E-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "CUBIERTA DE BASE DE BOLA 2",
+     "descripcion_en": "COVER, BALL RACE 2",
+     "cantidad": 1,
+     "codigo": "3AY-F3416-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CUBIERTA DE PISTA DE BOLAS 1",
+     "descripcion_en": "COVER, BALL RACE 1",
+     "cantidad": 1,
+     "codigo": "5LM-F3415-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 2,
+     "codigo": "90179-25033",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06016",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-06857",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "SOPORTE DE CABLE",
+     "descripcion_en": "HOLDER, WIRE",
+     "cantidad": 1,
+     "codigo": "1FD-F3874-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "SOPORTE DE MANGUERA FRENO",
+     "descripcion_en": "HOLDER, BRAKE HOSE",
+     "cantidad": 1,
+     "codigo": "1FD-F5886-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "SOPORTE DE MANGUERA FRENO 1",
+     "descripcion_en": "HOLDER, BRAKE HOSE 1",
+     "cantidad": 1,
+     "codigo": "1FD-F5875-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06010",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "GUIA DE CABLE",
+     "descripcion_en": "GUIDE, CABLE",
+     "cantidad": 1,
+     "codigo": "1FD-F331E-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06020",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "SOSTEN DE CABLE",
+     "descripcion_en": "HOLDER, CABLE",
+     "cantidad": 1,
+     "codigo": "1FD-F3317-00",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "APOYO",
+     "descripcion_en": "STAY",
+     "cantidad": 1,
+     "codigo": "1FD-F331A-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D02-06012",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "PROTECTOR",
+     "descripcion_en": "PROTECTOR",
+     "cantidad": 1,
+     "codigo": "1FD-F3472-00",
+     "nota": ""
+    }
+   ]
+  },
+  "21": {
+   "titulo": "HORQUILLA DELANTERA",
+   "paginas": [
+    32
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "HORQUILLA DELANTERA COMPLETA",
+     "descripcion_en": "FRONT FORK ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-F3100-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".TUBO EXTERIOR 2",
+     "descripcion_en": ".TUBE, OUTER 2",
+     "cantidad": 1,
+     "codigo": "1FD-F3136-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "..RETEN DE ACEITE",
+     "descripcion_en": "..OIL SEAL",
+     "cantidad": 1,
+     "codigo": "3AY-F3145-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "..ANILLO DE ENGANCHE",
+     "descripcion_en": "..RING, SNAP",
+     "cantidad": 1,
+     "codigo": "5P0-F3156-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".TUBO EXTERIOR (IZQUIERDO)",
+     "descripcion_en": ".TUBE, OUTER (L.H)",
+     "cantidad": 1,
+     "codigo": "1FD-F3126-10",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "..RETEN DE ACEITE",
+     "descripcion_en": "..OIL SEAL",
+     "cantidad": 1,
+     "codigo": "3AY-F3145-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "..ANILLO DE ENGANCHE",
+     "descripcion_en": "..RING, SNAP",
+     "cantidad": 1,
+     "codigo": "5P0-F3156-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".TUBO INTERIOR COMPLETO 1",
+     "descripcion_en": ".INNER TUBE COMP.1",
+     "cantidad": 2,
+     "codigo": "1FD-F3110-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".CILINDRO COMPL DE HORQ DELANT",
+     "descripcion_en": ".CYLINDER COMP., FRONT FORK",
+     "cantidad": 2,
+     "codigo": "5D9-F3170-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".ANILLO DEL PISTON",
+     "descripcion_en": ".RING, PISTON",
+     "cantidad": 2,
+     "codigo": "2JG-F3157-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".RESORTE DE SUBENSAMBLE",
+     "descripcion_en": ".SPRING, SUB",
+     "cantidad": 2,
+     "codigo": "5D9-F3152-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".EMPAQUE",
+     "descripcion_en": ".GASKET",
+     "cantidad": 2,
+     "codigo": "2BU-F3158-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".TORNILLO CABEZAHEXAGONAL",
+     "descripcion_en": ".BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "278-F3181-50",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".GUARDAPOLVO",
+     "descripcion_en": ".SEAL, DUST",
+     "cantidad": 2,
+     "codigo": "5LM-F3144-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": ".RESORTE HORQUILLA DELANT.",
+     "descripcion_en": ".SPRING, FRONT FORK",
+     "cantidad": 2,
+     "codigo": "1FC-F3141-10",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": ".PLATINA INFERIOR COMPLETA",
+     "descripcion_en": ".UNDER BRACKET COMP.",
+     "cantidad": 1,
+     "codigo": "1FD-F3340-10",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "..PISTA DE BOLAS 1",
+     "descripcion_en": "..RACE, BALL 1",
+     "cantidad": 1,
+     "codigo": "4FP-F3411-10",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": ".PERNO 1",
+     "descripcion_en": ".BOLT 1",
+     "cantidad": 4,
+     "codigo": "31B-F3346-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": ".PERNO DE TAPA",
+     "descripcion_en": ".BOLT, CAP",
+     "cantidad": 2,
+     "codigo": "1FC-F3111-10",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": ".ARO",
+     "descripcion_en": ".O-RING",
+     "cantidad": 2,
+     "codigo": "2JG-F3147-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": ".ANILLO DE ENGANCHE",
+     "descripcion_en": ".RING, SNAP",
+     "cantidad": 2,
+     "codigo": "5P0-F3153-00",
+     "nota": ""
+    }
+   ]
+  },
+  "22": {
+   "titulo": "DEPOSITO DE COMBUSTIBLE",
+   "paginas": [
+    33
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "DEPOSITO DE COMBUSTIBLE COMP.",
+     "descripcion_en": "FUEL TANK COMP.",
+     "cantidad": 1,
+     "codigo": "BF2-F4110-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "SELLO",
+     "descripcion_en": "SEAL",
+     "cantidad": 5,
+     "codigo": "5D9-F414G-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "SELLO",
+     "descripcion_en": "SEAL",
+     "cantidad": 1,
+     "codigo": "5D9-F414G-10",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "TORNILLO CON ARANDELA",
+     "descripcion_en": "BOLT, WITH WASHER",
+     "cantidad": 4,
+     "codigo": "90119-06885",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "BOMBA DE COMBUSTIBLE COMPLETA",
+     "descripcion_en": "FUEL PUMP COMP.",
+     "cantidad": 1,
+     "codigo": "1DY-E3907-30",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "SELLO",
+     "descripcion_en": "SEAL",
+     "cantidad": 1,
+     "codigo": "54P-F414G-10",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "SOPORTE BOMBA COMBUSTIBLE",
+     "descripcion_en": "BRACKET, FUEL PUMP",
+     "cantidad": 1,
+     "codigo": "1DY-F4491-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 4,
+     "codigo": "91332-05010",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "ANILLO DE ESPACIADOR",
+     "descripcion_en": "PIPE, FUEL 1",
+     "cantidad": 1,
+     "codigo": "1FD-E3971-11",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "TAPA COMPLETA",
+     "descripcion_en": "CAP ASSY",
+     "cantidad": 1,
+     "codigo": "1DY-F4610-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".EMPAQUE DE TAPA",
+     "descripcion_en": ".PACKING, CAP",
+     "cantidad": 1,
+     "codigo": "4YY-F4612-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "ARANDELA ESPECIAL",
+     "descripcion_en": "WASHER, SPECIAL",
+     "cantidad": 1,
+     "codigo": "1FP-F4186-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "ARANDELA ESPECIAL",
+     "descripcion_en": "WASHER, SPECIAL",
+     "cantidad": 1,
+     "codigo": "1FP-F4187-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CUBIERTA DE CAJA DE CONTROL",
+     "descripcion_en": "COVER, CONTROL RACK",
+     "cantidad": 1,
+     "codigo": "1DY-E3993-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "TAPA DE TANQUE",
+     "descripcion_en": "COVER, TANK",
+     "cantidad": 1,
+     "codigo": "1FD-F41B1-00",
+     "nota": ""
+    }
+   ]
+  },
+  "23": {
+   "titulo": "ASIENTO",
+   "paginas": [
+    34
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "SILLIN DOBLE COMPLETO",
+     "descripcion_en": "DOUBLE SEAT ASSY",
+     "cantidad": 1,
+     "codigo": "BF2-F4730-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".COJIN DE ASIENTO",
+     "descripcion_en": ".PAD, SEAT",
+     "cantidad": 4,
+     "codigo": "1BN-F4741-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".FUNDADE SILLIN",
+     "descripcion_en": ".SEAT COVER COMP.",
+     "cantidad": 1,
+     "codigo": "BF2-F470F-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BISAGRA DE ASIENTO",
+     "descripcion_en": "HINGE, SEAT",
+     "cantidad": 1,
+     "codigo": "1FD-F4726-01",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TUERCA DE BRIDA",
+     "descripcion_en": "NUT, FLANGE",
+     "cantidad": 2,
+     "codigo": "95702-06500",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PASADOR ACCESORIO DE ASIENTO",
+     "descripcion_en": "PIN, SEAT FITTING",
+     "cantidad": 1,
+     "codigo": "1FD-F4727-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CAJA 1",
+     "descripcion_en": "BOX 1",
+     "cantidad": 1,
+     "codigo": "1FD-F473R-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 4,
+     "codigo": "90480-14806",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 4,
+     "codigo": "90387-068D7",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95E32-06025",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95D02-06035",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "MANIJA DE ASIENTO",
+     "descripcion_en": "HANDLE, SEAT",
+     "cantidad": 1,
+     "codigo": "BF2-F4773-00-P0",
+     "nota": "SMX SMX"
+    },
+    {
+     "ref": "14",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95D32-06016",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CAJA",
+     "descripcion_en": "BOX, SPARK PLUG",
+     "cantidad": 1,
+     "codigo": "2DP-F814F-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "CONDUCTOR",
+     "descripcion_en": "DRIVER",
+     "cantidad": 1,
+     "codigo": "3AY-F8152-00",
+     "nota": ""
+    }
+   ]
+  },
+  "24": {
+   "titulo": "RUEDA DELANTERA",
+   "paginas": [
+    35
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "RUEDA FUNDIDA DELANTERA",
+     "descripcion_en": "CAST WHEEL, FRONT",
+     "cantidad": 1,
+     "codigo": "BF2-F5168-00-33",
+     "nota": "UR YB UR YB"
+    },
+    {
+     "ref": "2",
+     "descripcion": "CAST WHEEL, FRONT SEPARADOR",
+     "descripcion_en": "SPACER",
+     "cantidad": 1,
+     "codigo": "90560-10292",
+     "nota": "UR YB"
+    },
+    {
+     "ref": "3",
+     "descripcion": "SELLO ACEITE",
+     "descripcion_en": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93106-20816",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 2,
+     "codigo": "93306-300X9",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "NEUMATICO (70/90-17 M/C 38L)",
+     "descripcion_en": "TIRE (70/90-17 M/C 38L D102FA)",
+     "cantidad": 1,
+     "codigo": "94107-17868",
+     "nota": "UR DUNLOP UR DUNLOP"
+    },
+    {
+     "ref": "6",
+     "descripcion": "TIRE (70/90-17 MC 38P) TUBO (2.25/2.50-17 TR4)",
+     "descripcion_en": "TUBE (2.25/2.50-17 TR4)",
+     "cantidad": 1,
+     "codigo": "94222-17800",
+     "nota": "UR MAXXIS UR DUNLOP UR DUNLOP"
+    },
+    {
+     "ref": "7",
+     "descripcion": "TUBE (70/90-17) ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-10277",
+     "nota": "UR MAXXIS"
+    },
+    {
+     "ref": "8",
+     "descripcion": "EJE DE LA RUEDA",
+     "descripcion_en": "AXLE, WHEEL",
+     "cantidad": 1,
+     "codigo": "3AY-F5181-01",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TUERCA AUTOBLOCANTE",
+     "descripcion_en": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "90185-10012",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-10035",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "UNIDAD DE ENGRANAJE COMPLETA",
+     "descripcion_en": "GEAR UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "5TP-F5190-01",
+     "nota": ""
+    }
+   ]
+  },
+  "25": {
+   "titulo": "CALIBRE FRENO DELANTERA",
+   "paginas": [
+    36
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "PLACA ACCESORIA",
+     "descripcion_en": "PLATE, FITTING",
+     "cantidad": 1,
+     "codigo": "1DY-F518A-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "DISCO DE FRENO (DERECHO)",
+     "descripcion_en": "DISK, BRAKE (RIGHT)",
+     "cantidad": 1,
+     "codigo": "1FD-F582U-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT,HEX. SOCKET BUTTON",
+     "cantidad": 4,
+     "codigo": "90111-08815",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CALIBRE COMPLETO (DERECHO)",
+     "descripcion_en": "CALIPER ASSY (RIGHT)",
+     "cantidad": 1,
+     "codigo": "1FD-F580U-01",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".PISTON COMPLETO PINZA",
+     "descripcion_en": ".PISTON ASSY, CALIPER",
+     "cantidad": 1,
+     "codigo": "2BM-F5802-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "..JUEGO DE RETENES DE PINZA",
+     "descripcion_en": "..CALIPER SEAL KIT",
+     "cantidad": 1,
+     "codigo": "5YP-F5803-50",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".FUNDA DE CALIBRE",
+     "descripcion_en": ".BOOT, CALIPER",
+     "cantidad": 1,
+     "codigo": "2BM-F5917-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".FUNDA",
+     "descripcion_en": ".BOOT 2",
+     "cantidad": 1,
+     "codigo": "5YP-F5937-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".CJTO TORNILLO DE PURGA",
+     "descripcion_en": ".BLEED SCREW KIT",
+     "cantidad": 1,
+     "codigo": "4C9-W0048-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": ".JUEGO DE COJIN DE FRENO",
+     "descripcion_en": ".BRAKE PAD KIT",
+     "cantidad": 1,
+     "codigo": "2BM-F5805-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".PRESILLA",
+     "descripcion_en": ".CLIP",
+     "cantidad": 2,
+     "codigo": "5YP-F5925-01",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".SOPORTE",
+     "descripcion_en": ".SUPPORT BRACKET ASSY",
+     "cantidad": 1,
+     "codigo": "2BM-F5920-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "..PRESILLA",
+     "descripcion_en": "..PAD, SUPPORT 2",
+     "cantidad": 1,
+     "codigo": "2BM-F5939-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".SOPORTE DE PASTILLAS",
+     "descripcion_en": ".SUPPORT, PAD",
+     "cantidad": 1,
+     "codigo": "2BM-F5919-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": ".PASADOR",
+     "descripcion_en": ".PIN, PAD",
+     "cantidad": 1,
+     "codigo": "5YP-F5924-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "TORNILLO DE REGLAJE",
+     "descripcion_en": "SCREW",
+     "cantidad": 2,
+     "codigo": "90149-10805",
+     "nota": ""
+    }
+   ]
+  },
+  "26": {
+   "titulo": "RUEDA TRASERA",
+   "paginas": [
+    37,
+    38
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "RUEDA FUNDIDA TRASERA",
+     "descripcion_en": "CAST WHEEL, REAR",
+     "cantidad": 1,
+     "codigo": "BF2-F5338-00-33",
+     "nota": "UR YB UR YB"
+    },
+    {
+     "ref": "2",
+     "descripcion": "CAST WHEEL, REAR ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-12860",
+     "nota": "UR YB"
+    },
+    {
+     "ref": "3",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-351Y3",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-351Y2",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-418G7",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "AMORTIGUADOR",
+     "descripcion_en": "DAMPER",
+     "cantidad": 4,
+     "codigo": "1DY-F5364-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "PLACA DE ZAPATA DE FRENO",
+     "descripcion_en": "PLATE, BRAKE SHOE",
+     "cantidad": 1,
+     "codigo": "1S7-F5321-00-33",
+     "nota": "YB YB"
+    },
+    {
+     "ref": "8",
+     "descripcion": "JUEGO DE ZAPATA DE FRENO",
+     "descripcion_en": "BRAKE SHOE SET",
+     "cantidad": 1,
+     "codigo": "1LB-F530K-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "RESORTE DE TENSION",
+     "descripcion_en": "SPRING, TENSION",
+     "cantidad": 1,
+     "codigo": "90506-12001",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "RESORTE DE TENSION",
+     "descripcion_en": "SPRING, TENSION",
+     "cantidad": 1,
+     "codigo": "90506-15001",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "PALANCA DE ARBOL DE LEVAS",
+     "descripcion_en": "LEVER, CAMSHAFT",
+     "cantidad": 1,
+     "codigo": "2P2-F5355-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "PLACA INDICADOR",
+     "descripcion_en": "PLATE, INDICATOR",
+     "cantidad": 1,
+     "codigo": "5D9-F533A-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "ARBOL DE LEVAS",
+     "descripcion_en": "CAMSHAFT",
+     "cantidad": 1,
+     "codigo": "3Y6-F5351-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT",
+     "cantidad": 1,
+     "codigo": "90101-06046",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT, HEXAGON",
+     "cantidad": 1,
+     "codigo": "95302-06600",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "EMBRAGUE DE MASA",
+     "descripcion_en": "CLUTCH, HUB",
+     "cantidad": 1,
+     "codigo": "5D9-F5366-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-127Y0",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "SELLO ACEITE",
+     "descripcion_en": "OIL SEAL",
+     "cantidad": 1,
+     "codigo": "93106-26815",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "COJINETE",
+     "descripcion_en": "BEARING",
+     "cantidad": 1,
+     "codigo": "93306-054YK",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "CORONA (41T)",
+     "descripcion_en": "SPROCKET, DRIVEN (41T)",
+     "cantidad": 1,
+     "codigo": "5D9-F5441-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "ARANDELA",
+     "descripcion_en": "WASHER",
+     "cantidad": 2,
+     "codigo": "1FD-F5412-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT",
+     "cantidad": 4,
+     "codigo": "90101-08847",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 4,
+     "codigo": "90179-08826",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "SPACER",
+     "cantidad": 1,
+     "codigo": "1FD-F5414-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "NEUMATICO (80/90-17 M/C 44L)",
+     "descripcion_en": "TIRE (80/90-17 M/C 44L D102A)",
+     "cantidad": 1,
+     "codigo": "94108-17864",
+     "nota": "UR DUNLOP UR DUNLOP"
+    },
+    {
+     "ref": "26",
+     "descripcion": "TUBO (2.75-17 TR4)",
+     "descripcion_en": "TUBE (2.75-17 TR4)",
+     "cantidad": 1,
+     "codigo": "94227-17805",
+     "nota": "UR DUNLOP UR DUNLOP"
+    },
+    {
+     "ref": "27",
+     "descripcion": "TUBE (80/90-17) EJE DE RUEDA",
+     "descripcion_en": "AXLE, WHEEL",
+     "cantidad": 1,
+     "codigo": "1FD-F5381-10",
+     "nota": "UR MAXXIS"
+    },
+    {
+     "ref": "28",
+     "descripcion": "TUERCA AUTOBLOCANTE",
+     "descripcion_en": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "90185-12804",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12823",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "COLLAR DE RUEDA",
+     "descripcion_en": "COLLAR, WHEEL",
+     "cantidad": 1,
+     "codigo": "5D9-F5383-00",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "COLLAR DE RUEDA",
+     "descripcion_en": "COLLAR, WHEEL",
+     "cantidad": 1,
+     "codigo": "1FD-F5377-00",
+     "nota": ""
+    },
+    {
+     "ref": "32",
+     "descripcion": "TIRADOR DE CADENA 2",
+     "descripcion_en": "PULLER, CHAIN 2",
+     "cantidad": 2,
+     "codigo": "5LM-F5389-00",
+     "nota": ""
+    },
+    {
+     "ref": "33",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT, HEXAGON",
+     "cantidad": 2,
+     "codigo": "95302-06600",
+     "nota": ""
+    },
+    {
+     "ref": "34",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 2,
+     "codigo": "90170-06809",
+     "nota": ""
+    },
+    {
+     "ref": "35",
+     "descripcion": "CADENA (RK 420SBZ1 - 106L)",
+     "descripcion_en": "CHAIN (RK 420SBZ1 - 106L)",
+     "cantidad": 1,
+     "codigo": "9X568-C4105",
+     "nota": ""
+    },
+    {
+     "ref": "36",
+     "descripcion": "BARRA TENSORA",
+     "descripcion_en": "BAR, TENSION",
+     "cantidad": 1,
+     "codigo": "BF2-F5371-00",
+     "nota": ""
+    },
+    {
+     "ref": "37",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 1,
+     "codigo": "90109-08816",
+     "nota": ""
+    },
+    {
+     "ref": "38",
+     "descripcion": "ARANDELA",
+     "descripcion_en": "WASHER",
+     "cantidad": 2,
+     "codigo": "92902-08200",
+     "nota": ""
+    },
+    {
+     "ref": "39",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT, HEXAGON",
+     "cantidad": 2,
+     "codigo": "95302-08600",
+     "nota": ""
+    },
+    {
+     "ref": "40",
+     "descripcion": "CHAVETA",
+     "descripcion_en": "PIN, COTTER",
+     "cantidad": 2,
+     "codigo": "91402-20012",
+     "nota": ""
+    },
+    {
+     "ref": "41",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 1,
+     "codigo": "90109-08849",
+     "nota": ""
+    }
+   ]
+  },
+  "27": {
+   "titulo": "MANILLAR & CABLE",
+   "paginas": [
+    39
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MANUBRIO COMPLETE",
+     "descripcion_en": "HANDLE COMP.",
+     "cantidad": 1,
+     "codigo": "1FD-F6110-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "BOLT, FLANGE",
+     "cantidad": 1,
+     "codigo": "90105-10896",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TUERCA AUTOBLOCANTE",
+     "descripcion_en": "NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "90185-10011",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CUBIERTA DE MANUBRIO SUPERIOR1",
+     "descripcion_en": "COVER, HANDLE UPPER 1",
+     "cantidad": 1,
+     "codigo": "BF2-F6143-00-P0",
+     "nota": "UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "5",
+     "descripcion": "COVER, HANDLE UPPER 1 TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": "UR FOR RM7"
+    },
+    {
+     "ref": "6",
+     "descripcion": "CUBIERTA DE MANUBRIO SUPERIOR2",
+     "descripcion_en": "COVER, HANDLE UPPER 2",
+     "cantidad": 1,
+     "codigo": "1FD-F6145-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50012",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "REMACHE",
+     "descripcion_en": "RIVET",
+     "cantidad": 4,
+     "codigo": "90269-06812",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "EMPUNADURA COMPLETA",
+     "descripcion_en": "GRIP ASSY",
+     "cantidad": 1,
+     "codigo": "44D-F6240-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "EMPUNADURA",
+     "descripcion_en": "GRIP",
+     "cantidad": 1,
+     "codigo": "44D-F6241-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "ESPEJO COMPLETO (IZQUIERDO)",
+     "descripcion_en": "REAR VIEW MIRROR ASSY (LEFT)",
+     "cantidad": 1,
+     "codigo": "1FD-F6280-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "ESPEJO COMPLETO (DERECHO)",
+     "descripcion_en": "REAR VIEW MIRROR ASSY (RIGHT)",
+     "cantidad": 1,
+     "codigo": "1FD-F6290-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "CABLE DE ACELERADOR COMPLETO",
+     "descripcion_en": "THROTTLE CABLE ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-F6301-10",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT, BUTTON HEAD",
+     "cantidad": 1,
+     "codigo": "92012-05016",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "TAPA DE EMPUNADURA SUPERIOR",
+     "descripcion_en": "CAP, GRIP UPPER",
+     "cantidad": 1,
+     "codigo": "1FD-F6281-10",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "TAPA, EMPUNADURA INFERIOR",
+     "descripcion_en": "CAP, GRIP UNDER",
+     "cantidad": 1,
+     "codigo": "1FD-F6282-10",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "SCREW, PAN HEAD",
+     "cantidad": 2,
+     "codigo": "98502-05025",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "EXTREMO DE EMPUNADURA",
+     "descripcion_en": "END, GRIP",
+     "cantidad": 2,
+     "codigo": "54P-F6246-00",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "BRIDA",
+     "descripcion_en": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90464-36800",
+     "nota": ""
+    }
+   ]
+  },
+  "28": {
+   "titulo": "CILINDRO MAESTRO DELANTERO",
+   "paginas": [
+    40
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MANGUERA DE FRENO 1",
+     "descripcion_en": "HOSE, BRAKE 1",
+     "cantidad": 1,
+     "codigo": "1FD-F5872-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "PERNO DE UNION",
+     "descripcion_en": "BOLT, UNION",
+     "cantidad": 2,
+     "codigo": "90401-10812",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-10118",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CILINDRO MAESTRO COMPLETO",
+     "descripcion_en": "MASTER CYLINDER ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-F583T-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".CILINDRO MAESTRO COMPLETO",
+     "descripcion_en": ".MASTER CYLINDER SUB ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-F5870-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "..JUEGO DE CILINDRO MAESTRO",
+     "descripcion_en": "..CYLINDER KIT, MASTER",
+     "cantidad": 1,
+     "codigo": "5P0-F580A-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "..EMPAQUE,DIAFRAGMA",
+     "descripcion_en": "..DIAPHRAGM, RESERVOIR",
+     "cantidad": 1,
+     "codigo": "2ND-F5854-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "..TAPA DE TANQUE DE RESERVA",
+     "descripcion_en": "..CAP, RESERVOIR",
+     "cantidad": 1,
+     "codigo": "1FD-F5852-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "..TORNILLO",
+     "descripcion_en": "..SCREW",
+     "cantidad": 2,
+     "codigo": "36Y-2589H-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "..BUJE DE DIAFRAGMA",
+     "descripcion_en": "..BUSH,DIAPHRAGM",
+     "cantidad": 1,
+     "codigo": "2ND-F5855-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".SOPORTE DE CILINDRO MAESTRO",
+     "descripcion_en": ".BRACKET, MASTER CYLINDER",
+     "cantidad": 1,
+     "codigo": "5TL-F5867-01",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": ".PALANCA 2",
+     "descripcion_en": ".LEVER 2",
+     "cantidad": 1,
+     "codigo": "2PV-H3922-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": ".PERNO",
+     "descripcion_en": ".BOLT",
+     "cantidad": 1,
+     "codigo": "90109-06255",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": ".TUERCA AUTOBLOCANTE",
+     "descripcion_en": ".NUT, SELF-LOCKING",
+     "cantidad": 1,
+     "codigo": "95602-06100",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": ".INTERRUP. DE PARADA DELANTERO",
+     "descripcion_en": ".FRONT STOP SWITCH ASSY",
+     "cantidad": 1,
+     "codigo": "2DP-H3980-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": ".TORNILLO ALLEN",
+     "descripcion_en": ".BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "91312-06025",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": ".TORNILLO CON RONDONA",
+     "descripcion_en": ".SCREW, PAN HEAD WITH WASHER",
+     "cantidad": 1,
+     "codigo": "97602-04312",
+     "nota": ""
+    }
+   ]
+  },
+  "29": {
+   "titulo": "SOPORTE & APOYAPIE",
+   "paginas": [
+    41,
+    42
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "PUNTAL PRINCIPAL",
+     "descripcion_en": "STAND, MAIN",
+     "cantidad": 1,
+     "codigo": "BF2-F7111-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "TOPE DE PUNTAL PRINCIPAL",
+     "descripcion_en": "STOPPER, MAIN STAND",
+     "cantidad": 1,
+     "codigo": "5D9-F7114-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "EJE DE PUNTAL PRINCIPAL",
+     "descripcion_en": "SHAFT, MAIN STAND",
+     "cantidad": 1,
+     "codigo": "1FD-F7112-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "CHAVETA",
+     "descripcion_en": "PIN, COTTER",
+     "cantidad": 1,
+     "codigo": "91401-30030",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "RESORTE DE TENSION",
+     "descripcion_en": "SPRING, TENSION",
+     "cantidad": 1,
+     "codigo": "90506-35806",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "PEDAL DE FRENO",
+     "descripcion_en": "PEDAL, BRAKE",
+     "cantidad": 1,
+     "codigo": "BF2-F7211-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "RESORTE DE RETORNO",
+     "descripcion_en": "SPRING, RETURN",
+     "cantidad": 1,
+     "codigo": "1FD-F7426-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "VARILLA DE FRENO",
+     "descripcion_en": "ROD, BRAKE",
+     "cantidad": 1,
+     "codigo": "BF2-F7231-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "RESORTE DE COMPRESION",
+     "descripcion_en": "SPRING, COMPRESSION",
+     "cantidad": 1,
+     "codigo": "90501-10245",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "PASADOR",
+     "descripcion_en": "PIN",
+     "cantidad": 1,
+     "codigo": "90249-12008",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT",
+     "cantidad": 1,
+     "codigo": "90179-06835",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "CHAVETA",
+     "descripcion_en": "PIN, COTTER",
+     "cantidad": 1,
+     "codigo": "91402-20012",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "ARANDELA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "92902-06600",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "PUNTAL LATERAL",
+     "descripcion_en": "STAND, SIDE",
+     "cantidad": 1,
+     "codigo": "1FD-F7311-00",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 1,
+     "codigo": "90109-08850",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "TUERCA",
+     "descripcion_en": "NUT, HEXAGON",
+     "cantidad": 1,
+     "codigo": "95302-08700",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "RESORTE DE TENSION",
+     "descripcion_en": "SPRING, TENSION",
+     "cantidad": 1,
+     "codigo": "90506-23809",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "APOYAPIE 1",
+     "descripcion_en": "FOOTREST 1",
+     "cantidad": 1,
+     "codigo": "1FD-F7411-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 4,
+     "codigo": "95D32-08016",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "CUBIERTA DE APOYAPIE",
+     "descripcion_en": "COVER, FOOTREST",
+     "cantidad": 2,
+     "codigo": "1DY-F7413-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "APOYAPIE POSTERIOR 1",
+     "descripcion_en": "FOOTREST, REAR 1",
+     "cantidad": 1,
+     "codigo": "1FD-F7431-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "CUBIERTA APOYAPIE TRASERO",
+     "descripcion_en": "COVER, REAR FOOTREST",
+     "cantidad": 1,
+     "codigo": "1FD-F7433-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "APOYAPIE POSTERIOR 2",
+     "descripcion_en": "FOOTREST, REAR 2",
+     "cantidad": 1,
+     "codigo": "1FD-F7441-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "CUBIERTA APOYAPIE TRASERO",
+     "descripcion_en": "COVER, REAR FOOTREST",
+     "cantidad": 1,
+     "codigo": "1FD-F7444-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "PLACE 1",
+     "descripcion_en": "PLATE 1",
+     "cantidad": 2,
+     "codigo": "1FD-F7445-00",
+     "nota": ""
+    },
+    {
+     "ref": "26",
+     "descripcion": "PASADOR DE ADRAZADERA",
+     "descripcion_en": "PIN, CLEVIS",
+     "cantidad": 2,
+     "codigo": "91702-06035",
+     "nota": ""
+    },
+    {
+     "ref": "27",
+     "descripcion": "CHAVETA",
+     "descripcion_en": "PIN, COTTER",
+     "cantidad": 2,
+     "codigo": "91402-20012",
+     "nota": ""
+    },
+    {
+     "ref": "28",
+     "descripcion": "AMORTIGUADOR DE SILENCIADOR",
+     "descripcion_en": "DAMPER, MUFFLER",
+     "cantidad": 1,
+     "codigo": "5TP-E4747-00",
+     "nota": ""
+    },
+    {
+     "ref": "29",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 1,
+     "codigo": "90387-08813",
+     "nota": ""
+    },
+    {
+     "ref": "30",
+     "descripcion": "SUPORTE DO SILENCIADOR",
+     "descripcion_en": "STAY, MUFFLER",
+     "cantidad": 1,
+     "codigo": "1FD-F194J-00",
+     "nota": ""
+    },
+    {
+     "ref": "31",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D32-08016",
+     "nota": ""
+    }
+   ]
+  },
+  "30": {
+   "titulo": "PATA PROTEGIDA",
+   "paginas": [
+    43,
+    44
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "PROTECCION DE PATA 1",
+     "descripcion_en": "LEG SHIELD 1",
+     "cantidad": 1,
+     "codigo": "BF2-F8311-00-P0",
+     "nota": "UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "2",
+     "descripcion": "LEG SHIELD 1 SELLO",
+     "descripcion_en": "SEAL",
+     "cantidad": 8,
+     "codigo": "1FD-F8307-00",
+     "nota": "UR FOR RM7"
+    },
+    {
+     "ref": "3",
+     "descripcion": "TORNILLO CON VALONA",
+     "descripcion_en": "SCREW, WITH WASHER",
+     "cantidad": 2,
+     "codigo": "90159-06810",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 4,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "PROTECCION DE PATA 2",
+     "descripcion_en": "LEG SHIELD 2",
+     "cantidad": 1,
+     "codigo": "1FD-F8312-30",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 10,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "TORNILLO CON VALONA",
+     "descripcion_en": "SCREW, WITH WASHER",
+     "cantidad": 1,
+     "codigo": "90159-06810",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TORNILLO DE LIGAR",
+     "descripcion_en": "SCREW, BIND",
+     "cantidad": 2,
+     "codigo": "98902-06020",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "SOPORTE",
+     "descripcion_en": "STAY 1",
+     "cantidad": 2,
+     "codigo": "1FD-F8321-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ESPACIADOR",
+     "descripcion_en": "COLLAR",
+     "cantidad": 2,
+     "codigo": "90387-06814",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 2,
+     "codigo": "90480-13815",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 4,
+     "codigo": "90201-06827",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 2,
+     "codigo": "97002-06020",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "EQUILIBRIO, CUBIERTA",
+     "descripcion_en": "DAMPER, PLATE",
+     "cantidad": 1,
+     "codigo": "90520-15807",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CUBIERTA 2",
+     "descripcion_en": "COVER 2",
+     "cantidad": 1,
+     "codigo": "1FD-F842N-00",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 3,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "REMACHE",
+     "descripcion_en": "RIVET",
+     "cantidad": 1,
+     "codigo": "90269-06812",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "TORNILLO DE LIGAR",
+     "descripcion_en": "SCREW, BIND",
+     "cantidad": 2,
+     "codigo": "98902-06020",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 2,
+     "codigo": "90201-06827",
+     "nota": ""
+    },
+    {
+     "ref": "20",
+     "descripcion": "AMORTIGUADOR DE MONTAJE 1",
+     "descripcion_en": "DAMPER, LOCATING 1",
+     "cantidad": 1,
+     "codigo": "1FD-F836T-00",
+     "nota": ""
+    },
+    {
+     "ref": "21",
+     "descripcion": "AMORTIGUADOR DE UBICACION 2",
+     "descripcion_en": "DAMPER, LOCATING 2",
+     "cantidad": 1,
+     "codigo": "1FD-F836U-00",
+     "nota": ""
+    },
+    {
+     "ref": "22",
+     "descripcion": "EMBLEMA 1",
+     "descripcion_en": "EMBLEM, 1",
+     "cantidad": 1,
+     "codigo": "BF2-F313B-00",
+     "nota": ""
+    },
+    {
+     "ref": "23",
+     "descripcion": "MARCA",
+     "descripcion_en": "TUNING FORK MARK",
+     "cantidad": 1,
+     "codigo": "BF2-F836D-00",
+     "nota": ""
+    },
+    {
+     "ref": "24",
+     "descripcion": "MARCA",
+     "descripcion_en": "TUNING FORK MARK",
+     "cantidad": 1,
+     "codigo": "BF2-F836D-00",
+     "nota": ""
+    },
+    {
+     "ref": "25",
+     "descripcion": "GRAFICO 13",
+     "descripcion_en": "GRAPHIC, 13",
+     "cantidad": 1,
+     "codigo": "BF2-F832L-A0",
+     "nota": "UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "25",
+     "descripcion": "GRAFICO 13",
+     "descripcion_en": "GRAPHIC, 13",
+     "cantidad": 1,
+     "codigo": "BF2-F832L-B0",
+     "nota": "UR PARA SMX(RED) UR FOR SMX(RED)"
+    },
+    {
+     "ref": "26",
+     "descripcion": "GRAPHIC, 13 GRAFICO 14",
+     "descripcion_en": "GRAPHIC, 14",
+     "cantidad": 1,
+     "codigo": "BF2-F831Y-A0",
+     "nota": "UR FOR RM7 UR PARA WM6 UR FOR WM6"
+    },
+    {
+     "ref": "27",
+     "descripcion": "GRAPHIC, 14 EMBLEMA 15",
+     "descripcion_en": "GRAPHIC, 15",
+     "cantidad": 1,
+     "codigo": "BF2-F832B-A0",
+     "nota": "UR FOR RM7 UR PARA RM7 UR FOR RM7"
+    },
+    {
+     "ref": "28",
+     "descripcion": "GRAPHIC, 15 GRAFICO 16",
+     "descripcion_en": "GRAPHIC, 16",
+     "cantidad": 1,
+     "codigo": "BF2-F832C-A0",
+     "nota": "UR FOR RM7 UR PARA WM6 UR FOR WM6"
+    }
+   ]
+  },
+  "31": {
+   "titulo": "GENERADOR",
+   "paginas": [
+    45
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "ROTOR COMPLETO",
+     "descripcion_en": "ROTOR ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H1450-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "ESTATOR COMPLETO",
+     "descripcion_en": "STATOR ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H1410-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 3,
+     "codigo": "91332-06025",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "PERNO",
+     "descripcion_en": "BOLT",
+     "cantidad": 2,
+     "codigo": "91332-06016",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TUERCA DE BRIDA",
+     "descripcion_en": "NUT, FLANGE",
+     "cantidad": 1,
+     "codigo": "95702-12500",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ARANDELA PLANA",
+     "descripcion_en": "WASHER, PLATE",
+     "cantidad": 1,
+     "codigo": "90201-12030",
+     "nota": ""
+    }
+   ]
+  },
+  "32": {
+   "titulo": "MOTOR DE ARRANQUE",
+   "paginas": [
+    46
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "MOTOR DE ARRANQUE COMPLETO",
+     "descripcion_en": "STARTING MOTOR ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H1800-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".JUEGO DE ESCOBILLA",
+     "descripcion_en": ".BRUSH SET",
+     "cantidad": 1,
+     "codigo": "5TP-H1801-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".CABLE DEL MOTOR COMPL.",
+     "descripcion_en": ".CORD COMP.",
+     "cantidad": 1,
+     "codigo": "1FD-H183G-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".EMPAQUETADURA",
+     "descripcion_en": ".GASKET",
+     "cantidad": 1,
+     "codigo": "5D9-H1861-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".TORNILLO DE EMPUJE 2",
+     "descripcion_en": ".SCREW SET",
+     "cantidad": 2,
+     "codigo": "5D9-H1828-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-29803",
+     "nota": ""
+    }
+   ]
+  },
+  "33": {
+   "titulo": "LUZ DE DESTELLADOR",
+   "paginas": [
+    47
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "BOMBILLA DE DESTELLADOR (12V-1",
+     "descripcion_en": "BULB (12V-10W) AMBER",
+     "cantidad": 2,
+     "codigo": "5HV-H3311-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "DESTELLADOR DE LUZ DELANT.",
+     "descripcion_en": "FRONT FLASHER LIGHT ASSY 1",
+     "cantidad": 1,
+     "codigo": "1FD-H3310-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".LENTE DE DESTELLADOR",
+     "descripcion_en": ".LENS, FLASHER",
+     "cantidad": 1,
+     "codigo": "1FD-H3312-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".EMPAQUE DE LENTE DESTELLADOR",
+     "descripcion_en": ".GASKET, FLASHER LENS",
+     "cantidad": 1,
+     "codigo": "1FD-H3313-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".EMPAQUE LENTE DE DESTELLADOR",
+     "descripcion_en": ".GASKET, FLASHER LENS",
+     "cantidad": 1,
+     "codigo": "1FD-H3343-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "DESTELLADOR DE LUZ DELANT.",
+     "descripcion_en": "FRONT FLASHER LIGHT ASSY 2",
+     "cantidad": 1,
+     "codigo": "1FD-H3320-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".LENTE DE INTERMITENTE 2",
+     "descripcion_en": ".LENS, FLASHER 2",
+     "cantidad": 1,
+     "codigo": "1FD-H3322-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".EMPAQUE DE LENTE DESTELLADOR",
+     "descripcion_en": ".GASKET, FLASHER LENS",
+     "cantidad": 1,
+     "codigo": "1FD-H3313-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".EMPAQUE LENTE DE DESTELLADOR",
+     "descripcion_en": ".GASKET, FLASHER LENS",
+     "cantidad": 1,
+     "codigo": "1FD-H3343-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "ENCASTRE DE CABLE COMPLETO",
+     "descripcion_en": "SOCKET CORD ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H4140-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "97702-50014",
+     "nota": ""
+    }
+   ]
+  },
+  "34": {
+   "titulo": "MEDIDOR",
+   "paginas": [
+    48
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "VELOCIMETRO COMPL.",
+     "descripcion_en": "SPEEDOMETER ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H3510-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".LENTE DE VELOCIMETRO",
+     "descripcion_en": ".LENS, SPEEDOMETER",
+     "cantidad": 1,
+     "codigo": "1FD-H3511-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".CAJA DE MEDIDOR INFERIOR",
+     "descripcion_en": ".CASE, METER LOWER",
+     "cantidad": 1,
+     "codigo": "1FD-H353F-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".AMPOLLETA",
+     "descripcion_en": ".BULB (12V-1.7W)",
+     "cantidad": 8,
+     "codigo": "3GF-H3517-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".AMPOLLETA (12V-1.7W T10)",
+     "descripcion_en": ".BULB (12V-1.7W T10 BLACK HEAD)",
+     "cantidad": 1,
+     "codigo": "32P-H3517-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".ENCASTRE DE CABLE COMPLETO",
+     "descripcion_en": ".SOCKET CORD ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H3509-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".TUERCA",
+     "descripcion_en": ".NUT",
+     "cantidad": 3,
+     "codigo": "9530N-03600",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".TORNILLO CON RONDONA",
+     "descripcion_en": ".SCREW, PAN HEAD WITH WASHER",
+     "cantidad": 2,
+     "codigo": "97602-04310",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "TORNILLO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, TAPPING",
+     "cantidad": 3,
+     "codigo": "97702-50016",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "CABLE DE VELOCIMETRO COMPLETO",
+     "descripcion_en": "SPEEDOMETER CABLE ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H3550-00",
+     "nota": ""
+    }
+   ]
+  },
+  "35": {
+   "titulo": "FARO DELANTERO",
+   "paginas": [
+    49
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "UNIDAD DE FARO DELANTERO COMPL",
+     "descripcion_en": "HEADLIGHT UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H4310-10",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".BOMBILLA (12V-32/32W)",
+     "descripcion_en": ".BULB, HEADLIGHT (12V-32/32W)",
+     "cantidad": 1,
+     "codigo": "54P-H4314-20",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".AMPOLLETA (12V-3.4W)",
+     "descripcion_en": ".BULB (12V-3.4W)",
+     "cantidad": 1,
+     "codigo": "2S0-H3516-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".UNIDAD DE FARO DELANTERO COMPL",
+     "descripcion_en": ".HEADLIGHT UNIT COMP.",
+     "cantidad": 1,
+     "codigo": "1FD-H430A-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".TUERCA",
+     "descripcion_en": ".NUT",
+     "cantidad": 1,
+     "codigo": "4NR-H4317-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".CABLE COMPL.",
+     "descripcion_en": ".CORD ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H4546-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-06010",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "PRESILLA",
+     "descripcion_en": "CLIP",
+     "cantidad": 2,
+     "codigo": "3S0-H4374-00",
+     "nota": ""
+    }
+   ]
+  },
+  "36": {
+   "titulo": "LUZ DE COLA",
+   "paginas": [
+    50
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "UNIDAD FARO TRASERO COMPL.",
+     "descripcion_en": "TAILLIGHT UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H4710-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": ".BOMBILLA (12V-21/5W)",
+     "descripcion_en": ".BULB (12V-21/5W)",
+     "cantidad": 1,
+     "codigo": "4AC-H4714-00",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": ".BOMBILLA DE DESTELLADOR (12V-1",
+     "descripcion_en": ".BULB (12V-10W) AMBER",
+     "cantidad": 2,
+     "codigo": "5LL-H3311-00",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": ".UNIDAD FARO TRASERO SUB COMPL.",
+     "descripcion_en": ".TAIL LIGHT SUB-ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H4709-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": ".LENTE DE DESTELLADOR",
+     "descripcion_en": ".LENS, FLASHER 2",
+     "cantidad": 1,
+     "codigo": "1FD-H3342-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": ".LENTE DE DESTELLADOR",
+     "descripcion_en": ".LENS, FLASHER",
+     "cantidad": 1,
+     "codigo": "1FD-H3332-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".EMPAQUE LENTE FARO TRASERO",
+     "descripcion_en": ".GASKET, TAIL LENS",
+     "cantidad": 1,
+     "codigo": "1FD-H4723-00",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": ".JUNTA, LUZ DE COLA",
+     "descripcion_en": ".GASKET, TAILLIGHT",
+     "cantidad": 1,
+     "codigo": "1FD-H4712-00",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": ".TORNILLO ROSCA HEMBRA",
+     "descripcion_en": ".SCREW, TAPPING",
+     "cantidad": 2,
+     "codigo": "9770L-40620",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "TORNILLO REDONDO ROSCA HEMBRA",
+     "descripcion_en": "SCREW, ROUND TAPPING",
+     "cantidad": 3,
+     "codigo": "90160-05811",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "TUERCA DE RESORTE",
+     "descripcion_en": "NUT, SPRING",
+     "cantidad": 2,
+     "codigo": "90183-05807",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "TAPON",
+     "descripcion_en": "GROMMET",
+     "cantidad": 3,
+     "codigo": "90480-16004",
+     "nota": ""
+    }
+   ]
+  },
+  "37": {
+   "titulo": "INTERRUPTOR DE MANILLAR&PALANC HANDLE SWITCH & LEVER",
+   "paginas": [
+    51
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "INTERRUPTOR DE MANIJA 1",
+     "descripcion_en": "SWITCH, HANDLE 1",
+     "cantidad": 1,
+     "codigo": "1FD-H3976-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "INTERRUPTOR DE MANIJA 1",
+     "descripcion_en": "SWITCH, HANDLE 1",
+     "cantidad": 1,
+     "codigo": "1FD-H3976-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "INTERRUPTOR DE MANIJA 2",
+     "descripcion_en": "SWITCH, HANDLE 2",
+     "cantidad": 1,
+     "codigo": "1FD-H3975-10",
+     "nota": ""
+    }
+   ]
+  },
+  "38": {
+   "titulo": "EQUIPO ELECTRICO 1",
+   "paginas": [
+    52
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "BOBINA DE ENCENDIDO COMPLETA",
+     "descripcion_en": "IGNITION COIL ASSY",
+     "cantidad": 1,
+     "codigo": "3C1-H2310-01",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 2,
+     "codigo": "95E32-06016",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "TAPON DE BUJIA COMPLT",
+     "descripcion_en": "PLUG CAP ASSY",
+     "cantidad": 1,
+     "codigo": "2PH-H2370-10",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "BATERIA COMPLETA (YUASA YTZ4V)",
+     "descripcion_en": "BATTERY ASSY (YUASA YTZ4V)",
+     "cantidad": 1,
+     "codigo": "14D-H2100-00",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "CABLE CONDUCTOR NEGATIVO",
+     "descripcion_en": "WIRE, MINUS LEAD",
+     "cantidad": 1,
+     "codigo": "1DY-H2116-00",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "INTERRUPTOR PRINCIPAL SUB ASSY",
+     "descripcion_en": "MAIN SWITCH SUB ASSY.",
+     "cantidad": 1,
+     "codigo": "1FD-XH252-20",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": ".TORNILLO CON RONDONA",
+     "descripcion_en": ".SCREW, PAN HEAD WITH WASHER",
+     "cantidad": 1,
+     "codigo": "97602-05310",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "TORNILLO ALLEN",
+     "descripcion_en": "BOLT, HEXAGON SOCKET HEAD",
+     "cantidad": 2,
+     "codigo": "90110-06883",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "INTERRUPTOR DE PARADA COMPLETO",
+     "descripcion_en": "STOP SWITCH ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H2530-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "CONJUNTO DE CABLES",
+     "descripcion_en": "WIRE HARNESS ASSY",
+     "cantidad": 1,
+     "codigo": "BF2-H2590-00",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": ".FUSIBLE (30A)",
+     "descripcion_en": ".FUSE (30A)",
+     "cantidad": 1,
+     "codigo": "5ML-H2151-00",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06014",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "BRIDA",
+     "descripcion_en": "CLAMP",
+     "cantidad": 1,
+     "codigo": "90465-13152",
+     "nota": ""
+    }
+   ]
+  },
+  "39": {
+   "titulo": "EQUIPO ELECTRICO 2",
+   "paginas": [
+    53
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "UNIDAD CONTROL",
+     "descripcion_en": "ENGINE CONTROL UNIT ASSY",
+     "cantidad": 1,
+     "codigo": "BF2-H591A-00",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "BANDA",
+     "descripcion_en": "BAND",
+     "cantidad": 1,
+     "codigo": "1FD-H5546-10",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "INTERRUPTOR NEUTRAL COMPL",
+     "descripcion_en": "NEUTRAL SWITCH ASSY",
+     "cantidad": 1,
+     "codigo": "31B-H2540-01",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "ANILLO O",
+     "descripcion_en": "O-RING",
+     "cantidad": 1,
+     "codigo": "93210-21801",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "TORNILLO",
+     "descripcion_en": "SCREW, PAN HEAD",
+     "cantidad": 2,
+     "codigo": "98502-05016",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "UNIDAD TERMOSTATO",
+     "descripcion_en": "THERMO UNIT",
+     "cantidad": 1,
+     "codigo": "54P-H3591-00",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "JUNTA",
+     "descripcion_en": "GASKET",
+     "cantidad": 1,
+     "codigo": "90430-10806",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "SENSOR",
+     "descripcion_en": "SENSOR, OXYGEN",
+     "cantidad": 1,
+     "codigo": "2BM-H592A-10",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "RECTIFICADOR Y REGULADOR",
+     "descripcion_en": "RECTIFIER & REGULATOR ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H1960-00",
+     "nota": ""
+    },
+    {
+     "ref": "10",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95E32-06014",
+     "nota": ""
+    },
+    {
+     "ref": "11",
+     "descripcion": "CONJUNTO ARRANCADOR RELEVO",
+     "descripcion_en": "STARTER RELAY ASSY",
+     "cantidad": 1,
+     "codigo": "1S7-H1940-10",
+     "nota": ""
+    },
+    {
+     "ref": "12",
+     "descripcion": "CONDENSADOR",
+     "descripcion_en": "CONDENSER, SMOOTHING",
+     "cantidad": 1,
+     "codigo": "1FD-H1965-00",
+     "nota": ""
+    },
+    {
+     "ref": "13",
+     "descripcion": "RELE DE DESTELLADOR COMPL.",
+     "descripcion_en": "FLASHER RELAY ASSY",
+     "cantidad": 1,
+     "codigo": "1FD-H3350-00",
+     "nota": ""
+    },
+    {
+     "ref": "14",
+     "descripcion": "BOCINA",
+     "descripcion_en": "HORN",
+     "cantidad": 1,
+     "codigo": "5BU-H3371-10",
+     "nota": ""
+    },
+    {
+     "ref": "15",
+     "descripcion": "CERROJO, REBORDE HUECO PROFUND",
+     "descripcion_en": "BOLT, FLANGE DEEP RECESS",
+     "cantidad": 1,
+     "codigo": "95D02-06010",
+     "nota": ""
+    },
+    {
+     "ref": "16",
+     "descripcion": "UNIDAD TRANSM. MED. COMBUST.",
+     "descripcion_en": "SENDER UNIT ASSY, FUEL METER",
+     "cantidad": 1,
+     "codigo": "1FD-H5752-00",
+     "nota": ""
+    },
+    {
+     "ref": "17",
+     "descripcion": "SEGURO",
+     "descripcion_en": "RETAINER",
+     "cantidad": 1,
+     "codigo": "5ER-H5757-00",
+     "nota": ""
+    },
+    {
+     "ref": "18",
+     "descripcion": "EMPAQUE DE UNIDAD TRANSMISORA",
+     "descripcion_en": "GASKET, SENDER UNIT",
+     "cantidad": 1,
+     "codigo": "1DY-H5753-00",
+     "nota": ""
+    },
+    {
+     "ref": "19",
+     "descripcion": "TORNILLO CON ARANDELA",
+     "descripcion_en": "BOLT, WITH WASHER",
+     "cantidad": 4,
+     "codigo": "90119-05022",
+     "nota": ""
+    }
+   ]
+  }
+ }
+}

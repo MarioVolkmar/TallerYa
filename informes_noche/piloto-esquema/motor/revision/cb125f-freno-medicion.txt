@@ -1,0 +1,17 @@
+informes_noche/piloto-esquema/motor/cb125f-freno.html · 79 s · 6 anchos · modelo v2
+  360×740: dibujo 304×237 completo · apoyo 15 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0 · hoja 12 % (tapa 0 % de la pieza)
+  390×844: dibujo 334×260 completo · apoyo 10 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0 · hoja 10 % (tapa 0 % de la pieza)
+  768×1024: dibujo 708×551 completo · apoyo 4 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0 · hoja 9 % (tapa 0 % de la pieza)
+  1024×768: dibujo 573×381 completo · apoyo 12 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0
+  1280×800: dibujo 681×469 completo · apoyo 11 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0
+  1440×900: dibujo 681×530 completo · apoyo 10 % · en grupo: Desarmar sí · unico: 2 marcas de 46 px, fallas 0, solapes 0
+  Lista: 2 grupos (0 abiertos), 13 piezas; buscador «bomba» → 0
+  Ficha: 10 secciones, 776 px a 1280 / 1668 px a 360; ‹ › funcionan
+  Piezas a 360: 15 de 15 con área tocable ≥ 24 px de diámetro
+  Cómo funciona: 7 pasos · etiquetas ✓ · letra 13.1/12.1 px ✓ · cambios por paso [3, 6, 4, 4, 3, 17] ✓ · texto ≤ 248 car. ✓ · indicador declarado que no aplica · detalle 57 formas / 16 degradados → mínimo CUMPLE
+  Para criterios a ojo: toques hasta la ficha 3 (adentro 4, desarme ≤ 4.2 s) → subnota del 1: 4 · ficha a 360: «¿Se repara?» a 0.42 pantallas, «Pedir» a 0.87 → subnota del 3: 5
+  3D: sin forma3d
+Notas estimadas (criterios medibles): 6: 5 · 8: 4.7 · 9: 5.0 · 10: 5.0 · 11: 4.8 · 12: 4.8  → promedio 4.88
+Bloqueantes: ninguno · Medible APRUEBA
+Con los criterios a ojo (1,2,3,4,5,7 = 5,4,4,5,4,4): promedio de los 12 = 4.61 → APRUEBA
+  - aviso, no baja la nota: piezas que no responden en un estado y sí en el otro: Cáliper:11 (arm), Cáliper:12 (arm), Cáliper:4 (arm), Pastillas:6 (arm)

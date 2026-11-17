@@ -1,0 +1,127 @@
+{% load avatares consola %}
+{% url 'consola:accion' 'usuarios.cambiar_rol' u.pk as a_rol %}{% url 'consola:accion' 'usuarios.estado' u.pk as a_estado %}{% url 'consola:accion' 'usuarios.editar' u.pk as a_editar %}{% url 'consola:accion' 'usuarios.contrasena' u.pk as a_clave %}{% url 'consola:accion' 'usuarios.eliminar' u.pk as a_eliminar %}
+<a href="?seccion=usuarios" class="cs-volver">{% icono "atras" 16 %} Todos los usuarios</a>
+<header class="cs-cabeza cs-ficha-cabeza">
+  {% avatar u 64 %}
+  <div>
+    <h1 class="cs-h1" id="cs-titulo">{{ u.get_full_name|default:"(sin nombre)" }} <span class="cs-id">#{{ u.pk }}</span></h1>
+    <p class="cs-sub">{{ u.email }} · <span class="cs-rol cs-rol-{{ rol_u }}">{{ nombres_rol|get_item:rol_u }}</span>
+      · {% if u.is_active %}<span class="cs-estado cs-ok">Activa</span>{% else %}<span class="cs-estado cs-off">Inactiva</span>{% endif %}
+      {% if es_yo %}· <strong>tu cuenta</strong>{% endif %}</p>
+    <p class="cs-sub cs-peq">Desde {{ u.date_joined|date:"j M Y" }} · último ingreso {{ u.last_login|date:"j M Y, H:i"|default:"nunca" }}{% if u.perfil.correo_verificado %} · correo verificado{% endif %}</p>
+  </div>
+</header>
+
+{% if rol_u == "sin_perfil" %}
+<div class="cs-incompleto" role="note">
+  <strong>Registro incompleto.</strong> {{ ayuda_incompleto }}: no tiene perfil de motero (nombre y celular) ni un taller vinculado{% if not u.perfil.terminos_aceptados %}, y no ha aceptado los términos{% endif %}.
+  Para terminar debe entrar y completar su perfil{% if u.perfil.google_sub %} (se creó con Google){% endif %}; también puedes vincularla a un taller desde «Rol y acceso».
+</div>
+{% endif %}
+<div class="cs-rejilla">
+  {# ---------- Acciones ---------- #}
+  <section class="cs-tarjeta" aria-labelledby="t-datos">
+    <h2 class="cs-h3" id="t-datos">Nombre y correo</h2>
+    <form method="post" action="{{ a_editar }}" data-accion class="cs-form">
+      {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+      <label class="cs-filtro"><span class="cs-etq">Nombre</span>
+        <input name="first_name" value="{{ form.first_name.value|default:'' }}" class="cs-campo" required {% limite "nombre" %} autocomplete="off"></label>
+      <label class="cs-filtro"><span class="cs-etq">Apellido</span>
+        <input name="last_name" value="{{ form.last_name.value|default:'' }}" class="cs-campo" {% limite "apellido" %} autocomplete="off"></label>
+      <label class="cs-filtro"><span class="cs-etq">Correo (también es su usuario para entrar)</span>
+        <input type="email" name="email" value="{{ form.email.value|default:'' }}" class="cs-campo" required {% limite "correo" %} autocomplete="off"></label>
+      <button class="cs-btn">Guardar</button>
+    </form>
+  </section>
+
+  <section class="cs-tarjeta" aria-labelledby="t-rol">
+    <h2 class="cs-h3" id="t-rol">Rol y acceso</h2>
+    <form method="post" action="{{ a_rol }}" data-accion data-confirmar="¿Cambiar el rol de {{ u.get_full_name|default:u.email }}?" class="cs-form">
+      {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+      <label class="cs-filtro"><span class="cs-etq">Rol</span>
+        <select name="rol" class="cs-campo campo" data-rol>
+          <option value="admin" {% if rol_u == "admin" %}selected{% endif %}>Administrador</option>
+          <option value="taller" {% if rol_u == "taller" %}selected{% endif %}>Taller</option>
+          <option value="motero" {% if rol_u == "motero" or rol_u == "sin_perfil" %}selected{% endif %}>Motero</option>
+        </select></label>
+      {% if not taller_u %}
+      <label class="cs-filtro" data-solo-taller {% if rol_u != "taller" %}hidden{% endif %}><span class="cs-etq">Taller sin cuenta para vincular</span>
+        <select name="taller" class="cs-campo campo">
+          <option value="">— Elige un taller —</option>
+          {% for t in talleres_libres %}<option value="{{ t.pk }}">{{ t.nombre }}</option>{% endfor %}
+        </select></label>
+      {% else %}
+      <p class="cs-peq">Vinculada a <strong>{{ taller_u.nombre }}</strong>. Pasarla a Motero la desvincula.</p>
+      {% endif %}
+      <button class="cs-btn">Cambiar rol</button>
+    </form>
+    <hr class="cs-sep">
+    <div class="cs-acciones-fila">
+      <form method="post" action="{{ a_estado }}" data-accion
+            data-confirmar="{% if u.is_active %}¿Desactivar la cuenta? No podrá entrar hasta que la actives de nuevo.{% else %}¿Activar la cuenta de nuevo?{% endif %}">
+        {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        <input type="hidden" name="activa" value="{% if u.is_active %}0{% else %}1{% endif %}">
+        <button class="cs-btn cs-btn-sec">{% if u.is_active %}Desactivar cuenta{% else %}Activar cuenta{% endif %}</button>
+      </form>
+      <form method="post" action="{{ a_clave }}" data-accion data-confirmar="¿Crear una contraseña temporal? La actual deja de servir y se cierran sus sesiones.">
+        {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        <button class="cs-btn cs-btn-sec">Restablecer contraseña</button>
+      </form>
+    </div>
+  </section>
+
+  {# ---------- Todo lo de esta persona ---------- #}
+  <section class="cs-tarjeta" aria-labelledby="t-motos">
+    <h2 class="cs-h3" id="t-motos">Motos {% if motero %}<span class="cs-cuenta-n">{{ motos|length }}</span>{% endif %}</h2>
+    {% if motero %}<p class="cs-peq">Perfil de motero: {{ motero.nombre }} · {{ motero.celular_oculto }}{% if motero.es_plus %} · <strong>Plus</strong>{% endif %}</p>{% endif %}
+    {% for m in motos %}<p class="cs-linea">{{ m }}{% if m.placa %} · {{ m.placa }}{% endif %}</p>{% empty %}<p class="cs-vacio">Sin motos.</p>{% endfor %}
+    {% if plus %}<h3 class="cs-h4">Plus</h3>{% for s in plus %}<p class="cs-linea">{{ s.get_estado_display }}{% if s.vence %} · vence {{ s.vence|date:"j M Y" }}{% endif %}</p>{% endfor %}{% endif %}
+    {% if taller_u %}<h3 class="cs-h4">Taller</h3><p class="cs-linea"><a href="{{ taller_u.get_absolute_url }}">{{ taller_u.nombre }}</a> · {% if taller_u.activo %}publicado{% else %}por aprobar{% endif %}</p>{% endif %}
+  </section>
+
+  <section class="cs-tarjeta" aria-labelledby="t-citas">
+    <h2 class="cs-h3" id="t-citas">Citas <span class="cs-cuenta-n">{{ n_citas }}</span></h2>
+    {% for c in citas %}<p class="cs-linea">{{ c.fecha_preferida|date:"j M Y" }} · {{ c.taller.nombre }} · {{ c.get_estado_display }}</p>{% empty %}<p class="cs-vacio">Sin citas.</p>{% endfor %}
+  </section>
+
+  <section class="cs-tarjeta" aria-labelledby="t-cupones">
+    <h2 class="cs-h3" id="t-cupones">Cupones <span class="cs-cuenta-n">{{ n_codigos }}</span></h2>
+    {% for k in codigos %}<p class="cs-linea">{{ k.cupon.titulo }} · {{ k.cupon.taller.nombre }} · {% if k.canjeado_en %}canjeado{% else %}sin canjear{% endif %}</p>{% empty %}<p class="cs-vacio">Sin cupones.</p>{% endfor %}
+  </section>
+
+  <section class="cs-tarjeta" aria-labelledby="t-foro">
+    <h2 class="cs-h3" id="t-foro">Foro <span class="cs-cuenta-n">{{ n_preguntas }} · {{ n_respuestas }}</span></h2>
+    <p class="cs-peq">{{ n_preguntas }} pregunta{{ n_preguntas|pluralize }}, {{ n_respuestas }} respuesta{{ n_respuestas|pluralize }}, {{ n_resenas }} reseña{{ n_resenas|pluralize }} de talleres.</p>
+    {% for p in preguntas %}<p class="cs-linea"><a href="{{ p.get_absolute_url }}">{{ p.titulo|truncatechars:70 }}</a></p>{% endfor %}
+  </section>
+
+  <section class="cs-tarjeta" aria-labelledby="t-hist">
+    <h2 class="cs-h3" id="t-hist">Historial en la bitácora</h2>
+    {% for r in historial %}<p class="cs-linea"><a href="?seccion=bitacora&amp;id={{ r.pk }}">{{ r.frase }}</a> <span class="cs-fecha">{{ r.creado|date:"j M Y, H:i" }}</span></p>{% empty %}<p class="cs-vacio">Sin acciones de administrador.</p>{% endfor %}
+    {% if historial %}<p><a href="?seccion=bitacora&amp;objeto=user:{{ u.pk }}" class="cs-peq">Ver todo</a></p>{% endif %}
+  </section>
+
+  {# ---------- Eliminación segura ---------- #}
+  <section class="cs-tarjeta cs-peligro cs-ancha" aria-labelledby="t-eliminar">
+    <h2 class="cs-h3" id="t-eliminar">Eliminar la cuenta</h2>
+    {% if eliminacion.filas %}
+    <ul class="cs-deps">
+      {% for f in eliminacion.filas %}<li class="{% if f.bloquea %}cs-dep-bloquea{% endif %}"><strong>{{ f.texto|capfirst }}</strong>: {{ f.detalle }}</li>{% endfor %}
+    </ul>
+    {% else %}<p class="cs-peq">No tiene datos que dependan de ella.</p>{% endif %}
+    {% if eliminacion.se_puede %}
+    <form method="post" action="{{ a_eliminar }}" data-accion data-confirmar="¿Eliminar para siempre la cuenta de {{ u.email }}? Esto no se puede deshacer.">
+      {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+      <button class="cs-btn cs-btn-peligro">Eliminar cuenta</button>
+    </form>
+    {% else %}
+    <p class="cs-bloqueo" role="note"><strong>No se puede eliminar.</strong> {% for b in eliminacion.bloqueos %}{{ b }} {% endfor %}</p>
+    {% if u.is_active and not es_yo %}
+    <form method="post" action="{{ a_estado }}" data-accion data-confirmar="¿Desactivar la cuenta en lugar de borrarla? Sus datos se conservan.">
+      {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}"><input type="hidden" name="activa" value="0">
+      <button class="cs-btn cs-btn-sec">Desactivarla en su lugar</button>
+    </form>
+    {% endif %}
+    {% endif %}
+  </section>
+</div>

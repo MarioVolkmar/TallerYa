@@ -492,4 +492,9 @@ html.esq-con-hoja body{padding-bottom:96px}
 
 /* kits de venta: una línea chica, sin caja */
 .esq-v2-kit{margin:4px 0 8px;font-size:.84rem;color:var(--crema-2)}
-@media(max-width:959px){.esq-v2-seguir .esq-enl{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}}
+.esq-v2-seguir .esq-enl{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}   /* ronda 4: a todo ancho (a 1024 y 1280 medía 22 px: criterio 6) */
+/* v12: con zoom, el dibujo se arrastra (mouse o un dedo): mano abierta y, al arrastrar, cerrada; las piezas siguen con su cursor de clic */
+.esq-lienzo #lamina.esq-ampliado{cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+.esq-lienzo #lamina.esq-arrastrando,.esq-lienzo #lamina.esq-arrastrando *{cursor:grabbing!important}
+/* ronda 3: 44 px de toque en los botones de enlace y efecto a todo ancho (a 1024 medían 22 px y el criterio 6 no aprobaba) */
+.esq-cadena button,.esq-enlaces button,.esq-efecto button{min-height:44px}

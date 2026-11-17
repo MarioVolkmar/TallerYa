@@ -1235,23 +1235,25 @@
   "2": {
    "nombre": "Pasador del cárter",
    "cat": "PIN · 1 pieza",
-   "que": "El conjunto en esta parte.",
-   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "que": "Un pin recto pequeño clavado en la mitad derecha del [[1|cárter]].",
+   "sirve": "Hace de guía o tope para que la pieza que va encima quede siempre en la misma posición.",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "La pieza vecina no asienta bien o queda corrida al armar."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "maluso",
+     "Se dobla o se pierde al desarmar."
     ]
    ],
    "decision": "reutiliza",
    "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Revísalo solo cuando se abra el cárter.",
    "arrastra": [],
-   "conecta": [],
+   "conecta": [
+    "1"
+   ],
    "certeza": [
     [
      "ok",
@@ -1259,12 +1261,12 @@
     ]
    ],
    "certezaDe": {
+    "que": "ok",
     "sirve": "ap",
     "sintomas": "ap",
     "fallas": "ap",
     "porque": "ap",
-    "cuando": "ap",
-    "que": "ok"
+    "cuando": "ap"
    },
    "codigo": "99480-03012",
    "rodar": "sigue"
@@ -1398,23 +1400,30 @@
   "6": {
    "nombre": "Pasadores de las mitades",
    "cat": "PIN, DOWEL · 2 piezas",
-   "que": "El conjunto en esta parte.",
-   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "que": "Dos pines huecos entre las dos mitades del [[1|cárter]].",
+   "sirve": "Alinean las dos mitades del cárter para que el cigüeñal y los rodamientos queden centrados y la unión selle parejo.",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "Al armar, las mitades no cierran parejo.",
+    "Aceite por la unión de las dos mitades."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "maluso",
+     "Se doblan o se pierden al desarmar, o se clavan torcidos al armar."
+    ],
+    [
+     "humedad",
+     "El óxido los pega en su hueco."
     ]
    ],
    "decision": "reutiliza",
    "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Revísalos solo cuando se abra el cárter (reparación de motor).",
    "arrastra": [],
-   "conecta": [],
+   "conecta": [
+    "1"
+   ],
    "certeza": [
     [
      "ok",
@@ -1422,12 +1431,12 @@
     ]
    ],
    "certezaDe": {
+    "que": "ok",
     "sirve": "ap",
     "sintomas": "ap",
     "fallas": "ap",
     "porque": "ap",
-    "cuando": "ap",
-    "que": "ok"
+    "cuando": "ap"
    },
    "codigo": "99530-10114",
    "rodar": "pronto"
@@ -2184,23 +2193,31 @@
   "21": {
    "nombre": "Pasadores de la tapa de la transmisión final",
    "cat": "PIN, DOWEL · 2 piezas",
-   "que": "El conjunto en esta parte.",
-   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "que": "Dos pines huecos entre la [[18|tapa de la transmisión final]] y el [[1|cárter]].",
+   "sirve": "Ubican la tapa en su sitio para que los ejes de la transmisión final queden alineados y la [[20|junta tórica]] selle pareja.",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "La tapa no cierra pareja al armar.",
+    "Aceite por el borde de la tapa de la transmisión final."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "maluso",
+     "Se doblan o se pierden al desarmar, o se clavan torcidos al armar."
+    ],
+    [
+     "humedad",
+     "El óxido los pega en su hueco."
     ]
    ],
    "decision": "reutiliza",
    "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Revísalos cada vez que se abra la tapa de la transmisión final.",
    "arrastra": [],
-   "conecta": [],
+   "conecta": [
+    "1",
+    "18"
+   ],
    "certeza": [
     [
      "ok",
@@ -2208,12 +2225,12 @@
     ]
    ],
    "certezaDe": {
+    "que": "ok",
     "sirve": "ap",
     "sintomas": "ap",
     "fallas": "ap",
     "porque": "ap",
-    "cuando": "ap",
-    "que": "ok"
+    "cuando": "ap"
    },
    "codigo": "99530-10114",
    "rodar": "pronto"
@@ -2409,23 +2426,31 @@
   "26": {
    "nombre": "Pasadores de la tapa del respiradero",
    "cat": "PIN, DOWEL · 2 piezas",
-   "que": "El conjunto en esta parte.",
-   "sirve": "(Escribe para qué sirve este conjunto en una o dos frases.)",
+   "que": "Dos pines huecos entre la [[24|tapa del respiradero]] y el [[1|cárter]].",
+   "sirve": "Ubican la tapa del respiradero para que asiente pareja sobre su [[25|empaque]].",
    "sintomas": [
-    "(Señales propias de este conjunto.)"
+    "La tapa no cierra pareja al armar.",
+    "Aceite en el borde de la tapa del respiradero."
    ],
    "fallas": [
     [
-     "desgaste",
-     "(Por qué se daña.)"
+     "maluso",
+     "Se doblan o se pierden al desarmar, o se clavan torcidos al armar."
+    ],
+    [
+     "humedad",
+     "El óxido los pega en su hueco."
     ]
    ],
    "decision": "reutiliza",
    "porque": "Se vuelve a poner si no está doblado ni oxidado: solo centra las piezas.",
    "dif": "taller",
-   "cuando": "(Cuándo revisarlo.)",
+   "cuando": "Revísalos cada vez que se abra la tapa del respiradero.",
    "arrastra": [],
-   "conecta": [],
+   "conecta": [
+    "1",
+    "24"
+   ],
    "certeza": [
     [
      "ok",
@@ -2433,12 +2458,12 @@
     ]
    ],
    "certezaDe": {
+    "que": "ok",
     "sirve": "ap",
     "sintomas": "ap",
     "fallas": "ap",
     "porque": "ap",
-    "cuando": "ap",
-    "que": "ok"
+    "cuando": "ap"
    },
    "codigo": "99530-10114",
    "rodar": "sigue"

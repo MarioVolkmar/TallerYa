@@ -1,0 +1,136 @@
+{
+ "moto": "boxer",
+ "fuente": "bajaj-boxer-ct100-2017-colombia-catalogo-partes.pdf",
+ "figuras": {
+  "14": {
+   "titulo": "CLUTCH",
+   "paginas": [
+    39,
+    40
+   ],
+   "columna": "TEC",
+   "columnas": [
+    "TEC",
+    "S1D",
+    "K-TEC",
+    "UG",
+    "4T"
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "Corona Clutch",
+     "cantidad": 1,
+     "codigo": "DX101054",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "2",
+     "descripcion": "Soporte Balinera Clutch",
+     "cantidad": 1,
+     "codigo": "28101195",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "3",
+     "descripcion": "Arandela Corona Clutch",
+     "cantidad": 2,
+     "codigo": "39260011",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "4",
+     "descripcion": "Buje Corona Clutch",
+     "cantidad": 1,
+     "codigo": "DU101109",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "5",
+     "descripcion": "Porta Resorte Clutch",
+     "cantidad": 1,
+     "codigo": "DD101492",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "6",
+     "descripcion": "Kit Discos Clutch",
+     "cantidad": 1,
+     "codigo": "36DD4008",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "7",
+     "descripcion": "Discos Metálicos Clutch",
+     "cantidad": 4,
+     "codigo": "30101096",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "8",
+     "descripcion": "Manzana Clutch",
+     "cantidad": 1,
+     "codigo": "DD101493",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "9",
+     "descripcion": "Resortes Clutch",
+     "cantidad": 6,
+     "codigo": "28101214",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "10",
+     "descripcion": "Tornillo Resorte Clutch",
+     "cantidad": 6,
+     "codigo": "39098004",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "11",
+     "descripcion": "Tuerca Cigüeñal",
+     "cantidad": 1,
+     "codigo": "39105315",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "12",
+     "descripcion": "Balinera Eje Clutch",
+     "cantidad": 1,
+     "codigo": "39240320",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "13",
+     "descripcion": "Impulsor Clutch",
+     "cantidad": 1,
+     "codigo": "31101148",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "14",
+     "descripcion": "Leva Interna Clutch",
+     "cantidad": 1,
+     "codigo": "DX101035",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "15",
+     "descripcion": "Arandela Porta Resortes",
+     "cantidad": 1,
+     "codigo": "31101137",
+     "nota": "columna TEC"
+    }
+   ],
+   "fuera": "No aplican a la columna TEC: 16 Remache; 17 Arandela Campana Clutch; 18 Resorte Clutch; 19 Resorte Campana Clutch; 20 Piñón Corona Clutch; 21 Arandela Presión (Clutch); 22 Arandela Corona Clutch; 23 Corona Clutch (Sola).",
+   "conjuntos": [
+    {
+     "ref": "24",
+     "descripcion": "Clutch Completo",
+     "codigo": "DX101055"
+    }
+   ]
+  }
+ }
+}

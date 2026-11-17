@@ -1,0 +1,1257 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 16",
+  "titulo": "Carburador · boxer-ct100",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Carburador",
+  "sub": "Lámina 16 · 21 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina 16",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "boxer-carburador",
+ "moto": "boxer-ct100",
+ "figura": 16,
+ "catalogo": "boxer-ct100",
+ "intervalos": "auteco_bajaj_boxer_ct_100",
+ "arte": "boxer-carburador",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21"
+ ],
+ "nombres": {
+  "1": "Carburador (pb-)",
+  "2": "Insulador carburador",
+  "3": "Anillo retén múltiple admisión",
+  "4": "Kit carburador",
+  "5": "Kit empaques carburador",
+  "6": "Kit flota y aguja paso gasolina",
+  "7": "Tornillo carburador (kit flota y aguja paso gasolina)",
+  "8": "Tornillo carburador (kit flota y aguja paso gasolina, otro)",
+  "9": "Tornillo carburador (kit flota y aguja paso gasolina, otro)",
+  "10": "Difusor",
+  "11": "Tornillos taza carburador",
+  "12": "Cortina carburador",
+  "13": "Imán swiche gato lateral",
+  "14": "Instalación eléctrica carburador",
+  "15": "Tornillo",
+  "16": "Tapa carburador",
+  "17": "Resorte carburador",
+  "18": "Aguja cortina carburador",
+  "19": "Boquerel de baja",
+  "20": "Aguja flota carburador",
+  "21": "Flota carburador"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "r": 12,
+    "g": 3,
+    "x": 70,
+    "y": 145
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 350,
+    "y": 90
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 550,
+    "y": 90
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    490,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 490,
+    "y": 145
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    550,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 550,
+    "y": 145
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    630,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    630,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 630,
+    "y": 200
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    690,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    630,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    690,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    690,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 690,
+    "y": 200
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    770,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    830,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 830,
+    "y": 90
+   }
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    770,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    830,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    70,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    130,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Carburador (pb-).</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Kit carburador.</b> (texto del paso)",
+   "m": {
+    "4": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Kit empaques carburador.</b> (texto del paso)",
+   "m": {
+    "5": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Kit flota y aguja paso gasolina.</b> (texto del paso)",
+   "m": {
+    "6": [
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Difusor.</b> (texto del paso)",
+   "m": {
+    "10": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapa carburador.</b> (texto del paso)",
+   "m": {
+    "16": [
+     0,
+     0
+    ],
+    "17": [
+     0,
+     0
+    ],
+    "18": [
+     0,
+     0
+    ],
+    "19": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Aguja flota carburador.</b> (texto del paso)",
+   "m": {
+    "20": [
+     0,
+     0
+    ],
+    "21": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Carburador (pb-)",
+   "cat": "Carburador (PB-16) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121009"
+  },
+  "2": {
+   "nombre": "Insulador carburador",
+   "cat": "Insulador Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU101057"
+  },
+  "3": {
+   "nombre": "Anillo retén múltiple admisión",
+   "cat": "Anillo Retén Múltiple Admisión · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39128321"
+  },
+  "4": {
+   "nombre": "Kit carburador",
+   "cat": "Kit Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "36DU1206"
+  },
+  "5": {
+   "nombre": "Kit empaques carburador",
+   "cat": "Kit Empaques Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "36DU1204"
+  },
+  "6": {
+   "nombre": "Kit flota y aguja paso gasolina",
+   "cat": "Kit Flota y Aguja Paso Gasolina · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "36DU1205"
+  },
+  "7": {
+   "nombre": "Tornillo carburador (kit flota y aguja paso gasolina)",
+   "cat": "Tornillo Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "36DU1202"
+  },
+  "8": {
+   "nombre": "Tornillo carburador (kit flota y aguja paso gasolina, otro)",
+   "cat": "Tornillo Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "36DU1203"
+  },
+  "9": {
+   "nombre": "Tornillo carburador (kit flota y aguja paso gasolina, otro)",
+   "cat": "Tornillo Carburador · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39167504"
+  },
+  "10": {
+   "nombre": "Difusor",
+   "cat": "Difusor · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121028"
+  },
+  "11": {
+   "nombre": "Tornillos taza carburador",
+   "cat": "Tornillos Taza Carburador · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DD121171"
+  },
+  "12": {
+   "nombre": "Cortina carburador",
+   "cat": "Cortina Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121017"
+  },
+  "13": {
+   "nombre": "Imán swiche gato lateral",
+   "cat": "Imán Swiche Gato Lateral · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DH121101"
+  },
+  "14": {
+   "nombre": "Instalación eléctrica carburador",
+   "cat": "Instalación Eléctrica Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DH121102"
+  },
+  "15": {
+   "nombre": "Tornillo",
+   "cat": "Tornillo · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "39106204"
+  },
+  "16": {
+   "nombre": "Tapa carburador",
+   "cat": "Tapa Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121022"
+  },
+  "17": {
+   "nombre": "Resorte carburador",
+   "cat": "Resorte Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121021"
+  },
+  "18": {
+   "nombre": "Aguja cortina carburador",
+   "cat": "Aguja Cortina Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121018"
+  },
+  "19": {
+   "nombre": "Boquerel de baja",
+   "cat": "Boquerel de Baja · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121013"
+  },
+  "20": {
+   "nombre": "Aguja flota carburador",
+   "cat": "Aguja Flota Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DD121168"
+  },
+  "21": {
+   "nombre": "Flota carburador",
+   "cat": "Flota Carburador · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo boxer-ct100, fig. 16."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "DU121015"
+  }
+ },
+ "cadenas": [],
+ "cuando": [
+  {
+   "que": "Filtro aire",
+   "cuando": "Cada <b>15.000 km</b>.",
+   "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento; consultado el 14-nov-2026 <span class=\"esq-s-ap\">Aproximado</span>",
+   "tarea": "filtro-aire"
+  },
+  {
+   "que": "Bujia",
+   "cuando": "Cada <b>30.000 km</b>.",
+   "fuente": "Owner's Manual Bajaj CT 100 / CT 110 BS VI, Bajaj Auto India, cuadro de mantenimiento, fila 8 'Spark plug clean & check gap' (CL,A a los 10.000 y 20.000 km; R a los 30.000); consultado el 14-nov-2026 <span class=\"esq-s-ap\">Aproximado</span>",
+   "tarea": "bujia"
+  }
+ ],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "carburador-pb",
+    "nombre": "Carburador (pb-)",
+    "piezas": [
+     "1",
+     "2",
+     "3"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "kit-carburador",
+    "nombre": "Kit carburador",
+    "piezas": [
+     "4"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "kit-empaques-c",
+    "nombre": "Kit empaques carburador",
+    "piezas": [
+     "5"
+    ],
+    "torn": [],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "kit-flota-y-ag",
+    "nombre": "Kit flota y aguja paso gasolina",
+    "piezas": [
+     "6"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo carburador",
+      "corto": "Tornillo",
+      "ids": [
+       "7"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tornillo carburador",
+      "corto": "Tornillo",
+      "ids": [
+       "8"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tornillo carburadors",
+      "corto": "Tornillo",
+      "ids": [
+       "9"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     3
+    ]
+   },
+   {
+    "id": "difusor",
+    "nombre": "Difusor",
+    "piezas": [
+     "10",
+     "12",
+     "13",
+     "14"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos taza carburadors",
+      "corto": "Tornillos",
+      "ids": [
+       "11"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "15"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     4
+    ]
+   },
+   {
+    "id": "tapa-carburado",
+    "nombre": "Tapa carburador",
+    "piezas": [
+     "16",
+     "17",
+     "18",
+     "19"
+    ],
+    "torn": [],
+    "pasos": [
+     5
+    ]
+   },
+   {
+    "id": "aguja-flota-ca",
+    "nombre": "Aguja flota carburador",
+    "piezas": [
+     "20",
+     "21"
+    ],
+    "torn": [],
+    "pasos": [
+     6
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: carburador"
+ }
+}

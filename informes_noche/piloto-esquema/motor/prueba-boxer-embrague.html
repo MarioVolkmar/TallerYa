@@ -502,7 +502,12 @@ html.esq-con-hoja body{padding-bottom:96px}
 
 /* kits de venta: una línea chica, sin caja */
 .esq-v2-kit{margin:4px 0 8px;font-size:.84rem;color:var(--crema-2)}
-@media(max-width:959px){.esq-v2-seguir .esq-enl{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}}
+.esq-v2-seguir .esq-enl{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}   /* ronda 4: a todo ancho (a 1024 y 1280 medía 22 px: criterio 6) */
+/* v12: con zoom, el dibujo se arrastra (mouse o un dedo): mano abierta y, al arrastrar, cerrada; las piezas siguen con su cursor de clic */
+.esq-lienzo #lamina.esq-ampliado{cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+.esq-lienzo #lamina.esq-arrastrando,.esq-lienzo #lamina.esq-arrastrando *{cursor:grabbing!important}
+/* ronda 3: 44 px de toque en los botones de enlace y efecto a todo ancho (a 1024 medían 22 px y el criterio 6 no aprobaba) */
+.esq-cadena button,.esq-enlaces button,.esq-efecto button{min-height:44px}
 </style>
 </head>
 <body>
@@ -809,9 +814,34 @@ function crear(cfg={},marcos={}){
     if(rmin>.5)s+=`<circle cx="${p.x}" cy="${p.y}" r="${rmin}" fill="#20262a"/>`;
     return s;
   }
+  // ronda 4: eje en el plano del dibujo (p.eje:"vertical", o "horizontal" = la misma girada 90°): para horquillas, amortiguadores
+  // y pilas verticales. Anillos de canto (elipse de arriba + banda), resorte y tornillo/tuerca de lado. k = aplastado de la elipse.
+  const tq=(x,y,w,h)=>`<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" fill="#000" fill-opacity="0" pointer-events="all"/>`;
+  const el=(x,y,r,k)=>`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(r)}" ry="${f(r*k)}"`;
+  function anilloV(x,y,r,ri,e,cara,lado,k){   // (x,y) = centro de la cara de arriba; la banda baja e
+    const ar=(rr)=>`M${f(x-rr)} ${f(y)} a${f(rr)} ${f(rr*k)} 0 1 0 ${f(2*rr)} 0 a${f(rr)} ${f(rr*k)} 0 1 0 ${f(-2*rr)} 0 Z`;
+    return `<path d="M${f(x-r)} ${f(y)} v${f(e)} a${f(r)} ${f(r*k)} 0 0 0 ${f(2*r)} 0 v${f(-e)}" fill="${lado}" stroke="#1b2023" stroke-width=".8"/>`+
+      `<path d="${ar(r)} ${ri>0?ar(ri):""}" fill="${cara}" fill-rule="evenodd" stroke="#1b2023" stroke-width=".8"/>`+tq(x-r-2,y-r*k-2,2*r+4,e+2*r*k+4);
+  }
+  const V={
+    arandela:p=>{const m=p.material||"acero",k=p.k||.3;return anilloV(p.x,p.y,p.r,p.ri,p.e||3,p.cara||C[m],p.lado||(m==="plast"?"#7f735b":"#4f585e"),k)},
+    reten:p=>{const r=p.r||20,ri=p.ri||r-7,k=p.k||.3;return anilloV(p.x,p.y,r,ri,p.ancho||5,p.cara||"#202020","#0c0c0c",k)+`${el(p.x,p.y,r-3.5,k)} fill="none" stroke="#5a5a5a" stroke-width="1"/>`},
+    oring:p=>{const g=p.g||3,k=p.k||.3;return `${el(p.x,p.y,p.r,k)} fill="none" stroke="#0b0b0b" stroke-width="${f(g+2)}"/>${el(p.x,p.y,p.r,k)} fill="none" stroke="${p.cara||"#3b3b3b"}" stroke-width="${f(g*.66)}"/>`+tq(p.x-p.r-2,p.y-p.r*k-3,2*p.r+4,2*p.r*k+6)},
+    seguro:p=>{const k=p.k||.3;return `${el(p.x,p.y,p.r,k)} fill="none" stroke="#2a3034" stroke-width="4.5" stroke-dasharray="${f(p.r*5.6)} ${f(p.r*.7)}"/>${el(p.x,p.y,p.r,k)} fill="none" stroke="${C.acero}" stroke-width="2.4" stroke-dasharray="${f(p.r*5.6)} ${f(p.r*.7)}"/>`+tq(p.x-p.r-2,p.y-p.r*k-3,2*p.r+4,2*p.r*k+6)},
+    resorte:p=>{const v=p.vueltas||6,r=p.r,L=p.largo,al=p.alambre||3.2,y0=p.y-L/2,ps=L/v,col=p.color||C.cromo;let a="",b="";   // centrado en (x,y)
+      for(let i=0;i<v;i++){const t=y0+i*ps;a+=`M${f(p.x-r)} ${f(t+ps/2)} L${f(p.x+r)} ${f(t)} `;b+=`M${f(p.x-r)} ${f(t+ps/2)} L${f(p.x+r)} ${f(t+ps)} `}
+      return `<path d="${b}" stroke="#2a2f33" stroke-width="${al}" stroke-linecap="round" fill="none"/><path d="${a}" stroke="#1b1f22" stroke-width="${f(al+1.6)}" stroke-linecap="round" fill="none"/><path d="${a}" stroke="${col}" stroke-width="${al}" stroke-linecap="round" fill="none"/>`+tq(p.x-r-1,y0,2*r+2,L)},
+    tornillo:p=>{const c=p.cabeza||10,d=p.d||8,L=p.largo||30,h=p.alto||Math.round(c*.7),s=p.abajo?-1:1;   // cabeza arriba (p.abajo: cabeza abajo); (x,y) = centro de la cabeza
+      const y1=p.y+s*h/2, cab=p.tipo==="allen"?`<rect x="${f(p.x-c*.8)}" y="${f(p.y-h/2)}" width="${f(c*1.6)}" height="${h}" rx="2" fill="${C.acero}" stroke="#262c30"/>`
+        :`<rect x="${f(p.x-c*.87)}" y="${f(p.y-h/2)}" width="${f(c*1.74)}" height="${h}" fill="${C.acero}" stroke="#262c30"/><path d="M${f(p.x-c*.3)} ${f(p.y-h/2)} v${h} M${f(p.x+c*.3)} ${f(p.y-h/2)} v${h}" stroke="#262c30" stroke-width=".8"/>`;
+      let rosca="";for(let t=4;t<L-2;t+=3)rosca+=`M${f(p.x-d/2)} ${f(y1+s*t)} l${d} ${f(s*-1.2)} `;
+      return `<rect x="${f(p.x-d/2)}" y="${f(Math.min(y1,y1+s*L))}" width="${d}" height="${L}" fill="${C.rosca}" stroke="#4b5256" stroke-width=".8"/><path d="${rosca}" stroke="#4b5256" stroke-width=".7"/>`+cab},
+    tuerca:p=>{const r=p.r||14,h=p.alto||8;return `<rect x="${f(p.x-r)}" y="${f(p.y-h/2)}" width="${2*r}" height="${h}" fill="${C.acero}" stroke="#262c30"/><path d="M${f(p.x-r/2)} ${f(p.y-h/2)} v${h} M${f(p.x+r/2)} ${f(p.y-h/2)} v${h}" stroke="#262c30" stroke-width=".8"/>`},
+  };
   return {
-    arte(pz){const p=pz.p, fn=A[pz.comun];if(!fn)throw new Error("pieza común desconocida: "+pz.comun);
+    arte(pz){const p=pz.p, eje=p.eje==='vertical'||p.eje==='horizontal'?p.eje:null, fn=(eje&&V[pz.comun])||A[pz.comun];if(!fn)throw new Error("pieza común desconocida: "+pz.comun);
       const copias=p.copias||[[0,0]];let s=copias.map(([dx,dy])=>fn(Object.assign({},p,{x:(p.x||0)+dx,y:(p.y||0)+dy}))).join("");
+      if(eje==='horizontal'&&V[pz.comun])s=`<g transform="rotate(-90 ${p.x||0} ${p.y||0})">${s}</g>`;
       const sombra=p.sombra===undefined?["tuerca","tornillo"].includes(pz.comun):p.sombra;
       const m=pz.marco?` transform="${marcos[pz.marco]}"`:"";
       return `<g${m}${sombra&&SOMBRA?` filter="${SOMBRA}"`:""}>${s}</g>`},
@@ -1437,9 +1467,22 @@ function iniciarGesto(){
   else if(p.length===1&&zoom>1.01)gesto={tipo:1,ini:p[0],vb0:vbActual.slice()};
   else gesto=null;
 }
-svg.addEventListener("pointerdown",e=>{if(!dedos.size)anularClic=false;if(e.pointerType==="mouse")return;dedos.set(e.pointerId,[e.clientX,e.clientY]);iniciarGesto()});
+// v12: también con el mouse (botón principal): con zoom, arrastrar recorre el dibujo, como en el despiece del garaje
+svg.addEventListener("pointerdown",e=>{if(!dedos.size)anularClic=false;if(e.pointerType==="mouse"&&e.button!==0)return;dedos.set(e.pointerId,[e.clientX,e.clientY]);iniciarGesto()});
+// rueda: acerca o aleja sobre el punto del cursor. Sin zoom, solo con Ctrl (o el pellizco del touchpad) para no atrapar el scroll de la página
+svg.addEventListener("wheel",e=>{
+  const fac=e.deltaY<0?1.18:1/1.18;
+  if(zoom<=1.01&&(fac<1||!e.ctrlKey&&!e.metaKey))return;
+  const r=svg.getBoundingClientRect();if(!r.width)return;
+  e.preventDefault();
+  const B=V2H.vb?V2H.vb():(paso===0?VB_ARM:VB_EXP), a=aDibujo(e.clientX,e.clientY);
+  const z=Math.min(ZMAX,Math.max(1,zoom*fac)), w=B[2]/z, h=B[3]/z;
+  fijarZoom(z,a[0]-(e.clientX-r.left)*w/r.width+w/2,a[1]-(e.clientY-r.top)*h/r.height+h/2,false);
+},{passive:false});
 svg.addEventListener("pointermove",e=>{
-  if(!dedos.has(e.pointerId))return;dedos.set(e.pointerId,[e.clientX,e.clientY]);if(!gesto)return;
+  if(!dedos.has(e.pointerId))return;
+  if(e.pointerType==="mouse"&&!(e.buttons&1)){soltar(e);return}   // se soltó fuera del dibujo antes de arrastrar
+  dedos.set(e.pointerId,[e.clientX,e.clientY]);if(!gesto)return;
   const p=[...dedos.values()], r=svg.getBoundingClientRect(), B=V2H.vb?V2H.vb():(paso===0?VB_ARM:VB_EXP);
   if(gesto.tipo===2&&p.length>=2){
     const z=Math.min(ZMAX,Math.max(1,gesto.z0*Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1])/gesto.d0)), w=B[2]/z, h=B[3]/z;
@@ -1450,10 +1493,11 @@ svg.addEventListener("pointermove",e=>{
   }else if(gesto.tipo===1){
     const dx=p[0][0]-gesto.ini[0], dy=p[0][1]-gesto.ini[1];
     if(!anularClic&&Math.hypot(dx,dy)<8)return;
+    if(!anularClic){try{svg.setPointerCapture(e.pointerId)}catch(_){}svg.classList.add("esq-arrastrando")}
     anularClic=true;const v=gesto.vb0;fijarZoom(zoom,v[0]+v[2]/2-dx*v[2]/r.width,v[1]+v[3]/2-dy*v[3]/r.height,false);
   }
 });
-const soltar=e=>{if(dedos.delete(e.pointerId))iniciarGesto()};
+const soltar=e=>{if(dedos.delete(e.pointerId))iniciarGesto();if(!dedos.size)svg.classList.remove("esq-arrastrando")};
 svg.addEventListener("pointerup",soltar);svg.addEventListener("pointercancel",soltar);
 svg.addEventListener("click",e=>{if(anularClic){e.stopPropagation();e.preventDefault();anularClic=false}},true);
 
@@ -1694,7 +1738,12 @@ V2H.toquesAuto=sm=>{const s=grupo?sumaG(grupo,gPaso):{}, act=grupo?T_INFO.filter
     let z=C.z,x=C.x,y=C.y;if(!chico(C.z)&&lejos(x,y)<13*sm){const op=[[0,-1],[0,1],[-1,0],[1,0]].map(([u,v])=>[C.z.cx+u*C.z.w/2,C.z.cy+v*C.z.h/2]).sort((a,b)=>lejos(b[0]+C.d[0],b[1]+C.d[1])-lejos(a[0]+C.d[0],a[1]+C.d[1]))[0];
       z=C.t.zonas[1]||(C.t.zonas[1]={w:0,h:0,c:null});z.cx=op[0];z.cy=op[1];x=op[0]+C.d[0];y=op[1]+C.d[1]}
     let r=15*sm;otros.forEach(Q=>r=Math.min(r,Math.hypot(Q.x-x,Q.y-y)/2));
-    r=Math.max(r,13*sm);if(chico(C.z)&&r<=Math.min(z.w,z.h)/2)return;pon(C.t,z,r);circ.push({x,y,r})});
+    r=Math.max(r,13*sm);if(chico(C.z)&&r<=Math.min(z.w,z.h)/2)return;
+    // con el mínimo de 13 px puede encimarse con un círculo ya puesto: este se pinta después y le quitaría toque,
+    // así que se corre lo que se encima, alejándose de él (el anterior conserva sus 26 px)
+    let mov=false;circ.forEach(K=>{const dx=x-K.x,dy=y-K.y,dd=Math.hypot(dx,dy)||1,s=K.r+r-dd;if(s>.5){x+=dx/dd*s;y+=dy/dd*s;mov=true}});
+    if(mov){z=C.t.zonas[2]||(C.t.zonas[2]={w:z.w,h:z.h,c:null});z.cx=x-C.d[0];z.cy=y-C.d[1]}
+    pon(C.t,z,r);circ.push({x,y,r})});
   const conRac=centros.filter(C=>!chico(C.z)&&!delgada(C)&&C.t.racimos&&puede(C.t)&&C.t.racimos.every(chico));
   const rz=[];conRac.forEach(C=>C.t.racimos.forEach(z=>rz.push({C,z,x:z.cx+C.d[0],y:z.cy+C.d[1]})));
   const cajaD=(E,x,y)=>{const b=E.t.todo,x0=b.x+E.d[0],y0=b.y+E.d[1];return Math.hypot(Math.max(x0-x,0,x-x0-b.width),Math.max(y0-y,0,y-y0-b.height))};

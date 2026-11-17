@@ -4,11 +4,15 @@ Uso:
   python plantillas_ficha.py datos/<lamina>.json                 muestra qué tipo le toca a cada ficha vacía (por la descripción del catálogo)
   python plantillas_ficha.py datos/<lamina>.json --escribir      llena los campos vacíos con la plantilla de su tipo
   python plantillas_ficha.py datos/<lamina>.json --tipo 23=filtro,33=abrazadera --escribir   fuerza el tipo de algunas fichas
+  python plantillas_ficha.py datos/<lamina>.json --hermana <lamina> --escribir   hermana con otra numeración: a cada ficha vacía le copia
+      la de la hermana del mismo tipo (resorte, disco, arandela…) con el nombre nuevo; lo que falte, de la plantilla. Edítalas.
 
 Las plantillas son un borrador correcto y prudente, no la ficha final: la creadora cambia «dónde va», el síntoma propio de
 este sistema y los enlaces [[n|texto]] a las piezas vecinas. {pieza} = nombre de la ficha en minúscula; {donde} = «dónde va»
 si la ficha ya trae «que» (si no, queda la frase genérica). Tipos: tornillos, tuerca, arandela, oring, empaque, sello, reten,
 rodamiento, buje, resorte, seguro, grapa, abrazadera, caucho, manguera, tubo, filtro, tapa, caja, conjunto, pieza.
+Por sistema (ronda 8, mandan sobre el tipo): carburador (chicle-alta, chicle-baja, aguja-cortina, cortina, flota, aguja-corte, cuba,
+tornillo-mezcla, tornillo-ralenti, ahogador, aislador), freno de tambor (bandas, leva-freno), rueda y transmisión (cadena, pinon, rin, llanta).
 Modelo de estilo: las funciones por concepto de capturas-rediseno/armar26v2.py.
 """
 import json, pathlib, re, sys
@@ -94,6 +98,11 @@ P = {
    decision="reutiliza", porque="Se reutiliza si el tornillo gira bien y no está oxidada. Al armar, apriétala parejo, sin cortar el caucho.",
    dif="facil", cuando="Revísala cada vez que cambies o limpies el filtro.", arrastra=["Abrazadera floja → entra aire sin filtrar y se gasta el motor."],
    certezaDe=dict(sirve="ap", sintomas="ap", fallas="ap", porque="ap", cuando="ap")),
+ "caucho-campana": dict(que="Los cauchos que van entre la campana de la rueda y el porta sprocket.", sirve="Reciben el tirón de la cadena y lo suavizan antes de que llegue a la rueda.",
+   sintomas=["Golpe o juego al acelerar y soltar.", "El porta sprocket se mueve a mano dentro de la campana."], fallas=[["edad", "El caucho se endurece y se aplasta: queda juego."], ["maluso", "Los arranques bruscos los rajan."]],
+   decision="cambia", porque="El caucho no se repara: si hay juego o están rajados, el juego completo va nuevo.",
+   dif="medio", cuando="Míralos cada vez que cambies el kit de arrastre o saques la rueda.", arrastra=["Cauchos vencidos → golpe en cada cambio de acelerador y desgaste de la cadena."],
+   certezaDe=dict(sirve="ap", sintomas="ap", fallas="ap", porque="ap", cuando="ap")),
  "caucho": dict(que="El caucho de montaje que va {donde}.", sirve="Sostiene la pieza y absorbe la vibración del motor.",
    sintomas=["La pieza vibra o suena.", "El caucho está rajado, duro o aplastado."], fallas=[["edad", "El caucho se endurece y se raja."], ["calor", "El calor lo reseca."]],
    decision="cambia", porque="El caucho no se repara: si está duro o rajado, va nuevo.",
@@ -127,16 +136,105 @@ P = {
    certezaDe=dict(sirve="ap", sintomas="ap", fallas="ap", porque="ap", cuando="ap")),
 }
 P["pieza"] = P["conjunto"]
+# ---------- ronda 8: plantillas por SISTEMA (carburador, freno de tambor, rueda y transmisión final) ----------
+# Mandan sobre las de tipo cuando la descripción nombra la pieza del sistema (en inglés o en español). Son borrador: el número de
+# chiclé, las vueltas y el nivel salen del manual de servicio; si no hay, «manual de servicio» y a «pendientes».
+AP = dict(sirve="ap", sintomas="ap", fallas="ap", porque="ap", cuando="ap")
+GAS = " Trabaja con el motor frío, ventilado y sin chispas cerca; al armar, revisa que nada gotee."
+P.update({
+ "chicle-alta": dict(que="El chiclé de alta: un tornillito de bronce con un agujero calibrado, en el fondo del carburador.", sirve="Deja pasar la gasolina justa cuando aceleras a fondo.",
+   sintomas=["La moto se ahoga o pierde fuerza a fondo.", "Petardea o se calienta en carretera."], fallas=[["mugre", "La mugre de la gasolina tapa el agujero y la mezcla queda pobre."], ["maluso", "Limpiarlo con alambre agranda el agujero y la mezcla queda rica."]],
+   decision="reutiliza", porque="Se limpia con limpiador y aire, nunca con alambre. Si el agujero está agrandado o la rosca dañada, va uno nuevo del mismo número." + GAS,
+   dif="medio", cuando="Míralo cuando limpies el carburador o si la moto falla a fondo.", arrastra=["Chiclé tapado → mezcla pobre → el motor se calienta y pierde fuerza."], certezaDe=AP),
+ "chicle-baja": dict(que="El chiclé de baja: el chiclé pequeño que alimenta el ralentí y el primer tramo del acelerador.", sirve="Da la gasolina del ralentí y de la salida desde parado.",
+   sintomas=["La moto no sostiene el ralentí o se apaga al soltar el acelerador.", "Le cuesta arrancar en frío."], fallas=[["mugre", "Su agujero es muy fino: la gasolina vieja lo tapa primero que a todos."]],
+   decision="reutiliza", porque="Se limpia con limpiador y aire, sin alambre; si no queda limpio o la rosca está dañada, va uno nuevo del mismo número." + GAS,
+   dif="medio", cuando="Míralo si el ralentí falla o la moto estuvo parada mucho tiempo con gasolina.", arrastra=["Chiclé de baja tapado → la moto se apaga en el semáforo."], certezaDe=AP),
+ "aguja-cortina": dict(que="La aguja que cuelga de la cortina y entra en el surtidor.", sirve="Con la cortina sube y deja pasar más gasolina a medio acelerador.",
+   sintomas=["La moto tironea o falla a medio acelerador.", "Gasta más gasolina de lo normal."], fallas=[["desgaste", "El roce la gasta y la mezcla se enriquece."], ["maluso", "Si se dobla, la cortina se traba."]],
+   decision="cambia", porque="Si está rayada, gastada o doblada va nueva (mejor con su surtidor). Su posición (ranura del clip) es la del manual de servicio.",
+   dif="medio", cuando="Revísala al limpiar el carburador.", arrastra=["Aguja gastada → mezcla rica a medio acelerador → bujía negra y más consumo."], certezaDe=AP),
+ "cortina": dict(que="La cortina (pistón del acelerador) que sube y baja dentro del cuerpo del carburador.", sirve="Abre el paso del aire cuando aceleras; con ella sube la aguja.",
+   sintomas=["El acelerador se queda pegado o no vuelve solo.", "Ralentí que sube y baja."], fallas=[["desgaste", "El roce la raya y entra aire por los lados."], ["mugre", "La mugre la frena en su guía."]],
+   decision="reutiliza", porque="Se limpia y se reutiliza si sube y baja suave y sin rayas; si está rayada o tiene juego, va nueva. Al armar, el acelerador debe volver solo.",
+   dif="medio", cuando="Revísala si el acelerador no vuelve solo o al limpiar el carburador.", arrastra=["Cortina que se pega → el acelerador no regresa: peligro al frenar."], certezaDe=AP),
+ "flota": dict(que="La flota (flotador): la pieza hueca que flota sobre la gasolina en la cuba.", sirve="Al subir con la gasolina, empuja la aguja de corte y cierra la entrada cuando la cuba está llena.",
+   sintomas=["El carburador rebosa o gotea gasolina.", "La moto se ahoga."], fallas=[["desgaste", "Si se pica o se llena de gasolina, ya no flota."], ["maluso", "Doblar su lengüeta cambia el nivel."]],
+   decision="cambia", porque="Si tiene gasolina adentro o está deformada, va nueva. El nivel se ajusta con el valor del manual de servicio." + GAS,
+   dif="medio", cuando="Revísala si el carburador rebosa o al limpiarlo.", arrastra=["Flota pesada → cuba rebosada → gasolina al motor o al piso."], certezaDe=AP),
+ "aguja-corte": dict(que="La aguja de corte (punzón) que abre y cierra la entrada de gasolina a la cuba.", sirve="La flota la empuja contra su asiento cuando la cuba está llena.",
+   sintomas=["Gotea gasolina por el rebose con la moto quieta.", "Se ahoga después de estar parada."], fallas=[["desgaste", "La punta de caucho se marca y ya no cierra."], ["mugre", "Una basura entre la punta y el asiento la deja abierta."]],
+   decision="cambia", porque="Si la punta está marcada o dura, va nueva (mejor con su asiento)." + GAS,
+   dif="medio", cuando="Revísala si el carburador rebosa.", arrastra=["Aguja de corte que no cierra → rebose → gasolina en el aceite del motor."], certezaDe=AP),
+ "cuba": dict(que="La cuba (taza): el depósito de abajo del carburador donde espera la gasolina.", sirve="Guarda la gasolina al nivel justo para los chiclés.",
+   sintomas=["Gotea por el empaque.", "Tiene mugre o agua en el fondo."], fallas=[["mugre", "El fondo junta mugre y agua de la gasolina."], ["maluso", "Apretarla de más deforma su empaque."]],
+   decision="reutiliza", porque="Se limpia y se reutiliza; su empaque va nuevo si está duro o aplastado." + GAS,
+   dif="facil", cuando="Drénala si la moto estuvo parada; límpiala con el carburador.", arrastra=["Agua en la cuba → la moto se apaga y no arranca."], certezaDe=AP),
+ "tornillo-mezcla": dict(que="El tornillo de mezcla (de aire): regula la mezcla del ralentí.", sirve="Afina cuánta mezcla entra en ralentí.",
+   sintomas=["Ralentí inestable.", "La moto petardea al soltar el acelerador."], fallas=[["maluso", "Cerrarlo con fuerza daña su punta y su asiento."]],
+   decision="reutiliza", porque="Antes de sacarlo, ciérralo suave contando las vueltas y vuelve a dejarlo igual (o como dice el manual de servicio). Si la punta está marcada, va nuevo con su o-ring.",
+   dif="medio", cuando="Solo si el ralentí falla, después de limpiar el carburador.", arrastra=["Mezcla mal ajustada → ralentí inestable y más consumo."], certezaDe=AP),
+ "tornillo-ralenti": dict(que="El tornillo de ralentí: empuja la cortina para que el motor no se apague en mínima.", sirve="Fija las revoluciones del ralentí.",
+   sintomas=["El motor se apaga en mínima.", "El ralentí queda muy alto."], fallas=[["maluso", "Subirlo para tapar otra falla (chiclé tapado) esconde el problema."]],
+   decision="reutiliza", porque="Se ajusta con el motor caliente a las rpm del manual; si la rosca o el resorte fallan, va nuevo.",
+   dif="facil", cuando="Ajústalo después de limpiar o si el ralentí cambió.", arrastra=["Ralentí muy bajo → se apaga al frenar."], certezaDe=AP),
+ "ahogador": dict(que="El ahogador (cebador) para el arranque en frío.", sirve="Enriquece la mezcla mientras el motor está frío.",
+   sintomas=["Le cuesta arrancar en frío.", "Gasta mucho o se ahoga si queda puesto."], fallas=[["desgaste", "El émbolo o el cable se traban y queda abierto o cerrado."]],
+   decision="reutiliza", porque="Se limpia y se reutiliza si se mueve libre; si se traba o el cable está deshilachado, va nuevo.",
+   dif="facil", cuando="Revísalo si la moto no arranca en frío.", arrastra=["Ahogador pegado → mezcla rica → bujía negra."], certezaDe=AP),
+ "aislador": dict(que="El aislador (múltiple de caucho) entre el carburador y el motor.", sirve="Une el carburador al motor sin dejar entrar aire y le quita calor y vibración.",
+   sintomas=["Ralentí alto o que sube solo.", "Silbido cerca del carburador."], fallas=[["calor", "El calor lo endurece y se raja: entra aire falso."]],
+   decision="cambia", porque="El caucho no se repara: si está duro o rajado, va nuevo con su o-ring." + GAS,
+   dif="medio", cuando="Revísalo cuando saques el carburador o si hay aire falso.", arrastra=["Aislador rajado → aire falso → mezcla pobre y motor caliente."], certezaDe=AP),
+ "bandas": dict(que="Las bandas (zapatas) del freno de tambor.", sirve="Se abren contra la campana y frenan la rueda.",
+   sintomas=["Hay que pisar más para frenar.", "Chillan o rozan."], fallas=[["desgaste", "El forro se gasta; el indicador llega al límite."], ["humedad", "El aceite o la grasa en el forro le quitan agarre."]],
+   decision="cambia", porque="Van por par y nuevas si el indicador llegó al límite o tienen grasa. El polvo no se sopla: trapo húmedo. Al armar, ajusta el juego libre y prueba antes de rodar.",
+   dif="medio", cuando="Mira el indicador de desgaste en cada mantenimiento.", arrastra=["Bandas gastadas → el metal raya la campana."], certezaDe=AP),
+ "leva-freno": dict(que="La leva del freno de tambor y su eje.", sirve="Al girar con la varilla o el cable, abre las bandas.",
+   sintomas=["El freno queda pegado o vuelve lento.", "El pedal tiene juego de más."], fallas=[["humedad", "Sin grasa se oxida y se pega."], ["desgaste", "Se gasta y abre menos las bandas."]],
+   decision="reutiliza", porque="Se limpia y lleva poca grasa en el eje, nada en las bandas. Marca leva y brazo (estrías) antes de separarlos.",
+   dif="medio", cuando="Engrásala cuando cambies las bandas.", arrastra=["Leva pegada → la rueda frena sola y se calienta."], certezaDe=AP),
+ "cadena": dict(que="La cadena de transmisión entre el piñón y la corona.", sirve="Lleva la fuerza del motor a la rueda trasera.",
+   sintomas=["Suena o salta.", "Tiene eslabones tiesos o mucho juego."], fallas=[["desgaste", "Se estira con los kilómetros."], ["humedad", "Sin lubricar se oxida y se gasta rápido."]],
+   decision="cambia", porque="Va con piñón y corona (el kit completo). Motor apagado y en neutro: nunca la mano cerca del piñón. El juego libre es el del manual.",
+   dif="medio", cuando="Limpia, lubrica y revisa el juego en cada mantenimiento.", arrastra=["Cadena estirada → dientes del piñón y la corona gastados."], certezaDe=AP),
+ "pinon": dict(que="El piñón o la corona: rueda dentada de la transmisión final.", sirve="Engrana con la cadena para mover la rueda.",
+   sintomas=["Dientes en punta o en gancho.", "La cadena salta."], fallas=[["desgaste", "Los dientes se gastan con la cadena."]],
+   decision="cambia", porque="Va con la cadena y el otro piñón: uno gastado acaba con los nuevos. Tornillos o tuerca con el torque del manual.",
+   dif="medio", cuando="Míralo cada vez que revises la cadena.", arrastra=["Dientes en gancho → la cadena salta y se gasta."], certezaDe=AP),
+ "rin": dict(que="El rin de la rueda.", sirve="Sostiene la llanta y lleva la fuerza al piso.",
+   sintomas=["La rueda bambolea al girar.", "Radios flojos o el rin golpeado."], fallas=[["golpe", "Un hueco lo dobla."], ["desgaste", "Los radios se aflojan."]],
+   decision="repara", porque="Un rin de radios se centra y se tensan los radios en taller; si está rajado, va nuevo.",
+   dif="taller", cuando="Míralo al revisar la llanta o después de un golpe.", arrastra=["Rin doblado → vibra y se gastan balineras y llanta."], certezaDe=AP),
+ "llanta": dict(que="La llanta (neumático).", sirve="Da el agarre al piso y amortigua.",
+   sintomas=["Labrado gastado.", "Pierde aire o tiene rajas."], fallas=[["desgaste", "El labrado se gasta."], ["edad", "El caucho se reseca con los años."]],
+   decision="cambia", porque="Va nueva si llegó al testigo de desgaste o está rajada. La presión es la del manual.",
+   dif="taller", cuando="Revisa presión y labrado cada semana.", arrastra=["Llanta lisa → frena largo y patina en mojado."], certezaDe=AP),
+})
+SISTEMA = [  # (expresión sobre «DESCRIPCIÓN EN MAYÚSCULAS SIN TILDES | clave en inglés», plantilla); gana la primera
+    (r"MAIN JET|JET, MAIN|CHICLE (DE )?ALTA|CHICLE PRINCIPAL", "chicle-alta"), (r"PILOT JET|SLOW JET|JET, (PILOT|SLOW)|CHICLE (DE )?BAJA|CHICLE (DE )?RALENTI|BOQUEREL", "chicle-baja"),
+    (r"NEEDLE, JET|JET NEEDLE|AGUJA (DE (LA )?)?CORTINA|AGUJA (DEL )?ACELER", "aguja-cortina"), (r"NEEDLE VALVE|VALVE, NEEDLE|VALVE SET, NEEDLE|AGUJA (DE )?(CORTE|FLOTA|FLOTADOR)|PUNZON", "aguja-corte"),
+    (r"(^|\| )\.*\s*(THROTTLE VALVE|VALVE, THROTTLE|PISTON VALVE|CORTINA)", "cortina"), (r"(^|\| )\.*\s*(FLOAT|FLOTA|FLOTADOR)\b(?!.*(CHAMBER|BOWL))", "flota"),
+    (r"FLOAT CHAMBER|CHAMBER, FLOAT|FLOAT BOWL|(^|\| )\.*\s*(TAZA|CUBA)\b", "cuba"), (r"SCREW, (PILOT )?AIR|PILOT (AIR )?SCREW|TORNILLO (DE (LA )?)?(MEZCLA|AIRE)", "tornillo-mezcla"),
+    (r"THROTTLE STOP|IDLE (ADJUST|SCREW)|TORNILLO (DE(L)? )?(RALENTI|MINIMA|MINIMO)", "tornillo-ralenti"), (r"STARTER|CHOKE|AHOGADOR|CEBADOR", "ahogador"),
+    (r"INSULATOR|AISLADOR|INSULADOR", "aislador"), (r"BRAKE SHOE|SHOE, BRAKE|SHOE COMP|(^|\| )\.*\s*(JGO |JUEGO DE )?(BANDAS|ZAPATAS)\b", "bandas"),
+    (r"CAMSHAFT, BRAKE|BRAKE CAM|LEVA (DE(L)? )?(FRENO|PORTABANDAS)|ABREBANDAS", "leva-freno"),
+    (r"DRIVE CHAIN|CHAIN, DRIVE|CADENA DE TRANSMISION|KIT ARRAST", "cadena"), (r"(^|\| )\.*\s*(SPROCKET|CORONA|PI[NÑ]ON)\b|SPROCKET, (DRIVE|DRIVEN)", "pinon"),
+    (r"(^|\| )\.*\s*(RIM|RIN|CAST WHEEL)\b", "rin"), (r"(^|\| )\.*\s*(TIRE|TYRE|LLANTA)\b", "llanta")]
+
 TIPOS = [(r"ELEMENT|FILTER", "filtro"), (r"HOSE CLAMP", "abrazadera"), (r"CIRCLIP", "seguro"), (r"OIL SEAL", "reten"), (r"O-RING", "oring"),
          (r"GASKET", "empaque"), (r"SEAL", "sello"), (r"BEARING", "rodamiento"), (r"BOLT|SCREW", "tornillos"), (r"NUT", "tuerca"),
-         (r"WASHER", "arandela"), (r"COLLAR|BUSH", "buje"), (r"SPRING", "resorte"), (r"CLIP", "grapa"), (r"GROMMET|DAMPER", "caucho"),
+         (r"WASHER", "arandela"), (r"COLLAR|BUSH", "buje"), (r"SPRING", "resorte"), (r"CLIP", "grapa"), (r"DAMPER, HUB", "caucho-campana"), (r"GROMMET|DAMPER", "caucho"),
          (r"HOSE|PIPE", "manguera"), (r"CAP|COVER", "tapa"), (r"CASE", "caja"), (r"ASSY|COMP", "conjunto")]
 
 
 def tipo_de(cat, desc_en=None):
     """Tipo por la descripción del catálogo; en español (o con descripcion_en) se pasa antes por catalogo/claves_es.py."""
     d = clave_en(cat.split(" · ")[0], desc_en)
-    return next((t for ex, t in TIPOS if re.search(ex, d)), "pieza")
+    import unicodedata
+    u = "".join(c for c in unicodedata.normalize("NFD", cat.split(" · ")[0].upper()) if unicodedata.category(c) != "Mn") + " | " + d
+    sis = next((t for ex, t in SISTEMA if re.search(ex, u)), None)   # ronda 8: la pieza del sistema manda sobre el tipo
+    return sis or next((t for ex, t in TIPOS if re.search(ex, d)), "pieza")
 
 
 def descripciones_en(D):
@@ -182,6 +280,41 @@ def llenar(F, tipo, lugar="esta parte"):
     return hechos
 
 
+CAMPOS_HERMANA = ("que", "sirve", "porque", "cuando", "fallas", "sintomas", "arrastra", "decision", "dif", "certezaDe")
+VACIAS = {"de", "del", "la", "el", "los", "las", "y", "en", "con", "para"}
+
+
+def palabras_de(t):
+    return {re.sub(r"(es|s)$", "", w) for w in re.findall(r"[a-záéíóúñ]+", (t or "").lower()) if w not in VACIAS and len(w) > 2}
+
+
+def desde_hermana(D, H, k, F, t, EN, ENH):
+    """Ronda 3: la ficha de la hermana con el mismo tipo (claves_es) y más palabras del nombre en común, copiada a los campos vacíos
+    con el nombre nuevo; los enlaces [[n|…]] de la hermana quedan como texto (su numeración es otra). Devuelve la ref usada o None."""
+    GEN = {"CLUTCH", "COMP", "ASSY", "SUB", "NO", "FR", "RR", "SET", "KIT", "TYPE"}
+    en = lambda cat, d: {w for w in re.findall(r"[A-Z]{3,}", clave_en((cat or "").split(" · ")[0], d).upper()) if w not in GEN}
+    mio = en(F.get("cat"), EN.get(k))
+    mejor, puntos = None, 0
+    for kh, FH in H.get("fichas", {}).items():
+        if FH.get("ctx") or tipo_de(FH.get("cat", ""), ENH.get(kh)) != t: continue
+        p = 2 * len(mio & en(FH.get("cat"), ENH.get(kh))) + len(palabras_de(F.get("nombre")) & palabras_de(FH.get("nombre")) - {"clutch"})
+        if t not in ("pieza", "conjunto"): p += 1   # tipo concreto (resorte, arandela…): ya es parecida aunque el nombre cambie
+        if p > puntos: mejor, puntos = kh, p
+    if t in ("pieza", "conjunto") and puntos < 2: return None   # genérica sin palabras en común: mejor la plantilla
+    if not mejor: return None
+    FH = H["fichas"][mejor]; viejo, nuevo = (FH.get("nombre") or "").lower(), (F.get("nombre") or "").lower()
+    def pasar(v):
+        if isinstance(v, str):
+            v = re.sub(r"\[\[[^|\]]+\|([^\]]+)\]\]", r"\1", v)
+            return re.sub(re.escape(viejo), nuevo, v, flags=re.I) if viejo and nuevo else v
+        if isinstance(v, list): return [pasar(x) for x in v]
+        if isinstance(v, dict): return {a: pasar(b) for a, b in v.items()}
+        return v
+    for c in CAMPOS_HERMANA:
+        if not F.get(c) and FH.get(c): F[c] = pasar(json.loads(json.dumps(FH[c])))
+    return mejor
+
+
 def main():
     a = sys.argv[1:]
     if not a: print(__doc__); return
@@ -189,9 +322,16 @@ def main():
     forz = dict(x.split("=") for x in (a[a.index("--tipo") + 1].split(",") if "--tipo" in a else []))
     escribir = "--escribir" in a
     EN = descripciones_en(D)
+    H = json.loads((ruta.parent / f"{a[a.index('--hermana') + 1]}.json").read_text(encoding="utf-8")) if "--hermana" in a else None
+    ENH = descripciones_en(H) if H else {}
     for k, F in D["fichas"].items():
         if F.get("ctx"): continue
         t = forz.get(k) or tipo_de(F.get("cat", ""), EN.get(k))
+        if H:
+            G = json.loads(json.dumps(F)); de = desde_hermana(D, H, k, G, t, EN, ENH)
+            if de:
+                if escribir: D["fichas"][k] = F = G
+                print(f"  {k:5} {F.get('nombre', '')[:30]:30} ← ficha {de} de la hermana ({H['fichas'][de].get('nombre', '')[:28]}): edítala")
         vac = [c for c in P[t] if not F.get(c)]
         if not vac: continue
         if escribir: llenar(F, t, lugar_de(D, k))

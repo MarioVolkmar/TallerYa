@@ -1,0 +1,515 @@
+<!-- json 5ab5e083e979 -->
+# Revisión rápida · nmax-horquilla
+
+Horquilla y dirección · Yamaha NMAX 155 · catálogo nmax-bbe4 fig. 18 · página `motor/nmax-horquilla.html` · hermana `cb125f-horquilla` (lo heredado sin cambio ya se revisó allá y va resumido)
+
+Guía: `informes_noche/piloto-esquema/guia-revision-rapida.md`. Hallazgos: máximo 12, graves primero, en el formato de `aplicar_hallazgos.py`.
+
+## Lo que ya midió la máquina (no lo repitas)
+- Validador: 0 errores, 1 avisos.
+  - aviso: armado transparente: 19·19 y 53·53 muy juntos (1.3 px de radio); solo se ven al tocar la pieza
+- Medición: Bloqueantes: ninguno · Medible APRUEBA · Notas estimadas (criterios medibles): 6: 4.5 · 8: 4.0 · 9: 4.3 · 10: 5.0 · 11: 4.8 · 12: 4.8  → promedio 4.57
+
+## Catálogo (ref · nombre en la lámina · cantidad · código)
+- 1 FRONT FORK ASSY ×1 · 2 .DAMPER ASSY. (L) ×1 · 3 Botella izquierda ×1 · 4 Retén (izquierda) ×1 · 5 Seguro del retén (izquierda) ×1 · 6 Guardapolvo (izquierda) ×1 · 7 Barra cromada (izquierda) ×1 · 8 Amortiguador (varilla) (izquierda) ×1 · 9 Resorte de rebote (izquierda) ×1 · 10 Aro del pistón (izquierda) ×1 · 11 Cono de tope (izquierda) ×1 · 12 Empaque del allen (izquierda) ×1 · 13 Tornillo allen del fondo (izquierda) ×1 · 14 Resorte de la horquilla (izquierda) ×1 · 15 Empaque del tapón (izquierda) ×1 · 16 Tapón de la barra (izquierda) ×1 · 17 Seguro del tapón (izquierda) ×1 · 18 .DAMPER ASSY. (R) ×1 · 19 Botella derecha ×1 · 20 Retén (derecha) ×1 · 21 Seguro del retén (derecha) ×1 · 22 Guardapolvo (derecha) ×1 · 23 Barra cromada (derecha) ×1 · 24 Amortiguador (varilla) (derecha) ×1 · 25 Resorte de rebote (derecha) ×1 · 26 Aro del pistón (derecha) ×1 · 27 Cono de tope (derecha) ×1 · 28 Empaque del allen (derecha) ×1 · 29 Tornillo allen del fondo (derecha) ×1 · 30 Resorte de la horquilla (derecha) ×1 · 31 Empaque del tapón (derecha) ×1 · 32 Tapón de la barra (derecha) ×1 · 33 Seguro del tapón (derecha) ×1 · 34 Tija inferior ×1 · 35 Guardapolvo de la tija ×1 · 36 Cojinete de abajo de la dirección ×1 · 37 Perno de la tija ×4 · 38 Pista de abajo ×1 · 39 Jaula de bolas de abajo ×1 · 40 Pista de arriba (en el chasis) ×1 · 41 Pista de arriba (en el eje) ×1 · 42 Jaula de bolas de arriba ×1 · 43 Tapa del cojinete de abajo ×1 · 44 Tapa del cojinete de arriba ×1 · 45 Tuerca de la dirección ×3 · 46 Arandela plana de la dirección ×1 · 47 Arandela de traba ×1 · 48 Tapón del eje ×1 · 49 Tapa de abajo de la tija ×1 · 50 Pinza de la manguera del freno (izquierda) ×1 · 51 Tornillo de la pinza (izquierda) ×1 · 52 Pinza de la manguera del freno (derecha) ×1 · 53 Tornillo de la pinza (derecha) ×1
+
+## Grupos
+- **Barra izquierda**: Tapón de la barra (izquierda), Empaque del tapón (izquierda), Seguro del tapón (izquierda), Resorte de la horquilla (izquierda), Barra cromada (izquierda), Guardapolvo (izquierda), Seguro del retén (izquierda), Retén (izquierda), Amortiguador (varilla) (izquierda), Aro del pistón (izquierda), Resorte de rebote (izquierda), Cono de tope (izquierda), Botella izquierda, Pinza de la manguera del freno (izquierda)
+- **Barra derecha**: Tapón de la barra (derecha), Empaque del tapón (derecha), Seguro del tapón (derecha), Resorte de la horquilla (derecha), Barra cromada (derecha), Guardapolvo (derecha), Seguro del retén (derecha), Retén (derecha), Amortiguador (varilla) (derecha), Aro del pistón (derecha), Resorte de rebote (derecha), Cono de tope (derecha), Botella derecha, Pinza de la manguera del freno (derecha)
+- **Tija inferior**: Tija inferior, Tapa de abajo de la tija, Guardapolvo de la tija, Cojinete de abajo de la dirección, Pista de abajo, Jaula de bolas de abajo, Tapa del cojinete de abajo
+- **Cojinetes de arriba**: Pista de arriba (en el chasis), Jaula de bolas de arriba, Pista de arriba (en el eje), Tapa del cojinete de arriba, Tapón del eje
+
+## Desarme
+1. Barras fuera. Moto en el gato central y calzada bajo el chasis, firme, con la rueda delantera en el aire. Quita la rueda, la pinza del freno y el guardabarros (otras láminas). Suelta las pinzas de la manguera (50).
+2. Tapón. Con la barra aún apretada en la tija, empuja el tapón (16) hacia abajo y saca el seguro del tapón (17); el resorte lo empuja: sujétalo. Afloja los pernos de la tija (37) y saca la barra hacia abajo. Al armar: empaque (15) nuevo.
+3. (heredado)
+4. Tornillo allen del fondo. Suéltalo con la barra cerrada: si el amortiguador (8) gira, sujétalo con la herramienta de taller. Al armar: empaque (12) nuevo, traba roscas y torque del manual de servicio.
+5. Barra y retén. Quita el guardapolvo (6) y el seguro (5), saca el retén (4) con un extractor sin rayar la botella y sube la barra. Al armar: retén nuevo, untado de aceite y metido derecho con su herramienta.
+6. Amortiguador interno. Saca de la barra el amortiguador (8) con su resorte de rebote (9), y del fondo de la botella el cono de tope (11) si se quedó allí. Revisa el aro (10): si está gastado o roto, cámbialo.
+7. Barra derecha. Lo mismo en la botella derecha (19). Lava todo y revisa que las barras estén rectas y sin picaduras. Al armar: mismo aceite y nivel en las dos, barras a la misma altura y pernos de la tija con el torque del manual de servicio.
+8. Cojinetes de arriba. Sin el manubrio (otra lámina) y sujetando la tija por abajo para que no caiga: saca el tapón del eje (48), las tuercas (45) con llave de gancho, las arandelas (47), la tapa (44), la pista (41) y las bolas (42).
+9. Tija inferior. Quita la tapa de abajo (49) y baja la tija (34) con su cojinete (36) y el guardapolvo de la tija (35). Revisa pistas y bolas: picadas, cambia el juego entero. Al armar: grasa nueva, sin juego ni dureza al girar; ajuste del manual de servicio.
+
+## Fichas (todos los campos; «(heredado)» = igual que en la hermana, ya revisado; «— falta» = vacío; aprox. = sin fuente)
+- **3 · Botella izquierda** · cambia · taller · TUBE, OUTER (L.H) · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El tubo de aluminio de abajo de la barra izquierda: por dentro lleva el aceite y por fuera sostiene el eje de la rueda.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); (heredado)
+  - sintomas: (heredado); (heredado)
+  - arrastra: (heredado)
+  - conecta: 7, 4, 13, 50 · efectos: 0
+- **4 · Retén (izquierda)** · cambia · taller · OIL SEAL · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); edad: El caucho se endurece.; (heredado)
+  - sintomas: (heredado); (heredado); (heredado)
+  - arrastra: fuga → poco aceite y el amortiguador (8) no frena; (heredado)
+  - conecta: 7, 5, 6, 19 · efectos: 0
+- **5 · Seguro del retén (izquierda)** · reutiliza · taller · RING, SNAP · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: humedad: Se oxida.; maluso: Se deforma al sacarlo.
+  - sintomas: (heredado)
+  - arrastra: (heredado)
+  - conecta: 4, 6 · efectos: 0
+- **6 · Guardapolvo (izquierda)** · cambia · taller · SEAL, DUST · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: Míralo en cada lavada.
+  - fallas: (heredado); humedad: El barro lo desgasta.
+  - sintomas: Está rajado o suelto.; Mugre pegada a la barra.
+  - arrastra: (heredado)
+  - conecta: 4, 7 · efectos: 0
+- **7 · Barra cromada (izquierda)** · cambia · taller · INNER TUBE COMP.1 · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); golpe: Una caída la tuerce.; desgaste: La mugre raya el cromo.
+  - sintomas: (heredado); (heredado); (heredado)
+  - arrastra: (heredado)
+  - conecta: 4, 6, 3 · efectos: 0
+- **8 · Amortiguador (varilla) (izquierda)** · reutiliza · taller · CYLINDER COMP., FRONT FORK · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La varilla con pistón que va adentro de la barra cromada: el aceite pasa por sus agujeros.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); golpe: Un golpe fuerte lo dobla.
+  - sintomas: (heredado); (heredado)
+  - arrastra: (heredado)
+  - conecta: 10, 9, 11, 13 · efectos: 0
+- **9 · Resorte de rebote (izquierda)** · cambia · taller · SPRING, SUB · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El resorte corto que va en la varilla del amortiguador, debajo de su pistón.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: edad: Se cansa con los años.; desgaste: Roza con el aceite sucio.
+  - sintomas: (heredado)
+  - arrastra: roto → golpe al extenderse en el amortiguador (8)
+  - conecta: 8, 10 · efectos: 0
+- **10 · Aro del pistón (izquierda)** · cambia · taller · RING, PISTON · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: Un anillo que rodea la cabeza del amortiguador del amortiguador y roza por dentro de la barra.
+  - sirve: Obliga al aceite a pasar por los orificios del amortiguador: de ahí sale el frenado.
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado)
+  - sintomas: (heredado)
+  - arrastra: gastado → el amortiguador (8) deja de frenar el rebote
+  - conecta: 8, 7 · efectos: 0
+- **11 · Cono de tope (izquierda)** · reutiliza · taller · SPINDLE, TAPER · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La pieza cónica del fondo de la botella donde se apoya la varilla del amortiguador (8).
+  - sirve: (heredado)
+  - porque: Si no está golpeada se vuelve a poner; va bien centrada en el amortiguador.
+  - cuando: (heredado)
+  - fallas: (heredado)
+  - sintomas: (heredado)
+  - arrastra: (heredado)
+  - conecta: 8, 3 · efectos: 0
+- **12 · Empaque del allen (izquierda)** · cambia · taller · GASKET · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: Se aplasta al apretar: va nuevo cada vez.
+  - cuando: Cámbialo cada vez que sueltes el allen.
+  - fallas: (heredado)
+  - sintomas: (heredado)
+  - arrastra: viejo → gotea el allen (13)
+  - conecta: 13 · efectos: 0
+- **13 · Tornillo allen del fondo (izquierda)** · reutiliza · taller · BOLT, HEXAGON SOCKET HEAD · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El tornillo allen que entra por debajo de la botella y se enrosca en el fondo del amortiguador.
+  - sirve: (heredado)
+  - porque: Sano se vuelve a usar con traba roscas y su empaque nuevo.
+  - cuando: (heredado)
+  - fallas: maluso: Apretado sin empaque nuevo gotea.; (heredado)
+  - sintomas: (heredado)
+  - arrastra: flojo → el amortiguador (8) gira y la barra gotea
+  - conecta: 8, 12, 3 · efectos: 0
+- **14 · Resorte de la horquilla (izquierda)** · cambia · taller · SPRING, FRONT FORK · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); (heredado)
+  - sintomas: (heredado); Toca fondo en los huecos.; (heredado)
+  - arrastra: (heredado)
+  - conecta: 16, 8, 7 · efectos: 0
+- **15 · Empaque del tapón (izquierda)** · cambia · taller · GASKET · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: edad: Se aplasta y se endurece.
+  - sintomas: (heredado)
+  - arrastra: (heredado)
+  - conecta: 16 · efectos: 0
+- **16 · Tapón de la barra (izquierda)** · reutiliza · taller · BOLT, CAP · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: Se vuelve a usar con empaque (15) nuevo.
+  - cuando: (heredado)
+  - fallas: maluso: Sin empaque nuevo, suda aceite.; (heredado)
+  - sintomas: (heredado)
+  - arrastra: empaque viejo → suda aceite por la barra (7)
+  - conecta: 15, 14, 7 · efectos: 0
+- **17 · Seguro del tapón (izquierda)** · cambia · taller · RING, SNAP · 1 pieza · también en el kit ref. 2 (barra izquierda completa, B6H-F3102-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, porque
+  - que: El anillo de acero que traba el tapón (16) dentro de la barra, en una ranura de arriba.
+  - sirve: Sostiene el tapón contra la fuerza del resorte.
+  - porque: Va nuevo cada vez que lo sacas: si se suelta, el tapón sale disparado.
+  - cuando: Se saca cada vez que abres la barra.
+  - fallas: maluso: Se dobla si se saca sin empujar antes el tapón.
+  - sintomas: El tapón se ve torcido o hundido.
+  - arrastra: Seguro flojo → el tapón se sale con el resorte.
+  - conecta: 16, 14 · efectos: 0
+- **19 · Botella derecha** · cambia · taller · TUBE, OUTER · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El tubo de aluminio de abajo de la barra derecha, igual por dentro a la izquierda.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); (heredado)
+  - sintomas: (heredado); (heredado)
+  - arrastra: boca rayada → el retén derecho (20) nuevo no sella
+  - conecta: 23, 20, 29, 52 · efectos: 0
+- **20 · Retén (derecha)** · cambia · taller · OIL SEAL · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); edad: El caucho se endurece.; (heredado)
+  - sintomas: (heredado); (heredado); (heredado)
+  - arrastra: fuga → poco aceite y el amortiguador derecho (24) no frena; (heredado)
+  - conecta: 23, 21, 22, 19 · efectos: 0
+- **21 · Seguro del retén (derecha)** · reutiliza · taller · RING, SNAP · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: humedad: Se oxida.; maluso: Se deforma al sacarlo.
+  - sintomas: (heredado)
+  - arrastra: mal puesto → se sale el retén derecho (20)
+  - conecta: 20, 22 · efectos: 0
+- **22 · Guardapolvo (derecha)** · cambia · taller · SEAL, DUST · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: Míralo en cada lavada.
+  - fallas: (heredado); humedad: El barro lo desgasta.
+  - sintomas: Está rajado o suelto.; Mugre pegada a la barra.
+  - arrastra: rajado → la mugre corta el retén derecho (20)
+  - conecta: 20, 23 · efectos: 0
+- **23 · Barra cromada (derecha)** · cambia · taller · INNER TUBE COMP.1 · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); golpe: Una caída la tuerce.; desgaste: La mugre raya el cromo.
+  - sintomas: (heredado); (heredado); (heredado)
+  - arrastra: picaduras → cortan el retén derecho (20) y sale el aceite
+  - conecta: 20, 22, 19 · efectos: 0
+- **24 · Amortiguador (varilla) (derecha)** · reutiliza · taller · CYLINDER COMP., FRONT FORK · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La varilla con pistón que va adentro de la barra cromada: el aceite pasa por sus agujeros.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); golpe: Un golpe fuerte lo dobla.
+  - sintomas: (heredado); (heredado)
+  - arrastra: (heredado)
+  - conecta: 26, 25, 27, 29 · efectos: 0
+- **25 · Resorte de rebote (derecha)** · cambia · taller · SPRING, SUB · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El resorte corto que va en la varilla del amortiguador, debajo de su pistón.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: edad: Se cansa con los años.; desgaste: Roza con el aceite sucio.
+  - sintomas: (heredado)
+  - arrastra: roto → golpe al extenderse en el amortiguador derecho (24)
+  - conecta: 24, 26 · efectos: 0
+- **26 · Aro del pistón (derecha)** · cambia · taller · RING, PISTON · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: Un anillo que rodea la cabeza del amortiguador del amortiguador y roza por dentro de la barra.
+  - sirve: Obliga al aceite a pasar por los orificios del amortiguador: de ahí sale el frenado.
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado)
+  - sintomas: (heredado)
+  - arrastra: gastado → el amortiguador derecho (24) deja de frenar el rebote
+  - conecta: 24, 23 · efectos: 0
+- **27 · Cono de tope (derecha)** · reutiliza · taller · SPINDLE, TAPER · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La pieza cónica del fondo de la botella donde se apoya la varilla del amortiguador derecho (24).
+  - sirve: (heredado)
+  - porque: Si no está golpeada se vuelve a poner; va bien centrada en el amortiguador.
+  - cuando: (heredado)
+  - fallas: (heredado)
+  - sintomas: (heredado)
+  - arrastra: mal puesta → la barra derecha (23) golpea al tocar fondo
+  - conecta: 24, 19 · efectos: 0
+- **28 · Empaque del allen (derecha)** · cambia · taller · GASKET · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: Se aplasta al apretar: va nuevo cada vez.
+  - cuando: Cámbialo cada vez que sueltes el allen.
+  - fallas: (heredado)
+  - sintomas: (heredado)
+  - arrastra: viejo → gotea el allen derecho (29)
+  - conecta: 29 · efectos: 0
+- **29 · Tornillo allen del fondo (derecha)** · reutiliza · taller · BOLT, HEXAGON SOCKET HEAD · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El tornillo allen que entra por debajo de la botella y se enrosca en el fondo del amortiguador.
+  - sirve: (heredado)
+  - porque: Sano se vuelve a usar con traba roscas y su empaque nuevo.
+  - cuando: (heredado)
+  - fallas: maluso: Apretado sin empaque nuevo gotea.; (heredado)
+  - sintomas: (heredado)
+  - arrastra: flojo → el amortiguador derecho (24) gira y la barra gotea
+  - conecta: 24, 28, 19 · efectos: 0
+- **30 · Resorte de la horquilla (derecha)** · cambia · taller · SPRING, FRONT FORK · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); (heredado)
+  - sintomas: (heredado); Toca fondo en los huecos.; (heredado)
+  - arrastra: resorte cansado → la barra derecha (23) toca fondo y golpea el tope derecho (27)
+  - conecta: 32, 24, 23 · efectos: 0
+- **31 · Empaque del tapón (derecha)** · cambia · taller · GASKET · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: edad: Se aplasta y se endurece.
+  - sintomas: (heredado)
+  - arrastra: viejo → suda aceite el tapón derecho (32)
+  - conecta: 32 · efectos: 0
+- **32 · Tapón de la barra (derecha)** · reutiliza · taller · BOLT, CAP · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: Se vuelve a usar con empaque derecho (31) nuevo.
+  - cuando: (heredado)
+  - fallas: maluso: Sin empaque nuevo, suda aceite.; (heredado)
+  - sintomas: (heredado)
+  - arrastra: empaque viejo → suda aceite por la barra derecha (23)
+  - conecta: 31, 30, 23 · efectos: 0
+- **33 · Seguro del tapón (derecha)** · cambia · taller · RING, SNAP · 1 pieza · también en el kit ref. 18 (barra derecha completa, B6H-F3103-00) y en el ref. 1 (horquilla completa, B6H-F3100-10) · aprox.: sirve, porque
+  - que: El anillo de acero que traba el tapón derecho (32) dentro de la barra, en una ranura de arriba.
+  - sirve: Sostiene el tapón contra la fuerza del resorte.
+  - porque: Va nuevo cada vez que lo sacas: si se suelta, el tapón sale disparado.
+  - cuando: Se saca cada vez que abres la barra.
+  - fallas: maluso: Se dobla si se saca sin empujar antes el tapón.
+  - sintomas: El tapón se ve torcido o hundido.
+  - arrastra: Seguro flojo → el tapón se sale con el resorte.
+  - conecta: 32, 30 · efectos: 0
+- **34 · Tija inferior** · cambia · taller · UNDER BRACKET COMP · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La pieza de abajo que une las dos barras con el eje que sube por el tubo de la dirección.
+  - sirve: Sostiene las barras y gira con el manubrio sobre las bolas de la dirección.
+  - porque: Torcida no se endereza: va nueva. Revisa también las barras.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: golpe: Un choque de frente la tuerce.
+  - sintomas: La moto jala hacia un lado.; Las barras no quedan paralelas.
+  - arrastra: Tija torcida → barras torcidas → la moto jala hacia un lado.
+  - conecta: 7, 23, 36, 37 · efectos: 0
+- **35 · Guardapolvo de la tija** · cambia · taller · SEAL, DUST · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El anillo de caucho que va sobre el cojinete de abajo, en el eje de la tija.
+  - sirve: No deja entrar agua ni polvo al cojinete (36).
+  - porque: Va nuevo cada vez que bajas la tija: es barato.
+  - cuando: Cámbialo cuando cambies el juego de la dirección.
+  - fallas: edad: Se endurece y se raja.
+  - sintomas: Óxido o grasa seca en el cojinete de abajo.
+  - arrastra: Guardapolvo roto → entra agua → cojinete picado.
+  - conecta: 36, 34 · efectos: 0
+- **36 · Cojinete de abajo de la dirección** · cambia · taller · BEARING, STEERING LOWER · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El cojinete de bolas que va prensado en el eje de la tija, debajo del tubo de la dirección.
+  - sirve: Deja girar la dirección suave y aguanta los golpes de la rueda.
+  - porque: Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: desgaste: Los huecos de la carretera marcan las pistas.; agua: Se oxida si se lava a presión.
+  - sintomas: La dirección se queda «marcada» en el centro.; Golpeteo adelante al frenar.
+  - arrastra: Cojinete picado → dirección marcada → la moto culebrea a baja velocidad.
+  - conecta: 34, 35, 38 · efectos: 0
+- **37 · Perno de la tija** · reutiliza · taller · BOLT 1 · 4 piezas · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: Uno de los cuatro pernos allen que aprietan cada barra en la tija inferior (dos por barra).
+  - sirve: Sujetan las barras a la tija.
+  - porque: Se reutilizan si la rosca está sana; barridos, van nuevos. Al armar: torque del manual de servicio, parejo.
+  - cuando: Se aflojan cada vez que sacas una barra.
+  - fallas: maluso: Apretados de más tuercen la abrazadera de la tija.
+  - sintomas: Una barra se corre al frenar.
+  - arrastra: Perno flojo → la barra se corre → la rueda queda torcida.
+  - conecta: 34, 7, 23 · efectos: 0
+- **38 · Pista de abajo** · cambia · taller · RACE, BALL 2 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El anillo de acero prensado en la parte de abajo del tubo de la dirección.
+  - sirve: Es el camino del cojinete de abajo.
+  - porque: Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez. Se saca y se mete a presión, derecha.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: desgaste: Los golpes la marcan.
+  - sintomas: La dirección se queda marcada en el centro.
+  - arrastra: Pista marcada → dirección dura en el centro.
+  - conecta: 36, 39 · efectos: 0
+- **39 · Jaula de bolas de abajo** · cambia · taller · RETAINER, BALL BEARING · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El aro con bolas sueltas que rueda entre las pistas de abajo.
+  - sirve: Deja girar la dirección con poco esfuerzo.
+  - porque: Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: seco: Se queda sin grasa.
+  - sintomas: Ruido o dureza al girar el manubrio.
+  - arrastra: Sin grasa → bolas picadas → dirección dura.
+  - conecta: 38, 36 · efectos: 0
+- **40 · Pista de arriba (en el chasis)** · cambia · taller · RACE, BALL 2 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El anillo de acero prensado en la parte de arriba del tubo de la dirección.
+  - sirve: Es el camino de las bolas de arriba.
+  - porque: Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: desgaste: Los golpes la marcan.
+  - sintomas: Juego adelante al frenar.
+  - arrastra: Pista marcada → juego → golpeteo al frenar.
+  - conecta: 42, 41 · efectos: 0
+- **41 · Pista de arriba (en el eje)** · cambia · taller · RACE, BALL 1 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El anillo de acero que va sobre las bolas de arriba y que aprietan las tuercas.
+  - sirve: Cierra el cojinete de arriba y fija el ajuste.
+  - porque: Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: desgaste: Se marca igual que las otras pistas.
+  - sintomas: Juego adelante al frenar.
+  - arrastra: Pista suelta → juego en la dirección.
+  - conecta: 42, 45 · efectos: 0
+- **42 · Jaula de bolas de arriba** · cambia · taller · RETAINER, BALL BEARING · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El aro con bolas que rueda entre las dos pistas de arriba.
+  - sirve: Deja girar la dirección con poco esfuerzo.
+  - porque: Se cambia con todo el juego de la dirección: pistas y bolas de arriba y de abajo a la vez.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: seco: Se queda sin grasa.
+  - sintomas: Ruido o dureza al girar el manubrio.
+  - arrastra: Sin grasa → bolas picadas → dirección dura.
+  - conecta: 40, 41 · efectos: 0
+- **43 · Tapa del cojinete de abajo** · reutiliza · taller · COVER, BALL RACE 2 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La tapa delgada que cubre el cojinete de abajo.
+  - sirve: Lo protege del agua y el polvo.
+  - porque: Se reutiliza si no está doblada.
+  - cuando: Revísala cuando bajes la tija.
+  - fallas: golpe: Se dobla al desarmar.
+  - sintomas: Mugre en el cojinete.
+  - arrastra: Tapa doblada → entra mugre → cojinete picado.
+  - conecta: 36 · efectos: 0
+- **44 · Tapa del cojinete de arriba** · reutiliza · taller · COVER, BALL RACE 1 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La tapa delgada que cubre el cojinete de arriba, debajo de las tuercas.
+  - sirve: Lo protege del agua y el polvo.
+  - porque: Se reutiliza si no está doblada.
+  - cuando: Revísala cuando desarmes la dirección.
+  - fallas: golpe: Se dobla al desarmar.
+  - sintomas: Mugre en el cojinete.
+  - arrastra: Tapa doblada → entra mugre → cojinete picado.
+  - conecta: 41 · efectos: 0
+- **45 · Tuerca de la dirección** · reutiliza · taller · NUT · 3 piezas · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: Una de las tres tuercas redondas con ranuras que van en el eje de la tija.
+  - sirve: La de abajo ajusta el juego de la dirección; las otras la frenan.
+  - porque: Se reutilizan si las ranuras están sanas. Al armar: ajuste y torque del manual de servicio, con llave de gancho, y la dirección debe girar suave y sin juego.
+  - cuando: Revisa la dirección en cada mantenimiento: que gire suave de lado a lado y sin juego al frenar.
+  - fallas: maluso: Apretada de más pica las pistas; floja, deja juego.
+  - sintomas: Juego adelante al frenar.; Dirección dura.
+  - arrastra: Tuerca floja → juego → golpeteo y cojinetes picados.
+  - conecta: 41, 47, 46 · efectos: 0
+- **46 · Arandela plana de la dirección** · reutiliza · taller · WASHER, PLATE · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La arandela plana que va entre las tuercas de la dirección.
+  - sirve: Reparte el apriete.
+  - porque: Se reutiliza si está plana.
+  - cuando: Se saca con las tuercas.
+  - fallas: maluso: Si se olvida, el ajuste queda corrido.
+  - sintomas: Arandela marcada.
+  - arrastra: Arandela olvidada → ajuste corrido.
+  - conecta: 45 · efectos: 0
+- **47 · Arandela de traba** · cambia · taller · WASHER, SPECIAL · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La arandela con lengüetas que frena las tuercas de la dirección para que no se suelten.
+  - sirve: Traba una tuerca con la otra.
+  - porque: Si las lengüetas están dobladas o rotas, va nueva.
+  - cuando: Se saca con las tuercas.
+  - fallas: maluso: Las lengüetas se parten si se doblan muchas veces.
+  - sintomas: Tuercas que se aflojan solas.
+  - arrastra: Arandela sin traba → tuerca floja → juego en la dirección.
+  - conecta: 45 · efectos: 0
+- **48 · Tapón del eje** · cambia · taller · PLUG, HOLE · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: El tapón de caucho que tapa el hueco de arriba del eje de la dirección.
+  - sirve: No deja entrar agua por arriba.
+  - porque: Si se perdió o está duro, va nuevo.
+  - cuando: Míralo cuando laves la moto.
+  - fallas: edad: Se endurece y se cae.
+  - sintomas: Óxido dentro del eje.
+  - arrastra: Sin tapón → entra agua → cojinete oxidado.
+  - conecta: 45 · efectos: 0
+- **49 · Tapa de abajo de la tija** · reutiliza · taller · COVER, UNDER 1 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: La tapa de plástico que va debajo de la tija inferior.
+  - sirve: Tapa el eje y los pernos por debajo.
+  - porque: Se reutiliza si no está rota.
+  - cuando: Se quita cuando bajas la tija.
+  - fallas: golpe: Se raja con piedras.
+  - sintomas: Ruido de plástico suelto adelante.
+  - arrastra: Tapa suelta → ruido.
+  - conecta: 34 · efectos: 0
+- **50 · Pinza de la manguera del freno (izquierda)** · cambia · facil · HOLDER, BRAKE HOSE 1 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); golpe: Se rompe en una caída.
+  - sintomas: (heredado)
+  - arrastra: (heredado)
+  - conecta: 3, 51 · efectos: 0
+- **51 · Tornillo de la pinza (izquierda)** · reutiliza · facil · BOLT, FLANGE DEEP RECESS · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: Fija la pinza.
+  - porque: Sano se vuelve a usar.
+  - cuando: (heredado)
+  - fallas: humedad: Se oxida.
+  - sintomas: La pinza se mueve.
+  - arrastra: flojo → se suelta la pinza (50)
+  - conecta: 50 · efectos: 0
+- **52 · Pinza de la manguera del freno (derecha)** · cambia · facil · HOLDER, BRAKE HOSE 2 · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: Una pinza de plástico atornillada a la botella derecha.
+  - sirve: (heredado)
+  - porque: (heredado)
+  - cuando: (heredado)
+  - fallas: (heredado); golpe: Se rompe en una caída.
+  - sintomas: (heredado)
+  - arrastra: (heredado)
+  - conecta: 19, 53 · efectos: 0
+- **53 · Tornillo de la pinza (derecha)** · reutiliza · facil · BOLT, FLANGE DEEP RECESS · 1 pieza · aprox.: sirve, sintomas, fallas, porque, cuando
+  - que: (heredado)
+  - sirve: Fija la pinza.
+  - porque: Sano se vuelve a usar.
+  - cuando: (heredado)
+  - fallas: humedad: Se oxida.
+  - sintomas: La pinza se mueve.
+  - arrastra: flojo → se suelta la pinza derecha (52)
+  - conecta: 52 · efectos: 0
+- fichas con los textos principales heredados: 4, 5, 7, 14, 15, 20, 21, 23, 30, 31, 50
+
+## Cómo funciona
+1. (heredado)
+2. 2 · Frenas o pasas un bache. La barra baja, el resorte se comprime y el aceite pasa por los orificios del amortiguador. Ese paso estrecho frena el golpe.
+3. (heredado)
+4. (heredado)
+5. (heredado)
+
+## Si falla
+- **Cojinete seco que marca la dirección**: Guardapolvo de la tija: El guardapolvo se raja y entra agua. → Cojinete de abajo de la dirección: La grasa se lava y las bolas pican las pistas. → Pista de abajo: La dirección se queda marcada en el centro y la moto culebrea.
+
+## Cuándo
+- Revisar la horquilla: En cada mantenimiento de la tabla menos el primero: que suba y baje suave y que no bote aceite. · Manual del propietario NMAX 155 B6Y4 (2022, otra versión), tabla de mantenimiento, fila 18 «Horquilla delantera», p. 9-6; comprobación en p. 9-27. Los km de las columnas no se leyeron del texto. Aprox.
+- Revisar la dirección: Con la rueda en el aire: que gire suave de lado a lado y sin juego al empujar las barras. · Manual del propietario NMAX 155 B6Y4 (2022, otra versión), «Comprobación de la dirección», p. 9-28. Aprox.
+
+## Fuentes y certezas
+- Seguro: Números, nombres, cantidades y códigos de las 53 referencias: catálogo de partes NMAX BBE4 (2024), fig. 18 «Steering».
+- Aprox.: Vista de frente de la moto, con las barras verticales y los anillos de lado; las barras parten de otra lámina de horquilla de TallerYa, ajustadas a ojo.
+- Aprox.: Orden de las pistas y jaulas de la dirección: deducido de los nombres del catálogo, no del plano.
+- Aprox.: Recorrido de «Cómo funciona», fallas e intervalos: práctica de taller.
+- Aprox.: Aceite de horquilla, torques y ajuste de la dirección: sin dato (manual de servicio).
+
+## Páginas del manual que aplican (para la mecánica: lee solo estas)
+- `yamaha-nmax-155-2022-B6Y4-manual-propietario.pdf` (112 págs.): págs. del PDF contando desde 1 (Read pages=N; en pymupdf, d[N-1]) 6 (impresa 1-1, 4 piezas), 57 (impresa 7-3, 3 piezas), 70 (impresa 9-9, 3 piezas), 75 (impresa 9-14, 3 piezas), 89 (impresa 9-28, 5 piezas), 109 (impresa 13-1, 4 piezas)
+  claves buscadas: abajo, amortiguador, arandela, barra, botella, cojinete, derecha, dirección, empaque, guardapolvo, horquilla, inferior, izquierda, jaula, perno, pinza, pista, pistón, resorte, retén, seguro, tapón, tornillo, tuerca · para más: `buscar_manual.py nmax-bbe4 "palabra,otra" --paginas N-M`
+
+## Pendientes de la creadora
+- Orden exacto de pistas, jaulas y tapas de la dirección (38-44): verificar en el plano de la fig. 18.
+- Km de la fila «Horquilla delantera» de la tabla de mantenimiento: no se leen del texto del manual.
+- Cantidad y tipo de aceite de horquilla y torques: manual de servicio (no está en local).
+- remapear_hermana.py: un número que se queda igual (8 → 8) da error de choque; se pasó por «x8».

@@ -1,0 +1,2169 @@
+{
+ "lamina": "crypton-freno",
+ "moto": "crypton-bf24",
+ "figura": 25,
+ "sistema": "Freno delantero",
+ "mapa": "garaje/despiece_mapas/yamaha_crypton_fi_115_bf24.json",
+ "arte": "crypton-freno",
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · fig. 25",
+  "titulo": "Freno delantero · Crypton FI 115",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la fig. 25 del catálogo de partes (Crypton FI 115 BF24, 2019, Colombia). Freno de disco sencillo, sin unidad antibloqueo."
+ },
+ "visor": {
+  "titulo": "Cáliper de freno delantero y disco",
+  "sub": "Fig. 25 · 16 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del freno",
+  "laminaAria": "Dibujo del freno delantero de la Crypton FI 115. Cada número abre la ficha de su pieza.",
+  "introFunciona": "De la mano al disco en siete pasos. El cáliper aparece cortado por la mitad, como si lo miraras desde arriba.",
+  "introCadenas": "En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo mismo que pide el plan de mantenimiento de TallerYa para esta moto."
+ },
+ "pie": "Dibujos propios de TallerYa a partir del catálogo de partes Crypton FI 115 (BF24), fig. 25. Datos: manual de taller y manual del propietario.",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16"
+ ],
+ "encuadreArmado": [
+  223,
+  140,
+  613,
+  477
+ ],
+ "radioToqueMin": 9,
+ "carcasas": [
+  {
+   "id": "4",
+   "transparente": 0.26,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "12",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  },
+  {
+   "id": "7",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  },
+  {
+   "id": "8",
+   "transparente": 0.45,
+   "rayosx": 0.22
+  }
+ ],
+ "piezas": [
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteDisco",
+   "anc": [
+    462,
+    581
+   ],
+   "et": [
+    -80,
+    8
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteTornillosDisco",
+   "anc": [
+    540,
+    505
+   ],
+   "et": [
+    34,
+    52
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "10a",
+   "n": "10",
+   "arte": "artePastilla",
+   "args": [
+    -8,
+    0,
+    0
+   ],
+   "anc": [
+    392.59,
+    382.197
+   ],
+   "et": [
+    -52,
+    34
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "10b",
+   "n": "10",
+   "arte": "artePastilla",
+   "args": [
+    -1,
+    3,
+    0
+   ],
+   "anc": [
+    398.405,
+    383.755
+   ],
+   "et": [
+    36,
+    50
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "arte": "arteResorte",
+   "anc": [
+    412.645,
+    267.479
+   ],
+   "et": [
+    -40,
+    -20
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "arte": "artePiston",
+   "anc": [
+    415.499,
+    336.572
+   ],
+   "et": [
+    -22,
+    76
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "6a",
+   "n": "6",
+   "arte": "arteSello",
+   "args": [
+    4,
+    26,
+    6,
+    false
+   ],
+   "anc": [
+    417.052,
+    330.776
+   ],
+   "et": [
+    36,
+    86
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "6b",
+   "n": "6",
+   "arte": "arteSello",
+   "args": [
+    4,
+    25,
+    4,
+    true
+   ],
+   "anc": [
+    416.793,
+    331.742
+   ],
+   "et": [
+    29,
+    -20
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "arteSoporte",
+   "anc": [
+    490.07,
+    377.258
+   ],
+   "et": [
+    44,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteBota6",
+   "anc": [
+    398.033,
+    441.631
+   ],
+   "et": [
+    20,
+    34
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteBota7",
+   "anc": [
+    442.032,
+    277.424
+   ],
+   "et": [
+    44,
+    12
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteCaliper",
+   "anc": [
+    361.023,
+    373.739
+   ],
+   "et": [
+    -62,
+    22
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "arte": "artePurgador",
+   "anc": [
+    458.404,
+    236.258
+   ],
+   "et": [
+    42,
+    -8
+   ],
+   "vis": "arm",
+   "chica": 1
+  },
+  {
+   "id": "11a",
+   "n": "11",
+   "arte": "arteGrapaA",
+   "anc": [
+    402.375,
+    279.221
+   ],
+   "et": [
+    -30,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "11b",
+   "n": "11",
+   "arte": "arteGrapaB",
+   "anc": [
+    389.71,
+    279.968
+   ],
+   "et": [
+    20,
+    -40
+   ],
+   "vis": "exp",
+   "chica": 1
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    403.628,
+    287.839
+   ],
+   "et": [
+    -30,
+    34
+   ],
+   "vis": "arm",
+   "chica": 1,
+   "comun": "pasador",
+   "marco": "LOC",
+   "p": {
+    "x": -20,
+    "y": -64,
+    "cuerpo": "lateral",
+    "r": 3.5,
+    "largo": 96,
+    "cabeza": 7
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    492.416,
+    321.982
+   ],
+   "et": [
+    44,
+    -36
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "marco": "LOC",
+   "p": {
+    "x": 0,
+    "y": 0,
+    "brida": 14,
+    "cabeza": 10,
+    "largo": 46,
+    "d": 12,
+    "copias": [
+     [
+      86,
+      -54
+     ],
+     [
+      86,
+      56
+     ]
+    ],
+    "sombra": true
+   }
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "comun": "placa",
+   "vis": "exp",
+   "p": {
+    "contorno": [
+     [
+      -26,
+      -26
+     ],
+     [
+      26,
+      -26
+     ],
+     [
+      26,
+      26
+     ],
+     [
+      -26,
+      26
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      14
+     ],
+     [
+      -17,
+      -17,
+      4
+     ],
+     [
+      17,
+      -17,
+      4
+     ],
+     [
+      17,
+      17,
+      4
+     ],
+     [
+      -17,
+      17,
+      4
+     ]
+    ],
+    "x": 540,
+    "y": 390
+   },
+   "anc": [
+    540,
+    390
+   ],
+   "et": [
+    -60,
+    -40
+   ],
+   "oculto": true
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "placa",
+   "vis": "exp",
+   "p": {
+    "contorno": [
+     [
+      -10,
+      -6
+     ],
+     [
+      10,
+      -6
+     ],
+     [
+      10,
+      6
+     ],
+     [
+      -10,
+      6
+     ]
+    ],
+    "huecos": [],
+    "x": 522,
+    "y": 342
+   },
+   "anc": [
+    522,
+    342
+   ],
+   "et": [
+    40,
+    -20
+   ]
+  }
+ ],
+ "contexto": [
+  {
+   "arte": "arteBarra",
+   "despuesDe": "2",
+   "alFrente": true,
+   "clase": "esq-ctx-barra"
+  },
+  {
+   "arte": "arteManguera",
+   "alFinal": true
+  }
+ ],
+ "nombres": {
+  "2": "disco",
+  "3": "Tornillos del disco",
+  "4": "Cáliper (cuerpo)",
+  "5": "Pistón del cáliper",
+  "6": "Empaques del cáliper",
+  "7": "Guardapolvo de un pasador del cáliper",
+  "8": "Guardapolvo del segundo pasador",
+  "9": "Purgador",
+  "10": "Pastillas de freno (juego)",
+  "11": "Grapas del pasador",
+  "14": "Resorte de las pastillas",
+  "15": "Pasador de las pastillas",
+  "12": "Soporte del cáliper",
+  "16": "Tornillos del soporte del cáliper",
+  "1": "Placa del disco",
+  "13": "Guía de las pastillas"
+ },
+ "ocultas": [
+  "5",
+  "6",
+  "10",
+  "11",
+  "14"
+ ],
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "barra",
+  "manguera",
+  "liquido"
+ ],
+ "textoArmado": "<b>Armado.</b> El [[4|cáliper]] abraza el borde del [[2|disco]] y su [[12|soporte]] se atornilla a la barra. Lo de adentro (pistón, pastillas, resorte) no se ve: elige «Transparente» bajo el dibujo o tócalo en la lista. Toca una pieza para abrir su ficha.",
+ "pasos": [
+  {
+   "t": "<b>Tornillos del soporte.</b> Con la moto en el gato central y un calzo firme bajo el motor (el gato solo levanta la trasera) para dejar la rueda delantera en el aire, afloja los dos tornillos que sujetan el soporte a la barra.",
+   "m": {
+    "16": [
+     300,
+     -250
+    ]
+   }
+  },
+  {
+   "t": "<b>Sacar el cáliper.</b> Sale con su soporte, deslizándolo fuera del disco. Para cambiar pastillas no hace falta soltar la manguera: déjala colgando sin estirarla. Para el desarme completo, antes drena el líquido y suelta el perno de unión de la manguera.",
+   "m": {
+    "4": [
+     -30,
+     -40
+    ],
+    "5": [
+     -30,
+     -40
+    ],
+    "7": [
+     -30,
+     -40
+    ],
+    "8": [
+     -30,
+     -40
+    ],
+    "9": [
+     -30,
+     -40
+    ],
+    "14": [
+     -30,
+     -40
+    ],
+    "15": [
+     -30,
+     -40
+    ],
+    "12": [
+     -30,
+     -40
+    ],
+    "6a": [
+     -30,
+     -40
+    ],
+    "6b": [
+     -30,
+     -40
+    ],
+    "10a": [
+     -30,
+     -40
+    ],
+    "10b": [
+     -30,
+     -40
+    ],
+    "11a": [
+     -30,
+     -40
+    ],
+    "11b": [
+     -30,
+     -40
+    ],
+    "13": [
+     -30,
+     -40
+    ]
+   },
+   "manguera": false
+  },
+  {
+   "t": "<b>Grapas.</b> Saca las dos grapas que impiden que el pasador se salga.",
+   "m": {
+    "11a": [
+     -300,
+     -185
+    ],
+    "11b": [
+     -140,
+     -215
+    ]
+   }
+  },
+  {
+   "t": "<b>Pasador de las pastillas.</b> Sácalo. Es lo único que sostiene las pastillas: por eso las grapas importan.",
+   "m": {
+    "15": [
+     -222,
+     -112
+    ]
+   }
+  },
+  {
+   "t": "<b>Pastillas.</b> Salen las dos, con su lámina antirruido. Si les queda 0,8 mm o menos de material, cambia el juego completo con su resorte y su guía.",
+   "m": {
+    "10a": [
+     -183,
+     88
+    ],
+    "10b": [
+     -93,
+     108
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte de las pastillas.</b> Las mantiene firmes para que no traqueteen. Hasta aquí llega un cambio de pastillas normal. Al armar: tornillos del soporte a 35 N·m, y bombea la manigueta hasta que quede firme antes de rodar.",
+   "m": {
+    "14": [
+     -275,
+     60
+    ]
+   }
+  },
+  {
+   "t": "<b>Separar el cuerpo del soporte.</b> El cuerpo del cáliper se desliza fuera de los pasadores del soporte. Así flota el cáliper: por eso esos pasadores deben quedar limpios y engrasados.",
+   "m": {
+    "4": [
+     -83,
+     -122
+    ],
+    "5": [
+     -83,
+     -122
+    ],
+    "7": [
+     187,
+     -138
+    ],
+    "8": [
+     187,
+     -138
+    ],
+    "9": [
+     -83,
+     -122
+    ],
+    "12": [
+     187,
+     -138
+    ],
+    "6a": [
+     -83,
+     -122
+    ],
+    "6b": [
+     -83,
+     -122
+    ],
+    "13": [
+     187,
+     -138
+    ]
+   }
+  },
+  {
+   "t": "<b>Guardapolvos de los pasadores.</b> Son cauchos que protegen los pasadores del agua y del polvo. Si están rotos, el pasador se oxida.",
+   "m": {
+    "7": [
+     -89,
+     114
+    ],
+    "8": [
+     -108,
+     -3
+    ]
+   }
+  },
+  {
+   "t": "<b>Purgador.</b> Desenróscalo con cuidado: es de acero y el cáliper es de aluminio, así que la rosca se daña fácil si aprietas de más.",
+   "m": {
+    "9": [
+     54,
+     -35
+    ]
+   }
+  },
+  {
+   "t": "<b>Pistón.</b> Sácalo con aire comprimido a poca presión por la entrada del líquido, con un trapo delante. Nunca con los dedos delante del pistón.",
+   "m": {
+    "5": [
+     113,
+     -2
+    ]
+   }
+  },
+  {
+   "t": "<b>Empaques.</b> Saca el sello y el guardapolvo del pistón con un palillo de plástico, sin rayar las ranuras. Se cambian siempre los dos, nunca se reutilizan.",
+   "m": {
+    "6a": [
+     160,
+     22
+    ],
+    "6b": [
+     222,
+     40
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillos del disco.</b> Con la rueda desmontada (otra lámina), afloja en cruz los tornillos del disco. Llevan fijador de rosca.",
+   "m": {
+    "3": [
+     40,
+     14
+    ]
+   }
+  },
+  {
+   "t": "<b>Disco.</b> Sale con su [[1|placa]]. <b>Al armar:</b> tornillos con fijador, en cruz, 23 N·m; cáliper 35 N·m; purgador 6 N·m; líquido DOT 3 o DOT 4 nuevo y purgar hasta que la manigueta quede firme. <b>Antes de rodar, prueba el freno con la moto quieta.</b>",
+   "m": {
+    "2": [
+     150,
+     30
+    ],
+    "3": [
+     150,
+     30
+    ],
+    "1": [
+     210,
+     42
+    ]
+   }
+  }
+ ],
+ "fichas": {
+  "2": {
+   "nombre": "Disco de freno",
+   "cat": "DISK, BRAKE (RIGHT) · 1 pieza",
+   "que": "Una placa redonda de acero, atornillada al cubo de la rueda con su [[1|placa]]. Gira siempre con la rueda.",
+   "sirve": "Es lo que aprietan las [[10|pastillas]]. Convierte el movimiento de la moto en calor y lo bota al aire; los huecos lo enfrían y sacan el agua y el polvo.",
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada le quita material. Con los años se adelgaza hasta el mínimo grabado («MIN TH»)."
+    ],
+    [
+     "calor",
+     "Las bajadas largas frenando todo el tiempo (Las Palmas, la vía a Santa Elena) lo recalientan y lo pueden torcer."
+    ],
+    [
+     "maluso",
+     "Pastillas gastadas hasta el metal le hacen surcos. Grasa, lubricante de cadena o líquido de frenos lo dejan resbaloso."
+    ],
+    [
+     "golpe",
+     "Una caída o tornillos apretados disparejos lo pueden torcer."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta palpita o vibra al frenar (disco torcido).",
+    "Surcos o rayas que sientes con la uña.",
+    "Frena menos aunque las pastillas sean nuevas.",
+    "Un «chas-chas» rítmico a poca velocidad, o manchas azuladas por recalentamiento."
+   ],
+   "cuando": "Mide el grosor y mira si está torcido en cada cambio de [[10|pastillas]]. Cámbialo si baja de 3,0 mm o se tuerce más de 0,15 mm (manual de taller Crypton FI 115, p. 6-6).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "3",
+    "10",
+    "4",
+    "rueda"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "4 mm de espesor nuevo (dato de un disco de repuesto). El mínimo exacto no lo tenemos: está grabado en el disco."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ],
+    [
+     "ok",
+     "Mínimo 3,0 mm y torcido máx. 0,15 mm: manual de taller, p. 6-6."
+    ]
+   ],
+   "porque": "Cuando llega al mínimo grabado, está torcido o rajado, se cambia. En moto no se rectifica: casi no le sobra espesor. Si solo está untado de grasa, lávalo con limpiador de frenos y cambia las pastillas.",
+   "arrastra": [
+    "Disco torcido → la manigueta palpita y las [[10|pastillas]] se gastan disparejo.",
+    "Disco untado de aceite → las pastillas se untan y hay que cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "1FD-F582U-00",
+   "rodar": "no"
+  },
+  "3": {
+   "nombre": "Tornillos del disco",
+   "cat": "BOLT,HEX. SOCKET BUTTON · 4 piezas",
+   "que": "Los cuatro tornillos que unen el [[2|disco]] y su [[1|placa]] al cubo de la rueda.",
+   "sirve": "Pasan toda la fuerza del frenado del disco a la rueda. Son pocos y trabajan mucho.",
+   "fallas": [
+    [
+     "maluso",
+     "Se aflojan si los montas sin fijador de rosca o sin el torque del manual de servicio."
+    ],
+    [
+     "maluso",
+     "La cabeza se barre con una llave que no es del tamaño exacto."
+    ],
+    [
+     "humedad",
+     "Se oxidan y luego no salen, sobre todo si nunca se han tocado."
+    ]
+   ],
+   "sintomas": [
+    "Un clic o golpe al empezar a frenar.",
+    "El disco tiene juego al moverlo con la mano.",
+    "La cabeza está redondeada (barrida)."
+   ],
+   "cuando": "Revísalos cada vez que desmontes la rueda o el disco.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "rueda"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si están barridos van nuevos. Al armar: fijador de rosca (LOCTITE), en cruz y a 23 N·m (manual de taller Crypton FI 115, p. 6-7).",
+   "arrastra": [
+    "Tornillo flojo → el [[2|disco]] se mueve y suena al frenar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "codigo": "90111-08815",
+   "rodar": "no"
+  },
+  "4": {
+   "nombre": "Cáliper (cuerpo)",
+   "cat": "CALIPER ASSY (RIGHT) · 1 pieza",
+   "que": "La «pinza» del freno: un cuerpo de aluminio con un cilindro adentro. En la Crypton es flotante y de un solo pistón.",
+   "sirve": "Convierte la presión del [[liquido|líquido]] en fuerza sobre las [[10|pastillas]]. El [[5|pistón]] empuja una pastilla y el cuerpo se corre en sus pasadores para jalar la otra.",
+   "fallas": [
+    [
+     "humedad",
+     "El líquido viejo trae agua: oxida el cilindro y el pistón por dentro y el pistón se pega."
+    ],
+    [
+     "edad",
+     "Los empaques se endurecen con los años y el calor: aparecen fugas o el pistón no regresa."
+    ],
+    [
+     "humedad",
+     "Si los pasadores se oxidan, el cuerpo deja de flotar y solo trabaja una pastilla."
+    ],
+    [
+     "maluso",
+     "La rosca del purgador se daña si lo aprietas de más. La hidrolavadora a presión directa también lo daña."
+    ]
+   ],
+   "sintomas": [
+    "La rueda queda frenada o caliente después de rodar.",
+    "Olor a quemado después de frenar.",
+    "Una pastilla se gasta mucho más que la otra.",
+    "Manchas de líquido alrededor, o el nivel del depósito baja sin que las pastillas estén gastadas."
+   ],
+   "cuando": "Límpialo y revísalo en cada cambio de pastillas. Los empaques de adentro se renuevan cada 2 años con el líquido (manual del propietario, p. 7-21), o antes si hay fuga o el freno queda pegado.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "5",
+    "6",
+    "9",
+    "10",
+    "12",
+    "13",
+    "14",
+    "15",
+    "7",
+    "8",
+    "manguera"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "La forma exacta del cuerpo se dibujó a partir del plano y de fotos, no se midió."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "El cuerpo se limpia y se le cambian los [[6|empaques]] y el líquido. Solo se cambia entero si el cilindro está picado.",
+   "arrastra": [
+    "Cáliper que no flota → una sola pastilla se gasta y el [[2|disco]] se recalienta de un lado.",
+    "Cilindro oxidado → el [[5|pistón]] se pega y el freno queda arrastrando."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "1FD-F580U-01",
+   "rodar": "no"
+  },
+  "5": {
+   "nombre": "Pistón del cáliper",
+   "cat": "PISTON ASSY, CALIPER · 1 pieza",
+   "que": "Un cilindro metálico, hueco por delante, que vive dentro del [[4|cáliper]].",
+   "sirve": "El líquido lo empuja por detrás y él empuja la [[10|pastilla]]. Como es mucho más grande que el pistón de la bomba, multiplica la fuerza de tu mano.",
+   "fallas": [
+    [
+     "humedad",
+     "El agua del líquido viejo lo pica por dentro (corrosión)."
+    ],
+    [
+     "desgaste",
+     "Con pastillas muy gastadas sale de más y se le pega mugre. Al meterlo para poner pastillas nuevas, esa parte sucia raya el [[6|sello]]."
+    ],
+    [
+     "calor",
+     "El calor de un freno pegado lo dilata y empeora el problema."
+    ]
+   ],
+   "sintomas": [
+    "El freno no suelta del todo.",
+    "Fuga de líquido detrás de la pastilla.",
+    "La pastilla del lado del pistón se gasta más."
+   ],
+   "cuando": "Revísalo cada vez que abras el cáliper: cada 2 años, al cambiar los empaques junto con el líquido (manual del propietario, p. 7-21), o antes si hay problemas. Antes de meterlo para poner pastillas nuevas, límpiale la parte que queda afuera y mételo con el purgador abierto y una manguera a un frasco (manual de taller, p. 6-26).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "6",
+    "10"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "El diámetro no lo tenemos."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si está picado o rayado no sella y va uno nuevo.",
+   "arrastra": [
+    "Pistón sucio o picado → rompe el [[6|sello]] y el cáliper bota líquido."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2BM-F5802-00",
+   "rodar": "no"
+  },
+  "6": {
+   "nombre": "Empaques del cáliper",
+   "cat": "CALIPER SEAL KIT · 1 pieza",
+   "que": "Dos anillos de caucho: el sello del pistón (adentro) y el guardapolvo (afuera).",
+   "sirve": "El sello no deja salir el líquido y, al soltar el freno, jala el [[5|pistón]] de vuelta: se tuerce un poquito al frenar y regresa. El guardapolvo no deja entrar agua ni mugre.",
+   "fallas": [
+    [
+     "edad",
+     "Se endurecen con los años y el calor: pierden elasticidad y ya no regresan el pistón."
+    ],
+    [
+     "maluso",
+     "Se hinchan y se dañan con un líquido equivocado (DOT 5, aceite, gasolina usada para «lavar»)."
+    ],
+    [
+     "humedad",
+     "Si el guardapolvo se rompe, entra agua y el pistón se oxida."
+    ]
+   ],
+   "sintomas": [
+    "El freno queda pegado o la rueda se calienta.",
+    "Fuga de líquido en el cáliper.",
+    "La manigueta se va al fondo (entró aire)."
+   ],
+   "cuando": "Cámbialos cada 2 años, junto con el [[liquido|líquido]], y siempre que abras el cáliper (manual de taller, p. 6-29), o antes si hay fuga o el freno queda pegado.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "5",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "Que el pistón regrese «una fracción de milímetro» es un orden de magnitud."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ],
+    [
+     "ok",
+     "Cambio cada 2 años y al desarmar: manual de taller, p. 6-29; manual del propietario, p. 7-21."
+    ]
+   ],
+   "porque": "El caucho no se repara. Se cambian siempre los dos, nunca se reutilizan.",
+   "arrastra": [
+    "Sello endurecido → el [[5|pistón]] no regresa y las pastillas rozan el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "5YP-F5803-50",
+   "rodar": "no"
+  },
+  "7": {
+   "nombre": "Guardapolvo de un pasador del cáliper",
+   "cat": "BOOT, CALIPER · 1 pieza",
+   "que": "Un fuelle de caucho entre el cuerpo del [[4|cáliper]] y uno de los pasadores del [[12|soporte]].",
+   "sirve": "Protege el pasador para que el cáliper siga deslizándose (flotando) sin oxidarse.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se reseca y se raja."
+    ],
+    [
+     "calor",
+     "El calor del freno lo endurece."
+    ],
+    [
+     "maluso",
+     "Se hincha con grasa común (no de frenos) o se sale de su sitio si lo montas mal."
+    ]
+   ],
+   "sintomas": [
+    "El caucho está rajado o fuera de su sitio.",
+    "Con el cáliper desmontado, no se deja mover con la mano.",
+    "Las pastillas se gastan disparejo."
+   ],
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "Cuál de los dos pasadores lleva cada guardapolvo: lo deducimos del plano."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si está rajado o suelto, cámbialo; con el caucho roto el pasador se oxida.",
+   "arrastra": [
+    "Guardapolvo roto → entra agua, el pasador del [[12|soporte]] se oxida y el cáliper deja de flotar."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2BM-F5917-00",
+   "rodar": "pronto"
+  },
+  "8": {
+   "nombre": "Guardapolvo del segundo pasador",
+   "cat": "BOOT 2 · 1 pieza",
+   "que": "El fuelle de caucho del segundo pasador deslizante.",
+   "sirve": "Igual que el [[7|otro guardapolvo]]: mantiene limpio y seco el pasador para que el cáliper flote.",
+   "fallas": [
+    [
+     "edad",
+     "Se reseca y se raja con los años."
+    ],
+    [
+     "humedad",
+     "Si está roto, entra agua y el pasador se oxida."
+    ]
+   ],
+   "sintomas": [
+    "El caucho está roto.",
+    "El freno queda rozando.",
+    "Una pastilla se gasta en cuña."
+   ],
+   "cuando": "Míralo en cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si está roto, cámbialo antes de que el pasador se oxide.",
+   "arrastra": [
+    "Guardapolvo roto → el pasador se oxida y el [[4|cáliper]] se traba."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5YP-F5937-00",
+   "rodar": "pronto"
+  },
+  "9": {
+   "nombre": "Purgador",
+   "cat": "BLEED SCREW KIT · 1 pieza",
+   "que": "Un tornillo hueco en la parte alta del [[4|cáliper]], con una tapita de caucho.",
+   "sirve": "Por ahí sale el aire y el líquido viejo cuando cambias el [[liquido|líquido]] o purgas.",
+   "fallas": [
+    [
+     "maluso",
+     "Se parte o barre la rosca del cáliper si lo aprietas de más."
+    ],
+    [
+     "humedad",
+     "Sin tapita entran agua y mugre, el agujero se tapa y el purgador se pega por óxido."
+    ]
+   ],
+   "sintomas": [
+    "Gotas de líquido en el purgador.",
+    "No deja purgar (está tapado).",
+    "La manigueta sigue esponjosa después de purgar."
+   ],
+   "cuando": "Se usa en cada cambio de líquido: cada 2 años (manual del propietario). Al cerrarlo, 6 N·m (manual de taller Crypton FI 115, p. 6-27): es fácil barrer la rosca.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "manguera"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si está pegado, barrido o tapado, va uno nuevo.",
+   "arrastra": [
+    "Purgador tapado → no sale el aire y la manigueta queda esponjosa."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "4C9-W0048-00",
+   "rodar": "no"
+  },
+  "10": {
+   "nombre": "Pastillas de freno (juego)",
+   "cat": "BRAKE PAD KIT · 1 pieza",
+   "que": "El juego trae dos pastillas: placas de acero con un bloque de fricción pegado y ranuras que avisan el desgaste. Trae también la lámina antirruido (cuña) que va detrás.",
+   "sirve": "Son las que rozan el [[2|disco]]. Se gastan a propósito para que el disco dure.",
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada las gasta. En Medellín se gastan más rápido por las lomas, el trancón y frenar solo con el delantero."
+    ],
+    [
+     "calor",
+     "Con calor sostenido se cristalizan: la cara queda brillante, chillan y frenan menos."
+    ],
+    [
+     "maluso",
+     "Aceite, grasa o líquido de frenos las contaminan. Una pastilla untada no se recupera."
+    ],
+    [
+     "desgaste",
+     "Si llegan al metal, el acero raya el disco."
+    ]
+   ],
+   "sintomas": [
+    "La ranura del centro ya casi no se ve.",
+    "Chillido metálico o raspado al frenar.",
+    "Frena menos y tienes que apretar más.",
+    "El nivel del depósito baja poco a poco."
+   ],
+   "cuando": "Míralas en cada servicio del cuadro de mantenimiento (manual del propietario, p. 7-4). Cámbialas cuando les quede 0,8 mm de material (manual de taller Crypton FI 115, p. 6-26).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "5",
+    "15",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ],
+    [
+     "ok",
+     "Límite 0,8 mm y cambio en conjunto con resorte y soporte: manual de taller, p. 6-26."
+    ]
+   ],
+   "porque": "Se cambia el juego completo, y con él el [[14|resorte]] y la [[13|guía]] nuevos, como pide el manual de taller (p. 6-26).",
+   "arrastra": [
+    "Pastillas al metal → rayan el [[2|disco]].",
+    "Pastillas untadas → frenas menos y toca cambiarlas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ok",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   },
+   "codigo": "2BM-F5805-00",
+   "rodar": "no"
+  },
+  "11": {
+   "nombre": "Grapas del pasador",
+   "cat": "CLIP · 2 piezas",
+   "que": "Dos grapas de alambre de acero, en forma de R, que se meten en el [[15|pasador]].",
+   "sirve": "Impiden que el pasador de las pastillas se salga con la vibración.",
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden al cambiar pastillas o se deforman si las sacas con alicate."
+    ],
+    [
+     "edad",
+     "Pierden tensión con el tiempo."
+    ]
+   ],
+   "sintomas": [
+    "La grapa falta o está floja.",
+    "El pasador se mueve o se sale."
+   ],
+   "cuando": "En cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Dos llamadas «10» en el plano."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Son baratas: si falta una, está floja o deformada, pon una nueva.",
+   "arrastra": [
+    "Grapa floja → el [[15|pasador]] se sale y las pastillas quedan sueltas."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "5YP-F5925-01",
+   "rodar": "no",
+   "hazlo": {
+    "herr": "Alicate de punta",
+    "min": 15
+   }
+  },
+  "14": {
+   "nombre": "Resorte de las pastillas",
+   "cat": "SUPPORT, PAD · 1 pieza",
+   "que": "Una lámina de acero doblada que hace de resorte sobre las [[10|pastillas]].",
+   "sirve": "Las mantiene firmes contra el pasador para que no traqueteen ni vibren.",
+   "fallas": [
+    [
+     "edad",
+     "Pierde tensión."
+    ],
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se monta al revés al cambiar pastillas."
+    ]
+   ],
+   "sintomas": [
+    "Traqueteo en los huecos o en el empedrado.",
+    "Chillido.",
+    "Pastillas gastadas en cuña."
+   ],
+   "cuando": "En cada cambio de pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "10",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Va nuevo con cada juego de pastillas (manual de taller Crypton FI 115, p. 6-26). Fíjate que quede puesto como estaba.",
+   "arrastra": [
+    "Resorte flojo → las [[10|pastillas]] traquetean y se gastan en cuña."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "codigo": "2BM-F5919-00",
+   "rodar": "pronto"
+  },
+  "15": {
+   "nombre": "Pasador de las pastillas",
+   "cat": "PIN, PAD · 1 pieza",
+   "que": "Una varilla de acero que atraviesa el [[4|cáliper]] y las orejas de las [[10|pastillas]].",
+   "sirve": "Sostiene las pastillas y las deja deslizarse hacia el disco y de regreso.",
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida y las pastillas no deslizan."
+    ],
+    [
+     "desgaste",
+     "Las orejas de las pastillas le hacen surcos con la vibración."
+    ],
+    [
+     "golpe",
+     "Se dobla si lo sacas a golpes."
+    ]
+   ],
+   "sintomas": [
+    "Una pastilla no se despega del disco.",
+    "Ruido metálico.",
+    "Se le ven surcos."
+   ],
+   "cuando": "Límpialo en cada cambio de pastillas y úntale muy poca grasa de silicona (manual de taller, p. 6-27), sin que toque las pastillas.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "10",
+    "11",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si está oxidado, doblado o con surcos, cámbialo.",
+   "arrastra": [
+    "Pasador oxidado → una pastilla queda pegada al [[2|disco]] y se calienta."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "5YP-F5924-00",
+   "rodar": "no"
+  },
+  "12": {
+   "nombre": "Soporte del cáliper",
+   "cat": "SUPPORT BRACKET ASSY · 1 pieza",
+   "que": "Una pieza fundida que se atornilla a la barra. En sus dos pasadores se desliza el cuerpo del [[4|cáliper]].",
+   "sirve": "Aguanta la fuerza del frenado y deja flotar el cáliper para que las dos pastillas aprieten parejo.",
+   "fallas": [
+    [
+     "humedad",
+     "Los pasadores se oxidan si los guardapolvos están rotos."
+    ],
+    [
+     "golpe",
+     "Se dobla en una caída o con un golpe en la rueda."
+    ],
+    [
+     "maluso",
+     "Las roscas se dañan si aprietas de más los [[16|tornillos]]."
+    ]
+   ],
+   "sintomas": [
+    "El cáliper no se desliza.",
+    "Pastillas gastadas en cuña.",
+    "El freno roza aunque los empaques sean nuevos."
+   ],
+   "cuando": "Revisa los pasadores en cada cambio de pastillas: límpialos y engrásalos con grasa de silicona para frenos.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "16",
+    "7",
+    "8",
+    "barra"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "Forma dibujada a partir del plano."
+    ],
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si los pasadores solo están sucios, se limpian y engrasan. Si está doblado o los pasadores están picados, se cambia.",
+   "arrastra": [
+    "Pasadores oxidados → el [[4|cáliper]] deja de flotar y una sola pastilla trabaja."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2BM-F5920-00",
+   "rodar": "no"
+  },
+  "16": {
+   "nombre": "Tornillos del soporte del cáliper",
+   "cat": "SCREW · 2 piezas",
+   "que": "Los dos tornillos que fijan el [[12|soporte]] a las orejas de la barra.",
+   "sirve": "Aguantan toda la fuerza del frenado de la rueda delantera. Son de seguridad.",
+   "fallas": [
+    [
+     "maluso",
+     "Quedan flojos si después de montar la rueda no los aprietas con torquímetro."
+    ],
+    [
+     "maluso",
+     "Se barren si aprietas de más; sin fijador se aflojan con la vibración."
+    ]
+   ],
+   "sintomas": [
+    "Golpe o clic al frenar.",
+    "El cáliper se mueve con la mano.",
+    "Marcas del cáliper en el rin o en el disco."
+   ],
+   "cuando": "Revisa el apriete después de cualquier trabajo en la rueda o en los frenos.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "barra"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "porque": "Si están barridos o dudosos, van nuevos. Al armar: 35 N·m (manual de taller Crypton FI 115, p. 6-27).",
+   "arrastra": [
+    "Tornillo flojo → el [[12|soporte]] golpea al frenar y el cáliper puede morder el disco."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "codigo": "90149-10805",
+   "rodar": "no"
+  },
+  "barra": {
+   "ctx": true,
+   "nombre": "Barra derecha de la suspensión",
+   "cat": "Lámina 18 (dirección y suspensión)",
+   "que": "La barra donde va atornillado el [[12|soporte]] del cáliper.",
+   "sirve": "Sostiene la rueda y el freno.",
+   "fallas": [
+    [
+     "edad",
+     "Si su retenedor bota aceite, el aceite baja por la barra y puede caer en el [[2|disco]] y las [[10|pastillas]]."
+    ]
+   ],
+   "sintomas": [
+    "Aceite en la barra o en el disco.",
+    "El freno pierde agarre de repente."
+   ],
+   "cuando": "Mira si hay aceite en la barra en cada lavada.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "12",
+    "16"
+   ],
+   "certeza": [],
+   "porque": "Si hay aceite, se arregla el retenedor y se limpia el disco; si el aceite tocó las pastillas, van pastillas nuevas.",
+   "arrastra": [
+    "Retenedor que bota aceite → [[2|disco]] y pastillas untados."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "manguera": {
+   "ctx": true,
+   "nombre": "Manguera del freno",
+   "cat": "Fig. 28 · HOSE, BRAKE 1 (bomba → cáliper), con dos pernos de unión y cuatro arandelas",
+   "que": "Una sola manguera va de la bomba del manubrio al [[4|cáliper]]. Cada punta lleva un perno hueco (de unión) con dos arandelas.",
+   "sirve": "Pasa la presión de tu mano al cáliper sin inflarse.",
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se infla con los años."
+    ],
+    [
+     "golpe",
+     "Se pellizca si queda mal guiada al girar el manubrio."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se siente esponjosa.",
+    "Ves grietas o humedad en la manguera."
+   ],
+   "cuando": "Revísala en cada servicio y cámbiala cada 4 años (manual del propietario, p. 7-4).",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "9"
+   ],
+   "certeza": [],
+   "porque": "El caucho no se repara: si está agrietada o inflada, se cambia, con arandelas nuevas en los dos pernos de unión (26 N·m, manual de taller Crypton FI 115, p. 6-31). Después hay que purgar.",
+   "arrastra": [
+    "Manguera inflada → la manigueta se siente esponjosa y el [[4|cáliper]] recibe menos presión."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok"
+   }
+  },
+  "rueda": {
+   "ctx": true,
+   "nombre": "Rueda delantera",
+   "cat": "Lámina 21",
+   "que": "El rin donde va atornillado el [[2|disco]].",
+   "sirve": "",
+   "fallas": [],
+   "sintomas": [],
+   "cuando": "",
+   "decision": "",
+   "dif": "",
+   "conecta": [
+    "2",
+    "3"
+   ],
+   "certeza": [],
+   "certezaDe": {
+    "que": "ok"
+   }
+  },
+  "liquido": {
+   "ctx": true,
+   "nombre": "Líquido de frenos DOT 3 o DOT 4",
+   "cat": "Lámina 26 · plan de TallerYa",
+   "que": "El líquido que llena la bomba, la manguera y el [[4|cáliper]].",
+   "sirve": "No se deja comprimir: por eso pasa la fuerza de tu mano al cáliper al instante.",
+   "fallas": [
+    [
+     "humedad",
+     "Absorbe la humedad del aire con los años. Con agua hierve antes: nuevo hierve sobre 230 °C y con humedad puede bajar a unos 155 °C (mínimos de la norma)."
+    ],
+    [
+     "calor",
+     "Si hierve en una bajada larga se forman burbujas, y las burbujas sí se comprimen."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se siente esponjosa o se va al fondo después de frenar mucho.",
+    "El líquido se ve oscuro en el visor."
+   ],
+   "cuando": "Cámbialo cada 2 años, ruede lo que ruede (manual del propietario). No mezcles tipos: rellena con el mismo que tiene.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "4",
+    "9",
+    "manguera"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "230 °C / 155 °C: mínimos de la norma FMVSS 116."
+    ]
+   ],
+   "porque": "Es DOT 3 o DOT 4 y se cambia por tiempo, no por kilómetros.",
+   "arrastra": [
+    "Líquido con agua → hierve antes y el [[5|pistón]] se oxida por dentro."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ok",
+    "porque": "ap",
+    "cuando": "ok"
+   }
+  },
+  "1": {
+   "cat": "PLATE, FITTING · 1 pieza",
+   "codigo": "1DY-F518A-10",
+   "nombre": "Placa del disco",
+   "que": "Una placa delgada de acero con cuatro agujeros que va entre el [[2|disco]] y el cubo de la rueda.",
+   "sirve": "Reparte el apriete de los [[3|tornillos]] y deja el disco bien asentado y derecho sobre el cubo.",
+   "sintomas": [
+    "El disco se ve torcido o vibra la manigueta al frenar después de cambiarlo.",
+    "La placa quedó doblada o falta al armar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se dobla si se aprietan los tornillos sin orden o se olvida al armar."
+    ],
+    [
+     "humedad",
+     "El óxido la levanta y el disco queda chueco."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin óxido, se vuelve a poner. Si se dobló, se pide sola.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que desmontes el disco.",
+   "arrastra": [
+    "Placa doblada → disco torcido → la manigueta pulsa al frenar."
+   ],
+   "conecta": [
+    "2",
+    "3",
+    "rueda"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "rodar": "no"
+  },
+  "13": {
+   "cat": "PAD, SUPPORT 2 · 1 pieza",
+   "codigo": "2BM-F5939-00",
+   "nombre": "Guía de las pastillas",
+   "que": "Una lámina pequeña de acero que se encaja en el [[12|soporte]] del cáliper, donde se apoyan las [[10|pastillas]].",
+   "sirve": "Deja que las pastillas se deslicen sin traquetear contra el aluminio del soporte.",
+   "sintomas": [
+    "Ruido metálico o traqueteo al pasar huecos.",
+    "Las pastillas se pegan y una se gasta más."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se oxida y pierde tensión."
+    ],
+    [
+     "maluso",
+     "Se olvida o se pone al revés al cambiar pastillas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nueva con las pastillas: el manual pide cambiar el resorte y esta guía en conjunto.",
+   "dif": "taller",
+   "cuando": "En cada cambio de pastillas.",
+   "arrastra": [
+    "Guía oxidada → pastilla trabada → roce y calor."
+   ],
+   "conecta": [
+    "10",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo crypton-bf24, fig. 25."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "rodar": "no"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Pastillas que llegan al metal",
+   "p": [
+    [
+     "10",
+     "Se gastan y nadie revisa la ranura."
+    ],
+    [
+     "2",
+     "La placa de acero raya el disco: ahora toca cambiar disco y pastillas."
+    ],
+    [
+     "5",
+     "El pistón salió de más para alcanzar el disco y se le pegó mugre."
+    ],
+    [
+     "6",
+     "Al meter el pistón para poner pastillas nuevas, la parte sucia raya el sello y aparece una fuga. Por eso se limpia antes de empujarlo."
+    ]
+   ]
+  },
+  {
+   "t": "Líquido y empaques de más de 2 años",
+   "p": [
+    [
+     "liquido",
+     "Absorbió agua y hierve antes."
+    ],
+    [
+     "5",
+     "El agua oxida el pistón por dentro."
+    ],
+    [
+     "6",
+     "Los empaques, que el manual manda cambiar junto con el líquido cada 2 años, se endurecen y ya no regresan el pistón."
+    ],
+    [
+     "10",
+     "La pastilla queda rozando, se calienta y se cristaliza."
+    ]
+   ]
+  },
+  {
+   "t": "Guardapolvo roto",
+   "p": [
+    [
+     "7",
+     "El caucho se raja y entra agua."
+    ],
+    [
+     "12",
+     "El pasador del soporte se oxida y se traba."
+    ],
+    [
+     "4",
+     "El cáliper deja de flotar."
+    ],
+    [
+     "10",
+     "Solo trabaja la pastilla del pistón y se gasta sola."
+    ],
+    [
+     "2",
+     "El disco se recalienta de un lado y se puede torcer."
+    ]
+   ]
+  },
+  {
+   "t": "Retenedor de la barra que bota aceite",
+   "p": [
+    [
+     "barra",
+     "El aceite baja por la barra."
+    ],
+    [
+     "2",
+     "Cae al disco: el freno pierde agarre de golpe."
+    ],
+    [
+     "10",
+     "Las pastillas se untan y no se recuperan: se cambian."
+    ]
+   ]
+  },
+  {
+   "t": "Tornillos sin apretar después de montar la rueda",
+   "p": [
+    [
+     "16",
+     "Quedan flojos."
+    ],
+    [
+     "12",
+     "El soporte se mueve y golpea al frenar."
+    ],
+    [
+     "2",
+     "El cáliper muerde el disco: es lo más peligroso de la lámina."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Pastillas: revisar el desgaste",
+   "cuando": "En cada servicio. Cámbialas con 0,8 mm de material o cuando la ranura casi desaparezca.",
+   "fuente": "Manual del propietario, cuadro de mantenimiento (p. 7-4) y p. 7-19; límite: manual de taller Crypton FI 115, p. 6-26. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Líquido de frenos DOT 3 o DOT 4: cambiar",
+   "cuando": "Cada <b>2 años</b>, ruede lo que ruede.",
+   "fuente": "Manual del propietario Yamaha Crypton FI (T115FL-5, códigos BF2), copia entregada por el usuario, cuadro de mantenimiento y sección 'Líquido de frenos'; consultado el 14-nov-2026 <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "liquido-frenos"
+  },
+  {
+   "que": "Manguera del freno: cambiar",
+   "cuando": "Cada <b>4 años</b>, y revisa grietas en cada servicio.",
+   "fuente": "Manual del propietario, p. 7-4. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Disco: medir grosor y mirar si está torcido",
+   "cuando": "En cada cambio de pastillas: mínimo 3,0 mm y torcido máximo 0,15 mm.",
+   "fuente": "manual de taller Crypton FI 115, p. 6-6. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Cáliper, pasadores y guardapolvos: limpiar y revisar",
+   "cuando": "En cada cambio de pastillas.",
+   "fuente": "Práctica de taller (el manual no da intervalo para estas piezas). <span class=\"esq-s-ap\">Práctica de taller</span>"
+  }
+ ],
+ "funciona": {
+  "vbCelular": "-6 14 512 700",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · En reposo.</b> La rueda gira y el disco gira con ella. Las pastillas quedan casi tocando el disco, a una fracción de milímetro (aquí el espacio está exagerado para que se vea).",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la manigueta derecha.</b> La manigueta es una palanca: con poco esfuerzo empuja un pistón pequeño dentro de la bomba, en el manubrio.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>3 · La presión viaja por el líquido.</b> El líquido no se comprime: la presión llega al cáliper al instante y su pistón, más grande que el de la bomba, multiplica tu fuerza (aprox.).",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>4 · El pistón empuja una pastilla.</b> La presión saca el pistón del cáliper y este pega la pastilla de su lado contra el disco. El sello del pistón se tuerce un poquito: eso servirá al soltar.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>5 · El cáliper flota y jala la otra.</b> El cuerpo del cáliper se desliza sobre pasadores: al empujar, se corre al otro lado y trae la otra pastilla, y el disco queda prensado por los dos lados. Si los pasadores están oxidados, frena una sola pastilla.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 0,
+     "rueda": "lento"
+    }
+   },
+   {
+    "t": "<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y la rueda, y el movimiento se vuelve calor: en una bajada larga el disco pasa de 200 °C (aprox.). El líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 1,
+     "rueda": "quieto"
+    }
+   },
+   {
+    "t": "<b>7 · Sueltas.</b> La presión cae. El sello, que estaba torcido, regresa el pistón y las pastillas se despegan apenas del disco. Si el sello está viejo o el pistón sucio, el pistón no regresa: el freno queda pegado y se calienta solo.",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0.35,
+     "rueda": ""
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres y cantidad de piezas: catálogo de partes Crypton FI 115 BF24 (2019, Colombia), fig. 25 «Front brake caliper».",
+   "Cáliper flotante de <b>un pistón</b>, con soporte y dos guardapolvos de pasador; <b>cuatro tornillos</b> del disco con su placa (catálogo, fig. 25).",
+   "Una sola manguera de la bomba al cáliper (catálogo, fig. 28).",
+   "Pastillas: límite 0,8 mm; resorte y soporte nuevos con cada juego. Disco: mínimo 3,0 mm, torcido máx. 0,15 mm. Torques: disco 23 N·m con fijador, cáliper 35 N·m, purgador 6 N·m, pernos de unión 26 N·m (manual de taller Crypton FI 115, pp. 6-6, 6-7, 6-26, 6-27 y 6-31).",
+   "Líquido DOT 3 o DOT 4 cada 2 años, manguera cada 4 años, pastillas con ranura indicadora (manual del propietario, pp. 7-4 y 7-19)."
+  ],
+  "aproximado": [
+   "Proporciones del dibujo: adaptadas de otra lámina de freno de TallerYa y del plano de la Crypton; no se midió una pieza real.",
+   "Orden de desarme: el del manual de taller (p. 6-24) y el procedimiento general de un cáliper flotante.",
+   "Cifras de la animación (temperaturas, multiplicación de fuerza): aproximadas."
+  ],
+  "lista": [
+   "Catálogo de partes Yamaha Crypton FI 115 BF24 (Colombia, 2019), fig. 25 «Front brake caliper» y fig. 28 «Front master cylinder». Copia local.",
+   "Manual de taller Crypton FI 115 (traducción automática): freno delantero pp. 6-24 a 6-31; disco pp. 6-6 y 6-7. Copia local.",
+   "Manual del propietario Crypton FI (T115FL, BF2): cuadro de mantenimiento p. 7-4; pastillas p. 7-19; juntas y tubo de freno p. 7-21. Copia local.",
+   "Mínimos de ebullición del líquido (230 °C seco, 155 °C húmedo): norma FMVSS 116."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -1,
+   0
+  ],
+  "sombra": "url(#fSombra)",
+  "colores": {
+   "acero": "url(#gAcero)",
+   "cromo": "url(#gCromoV)",
+   "rosca": "url(#pRosca)"
+  }
+ },
+ "catalogo": "crypton-bf24",
+ "intervalos": "yamaha_crypton_fi_115",
+ "sujeta": {
+  "16": [
+   "12",
+   "4"
+  ],
+  "15": [
+   "10a",
+   "10b"
+  ],
+  "11a": [
+   "15"
+  ],
+  "3": [
+   "2",
+   "1"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "disco",
+    "nombre": "Disco",
+    "piezas": [
+     "2",
+     "1"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del disco",
+      "corto": "Tornillos",
+      "ids": [
+       "3"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     11,
+     12
+    ],
+    "marca": [
+     650,
+     500
+    ]
+   },
+   {
+    "id": "cáliper",
+    "nombre": "Cáliper",
+    "piezas": [
+     "4",
+     "5",
+     "6a",
+     "6b",
+     "7",
+     "8",
+     "9",
+     "12",
+     "13"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del soporte",
+      "corto": "Tornillos",
+      "ids": [
+       "16"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     0,
+     1,
+     6,
+     7,
+     8,
+     9,
+     10
+    ],
+    "marca": [
+     450,
+     290
+    ]
+   },
+   {
+    "id": "pastillas",
+    "nombre": "Pastillas",
+    "piezas": [
+     "10a",
+     "10b",
+     "14",
+     "15",
+     "11a",
+     "11b"
+    ],
+    "torn": [],
+    "pasos": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "marca": [
+     370,
+     440
+    ]
+   }
+  ],
+  "con3d": [],
+  "inicio": "Piezas del freno delantero",
+  "toqueExtra": [
+   "11a",
+   "15"
+  ]
+ },
+ "pendientes": [
+  "Diámetro del disco sin dato en las fuentes; el dibujo usa una proporción aproximada."
+ ]
+}

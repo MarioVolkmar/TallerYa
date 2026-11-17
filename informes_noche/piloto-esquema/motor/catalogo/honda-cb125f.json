@@ -1,0 +1,755 @@
+{
+ "moto": "honda-cb125f",
+ "fuente": "honda-cb125f-glh125sh-catalogo-partes.pdf",
+ "figuras": {
+  "F10": {
+   "titulo": "FRONT BRAKE CALIPER",
+   "paginas": [
+    65,
+    66
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [
+    "2U"
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "SEAL SET, PISTON",
+     "descripcion_en": "SEAL SET, PISTON",
+     "cantidad": 2,
+     "codigo": "06451-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "2",
+     "descripcion": "PAD SET, FR.",
+     "descripcion_en": "PAD SET, FR.",
+     "cantidad": 1,
+     "codigo": "06455-KYA-621",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "3",
+     "descripcion": "SCREW, BLEEDER",
+     "descripcion_en": "SCREW, BLEEDER",
+     "cantidad": 1,
+     "codigo": "43352-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "4",
+     "descripcion": "CAP, BLEEDER",
+     "descripcion_en": "CAP, BLEEDER",
+     "cantidad": 1,
+     "codigo": "43353-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "5",
+     "descripcion": "PISTON",
+     "descripcion_en": "PISTON",
+     "cantidad": 2,
+     "codigo": "45107-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "6",
+     "descripcion": "SPRING, PAD",
+     "descripcion_en": "SPRING, PAD",
+     "cantidad": 1,
+     "codigo": "45108-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "7",
+     "descripcion": "BUSH B",
+     "descripcion_en": "BUSH B",
+     "cantidad": 1,
+     "codigo": "45132-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOOT B, BUSH",
+     "descripcion_en": "BOOT B, BUSH",
+     "cantidad": 1,
+     "codigo": "45133-KSY-901",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "9",
+     "descripcion": "PLUG, PIN",
+     "descripcion_en": "PLUG, PIN",
+     "cantidad": 2,
+     "codigo": "45203-KRF-C91",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "10",
+     "descripcion": "PIN, HANGER",
+     "descripcion_en": "PIN, HANGER",
+     "cantidad": 2,
+     "codigo": "45215-KRF-C91",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "11",
+     "descripcion": "CALIPER SUB ASSY., R. FR.",
+     "descripcion_en": "CALIPER SUB ASSY., R. FR.",
+     "cantidad": 1,
+     "codigo": "45250-KRF-C91",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "12",
+     "descripcion": "BRACKET SUB ASSY., R. FR.",
+     "descripcion_en": "BRACKET SUB ASSY., R. FR.",
+     "cantidad": 1,
+     "codigo": "45290-KRF-C91",
+     "nota": "columna C; mercados 1CO,2AG,2CL,2LA,2PE,2TU,4AG,4LA"
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, FLANGE, 8X25",
+     "descripcion_en": "BOLT, FLANGE, 8X25",
+     "cantidad": 2,
+     "codigo": "90155-KEH-950",
+     "nota": "columna C; mercados 1CO,1SA,2AG,2CL,2LA,2PE,2TU,2U,3SA,4AG,4LA"
+    }
+   ]
+  },
+  "E1-2": {
+   "titulo": "CYLINDER HEAD(GLH125SH)",
+   "paginas": [
+    4
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "RUBBER, INSERT",
+     "descripcion_en": "RUBBER, INSERT",
+     "cantidad": 2,
+     "codigo": "12195-KTE-910",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "2",
+     "descripcion": "HEAD COMP., CYLINDER",
+     "descripcion_en": "HEAD COMP., CYLINDER",
+     "cantidad": 1,
+     "codigo": "12200-KVX-700",
+     "nota": "columna C (GLH125SH); mercados 2AG,2CL,2LA,2PE,2U,3AG,3LA,4AG,4LA,AG,CL,LA,PE"
+    },
+    {
+     "ref": "3",
+     "descripcion": "GUIDE, VALVE(OS)",
+     "descripcion_en": "GUIDE, VALVE(OS)",
+     "cantidad": 1,
+     "codigo": "12204-KRM-305",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "4",
+     "descripcion": "GUIDE, IN. VALVE(OS)",
+     "descripcion_en": "GUIDE, IN. VALVE(OS)",
+     "cantidad": 1,
+     "codigo": "12205-KSP-305",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "5",
+     "descripcion": "HOLDER COMP., CAMSHAFT",
+     "descripcion_en": "HOLDER COMP., CAMSHAFT",
+     "cantidad": 1,
+     "codigo": "12210-KVX-600",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "6",
+     "descripcion": "PLATE, STOPPER",
+     "descripcion_en": "PLATE, STOPPER",
+     "cantidad": 1,
+     "codigo": "12212-KRM-840",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "7",
+     "descripcion": "CLIP, VALVE GUIDE",
+     "descripcion_en": "CLIP, VALVE GUIDE",
+     "cantidad": 2,
+     "codigo": "12213-KTT-900",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "8",
+     "descripcion": "GASKET, CYLINDER HEAD",
+     "descripcion_en": "GASKET, CYLINDER HEAD",
+     "cantidad": 1,
+     "codigo": "12251-KVX-A00",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "9",
+     "descripcion": "PIPE COMP., INLET",
+     "descripcion_en": "PIPE COMP., INLET",
+     "cantidad": 1,
+     "codigo": "16210-KVX-600",
+     "nota": "columna C (GLH125SH); mercados 2AG,2CL,2LA,2PE,2U,3AG,3LA,4AG,4LA,AG,CL,LA,PE"
+    },
+    {
+     "ref": "10",
+     "descripcion": "BAND, INSULATOR",
+     "descripcion_en": "BAND, INSULATOR",
+     "cantidad": 1,
+     "codigo": "16217-KVC-900",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "11",
+     "descripcion": "PLUG, SPARK(CPR7EA-9)(NGK)",
+     "descripcion_en": "PLUG, SPARK(CPR7EA-9)(NGK)",
+     "cantidad": 1,
+     "codigo": "31917-KPH-901",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, FLANGE, 5X14",
+     "descripcion_en": "BOLT, FLANGE, 5X14",
+     "cantidad": 2,
+     "codigo": "90002-KRM-840",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, STUD, 8X22",
+     "descripcion_en": "BOLT, STUD, 8X22",
+     "cantidad": 2,
+     "codigo": "90035-KRM-840",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "14",
+     "descripcion": "BOLT, FLANGE SOCKET, 6X22",
+     "descripcion_en": "BOLT, FLANGE SOCKET, 6X22",
+     "cantidad": 2,
+     "codigo": "90091-KRM-840",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "15",
+     "descripcion": "NUT, CYLINDER HEAD",
+     "descripcion_en": "NUT, CYLINDER HEAD",
+     "cantidad": 4,
+     "codigo": "90306-KRM-840",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "16",
+     "descripcion": "WASHER, PLAIN, 12MM",
+     "descripcion_en": "WASHER, PLAIN, 12MM",
+     "cantidad": 4,
+     "codigo": "90404-KPT-A00",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "17",
+     "descripcion": "DOWEL PIN, 10X12",
+     "descripcion_en": "DOWEL PIN, 10X12",
+     "cantidad": 2,
+     "codigo": "90703-KRM-840",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "18",
+     "descripcion": "DOWEL PIN, 6X10",
+     "descripcion_en": "DOWEL PIN, 6X10",
+     "cantidad": 2,
+     "codigo": "90704-KTT-900",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "19",
+     "descripcion": "O-RING, 33.5X3",
+     "descripcion_en": "O-RING, 33.5X3",
+     "cantidad": 1,
+     "codigo": "91304-KVC-900",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "20",
+     "descripcion": "BOLT, FLANGE, 6X14",
+     "descripcion_en": "BOLT, FLANGE, 6X14",
+     "cantidad": 1,
+     "codigo": "95701-06014-00",
+     "nota": "columna C (GLH125SH)"
+    },
+    {
+     "ref": "21",
+     "descripcion": "BOLT, FLANGE, 6X105",
+     "descripcion_en": "BOLT, FLANGE, 6X105",
+     "cantidad": 2,
+     "codigo": "95801-06105-00",
+     "nota": "columna C (GLH125SH)"
+    }
+   ]
+  },
+  "E6": {
+   "titulo": "CLUTCH(GLH1251SH/2SH/3SH)",
+   "paginas": [
+    14
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [],
+   "partes": []
+  },
+  "E6-1": {
+   "titulo": "CLUTCH(GLH125SH)",
+   "paginas": [
+    15
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "OUTER COMP., CLUTCH(67T)",
+     "descripcion_en": "OUTER COMP., CLUTCH(67T)",
+     "cantidad": 1,
+     "codigo": "22100-KVX-700",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "2",
+     "descripcion": "GUIDE, CLUTCH OUTER",
+     "descripcion_en": "GUIDE, CLUTCH OUTER",
+     "cantidad": 1,
+     "codigo": "22115-KSP-910",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "3",
+     "descripcion": "CENTER, CLUTCH",
+     "descripcion_en": "CENTER, CLUTCH",
+     "cantidad": 1,
+     "codigo": "22120-KTE-910",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "4",
+     "descripcion": "DISK, CLUTCH FRICTION",
+     "descripcion_en": "DISK, CLUTCH FRICTION",
+     "cantidad": 2,
+     "codigo": "22201-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "5",
+     "descripcion": "DISK, CLUTCH FRICTION",
+     "descripcion_en": "DISK, CLUTCH FRICTION",
+     "cantidad": 2,
+     "codigo": "22202-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "6",
+     "descripcion": "PLATE, CLUTCH",
+     "descripcion_en": "PLATE, CLUTCH",
+     "cantidad": 3,
+     "codigo": "22321-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "7",
+     "descripcion": "PLATE, CLUTCH PRESSURE",
+     "descripcion_en": "PLATE, CLUTCH PRESSURE",
+     "cantidad": 1,
+     "codigo": "22355-KTE-910",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "8",
+     "descripcion": "PLATE, CLUTCH LIFTER",
+     "descripcion_en": "PLATE, CLUTCH LIFTER",
+     "cantidad": 1,
+     "codigo": "22361-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "9",
+     "descripcion": "ROD, CLUTCH LIFTER",
+     "descripcion_en": "ROD, CLUTCH LIFTER",
+     "cantidad": 1,
+     "codigo": "22366-KRM-840",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "10",
+     "descripcion": "SPRING, CLUTCH",
+     "descripcion_en": "SPRING, CLUTCH",
+     "cantidad": 4,
+     "codigo": "22401-KRM-840",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "11",
+     "descripcion": "BOLT, FLANGE, 6X25",
+     "descripcion_en": "BOLT, FLANGE, 6X25",
+     "cantidad": 4,
+     "codigo": "90008-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "12",
+     "descripcion": "NUT, SPECIAL FLANGE, 14MM",
+     "descripcion_en": "NUT, SPECIAL FLANGE, 14MM",
+     "cantidad": 1,
+     "codigo": "90202-KRM-840",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "13",
+     "descripcion": "WASHER, PLAIN, 17MM",
+     "descripcion_en": "WASHER, PLAIN, 17MM",
+     "cantidad": 1,
+     "codigo": "90405-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "14",
+     "descripcion": "WASHER, 14.1X29X2.8",
+     "descripcion_en": "WASHER, 14.1X29X2.8",
+     "cantidad": 1,
+     "codigo": "90501-KPT-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "15",
+     "descripcion": "BEARING, RADIAL BALL, 6003",
+     "descripcion_en": "BEARING, RADIAL BALL, 6003",
+     "cantidad": 1,
+     "codigo": "96100-60030-00",
+     "nota": "columna C; mercados "
+    }
+   ]
+  },
+  "F8": {
+   "titulo": "FRONT FORK",
+   "paginas": [
+    61,
+    62
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "FORK ASSY., R. FR.",
+     "descripcion_en": "FORK ASSY., R. FR.",
+     "cantidad": 1,
+     "codigo": "51400-KVC-A00",
+     "nota": "columna C; mercados 2AG,2LA,2PE,2TU,2U,4AG,4LA"
+    },
+    {
+     "ref": "2",
+     "descripcion": "SPRING, FR. FORK",
+     "descripcion_en": "SPRING, FR. FORK",
+     "cantidad": 2,
+     "codigo": "51401-KPN-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "3",
+     "descripcion": "PIPE COMP., FR. FORK",
+     "descripcion_en": "PIPE COMP., FR. FORK",
+     "cantidad": 2,
+     "codigo": "51410-KPN-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "4",
+     "descripcion": "SPRING, REBOUND",
+     "descripcion_en": "SPRING, REBOUND",
+     "cantidad": 2,
+     "codigo": "51413-KPN-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "5",
+     "descripcion": "CASE, R. BOTTOM",
+     "descripcion_en": "CASE, R. BOTTOM",
+     "cantidad": 1,
+     "codigo": "51420-KVC-A00",
+     "nota": "columna C; mercados 2AG,2LA,2PE,2TU,2U,4AG,4LA"
+    },
+    {
+     "ref": "6",
+     "descripcion": "PIECE, OIL LOCK",
+     "descripcion_en": "PIECE, OIL LOCK",
+     "cantidad": 2,
+     "codigo": "51432-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "7",
+     "descripcion": "RING, PISTON",
+     "descripcion_en": "RING, PISTON",
+     "cantidad": 2,
+     "codigo": "51437-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "8",
+     "descripcion": "PIPE, SEAT",
+     "descripcion_en": "PIPE, SEAT",
+     "cantidad": 2,
+     "codigo": "51440-KPN-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "9",
+     "descripcion": "SEAL SET, FR. FORK",
+     "descripcion_en": "SEAL SET, FR. FORK",
+     "cantidad": 2,
+     "codigo": "51490-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "10",
+     "descripcion": "FORK ASSY., L. FR.",
+     "descripcion_en": "FORK ASSY., L. FR.",
+     "cantidad": 1,
+     "codigo": "51500-KPN-A00",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,2U,4AG,4LA"
+    },
+    {
+     "ref": "11",
+     "descripcion": "CASE, L. BOTTOM",
+     "descripcion_en": "CASE, L. BOTTOM",
+     "cantidad": 1,
+     "codigo": "51520-KVC-910",
+     "nota": "columna C; mercados 2CO,2SA,3AG,3LA,AG,CL,LA,PE"
+    },
+    {
+     "ref": "12",
+     "descripcion": "BOLT, SOCKET, 8X30",
+     "descripcion_en": "BOLT, SOCKET, 8X30",
+     "cantidad": 2,
+     "codigo": "90116-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "13",
+     "descripcion": "BOLT, FR. FORK",
+     "descripcion_en": "BOLT, FR. FORK",
+     "cantidad": 2,
+     "codigo": "90123-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "14",
+     "descripcion": "WASHER, SPECIAL, 8MM",
+     "descripcion_en": "WASHER, SPECIAL, 8MM",
+     "cantidad": 2,
+     "codigo": "90544-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "15",
+     "descripcion": "RING, OIL SEAL STOPPER",
+     "descripcion_en": "RING, OIL SEAL STOPPER",
+     "cantidad": 2,
+     "codigo": "90651-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "16",
+     "descripcion": "SEAL, DUST",
+     "descripcion_en": "SEAL, DUST",
+     "cantidad": 2,
+     "codigo": "91254-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "17",
+     "descripcion": "O-RING, 22X2.8",
+     "descripcion_en": "O-RING, 22X2.8",
+     "cantidad": 2,
+     "codigo": "91351-KRF-H71",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "18",
+     "descripcion": "CLAMPER B, FR. BRAKE HOSE",
+     "descripcion_en": "CLAMPER B, FR. BRAKE HOSE",
+     "cantidad": 1,
+     "codigo": "45156-KVX-620",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,2U,4AG,4LA"
+    },
+    {
+     "ref": "19",
+     "descripcion": "BOLT, FLANGE, 6X12",
+     "descripcion_en": "BOLT, FLANGE, 6X12",
+     "cantidad": 1,
+     "codigo": "96001-06012-00",
+     "nota": "columna C; mercados 2AG,2CL,2LA,2PE,2TU,2U,4AG,4LA"
+    }
+   ]
+  },
+  "F22-1": {
+   "titulo": "SWINGARM/CHAIN CASE(GLH125SH)",
+   "paginas": [
+    100
+   ],
+   "columna": "C",
+   "columnas": [
+    "7",
+    "8",
+    "A",
+    "C"
+   ],
+   "saltar": [
+    "2U"
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "CASE, DRIVE CHAIN",
+     "descripcion_en": "CASE, DRIVE CHAIN",
+     "cantidad": 1,
+     "codigo": "40510-KPN-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "2",
+     "descripcion": "CHAIN, DRIVE(428H-120L)",
+     "descripcion_en": "CHAIN, DRIVE(428H-120L)",
+     "cantidad": 1,
+     "codigo": "40530-KVX-A00",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "3",
+     "descripcion": "JOINT, DRIVE CHAIN",
+     "descripcion_en": "JOINT, DRIVE CHAIN",
+     "cantidad": 1,
+     "codigo": "40531-KTT-890",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "4",
+     "descripcion": "ARM, RR. BRAKE STOPPER",
+     "descripcion_en": "ARM, RR. BRAKE STOPPER",
+     "cantidad": 1,
+     "codigo": "43431-KVX-600",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "5",
+     "descripcion": "BOLT, SWINGARM PIVOT",
+     "descripcion_en": "BOLT, SWINGARM PIVOT",
+     "cantidad": 1,
+     "codigo": "52101-KVX-600",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "6",
+     "descripcion": "SLIDER, CHAIN",
+     "descripcion_en": "SLIDER, CHAIN",
+     "cantidad": 1,
+     "codigo": "52170-KYA-600",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "7",
+     "descripcion": "SWINGARM SUB ASSY., RR.",
+     "descripcion_en": "SWINGARM SUB ASSY., RR.",
+     "cantidad": 1,
+     "codigo": "52200-KPN-A00ZA",
+     "nota": "columna C; mercados (agregada a mano: el extractor no la leyó)"
+    },
+    {
+     "ref": "8",
+     "descripcion": "BOLT, FLANGE, 6MM",
+     "descripcion_en": "BOLT, FLANGE, 6MM",
+     "cantidad": 2,
+     "codigo": "90119-KTT-900",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "9",
+     "descripcion": "NUT, FLANGE, 12MM(PT)",
+     "descripcion_en": "NUT, FLANGE, 12MM(PT)",
+     "cantidad": 1,
+     "codigo": "90306-KYA-601",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "10",
+     "descripcion": "BOLT A, BRAKE STOPPER ARM",
+     "descripcion_en": "BOLT A, BRAKE STOPPER ARM",
+     "cantidad": 1,
+     "codigo": "92812-20000",
+     "nota": "columna C; mercados (agregada a mano: el extractor no la leyó)"
+    },
+    {
+     "ref": "11",
+     "descripcion": "NUT, HEX., 8MM",
+     "descripcion_en": "NUT, HEX., 8MM",
+     "cantidad": 1,
+     "codigo": "94001-08000-0S",
+     "nota": "columna C; mercados "
+    },
+    {
+     "ref": "12",
+     "descripcion": "WASHER, PLAIN, 8MM",
+     "descripcion_en": "WASHER, PLAIN, 8MM",
+     "cantidad": 1,
+     "codigo": "94101-08000",
+     "nota": "columna C; mercados (agregada a mano: el extractor no la leyó)"
+    },
+    {
+     "ref": "13",
+     "descripcion": "WASHER, SPRING, 10MM",
+     "descripcion_en": "WASHER, SPRING, 10MM",
+     "cantidad": 1,
+     "codigo": "94111-10000",
+     "nota": "columna C; mercados (agregada a mano: el extractor no la leyó)"
+    },
+    {
+     "ref": "14",
+     "descripcion": "PIN, SPLIT, 2.0X15",
+     "descripcion_en": "PIN, SPLIT, 2.0X15",
+     "cantidad": 1,
+     "codigo": "94201-20150",
+     "nota": "columna C; mercados (agregada a mano: el extractor no la leyó)"
+    }
+   ]
+  }
+ }
+}

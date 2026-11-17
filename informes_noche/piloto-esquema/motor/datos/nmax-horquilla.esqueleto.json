@@ -1,0 +1,2854 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 18",
+  "titulo": "Steering · nmax-bbe4",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Steering",
+  "sub": "Lámina 18 · 53 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina 18",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "nmax-horquilla",
+ "moto": "nmax-bbe4",
+ "figura": 18,
+ "catalogo": "nmax-bbe4",
+ "intervalos": "yamaha_nmax_155",
+ "arte": "nmax-horquilla",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51",
+  "52",
+  "53"
+ ],
+ "nombres": {
+  "1": "Front Fork Assy",
+  "2": "Amortiguador (front fork assy)",
+  "3": "Tube, Outer (L.H)",
+  "4": "Retén (front fork assy)",
+  "5": "Ring, Snap (front fork assy)",
+  "6": "Sello (front fork assy)",
+  "7": "Inner Tube Comp.1 (front fork assy)",
+  "8": "Cilindro (front fork assy)",
+  "9": "Resorte (front fork assy)",
+  "10": "Ring, Piston (front fork assy)",
+  "11": "Spindle, Taper (front fork assy)",
+  "12": "Empaque (front fork assy)",
+  "13": "Tornillo (front fork assy)",
+  "14": "Resorte (front fork assy, otro)",
+  "15": "Empaque (front fork assy, otro)",
+  "16": "Tornillo (front fork assy, otro)",
+  "17": "Ring, Snap (front fork assy, otro)",
+  "18": "Amortiguador (front fork assy, otro)",
+  "19": "Tube, Outer",
+  "20": "Retén (front fork assy, otro)",
+  "21": "Ring, Snap (front fork assy, otro)",
+  "22": "Sello (front fork assy, otro)",
+  "23": "Inner Tube Comp.1 (front fork assy, otro)",
+  "24": "Cilindro (front fork assy, otro)",
+  "25": "Resorte (front fork assy, otro)",
+  "26": "Ring, Piston (front fork assy, otro)",
+  "27": "Spindle, Taper (front fork assy, otro)",
+  "28": "Empaque (front fork assy, otro)",
+  "29": "Tornillo (front fork assy, otro)",
+  "30": "Resorte (front fork assy, otro)",
+  "31": "Empaque (front fork assy, otro)",
+  "32": "Tornillo (front fork assy, otro)",
+  "33": "Ring, Snap (front fork assy, otro)",
+  "34": "Soporte",
+  "35": "Sello (front fork assy, otro)",
+  "36": "Rodamiento",
+  "37": "Tornillo (front fork assy, otro)",
+  "38": "Race, Ball (race, ball)",
+  "39": "Retainer, Ball Bearing (race, ball)",
+  "40": "Race, Ball (race, ball, otro)",
+  "41": "Race, Ball (race, ball, otro)",
+  "42": "Retainer, Ball Bearing (retainer, ball bearing)",
+  "43": "Tapa (retainer, ball bearing)",
+  "44": "Tapa (retainer, ball bearing, otro)",
+  "45": "Tuerca",
+  "46": "Arandela (retainer, ball bearing)",
+  "47": "Arandela (retainer, ball bearing, otro)",
+  "48": "Tapón",
+  "49": "Tapa",
+  "50": "Holder, Brake Hose (tapa)",
+  "51": "Tornillo (tapa)",
+  "52": "Holder, Brake Hose (tapa, otro)",
+  "53": "Tornillo (tapa, otro)"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22",
+  "23",
+  "24",
+  "25",
+  "26",
+  "27",
+  "28",
+  "29",
+  "30",
+  "31",
+  "32",
+  "33",
+  "34",
+  "35",
+  "36",
+  "37",
+  "38",
+  "39",
+  "40",
+  "41",
+  "42",
+  "43",
+  "44",
+  "45",
+  "46",
+  "47",
+  "48",
+  "49",
+  "50",
+  "51",
+  "52",
+  "53"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    130,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "reten",
+   "p": {
+    "r": 18,
+    "ri": 10,
+    "x": 130,
+    "y": 145
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    70,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    130,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    70,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    130,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    70,
+    310
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 70,
+    "y": 310
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    130,
+    310
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    70,
+    365
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    130,
+    365
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 130,
+    "y": 365
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    70,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 70,
+    "y": 420
+   }
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    130,
+    420
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 130,
+    "y": 420
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    70,
+    475
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 70,
+    "y": 475
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    130,
+    475
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 130,
+    "y": 475
+   }
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    70,
+    530
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    130,
+    530
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    70,
+    585
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    130,
+    585
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "reten",
+   "p": {
+    "r": 18,
+    "ri": 10,
+    "x": 130,
+    "y": 585
+   }
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    70,
+    640
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "anc": [
+    130,
+    640
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "23",
+   "n": "23",
+   "anc": [
+    70,
+    695
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "24",
+   "n": "24",
+   "anc": [
+    130,
+    695
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "25",
+   "n": "25",
+   "anc": [
+    70,
+    750
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 70,
+    "y": 750
+   }
+  },
+  {
+   "id": "26",
+   "n": "26",
+   "anc": [
+    130,
+    750
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "27",
+   "n": "27",
+   "anc": [
+    70,
+    805
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "28",
+   "n": "28",
+   "anc": [
+    130,
+    805
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 130,
+    "y": 805
+   }
+  },
+  {
+   "id": "29",
+   "n": "29",
+   "anc": [
+    70,
+    860
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 70,
+    "y": 860
+   }
+  },
+  {
+   "id": "30",
+   "n": "30",
+   "anc": [
+    130,
+    860
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 130,
+    "y": 860
+   }
+  },
+  {
+   "id": "31",
+   "n": "31",
+   "anc": [
+    70,
+    915
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 70,
+    "y": 915
+   }
+  },
+  {
+   "id": "32",
+   "n": "32",
+   "anc": [
+    130,
+    915
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 130,
+    "y": 915
+   }
+  },
+  {
+   "id": "33",
+   "n": "33",
+   "anc": [
+    70,
+    970
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "34",
+   "n": "34",
+   "anc": [
+    130,
+    970
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "35",
+   "n": "35",
+   "anc": [
+    70,
+    1025
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "36",
+   "n": "36",
+   "anc": [
+    130,
+    1025
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 130,
+    "y": 1025
+   }
+  },
+  {
+   "id": "37",
+   "n": "37",
+   "anc": [
+    70,
+    1080
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 70,
+    "y": 1080
+   }
+  },
+  {
+   "id": "38",
+   "n": "38",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "39",
+   "n": "39",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 270,
+    "y": 90
+   }
+  },
+  {
+   "id": "40",
+   "n": "40",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "41",
+   "n": "41",
+   "anc": [
+    270,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "42",
+   "n": "42",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 350,
+    "y": 90
+   }
+  },
+  {
+   "id": "43",
+   "n": "43",
+   "anc": [
+    410,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "44",
+   "n": "44",
+   "anc": [
+    350,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "45",
+   "n": "45",
+   "anc": [
+    350,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 350,
+    "y": 200
+   }
+  },
+  {
+   "id": "46",
+   "n": "46",
+   "anc": [
+    410,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 410,
+    "y": 200
+   }
+  },
+  {
+   "id": "47",
+   "n": "47",
+   "anc": [
+    350,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 350,
+    "y": 255
+   }
+  },
+  {
+   "id": "48",
+   "n": "48",
+   "anc": [
+    410,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "49",
+   "n": "49",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "50",
+   "n": "50",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      20
+     ],
+     [
+      80,
+      20
+     ]
+    ],
+    "x": 550,
+    "y": 90
+   }
+  },
+  {
+   "id": "51",
+   "n": "51",
+   "anc": [
+    550,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 550,
+    "y": 145
+   }
+  },
+  {
+   "id": "52",
+   "n": "52",
+   "anc": [
+    490,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      20
+     ],
+     [
+      80,
+      20
+     ]
+    ],
+    "x": 490,
+    "y": 145
+   }
+  },
+  {
+   "id": "53",
+   "n": "53",
+   "anc": [
+    490,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 490,
+    "y": 200
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Front Fork Assy.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "16": [
+     0,
+     0
+    ],
+    "17": [
+     0,
+     0
+    ],
+    "18": [
+     0,
+     0
+    ],
+    "19": [
+     0,
+     0
+    ],
+    "20": [
+     0,
+     0
+    ],
+    "21": [
+     0,
+     0
+    ],
+    "22": [
+     0,
+     0
+    ],
+    "23": [
+     0,
+     0
+    ],
+    "24": [
+     0,
+     0
+    ],
+    "25": [
+     0,
+     0
+    ],
+    "26": [
+     0,
+     0
+    ],
+    "27": [
+     0,
+     0
+    ],
+    "28": [
+     0,
+     0
+    ],
+    "29": [
+     0,
+     0
+    ],
+    "30": [
+     0,
+     0
+    ],
+    "31": [
+     0,
+     0
+    ],
+    "32": [
+     0,
+     0
+    ],
+    "33": [
+     0,
+     0
+    ],
+    "34": [
+     0,
+     0
+    ],
+    "35": [
+     0,
+     0
+    ],
+    "36": [
+     0,
+     0
+    ],
+    "37": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Race, Ball.</b> (texto del paso)",
+   "m": {
+    "38": [
+     0,
+     0
+    ],
+    "39": [
+     0,
+     0
+    ],
+    "40": [
+     0,
+     0
+    ],
+    "41": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Retainer, Ball Bearing.</b> (texto del paso)",
+   "m": {
+    "42": [
+     0,
+     0
+    ],
+    "43": [
+     0,
+     0
+    ],
+    "44": [
+     0,
+     0
+    ],
+    "48": [
+     0,
+     0
+    ],
+    "45": [
+     0,
+     0
+    ],
+    "46": [
+     0,
+     0
+    ],
+    "47": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapa.</b> (texto del paso)",
+   "m": {
+    "49": [
+     0,
+     0
+    ],
+    "50": [
+     0,
+     0
+    ],
+    "52": [
+     0,
+     0
+    ],
+    "51": [
+     0,
+     0
+    ],
+    "53": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Front Fork Assy",
+   "cat": "FRONT FORK ASSY · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F3100-10"
+  },
+  "2": {
+   "nombre": "Amortiguador (front fork assy)",
+   "cat": "DAMPER ASSY. (L) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F3102-00"
+  },
+  "3": {
+   "nombre": "Tube, Outer (L.H)",
+   "cat": "TUBE, OUTER (L.H) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3126-00"
+  },
+  "4": {
+   "nombre": "Retén (front fork assy)",
+   "cat": "OIL SEAL · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3HB-F3145-00"
+  },
+  "5": {
+   "nombre": "Ring, Snap (front fork assy)",
+   "cat": "RING, SNAP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3V3-F3156-00"
+  },
+  "6": {
+   "nombre": "Sello (front fork assy)",
+   "cat": "SEAL, DUST · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3HB-F3144-00"
+  },
+  "7": {
+   "nombre": "Inner Tube Comp.1 (front fork assy)",
+   "cat": "INNER TUBE COMP.1 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3110-00"
+  },
+  "8": {
+   "nombre": "Cilindro (front fork assy)",
+   "cat": "CYLINDER COMP., FRONT FORK · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3170-00"
+  },
+  "9": {
+   "nombre": "Resorte (front fork assy)",
+   "cat": "SPRING, SUB · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2K5-23152-00"
+  },
+  "10": {
+   "nombre": "Ring, Piston (front fork assy)",
+   "cat": "RING, PISTON · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3157-00"
+  },
+  "11": {
+   "nombre": "Spindle, Taper (front fork assy)",
+   "cat": "SPINDLE, TAPER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3173-00"
+  },
+  "12": {
+   "nombre": "Empaque (front fork assy)",
+   "cat": "GASKET · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BU-F3158-00"
+  },
+  "13": {
+   "nombre": "Tornillo (front fork assy)",
+   "cat": "BOLT, HEXAGON SOCKET HEAD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "278-F3181-50"
+  },
+  "14": {
+   "nombre": "Resorte (front fork assy, otro)",
+   "cat": "SPRING, FRONT FORK · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F3141-00"
+  },
+  "15": {
+   "nombre": "Empaque (front fork assy, otro)",
+   "cat": "GASKET · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3Y6-23114-00"
+  },
+  "16": {
+   "nombre": "Tornillo (front fork assy, otro)",
+   "cat": "BOLT, CAP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3111-00"
+  },
+  "17": {
+   "nombre": "Ring, Snap (front fork assy, otro)",
+   "cat": "RING, SNAP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3153-00"
+  },
+  "18": {
+   "nombre": "Amortiguador (front fork assy, otro)",
+   "cat": "DAMPER ASSY. (R) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F3103-00"
+  },
+  "19": {
+   "nombre": "Tube, Outer",
+   "cat": "TUBE, OUTER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3136-00"
+  },
+  "20": {
+   "nombre": "Retén (front fork assy, otro)",
+   "cat": "OIL SEAL · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3HB-F3145-00"
+  },
+  "21": {
+   "nombre": "Ring, Snap (front fork assy, otro)",
+   "cat": "RING, SNAP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3V3-F3156-00"
+  },
+  "22": {
+   "nombre": "Sello (front fork assy, otro)",
+   "cat": "SEAL, DUST · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3HB-F3144-00"
+  },
+  "23": {
+   "nombre": "Inner Tube Comp.1 (front fork assy, otro)",
+   "cat": "INNER TUBE COMP.1 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3110-00"
+  },
+  "24": {
+   "nombre": "Cilindro (front fork assy, otro)",
+   "cat": "CYLINDER COMP., FRONT FORK · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3170-00"
+  },
+  "25": {
+   "nombre": "Resorte (front fork assy, otro)",
+   "cat": "SPRING, SUB · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2K5-23152-00"
+  },
+  "26": {
+   "nombre": "Ring, Piston (front fork assy, otro)",
+   "cat": "RING, PISTON · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3157-00"
+  },
+  "27": {
+   "nombre": "Spindle, Taper (front fork assy, otro)",
+   "cat": "SPINDLE, TAPER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3173-00"
+  },
+  "28": {
+   "nombre": "Empaque (front fork assy, otro)",
+   "cat": "GASKET · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2BU-F3158-00"
+  },
+  "29": {
+   "nombre": "Tornillo (front fork assy, otro)",
+   "cat": "BOLT, HEXAGON SOCKET HEAD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "278-F3181-50"
+  },
+  "30": {
+   "nombre": "Resorte (front fork assy, otro)",
+   "cat": "SPRING, FRONT FORK · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F3141-00"
+  },
+  "31": {
+   "nombre": "Empaque (front fork assy, otro)",
+   "cat": "GASKET · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3Y6-23114-00"
+  },
+  "32": {
+   "nombre": "Tornillo (front fork assy, otro)",
+   "cat": "BOLT, CAP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3111-00"
+  },
+  "33": {
+   "nombre": "Ring, Snap (front fork assy, otro)",
+   "cat": "RING, SNAP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2DP-F3153-00"
+  },
+  "34": {
+   "nombre": "Soporte",
+   "cat": "UNDER BRACKET COMP · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F2403-00"
+  },
+  "35": {
+   "nombre": "Sello (front fork assy, otro)",
+   "cat": "SEAL, DUST · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B63-F3462-00"
+  },
+  "36": {
+   "nombre": "Rodamiento",
+   "cat": "BEARING, STEERING LOWER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2TD-F3875-00"
+  },
+  "37": {
+   "nombre": "Tornillo (front fork assy, otro)",
+   "cat": "BOLT 1 · 4 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "5YW-F3346-10"
+  },
+  "38": {
+   "nombre": "Race, Ball (race, ball)",
+   "cat": "RACE, BALL 2 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1KL-F3412-10"
+  },
+  "39": {
+   "nombre": "Retainer, Ball Bearing (race, ball)",
+   "cat": "RETAINER, BALL BEARING · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "5VL-F341E-10"
+  },
+  "40": {
+   "nombre": "Race, Ball (race, ball, otro)",
+   "cat": "RACE, BALL 2 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "4RT-F3412-10"
+  },
+  "41": {
+   "nombre": "Race, Ball (race, ball, otro)",
+   "cat": "RACE, BALL 1 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "4RT-F3411-10"
+  },
+  "42": {
+   "nombre": "Retainer, Ball Bearing (retainer, ball bearing)",
+   "cat": "RETAINER, BALL BEARING · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1P6-F341E-10"
+  },
+  "43": {
+   "nombre": "Tapa (retainer, ball bearing)",
+   "cat": "COVER, BALL RACE 2 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "3AY-F3416-00"
+  },
+  "44": {
+   "nombre": "Tapa (retainer, ball bearing, otro)",
+   "cat": "COVER, BALL RACE 1 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B65-F3415-00"
+  },
+  "45": {
+   "nombre": "Tuerca",
+   "cat": "NUT · 3 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90179-25810"
+  },
+  "46": {
+   "nombre": "Arandela (retainer, ball bearing)",
+   "cat": "WASHER, PLATE · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90202-26142"
+  },
+  "47": {
+   "nombre": "Arandela (retainer, ball bearing, otro)",
+   "cat": "WASHER, SPECIAL · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "1SK-F3418-00"
+  },
+  "48": {
+   "nombre": "Tapón",
+   "cat": "PLUG, HOLE · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F312G-00"
+  },
+  "49": {
+   "nombre": "Tapa",
+   "cat": "COVER, UNDER 1 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B65-F3123-00"
+  },
+  "50": {
+   "nombre": "Holder, Brake Hose (tapa)",
+   "cat": "HOLDER, BRAKE HOSE 1 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F5875-00"
+  },
+  "51": {
+   "nombre": "Tornillo (tapa)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "95D02-06012"
+  },
+  "52": {
+   "nombre": "Holder, Brake Hose (tapa, otro)",
+   "cat": "HOLDER, BRAKE HOSE 2 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "B6H-F5876-00"
+  },
+  "53": {
+   "nombre": "Tornillo (tapa, otro)",
+   "cat": "BOLT, FLANGE DEEP RECESS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo nmax-bbe4, fig. 18."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "95D02-06012"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "front-fork-ass",
+    "nombre": "Front Fork Assy",
+    "piezas": [
+     "1",
+     "2",
+     "3",
+     "4",
+     "5",
+     "6",
+     "7",
+     "8",
+     "9",
+     "10",
+     "11",
+     "12",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17",
+     "18",
+     "19",
+     "20",
+     "21",
+     "22",
+     "23",
+     "24",
+     "25",
+     "26",
+     "27",
+     "28",
+     "29",
+     "30",
+     "31",
+     "32",
+     "33",
+     "34",
+     "35",
+     "36",
+     "37"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "race-ball",
+    "nombre": "Race, Ball",
+    "piezas": [
+     "38",
+     "39",
+     "40",
+     "41"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "retainer-ball",
+    "nombre": "Retainer, Ball Bearing",
+    "piezas": [
+     "42",
+     "43",
+     "44",
+     "48"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuercas",
+      "corto": "Tuercas",
+      "ids": [
+       "45"
+      ],
+      "cant": 3
+     },
+     {
+      "nombre": "Arandela",
+      "corto": "Arandela",
+      "ids": [
+       "46"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Arandela",
+      "corto": "Arandela",
+      "ids": [
+       "47"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "tapa",
+    "nombre": "Tapa",
+    "piezas": [
+     "49",
+     "50",
+     "52"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "51"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "53"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     3
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: steering"
+ }
+}

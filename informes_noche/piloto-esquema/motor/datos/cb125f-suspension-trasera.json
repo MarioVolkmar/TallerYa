@@ -1,0 +1,1640 @@
+{
+ "cabeza": {
+  "cinta": "Honda CB 125F · fig. F-22-1",
+  "titulo": "Suspensión trasera: tijera y cadena",
+  "aviso": "La figura trae la tijera, su eje, la cadena y el guardacadena; los amortiguadores (fig. F-23) se ven de contexto."
+ },
+ "visor": {
+  "titulo": "Tijera, cadena y guardacadena",
+  "sub": "Honda CB 125F GLH125SH · vista desde el lado de la cadena"
+ },
+ "textos": {
+  "pestanasAria": "Secciones de la suspensión trasera",
+  "laminaAria": "Dibujo de la tijera, la cadena y el guardacadena de la CB 125F",
+  "introFunciona": "La tijera gira en su eje y el amortiguador frena el movimiento de la rueda.",
+  "introCadenas": "Si una pieza falla, arrastra a las demás.",
+  "introCuando": "Cuándo revisar la cadena y la suspensión trasera."
+ },
+ "pie": "Dibujo propio de TallerYa sobre el catálogo de partes Honda CB 125F GLH125SH, fig. F-22-1. Proporciones aproximadas.",
+ "encuadreArmado": [
+  70,
+  120,
+  765,
+  595
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": [
+   {
+    "t": "<b>1 · Reposo.</b> El resorte de cada amortiguador sostiene el peso de la moto y del piloto. La precarga (cuánto viene apretado el resorte) viene en la posición 2 de 5; súbela si llevas parrillero o carga, igual en los dos y sin saltar de 1 a 5.",
+    "s": {
+     "rec": 0,
+     "aceite": "quieto",
+     "prec": 2,
+     "cadena": "25-35 mm",
+     "bujes": "bien",
+     "fuga": false,
+     "estado": "Moto quieta"
+    }
+   },
+   {
+    "t": "<b>2 · Bache.</b> La rueda sube y la tijera gira en su eje, el perno que la une al chasis. El amortiguador se acorta y su resorte se comprime.",
+    "s": {
+     "rec": 60,
+     "aceite": "rapido",
+     "prec": 2,
+     "cadena": "25-35 mm",
+     "bujes": "bien",
+     "fuga": false,
+     "estado": "Comprime"
+    }
+   },
+   {
+    "t": "<b>3 · Amortigua.</b> Dentro del amortiguador el pistón empuja el aceite por sus orificios: eso frena el golpe para que la rueda no rebote.",
+    "s": {
+     "rec": 60,
+     "aceite": "rapido",
+     "prec": 2,
+     "cadena": "más tensa arriba",
+     "bujes": "bien",
+     "fuga": false,
+     "estado": "El aceite frena"
+    }
+   },
+   {
+    "t": "<b>4 · Rebote.</b> El resorte vuelve a estirar el amortiguador y baja la tijera; el aceite frena el regreso para que la moto no salte.",
+    "s": {
+     "rec": 0,
+     "aceite": "lento",
+     "prec": 2,
+     "cadena": "25-35 mm",
+     "bujes": "bien",
+     "fuga": false,
+     "estado": "Regresa despacio"
+    }
+   },
+   {
+    "t": "<b>5 · La cadena cambia con la tijera.</b> Al subir la tijera, la cadena se tensa. Por eso se le deja holgura: 25-35 mm, medida en el gato central. Si pasa de 50 mm, no ruedes.",
+    "s": {
+     "rec": 40,
+     "aceite": "quieto",
+     "prec": 2,
+     "cadena": "más tensa arriba",
+     "bujes": "bien",
+     "fuga": false,
+     "estado": "Mide la holgura quieta"
+    }
+   },
+   {
+    "t": "<b>6 · Bujes gastados o amortiguador vencido.</b> La tijera baila en su eje: la rueda se tuerce en las curvas. Si el amortiguador bota aceite, la moto rebota en cada bache.",
+    "s": {
+     "rec": 20,
+     "aceite": "rapido",
+     "prec": 2,
+     "cadena": "25-35 mm",
+     "bujes": "gastados",
+     "fuga": true,
+     "estado": "Falla: juego y rebote"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades: catálogo de partes Honda CB 125F GLH125SH, fig. F-22-1 «Swingarm/Chain case» (p. 161), columna SH.",
+   "Cadena 428H × 120 eslabones; tornillos de 6 mm, tuercas de 8 y 12 mm, arandelas de 8 y 10 mm y pasador de 2 × 15 mm: mismo catálogo.",
+   "Holgura de la cadena 25-35 mm (no rodar sobre 50 mm), tuerca del eje trasero 88 N·m y precarga de 5 posiciones (estándar 2, sin saltar de 1 a 5): Manual del propietario CB 125F (español), pp. 72-74 y 81."
+  ],
+  "aproximado": [
+   "Vista desde el lado izquierdo, en caballera; proporciones a ojo. El brazo del freno va del lado del freno y aquí se dibuja bajo la tijera para que se vea.",
+   "Orden del desarme, fallas, síntomas y «Cómo funciona»: práctica de taller.",
+   "Torque del eje de la tijera y del brazo del freno: no están en el manual del propietario (manual de servicio)."
+  ],
+  "lista": [
+   "Catálogo de partes Honda CB 125F GLH125SH (2011), fig. F-22-1 y F-23.",
+   "Manual del propietario CB 125F (español): mantenimiento de la cadena y ajuste de la suspensión trasera."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#stSombra)",
+  "colores": {
+   "acero": "url(#stAcero)",
+   "cromo": "url(#stCromo)",
+   "rosca": "url(#stRosca)",
+   "plast": "url(#stPlast)",
+   "negro": "url(#stNegro)"
+  }
+ },
+ "lamina": "cb125f-suspension-trasera",
+ "moto": "honda-cb125f",
+ "figura": "F22-1",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-suspension-trasera",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14"
+ ],
+ "nombres": {
+  "1": "Guardacadena",
+  "2": "Cadena",
+  "3": "Eslabón de unión",
+  "4": "Brazo del freno",
+  "5": "Eje de la tijera",
+  "6": "Deslizador de la cadena",
+  "7": "Tijera",
+  "8": "Tornillos del guardacadena",
+  "9": "Tuerca del eje de la tijera",
+  "10": "Tornillo del brazo del freno",
+  "11": "Tuerca del brazo del freno",
+  "12": "Arandela del brazo del freno",
+  "13": "Arandela de presión del brazo",
+  "14": "Pasador del brazo del freno"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14"
+ ],
+ "ocultas": [
+  "5",
+  "11",
+  "12",
+  "13",
+  "14"
+ ],
+ "piezas": [
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    210,
+    390
+   ],
+   "et": [
+    -6,
+    50
+   ],
+   "vis": "arm",
+   "arte": "arteTijera",
+   "args": [
+    210,
+    390
+   ]
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    300,
+    371
+   ],
+   "et": [
+    -60,
+    -20
+   ],
+   "vis": "arm",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -60,
+      -6
+     ],
+     [
+      55,
+      -3
+     ],
+     [
+      62,
+      4
+     ],
+     [
+      -60,
+      8
+     ]
+    ],
+    "huecos": [],
+    "e": 6,
+    "material": "plast",
+    "x": 300,
+    "y": 371
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    555,
+    446
+   ],
+   "et": [
+    40,
+    34
+   ],
+   "vis": "arm",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -140,
+      -7
+     ],
+     [
+      130,
+      -9
+     ],
+     [
+      138,
+      0
+     ],
+     [
+      130,
+      9
+     ],
+     [
+      -140,
+      7
+     ],
+     [
+      -148,
+      0
+     ]
+    ],
+    "huecos": [
+     [
+      -135,
+      0,
+      5
+     ],
+     [
+      125,
+      0,
+      5
+     ]
+    ],
+    "e": 5,
+    "material": "acero",
+    "x": 555,
+    "y": 446
+   }
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    420,
+    446
+   ],
+   "et": [
+    -26,
+    30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 2,
+    "largo": 16,
+    "x": 420,
+    "y": 446
+   },
+   "oculto": true
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    420,
+    446
+   ],
+   "et": [
+    0,
+    30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 9,
+    "alto": 6,
+    "x": 420,
+    "y": 446
+   },
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    420,
+    446
+   ],
+   "et": [
+    0,
+    30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 10,
+    "ri": 4.5,
+    "x": 420,
+    "y": 446
+   },
+   "oculto": true
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    420,
+    446
+   ],
+   "et": [
+    0,
+    30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "e": 4,
+    "x": 420,
+    "y": 446
+   },
+   "oculto": true
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    420,
+    446
+   ],
+   "et": [
+    -50,
+    10
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 9,
+    "brida": 0,
+    "largo": 30,
+    "d": 8,
+    "x": 420,
+    "y": 446
+   }
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    210,
+    390
+   ],
+   "et": [
+    -34,
+    -14
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 12,
+    "brida": 0,
+    "largo": 150,
+    "d": 12,
+    "eje": "vertical",
+    "x": 210,
+    "y": 390
+   },
+   "oculto": true
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    210,
+    390
+   ],
+   "et": [
+    -40,
+    -24
+   ],
+   "vis": "arm",
+   "comun": "tuerca",
+   "p": {
+    "r": 13,
+    "alto": 9,
+    "x": 210,
+    "y": 390
+   }
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    465,
+    395
+   ],
+   "et": [
+    0,
+    66
+   ],
+   "vis": "arm",
+   "comun": "cadena",
+   "p": {
+    "c1": [
+     -235,
+     -12
+    ],
+    "r1": 24,
+    "c2": [
+     235,
+     5
+    ],
+    "r2": 60,
+    "x": 465,
+    "y": 395
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    430,
+    425
+   ],
+   "et": [
+    0,
+    -28
+   ],
+   "vis": "arm",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -11,
+      -6
+     ],
+     [
+      11,
+      -6
+     ],
+     [
+      11,
+      6
+     ],
+     [
+      -11,
+      6
+     ]
+    ],
+    "huecos": [
+     [
+      -6,
+      0,
+      2.5
+     ],
+     [
+      6,
+      0,
+      2.5
+     ]
+    ],
+    "e": 2,
+    "material": "acero",
+    "x": 430,
+    "y": 425
+   }
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    455,
+    352
+   ],
+   "et": [
+    0,
+    -40
+   ],
+   "vis": "arm",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -215,
+      4
+     ],
+     [
+      -200,
+      -8
+     ],
+     [
+      190,
+      -26
+     ],
+     [
+      215,
+      -18
+     ],
+     [
+      205,
+      -4
+     ],
+     [
+      -200,
+      14
+     ]
+    ],
+    "huecos": [
+     [
+      -150,
+      6,
+      4
+     ],
+     [
+      160,
+      -14,
+      4
+     ]
+    ],
+    "e": 8,
+    "material": "plast",
+    "x": 455,
+    "y": 352
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    305,
+    358
+   ],
+   "et": [
+    0,
+    -36
+   ],
+   "vis": "arm",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 8,
+    "brida": 11,
+    "largo": 16,
+    "d": 6,
+    "x": 305,
+    "y": 358,
+    "copias": [
+     [
+      310,
+      -20
+     ]
+    ]
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Guardacadena.</b> Con la moto firme en el gato central, quita los dos [[8|tornillos]] y saca el [[1|guardacadena]] hacia arriba. Al armar: que no roce la [[2|cadena]] en ningún punto.",
+   "m": {
+    "8": [
+     0,
+     -150
+    ],
+    "1": [
+     0,
+     -130
+    ]
+   }
+  },
+  {
+   "t": "<b>Cadena.</b> Saca antes la rueda (fig. F-13-1). Abre el [[3|eslabón de unión]] con pinza y saca la [[2|cadena]]. Al armar: grapa con la punta cerrada hacia donde gira la cadena y holgura de 25-35 mm.",
+   "m": {
+    "3": [
+     -4,
+     248
+    ],
+    "2": [
+     4,
+     202
+    ]
+   }
+  },
+  {
+   "t": "<b>Brazo del freno.</b> En la tijera, quita el [[14|pasador]], la [[11|tuerca]] y las arandelas, y saca el [[10|tornillo]] y el [[4|brazo]]. Al armar: pasador nuevo, con las puntas dobladas. Sin él, el brazo se suelta y el freno se traba.",
+   "m": {
+    "14": [
+     -181,
+     40
+    ],
+    "11": [
+     -159,
+     37
+    ],
+    "12": [
+     -115,
+     51
+    ],
+    "13": [
+     -68,
+     45
+    ],
+    "10": [
+     -47,
+     27
+    ],
+    "4": [
+     0,
+     40
+    ]
+   }
+  },
+  {
+   "t": "<b>Tijera.</b> Soporta la tijera y quita los pernos de abajo de los amortiguadores (fig. F-23). Quita la [[9|tuerca]], saca el [[5|eje de la tijera]] y baja la [[7|tijera]]. Al armar: eje con grasa y torque del manual de servicio.",
+   "m": {
+    "9": [
+     -80,
+     -60
+    ],
+    "5": [
+     -90,
+     80
+    ],
+    "7": [
+     40,
+     10
+    ],
+    "6": [
+     40,
+     10
+    ]
+   }
+  },
+  {
+   "t": "<b>Deslizador.</b> Suelta el [[6|deslizador]] de la tijera. Cámbialo si la cadena ya le hizo canal; si llega al metal, la cadena se come la tijera.",
+   "m": {
+    "6": [
+     0,
+     -50
+    ]
+   }
+  }
+ ],
+ "textoArmado": "La tijera armada vista desde el lado de la cadena. Toca un grupo para ver sus piezas o «Desarmar» para seguir el orden del taller.",
+ "fichas": {
+  "1": {
+   "nombre": "Guardacadena",
+   "cat": "CASE, DRIVE CHAIN · 1 pieza",
+   "que": "La tapa de plástico que cubre el tramo de arriba de la [[2|cadena]], atornillada a la [[7|tijera]].",
+   "sirve": "Evita que la cadena te agarre la ropa o el pie y que tire grasa a la moto.",
+   "sintomas": [
+    "Ruido de plástico que vibra o golpea al acelerar.",
+    "Rajado o con la marca de la cadena por dentro."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "La cadena floja da latigazos y lo raja por dentro."
+    ],
+    [
+     "maluso",
+     "Tornillos flojos: vibra y se parte en la base."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rajado no se pega bien: vibra y se vuelve a partir. Los tornillos sí se reutilizan.",
+   "dif": "facil",
+   "cuando": "Míralo cada vez que lubriques la cadena.",
+   "arrastra": [
+    "Cadena floja → latigazos que lo rajan; ajusta la [[2|cadena]]."
+   ],
+   "conecta": [
+    "8",
+    "2",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "40510-KPN-A00"
+  },
+  "2": {
+   "nombre": "Cadena",
+   "cat": "CHAIN, DRIVE(428H-120L) · 1 pieza",
+   "que": "La cadena 428H de 120 eslabones que lleva la fuerza del piñón del motor a la corona de la rueda.",
+   "sirve": "Mueve la rueda trasera. Corre por encima del [[6|deslizador]] de la tijera.",
+   "sintomas": [
+    "Tirones o golpes al acelerar y soltar.",
+    "Ruido metálico, peor si está seca.",
+    "Los tensores llegan al tope y la holgura sigue pasando de 35 mm."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Sin grasa se estira y se gasta con la corona y el piñón."
+    ],
+    [
+     "humedad",
+     "El agua y el barro la oxidan y le traban eslabones."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Estirada no se recupera: se cambia junto con el piñón y la corona, porque una cadena nueva en dientes gastados se estira rápido.",
+   "dif": "facil",
+   "cuando": "Lubrícala cada 600 km y mide la holgura: 25-35 mm en el tramo de abajo, entre piñón y corona. No ruedes si pasa de 50 mm.",
+   "arrastra": [
+    "Cadena floja → canal en el [[6|deslizador]] y latigazos al [[1|guardacadena]]."
+   ],
+   "conecta": [
+    "3",
+    "6",
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ],
+    [
+     "ok",
+     "Holgura 25-35 mm, tope 50 mm: manual del propietario, p. 72."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok"
+   },
+   "codigo": "40530-KVX-A00"
+  },
+  "3": {
+   "nombre": "Eslabón de unión",
+   "cat": "JOINT, DRIVE CHAIN · 1 pieza",
+   "que": "El eslabón que cierra la [[2|cadena]]: dos pasadores, una placa y una grapa.",
+   "sirve": "Te deja abrir la cadena para sacarla sin cortar ningún eslabón.",
+   "sintomas": [
+    "Grapa torcida, suelta o que falta.",
+    "Un eslabón que se traba justo en la unión."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Grapa puesta al revés: se engancha y se cae."
+    ],
+    [
+     "desgaste",
+     "Se gasta igual que el resto de la cadena."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "La grapa se deforma al quitarla; si cambias la cadena, el eslabón nuevo viene con ella.",
+   "dif": "facil",
+   "cuando": "Revisa la grapa cada vez que lubriques la cadena.",
+   "arrastra": [
+    "Grapa suelta → la [[2|cadena]] se abre andando y se enreda en la rueda."
+   ],
+   "conecta": [
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "40531-KTT-890"
+  },
+  "4": {
+   "nombre": "Brazo del freno",
+   "cat": "ARM, RR. BRAKE STOPPER · 1 pieza",
+   "que": "La barra de acero que une el plato del freno trasero con la [[7|tijera]].",
+   "sirve": "Sujeta el plato del freno para que no gire con la rueda cuando frenas.",
+   "sintomas": [
+    "Golpe atrás al frenar o al soltar el freno.",
+    "Freno que se traba de golpe."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin el [[14|pasador]] la tuerca se afloja y el brazo se suelta."
+    ],
+    [
+     "golpe",
+     "Se dobla si la rueda se arma mal."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está derecho y los huecos no están ovalados, sirve; doblado o con huecos gastados va nuevo.",
+   "dif": "facil",
+   "cuando": "Mira el pasador y la tuerca cada vez que saques la rueda trasera.",
+   "arrastra": [
+    "Brazo suelto → el plato gira con la rueda y el freno se traba."
+   ],
+   "conecta": [
+    "10",
+    "11",
+    "14",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "43431-KVX-600"
+  },
+  "5": {
+   "nombre": "Eje de la tijera",
+   "cat": "BOLT, SWINGARM PIVOT · 1 pieza",
+   "que": "El perno largo que atraviesa la tijera y el chasis: la tijera gira sobre él, en unos bujes (casquillos) metidos en ella.",
+   "sirve": "Une la [[7|tijera]] al chasis y es el centro donde gira cuando la rueda sube y baja.",
+   "sintomas": [
+    "La rueda se mueve de lado a lado con la moto en el gato.",
+    "Crujido atrás en los baches."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Sin grasa se oxida dentro de los bujes y se pega."
+    ],
+    [
+     "desgaste",
+     "Gasta los bujes y la tijera toma juego."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Derecho y sin óxido se limpia, se engrasa y vuelve. Doblado o pegado va nuevo, con los bujes.",
+   "dif": "taller",
+   "cuando": "Engrásalo cada vez que bajes la tijera; revisa el juego en cada servicio.",
+   "arrastra": [
+    "Eje seco → bujes gastados y [[7|tijera]] con juego."
+   ],
+   "conecta": [
+    "9",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "52101-KVX-600"
+  },
+  "6": {
+   "nombre": "Deslizador de la cadena",
+   "cat": "SLIDER, CHAIN · 1 pieza",
+   "que": "La pieza de plástico duro sobre la parte de adelante de la [[7|tijera]], donde roza la [[2|cadena]].",
+   "sirve": "Protege la tijera del roce de la cadena y la guía cuando la tijera sube.",
+   "sintomas": [
+    "Canal profundo o roto donde pasa la cadena.",
+    "Ruido de roce de la cadena con metal."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La cadena floja lo gasta hasta romperlo."
+    ],
+    [
+     "edad",
+     "El plástico se reseca y se parte."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "No se repara: es barato y protege una tijera que sí es cara.",
+   "dif": "taller",
+   "cuando": "Míralo cuando ajustes la cadena; cámbialo si el canal ya le pasó la mitad.",
+   "arrastra": [
+    "Deslizador roto → la [[2|cadena]] se come el metal de la [[7|tijera]]."
+   ],
+   "conecta": [
+    "2",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "52170-KYA-600"
+  },
+  "7": {
+   "nombre": "Tijera",
+   "cat": "SWINGARM SUB ASSY., RR. · 1 pieza",
+   "que": "El brazo de acero que va del chasis a la rueda trasera; en la punta lleva la ranura del eje y la oreja del amortiguador.",
+   "sirve": "Sostiene la rueda trasera y la deja subir y bajar. Los amortiguadores (fig. F-23) frenan ese movimiento.",
+   "sintomas": [
+    "La moto se va de lado en las curvas.",
+    "La rueda se mueve de lado con la moto en el gato.",
+    "Desgaste disparejo de la llanta trasera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los bujes gastados le dan juego lateral."
+    ],
+    [
+     "golpe",
+     "Un golpe la tuerce y la rueda queda desalineada."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se cambian los bujes y se engrasa el eje. Torcida o rajada va nueva: no se endereza.",
+   "dif": "taller",
+   "cuando": "Revisa el juego en cada servicio y siempre después de una caída.",
+   "arrastra": [
+    "Tijera con juego → la [[2|cadena]] se gasta de un lado."
+   ],
+   "conecta": [
+    "5",
+    "6",
+    "4",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "52200-KPN-A00ZA",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "prisma",
+      "contorno": [
+       [
+        0,
+        -14
+       ],
+       [
+        270,
+        -8
+       ],
+       [
+        270,
+        8
+       ],
+       [
+        0,
+        14
+       ]
+      ],
+      "z": [
+       0,
+       10
+      ],
+      "color": "aceroOsc"
+     },
+     {
+      "tipo": "prisma",
+      "contorno": [
+       [
+        0,
+        -14
+       ],
+       [
+        270,
+        -8
+       ],
+       [
+        270,
+        8
+       ],
+       [
+        0,
+        14
+       ]
+      ],
+      "z": [
+       80,
+       90
+      ],
+      "color": "aceroOsc"
+     },
+     {
+      "tipo": "cilindro",
+      "r": 16,
+      "z": [
+       0,
+       90
+      ],
+      "pos": [
+       0,
+       0
+      ],
+      "color": "acero"
+     },
+     {
+      "tipo": "caja",
+      "tam": [
+       16,
+       22,
+       80
+      ],
+      "pos": [
+       70,
+       0,
+       45
+      ],
+      "color": "aceroOsc"
+     }
+    ]
+   }
+  },
+  "8": {
+   "nombre": "Tornillos del guardacadena",
+   "cat": "BOLT, FLANGE, 6MM · 2 piezas",
+   "que": "Los dos tornillos de 6 mm con arandela pegada que sujetan el [[1|guardacadena]] a la [[7|tijera]].",
+   "sirve": "Mantienen el guardacadena firme para que no vibre ni toque la [[2|cadena]].",
+   "sintomas": [
+    "Guardacadena que suena o se mueve."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretados de más, se barre la rosca de la tijera."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Con la rosca sana vuelven; aprieta suave a mano porque son de 6 mm.",
+   "dif": "facil",
+   "cuando": "Revísalos cuando lubriques la cadena.",
+   "arrastra": [],
+   "conecta": [
+    "1"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90119-KTT-900"
+  },
+  "9": {
+   "nombre": "Tuerca del eje de la tijera",
+   "cat": "NUT, FLANGE, 12MM(PT) · 1 pieza",
+   "que": "La tuerca de 12 mm con brida que cierra el [[5|eje de la tijera]].",
+   "sirve": "Aprieta el eje para que la tijera quede firme al chasis.",
+   "sintomas": [
+    "Tuerca floja o con la rosca barrida."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretada con la llave equivocada, se le redondean las esquinas."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Con la rosca sana vuelve; si está barrida o con las esquinas redondeadas, va nueva.",
+   "dif": "taller",
+   "cuando": "Cada vez que saques el eje de la tijera.",
+   "arrastra": [],
+   "conecta": [
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90306-KYA-601"
+  },
+  "10": {
+   "nombre": "Tornillo del brazo del freno",
+   "cat": "BOLT A, BRAKE STOPPER ARM · 1 pieza",
+   "que": "El tornillo especial que une el [[4|brazo del freno]] a la [[7|tijera]].",
+   "sirve": "Es el punto de giro del brazo; tiene un hueco para el [[14|pasador]].",
+   "sintomas": [
+    "Brazo con juego en su unión."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta el cuerpo y el brazo baila."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está gastado ni doblado, sirve; la tuerca y el pasador sí van nuevos si se dañaron.",
+   "dif": "facil",
+   "cuando": "Cada vez que sueltes el brazo del freno.",
+   "arrastra": [],
+   "conecta": [
+    "4",
+    "11",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "92812-20000"
+  },
+  "11": {
+   "nombre": "Tuerca del brazo del freno",
+   "cat": "NUT, HEX., 8MM · 1 pieza",
+   "que": "La tuerca de 8 mm que cierra el [[10|tornillo]] del brazo, trabada con el [[14|pasador]].",
+   "sirve": "Aprieta la unión del [[4|brazo del freno]].",
+   "sintomas": [
+    "Tuerca floja o sin pasador."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin pasador se afloja con la vibración."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Con la rosca sana vuelve; alinea su ranura con el hueco del pasador.",
+   "dif": "facil",
+   "cuando": "Cada vez que sueltes el brazo del freno.",
+   "arrastra": [],
+   "conecta": [
+    "10",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "94001-08000-0S"
+  },
+  "12": {
+   "nombre": "Arandela del brazo del freno",
+   "cat": "WASHER, PLAIN, 8MM · 1 pieza",
+   "que": "La arandela plana de 8 mm bajo la [[11|tuerca]] del brazo.",
+   "sirve": "Reparte el apriete para que la tuerca no marque el brazo.",
+   "sintomas": [
+    "Arandela doblada o que falta."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierde al desarmar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Plana y sin óxido vuelve.",
+   "dif": "facil",
+   "cuando": "Cada vez que sueltes el brazo del freno.",
+   "arrastra": [],
+   "conecta": [
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "94101-08000"
+  },
+  "13": {
+   "nombre": "Arandela de presión del brazo",
+   "cat": "WASHER, SPRING, 10MM · 1 pieza",
+   "que": "La arandela partida de presión de 10 mm del [[10|tornillo]] del brazo del freno.",
+   "sirve": "Hace de resorte para que la tuerca no se afloje.",
+   "sintomas": [
+    "Arandela aplastada, sin la abertura en espiral."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Pierde la presión después de varias puestas."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si quedó plana ya no frena la tuerca: es barata, ponla nueva.",
+   "dif": "facil",
+   "cuando": "Cada vez que sueltes el brazo del freno.",
+   "arrastra": [],
+   "conecta": [
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "94111-10000"
+  },
+  "14": {
+   "nombre": "Pasador del brazo del freno",
+   "cat": "PIN, SPLIT, 2.0X15 · 1 pieza",
+   "que": "El pasador partido de 2 × 15 mm que atraviesa el [[10|tornillo]] y traba la [[11|tuerca]].",
+   "sirve": "Es el seguro final: aunque la tuerca se afloje, no se sale.",
+   "sintomas": [
+    "Falta, o tiene las puntas sin doblar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Reutilizado, se parte al doblarlo otra vez."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo siempre: al doblarlo de nuevo se parte. Sin él, el freno se puede trabar.",
+   "dif": "facil",
+   "cuando": "Cada vez que sueltes el brazo del freno.",
+   "arrastra": [
+    "Sin pasador → la [[11|tuerca]] se cae y el [[4|brazo]] se suelta."
+   ],
+   "conecta": [
+    "11",
+    "10",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "94201-20150"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Cadena sin lubricar ni ajustar",
+   "p": [
+    [
+     "2",
+     "Seca y floja, la cadena da latigazos al acelerar y soltar."
+    ],
+    [
+     "6",
+     "Golpea el deslizador y le hace canal."
+    ],
+    [
+     "7",
+     "Sin deslizador, roza la tijera y le come el metal."
+    ],
+    [
+     "1",
+     "Los latigazos rajan el guardacadena y sueltan sus tornillos."
+    ]
+   ]
+  },
+  {
+   "t": "Eje de la tijera sin grasa",
+   "p": [
+    [
+     "5",
+     "Sin grasa, el eje se oxida y gasta los bujes de la tijera."
+    ],
+    [
+     "7",
+     "La tijera toma juego lateral y la rueda se tuerce."
+    ],
+    [
+     "2",
+     "La cadena entra torcida a la corona y se gasta de un lado."
+    ]
+   ]
+  },
+  {
+   "t": "Brazo del freno sin pasador",
+   "p": [
+    [
+     "14",
+     "Falta el pasador o no se dobló."
+    ],
+    [
+     "11",
+     "La tuerca se afloja con la vibración."
+    ],
+    [
+     "4",
+     "El brazo se suelta y el plato del freno gira con la rueda."
+    ],
+    [
+     "7",
+     "El freno se traba de golpe y el brazo golpea la tijera."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Lubricar la cadena",
+   "cuando": "Cada <b>600 km</b>.",
+   "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 500 km'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026) <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "cadena-lubricar"
+  },
+  {
+   "que": "Holgura de la cadena",
+   "cuando": "En cada lubricación: <b>25-35 mm</b> a mitad de camino; no ruedes si pasa de 50 mm.",
+   "fuente": "Manual del propietario CB 125F (español), p. 72 (inspección de la cadena) <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Tijera, bujes y amortiguadores",
+   "cuando": "En cada servicio: mueve la rueda de lado a lado y busca juego o fugas.",
+   "fuente": "Manual del propietario CB 125F (español), cuadro de mantenimiento (fila «Suspensión», p. 81); el intervalo exacto no se leyó <span class=\"esq-s-ap\">Aprox.</span>"
+  }
+ ],
+ "sujeta": {
+  "8": [
+   "1"
+  ],
+  "3": [
+   "2"
+  ],
+  "14": [
+   "11"
+  ],
+  "11": [
+   "12",
+   "13",
+   "10"
+  ],
+  "10": [
+   "4"
+  ],
+  "9": [
+   "5"
+  ],
+  "5": [
+   "7"
+  ]
+ },
+ "v2": {
+  "inicio": "Piezas de la suspensión trasera",
+  "grupos": [
+   {
+    "id": "guardacadena",
+    "nombre": "Guardacadena",
+    "corto": "Guardacadena",
+    "piezas": [
+     "1"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del guardacadena",
+      "corto": "Tornillos",
+      "ids": [
+       "8"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     0
+    ],
+    "marca": [
+     520,
+     300
+    ]
+   },
+   {
+    "id": "cadena",
+    "nombre": "Cadena y eslabón de unión",
+    "corto": "Cadena",
+    "piezas": [
+     "2",
+     "3"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ],
+    "marca": [
+     470,
+     480
+    ]
+   },
+   {
+    "id": "freno",
+    "nombre": "Brazo del freno",
+    "corto": "Brazo",
+    "piezas": [
+     "4"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo y tuerca del brazo",
+      "corto": "Tornillo",
+      "ids": [
+       "10",
+       "11"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Arandelas y pasador del brazo",
+      "corto": "Arandelas",
+      "ids": [
+       "12",
+       "13",
+       "14"
+      ],
+      "cant": 3
+     }
+    ],
+    "pasos": [
+     2
+    ],
+    "marca": [
+     600,
+     490
+    ]
+   },
+   {
+    "id": "tijera",
+    "nombre": "Tijera y su eje",
+    "corto": "Tijera",
+    "piezas": [
+     "7",
+     "6"
+    ],
+    "torn": [
+     {
+      "nombre": "Eje y tuerca de la tijera",
+      "corto": "Eje",
+      "ids": [
+       "5",
+       "9"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     3,
+     4
+    ],
+    "marca": [
+     250,
+     400
+    ]
+   }
+  ],
+  "con3d": [
+   "7"
+  ],
+  "toqueExtra": []
+ },
+ "contexto": [
+  {
+   "arte": "arteRuedaCtx",
+   "alPrincipio": true
+  },
+  {
+   "arte": "arteAmortCtx",
+   "alPrincipio": true
+  }
+ ],
+ "carcasas": [],
+ "pendientes": [
+  "Torques del eje de la tijera y del tornillo del brazo del freno: falta el manual de servicio.",
+  "Intervalo exacto de revisión de la suspensión en el cuadro de mantenimiento (la tabla no se lee como texto)."
+ ]
+}

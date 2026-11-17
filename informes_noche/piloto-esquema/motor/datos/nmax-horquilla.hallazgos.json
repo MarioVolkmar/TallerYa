@@ -1,0 +1,42 @@
+[
+ {
+  "campo": "pasos.0.t",
+  "reemplazar": " y afloja los pernos de la tija de arriba y los [[37|de abajo]].",
+  "por": "."
+ },
+ {
+  "campo": "pasos.1.t",
+  "reemplazar": "Saca la barra hacia abajo.",
+  "por": "Afloja los [[37|pernos de la tija]] y saca la barra hacia abajo."
+ },
+ {
+  "campo": "pasos.7.t",
+  "reemplazar": "Sin el manubrio ni la tija de arriba (otra lámina), quita",
+  "por": "Sin el manubrio (otra lámina) y sujetando la tija desde abajo para que no se caiga, quita"
+ },
+ {
+  "campo": "pasos.7.t",
+  "reemplazar": " Sujeta la tija desde abajo: se cae.",
+  "por": ""
+ },
+ {
+  "campo": "fichas.52.que",
+  "reemplazar": "atornillada a la botella izquierda",
+  "por": "atornillada a la botella derecha"
+ },
+ {
+  "campo": "fichas.53.arrastra.0",
+  "reemplazar": "[[50|pinza]]",
+  "por": "[[52|pinza derecha]]"
+ },
+ {
+  "campo": "fichas.17.porque",
+  "reemplazar": "Si sale doblado o flojo en la ranura, va nuevo:",
+  "por": "Va nuevo cada vez que lo sacas:"
+ },
+ {
+  "campo": "fichas.34.arrastra.0",
+  "reemplazar": "barras chuecas",
+  "por": "barras torcidas"
+ }
+]

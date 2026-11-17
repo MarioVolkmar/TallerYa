@@ -1,0 +1,2631 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina E-6-1",
+  "titulo": "Clutch · Honda CB 125F",
+  "aviso": "Prototipo local. Dibujos propios. Es la figura E-6-1 del catálogo (versión GLH125SH): solo el clutch; la tapa derecha del motor, con el brazo del clutch, va en la figura E-5."
+ },
+ "visor": {
+  "titulo": "Clutch",
+  "sub": "Lámina E-6-1 · 15 números"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del clutch",
+  "laminaAria": "Dibujo del clutch de la Honda CB 125F en el eje de la caja: campana, manzana, discos, placa de presión, resortes, placa elevadora y la varilla que los separa. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Del ralentí a la moto andando en cinco pasos. A la izquierda, el clutch cortado; a la derecha, el cigüeñal moviendo la campana, el eje de la caja adentro y cuánto aprietas la palanca.",
+  "introCadenas": "En el clutch una pieza mal cuidada carga a las demás. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo que pide el manual del propietario de la CB 125F y lo que conviene revisar en el taller."
+ },
+ "pie": "Dibujo propio de TallerYa a partir del catálogo de partes Honda CB 125F GLH125SH (fig. E-6-1). Prototipo local.",
+ "encuadreArmado": [
+  226,
+  170,
+  432,
+  336
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 580",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": [
+   {
+    "t": "<b>1 · Ralentí en neutro.</b> Con la palanca suelta, los resortes aprietan los discos: el cigüeñal mueve la campana y la campana mueve el eje de la caja, pero en neutro la rueda no se mueve.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Pegado: todo gira junto"
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la palanca.</b> El cable gira el brazo del clutch en la tapa, la varilla empuja la placa elevadora y la placa de presión se aleja: los discos se separan y el eje de la caja se queda quieto.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "quieto",
+     "estado": "Suelto: eje quieto"
+    }
+   },
+   {
+    "t": "<b>3 · Metes primera.</b> Con los discos sueltos el eje está quieto y el cambio entra sin golpe. Si suena «clac» fuerte, el clutch está arrastrando.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "quieto",
+     "estado": "Suelto: listo para salir"
+    }
+   },
+   {
+    "t": "<b>4 · Sueltas despacio.</b> En el punto de fricción los discos se rozan y patinan un poco: el eje arranca despacio y la moto sale suave. Aquí es donde más se gastan.",
+    "s": {
+     "palanca": 0.45,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Patina: la moto arranca"
+    }
+   },
+   {
+    "t": "<b>5 · Palanca suelta.</b> Los resortes aprietan del todo: el eje gira con la campana y toda la fuerza va a la rueda.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Tercera",
+     "corona": "",
+     "caja": "",
+     "estado": "Pegado: la moto anda"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades de las 15 piezas: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15).",
+   "Medidas de las arandelas (17 mm; 14,1 × 29 × 2,8 mm), de la tuerca (14 mm) y de la balinera (6003): descripción del catálogo, fig. E-6-1.",
+   "Aceite SAE 10W-30, JASO MA, 0,9 L, cada 4.000 km o un año, y juego libre de la palanca de 10 - 20 mm: manual del propietario Honda CB125F (español), pp. 35-36 y 74-75."
+  ],
+  "aproximado": [
+   "Proporciones, vista y orden del dibujo: deducidos del plano del catálogo, en vista caballera con el eje de la caja hacia ti, como los otros clutch.",
+   "Orden interno (placa de presión adentro, manzana y placa elevadora afuera, guía y arandela de 17 mm detrás de la campana): deducido del plano y de la práctica de taller.",
+   "Torques, largo libre de los resortes, espesor de los discos y en qué puesto va cada tipo de disco: no están en el manual del propietario; van como «manual de servicio»."
+  ],
+  "lista": [
+   "Catálogo de partes Honda CB 125F GLH125SH (manual_despiece/honda-cb-125f, solo local).",
+   "Manual del propietario Honda CB125F (español, solo local)."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -0.5,
+   -0.32
+  ],
+  "sombra": "url(#akSombra)",
+  "colores": {
+   "acero": "url(#akAcero)",
+   "cromo": "url(#akCromo)",
+   "rosca": "url(#akRosca)",
+   "plast": "url(#akPlast)",
+   "estrias": "url(#akEstrias)",
+   "fric": "url(#akFric)"
+  }
+ },
+ "lamina": "cb125f-clutch",
+ "moto": "honda-cb125f",
+ "figura": "E6-1",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-clutch",
+ "carcasas": [
+  {
+   "id": "8",
+   "transparente": 0.3,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "3",
+   "transparente": 0.4,
+   "rayosx": 0.22
+  }
+ ],
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15"
+ ],
+ "nombres": {
+  "1": "Campana del clutch",
+  "2": "Guía de la campana",
+  "3": "Manzana del clutch",
+  "4": "Discos de fricción",
+  "5": "Discos de fricción (tipo B)",
+  "6": "Discos separadores",
+  "7": "Placa de presión",
+  "8": "Placa elevadora",
+  "9": "Varilla del clutch",
+  "10": "Resortes del clutch",
+  "11": "Tornillos de los resortes",
+  "12": "Tuerca de la manzana",
+  "13": "Arandela del eje",
+  "14": "Arandela de la tuerca",
+  "15": "Balinera de la placa elevadora"
+ },
+ "ordenChips": [
+  "1",
+  "13",
+  "2",
+  "7",
+  "4",
+  "5",
+  "6",
+  "3",
+  "14",
+  "12",
+  "10",
+  "8",
+  "11",
+  "15",
+  "9"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteCampana",
+   "args": [
+    440,
+    340
+   ],
+   "anc": [
+    370,
+    282
+   ],
+   "et": [
+    -40,
+    -40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "arandela",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "e": 2,
+    "x": 424,
+    "y": 330
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    300,
+    342
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "comun": "buje",
+   "p": {
+    "r": 17,
+    "ri": 12,
+    "largo": 22,
+    "x": 428,
+    "y": 333
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    310,
+    292
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "artePlacaPresion",
+   "args": [
+    425,
+    330
+   ],
+   "anc": [
+    372,
+    300
+   ],
+   "et": [
+    -36,
+    -26
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      88.0,
+      0.0
+     ],
+     [
+      87.7,
+      7.7
+     ],
+     [
+      86.7,
+      15.3
+     ],
+     [
+      75.3,
+      20.2
+     ],
+     [
+      73.3,
+      26.7
+     ],
+     [
+      70.7,
+      33.0
+     ],
+     [
+      67.5,
+      39.0
+     ],
+     [
+      63.9,
+      44.7
+     ],
+     [
+      59.8,
+      50.1
+     ],
+     [
+      62.2,
+      62.2
+     ],
+     [
+      56.6,
+      67.4
+     ],
+     [
+      50.5,
+      72.1
+     ],
+     [
+      39.0,
+      67.5
+     ],
+     [
+      33.0,
+      70.7
+     ],
+     [
+      26.7,
+      73.3
+     ],
+     [
+      20.2,
+      75.3
+     ],
+     [
+      13.5,
+      76.8
+     ],
+     [
+      6.8,
+      77.7
+     ],
+     [
+      0.0,
+      88.0
+     ],
+     [
+      -7.7,
+      87.7
+     ],
+     [
+      -15.3,
+      86.7
+     ],
+     [
+      -20.2,
+      75.3
+     ],
+     [
+      -26.7,
+      73.3
+     ],
+     [
+      -33.0,
+      70.7
+     ],
+     [
+      -39.0,
+      67.5
+     ],
+     [
+      -44.7,
+      63.9
+     ],
+     [
+      -50.1,
+      59.8
+     ],
+     [
+      -62.2,
+      62.2
+     ],
+     [
+      -67.4,
+      56.6
+     ],
+     [
+      -72.1,
+      50.5
+     ],
+     [
+      -67.5,
+      39.0
+     ],
+     [
+      -70.7,
+      33.0
+     ],
+     [
+      -73.3,
+      26.7
+     ],
+     [
+      -75.3,
+      20.2
+     ],
+     [
+      -76.8,
+      13.5
+     ],
+     [
+      -77.7,
+      6.8
+     ],
+     [
+      -88.0,
+      0.0
+     ],
+     [
+      -87.7,
+      -7.7
+     ],
+     [
+      -86.7,
+      -15.3
+     ],
+     [
+      -75.3,
+      -20.2
+     ],
+     [
+      -73.3,
+      -26.7
+     ],
+     [
+      -70.7,
+      -33.0
+     ],
+     [
+      -67.5,
+      -39.0
+     ],
+     [
+      -63.9,
+      -44.7
+     ],
+     [
+      -59.8,
+      -50.1
+     ],
+     [
+      -62.2,
+      -62.2
+     ],
+     [
+      -56.6,
+      -67.4
+     ],
+     [
+      -50.5,
+      -72.1
+     ],
+     [
+      -39.0,
+      -67.5
+     ],
+     [
+      -33.0,
+      -70.7
+     ],
+     [
+      -26.7,
+      -73.3
+     ],
+     [
+      -20.2,
+      -75.3
+     ],
+     [
+      -13.5,
+      -76.8
+     ],
+     [
+      -6.8,
+      -77.7
+     ],
+     [
+      -0.0,
+      -88.0
+     ],
+     [
+      7.7,
+      -87.7
+     ],
+     [
+      15.3,
+      -86.7
+     ],
+     [
+      20.2,
+      -75.3
+     ],
+     [
+      26.7,
+      -73.3
+     ],
+     [
+      33.0,
+      -70.7
+     ],
+     [
+      39.0,
+      -67.5
+     ],
+     [
+      44.7,
+      -63.9
+     ],
+     [
+      50.1,
+      -59.8
+     ],
+     [
+      62.2,
+      -62.2
+     ],
+     [
+      67.4,
+      -56.6
+     ],
+     [
+      72.1,
+      -50.5
+     ],
+     [
+      67.5,
+      -39.0
+     ],
+     [
+      70.7,
+      -33.0
+     ],
+     [
+      73.3,
+      -26.7
+     ],
+     [
+      75.3,
+      -20.2
+     ],
+     [
+      76.8,
+      -13.5
+     ],
+     [
+      77.7,
+      -6.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      58
+     ]
+    ],
+    "e": 3,
+    "material": "fric",
+    "x": 429,
+    "y": 333
+   },
+   "anc": [
+    367,
+    383
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      88.0,
+      0.0
+     ],
+     [
+      87.7,
+      7.7
+     ],
+     [
+      86.7,
+      15.3
+     ],
+     [
+      75.3,
+      20.2
+     ],
+     [
+      73.3,
+      26.7
+     ],
+     [
+      70.7,
+      33.0
+     ],
+     [
+      67.5,
+      39.0
+     ],
+     [
+      63.9,
+      44.7
+     ],
+     [
+      59.8,
+      50.1
+     ],
+     [
+      62.2,
+      62.2
+     ],
+     [
+      56.6,
+      67.4
+     ],
+     [
+      50.5,
+      72.1
+     ],
+     [
+      39.0,
+      67.5
+     ],
+     [
+      33.0,
+      70.7
+     ],
+     [
+      26.7,
+      73.3
+     ],
+     [
+      20.2,
+      75.3
+     ],
+     [
+      13.5,
+      76.8
+     ],
+     [
+      6.8,
+      77.7
+     ],
+     [
+      0.0,
+      88.0
+     ],
+     [
+      -7.7,
+      87.7
+     ],
+     [
+      -15.3,
+      86.7
+     ],
+     [
+      -20.2,
+      75.3
+     ],
+     [
+      -26.7,
+      73.3
+     ],
+     [
+      -33.0,
+      70.7
+     ],
+     [
+      -39.0,
+      67.5
+     ],
+     [
+      -44.7,
+      63.9
+     ],
+     [
+      -50.1,
+      59.8
+     ],
+     [
+      -62.2,
+      62.2
+     ],
+     [
+      -67.4,
+      56.6
+     ],
+     [
+      -72.1,
+      50.5
+     ],
+     [
+      -67.5,
+      39.0
+     ],
+     [
+      -70.7,
+      33.0
+     ],
+     [
+      -73.3,
+      26.7
+     ],
+     [
+      -75.3,
+      20.2
+     ],
+     [
+      -76.8,
+      13.5
+     ],
+     [
+      -77.7,
+      6.8
+     ],
+     [
+      -88.0,
+      0.0
+     ],
+     [
+      -87.7,
+      -7.7
+     ],
+     [
+      -86.7,
+      -15.3
+     ],
+     [
+      -75.3,
+      -20.2
+     ],
+     [
+      -73.3,
+      -26.7
+     ],
+     [
+      -70.7,
+      -33.0
+     ],
+     [
+      -67.5,
+      -39.0
+     ],
+     [
+      -63.9,
+      -44.7
+     ],
+     [
+      -59.8,
+      -50.1
+     ],
+     [
+      -62.2,
+      -62.2
+     ],
+     [
+      -56.6,
+      -67.4
+     ],
+     [
+      -50.5,
+      -72.1
+     ],
+     [
+      -39.0,
+      -67.5
+     ],
+     [
+      -33.0,
+      -70.7
+     ],
+     [
+      -26.7,
+      -73.3
+     ],
+     [
+      -20.2,
+      -75.3
+     ],
+     [
+      -13.5,
+      -76.8
+     ],
+     [
+      -6.8,
+      -77.7
+     ],
+     [
+      -0.0,
+      -88.0
+     ],
+     [
+      7.7,
+      -87.7
+     ],
+     [
+      15.3,
+      -86.7
+     ],
+     [
+      20.2,
+      -75.3
+     ],
+     [
+      26.7,
+      -73.3
+     ],
+     [
+      33.0,
+      -70.7
+     ],
+     [
+      39.0,
+      -67.5
+     ],
+     [
+      44.7,
+      -63.9
+     ],
+     [
+      50.1,
+      -59.8
+     ],
+     [
+      62.2,
+      -62.2
+     ],
+     [
+      67.4,
+      -56.6
+     ],
+     [
+      72.1,
+      -50.5
+     ],
+     [
+      67.5,
+      -39.0
+     ],
+     [
+      70.7,
+      -33.0
+     ],
+     [
+      73.3,
+      -26.7
+     ],
+     [
+      75.3,
+      -20.2
+     ],
+     [
+      76.8,
+      -13.5
+     ],
+     [
+      77.7,
+      -6.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      58
+     ]
+    ],
+    "e": 3,
+    "material": "fric",
+    "x": 433,
+    "y": 335.5
+   },
+   "anc": [
+    389,
+    401
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      74.0,
+      0.0
+     ],
+     [
+      72.9,
+      12.8
+     ],
+     [
+      69.5,
+      25.3
+     ],
+     [
+      64.1,
+      37.0
+     ],
+     [
+      56.7,
+      47.6
+     ],
+     [
+      47.6,
+      56.7
+     ],
+     [
+      37.0,
+      64.1
+     ],
+     [
+      25.3,
+      69.5
+     ],
+     [
+      12.8,
+      72.9
+     ],
+     [
+      0.0,
+      74.0
+     ],
+     [
+      -12.8,
+      72.9
+     ],
+     [
+      -25.3,
+      69.5
+     ],
+     [
+      -37.0,
+      64.1
+     ],
+     [
+      -47.6,
+      56.7
+     ],
+     [
+      -56.7,
+      47.6
+     ],
+     [
+      -64.1,
+      37.0
+     ],
+     [
+      -69.5,
+      25.3
+     ],
+     [
+      -72.9,
+      12.8
+     ],
+     [
+      -74.0,
+      0.0
+     ],
+     [
+      -72.9,
+      -12.8
+     ],
+     [
+      -69.5,
+      -25.3
+     ],
+     [
+      -64.1,
+      -37.0
+     ],
+     [
+      -56.7,
+      -47.6
+     ],
+     [
+      -47.6,
+      -56.7
+     ],
+     [
+      -37.0,
+      -64.1
+     ],
+     [
+      -25.3,
+      -69.5
+     ],
+     [
+      -12.8,
+      -72.9
+     ],
+     [
+      -0.0,
+      -74.0
+     ],
+     [
+      12.8,
+      -72.9
+     ],
+     [
+      25.3,
+      -69.5
+     ],
+     [
+      37.0,
+      -64.1
+     ],
+     [
+      47.6,
+      -56.7
+     ],
+     [
+      56.7,
+      -47.6
+     ],
+     [
+      64.1,
+      -37.0
+     ],
+     [
+      69.5,
+      -25.3
+     ],
+     [
+      72.9,
+      -12.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      50
+     ]
+    ],
+    "e": 1.5,
+    "material": "acero",
+    "x": 432,
+    "y": 334.9
+   },
+   "anc": [
+    412,
+    404.9
+   ],
+   "et": [
+    -10,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteManzana",
+   "args": [
+    437,
+    338.1
+   ],
+   "anc": [
+    482,
+    293.1
+   ],
+   "et": [
+    40,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "comun": "arandela",
+   "p": {
+    "r": 14,
+    "ri": 7,
+    "e": 2,
+    "x": 447,
+    "y": 344.5
+   },
+   "anc": [
+    459,
+    350.5
+   ],
+   "et": [
+    30,
+    20
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 448,
+    "y": 345.0
+   },
+   "anc": [
+    459,
+    338.5
+   ],
+   "et": [
+    30,
+    -20
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "resorte",
+   "p": {
+    "r": 8,
+    "largo": 26,
+    "vueltas": 5,
+    "alambre": 2.6,
+    "copias": [
+     [
+      -32.0,
+      32.0
+     ],
+     [
+      -64.0,
+      0.0
+     ],
+     [
+      -32.0,
+      -32.0
+     ]
+    ],
+    "x": 478.0,
+    "y": 343.8
+   },
+   "anc": [
+    479,
+    344.5
+   ],
+   "et": [
+    40,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      44.0,
+      0.0
+     ],
+     [
+      38.7,
+      5.1
+     ],
+     [
+      28.0,
+      7.5
+     ],
+     [
+      22.2,
+      9.2
+     ],
+     [
+      20.8,
+      12.0
+     ],
+     [
+      19.0,
+      14.6
+     ],
+     [
+      17.0,
+      17.0
+     ],
+     [
+      14.6,
+      19.0
+     ],
+     [
+      12.0,
+      20.8
+     ],
+     [
+      9.2,
+      22.2
+     ],
+     [
+      7.5,
+      28.0
+     ],
+     [
+      5.1,
+      38.7
+     ],
+     [
+      0.0,
+      44.0
+     ],
+     [
+      -5.1,
+      38.7
+     ],
+     [
+      -7.5,
+      28.0
+     ],
+     [
+      -9.2,
+      22.2
+     ],
+     [
+      -12.0,
+      20.8
+     ],
+     [
+      -14.6,
+      19.0
+     ],
+     [
+      -17.0,
+      17.0
+     ],
+     [
+      -19.0,
+      14.6
+     ],
+     [
+      -20.8,
+      12.0
+     ],
+     [
+      -22.2,
+      9.2
+     ],
+     [
+      -28.0,
+      7.5
+     ],
+     [
+      -38.7,
+      5.1
+     ],
+     [
+      -44.0,
+      0.0
+     ],
+     [
+      -38.7,
+      -5.1
+     ],
+     [
+      -28.0,
+      -7.5
+     ],
+     [
+      -22.2,
+      -9.2
+     ],
+     [
+      -20.8,
+      -12.0
+     ],
+     [
+      -19.0,
+      -14.6
+     ],
+     [
+      -17.0,
+      -17.0
+     ],
+     [
+      -14.6,
+      -19.0
+     ],
+     [
+      -12.0,
+      -20.8
+     ],
+     [
+      -9.2,
+      -22.2
+     ],
+     [
+      -7.5,
+      -28.0
+     ],
+     [
+      -5.1,
+      -38.7
+     ],
+     [
+      -0.0,
+      -44.0
+     ],
+     [
+      5.1,
+      -38.7
+     ],
+     [
+      7.5,
+      -28.0
+     ],
+     [
+      9.2,
+      -22.2
+     ],
+     [
+      12.0,
+      -20.8
+     ],
+     [
+      14.6,
+      -19.0
+     ],
+     [
+      17.0,
+      -17.0
+     ],
+     [
+      19.0,
+      -14.6
+     ],
+     [
+      20.8,
+      -12.0
+     ],
+     [
+      22.2,
+      -9.2
+     ],
+     [
+      28.0,
+      -7.5
+     ],
+     [
+      38.7,
+      -5.1
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      16
+     ],
+     [
+      32.0,
+      0.0,
+      3.5
+     ],
+     [
+      0.0,
+      32.0,
+      3.5
+     ],
+     [
+      -32.0,
+      0.0,
+      3.5
+     ],
+     [
+      -0.0,
+      -32.0,
+      3.5
+     ]
+    ],
+    "e": 3,
+    "material": "acero",
+    "x": 447,
+    "y": 344.5
+   },
+   "anc": [
+    417,
+    372.5
+   ],
+   "et": [
+    -70,
+    30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "brida": 7.5,
+    "largo": 25,
+    "d": 6,
+    "copias": [
+     [
+      -32.0,
+      32.0
+     ],
+     [
+      -64.0,
+      0.0
+     ],
+     [
+      -32.0,
+      -32.0
+     ]
+    ],
+    "x": 480,
+    "y": 345.1
+   },
+   "anc": [
+    480,
+    345.1
+   ],
+   "et": [
+    60,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "comun": "rodamiento",
+   "p": {
+    "r": 17,
+    "ri": 8.5,
+    "ancho": 10,
+    "x": 450,
+    "y": 346.4
+   },
+   "anc": [
+    458,
+    338.4
+   ],
+   "et": [
+    30,
+    -90
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "revolucion",
+   "p": {
+    "perfil": "@varilla",
+    "x": 455,
+    "y": 349.6
+   },
+   "anc": [
+    455,
+    349.6
+   ],
+   "et": [
+    -30,
+    90
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Cable, tapa y varilla.</b> Primero afloja el cable en la palanca y suéltalo del brazo del clutch. Con el motor frío, drena el aceite (al armar: 0,9 L y revisa el nivel) y quita la tapa derecha del motor (fig. E-5): el brazo del clutch sale con ella. Saca la [[9|varilla]].",
+   "m": {
+    "9": [
+     402,
+     -24
+    ]
+   }
+  },
+  {
+   "t": "<b>Resortes y placa elevadora.</b> Afloja los [[11|tornillos]] en cruz, media vuelta cada uno, hasta soltar los [[10|resortes]]. Saca la [[8|placa elevadora]] con su [[15|balinera]]. Al armar: en cruz y parejo (torque: manual de servicio).",
+   "m": {
+    "11": [
+     223,
+     -165
+    ],
+    "8": [
+     133,
+     -204
+    ],
+    "15": [
+     306,
+     -99
+    ],
+    "10": [
+     54,
+     -252
+    ]
+   }
+  },
+  {
+   "t": "<b>Tuerca de la manzana.</b> Traba la [[3|manzana]] con una herramienta de sujeción y afloja la [[12|tuerca]]; saca la [[14|arandela]]. Al armar: arandela en su lugar y tuerca al torque del manual de servicio.",
+   "m": {
+    "12": [
+     305,
+     60
+    ],
+    "14": [
+     348,
+     -17
+    ]
+   }
+  },
+  {
+   "t": "<b>Manzana y discos.</b> Saca la [[3|manzana]], los [[4|discos de fricción]] de los dos tipos, los [[6|separadores]] y la [[7|placa de presión]]. Anota el orden. Al armar: discos de fricción remojados en aceite del motor.",
+   "m": {
+    "3": [
+     265,
+     250
+    ],
+    "6": [
+     150,
+     145
+    ],
+    "4": [
+     -10,
+     35
+    ],
+    "7": [
+     -100,
+     -30
+    ],
+    "5": [
+     70,
+     90
+    ]
+   }
+  },
+  {
+   "t": "<b>Campana.</b> Saca la [[1|campana]], su [[2|guía]] y la [[13|arandela]] del eje. Revisa las ventanas y los dientes: si las ventanas tienen escalones, los discos se traban.",
+   "m": {
+    "1": [
+     -178,
+     -130
+    ],
+    "2": [
+     -119,
+     -88
+    ],
+    "13": [
+     -151,
+     -110
+    ]
+   }
+  }
+ ],
+ "textoArmado": "El clutch va en la punta derecha del eje de la caja, bañado en aceite, detrás de la tapa derecha del motor. Toca un grupo para ver sus piezas.",
+ "fichas": {
+  "1": {
+   "nombre": "Campana del clutch",
+   "cat": "OUTER COMP., CLUTCH(67T) · 1 pieza",
+   "codigo": "22100-KVX-700",
+   "que": "La canasta con la corona de 67 dientes atrás: la mueve el piñón del cigüeñal y en sus ventanas entran las orejas de los [[4|discos de fricción]].",
+   "sirve": "Recibe la fuerza del motor y se la pasa a los discos de fricción.",
+   "sintomas": [
+    "Golpeteo o «clac» al soltar la palanca.",
+    "La palanca se siente a saltos al soltarla despacio."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las orejas de los discos marcan escalones en las ventanas."
+    ],
+    [
+     "golpe",
+     "Dientes de la corona picados por golpes al cambiar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si las ventanas no tienen escalones, se vuelve a poner; con escalones hondos, campana nueva.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que cambies los discos.",
+   "arrastra": [
+    "Ventanas con escalones → los [[4|discos de fricción]] se traban y el clutch arrastra."
+   ],
+   "conecta": [
+    "2",
+    "4",
+    "5",
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "campana",
+      "perfil": "@corona3d"
+     },
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 67,
+       "r": 110
+      },
+      "z": [
+       -48,
+       -40
+      ],
+      "huecos": [
+       {
+        "r": 94
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "2": {
+   "nombre": "Guía de la campana",
+   "cat": "GUIDE, CLUTCH OUTER · 1 pieza",
+   "codigo": "22115-KSP-910",
+   "que": "El buje de acero que va en el eje de la caja, dentro de la [[1|campana]].",
+   "sirve": "Deja que la campana gire suelta sobre el eje cuando aprietas la palanca.",
+   "sintomas": [
+    "Campana con juego o que cabecea.",
+    "Ruido de roce con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se raya si el aceite está sucio o falta aceite."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si tiene rayas o juego, va nueva; es barata frente a la campana.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques la campana.",
+   "arrastra": [
+    "Guía gastada → la [[1|campana]] cabecea y gasta los [[4|discos de fricción]] disparejo."
+   ],
+   "conecta": [
+    "1",
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "3": {
+   "nombre": "Manzana del clutch",
+   "cat": "CENTER, CLUTCH · 1 pieza",
+   "codigo": "22120-KTE-910",
+   "que": "El disco con estrías por fuera y por dentro: por fuera engranan los [[6|separadores]] y por dentro el eje de la caja.",
+   "sirve": "Pasa la fuerza de los discos al eje de la caja.",
+   "sintomas": [
+    "Clutch que arrastra aunque los discos estén buenos."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las estrías de afuera se marcan con escalones."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si las estrías están lisas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Estrías con escalones → los [[6|separadores]] no se deslizan y el clutch arrastra."
+   ],
+   "conecta": [
+    "6",
+    "7",
+    "12",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "4": {
+   "nombre": "Discos de fricción",
+   "cat": "DISK, CLUTCH FRICTION · 2 piezas",
+   "codigo": "22201-KTT-900",
+   "que": "Los discos con forro y orejas por fuera. El catálogo trae dos tipos con código distinto: este y el [[5|otro tipo]], dos de cada uno.",
+   "sirve": "Al apretarse contra los [[6|separadores]] pasan la fuerza de la [[1|campana]] a la [[3|manzana]].",
+   "sintomas": [
+    "El motor sube de vueltas y la moto no avanza igual (patina), sobre todo en subida.",
+    "Olor a quemado después de mucho clutch."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El forro se gasta con el uso y más si usas mucho la palanca a medias."
+    ],
+    [
+     "calor",
+     "Aceite para carro o viejo: se vitrifican y resbalan."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastados o vitrificados van nuevos, el juego completo de los dos tipos.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando patine con el juego libre bien ajustado.",
+   "arrastra": [
+    "Discos gastados → los [[10|resortes]] se calientan y se cansan."
+   ],
+   "conecta": [
+    "1",
+    "5",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "5": {
+   "nombre": "Discos de fricción (tipo B)",
+   "cat": "DISK, CLUTCH FRICTION · 2 piezas",
+   "codigo": "22202-KTT-900",
+   "que": "El segundo tipo de disco de fricción que trae el catálogo, con otro código; van dos.",
+   "sirve": "Trabaja igual que los [[4|discos de fricción]] del otro tipo; va en el lugar que indica el manual de servicio.",
+   "sintomas": [
+    "Puede agarrar a saltos si quedó en el puesto equivocado."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Ponerlo en el lugar del otro tipo cambia cómo agarra el clutch."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo junto con los del otro tipo.",
+   "dif": "taller",
+   "cuando": "Revísalo con los demás discos.",
+   "arrastra": [
+    "Disco en el puesto equivocado → el clutch agarra a saltos y los discos se gastan disparejo."
+   ],
+   "conecta": [
+    "4",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "6": {
+   "nombre": "Discos separadores",
+   "cat": "PLATE, CLUTCH · 3 piezas",
+   "codigo": "22321-KTT-900",
+   "que": "Los discos lisos de acero con estrías por dentro; van tres, entre los de fricción.",
+   "sirve": "Hacen de cara de apoyo para los discos de fricción y giran con la [[3|manzana]].",
+   "sintomas": [
+    "Clutch que arrastra: la moto se mueve con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se azulan y se tuercen cuando el clutch patina mucho."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si están planos y sin color azul, se vuelven a poner.",
+   "dif": "taller",
+   "cuando": "Revísalos cada vez que cambies los discos de fricción.",
+   "arrastra": [
+    "Separador torcido → los [[4|discos de fricción]] siguen rozando con la palanca apretada."
+   ],
+   "conecta": [
+    "3",
+    "4",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "7": {
+   "nombre": "Placa de presión",
+   "cat": "PLATE, CLUTCH PRESSURE · 1 pieza",
+   "codigo": "22355-KTE-910",
+   "que": "El plato de adentro con cuatro torres: ahí roscan los [[11|tornillos]] que comprimen los [[10|resortes]].",
+   "sirve": "Aprieta el paquete de discos contra la [[3|manzana]] con la fuerza de los resortes.",
+   "sintomas": [
+    "Patina aunque los discos sean nuevos.",
+    "Agarra disparejo."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se azula y se tuerce cuando el clutch patina mucho."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la cara está plana y las roscas sanas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Placa torcida → aprieta disparejo y los [[4|discos de fricción]] patinan."
+   ],
+   "conecta": [
+    "3",
+    "10",
+    "11",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 36,
+       "r": 75
+      },
+      "z": [
+       -6,
+       0
+      ],
+      "huecos": [
+       {
+        "r": 30
+       }
+      ]
+     },
+     {
+      "tipo": "cilindro",
+      "color": "alum",
+      "r": 9,
+      "z": [
+       0,
+       14
+      ],
+      "pos": [
+       32,
+       0
+      ],
+      "repetir": 4
+     }
+    ]
+   }
+  },
+  "8": {
+   "nombre": "Placa elevadora",
+   "cat": "PLATE, CLUTCH LIFTER · 1 pieza",
+   "codigo": "22361-KTT-900",
+   "que": "La placa de afuera con cuatro orejas: lleva la [[15|balinera]] en el centro y los cuatro [[11|tornillos]].",
+   "sirve": "Recibe el empuje de la [[9|varilla]] y aleja la [[7|placa de presión]] para soltar los discos.",
+   "sintomas": [
+    "Clutch que no suelta parejo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El alojamiento de la balinera se agranda."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está torcida ni rajada, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Placa torcida → la [[7|placa de presión]] se va de lado y el clutch arrastra."
+   ],
+   "conecta": [
+    "15",
+    "11",
+    "10",
+    "9"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "9": {
+   "nombre": "Varilla del clutch",
+   "cat": "ROD, CLUTCH LIFTER · 1 pieza",
+   "codigo": "22366-KRM-840",
+   "que": "La varilla corta de acero que va entre el brazo del clutch, en la tapa, y la [[15|balinera]].",
+   "sirve": "Pasa el movimiento del cable a la [[8|placa elevadora]].",
+   "sintomas": [
+    "Palanca dura o que no suelta del todo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La punta se gasta o se dobla."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está recta y con la punta sana, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que quites la tapa derecha.",
+   "arrastra": [
+    "Varilla gastada → falta recorrido y el clutch arrastra."
+   ],
+   "conecta": [
+    "8",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "10": {
+   "nombre": "Resortes del clutch",
+   "cat": "SPRING, CLUTCH · 4 piezas",
+   "codigo": "22401-KRM-840",
+   "que": "Los cuatro resortes que van entre la [[8|placa elevadora]] y la [[3|manzana]]; por dentro de cada uno pasa una torre de la [[7|placa de presión]].",
+   "sirve": "Aprietan los discos para que el clutch no patine.",
+   "sintomas": [
+    "Patina con discos buenos.",
+    "Palanca muy blanda."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se cansan (pierden largo) con el calor de patinar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si están más cortos que el límite del manual de servicio, van nuevos los cuatro.",
+   "dif": "taller",
+   "cuando": "Mídelos cada vez que cambies los discos.",
+   "arrastra": [
+    "Resortes cansados → los [[4|discos de fricción]] patinan y se queman."
+   ],
+   "conecta": [
+    "7",
+    "8",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "11": {
+   "nombre": "Tornillos de los resortes",
+   "cat": "BOLT, FLANGE, 6X25 · 4 piezas",
+   "codigo": "90008-KTT-900",
+   "que": "Los cuatro tornillos con brida que sujetan la [[8|placa elevadora]] y comprimen los [[10|resortes]].",
+   "sirve": "Aprietan la placa elevadora contra las torres de la [[7|placa de presión]].",
+   "sintomas": [
+    "Clutch que agarra disparejo si uno quedó flojo."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Apretados de un solo lado o pasados de torque, tuercen la placa o dañan la rosca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana, se vuelven a poner.",
+   "dif": "basico",
+   "cuando": "Revísalos cada vez que abras el clutch.",
+   "arrastra": [
+    "Tornillo flojo → la [[8|placa elevadora]] se tuerce."
+   ],
+   "conecta": [
+    "8",
+    "10",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "12": {
+   "nombre": "Tuerca de la manzana",
+   "cat": "NUT, SPECIAL FLANGE, 14MM · 1 pieza",
+   "codigo": "90202-KRM-840",
+   "que": "La tuerca de 14 mm con brida que sujeta la [[3|manzana]] en el eje de la caja.",
+   "sirve": "Impide que la manzana se salga del eje.",
+   "sintomas": [
+    "Ruido metálico en el clutch si quedó floja."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Floja o sin su arandela, se suelta con el uso."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana, se vuelve a poner al torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques la manzana.",
+   "arrastra": [
+    "Tuerca floja → la [[3|manzana]] golpea y daña las estrías del eje."
+   ],
+   "conecta": [
+    "3",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "13": {
+   "nombre": "Arandela del eje",
+   "cat": "WASHER, PLAIN, 17MM · 1 pieza",
+   "codigo": "90405-KTT-900",
+   "que": "La arandela plana de 17 mm que va en el eje de la caja, detrás de la [[1|campana]].",
+   "sirve": "Hace de apoyo para que la campana no roce contra lo de atrás.",
+   "sintomas": [
+    "Campana con juego hacia adentro y hacia afuera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta y deja juego."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin marcas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques la campana.",
+   "arrastra": [
+    "Arandela gastada → la [[1|campana]] roza y se calienta."
+   ],
+   "conecta": [
+    "1",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "14": {
+   "nombre": "Arandela de la tuerca",
+   "cat": "WASHER, 14.1X29X2.8 · 1 pieza",
+   "codigo": "90501-KPT-A00",
+   "que": "La arandela de 14,1 × 29 × 2,8 mm que va debajo de la [[12|tuerca]].",
+   "sirve": "Reparte el apriete de la tuerca sobre la [[3|manzana]].",
+   "sintomas": [
+    "Tuerca que se afloja."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Si falta o va al revés, la tuerca no queda firme."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin grietas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que quites la tuerca.",
+   "arrastra": [
+    "Sin arandela → la [[12|tuerca]] se afloja."
+   ],
+   "conecta": [
+    "12",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "15": {
+   "nombre": "Balinera de la placa elevadora",
+   "cat": "BEARING, RADIAL BALL, 6003 · 1 pieza",
+   "codigo": "96100-60030-00",
+   "que": "La balinera 6003 que va en el centro de la [[8|placa elevadora]].",
+   "sirve": "Deja que la placa elevadora gire con el clutch mientras la [[9|varilla]] la empuja sin girar.",
+   "sintomas": [
+    "Chillido al apretar la palanca.",
+    "Palanca áspera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca o se le mete mugre del aceite viejo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si suena o gira áspera, va nueva (6003, medida estándar).",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Balinera trabada → la [[9|varilla]] se gasta en la punta."
+   ],
+   "conecta": [
+    "8",
+    "9"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes Honda CB 125F GLH125SH, fig. E-6-1 «Clutch» (p. 15)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa elevadora y varilla)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Cable sin juego libre",
+   "p": [
+    [
+     "9",
+     "El cable queda tenso y la varilla sigue empujando la placa elevadora."
+    ],
+    [
+     "7",
+     "La placa de presión no aprieta del todo los discos."
+    ],
+    [
+     "4",
+     "Los discos patinan en subida y se queman."
+    ],
+    [
+     "6",
+     "Los separadores se recalientan, se azulan y se tuercen."
+    ]
+   ]
+  },
+  {
+   "t": "Aceite viejo o equivocado",
+   "p": [
+    [
+     "4",
+     "Con aceite para carro o muy viejo, los discos resbalan y se vitrifican."
+    ],
+    [
+     "10",
+     "El calor de patinar cansa los resortes."
+    ],
+    [
+     "7",
+     "La placa de presión se azula y aprieta disparejo: patina aunque cambies los discos."
+    ]
+   ]
+  },
+  {
+   "t": "Campana con escalones",
+   "p": [
+    [
+     "1",
+     "Las orejas de los discos marcan escalones en las ventanas de la campana."
+    ],
+    [
+     "4",
+     "Los discos se traban en los escalones y no se separan bien."
+    ],
+    [
+     "6",
+     "Los separadores siguen arrastrando: la moto se mueve con la palanca apretada."
+    ],
+    [
+     "3",
+     "Los separadores, al trabarse, también marcan escalones en las estrías de la manzana."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Cambiar el aceite del motor (baña el clutch)",
+   "cuando": "Cada <b>4.000 km</b> o cada <b>1 año</b> (el primero, a los 1.000 km). <b>SAE 10W-30</b>, JASO MA, API SG o superior; 0,9 L.",
+   "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Aceite del motor' (cambiar a los 1.000 km, en cada columna desde los 4.000 y en la anual); consultado el 14-nov-2026 <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "aceite"
+  },
+  {
+   "que": "Revisar el juego libre de la palanca",
+   "cuando": "<b>10 - 20 mm</b> en la punta de la palanca; ajústalo con la tuerca del cable si se sale de ahí.",
+   "fuente": "Manual del propietario Honda CB125F (español), pp. 74-75. <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Revisar discos y resortes",
+   "cuando": "Cuando patine con el juego libre bien ajustado.",
+   "fuente": "Práctica de taller. <span class=\"esq-s-ap\">Aproximado</span>"
+  }
+ ],
+ "sujeta": {
+  "11": [
+   "8",
+   "10"
+  ],
+  "12": [
+   "3"
+  ],
+  "14": [
+   "3"
+  ],
+  "3": [
+   "1"
+  ],
+  "9": [
+   "8"
+  ],
+  "1": [
+   "2",
+   "13"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "mando",
+    "nombre": "Varilla y balinera",
+    "corto": "Varilla",
+    "piezas": [
+     "9",
+     "15"
+    ],
+    "torn": [],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     560,
+     470
+    ]
+   },
+   {
+    "id": "resortes",
+    "nombre": "Resortes y placa elevadora",
+    "corto": "Resortes",
+    "piezas": [
+     "8",
+     "10"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de los resortes",
+      "corto": "Tornillos",
+      "ids": [
+       "11"
+      ],
+      "cant": 4
+     }
+    ],
+    "pasos": [
+     1
+    ],
+    "marca": [
+     500,
+     392
+    ]
+   },
+   {
+    "id": "discos",
+    "nombre": "Manzana, discos y placa de presión",
+    "corto": "Discos",
+    "piezas": [
+     "3",
+     "4",
+     "5",
+     "6",
+     "7"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuerca y arandela de la manzana",
+      "corto": "Tuerca",
+      "ids": [
+       "12",
+       "14"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     2,
+     3
+    ],
+    "marca": [
+     520,
+     270
+    ]
+   },
+   {
+    "id": "campana",
+    "nombre": "Campana del clutch",
+    "corto": "Campana",
+    "piezas": [
+     "1",
+     "2"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandela del eje",
+      "corto": "Arandela",
+      "ids": [
+       "13"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     4
+    ],
+    "marca": [
+     318,
+     262
+    ]
+   }
+  ],
+  "con3d": [
+   "1",
+   "7"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas del clutch"
+ },
+ "perfiles": {
+  "varilla": [
+   [
+    0,
+    -30
+   ],
+   [
+    3.5,
+    -30
+   ],
+   [
+    3.5,
+    -4
+   ],
+   [
+    7,
+    -3
+   ],
+   [
+    7,
+    3
+   ],
+   [
+    0,
+    3
+   ]
+  ],
+  "corona3d": [
+   [
+    16,
+    -36
+   ],
+   [
+    96,
+    -36
+   ],
+   [
+    96,
+    0
+   ],
+   [
+    86,
+    0
+   ],
+   [
+    86,
+    -30
+   ],
+   [
+    30,
+    -30
+   ],
+   [
+    30,
+    -26
+   ],
+   [
+    16,
+    -26
+   ]
+  ]
+ },
+ "pendientes": [
+  "Confirmar con el manual de servicio el orden interno y en qué puesto van los discos de fricción de los dos tipos (refs. 4 y 5).",
+  "Torques de los tornillos de los resortes y de la tuerca de la manzana, largo libre de los resortes y espesor mínimo de los discos: manual de servicio.",
+  "La tapa derecha del motor (fig. E-5) y el brazo del clutch quedan para otra lámina."
+ ]
+}

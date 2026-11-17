@@ -80,8 +80,14 @@ Todas se dibujan **de frente, con el eje hacia el lector** (el vástago o el esp
 | caja | w (80), h (60), rx (8), prof (14), tapa (true o el margen), caraTapa, cara, lado, tornillos [[dx,dy],…], bocas [[dx,dy,r],…] |
 | ducto | **puntos**, r0 (14), r1 (boca, = r0), cara, lado, boca:false: tubo que se ensancha, con la boca hacia el lector |
 | placa | contorno [[dx,dy],…] (rect 60×40), huecos [[dx,dy,r],…], e (2), material:"fibra" (empaque), "acero", "caucho" o un color de `comun.colores` |
+| rin | **r** (110), ri (cubo, r×0,24), radios (36; 0 sin radios), tipo:"aleacion" + brazos (5), pestana (9), ancho, largoCubo, cara |
+| llanta | **r** (140), ri (r×0,8: va sobre el rin), ancho (14), tacos (r/4) |
+| pinon | **r** (40, paso), dientes (r/2,9), alto, ri (hueco, r×0,3), e (5), huecos (aligerado), pernos + rPernos: piñón o corona |
+| cadena | tramo: **puntos** [[dx,dy],…]; o vuelta: **c1**,r1,**c2**,r2 (centros relativos y radios de los piñones), g (8), paso (9) |
+| eje | cabeza (12), d (14), largo (160): cabeza hexagonal; el vástago solo se ve desarmado |
+| tensor | w (34), h (24), e (4), largo (perno, 26), giro: placa con ranura, marcas de alineación, perno y tuerca |
 
-Las formas de lámina (manguera, abrazadera, caja, ducto, placa) sirven para admisión, escape, refrigeración y carrocería. Su 3D es una maqueta simple (tubo recto, caja redondeada, placa con huecos); solo con `con3d`.
+Las formas de lámina (manguera, abrazadera, caja, ducto, placa) sirven para admisión, escape, refrigeración y carrocería; rin, llanta, pinon, cadena, eje y tensor, para ruedas y transmisión final (la cadena no tiene 3D). Su 3D es una maqueta simple (tubo recto, caja redondeada, placa con huecos); solo con `con3d`.
 
 El vástago del tornillo es un `rect` que solo se ve en el despiece, y puede tapar el número de una pieza pintada antes.
 `marco`: nombre de un transform que exporta el arte en `marcos:{…}` (p. ej. `LOC` del cáliper del freno), para dibujar la pieza en ese plano.
@@ -129,3 +135,9 @@ Ejemplos: frenos → `M/datos/nmax-fig26.json` (con lados) o `nmax-fig22.json`; 
 - Los pasos de un conjunto repetido dicen de qué lado son en el título («Bomba trasera (izquierda) · …»).
 - `decision` puede ser `repara`, `reutiliza` (p. ej. un perno hueco sano) o `cambia`; tiene que decir lo mismo que `porque`.
 - Si la v2 sale de una v1, `v2.deriva` nombra el JSON de origen: el validador avisa si en la v2 falta una frase de seguridad o de cierre que estaba en la v1.
+
+## Detalles del dibujo (pasado desde SKILL.md, paso 3)
+- **extrusiones** (el espesor hacia «atrás»): borde solo en la copia del fondo (la cara de atrás) y las intermedias sin borde, con un paso cada ~4 unidades; con borde en cada copia se ve como una pila de láminas;
+- **marcas de grupo**: el motor las mantiene enteras dentro del lienzo con su área de toque de 46 px; un encuadre ancho no las achica;
+- **piezas grandes y oscuras** (tapas, carcasas de plástico): borde claro, brillo y detalles (rejilla, tornillos) que se vean sobre el fondo oscuro; si no, en la vista general son una mancha;
+- **tubo delgado**: área de toque con un `rect` invisible (`fill-opacity="0" pointer-events="all"`) dentro de su arte, y su abrazadera antes en `piezas` (si va después, su círculo automático le tapa el toque).

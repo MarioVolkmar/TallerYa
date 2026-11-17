@@ -1,0 +1,72 @@
+[
+ {
+  "campo": "pasos.0.t",
+  "reemplazar": "Al armar, revisa que nada gotee.",
+  "por": "Al armar, la cortina entra en su guía, el acelerador vuelve solo y nada gotea."
+ },
+ {
+  "campo": "cadenas.1.p.1.1",
+  "reemplazar": "La flota ya no alcanza a cerrar: la taza rebosa.",
+  "por": "Aunque la flota suba y empuje, la aguja rayada no sella: la taza rebosa."
+ },
+ {
+  "campo": "cadenas.2.p.1.1",
+  "reemplazar": "Entra aire sin pasar por el carburador.",
+  "por": "Aunque el o-ring esté nuevo, el aire entra por la grieta del aislador sin pasar por el carburador."
+ },
+ {
+  "campo": "pasos.5.t",
+  "reemplazar": "Cierra el [[7|tornillo de la mezcla]] contando las vueltas",
+  "por": "Cierra el [[7|tornillo de la mezcla]] suave, sin forzar, contando las vueltas"
+ },
+ {
+  "campo": "pasos.5.t",
+  "reemplazar": "ralentí a 1.300 rpm con",
+  "por": "ralentí a 1.300 rpm en caliente con"
+ },
+ {
+  "campo": "fichas.7.que",
+  "reemplazar": "El tornillo con resorte del lado del motor, cerca del chiclé de alta.",
+  "por": "El tornillo pequeño con resorte en el costado del cuerpo: regula el aire del circuito de baja (el manual lo llama tornillo de aire)."
+ },
+ {
+  "campo": "fichas.18.sirve",
+  "reemplazar": "Al subir con la cortina destapa más el chiclé:",
+  "por": "Al subir con la cortina destapa más el difusor, encima del chiclé:"
+ },
+ {
+  "campo": "fichas.21.sintomas.1",
+  "reemplazar": "La moto se apaga en subidas largas.",
+  "por": "La moto se ahoga, la bujía sale negra y el consumo sube."
+ },
+ {
+  "campo": "fichas.10.sintomas.0",
+  "reemplazar": "La moto se ahoga o no tiene fuerza arriba.",
+  "por": "No tiene fuerza arriba y no pasa de cierta velocidad."
+ },
+ {
+  "campo": "fichas.13.cuando",
+  "reemplazar": "Revísalo si el testigo del motor prende.",
+  "por": "Revísalo si el testigo del motor prende (si tu versión lo trae) o la moto falla a media aceleración."
+ },
+ {
+  "campo": "fichas.14.cuando",
+  "reemplazar": "Revísalo si el testigo del motor prende.",
+  "por": "Revísalo si el testigo del motor prende (si tu versión lo trae) o la moto falla al pasar baches."
+ },
+ {
+  "campo": "fichas.12.que",
+  "reemplazar": "El cilindro de acero que",
+  "por": "El cilindro metálico que"
+ },
+ {
+  "campo": "pasos.1.t",
+  "reemplazar": "quedan. Al",
+  "por": "quedan en el motor. Al"
+ },
+ {
+  "campo": "cuando.1.que",
+  "reemplazar": "Bujia",
+  "por": "Bujía"
+ }
+]

@@ -131,6 +131,177 @@
     }
    ],
    "fuera": "Refs 16-23 (piezas sueltas de la corona) no aplican a TEC: se vende la corona completa (1). Ref 24 = clutch completo DX101055 (TEC)."
+  },
+  "16": {
+   "titulo": "CARBURADOR",
+   "paginas": [
+    43
+   ],
+   "columna": "TEC",
+   "columnas": [
+    "TEC",
+    "S1D",
+    "K-TEC",
+    "UG",
+    "4T"
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "Carburador (PB-16)",
+     "cantidad": 1,
+     "codigo": "DU121009",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "2",
+     "descripcion": "Insulador Carburador",
+     "cantidad": 1,
+     "codigo": "DU101057",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "3",
+     "descripcion": "Anillo Retén Múltiple Admisión",
+     "cantidad": 1,
+     "codigo": "39128321",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "4",
+     "descripcion": "Kit Carburador",
+     "cantidad": 1,
+     "codigo": "36DU1206",
+     "nota": "columna TEC; Ref. Pág. No. 84"
+    },
+    {
+     "ref": "5",
+     "descripcion": "Kit Empaques Carburador",
+     "cantidad": 1,
+     "codigo": "36DU1204",
+     "nota": "columna TEC; Ref. Pág. No. 84"
+    },
+    {
+     "ref": "6",
+     "descripcion": "Kit Flota y Aguja Paso Gasolina",
+     "cantidad": 1,
+     "codigo": "36DU1205",
+     "nota": "columna TEC; Ref. Pág. No. 84"
+    },
+    {
+     "ref": "7",
+     "descripcion": "Tornillo Carburador",
+     "cantidad": 1,
+     "codigo": "36DU1202",
+     "nota": "columna TEC; Ref. Pág. No. 84"
+    },
+    {
+     "ref": "8",
+     "descripcion": "Tornillo Carburador",
+     "cantidad": 1,
+     "codigo": "36DU1203",
+     "nota": "columna TEC; Ref. Pág. No. 84"
+    },
+    {
+     "ref": "9",
+     "descripcion": "Tornillo Carburador",
+     "cantidad": 2,
+     "codigo": "39167504",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "10",
+     "descripcion": "Difusor",
+     "cantidad": 1,
+     "codigo": "DU121028",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "11",
+     "descripcion": "Tornillos Taza Carburador",
+     "cantidad": 2,
+     "codigo": "DD121171",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "12",
+     "descripcion": "Cortina Carburador",
+     "cantidad": 1,
+     "codigo": "DU121017",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "13",
+     "descripcion": "Imán Swiche Gato Lateral",
+     "cantidad": 1,
+     "codigo": "DH121101",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "14",
+     "descripcion": "Instalación Eléctrica Carburador",
+     "cantidad": 1,
+     "codigo": "DH121102",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "15",
+     "descripcion": "Tornillo",
+     "cantidad": 1,
+     "codigo": "39106204",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "16",
+     "descripcion": "Tapa Carburador",
+     "cantidad": 1,
+     "codigo": "DU121022",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "17",
+     "descripcion": "Resorte Carburador",
+     "cantidad": 1,
+     "codigo": "DU121021",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "18",
+     "descripcion": "Aguja Cortina Carburador",
+     "cantidad": 1,
+     "codigo": "DU121018",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "19",
+     "descripcion": "Boquerel de Baja",
+     "cantidad": 1,
+     "codigo": "DU121013",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "20",
+     "descripcion": "Aguja Flota Carburador",
+     "cantidad": 1,
+     "codigo": "DD121168",
+     "nota": "columna TEC"
+    },
+    {
+     "ref": "21",
+     "descripcion": "Flota Carburador",
+     "cantidad": 1,
+     "codigo": "DU121015",
+     "nota": "columna TEC"
+    }
+   ],
+   "conjuntos": [
+    {
+     "ref": "22",
+     "descripcion": "TPS Completo",
+     "codigo": "DD111046"
+    }
+   ],
+   "fuera": "Las páginas 44-46 son las figuras 16A y 16B (carburador Keihin de UG-4T y K-TEC), que no aplican a TEC."
   }
  }
 }

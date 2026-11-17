@@ -1,0 +1,50 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Moderación</h1>
+  <p class="cs-sub">{{ total }} resultado{{ total|pluralize }}{% if pendientes_seccion %} · <strong>{{ pendientes_seccion }} reporte{{ pendientes_seccion|pluralize }} sin revisar</strong>{% endif %}</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  {% include "consola/_filtros_inicio.html" with clave="moderacion" placeholder="Texto, título o correo" %}
+  <label class="cs-filtro"><span class="cs-etq">Qué revisar</span>{{ form.tipo }}</label>
+  {% if tipo != "reportes" %}<label class="cs-filtro"><span class="cs-etq">Visibilidad</span>{{ form.estado }}</label>{% endif %}
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if filas %}
+<ol class="cs-bitacora cs-moderacion">
+  {% for o, analisis in filas %}
+  <li class="cs-mod-item{% if tipo != 'reportes' and not o.visible %} cs-oculto{% endif %}">
+    {% if tipo == "reportes" %}
+      {% if o.pregunta %}{% url 'consola:accion' 'foro.pregunta_visible' o.pregunta_id as a_vis %}{% else %}{% url 'consola:accion' 'foro.respuesta_visible' o.respuesta_id as a_vis %}{% endif %}
+      {% url 'consola:accion' 'foro.reporte_revisado' o.pk as a_rev %}
+      <p class="cs-bit-frase">Reporte #{{ o.pk }} sobre
+        {% if o.pregunta %}la pregunta <a href="{{ o.pregunta.get_absolute_url }}">«{{ o.pregunta.titulo|truncatechars:70 }}»</a>
+        {% else %}una respuesta en <a href="{{ o.respuesta.pregunta.get_absolute_url }}">«{{ o.respuesta.pregunta.titulo|truncatechars:70 }}»</a>{% endif %}</p>
+      <p class="cs-bit-meta">{{ o.motivo|default:"Sin motivo" }} · {{ o.usuario.email }} · {{ o.creado|date:"j M Y" }}</p>
+      {% if o.respuesta %}<blockquote class="cs-cita">{{ o.respuesta.cuerpo|truncatechars:220 }}</blockquote>{% endif %}
+      <div class="cs-acciones-fila">
+        {% if o.pregunta.visible or o.respuesta.visible %}{% include "consola/_boton_accion.html" with url=a_vis valor="0" texto="Ocultar contenido" confirmar="¿Ocultar este contenido del foro? No se borra." %}{% else %}<span class="cs-estado cs-off">Ya está oculto</span>{% endif %}
+        {% include "consola/_boton_accion.html" with url=a_rev texto="Marcar revisado" clase="cs-btn-ok" %}
+      </div>
+    {% else %}
+      {% if tipo == "preguntas" %}{% url 'consola:accion' 'foro.pregunta_visible' o.pk as a_vis %}{% url 'consola:accion' 'foro.pregunta_eliminar' o.pk as a_eli %}
+        <p class="cs-bit-frase"><a href="{{ o.get_absolute_url }}">{{ o.titulo }}</a> <span class="cs-id">#{{ o.pk }}</span></p>
+        <p class="cs-bit-meta">{{ o.autor.email }} · {{ o.creado|date:"j M Y" }} · {{ o.n_resp }} respuesta{{ o.n_resp|pluralize }}</p>
+      {% elif tipo == "respuestas" %}{% url 'consola:accion' 'foro.respuesta_visible' o.pk as a_vis %}{% url 'consola:accion' 'foro.respuesta_eliminar' o.pk as a_eli %}
+        <blockquote class="cs-cita">{{ o.cuerpo|truncatechars:220 }}</blockquote>
+        <p class="cs-bit-meta">#{{ o.pk }} · {{ o.autor.email }} · en <a href="{{ o.pregunta.get_absolute_url }}">«{{ o.pregunta.titulo|truncatechars:50 }}»</a> · {{ o.creado|date:"j M Y" }}</p>
+      {% else %}{% url 'consola:accion' 'resenas.visible' o.pk as a_vis %}{% url 'consola:accion' 'resenas.eliminar' o.pk as a_eli %}
+        <p class="cs-bit-frase">{{ o.estrellas }} ★ · {{ o.taller.nombre }} <span class="cs-id">#{{ o.pk }}</span></p>
+        <blockquote class="cs-cita">{{ o.comentario|truncatechars:220 }}</blockquote>
+        <p class="cs-bit-meta">{{ o.nombre }}{% if o.usuario %} · {{ o.usuario.email }}{% endif %} · {{ o.creado|date:"j M Y" }}</p>
+      {% endif %}
+      <div class="cs-acciones-fila">
+        {% if o.visible %}{% include "consola/_boton_accion.html" with url=a_vis valor="0" texto="Ocultar" confirmar="¿Ocultarlo? Deja de verse en el sitio, pero no se borra." %}
+        {% else %}<span class="cs-estado cs-off">Oculto</span>{% include "consola/_boton_accion.html" with url=a_vis valor="1" texto="Mostrar" clase="cs-btn-ok" %}{% endif %}
+        {% include "consola/_eliminar_fila.html" with url=a_eli que="este contenido" %}
+      </div>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ol>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">{% if tipo == "reportes" %}No hay reportes sin revisar.{% else %}Nada con esos filtros.{% endif %}</p>{% endif %}

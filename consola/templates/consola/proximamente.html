@@ -1,0 +1,8 @@
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">{{ seccion.label }}</h1>
+  <p class="cs-sub">Sección planificada para la fase 2.</p>
+</header>
+<div class="cs-tarjeta">
+  <p>{{ seccion.descripcion }}</p>
+  {% if pendientes_seccion %}<p><strong>{{ pendientes_seccion }} pendiente{{ pendientes_seccion|pluralize }}</strong> esperan aquí.{% if seccion.key == "talleres" %} Mientras tanto se aprueban en <a href="{% url 'cuentas:administracion' %}">Administración</a>.{% endif %}</p>{% endif %}
+</div>

@@ -1,0 +1,23 @@
+{# Paginación común: «Mostrando 1–10 de 25», páginas numeradas y tamaño de página. Contexto: consola.paginacion.paginar #}
+{% if total %}
+<div class="cs-paginacion">
+  <p class="cs-pag-info">Mostrando <strong>{{ pagina.start_index }}–{{ pagina.end_index }}</strong> de <strong>{{ total }}</strong></p>
+  {% if pagina.has_other_pages %}
+  <nav class="cs-paginas" aria-label="Páginas">
+    {% if pagina.has_previous %}<a class="cs-pag" href="?{{ query_sin_pagina }}&amp;pagina={{ pagina.previous_page_number }}" aria-label="Página anterior">‹</a>{% else %}<span class="cs-pag" aria-hidden="true">‹</span>{% endif %}
+    {% for n in rango_paginas %}
+      {% if n == elipsis %}<span class="cs-pag-elipsis" aria-hidden="true">…</span>
+      {% elif n == pagina.number %}<span class="cs-pag" aria-current="page">{{ n }}</span>
+      {% else %}<a class="cs-pag" href="?{{ query_sin_pagina }}&amp;pagina={{ n }}" aria-label="Página {{ n }}">{{ n }}</a>{% endif %}
+    {% endfor %}
+    {% if pagina.has_next %}<a class="cs-pag" href="?{{ query_sin_pagina }}&amp;pagina={{ pagina.next_page_number }}" aria-label="Página siguiente">›</a>{% else %}<span class="cs-pag" aria-hidden="true">›</span>{% endif %}
+  </nav>
+  {% endif %}
+  <form method="get" class="cs-filtros cs-por-pagina">
+    {% for k, v in campos_sin_por %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endfor %}
+    <label class="cs-filtro-linea"><span class="cs-etq">Por página</span>
+      <select name="por" class="cs-campo campo">{% for n in opciones_por %}<option value="{{ n }}" {% if n == por %}selected{% endif %}>{{ n }}</option>{% endfor %}</select></label>
+    <noscript><button class="cs-btn cs-btn-sec">Aplicar</button></noscript>
+  </form>
+</div>
+{% endif %}

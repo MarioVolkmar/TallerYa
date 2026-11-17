@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Culata Honda CB 125F</title>
+<meta name="description" content="Esquema piloto de TallerYa: culata de la Honda CB 125F (fig. E-1-2: culata, portalevas, bujía y tubo de admisión), armado, despiece, funcionamiento y fichas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="esquema.css">
+</head>
+<body>
+<div id="esquema"></div>
+<script src="datos/cb125f-culata-arte.js"></script>
+<script src="esquema3d.js"></script>
+<script src="piezas-comunes.js"></script>
+<script src="esquema.js"></script>
+<script>
+// Los datos se leen del JSON; si la página trae <script type="application/json" id="esq-datos"> (archivo único), se usan esos.
+(async()=>{const el=document.getElementById("esq-datos");
+ const D=el?JSON.parse(el.textContent):await (await fetch("datos/cb125f-culata.json")).json();
+ Esquema.iniciar(D,ESQ_ARTE[D.arte]);})();
+</script>
+</body>
+</html>

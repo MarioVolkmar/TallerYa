@@ -1,0 +1,2075 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · Honda E-1-2",
+  "titulo": "Culata · Honda CB 125F",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la fig. E-1-2 del catálogo Honda (GLH125SH). La tapa (E-1-1) y las levas y válvulas van en otras figuras."
+ },
+ "visor": {
+  "titulo": "Culata",
+  "sub": "Fig. E-1-2 · 21 piezas · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la culata",
+  "laminaAria": "Dibujo simplificado, de tres cuartos, de la culata de la CB 125F con el portalevas, la bujía y el tubo de admisión. Cada grupo abre sus piezas.",
+  "introFunciona": "En la culata se abren y cierran las válvulas y salta la chispa: aquí se decide cuánto aire entra y cuándo se quema.",
+  "introCadenas": "Una bujía vieja o una culata recalentada se notan primero al prender y al acelerar.",
+  "introCuando": "Lo que pide el manual para la bujía y la holgura de las válvulas, y cada cuánto."
+ },
+ "pie": "TallerYa · piloto de esquema v2 · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  250,
+  200,
+  450,
+  350
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 480 870",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Admisión (0–180°, ideal).</b> El pistón baja. La leva empuja el balancín del [[5|portalevas]] y este abre la válvula de admisión: el pistón chupa aire con gasolina al cilindro.",
+    "s": {
+     "ang": 100
+    }
+   },
+   {
+    "t": "<b>2 · Compresión (180–360°, ideal).</b> Las dos válvulas cierran y el pistón sube apretando la mezcla contra la culata. Mientras más apretada, más fuerza dará al quemarse.",
+    "s": {
+     "ang": 300
+    }
+   },
+   {
+    "t": "<b>3 · Chispa.</b> Un poco antes de que el pistón llegue arriba, la [[11|bujía]] salta la chispa entre sus electrodos y la mezcla se enciende. Al armar: NGK CPR6EA-9 · 0,8–0,9 mm.",
+    "s": {
+     "ang": 350
+    }
+   },
+   {
+    "t": "<b>4 · Fuerza (360–540°, ideal).</b> Los gases calientes empujan el pistón hacia abajo y la biela hace girar el cigüeñal: esa es la fuerza que mueve la moto. Es el único tiempo que empuja.",
+    "s": {
+     "ang": 450
+    }
+   },
+   {
+    "t": "<b>5 · Escape (540–720°, ideal).</b> La leva, con su balancín, abre la válvula de escape y el pistón, al subir, saca los gases quemados. Un instante quedan las dos abiertas (el cruce). En 720° el cigüeñal dio dos vueltas y la leva una.",
+    "s": {
+     "ang": 630
+    }
+   },
+   {
+    "t": "<b>6 · Enfriamiento por aire.</b> Las aletas de la [[2|culata]] y del cilindro pasan el calor al aire que llega al andar; los [[1|cauchos]] evitan que zumben. Con la moto quieta y prendida mucho rato, se recalienta.",
+    "s": {
+     "ang": 700,
+     "agua": true
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, cantidades y códigos: catálogo de partes Honda CB 125F (GLH125SH), fig. E-1-2 «Cylinder head», columna GLH125SH.",
+   "Bujía NGK CPR6EA-9 (CPR7EA-9 para alta velocidad), 0,8–0,9 mm y apriete en vueltas; holgura de válvulas a los 1.000 km y cada 4.000 km; bujía revisar 4.000 y cambiar 8.000 km (manual del propietario CB125F, especificaciones, apriete de la bujía y cuadro de mantenimiento)."
+  ],
+  "aproximado": [
+   "Dibujo simplificado de tres cuartos, como el plano; las piezas comunes se ven de frente.",
+   "Función de la placa de tope, de los tornillos pequeños y de los cauchos; fallas, síntomas y decisiones: práctica de taller.",
+   "Torques de la culata y el portalevas: sin dato (manual de servicio, que no está en la carpeta)."
+  ],
+  "lista": [
+   "Catálogo de partes Honda CB 125F GLH125SH (2011), fig. E-1-2.",
+   "Manual del propietario Honda CB125F (español)."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#hcSombra)",
+  "colores": {
+   "acero": "url(#hcAcero)",
+   "cromo": "url(#hcAcero)",
+   "rosca": "url(#hcAlumOsc)",
+   "plast": "url(#hcNegro)"
+  }
+ },
+ "lamina": "cb125f-culata",
+ "moto": "honda-cb125f",
+ "figura": "E1-2",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-culata",
+ "nombres": {
+  "1": "Caucho de las aletas",
+  "2": "Culata",
+  "3": "Guía de la válvula de escape",
+  "4": "Guía de la válvula de admisión",
+  "5": "Portalevas",
+  "6": "Placa de tope del árbol de levas",
+  "7": "Seguro de la guía",
+  "8": "Empaque de la culata",
+  "9": "Tubo de admisión",
+  "10": "Abrazadera del tubo de admisión",
+  "11": "Bujía",
+  "12": "Tornillo del portalevas",
+  "13": "Espárrago del escape",
+  "14": "Tornillo del tubo de admisión",
+  "15": "Tuerca de la culata",
+  "16": "Arandela de la tuerca de la culata",
+  "17": "Pasador guía de la culata",
+  "18": "Pasador guía del portalevas",
+  "19": "O-ring del tubo de admisión",
+  "20": "Tornillo de la placa de tope",
+  "21": "Tornillo largo de la culata"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteCulata",
+   "anc": [
+    470,
+    440
+   ],
+   "et": [
+    0,
+    38
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "tornillo",
+   "p": {
+    "x": 358,
+    "y": 437,
+    "cabeza": 4,
+    "brida": 0,
+    "largo": 22,
+    "d": 8,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      54,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    358,
+    437
+   ],
+   "et": [
+    -36,
+    14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "arte": "arteCauchos",
+   "anc": [
+    535,
+    406
+   ],
+   "et": [
+    0,
+    54
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteGuiaEsc",
+   "anc": [
+    410,
+    350
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteGuiaAdm",
+   "anc": [
+    490,
+    350
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "comun": "seguro",
+   "p": {
+    "x": 410,
+    "y": 343,
+    "r": 7,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      80,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    410,
+    343
+   ],
+   "et": [
+    -26,
+    -10
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "comun": "pasador",
+   "p": {
+    "x": 370,
+    "y": 452,
+    "r": 5,
+    "largo": 12,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      160,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    370,
+    452
+   ],
+   "et": [
+    -24,
+    10
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteEmpaque",
+   "anc": [
+    420,
+    462
+   ],
+   "et": [
+    -40,
+    30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "comun": "pasador",
+   "p": {
+    "x": 392,
+    "y": 334,
+    "r": 4,
+    "largo": 12,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      116,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    392,
+    334
+   ],
+   "et": [
+    -24,
+    8
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "arte": "artePortalevas",
+   "anc": [
+    510,
+    318
+   ],
+   "et": [
+    60,
+    -10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "comun": "arandela",
+   "p": {
+    "x": 392,
+    "y": 304,
+    "r": 10,
+    "ri": 5,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      116,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    392,
+    304
+   ],
+   "et": [
+    -30,
+    10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "comun": "tuerca",
+   "p": {
+    "x": 392,
+    "y": 300,
+    "r": 9,
+    "alto": 14,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      116,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    508,
+    300
+   ],
+   "et": [
+    20,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "comun": "tornillo",
+   "p": {
+    "x": 450,
+    "y": 300,
+    "cabeza": 6,
+    "brida": 7,
+    "largo": 14,
+    "d": 5,
+    "copias": [
+     [
+      -14,
+      0
+     ],
+     [
+      14,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    450,
+    300
+   ],
+   "et": [
+    0,
+    -34
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "placa",
+   "p": {
+    "x": 368,
+    "y": 332,
+    "contorno": [
+     [
+      -14,
+      -6
+     ],
+     [
+      14,
+      -6
+     ],
+     [
+      14,
+      6
+     ],
+     [
+      -14,
+      6
+     ]
+    ],
+    "huecos": [
+     [
+      8,
+      0,
+      3
+     ]
+    ],
+    "material": "acero"
+   },
+   "anc": [
+    368,
+    332
+   ],
+   "et": [
+    -40,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "comun": "tornillo",
+   "p": {
+    "x": 376,
+    "y": 332,
+    "cabeza": 5,
+    "brida": 6,
+    "largo": 14,
+    "d": 6
+   },
+   "anc": [
+    376,
+    332
+   ],
+   "et": [
+    -30,
+    34
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "comun": "tornillo",
+   "p": {
+    "x": 342,
+    "y": 336,
+    "cabeza": 7,
+    "brida": 8,
+    "largo": 105,
+    "d": 6,
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      236,
+      0
+     ]
+    ]
+   },
+   "anc": [
+    342,
+    336
+   ],
+   "et": [
+    -36,
+    -14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "arte": "arteBujia",
+   "anc": [
+    360,
+    262
+   ],
+   "et": [
+    -34,
+    -10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "comun": "oring",
+   "p": {
+    "x": 580,
+    "y": 381,
+    "r": 16,
+    "g": 3
+   },
+   "anc": [
+    580,
+    381
+   ],
+   "et": [
+    0,
+    30
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "arte": "arteAdmision",
+   "anc": [
+    620,
+    365
+   ],
+   "et": [
+    10,
+    -40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "comun": "tornillo",
+   "p": {
+    "x": 590,
+    "y": 360,
+    "cabeza": 6,
+    "brida": 0,
+    "largo": 22,
+    "d": 6,
+    "tipo": "allen",
+    "copias": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      42
+     ]
+    ]
+   },
+   "anc": [
+    590,
+    402
+   ],
+   "et": [
+    -6,
+    40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "abrazadera",
+   "p": {
+    "x": 650,
+    "y": 375,
+    "r": 18,
+    "tipo": "tornillo",
+    "giro": -90
+   },
+   "anc": [
+    650,
+    375
+   ],
+   "et": [
+    30,
+    -26
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "m": {
+    "11": [
+     -150,
+     -40
+    ]
+   },
+   "t": "<b>Bujía.</b> Con el motor frío, quita el capuchón y saca la [[11|bujía]] con la llave de bujías. Al armar: NGK CPR6EA-9 · 0,8–0,9 mm · nueva: ½ vuelta, afloja y ⅛ de vuelta."
+  },
+  {
+   "m": {
+    "10": [
+     150,
+     -60
+    ],
+    "14": [
+     100,
+     -80
+    ],
+    "9": [
+     90,
+     0
+    ],
+    "19": [
+     40,
+     50
+    ]
+   },
+   "t": "<b>Escape y admisión.</b> Quita el tubo de escape (otra figura). Afloja la [[10|abrazadera]] del carburador, quita los dos tornillos y saca el [[9|tubo]]. El [[19|o-ring]] va nuevo al armar."
+  },
+  {
+   "m": {
+    "15": [
+     0,
+     -140
+    ],
+    "16": [
+     0,
+     -110
+    ],
+    "12": [
+     0,
+     -170
+    ],
+    "6": [
+     -101,
+     -41
+    ],
+    "20": [
+     -136,
+     -19
+    ]
+   },
+   "t": "<b>Tuercas de la culata.</b> Sin la tapa y con el pistón arriba en compresión (PMS) y las marcas alineadas, afloja en cruz y en frío las cuatro tuercas; quita los dos tornillos y la placa de tope. Al armar: torque del manual de servicio."
+  },
+  {
+   "m": {
+    "5": [
+     0,
+     -75
+    ],
+    "18": [
+     0,
+     -45
+    ]
+   },
+   "t": "<b>Portalevas.</b> Afloja el tensor de la cadena y suelta el piñón del árbol de levas (otra figura); amarra la cadena con un alambre. Levanta el [[5|portalevas]] derecho con el árbol y los balancines."
+  },
+  {
+   "m": {
+    "21": [
+     0,
+     -180
+    ],
+    "2": [
+     0,
+     -8
+    ],
+    "13": [
+     0,
+     -8
+    ],
+    "1": [
+     190,
+     60
+    ],
+    "8": [
+     4,
+     88
+    ],
+    "17": [
+     -4,
+     142
+    ]
+   },
+   "t": "<b>Culata.</b> Quita los dos [[21|tornillos largos]] y sube la [[2|culata]] derecha, sin hacer palanca en las aletas; saca los [[1|cauchos]]. Tapa la boca del cilindro. El [[8|empaque]] va nuevo siempre; guarda los pasadores."
+  },
+  {
+   "m": {
+    "3": [
+     -228,
+     66
+    ],
+    "4": [
+     -200,
+     40
+    ],
+    "7": [
+     -219,
+     -6
+    ]
+   },
+   "t": "<b>Guías de válvula.</b> Solo en el taller: antes salen las válvulas con el compresor (otra figura); las guías se sacan a presión con la culata caliente, van unas de medida mayor y se rectifican los asientos. Luego, holgura en frío."
+  }
+ ],
+ "textoArmado": "Armado, de tres cuartos: la culata con aletas, el portalevas encima, la bujía a la izquierda y el tubo de admisión a la derecha. Toca un grupo para ver sus piezas.",
+ "fichas": {
+  "1": {
+   "nombre": "Caucho de las aletas",
+   "cat": "RUBBER, INSERT · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12195-KTE-910",
+   "que": "Bloquecitos de caucho que van metidos entre las aletas de la [[2|culata]].",
+   "sirve": "Frenan la vibración de las aletas para que no zumben ni se rajen.",
+   "sintomas": [
+    "Zumbido metálico del motor a ciertas rpm."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurecen, se encogen y se caen."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Son baratos: si faltan o están duros, van nuevos.",
+   "dif": "facil",
+   "cuando": "Míralos cuando laves el motor.",
+   "arrastra": [
+    "Caucho caído → la aleta vibra → zumbido."
+   ],
+   "conecta": [
+    "2"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "2": {
+   "nombre": "Culata",
+   "cat": "HEAD COMP., CYLINDER · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12200-KVX-700",
+   "que": "El bloque de aluminio con aletas que cierra el cilindro: abajo forma la cámara donde se quema la mezcla y arriba guarda las válvulas y el [[5|portalevas]].",
+   "sirve": "Deja entrar la mezcla, saca los gases, sostiene la [[11|bujía]] y pasa el calor al aire por sus aletas.",
+   "sintomas": [
+    "Pierde fuerza y le cuesta prender en caliente.",
+    "Aceite por la unión con el cilindro.",
+    "Golpeteo de válvulas o humo azul al acelerar."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Si el motor se recalienta, se tuerce y deja de sellar contra el [[8|empaque]]."
+    ],
+    [
+     "maluso",
+     "Una bujía apretada de más o torcida le daña la rosca."
+    ],
+    [
+     "desgaste",
+     "Las [[3|guías]] y los asientos de válvula se gastan con los km."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Una cara torcida se rectifica y una rosca de bujía dañada lleva inserto; si está rajada o le falta una aleta grande, va nueva. Abrirla es trabajo de taller: con el pistón en el PMS de compresión y las marcas alineadas.",
+   "dif": "taller",
+   "cuando": "Holgura de válvulas a los 1.000 km y después cada 4.000 km, en frío y en el taller.",
+   "arrastra": [
+    "Recalentamiento → culata torcida → el [[8|empaque]] deja de sellar → pierde compresión."
+   ],
+   "conecta": [
+    "8",
+    "5",
+    "11",
+    "9"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ok",
+    "que": "ok"
+   }
+  },
+  "3": {
+   "nombre": "Guía de la válvula de escape",
+   "cat": "GUIDE, VALVE(OS) · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12204-KRM-305",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@guia",
+      "color": "#c9a050"
+     }
+    ]
+   },
+   "que": "El tubito metido a presión en la [[2|culata]] por donde corre el vástago de la válvula de escape. De repuesto viene una de medida mayor, para reparar.",
+   "sirve": "Mantiene la válvula centrada sobre su asiento para que cierre parejo.",
+   "sintomas": [
+    "Humo azul al soltar el acelerador (admisión) o al arrancar (escape).",
+    "Gasta aceite sin fugas por fuera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Con los km la guía se ovala y la válvula baila."
+    ],
+    [
+     "calor",
+     "Un recalentamiento la afloja en la culata."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia en el taller con prensa y la culata caliente, por una de medida mayor, y después se escarían y se rectifican los asientos. Con ella va el [[7|seguro]].",
+   "dif": "taller",
+   "cuando": "Revísala cuando la culata se abra por gasto de aceite o compresión baja.",
+   "arrastra": [
+    "Guía gastada → la válvula baila → gasta aceite y no sella."
+   ],
+   "conecta": [
+    "2",
+    "7"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   }
+  },
+  "4": {
+   "nombre": "Guía de la válvula de admisión",
+   "cat": "GUIDE, IN. VALVE(OS) · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12205-KSP-305",
+   "que": "El tubito metido a presión en la [[2|culata]] por donde corre el vástago de la válvula de admisión. De repuesto viene una de medida mayor, para reparar.",
+   "sirve": "Mantiene la válvula centrada sobre su asiento para que cierre parejo.",
+   "sintomas": [
+    "Humo azul al soltar el acelerador (admisión) o al arrancar (escape).",
+    "Gasta aceite sin fugas por fuera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Con los km la guía se ovala y la válvula baila."
+    ],
+    [
+     "calor",
+     "Un recalentamiento la afloja en la culata."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia en el taller con prensa y la culata caliente, por una de medida mayor, y después se escarían y se rectifican los asientos. Con ella va el [[7|seguro]].",
+   "dif": "taller",
+   "cuando": "Revísala cuando la culata se abra por gasto de aceite o compresión baja.",
+   "arrastra": [
+    "Guía gastada → la válvula baila → gasta aceite y no sella."
+   ],
+   "conecta": [
+    "2",
+    "7"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ok"
+   }
+  },
+  "5": {
+   "nombre": "Portalevas",
+   "cat": "HOLDER COMP., CAMSHAFT · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12210-KVX-600",
+   "que": "El soporte de aluminio que va encima de la culata: sostiene el árbol de levas y los ejes de los balancines.",
+   "sirve": "Mantiene las levas alineadas con las válvulas; sus tuercas aprietan también la culata contra el cilindro.",
+   "sintomas": [
+    "Tic-tac fuerte arriba del motor.",
+    "Aceite por la tapa de la culata."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Sin aceite limpio se rayan los apoyos del árbol de levas."
+    ],
+    [
+     "maluso",
+     "Apretar las tuercas sin orden lo tuerce."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si los apoyos del árbol de levas están rayados, va completo con sus balancines. Al armar, las [[15|tuercas]] van en cruz, en frío y con el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Míralo cuando ajusten la holgura de válvulas (cada 4.000 km) o cambien la cadena de distribución.",
+   "arrastra": [
+    "Aceite viejo → apoyos rayados → ruido y desgaste del árbol de levas."
+   ],
+   "conecta": [
+    "2",
+    "6",
+    "15"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "6": {
+   "nombre": "Placa de tope del árbol de levas",
+   "cat": "PLATE, STOPPER · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12212-KRM-840",
+   "que": "La placa pequeña atornillada al [[5|portalevas]] que tranca el árbol de levas.",
+   "sirve": "No deja que el árbol de levas se corra de lado.",
+   "sintomas": [
+    "Ruido de golpe arriba del motor."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se olvida al armar, el árbol se corre y roza."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si está plana y sin desgaste; su [[20|tornillo]] va con el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Revísala cuando se saque el portalevas.",
+   "arrastra": [
+    "Placa olvidada → árbol de levas suelto → roce y ruido."
+   ],
+   "conecta": [
+    "5",
+    "20"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "7": {
+   "nombre": "Seguro de la guía",
+   "cat": "CLIP, VALVE GUIDE · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12213-KTT-900",
+   "que": "El aro elástico que va en la ranura de cada guía de válvula, por encima de la culata.",
+   "sirve": "Hace de tope: no deja que la guía se hunda en la culata.",
+   "sintomas": [
+    "Golpeteo de válvulas que no se quita al ajustar la holgura."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Pierde tensión con los recalentamientos."
+    ],
+    [
+     "maluso",
+     "Se pierde o se pone mal al cambiar la guía."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo cada vez que se cambia una [[3|guía]].",
+   "dif": "taller",
+   "cuando": "Solo cuando se cambian las guías.",
+   "arrastra": [
+    "Seguro flojo → la guía se corre → la válvula no cierra bien."
+   ],
+   "conecta": [
+    "3",
+    "4"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "8": {
+   "nombre": "Empaque de la culata",
+   "cat": "GASKET, CYLINDER HEAD · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "12251-KVX-A00",
+   "que": "La lámina metálica que sella entre la [[2|culata]] y el cilindro.",
+   "sirve": "Mantiene la compresión adentro y el aceite en su paso.",
+   "sintomas": [
+    "Pierde fuerza.",
+    "Aceite por la unión de la culata y el cilindro."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Un recalentamiento la quema."
+    ],
+    [
+     "edad",
+     "Una vez apretada ya no sella igual."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nueva cada vez que se abre la culata, sin silicona. Con las [[17|guías]] en su lugar y las [[15|tuercas]] en cruz, en frío.",
+   "dif": "taller",
+   "cuando": "Cámbiala siempre que se levante la culata.",
+   "arrastra": [
+    "Empaque quemado → pierde compresión → no tiene fuerza."
+   ],
+   "conecta": [
+    "2",
+    "17"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "9": {
+   "nombre": "Tubo de admisión",
+   "cat": "PIPE COMP., INLET · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "16210-KVX-600",
+   "que": "El codo de caucho con brida que une el carburador con la [[2|culata]].",
+   "sirve": "Lleva la mezcla al puerto de admisión sin dejar entrar aire de afuera.",
+   "sintomas": [
+    "Mínimo acelerado o que sube y baja.",
+    "Petardea y se calienta más."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se endurece y se raja con el calor."
+    ],
+    [
+     "maluso",
+     "Apretar de más la [[10|abrazadera]] lo corta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si tiene grietas o está duro, va nuevo con su [[19|o-ring]]. Pruébalo en mínimo: rocía limpiador de carburador en la unión, lejos de chispas; si el mínimo cambia, entra aire.",
+   "dif": "media",
+   "cuando": "Míralo cada vez que limpies el filtro de aire o revises el carburador.",
+   "arrastra": [
+    "Tubo rajado → entra aire → motor pobre y caliente."
+   ],
+   "conecta": [
+    "2",
+    "19",
+    "10"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "10": {
+   "nombre": "Abrazadera del tubo de admisión",
+   "cat": "BAND, INSULATOR · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "16217-KVC-900",
+   "que": "La abrazadera de banda con tornillo que aprieta la boca del [[9|tubo de admisión]] sobre el carburador.",
+   "sirve": "Sella esa unión para que no entre aire por ahí.",
+   "sintomas": [
+    "Mínimo inestable.",
+    "El carburador se mueve con la mano."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretada de más corta el caucho; floja, deja entrar aire."
+    ],
+    [
+     "edad",
+     "El tornillo se oxida y se barre."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si el tornillo gira bien; apriétala hasta que el caucho quede firme, sin cortarlo.",
+   "dif": "facil",
+   "cuando": "Revísala cuando limpies el filtro de aire.",
+   "arrastra": [
+    "Abrazadera floja → entra aire → mínimo inestable."
+   ],
+   "conecta": [
+    "9"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "11": {
+   "nombre": "Bujía",
+   "cat": "PLUG, SPARK(CPR7EA-9)(NGK) · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "31917-KPH-901",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@bujia",
+      "color": "acero"
+     },
+     {
+      "tipo": "prisma",
+      "contorno": {
+       "n": 6,
+       "r": 8,
+       "giro": 0
+      },
+      "z": [
+       -10,
+       -4
+      ],
+      "color": "acero"
+     }
+    ]
+   },
+   "que": "La pieza que salta la chispa dentro de la cámara de la [[2|culata]].",
+   "sirve": "Enciende la mezcla en el momento justo.",
+   "sintomas": [
+    "Prende mal en frío.",
+    "Tironea al acelerar.",
+    "Gasta más gasolina."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los electrodos se gastan y la separación pasa de 0,9 mm."
+    ],
+    [
+     "calor",
+     "Una mezcla pobre la deja blanca; una rica, negra de hollín."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se limpia y se calibra a los 4.000 km y va nueva a los 8.000 km. Estándar NGK CPR6EA-9; para andar mucho rato rápido, CPR7EA-9. Apriétala con el motor frío.",
+   "dif": "facil",
+   "cuando": "Revisar a los 4.000 km y cambiar cada 8.000 km.",
+   "arrastra": [
+    "Bujía gastada → chispa débil → tironea y gasta más."
+   ],
+   "conecta": [
+    "2"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ok",
+    "que": "ok"
+   }
+  },
+  "12": {
+   "nombre": "Tornillo del portalevas",
+   "cat": "BOLT, FLANGE, 5X14 · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90002-KRM-840",
+   "que": "Uno de los dos tornillos pequeños con brida que van encima del [[5|portalevas]].",
+   "sirve": "Ayuda a fijar el portalevas sobre la culata.",
+   "sintomas": [
+    "Aceite alrededor de la cabeza del tornillo."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Es delgado: apretado de más se parte o barre la rosca de la culata."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si la rosca está sana; si está barrido, va uno nuevo. Al armar, los dos parejo, con el torque del manual de servicio y a mano, sin pistola.",
+   "dif": "taller",
+   "cuando": "Se suelta con el portalevas.",
+   "arrastra": [
+    "Tornillo barrido → rosca dañada en la culata → inserto."
+   ],
+   "conecta": [
+    "5"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "13": {
+   "nombre": "Espárrago del escape",
+   "cat": "BOLT, STUD, 8X22 · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90035-KRM-840",
+   "que": "La varilla roscada fija en la [[2|culata]] donde se atornilla el tubo de escape.",
+   "sirve": "Sostiene el escape contra el puerto de salida, con su empaque.",
+   "sintomas": [
+    "Ruido de escape (tos) junto al motor.",
+    "Hollín alrededor del puerto."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "El calor y el agua lo oxidan y la tuerca se pega."
+    ],
+    [
+     "maluso",
+     "Forzar la tuerca pegada lo parte."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se queda en la culata; si se parte, se saca con extractor y va uno nuevo. Ponle antiadherente a la rosca y aprieta las tuercas del escape con el torque del manual de servicio.",
+   "dif": "media",
+   "cuando": "Revísalo cuando cambies el empaque del escape.",
+   "arrastra": [
+    "Espárrago partido → el escape queda flojo → fuga de gases."
+   ],
+   "conecta": [
+    "2"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "14": {
+   "nombre": "Tornillo del tubo de admisión",
+   "cat": "BOLT, FLANGE SOCKET, 6X22 · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90091-KRM-840",
+   "que": "Uno de los dos tornillos allen que sujetan la brida del [[9|tubo de admisión]] a la culata.",
+   "sirve": "Aprietan el tubo contra la culata sobre su [[19|o-ring]].",
+   "sintomas": [
+    "Mínimo inestable o acelerado."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado de más se barre la rosca en el aluminio."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si la cabeza y la rosca están sanas; si está barrido, va uno nuevo. Los dos se aprietan parejo. Torque: manual de servicio.",
+   "dif": "media",
+   "cuando": "Se sueltan con el tubo de admisión.",
+   "arrastra": [
+    "Tornillo flojo → el o-ring no sella → entra aire."
+   ],
+   "conecta": [
+    "9",
+    "19"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "15": {
+   "nombre": "Tuerca de la culata",
+   "cat": "NUT, CYLINDER HEAD · 4 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90306-KRM-840",
+   "que": "Una de las cuatro tuercas altas que van encima del [[5|portalevas]], en los espárragos que salen del cilindro.",
+   "sirve": "Aprietan a la vez el portalevas y la [[2|culata]] contra el cilindro.",
+   "sintomas": [
+    "Aceite o compresión que se escapa por la unión de la culata."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretarlas sin orden o en caliente tuerce la culata."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutilizan si la rosca está sana; si están barridas, van nuevas. Al armar: en cruz, en dos o tres vueltas, en frío y con el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Se sueltan cuando se abre la culata.",
+   "arrastra": [
+    "Tuercas sin orden → culata torcida → el empaque no sella."
+   ],
+   "conecta": [
+    "5",
+    "16",
+    "2"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "16": {
+   "nombre": "Arandela de la tuerca de la culata",
+   "cat": "WASHER, PLAIN, 12MM · 4 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90404-KPT-A00",
+   "que": "La arandela plana que va debajo de cada [[15|tuerca de la culata]].",
+   "sirve": "Reparte el apriete para que la tuerca no marque el aluminio del portalevas.",
+   "sintomas": [
+    "Arandela marcada o hundida."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se olvida, la tuerca se hunde y el apriete queda corto."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si está plana; si está marcada o hundida, va nueva. Cada una vuelve debajo de su tuerca.",
+   "dif": "taller",
+   "cuando": "Se sueltan con las tuercas de la culata.",
+   "arrastra": [
+    "Arandela olvidada → apriete corto → el empaque no sella."
+   ],
+   "conecta": [
+    "15"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "17": {
+   "nombre": "Pasador guía de la culata",
+   "cat": "DOWEL PIN, 10X12 · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90703-KRM-840",
+   "que": "Uno de los dos bujes huecos que van entre el cilindro y la [[2|culata]].",
+   "sirve": "Centran la culata sobre el cilindro para que el [[8|empaque]] asiente parejo.",
+   "sintomas": [
+    "La culata no baja derecha al armar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden o se quedan pegados en la culata al desarmar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutilizan si están rectos y sin óxido; no se arma sin ellos.",
+   "dif": "taller",
+   "cuando": "Se sacan con la culata.",
+   "arrastra": [
+    "Pasador perdido → culata corrida → el empaque se quema."
+   ],
+   "conecta": [
+    "2",
+    "8"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "18": {
+   "nombre": "Pasador guía del portalevas",
+   "cat": "DOWEL PIN, 6X10 · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "90704-KTT-900",
+   "que": "Uno de los dos bujes huecos que van entre la culata y el [[5|portalevas]].",
+   "sirve": "Alinean el portalevas para que el árbol de levas gire derecho.",
+   "sintomas": [
+    "Árbol de levas duro o con ruido después de armar."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Se pierden al levantar el portalevas."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutilizan si están rectos; no se arma sin ellos.",
+   "dif": "taller",
+   "cuando": "Se sacan con el portalevas.",
+   "arrastra": [
+    "Pasador perdido → portalevas corrido → el árbol de levas roza."
+   ],
+   "conecta": [
+    "5"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "19": {
+   "nombre": "O-ring del tubo de admisión",
+   "cat": "O-RING, 33.5X3 · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "91304-KVC-900",
+   "que": "El anillo de caucho que sella entre la brida del [[9|tubo de admisión]] y la culata.",
+   "sirve": "No deja entrar aire de afuera a la mezcla.",
+   "sintomas": [
+    "Mínimo acelerado o que sube y baja."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se endurece y se aplana con el calor."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo cada vez que se saca el tubo de admisión: es barato y no vuelve a sellar igual.",
+   "dif": "media",
+   "cuando": "Cámbialo siempre que se suelte el tubo de admisión.",
+   "arrastra": [
+    "O-ring duro → entra aire → motor pobre y caliente."
+   ],
+   "conecta": [
+    "9"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "20": {
+   "nombre": "Tornillo de la placa de tope",
+   "cat": "BOLT, FLANGE, 6X14 · 1 pieza",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "95701-06014-00",
+   "que": "El tornillo pequeño con brida que fija la [[6|placa de tope]] al portalevas.",
+   "sirve": "Mantiene la placa en su sitio.",
+   "sintomas": [
+    "La placa se mueve."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se afloja, la placa se suelta adentro del motor."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutiliza si la rosca está sana; si está barrido, va uno nuevo. Al armar, con traba de rosca suave y el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Se suelta con el portalevas.",
+   "arrastra": [
+    "Tornillo suelto → placa suelta → el árbol de levas se corre."
+   ],
+   "conecta": [
+    "6"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  },
+  "21": {
+   "nombre": "Tornillo largo de la culata",
+   "cat": "BOLT, FLANGE, 6X105 · 2 piezas",
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. E1-2."
+    ]
+   ],
+   "codigo": "95801-06105-00",
+   "que": "Uno de los dos tornillos largos de 105 mm que unen la culata con el cilindro por el lado de la cadena.",
+   "sirve": "Aprietan ese lado de la [[2|culata]], donde no llegan las tuercas.",
+   "sintomas": [
+    "Aceite por el costado de la cadena."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Si se olvida aflojarlos, al subir la culata se rompen las aletas."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se reutilizan si están rectos; doblados o barridos, van nuevos. Se aflojan antes de subir la culata y se aprietan después de las tuercas, con el torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Se sueltan cuando se abre la culata.",
+   "arrastra": [
+    "Tornillo olvidado → aleta rota al levantar la culata."
+   ],
+   "conecta": [
+    "2"
+   ],
+   "certezaDe": {
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap",
+    "que": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Bujía vieja",
+   "p": [
+    [
+     "11",
+     "Los electrodos se gastan y la separación pasa de 0,9 mm."
+    ],
+    [
+     "2",
+     "La mezcla mal quemada deja hollín en la cámara: tironea y cascabelea."
+    ],
+    [
+     "8",
+     "Con el cascabeleo sube la presión y el calor, y el empaque se puede quemar."
+    ]
+   ]
+  },
+  {
+   "t": "Recalentamiento",
+   "p": [
+    [
+     "1",
+     "Faltan los cauchos o las aletas están tapadas de barro: se enfría peor."
+    ],
+    [
+     "2",
+     "La culata se recalienta y se tuerce."
+    ],
+    [
+     "8",
+     "El empaque deja de sellar: pierde compresión y sale aceite."
+    ]
+   ]
+  },
+  {
+   "t": "Tubo de admisión rajado",
+   "p": [
+    [
+     "9",
+     "El caucho del tubo se raja con el calor y los años."
+    ],
+    [
+     "11",
+     "Entra aire sin gasolina: la mezcla pobre quema más caliente y la bujía queda blanca."
+    ],
+    [
+     "2",
+     "La culata trabaja más caliente y las válvulas sufren."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Holgura de las válvulas",
+   "cuando": "A los <b>1.000 km</b> y después cada <b>4.000 km</b>, en frío y en el taller.",
+   "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Holgura de las válvulas' (revisar a los 1.000 km y en cada columna desde los 4.000); consultado el 14-nov-2026 <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "valvulas"
+  },
+  {
+   "que": "Bujía",
+   "cuando": "Revisar a los <b>4.000 km</b> y cambiar cada <b>8.000 km</b> (NGK CPR6EA-9 · 0,8–0,9 mm).",
+   "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Bujía' (revisar a los 4.000, 12.000 y 20.000 km; cambiar a los 8.000, 16.000 y 24.000); consultado el 14-nov-2026 <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "bujia"
+  }
+ ],
+ "sujeta": {
+  "15": [
+   "5",
+   "2"
+  ],
+  "16": [
+   "5"
+  ],
+  "12": [
+   "5"
+  ],
+  "20": [
+   "6"
+  ],
+  "5": [
+   "18"
+  ],
+  "21": [
+   "2"
+  ],
+  "14": [
+   "9"
+  ],
+  "10": [
+   "9"
+  ],
+  "9": [
+   "19"
+  ],
+  "2": [
+   "8",
+   "17"
+  ]
+ },
+ "v2": {
+  "inicio": "Piezas de la culata",
+  "con3d": [
+   "11",
+   "3"
+  ],
+  "toqueExtra": [
+   "19"
+  ],
+  "grupos": [
+   {
+    "id": "bujia",
+    "nombre": "Bujía",
+    "piezas": [
+     "11"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "admision",
+    "nombre": "Tubo de admisión",
+    "corto": "Admisión",
+    "piezas": [
+     "9",
+     "19",
+     "10"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos del tubo",
+      "corto": "Tornillos",
+      "ids": [
+       "14"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "portalevas",
+    "nombre": "Portalevas",
+    "piezas": [
+     "5",
+     "6",
+     "18"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuercas de la culata",
+      "corto": "Tuercas",
+      "ids": [
+       "15"
+      ],
+      "cant": 4
+     },
+     {
+      "nombre": "Arandelas de las tuercas",
+      "corto": "Arandelas",
+      "ids": [
+       "16"
+      ],
+      "cant": 4
+     },
+     {
+      "nombre": "Tornillos del portalevas",
+      "corto": "Tornillos",
+      "ids": [
+       "12"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tornillo de la placa de tope",
+      "corto": "Tornillo",
+      "ids": [
+       "20"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     2,
+     3
+    ]
+   },
+   {
+    "id": "culata",
+    "nombre": "Culata",
+    "piezas": [
+     "2",
+     "8",
+     "17",
+     "1",
+     "3",
+     "4",
+     "7"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos largos",
+      "corto": "Tornillos",
+      "ids": [
+       "21"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Espárragos del escape",
+      "corto": "Espárragos",
+      "ids": [
+       "13"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     4,
+     5
+    ]
+   }
+  ]
+ },
+ "carcasas": [
+  {
+   "id": "2",
+   "transparente": 0.4,
+   "rayosx": 0.2
+  }
+ ],
+ "perfiles": {
+  "bujia": [
+   [
+    0,
+    -30
+   ],
+   [
+    2.4,
+    -30
+   ],
+   [
+    2.4,
+    -24
+   ],
+   [
+    3.6,
+    -24
+   ],
+   [
+    3.6,
+    -10
+   ],
+   [
+    5,
+    -9
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    7,
+    0
+   ],
+   [
+    7,
+    6
+   ],
+   [
+    4.6,
+    7
+   ],
+   [
+    4.6,
+    18
+   ],
+   [
+    1,
+    19
+   ],
+   [
+    1,
+    22
+   ],
+   [
+    0,
+    22
+   ]
+  ],
+  "guia": [
+   [
+    3,
+    0
+   ],
+   [
+    5,
+    0
+   ],
+   [
+    5,
+    14
+   ],
+   [
+    7,
+    14
+   ],
+   [
+    7,
+    17
+   ],
+   [
+    5,
+    17
+   ],
+   [
+    5,
+    44
+   ],
+   [
+    3,
+    44
+   ]
+  ]
+ },
+ "pendientes": [
+  "Torques de tuercas de culata, portalevas y tubo de admisión: no están en el manual del propietario; falta el manual de servicio.",
+  "Extractor Honda: no lee figuras de tres niveles (E-1-2) ni tablas sin guiones; se extrajo con un parser propio (ver informe).",
+  "La tapa de la culata (E-1-1) y el árbol de levas con las válvulas (E-2-1) van en otras figuras: láminas aparte.",
+  "Revisión cortada (10 min, meta 3): las fichas de plantilla de tornillería y pasadores salieron con relleno y hubo que escribirlas a mano; quedan sin pulir los menores de UX.",
+  "Criterio 6 en 3,5: el toque del o-ring (19) mide 21 px a 360 aunque está en toqueExtra; el botón «Bujía» (32×22) es del motor.",
+  "Catálogo: la bujía principal es CPR7EA-9 y la CPR8EA-9 va entre paréntesis; el manual del propietario dice CPR6EA-9 estándar. Se usa la del manual."
+ ],
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21"
+ ]
+}

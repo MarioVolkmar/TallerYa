@@ -9,6 +9,7 @@ admin.site.site_title = "TallerYa"
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include("consola.urls")),
     path("", include("cuentas.urls")),
     path("", include("foro.urls")),
     path("", include("garaje.urls")),

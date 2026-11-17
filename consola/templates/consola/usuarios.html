@@ -1,0 +1,45 @@
+{% load avatares consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Usuarios</h1>
+  <p class="cs-sub">{{ total }} cuenta{{ total|pluralize }}{% if form.cleaned_data.q or form.cleaned_data.rol or form.cleaned_data.estado %} con estos filtros{% endif %}</p>
+</header>
+
+<form method="get" class="cs-filtros" role="search">
+  <input type="hidden" name="seccion" value="usuarios">{% if request.GET.por %}<input type="hidden" name="por" value="{{ por }}">{% endif %}
+  <label class="cs-filtro cs-filtro-ancho">
+    <span class="cs-etq">Buscar</span>
+    <input type="search" name="q" value="{{ form.q.value|default:'' }}" class="cs-campo" placeholder="Nombre, correo, taller o #id" {% limite "busqueda" %}>
+  </label>
+  <label class="cs-filtro"><span class="cs-etq">Rol</span>{{ form.rol }}
+    <span class="cs-ayuda" data-ayuda-rol {% if form.rol.value != "sin_perfil" %}hidden{% endif %}>{{ ayuda_incompleto }}</span></label>
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>{{ form.estado }}</label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+
+{% if filas %}
+<div class="cs-tabla-caja">
+<table class="cs-tabla">
+  <caption class="sr-only">Cuentas de TallerYa</caption>
+  <thead><tr><th scope="col">Cuenta</th><th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Desde</th></tr></thead>
+  <tbody>
+  {% for u, r in filas %}
+  <tr>
+    <td>
+      <a href="?seccion=usuarios&amp;id={{ u.pk }}" class="cs-cuenta">
+        {% avatar u 32 %}
+        <span><span class="cs-cuenta-nombre">{{ u.get_full_name|default:"(sin nombre)" }} <span class="cs-id">#{{ u.pk }}</span></span>
+        <span class="cs-cuenta-correo">{{ u.email }}</span></span>
+      </a>
+    </td>
+    <td><span class="cs-rol cs-rol-{{ r }}">{{ nombres_rol|get_item:r }}</span></td>
+    <td>{% if u.is_active %}<span class="cs-estado cs-ok">Activa</span>{% else %}<span class="cs-estado cs-off">Inactiva</span>{% endif %}</td>
+    <td class="cs-fecha">{{ u.date_joined|date:"j M Y" }}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% include "consola/_paginacion.html" %}
+{% else %}
+<p class="cs-vacio">No hay cuentas con esos filtros.</p>
+{% endif %}

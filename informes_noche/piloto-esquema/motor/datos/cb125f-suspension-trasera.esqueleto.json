@@ -1,0 +1,902 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F22-1",
+  "titulo": "Swingarm/chain case(glh125sh) · honda-cb125f",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Swingarm/chain case(glh125sh)",
+  "sub": "Lámina F22-1 · 14 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina F22-1",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "cb125f-suspension-trasera",
+ "moto": "honda-cb125f",
+ "figura": "F22-1",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-suspension-trasera",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14"
+ ],
+ "nombres": {
+  "1": "Case, Drive Chain",
+  "2": "Chain, Drive(428H-120L)",
+  "3": "Joint, Drive Chain",
+  "4": "Arm, Rr. Brake Stopper",
+  "5": "Tornillo (case, drive chain)",
+  "6": "Slider, Chain",
+  "7": "Swingarm Sub Assy., Rr.",
+  "8": "Tornillo (swingarm sub assy., rr.)",
+  "9": "Tuerca (swingarm sub assy., rr.)",
+  "10": "Tornillo (swingarm sub assy., rr., otro)",
+  "11": "Tuerca (swingarm sub assy., rr., otro)",
+  "12": "Arandela (swingarm sub assy., rr.)",
+  "13": "Arandela (swingarm sub assy., rr., otro)",
+  "14": "Pasador"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "caja",
+   "p": {
+    "w": 120,
+    "h": 90,
+    "prof": 18,
+    "tapa": true,
+    "x": 70,
+    "y": 90
+   }
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "cadena",
+   "p": {
+    "c1": [
+     -120,
+     0
+    ],
+    "r1": 22,
+    "c2": [
+     120,
+     0
+    ],
+    "r2": 55,
+    "x": 130,
+    "y": 90
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    130,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    70,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 70,
+    "y": 200
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    410,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 410,
+    "y": 90
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    350,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 350,
+    "y": 145
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    410,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 410,
+    "y": 145
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    350,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 350,
+    "y": 200
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    410,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 410,
+    "y": 200
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    350,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 350,
+    "y": 255
+   }
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 490,
+    "y": 90
+   }
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Case, Drive Chain.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ],
+    "5": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Slider, Chain.</b> (texto del paso)",
+   "m": {
+    "6": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Swingarm Sub Assy., Rr..</b> (texto del paso)",
+   "m": {
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "10": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Pasador.</b> (texto del paso)",
+   "m": {
+    "14": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Case, Drive Chain",
+   "cat": "CASE, DRIVE CHAIN · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "40510-KPN-A00"
+  },
+  "2": {
+   "nombre": "Chain, Drive(428H-120L)",
+   "cat": "CHAIN, DRIVE(428H-120L) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "40530-KVX-A00"
+  },
+  "3": {
+   "nombre": "Joint, Drive Chain",
+   "cat": "JOINT, DRIVE CHAIN · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "40531-KTT-890"
+  },
+  "4": {
+   "nombre": "Arm, Rr. Brake Stopper",
+   "cat": "ARM, RR. BRAKE STOPPER · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "43431-KVX-600"
+  },
+  "5": {
+   "nombre": "Tornillo (case, drive chain)",
+   "cat": "BOLT, SWINGARM PIVOT · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "52101-KVX-600"
+  },
+  "6": {
+   "nombre": "Slider, Chain",
+   "cat": "SLIDER, CHAIN · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "52170-KYA-600"
+  },
+  "7": {
+   "nombre": "Swingarm Sub Assy., Rr.",
+   "cat": "SWINGARM SUB ASSY., RR. · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "52200-KPN-A00ZA"
+  },
+  "8": {
+   "nombre": "Tornillo (swingarm sub assy., rr.)",
+   "cat": "BOLT, FLANGE, 6MM · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90119-KTT-900"
+  },
+  "9": {
+   "nombre": "Tuerca (swingarm sub assy., rr.)",
+   "cat": "NUT, FLANGE, 12MM(PT) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "90306-KYA-601"
+  },
+  "10": {
+   "nombre": "Tornillo (swingarm sub assy., rr., otro)",
+   "cat": "BOLT A, BRAKE STOPPER ARM · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "92812-20000"
+  },
+  "11": {
+   "nombre": "Tuerca (swingarm sub assy., rr., otro)",
+   "cat": "NUT, HEX., 8MM · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "94001-08000-0S"
+  },
+  "12": {
+   "nombre": "Arandela (swingarm sub assy., rr.)",
+   "cat": "WASHER, PLAIN, 8MM · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "94101-08000"
+  },
+  "13": {
+   "nombre": "Arandela (swingarm sub assy., rr., otro)",
+   "cat": "WASHER, SPRING, 10MM · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "94111-10000"
+  },
+  "14": {
+   "nombre": "Pasador",
+   "cat": "PIN, SPLIT, 2.0X15 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F22-1."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "94201-20150"
+  }
+ },
+ "cadenas": [],
+ "cuando": [
+  {
+   "que": "Cadena lubricar",
+   "cuando": "Cada <b>600 km</b>.",
+   "fuente": "Manual del propietario Honda CB125F Twister (español), copia entregada por el usuario, cuadro de mantenimiento (pág. 35-36 del manual; columnas 1.000 / 4.000 … 24.000 km, anual y sustitución normal; círculo gris = revisar, figura oscura = cambiar), fila 'Cadena de transmisión: cada 500 km'; consultado el 14-nov-2026; TallerYa unifica la lubricación de la cadena a 600 km para todas las líneas (decisión del 15-nov-2026) <span class=\"esq-s-ok\">Seguro</span>",
+   "tarea": "cadena-lubricar"
+  }
+ ],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "case-drive-cha",
+    "nombre": "Case, Drive Chain",
+    "piezas": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "5"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "slider-chain",
+    "nombre": "Slider, Chain",
+    "piezas": [
+     "6"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "swingarm-sub-a",
+    "nombre": "Swingarm Sub Assy., Rr.",
+    "piezas": [
+     "7"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos",
+      "corto": "Tornillos",
+      "ids": [
+       "8"
+      ],
+      "cant": 2
+     },
+     {
+      "nombre": "Tuerca",
+      "corto": "Tuerca",
+      "ids": [
+       "9"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tornillo",
+      "corto": "Tornillo",
+      "ids": [
+       "10"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tuerca",
+      "corto": "Tuerca",
+      "ids": [
+       "11"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Arandela",
+      "corto": "Arandela",
+      "ids": [
+       "12"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Arandela",
+      "corto": "Arandela",
+      "ids": [
+       "13"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "pasador",
+    "nombre": "Pasador",
+    "piezas": [
+     "14"
+    ],
+    "torn": [],
+    "pasos": [
+     3
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: swingarm/chain case(glh125sh)"
+ }
+}

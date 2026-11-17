@@ -56,8 +56,19 @@ FAMILIAS = [  # grupos por función: el lugar que nombra la descripción manda s
     (r"CYLINDER HEAD|GUIDE, VALVE", "culata", "Culata"), (r"^CYLINDER\b|GASKET, CYLINDER\b", "cilindro", "Cilindro"),
     (r"PISTON", "piston", "Pistón"), (r"CRANKSHAFT|CRANK\b", "ciguenal", "Cigüeñal"), (r"CAMSHAFT|ROCKER|VALVE, (INTAKE|EXHAUST)", "levas", "Levas y válvulas"),
     (r"CAM CHAIN|CHAIN, CAM|TENSIONER", "cadena", "Cadena de distribución"), (r"RADIATOR|THERMOSTAT|IMPELLER|WATER PUMP|RESERVOIR", "refrigeracion", "Refrigeración")]
+# Figuras de rueda (título con RUEDA/WHEEL): grupos por eje, freno, arrastre y rueda; se miran la descripción en español y la clave.
+# Las piezas sin lugar propio (buje, balinera, retén…) van con la de antes, salvo que digan «rueda».
+FAMILIAS_RUEDA = [
+    (r"EJE RUEDA|\bAXLE\b|TENSOR(ES)? (DE )?CADENA|CHAIN (ADJUSTER|PULLER)|PULLER, CHAIN", "eje", "Eje y tensores"),
+    (r"PORTA ?BANDAS|\bBANDAS\b|ABREBANDAS|INDICADOR (DE )?DESGASTE|BRAKE SHOE|SHOE, BRAKE|CAMSHAFT, BRAKE|BRAKE PANEL|DISCO DE FRENO|DISK, BRAKE", "freno", "Freno"),
+    (r"SPROCKET|ARRAST|CADENA DE TRANSMISI|DRIVE CHAIN|CHAIN, DRIVE|\bCORONA\b|PI[ÑN]ON|DAMPER, HUB|CLUTCH, HUB", "arrastre", "Arrastre (cadena, piñón y corona)"),
+    (r"CAMPANA|\bHUB\b|\bRIN\b|\bRIM\b|RADIOS?\b|SPOKE|NEUM[AÁ]TICO|\bTIRE\b|\bTYRE\b|LLANTA|\bTUBE\b|\bRUEDA\b|\bWHEEL\b", "rueda", "Rueda")]
+SIN_LUGAR = re.compile(r"^(BUJE|BUSH|COLLAR|BALINERA|BEARING|RODAMIENTO|RETEN|RETENEDOR|OIL SEAL|ARANDELA|WASHER|SEPARADOR|SPACER)", re.I)
+KIT = re.compile(r"^\.*\s*(KIT|JGO|JUEGO)\b", re.I)
 TORN = re.compile(r"\b(BOLT|SCREW|NUT|WASHER|CLIP|CIRCLIP|COLLAR|GROMMET|PIN, DOWEL)\b")
-COMUN = [(r"GROMMET", "arandela"), (r"BOLT|SCREW", "tornillo"), (r"NUT", "tuerca"), (r"WASHER", "arandela"), (r"CIRCLIP", "seguro"), (r"O-RING", "oring"),
+COMUN = [(r"^(SPROCKET|CORONA|PI[ÑN]ON)\b|SPROCKET, (DRIVE|DRIVEN)", "pinon"), (r"^(CADENA DE TRANSMISION|CHAIN, DRIVE|DRIVE CHAIN)|^ARRAST|KIT ARRASTRE|CHAIN KIT", "cadena"),
+         (r"^(RIN|RIM)\b|^WHEEL, (FRONT|REAR)|CAST WHEEL", "rin"), (r"^(LLANTA|TIRE|TYRE)\b", "llanta"), (r"^(EJE RUEDA|AXLE|SHAFT, WHEEL)", "eje"),
+         (r"^TENSOR (DE )?CADENA|ADJUSTER, CHAIN|PULLER, CHAIN|CHAIN PULLER", "tensor"), (r"GROMMET", "arandela"), (r"BOLT|SCREW", "tornillo"), (r"NUT", "tuerca"), (r"WASHER", "arandela"), (r"CIRCLIP", "seguro"), (r"O-RING", "oring"),
          (r"OIL SEAL", "reten"), (r"BEARING", "rodamiento"), (r"COLLAR|BUSH", "buje"), (r"SPRING", "resorte"), (r"\bPIN\b", "pasador"),
          (r"HOSE CLAMP|\bCLIP\b|\bCLAMP\b", "abrazadera"), (r"\bPIPE\b|\bHOSE\b", "manguera"), (r"\bDUCT\b|FUNNEL", "ducto"),
          (r"\bCASE\b|\bBOX\b", "caja"), (r"GASKET|\bPLATE\b", "placa")]
@@ -67,8 +78,36 @@ MEDIDAS = {"tornillo": {"cabeza": 10, "largo": 40, "d": 10}, "tuerca": {"r": 12}
            "oring": {"r": 12, "g": 3}, "reten": {"r": 18, "ri": 10}, "rodamiento": {"r": 18, "ri": 9}, "buje": {"r": 9, "ri": 5, "largo": 18},
            "resorte": {"r": 9, "largo": 36}, "pasador": {"r": 4, "largo": 28},
            "abrazadera": {"r": 9}, "manguera": {"g": 9, "puntos": [[0, 0], [40, 20], [80, 20]]}, "ducto": {"r0": 18, "r1": 24, "puntos": [[0, 0], [50, -10]]},
-           "caja": {"w": 120, "h": 90, "prof": 18, "tapa": True}, "placa": {"contorno": [[-24, -16], [24, -16], [24, 16], [-24, 16]], "huecos": [[0, 0, 9]]}}
-GRANDE = {"caja", "ducto", "manguera"}   # formas grandes: se ven armadas («vis»: «arm»)
+           "caja": {"w": 120, "h": 90, "prof": 18, "tapa": True},
+           "rin": {"r": 110, "ri": 26}, "llanta": {"r": 140, "ri": 112}, "pinon": {"r": 40, "dientes": 15}, "cadena": {"c1": [-120, 0], "r1": 22, "c2": [120, 0], "r2": 55},
+           "eje": {"cabeza": 12, "d": 14, "largo": 160}, "tensor": {"w": 34, "h": 24}, "placa": {"contorno": [[-24, -16], [24, -16], [24, 16], [-24, 16]], "huecos": [[0, 0, 9]]}}
+GRANDE = {"caja", "ducto", "manguera", "rin", "llanta", "pinon", "cadena", "tensor"}   # formas grandes: se ven armadas («vis»: «arm»)
+
+
+def grilla(moto, figura, C):
+    """Ronda 7: la imagen del plano para comprobar el orden de las piezas. Usa despiece_local/grillas/*-figNN.png si existe;
+    si no, la genera con pymupdf (el PDF solo se lee) en la carpeta temporal del sistema (tallerya-grillas): la página del plano
+    de la figura a 900 px de ancho. Devuelve (ruta, recién generada)."""
+    gr = RAIZ / "despiece_local" / "grillas"
+    cod = moto.split("-")[-1].upper()
+    n = f"{int(figura):02d}" if str(figura).isdigit() else str(figura)
+    hay = [x for x in gr.glob(f"*-fig{n}.png") if cod in x.name.upper()] if gr.exists() else []
+    if hay: return hay[0], False
+    fig = C["figuras"][str(figura)]; fuente = pathlib.Path(str(C.get("fuente", "")).split(" (")[0]).name
+    pdf = next((x for base in ("despiece_local", "manual_despiece") for x in (RAIZ / base).rglob(fuente)), None) if fuente else None
+    if not pdf or not fig.get("paginas"): return None, False
+    try:
+        import pymupdf
+    except ImportError:
+        return None, False
+    d = pymupdf.open(str(pdf)); p0 = fig["paginas"][0] - 1
+    # ronda 8: el plano va en la misma página que la tabla (comprobado en Yamaha NMAX y Colombia, Auteco/Bajaj, AKT y Honda)
+    pg = d[p0]; z = min(900 / pg.rect.width, 2.4)
+    import tempfile   # fuera del repo y de las carpetas de fuentes: carpeta temporal local
+    sal = pathlib.Path(tempfile.gettempdir()) / "tallerya-grillas"; sal.mkdir(exist_ok=True); dest = sal / f"{moto}-fig{n}.png"
+    if dest.exists(): return dest, False
+    pg.get_pixmap(matrix=pymupdf.Matrix(z, z)).save(str(dest))
+    return dest, True
 
 
 def nombre_de(desc):
@@ -87,8 +126,26 @@ def nombre_de(desc):
     return desc.title()
 
 
-def familia_de(desc):
+def familia_de(desc, desc_cat="", rueda=False):
+    if rueda:
+        u = re.sub(r"[\u0300-\u036f]", "", unicodedata.normalize("NFD", desc_cat.upper())) + " | " + desc
+        fams = FAMILIAS_RUEDA[3:] if SIN_LUGAR.match(desc_cat.lstrip(". ")) or SIN_LUGAR.match(desc) else FAMILIAS_RUEDA
+        if SIN_LUGAR.match(desc_cat.lstrip(". ")) or SIN_LUGAR.match(desc):   # sin lugar propio: solo «rueda» si lo dice
+            return ("rueda", "Rueda") if re.search(r"\bRUEDA\b|\bWHEEL\b", u) else None
+        f = next(((i, n) for ex, i, n in fams if re.search(ex, u)), None)
+        if f: return f
     return next(((i, n) for ex, i, n in FAMILIAS if re.search(ex, desc)), None)
+
+
+def kits_alternos(partes):
+    """{ref alterna: ref base}: «20A» cuando ya está «20» y los dos son kit/juego (el mismo repuesto con otra marca o largo).
+    El alterno no lleva dibujo, ficha ni grupo: va en «kits» y en el cat de la base."""
+    refs = {p["ref"]: p for p in partes}; alt = {}
+    for p in partes:
+        m = re.fullmatch(r"(\d+)[A-Za-z]", p["ref"])
+        if m and m.group(1) in refs and KIT.match(p["descripcion"]) and KIT.match(refs[m.group(1)]["descripcion"]):
+            alt[p["ref"]] = m.group(1)
+    return alt
 
 
 def main():
@@ -98,8 +155,18 @@ def main():
     a = ap.parse_args()
     m = re.fullmatch(r"\s*([A-Za-z])\s*-?\s*(\d+)\s*", a.figura)   # AKT: «E4» o «E-4» (motor) no choca con «F4» (chasis)
     a.figura = m.group(1).upper() + m.group(2) if m else a.figura
-    fig = json.loads((AQUI / f"catalogo/{a.moto}.json").read_text(encoding="utf-8"))["figuras"][str(a.figura)]
+    CAT = json.loads((AQUI / f"catalogo/{a.moto}.json").read_text(encoding="utf-8"))
+    fig = CAT["figuras"][str(a.figura)]
+    g, nueva = grilla(a.moto, a.figura, CAT)
+    print(f"  plano: {g}" + (" (generado ahora desde el PDF; míralo una vez, ≤ 900 px)" if nueva else "") if g else "  plano: sin grilla ni PDF a mano; recórtalo con pymupdf (anexo «Para ver la lámina»)")
     partes = fig["partes"]
+    rueda = bool(re.search(r"RUEDA|WHEEL", fig.get("titulo", "").upper()))
+    alternos = kits_alternos(partes)
+    for r, b in alternos.items(): print(f"  kit {r} = otro repuesto del kit {b}: sin ficha ni dibujo, va en «kits» y en el cat de {b}")
+    kits = {r: [b] for r, b in alternos.items()}
+    pal = re.findall(r"\b(CBS|ABS)\b", (json.loads((AQUI / f"catalogo/{a.moto}.json").read_text(encoding="utf-8")).get("moto") or "").upper())
+    if pal: print(f"  aviso: el modelo del catálogo dice {'/'.join(pal)}: es parte del nombre de la moto. Pon «moto» igual al catálogo y no lo nombres como sistema de la figura si esta no lo trae (el control «la lámina dice {pal[0]}» lo mira)")
+    partes = [p for p in partes if p["ref"] not in alternos]
     fichas, piezas, nombres, grupos = {}, [], {}, []
     actual = None   # grupo en curso
     usados = {}
@@ -116,6 +183,10 @@ def main():
              "decision": "", "porque": "", "dif": "", "cuando": "", "arrastra": [], "conecta": [],
              "certeza": [["ok", f"Nombre y cantidad: catálogo {a.moto}, fig. {a.figura}."]], "certezaDe": {"que": "ok"}}
         if p.get("codigo"): F["codigo"] = p["codigo"]
+        for r, b in alternos.items():
+            if b == ref:
+                q = next(x for x in fig["partes"] if x["ref"] == r)
+                F["cat"] += f" · también en el kit ref. {r} ({q['descripcion']}, {q.get('codigo') or 'sin código'})"
         fichas[ref] = F
         comun = next((c for ex, c in COMUN if re.search(ex, desc)), None)
         pz = {"id": ref, "n": ref, "anc": [100 + (i % 8) * 95, 100 + (i // 8) * 95], "et": [0, -30], "vis": "arm"}
@@ -123,13 +194,13 @@ def main():
         if comun and "GROMMET" in desc: pz["p"].update(r=10, ri=4, e=6, material="plast")   # caucho de montaje: arandela gruesa de plástico   # biblioteca: ya se dibuja; se ajustan medidas y lugar
         piezas.append(pz)
         es_torn = bool(TORN.search(desc)) and nivel == 0 or (bool(TORN.search(desc)) and nivel > 0 and actual is None)
-        fam = None if (es_torn or (nivel > 0 and actual is not None and actual.get("_conjunto"))) else familia_de(desc)
+        fam = None if (es_torn or (nivel > 0 and actual is not None and actual.get("_conjunto"))) else familia_de(desc, desc_cat, rueda)
         if fam:   # grupo por función: reúne piezas del mismo lugar aunque el catálogo las separe
             g = next((x for x in grupos if x["id"] == fam[0]), None)
             if g is None:
                 g = {"id": fam[0], "nombre": fam[1], "piezas": [], "torn": [], "pasos": [], "_conjunto": True}; grupos.append(g)
             g["piezas"].append(ref); actual = g; continue
-        if not es_torn and nivel == 0 and actual is not None and actual["id"] in {f[1] for f in FAMILIAS} and "ASSY" not in desc:
+        if not es_torn and nivel == 0 and actual is not None and actual["id"] in {f[1] for f in FAMILIAS + FAMILIAS_RUEDA} and (rueda or "ASSY" not in desc):
             actual["piezas"].append(ref); continue   # sin lugar propio (empaque, varilla, retén): va con la pieza de antes
         if es_torn and actual is not None:
             actual["torn"].append({"nombre": f"{nom}s" if cant > 1 else nom, "corto": nom.split()[0] + ("s" if cant > 1 else ""), "ids": [ref], "cant": cant})
@@ -199,7 +270,7 @@ def main():
          "funciona": {"vbCelular": "0 0 470 560", "vbEscritorio": "0 0 900 320", "pasos": []},
          "fuentes": {"seguro": [], "aproximado": [], "lista": []}, "comun": {"atras": [0.5, -0.32], "colores": {}},
          "lamina": a.lamina, "moto": a.moto, "figura": int(a.figura) if str(a.figura).isdigit() else a.figura, "catalogo": a.moto, "intervalos": a.intervalos or "", "arte": a.lamina,
-         "refsFigura": [p["ref"] for p in partes], "nombres": nombres, "ordenChips": [p["ref"] for p in partes], "ocultas": [],
+         "refsFigura": [p["ref"] for p in fig["partes"]], **({"kits": kits} if kits else {}), "nombres": nombres, "ordenChips": [p["ref"] for p in partes], "ocultas": [],
          "piezas": piezas, "pasos": pasos, "textoArmado": "", "fichas": fichas, "cadenas": [], "cuando": cuando, "sujeta": {},
          "v2": {"grupos": juntos, "con3d": [], "toqueExtra": [], "inicio": f"Piezas: {fig.get('titulo', '').lower()}"}}
     print(f"fig. {a.figura} «{fig.get('titulo', '')}»: {len(partes)} refs → {len(juntos)} grupos propuestos")
@@ -207,11 +278,18 @@ def main():
         print(f"  {g['id']:14} {g['nombre']:28} piezas {','.join(g['piezas']):24} torn {', '.join(t['corto'] + '(' + ','.join(t['ids']) + ')' for t in g['torn'])}")
     print("  biblioteca (ya dibujadas):", ", ".join(f"{p['id']}={p['comun']}" for p in piezas if "comun" in p))
     print("  arte propio por hacer:", ", ".join(p["id"] for p in piezas if "comun" not in p))
+    for p in piezas:
+        if p.get("comun") == "cadena" and re.search(r"ARRAST|KIT", fichas[p["id"]]["cat"].upper()):
+            print(f"  kit de arrastre {p['id']}: dibújalo como cadena ({p['id']}a) + piñón y corona con «pinon» ({p['id']}b, {p['id']}c), en un solo grupo")
     if cuando: print("  cuando:", "; ".join(c["que"] + ": " + re.sub("<[^>]+>", "", c["cuando"]) for c in cuando))
     if a.escribir:
         dest = AQUI / f"datos/{a.lamina}.json"
-        if dest.exists(): dest = AQUI / f"datos/{a.lamina}.esqueleto.json"
-        dest.write_text(json.dumps(D, ensure_ascii=False, indent=1), encoding="utf-8"); print("escrito", dest.name)
+        # ronda 3: siempre queda la copia limpia <lamina>.esqueleto.json; el script de armado parte de ella (nunca de su propia salida)
+        copia = AQUI / f"datos/{a.lamina}.esqueleto.json"
+        texto = json.dumps(D, ensure_ascii=False, indent=1)
+        copia.write_text(texto, encoding="utf-8")
+        if not dest.exists(): dest.write_text(texto, encoding="utf-8"); print("escrito", dest.name, "y", copia.name)
+        else: print("escrito", copia.name, f"({dest.name} ya existía: no se tocó)")
 
 
 if __name__ == "__main__":

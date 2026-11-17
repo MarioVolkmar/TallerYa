@@ -1,0 +1,1820 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F-8",
+  "titulo": "Horquilla delantera · Honda CB 125F",
+  "aviso": "Prototipo local. Dibujos propios de TallerYa; números de la fig. F-8 del catálogo de partes (GLH125SH, columna C)."
+ },
+ "visor": {
+  "titulo": "Horquilla delantera: barras, resortes y retenes",
+  "sub": "Fig. F-8 · 19 números · dibujo TallerYa"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver de la horquilla",
+  "laminaAria": "Dibujo de las dos barras de la horquilla delantera de la CB 125F, vistas de frente: barra cromada, botella, tapón y retenes. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Cómo trabaja una barra en cinco pasos: el resorte sostiene la moto y el aceite frena el movimiento.",
+  "introCadenas": "Tres fallas que empiezan chiquitas y terminan en una horquilla que rebota o bota aceite.",
+  "introCuando": "Qué revisar y cuándo, según el manual del propietario y la práctica de taller."
+ },
+ "pie": "TallerYa · piloto del esquema · horquilla CB 125F · 16-nov-2026 · solo local",
+ "encuadreArmado": [
+  5,
+  50,
+  765,
+  595
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "-6 0 482 760",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · Quieta, contigo encima.</b> Tu peso ya comprime un poco el resorte: la barra baja un par de centímetros dentro de la botella. Es el punto de partida.",
+    "s": {
+     "comp": 0.25,
+     "flujo": "",
+     "estado": "Con tu peso"
+    }
+   },
+   {
+    "t": "<b>2 · Frenas o pasas un bache.</b> La barra baja, el resorte se comprime y el aceite pasa por los orificios del asiento. Ese paso estrecho frena el golpe.",
+    "s": {
+     "comp": 0.7,
+     "flujo": "baja",
+     "estado": "Comprime"
+    }
+   },
+   {
+    "t": "<b>3 · Golpe fuerte.</b> Al final del recorrido la pieza de tope encierra el aceite y hace de cojín: la barra no golpea metal con metal.",
+    "s": {
+     "comp": 1,
+     "flujo": "baja",
+     "tope": true,
+     "estado": "Tope de aceite"
+    }
+   },
+   {
+    "t": "<b>4 · La rueda vuelve.</b> El resorte empuja la barra arriba y el aceite regresa por los orificios: frena el rebote. Al final, el resorte de rebote suaviza la llegada.",
+    "s": {
+     "comp": 0.3,
+     "flujo": "sube",
+     "estado": "Se extiende"
+    }
+   },
+   {
+    "t": "<b>5 · Retén gastado.</b> Cada bajada saca una película de aceite que queda en la barra. Con menos aceite la horquilla rebota y golpea, y se hunde más al frenar.",
+    "s": {
+     "comp": 0.6,
+     "flujo": "baja",
+     "fuga": true,
+     "estado": "Fuga de aceite"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, cantidades y códigos de las 19 referencias: catálogo de partes Honda CB125F GLH125SH, fig. F-8 «Front fork», columna C.",
+   "Tuerca del eje delantero 59 N·m y la orejeta de la barra izquierda en la caja del velocímetro: manual del propietario CB125F."
+  ],
+  "aproximado": [
+   "Vista de frente de la moto, con las barras verticales y los anillos de lado: proporciones a ojo, sin lámina hermana.",
+   "Recorrido en mm de «Cómo funciona», intervalo del aceite y fallas: práctica de taller.",
+   "Capacidad y nivel del aceite, torques del tapón y del allen: sin dato (manual de servicio)."
+  ],
+  "lista": [
+   "Catálogo de partes Honda CB125F (GLH125SH), fig. F-8.",
+   "Manual del propietario Honda CB125F."
+  ]
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "sombra": "url(#hqSombra)",
+  "colores": {
+   "acero": "url(#hqAcero)",
+   "cromo": "url(#hqCromo)"
+  }
+ },
+ "lamina": "cb125f-horquilla",
+ "moto": "Honda CB125F (GLH125SH)",
+ "figura": "F8",
+ "catalogo": "honda-cb125f",
+ "intervalos": "honda_cb_125f",
+ "arte": "cb125f-horquilla",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19"
+ ],
+ "nombres": {
+  "2": "resorte de la horquilla",
+  "3": "barra cromada",
+  "4": "resorte de rebote",
+  "5": "botella derecha",
+  "6": "pieza de tope de aceite",
+  "7": "aro del pistón",
+  "8": "asiento del amortiguador",
+  "9": "retén de la horquilla",
+  "11": "botella izquierda",
+  "12": "tornillo allen del fondo",
+  "13": "tapón de la barra",
+  "14": "arandela del allen",
+  "15": "seguro del retén",
+  "16": "guardapolvo",
+  "17": "o-ring del tapón",
+  "18": "pinza de la manguera del freno",
+  "19": "tornillo de la pinza"
+ },
+ "ordenChips": [
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19"
+ ],
+ "ocultas": [
+  "2",
+  "4",
+  "6",
+  "7",
+  "8",
+  "9",
+  "14",
+  "15",
+  "17"
+ ],
+ "piezas": [
+  {
+   "id": "3a",
+   "n": "3",
+   "arte": "arteBarra",
+   "args": [
+    220,
+    291
+   ],
+   "anc": [
+    220,
+    200
+   ],
+   "et": [
+    -50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3b",
+   "n": "3",
+   "arte": "arteBarra",
+   "args": [
+    560,
+    291
+   ],
+   "anc": [
+    560,
+    200
+   ],
+   "et": [
+    50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "arte": "arteBotella",
+   "args": [
+    220,
+    465,
+    "izq"
+   ],
+   "anc": [
+    240,
+    450
+   ],
+   "et": [
+    44,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "arte": "arteBotella",
+   "args": [
+    560,
+    465,
+    "der"
+   ],
+   "anc": [
+    580,
+    450
+   ],
+   "et": [
+    44,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "arte": "arteGuardapolvo",
+   "args": [
+    220,
+    322
+   ],
+   "anc": [
+    220,
+    322
+   ],
+   "et": [
+    -54,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteResorte",
+   "args": [
+    220,
+    230
+   ],
+   "anc": [
+    232,
+    230
+   ],
+   "et": [
+    28,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "arte": "arteAsiento",
+   "args": [
+    220,
+    440
+   ],
+   "anc": [
+    227,
+    440
+   ],
+   "et": [
+    26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteAro",
+   "args": [
+    220,
+    346
+   ],
+   "anc": [
+    208,
+    346
+   ],
+   "et": [
+    -38,
+    4
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    209,
+    372
+   ],
+   "et": [
+    -40,
+    0
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "x": 220,
+    "y": 372,
+    "r": 11,
+    "largo": 40,
+    "vueltas": 6,
+    "alambre": 2.4,
+    "color": "#c9a23a",
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "arte": "arteTope",
+   "args": [
+    220,
+    550
+   ],
+   "anc": [
+    234,
+    550
+   ],
+   "et": [
+    26,
+    0
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "arte": "arteTapon",
+   "args": [
+    220,
+    100
+   ],
+   "anc": [
+    220,
+    100
+   ],
+   "et": [
+    -50,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    233,
+    112
+   ],
+   "et": [
+    28,
+    0
+   ],
+   "vis": "exp",
+   "comun": "oring",
+   "p": {
+    "x": 220,
+    "y": 112,
+    "r": 13,
+    "g": 3,
+    "eje": "vertical"
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "arte": "arteSeguro",
+   "args": [
+    220,
+    340
+   ],
+   "anc": [
+    240,
+    340
+   ],
+   "et": [
+    30,
+    -10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "arte": "arteReten",
+   "args": [
+    220,
+    350
+   ],
+   "anc": [
+    242,
+    352
+   ],
+   "et": [
+    30,
+    10
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    230,
+    601
+   ],
+   "et": [
+    30,
+    0
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "x": 220,
+    "y": 600,
+    "r": 10,
+    "ri": 6,
+    "e": 2,
+    "cara": "#b9a05a",
+    "lado": "#4a3d1c",
+    "eje": "vertical"
+   },
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "arteAllen",
+   "args": [
+    220,
+    612
+   ],
+   "anc": [
+    220,
+    619
+   ],
+   "et": [
+    -38,
+    0
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "arte": "artePinza",
+   "args": [
+    182,
+    420
+   ],
+   "anc": [
+    176,
+    420
+   ],
+   "et": [
+    -34,
+    -14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "arte": "arteTornPinza",
+   "args": [
+    186,
+    420
+   ],
+   "anc": [
+    180,
+    422
+   ],
+   "et": [
+    -20,
+    22
+   ],
+   "vis": "exp"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Barra fuera de la moto.</b> Moto en el gato central y rueda delantera en el aire. Quita la rueda, la pinza del freno y el guardabarros (otras láminas). Suelta la [[18|pinza de la manguera]] y afloja solo el perno de arriba de la tijera: el de abajo sigue apretado para soltar el tapón.",
+   "m": {
+    "18": [
+     -122,
+     210
+    ],
+    "19": [
+     -126,
+     245
+    ]
+   }
+  },
+  {
+   "t": "<b>Tapón.</b> Aflójalo con la barra todavía apretada en la tijera de abajo; después afloja ese perno, saca la barra y termina en una prensa con mordazas blandas. Al soltar las últimas roscas sujétalo: el resorte lo empuja. Al armar: [[17|o-ring]] nuevo.",
+   "m": {
+    "13": [
+     170,
+     -5
+    ],
+    "17": [
+     170,
+     23
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte y aceite.</b> Saca el [[2|resorte]], vacía el aceite boca abajo en un recipiente y bombea la barra hasta que no salga más. Al armar: aceite de horquilla nuevo, con la cantidad y el nivel del manual de servicio.",
+   "m": {
+    "2": [
+     170,
+     50
+    ]
+   }
+  },
+  {
+   "t": "<b>Tornillo allen del fondo.</b> Suéltalo con la barra cerrada: si el [[8|asiento]] gira, vuelve a poner el resorte y el tapón para que lo frenen, o sujétalo con la herramienta de taller. Al armar: [[14|arandela]] nueva, traba roscas y torque del manual de servicio.",
+   "m": {
+    "12": [
+     0,
+     66
+    ],
+    "14": [
+     0,
+     28
+    ]
+   }
+  },
+  {
+   "t": "<b>Barra y retén.</b> Quita el [[16|guardapolvo]] y, con un destornillador pequeño, el [[15|seguro]], saca el [[9|retén]] con un extractor sin rayar la boca de la botella y sube la barra. Al armar: retén nuevo, untado de aceite y metido parejo con un instalador.",
+   "m": {
+    "3a": [
+     -120,
+     -31
+    ],
+    "16": [
+     -120,
+     140
+    ],
+    "15": [
+     -120,
+     160
+    ],
+    "9": [
+     -120,
+     197
+    ]
+   }
+  },
+  {
+   "t": "<b>Amortiguador interno.</b> Saca de la barra el [[8|asiento]] con el [[4|resorte de rebote]], y del fondo de la botella la [[6|pieza de tope]] si se quedó allí. Revisa el [[7|aro]]: si está gastado o roto, cámbialo.",
+   "m": {
+    "8": [
+     250,
+     -110
+    ],
+    "7": [
+     250,
+     -134
+    ],
+    "4": [
+     250,
+     93
+    ],
+    "6": [
+     250,
+     -20
+    ]
+   }
+  },
+  {
+   "t": "<b>Limpieza y la otra barra.</b> Lava todo, revisa que la barra esté recta y sin picaduras y repite en la derecha. Al armar: mismo aceite y nivel en las dos, barras a la misma altura, tijera con el torque del manual de servicio, eje a 59 N·m y prueba los frenos quieto antes de rodar.",
+   "m": {
+    "3b": [
+     0,
+     -60
+    ],
+    "11": [
+     0,
+     10
+    ],
+    "5": [
+     0,
+     10
+    ]
+   }
+  }
+ ],
+ "textoArmado": "<b>Armado, fuera de la moto.</b> Las dos barras de la horquilla: la cromada entra en la botella de aluminio. Lo de adentro (resorte, amortiguador, retén) no se ve: elige «Transparente» o tócalo en la lista. Solo se dibuja un tapón: la derecha lleva otro igual.",
+ "fichas": {
+  "2": {
+   "nombre": "Resorte de la horquilla",
+   "cat": "SPRING, FR. FORK · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Los resortes largos de acero, uno dentro de cada barra, entre el tapón y el amortiguador.",
+   "sirve": "Sostiene el peso de la moto y el tuyo, y la devuelve arriba después de cada bache.",
+   "sintomas": [
+    "La moto se hunde mucho al frenar.",
+    "Toca fondo en los huecos.",
+    "Un lado queda más bajo que el otro."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Con los años se cansa y queda más corto."
+    ],
+    [
+     "maluso",
+     "Andar siempre con mucho peso lo vence antes."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Vencido no se recupera: se cambia, y mejor en las dos barras.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite o los retenes.",
+   "arrastra": [
+    "resorte cansado → la [[3|barra]] toca fondo y golpea el [[6|tope]]"
+   ],
+   "conecta": [
+    "13",
+    "8",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51401-KPN-A00"
+  },
+  "3": {
+   "nombre": "Barra cromada",
+   "cat": "PIPE COMP., FR. FORK · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "El tubo cromado que sube y baja dentro de la botella. Es la parte que ves brillante arriba de la rueda.",
+   "sirve": "Guía el recorrido y sella contra el retén: por eso tiene que estar liso y recto.",
+   "sintomas": [
+    "Ves puntos de óxido o rayas en el cromo.",
+    "Aceite en la barra después de rodar.",
+    "La dirección se siente torcida tras una caída."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El cromo se pica con el óxido si la moto duerme a la intemperie."
+    ],
+    [
+     "golpe",
+     "Una caída la tuerce."
+    ],
+    [
+     "desgaste",
+     "La mugre raya el cromo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está picada o torcida, rompe cada retén nuevo; enderezarla no es seguro.",
+   "dif": "taller",
+   "cuando": "Revísala en cada lavada y al cambiar retenes.",
+   "arrastra": [
+    "picaduras → cortan el [[9|retén]] y sale el aceite"
+   ],
+   "conecta": [
+    "9",
+    "16",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51410-KPN-A00"
+  },
+  "4": {
+   "nombre": "Resorte de rebote",
+   "cat": "SPRING, REBOUND · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Los resortes cortos, uno en cada asiento del amortiguador, debajo de su cabeza.",
+   "sirve": "Frena el final del recorrido hacia arriba, para que la barra no golpee al extenderse de una.",
+   "sintomas": [
+    "Golpe seco al levantar la rueda o al salir de un hueco."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se cansa con los años."
+    ],
+    [
+     "desgaste",
+     "Roza con el aceite sucio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barato y se cambia si está corto o roto, ya con la barra abierta.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando abras la barra.",
+   "arrastra": [
+    "roto → golpe al extenderse en el [[8|asiento]]"
+   ],
+   "conecta": [
+    "8",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51413-KPN-A00"
+  },
+  "5": {
+   "nombre": "Botella derecha",
+   "cat": "CASE, R. BOTTOM · 1 pieza · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00)",
+   "que": "La botella de aluminio de la barra derecha: la parte de abajo, que se une al eje.",
+   "sirve": "Guarda el aceite, recibe la barra y sostiene el eje de la rueda.",
+   "sintomas": [
+    "Aceite por la boca de la botella.",
+    "Rayas o golpes donde va el retén."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Una caída la raja o la tuerce."
+    ],
+    [
+     "humedad",
+     "El aluminio se corroe en la boca del retén."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una botella rajada o torcida no se suelda: se cambia.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar retenes.",
+   "arrastra": [
+    "boca rayada → el [[9|retén]] nuevo no sella"
+   ],
+   "conecta": [
+    "3",
+    "9",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51420-KVC-A00"
+  },
+  "6": {
+   "nombre": "Pieza de tope de aceite",
+   "cat": "PIECE, OIL LOCK · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Las piezas de acero en forma de cono, una en cada barra, en la punta de abajo del asiento del amortiguador.",
+   "sirve": "Al final del recorrido encierra el aceite y hace de cojín: la barra no golpea metal con metal.",
+   "sintomas": [
+    "Golpe seco al tocar fondo en un hueco."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Casi no falla; puede quedar mal puesta al armar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está golpeada se vuelve a poner; va bien centrada en el asiento.",
+   "dif": "taller",
+   "cuando": "Revísala cuando abras la barra.",
+   "arrastra": [
+    "mal puesta → la [[3|barra]] golpea al tocar fondo"
+   ],
+   "conecta": [
+    "8",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51432-KRF-H71",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@tope6",
+      "color": "acero"
+     }
+    ]
+   }
+  },
+  "7": {
+   "nombre": "Aro del pistón",
+   "cat": "RING, PISTON · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Un anillo que rodea la cabeza del asiento del amortiguador y roza por dentro de la barra.",
+   "sirve": "Obliga al aceite a pasar por los orificios del asiento: de ahí sale el frenado.",
+   "sintomas": [
+    "La horquilla rebota como si no tuviera aceite, aunque lo tenga."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta con el aceite sucio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastado deja pasar el aceite por el lado y la barra queda sin frenado.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite.",
+   "arrastra": [
+    "gastado → el [[8|asiento]] deja de frenar el rebote"
+   ],
+   "conecta": [
+    "8",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51437-KRF-H71"
+  },
+  "8": {
+   "nombre": "Asiento del amortiguador",
+   "cat": "PIPE, SEAT · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Un tubo de acero con orificios que va fijo al fondo de la botella; la barra se desliza alrededor.",
+   "sirve": "El aceite pasa por sus orificios al subir y bajar la barra: ese paso estrecho frena el golpe.",
+   "sintomas": [
+    "La moto rebota varias veces tras un bache.",
+    "Se hunde de golpe al frenar."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Los orificios se tapan con el aceite sucio."
+    ],
+    [
+     "golpe",
+     "Un golpe fuerte lo dobla."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se lava y se vuelve a poner; doblado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar el aceite.",
+   "arrastra": [
+    "orificios tapados → la horquilla queda dura y golpea en cada hueco"
+   ],
+   "conecta": [
+    "7",
+    "4",
+    "6",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51440-KPN-A00",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@asiento8",
+      "color": "acero"
+     }
+    ]
+   }
+  },
+  "9": {
+   "nombre": "Retén de la horquilla",
+   "cat": "SEAL SET, FR. FORK · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "El anillo de caucho con resorte que sella la barra en la boca de la botella.",
+   "sirve": "No deja salir el aceite ni entrar la mugre mientras la barra sube y baja.",
+   "sintomas": [
+    "Aceite en la barra o en el guardapolvo.",
+    "Anillo de mugre húmeda en la barra.",
+    "La horquilla rebota más que antes."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El labio se gasta con los kilómetros."
+    ],
+    [
+     "edad",
+     "El caucho se endurece."
+    ],
+    [
+     "maluso",
+     "Lavar con hidrolavadora de cerca lo daña."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Sale dañado al sacarlo: va siempre nuevo y los dos lados juntos.",
+   "dif": "taller",
+   "cuando": "Cámbialo cuando veas aceite en la barra.",
+   "arrastra": [
+    "fuga → poco aceite y el [[8|asiento]] no frena",
+    "aceite en la rueda → frena mal"
+   ],
+   "conecta": [
+    "3",
+    "15",
+    "16",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51490-KRF-H71",
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "perfil": "@reten9",
+      "color": "caucho"
+     }
+    ]
+   }
+  },
+  "11": {
+   "nombre": "Botella izquierda",
+   "cat": "CASE, L. BOTTOM · 1 pieza · también en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "La botella de aluminio de la barra izquierda. Lleva la oreja de la pinza de la manguera.",
+   "sirve": "Guarda el aceite, recibe la barra y sostiene el eje de la rueda.",
+   "sintomas": [
+    "Aceite por la boca de la botella.",
+    "Rayas o golpes donde va el retén."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "Una caída la raja o la tuerce."
+    ],
+    [
+     "humedad",
+     "El aluminio se corroe en la boca del retén."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una botella rajada o torcida no se suelda: se cambia.",
+   "dif": "taller",
+   "cuando": "Revísala al cambiar retenes.",
+   "arrastra": [
+    "boca rayada → el [[9|retén]] nuevo no sella"
+   ],
+   "conecta": [
+    "3",
+    "9",
+    "12",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "51520-KVC-910"
+  },
+  "12": {
+   "nombre": "Tornillo allen del fondo",
+   "cat": "BOLT, SOCKET, 8X30 · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "El tornillo allen que entra por debajo de la botella y sujeta el asiento del amortiguador.",
+   "sirve": "Une el amortiguador a la botella.",
+   "sintomas": [
+    "Gotea aceite por debajo de la botella."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Apretado sin arandela nueva gotea."
+    ],
+    [
+     "desgaste",
+     "Una cabeza redondeada no deja soltarlo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar con traba roscas y su arandela nueva.",
+   "dif": "taller",
+   "cuando": "Revísalo cuando abras la barra.",
+   "arrastra": [
+    "flojo → el [[8|asiento]] gira y la barra gotea"
+   ],
+   "conecta": [
+    "8",
+    "14",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90116-KRF-H71"
+  },
+  "13": {
+   "nombre": "Tapón de la barra",
+   "cat": "BOLT, FR. FORK · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "El tapón roscado que cierra la barra por arriba.",
+   "sirve": "Cierra el aceite y sostiene el resorte por arriba.",
+   "sintomas": [
+    "Aceite en la parte de arriba de la barra."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Sin o-ring nuevo, suda aceite."
+    ],
+    [
+     "desgaste",
+     "Hexágono redondeado por herramienta mala."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Se vuelve a usar con [[17|o-ring]] nuevo.",
+   "dif": "facil",
+   "cuando": "Ábrelo al cambiar el aceite.",
+   "arrastra": [
+    "o-ring viejo → suda aceite por la [[3|barra]]"
+   ],
+   "conecta": [
+    "17",
+    "2",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90123-KRF-H71"
+  },
+  "14": {
+   "nombre": "Arandela del allen",
+   "cat": "WASHER, SPECIAL, 8MM · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "La arandela que va bajo la cabeza del tornillo allen del fondo.",
+   "sirve": "Sella el tornillo para que no gotee el aceite.",
+   "sintomas": [
+    "Gota por debajo de la botella."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta al apretar y ya no sella."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se aplasta al apretar: va nueva cada vez.",
+   "dif": "taller",
+   "cuando": "Cámbiala cada vez que sueltes el allen.",
+   "arrastra": [
+    "vieja → gotea el [[12|allen]]"
+   ],
+   "conecta": [
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90544-KRF-H71"
+  },
+  "15": {
+   "nombre": "Seguro del retén",
+   "cat": "RING, OIL SEAL STOPPER · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Un seguro de acero en la boca de la botella, encima del retén.",
+   "sirve": "Mantiene el retén en su lugar.",
+   "sintomas": [
+    "El retén se sale de su sitio."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ],
+    [
+     "maluso",
+     "Se deforma al sacarlo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano y sin óxido se vuelve a poner; deformado se cambia.",
+   "dif": "taller",
+   "cuando": "Revísalo al cambiar retenes.",
+   "arrastra": [
+    "mal puesto → se sale el [[9|retén]]"
+   ],
+   "conecta": [
+    "9",
+    "16"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "90651-KRF-H71"
+  },
+  "16": {
+   "nombre": "Guardapolvo",
+   "cat": "SEAL, DUST · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "Un capuchón de caucho que cubre la boca de la botella.",
+   "sirve": "Limpia la barra y frena la mugre antes de que llegue al retén.",
+   "sintomas": [
+    "Está rajado o suelto.",
+    "Mugre pegada a la barra."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El sol lo reseca y lo raja."
+    ],
+    [
+     "humedad",
+     "El barro lo desgasta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Barato: va nuevo con el retén.",
+   "dif": "taller",
+   "cuando": "Míralo en cada lavada.",
+   "arrastra": [
+    "rajado → la mugre corta el [[9|retén]]"
+   ],
+   "conecta": [
+    "9",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "91254-KRF-H71"
+  },
+  "17": {
+   "nombre": "O-ring del tapón",
+   "cat": "O-RING, 22X2.8 · 2 piezas · también en el kit ref. 1 (barra derecha completa, 51400-KVC-A00) y en el kit ref. 10 (barra izquierda completa, 51500-KPN-A00)",
+   "que": "El anillo de caucho delgado que sella el tapón de la barra.",
+   "sirve": "Sella el tapón para que no salga aceite por arriba.",
+   "sintomas": [
+    "Aceite alrededor del tapón."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Se aplasta y se endurece."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Cuesta poco: va nuevo cada vez que abras el tapón.",
+   "dif": "facil",
+   "cuando": "Cámbialo al abrir el tapón.",
+   "arrastra": [
+    "viejo → suda aceite el [[13|tapón]]"
+   ],
+   "conecta": [
+    "13"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "91351-KRF-H71"
+  },
+  "18": {
+   "nombre": "Pinza de la manguera del freno",
+   "cat": "CLAMPER B, FR. BRAKE HOSE · 1 pieza",
+   "que": "Una pinza de plástico atornillada a la botella izquierda.",
+   "sirve": "Sujeta la manguera del freno para que no roce la rueda ni se doble al girar.",
+   "sintomas": [
+    "La manguera cuelga o roza la llanta."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El plástico se reseca y se parte."
+    ],
+    [
+     "golpe",
+     "Se rompe en una caída."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Rota no sujeta: se cambia; la manguera suelta es un peligro.",
+   "dif": "facil",
+   "cuando": "Revísala al desmontar la rueda.",
+   "arrastra": [
+    "rota → la manguera del freno roza y se gasta"
+   ],
+   "conecta": [
+    "11",
+    "19"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "45156-KVX-620"
+  },
+  "19": {
+   "nombre": "Tornillo de la pinza",
+   "cat": "BOLT, FLANGE, 6X12 · 1 pieza",
+   "que": "El tornillo que sujeta la pinza de la manguera a la botella.",
+   "sirve": "Fija la pinza.",
+   "sintomas": [
+    "La pinza se mueve."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Se oxida."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Sano se vuelve a usar.",
+   "dif": "facil",
+   "cuando": "Revísalo al desmontar la rueda.",
+   "arrastra": [
+    "flojo → se suelta la [[18|pinza]]"
+   ],
+   "conecta": [
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo honda-cb125f, fig. F8."
+    ],
+    [
+     "ap",
+     "Función, fallas y decisión: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "96001-06012-00"
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Barra picada que rompe el retén",
+   "p": [
+    [
+     "3",
+     "La barra tiene puntos de óxido o un golpe en el cromo."
+    ],
+    [
+     "9",
+     "Cada recorrido raya el labio del retén y empieza la fuga."
+    ],
+    [
+     "8",
+     "Con poco aceite el amortiguador no frena: la moto rebota y se hunde al frenar."
+    ]
+   ]
+  },
+  {
+   "t": "Guardapolvo rajado",
+   "p": [
+    [
+     "16",
+     "El sol lo raja y deja entrar barro."
+    ],
+    [
+     "9",
+     "La mugre llega al retén y le corta el labio."
+    ],
+    [
+     "3",
+     "El barro raya la barra: el retén nuevo se vuelve a dañar si no la cambias."
+    ]
+   ]
+  },
+  {
+   "t": "Aceite viejo",
+   "p": [
+    [
+     "8",
+     "El aceite viejo se adelgaza y pasa muy rápido por los orificios del asiento."
+    ],
+    [
+     "7",
+     "El aro roza con aceite sucio y se gasta: deja pasar más aceite."
+    ],
+    [
+     "2",
+     "Todo el trabajo queda en el resorte: la moto rebota como si no tuviera aceite."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Revisar la suspensión delantera",
+   "cuando": "En cada mantenimiento de la tabla del manual: que no haya aceite en las barras y que suba y baje suave.",
+   "fuente": "Manual del propietario CB125F, tabla de mantenimiento (fila «Suspensión»; la p. 81 a la que remite solo habla de la suspensión trasera). Los km de esa fila no se pudieron leer del texto. <span class=\"esq-s-ap\">Aprox.</span>"
+  },
+  {
+   "que": "Cambiar el aceite de la horquilla",
+   "cuando": "Sin dato en el manual del propietario. En taller se hace al cambiar los retenes o cada <b>20.000 km</b> aprox.",
+   "fuente": "Práctica de taller; cantidad y nivel en el manual de servicio. <span class=\"esq-s-ap\">Aprox.</span>"
+  },
+  {
+   "que": "Cambiar retenes y guardapolvos",
+   "cuando": "Cuando veas aceite en la barra o en el guardapolvo, siempre en las dos barras.",
+   "fuente": "Práctica de taller. <span class=\"esq-s-ap\">Aprox.</span>"
+  }
+ ],
+ "sujeta": {
+  "19": [
+   "18"
+  ],
+  "13": [
+   "2"
+  ],
+  "12": [
+   "8",
+   "6"
+  ],
+  "15": [
+   "9"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "tapon",
+    "nombre": "Tapón y resorte",
+    "corto": "Tapón",
+    "piezas": [
+     "13",
+     "17",
+     "2"
+    ],
+    "torn": [],
+    "pasos": [
+     1,
+     2
+    ],
+    "marca": [
+     300,
+     112
+    ]
+   },
+   {
+    "id": "barra",
+    "nombre": "Barra y retén",
+    "corto": "Barra",
+    "piezas": [
+     "3a",
+     "16",
+     "15",
+     "9"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ],
+    "marca": [
+     220,
+     255
+    ]
+   },
+   {
+    "id": "amort",
+    "nombre": "Amortiguador interno",
+    "corto": "Amortiguador",
+    "piezas": [
+     "8",
+     "7",
+     "4",
+     "6"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo allen y arandela del fondo",
+      "corto": "Allen",
+      "ids": [
+       "12",
+       "14"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     3,
+     5
+    ]
+   },
+   {
+    "id": "botellas",
+    "nombre": "Botellas",
+    "corto": "Botellas",
+    "piezas": [
+     "11",
+     "5",
+     "18"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo de la pinza de la manguera",
+      "corto": "Tornillo",
+      "ids": [
+       "19"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     0,
+     6
+    ]
+   },
+   {
+    "id": "derecha",
+    "nombre": "Barra derecha (por dentro, igual a la izquierda)",
+    "corto": "Derecha",
+    "piezas": [
+     "3b"
+    ],
+    "torn": [],
+    "pasos": [
+     6
+    ]
+   }
+  ],
+  "con3d": [
+   "8",
+   "9",
+   "6"
+  ],
+  "toqueExtra": [
+   "9",
+   "15",
+   "16"
+  ],
+  "inicio": "Piezas de la horquilla"
+ },
+ "carcasas": [
+  {
+   "id": "3a",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  },
+  {
+   "id": "11",
+   "transparente": 0.3,
+   "rayosx": 0.2
+  }
+ ],
+ "kits": {
+  "1": [
+   "2",
+   "3",
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17"
+  ],
+  "10": [
+   "2",
+   "3",
+   "4",
+   "6",
+   "7",
+   "8",
+   "9",
+   "11",
+   "12",
+   "13",
+   "14",
+   "15",
+   "16",
+   "17"
+  ]
+ },
+ "perfiles": {
+  "asiento8": [
+   [
+    0,
+    0
+   ],
+   [
+    7,
+    0
+   ],
+   [
+    7,
+    186
+   ],
+   [
+    11,
+    186
+   ],
+   [
+    11,
+    200
+   ],
+   [
+    0,
+    200
+   ]
+  ],
+  "reten9": [
+   [
+    11,
+    0
+   ],
+   [
+    17,
+    0
+   ],
+   [
+    17,
+    9
+   ],
+   [
+    15,
+    11
+   ],
+   [
+    11,
+    9
+   ]
+  ],
+  "tope6": [
+   [
+    4,
+    0
+   ],
+   [
+    14,
+    0
+   ],
+   [
+    9,
+    20
+   ],
+   [
+    4,
+    20
+   ]
+  ]
+ },
+ "pendientes": [
+  "Capacidad y nivel del aceite de horquilla y torques del tapón, del allen y de la tijera: sin manual de servicio.",
+  "Fila «Suspensión» de la tabla del manual del propietario: los km no se leen del texto; no hay tarea en garaje/intervalos.",
+  "Solo se dibuja un tapón, un resorte y un amortiguador (la barra derecha lleva otros iguales).",
+  "Revisión: CORTE (9 min contra 2): la revisora tardó ~4 min y arrancó junto con la medición; el script de armado no tiene los 11 reemplazos ni el cambio de grupos (se aplicaron sobre el JSON)."
+ ]
+}

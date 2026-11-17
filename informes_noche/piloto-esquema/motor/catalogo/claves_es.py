@@ -19,6 +19,8 @@ PRIMERA = [  # primera palabra en español → sustantivo Yamaha (lo que leen TO
     (r"DUCTOS?|CONDUCTOS?", "DUCT"), (r"BUJIAS?", "PLUG, SPARK"), (r"TAPAS?|CUBIERTAS?|TAPONES?", "COVER"),
     (r"SOPORTES?|BASES?", "BRACKET"), (r"FILTROS?|ELEMENTOS?", "FILTER"), (r"SENSOR(ES)?", "SENSOR"), (r"AMORTIGUADOR(ES)?", "DAMPER"),
 ]
+ESPECIALES = [  # frases que mandan sobre la primera palabra («Jgo Caucho Campana» es el amortiguador de la campana, no un caucho de montaje)
+    (r"CAUCHOS? (DE (LA )?)?CAMPANA|CAUCHOS? AMORTIGUADOR|AMORTIGUADOR(ES)? DE (LA )?CAMPANA", "DAMPER, HUB")]
 AMBIGUAS = r"CIRCLIPS?|O-?RINGS?|ORINGS?|SENSORS?|SENSORES|PINS?|BASE|KIT|DAMPER"
 CONJ = r"KIT|JUEGO|JGO|CONJUNTO|ENSAMBLE|ENSAMBLAJE"
 LUGARES = [(r"CIGUENAL", "CRANKSHAFT"), (r"CULATA", "CYLINDER HEAD"), (r"CILINDRO", "CYLINDER"), (r"PISTON", "PISTON"),
@@ -48,6 +50,8 @@ def clave_en(desc, desc_en=None):
         return desc
     puntos = desc[:len(desc) - len(desc.lstrip("."))]
     u = sin_tildes(desc.lstrip(".").upper())
+    for ex, e in ESPECIALES:
+        if re.search(ex, u): return puntos + e
     pal = u.split()
     conj = bool(pal) and (re.fullmatch(CONJ, pal[0]) is not None or bool({"COMPLETO", "COMPLETA", "CTA"} & set(pal)))
     if pal and re.fullmatch(CONJ, pal[0]) and len(pal) > 1:
@@ -65,7 +69,7 @@ def clave_en(desc, desc_en=None):
 
 # Abreviaturas de catálogos colombianos (AKT, Auteco) → palabra entera.
 ABREV = [(r"jgo", "juego de"), (r"cta", "completa"), (r"cto", "completo"), (r"separad", "separadores"), (r"sliper|slip", "slipper"),
-         (r"manza", "manzana"), (r"arand", "arandela"), (r"inf", "inferior"), (r"sup", "superior"), (r"tras", "trasero"), (r"izq", "izquierdo"), (r"der", "derecho")]
+         (r"manza", "manzana"), (r"arand", "arandela"), (r"arrast", "arrastre"), (r"inf", "inferior"), (r"sup", "superior"), (r"tras", "trasero"), (r"izq", "izquierdo"), (r"der", "derecho")]
 # Sufijos de modelo y números de referencia: 125NKD, 125S, 125/R, CGR, NKD, AKT, Rp, 200Sm, «x 6», «16003/P6».
 MODELO = re.compile(r"\b(?:\d{2,3}(?:[a-z]+\w*)?(?:/\w+)*|cgr|nkd\w*|akt|rp|x\s?\d+|\d{4,5}(?:/\w+)?)\b", re.I)
 
@@ -80,7 +84,7 @@ def nombre_es(desc):
         if re.fullmatch(r"M?\d+(?:[.,]\d+)?[x×]\d+(?:[.,]\d+)?(?:[x×]\d+(?:[.,]\d+)?)?", w, re.I):   # medida: se queda
             pal.append(w); continue
         w2 = MODELO.sub("", w).strip("/ ")
-        if not w2: continue
+        if not w2 or re.fullmatch(r"[\d.,]*[-.][\d.,-]*", w2): continue   # «3.-», «-»: restos de medidas de llanta
         lw = w2.lower()
         pal.append(next((e for ex, e in ABREV if re.fullmatch(ex, lw)), w2))
     d = re.sub(r"\bx\s?\d+\b", "", " ".join(pal), flags=re.I).strip() or d
