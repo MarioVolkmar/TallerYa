@@ -161,3 +161,4 @@ Archivos de esta tanda: `talleres/models.py` (PIN con hash), `talleres/migration
 `cupones/forms.py`, `cupones/models.py` + `migrations/0004_bitacora_canje.py`, `cupones/templates/cupones/canjear.html`,
 `cupones/tests.py`, `cupones/tests_transacciones.py`, `garaje/models.py` + `migrations/0035_bitacora_servicio_taller.py`,
 `garaje/servicio_taller.py`, `garaje/hoja_vida.py`. Suites: rápida 594 OK, completa 638 OK; skill: 0 fallas.
+- **CSP en navegador real con sesión** (Chrome sin ventana, motero y superadmin; portada, garaje, ficha de moto, visor 3D, consola): encontró **1 bloqueo**. El visor 3D va en un iframe propio en la portada y la bienvenida, y `frame-src` solo admitía Google Maps. Arreglo: `frame-src 'self' https://www.google.com`, y las vistas con `@xframe_options_sameorigin` reciben `frame-ancestors 'self'` en vez de `'none'`. Después: 0 bloqueos y el 3D se dibuja dentro del iframe. Prueba: `test_csp_vistas_sameorigin_admiten_iframe_propio`.

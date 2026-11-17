@@ -20,7 +20,7 @@ CSP = "; ".join([
     "connect-src 'self'",
     "worker-src 'self' blob:",
     "manifest-src 'self'",
-    "frame-src https://www.google.com",
+    "frame-src 'self' https://www.google.com",  # 'self': el visor 3D de la moto va en un iframe en portada y bienvenida
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self' https://accounts.google.com",
@@ -38,6 +38,10 @@ class CabecerasSeguridad:
     def __call__(self, request):
         respuesta = self.get_response(request)
         if "Content-Security-Policy" not in respuesta:  # /media/ pone la suya, más estricta
-            respuesta["Content-Security-Policy"] = self.csp
+            csp = self.csp
+            # Vistas con @xframe_options_sameorigin (visor 3D): solo nuestras propias páginas pueden incrustarlas.
+            if respuesta.get("X-Frame-Options", "").upper() == "SAMEORIGIN":
+                csp = csp.replace("frame-ancestors 'none'", "frame-ancestors 'self'")
+            respuesta["Content-Security-Policy"] = csp
         respuesta.setdefault("Permissions-Policy", PERMISOS)
         return respuesta

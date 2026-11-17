@@ -245,6 +245,20 @@ class ArreglosRevisionTests(Escenario):
         self.assertIn("object-src 'none'", r["Content-Security-Policy"])
         self.assertIn("frame-ancestors 'none'", r["Content-Security-Policy"])
         self.assertIn("camera=(self)", r["Permissions-Policy"])
+        # El visor 3D va en un iframe propio (portada y bienvenida): frame-src lo admite y él acepta solo nuestro origen.
+        self.assertIn("frame-src 'self'", r["Content-Security-Policy"])
+
+    def test_csp_vistas_sameorigin_admiten_iframe_propio(self):
+        from django.http import HttpResponse
+        from config.cabeceras import CabecerasSeguridad
+
+        def vista(_):
+            resp = HttpResponse("ok")
+            resp["X-Frame-Options"] = "SAMEORIGIN"
+            return resp
+        csp = CabecerasSeguridad(vista)(None)["Content-Security-Policy"]
+        self.assertIn("frame-ancestors 'self'", csp)
+        self.assertNotIn("frame-ancestors 'none'", csp)
 
     def test_registro_con_freno_por_ip(self):
         from cuentas.views import REGISTRO_MAX_POR_HORA
