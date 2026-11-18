@@ -1,0 +1,66 @@
+{% load static humanize %}
+<link rel="stylesheet" href="{% static 'metricas/panel.css' %}">
+<header class="cs-cabeza mt-cabeza">
+  <div>
+    <h1 class="cs-h1" id="cs-titulo">Métricas de uso</h1>
+    <p class="cs-sub">Del {{ desde|date:"j M" }} al {{ hoy|date:"j M Y" }} · medición propia, sin terceros ni cookies de rastreo{% if not activas %} · <strong>medición apagada (METRICAS_ACTIVAS=0)</strong>{% endif %}</p>
+  </div>
+  <nav class="mt-periodos" aria-label="Período">
+    {% for p in periodos %}<a href="?seccion=metricas&amp;periodo={{ p }}" class="cs-btn{% if p != dias %} cs-btn-sec{% endif %}"{% if p == dias %} aria-current="true"{% endif %}>{{ p }} días</a>{% endfor %}
+    <a href="{% url 'metricas:exportar' %}?periodo={{ dias }}" class="cs-btn cs-btn-sec" download>CSV</a>
+  </nav>
+</header>
+
+<div class="mt-tarjetas">
+  {% for nombre, valor in tarjetas %}<div class="mt-tarjeta"><p class="mt-num">{{ valor|intcomma }}</p><p class="mt-etq">{{ nombre }}</p></div>{% endfor %}
+</div>
+
+<section class="mt-caja" aria-labelledby="mt-t-dia">
+  <div class="mt-caja-cabeza">
+    <h2 class="cs-h3" id="mt-t-dia">Por día</h2>
+    <p class="mt-leyenda"><span><span class="mt-l mt-l-barra"></span>Páginas vistas</span> <span><span class="mt-l mt-l-linea"></span>Visitantes</span> <span><span class="mt-l mt-l-linea2"></span>Usuarios con cuenta</span></p>
+  </div>
+  {{ grafico }}
+  <p class="mt-activos">Usuarios con cuenta activos: {% for n, v in activos %}<span><strong>{{ v }}</strong> {{ n }}</span>{% endfor %}</p>
+</section>
+
+<div class="mt-rejilla">
+  {% include "metricas/_barras.html" with titulo="Páginas más vistas" filas=top_paginas vacio="Sin visitas en el período." codigo=True %}
+  {% include "metricas/_barras.html" with titulo="Funciones más usadas" filas=top_eventos vacio="Nadie ha usado funciones medidas aún." %}
+  {% include "metricas/_barras.html" with titulo="Páginas menos vistas · candidatas a sobrar" filas=menos_paginas vacio="—" codigo=True nota="Incluye las páginas vistas en el último año que no tuvieron visitas en este período." %}
+  {% include "metricas/_barras.html" with titulo="Funciones menos usadas · candidatas a sobrar" filas=menos_eventos vacio="—" %}
+</div>
+
+<section class="mt-caja" aria-labelledby="mt-t-emb">
+  <h2 class="cs-h3" id="mt-t-emb">Embudos</h2>
+  <div class="mt-rejilla mt-rejilla-2">
+  {% for e in embudos %}
+    <div>
+      <h3 class="mt-h4">{{ e.titulo }}</h3>
+      <ol class="mt-embudo">
+        {% for p in e.pasos %}<li>
+          <div class="mt-fila-txt"><span>{{ p.nombre }}</span><strong>{{ p.n|intcomma }}</strong></div>
+          <div class="mt-pista"><div class="mt-relleno" style="width:{{ p.ancho }}%"></div></div>
+          {% if not forloop.first %}<p class="mt-conv">{{ p.del_anterior }}% del paso anterior · {{ p.del_total }}% del inicio</p>{% endif %}
+        </li>{% endfor %}
+      </ol>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+
+<div class="mt-rejilla">
+  {% include "metricas/_barras.html" with titulo="Dispositivos (visitantes)" filas=dispositivos vacio="Sin datos." pct=True %}
+  {% include "metricas/_barras.html" with titulo="De dónde llegan" filas=referentes vacio="Sin datos." pct=True %}
+  {% include "metricas/_barras.html" with titulo="Lo que buscan en talleres" filas=busquedas vacio="Sin búsquedas." %}
+</div>
+
+<section class="mt-caja" aria-labelledby="mt-t-ret">
+  <h2 class="cs-h3" id="mt-t-ret">Retención semanal por cohorte de registro</h2>
+  <p class="mt-nota">% de las cuentas creadas esa semana que usaron TallerYa en la semana 0, 1, 2… después.</p>
+  <div class="cs-tabla-caja"><table class="cs-tabla mt-ret">
+    <thead><tr><th scope="col">Semana</th><th scope="col">Cuentas</th>{% for s in retencion.1 %}<th scope="col">S{{ s }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for f in retencion.0 %}<tr><th scope="row">{{ f.semana|date:"j M" }}</th><td>{{ f.n }}</td>{% for c in f.celdas %}<td class="mt-celda"{% if c is not None %} style="--p:{{ c }}"{% endif %}>{% if c is not None %}{{ c }}%{% else %}·{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>
+</section>
+<p class="mt-nota mt-pie">Privacidad (Ley 1581): no se guardan IPs ni se usan cookies nuevas; el visitante anónimo es un código que cambia cada día; se respeta «No rastrear» (DNT y GPC); los eventos detallados se borran a los 90 días y quedan solo los conteos. No se cuenta al equipo administrador.</p>

@@ -16,6 +16,8 @@ from django.db.models import Avg, Count, F, FloatField, OuterRef, Subquery
 from django.db.models.functions import Coalesce, Lower
 from django.views.decorators.http import require_POST
 
+from metricas.nucleo import registrar_evento, termino_busqueda
+
 from .forms import PerfilTallerForm, RegistroTallerForm, equipo_de, equipo_formset, ResenaForm, SolicitudCitaForm
 from . import agenda, estadisticas, perfil, subidas
 from . import seo as seo_
@@ -157,6 +159,9 @@ def directorio(request, fijos=None, seo=None):
     solo_favoritos = bool(f.get("favoritos")) and request.user.is_authenticated
     if solo_favoritos:
         talleres = talleres.filter(favoritos__usuario=request.user)
+    if q or any(f.get(k) for k in ("barrio", "servicio", "marca", "verificados", "cupon")):
+        registrar_evento(request, "busqueda_talleres", q=termino_busqueda(q), barrio=bool(f.get("barrio")),
+                         servicio=bool(f.get("servicio")), marca=bool(f.get("marca")))
     if f.get("cupon"):
         talleres = talleres.filter(pk__in=Cupon.objects.disponibles().filter(taller__isnull=False)
                                    .values_list("taller", flat=True))
@@ -286,6 +291,7 @@ def detalle(request, slug):
                                slug=slug, activo=True)
     if request.method == "GET":
         estadisticas.registrar(request, taller, EventoDiario.Tipo.VISITA)
+        registrar_evento(request, "taller_visto", taller=taller.pk)
     taller.es_favorito = bool(_favoritos_de(request.user, [taller.pk]))
     motero = getattr(request.user, "motociclista", None) if request.user.is_authenticated else None
     inicial_cita = {}
@@ -904,6 +910,7 @@ class _RedireccionContacto(HttpResponseRedirect):
 def ir(request, slug, canal):
     """Cuenta el clic (sin datos personales) y lleva a WhatsApp o a la llamada."""
     taller = get_object_or_404(Taller.objects.only("pk", "nombre", "whatsapp", "usuario_id"), slug=slug, activo=True)
+    registrar_evento(request, "contacto", canal="whatsapp" if canal == "whatsapp" else "llamada", taller=taller.pk)
     if canal == "whatsapp":
         estadisticas.registrar(request, taller, EventoDiario.Tipo.WHATSAPP)
         return _RedireccionContacto(taller.whatsapp_url)
@@ -996,6 +1003,7 @@ def emergencias(request):
     necesito = request.GET.get("necesito")
     necesito = necesito if necesito in em.OPCIONES else None
     filtro = em.OPCIONES[necesito][1] if necesito else {}
+    registrar_evento(request, "emergencias", necesito=necesito or "inicio")
     talleres = list(Taller.objects.filter(activo=True, atiende_emergencias=True, **filtro)
                     .select_related("barrio").prefetch_related("horarios").order_by("-abierto_24h", "nombre"))
     barrio = None

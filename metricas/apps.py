@@ -1,0 +1,10 @@
+from django.apps import AppConfig
+
+
+class MetricasConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "metricas"
+    verbose_name = "Métricas de uso"
+
+    def ready(self):
+        from . import senales  # noqa: F401  (inicio de sesión y activación de Plus)

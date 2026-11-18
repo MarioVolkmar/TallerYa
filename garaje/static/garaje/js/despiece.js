@@ -439,7 +439,7 @@
         punto.addEventListener("click", (e) => {
           if (movido) { e.preventDefault(); return; }
           if (elegida && elegida.id === p.id) abrirGuia(p); // segundo toque: abre la guía
-          else elegir(p);
+          else { elegir(p); (window.tyM = window.tyM || []).push(["pieza_vista", { ref: p.ref }]); }
         });
         escena.appendChild(punto);
       });
@@ -515,7 +515,7 @@
         if (p.cantidad > 1) b.appendChild(el("span", "parte-cantidad", `×${p.cantidad}`));
         if (!enDibujo(p)) b.appendChild(el("span", "parte-sin-dibujo", "solo en lista"));
         if (p.estado) b.appendChild(el("span", `punto-mini punto-${p.estado}`));
-        b.addEventListener("click", () => { elegir(p); enfocar(p); });
+        b.addEventListener("click", () => { elegir(p); enfocar(p); (window.tyM = window.tyM || []).push(["pieza_vista", { ref: p.ref }]); });
         li.appendChild(b);
         lista.appendChild(li);
       }

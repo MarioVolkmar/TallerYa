@@ -58,3 +58,23 @@ services:
         sync: false
       - key: VAPID_SUBJECT
         sync: false
+      # Medición de uso propia (app metricas). Encendida por defecto; METRICAS_ACTIVAS=0 la apaga sin desplegar código.
+      # - key: METRICAS_ACTIVAS
+      #   value: "1"
+
+  # Métricas de uso: resume por día y borra los eventos crudos de más de 90 días (Ley 1581). SIN ACTIVAR todavía.
+  # Sin este cron el panel igual resume los días al abrirse, pero lo crudo no se borra. Alternativa gratis: llamarlo
+  # desde el mismo GitHub Actions de /tareas/. Para activarlo, quitar los # (un cron de Render cuesta aparte):
+  # - type: cron
+  #   name: tallerya-metricas
+  #   runtime: python
+  #   schedule: "15 6 * * *"   # 1:15 a. m. en Medellín (UTC-5)
+  #   buildCommand: pip install -r requirements.txt
+  #   startCommand: python manage.py agregar_metricas
+  #   envVars:
+  #     - key: DATABASE_URL
+  #       fromDatabase:
+  #         name: tallerya-db
+  #         property: connectionString
+  #     - key: DJANGO_SECRET_KEY
+  #       sync: false

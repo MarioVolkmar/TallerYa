@@ -15,6 +15,8 @@ from notificaciones.servicios import notificar
 
 from talleres.models import Marca
 
+from metricas.nucleo import registrar_evento
+
 from . import menciones, reacciones
 from .forms import PreguntaForm, RespuestaForm
 from .models import Categoria, Reaccion, Voto, REPORTES_PARA_OCULTAR, Pregunta, Reporte, Respuesta
@@ -129,6 +131,7 @@ def preguntar(request):
             pregunta.autor = request.user
             pregunta.save()
             menciones.notificar_publicacion(pregunta, pregunta, request.user)
+            registrar_evento(request, "foro_pregunta", categoria=pregunta.categoria)
             messages.success(request, "¡Pregunta publicada! Vuelve pronto para ver las respuestas.")
             return redirect(pregunta)
     return render(request, "foro/preguntar.html", {"form": form})
@@ -176,6 +179,7 @@ def publicar_respuesta(request, pregunta, en_rodada=False):
             respuesta.pregunta, respuesta.autor, respuesta.padre = pregunta, request.user, padre
             respuesta.save()
             menciones.notificar_publicacion(respuesta, pregunta, request.user, en_rodada=en_rodada)
+            registrar_evento(request, "foro_respuesta", rodada=en_rodada)
             return respuesta, padre, form
     return None, padre, form
 

@@ -1,0 +1,10 @@
+{% load humanize %}<section class="mt-caja">
+  <h2 class="cs-h3">{{ titulo }}</h2>
+  {% if nota %}<p class="mt-nota">{{ nota }}</p>{% endif %}
+  {% if filas %}<ol class="mt-barras">
+    {% for f in filas %}<li>
+      <div class="mt-fila-txt">{% if codigo %}<code>{{ f.nombre }}</code>{% else %}<span>{{ f.nombre }}</span>{% endif %}<strong>{{ f.n|intcomma }}{% if pct %} · {{ f.pct }}%{% endif %}</strong></div>
+      <div class="mt-pista"><div class="mt-relleno{% if not f.n %} mt-cero{% endif %}" style="width:{{ f.ancho }}%"></div></div>
+    </li>{% endfor %}
+  </ol>{% else %}<p class="cs-vacio">{{ vacio }}</p>{% endif %}
+</section>

@@ -24,6 +24,8 @@ from django.shortcuts import get_object_or_404
 from talleres.forms import RegistroTallerForm
 from talleres.models import Taller
 
+from metricas.nucleo import registrar_evento
+
 from . import roles
 from .avatares import PREDISENADOS, html_avatar, svg_predisenado
 from . import correos, google, guia, limites
@@ -73,6 +75,7 @@ def registro(request):
             moto.usuario = usuario
             moto.save()
         login(request, usuario, backend="cuentas.backends.Backend")
+        registrar_evento(request, "registro", metodo="correo", tipo="motero")
         Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
         correos.enviar_verificacion(request, usuario)
         messages.success(request, f"¡Bienvenido a TallerYa, {d['nombre']}! Te enviamos un enlace a {usuario.email} para confirmar tu correo.")
@@ -100,6 +103,7 @@ def _registro_taller(request):
             taller.save()
             negocio.save_m2m()
         login(request, usuario, backend="cuentas.backends.Backend")
+        registrar_evento(request, "registro", metodo="correo", tipo="taller")
         Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
         correos.enviar_verificacion(request, usuario)
         messages.success(request, f"¡Cuenta creada! Revisaremos tu taller y lo publicaremos pronto. Confirma tu correo con el enlace que te enviamos a {usuario.email}.")
@@ -268,6 +272,7 @@ def solicitar_plus(request):
         return redirect("cuentas:plus")
     if not moto.suscripciones.filter(estado=Suscripcion.Estado.SOLICITADA).exists():
         Suscripcion.objects.create(motociclista=moto)
+        registrar_evento(request, "plus_solicitado")
     messages.success(request, "¡Solicitud recibida! Haz el pago y envíanos el comprobante por WhatsApp para activarte.")
     return redirect("cuentas:plus")
 
@@ -429,6 +434,8 @@ def google_volver(request):
         perfil.terminos_aceptados = timezone.now()  # el botón avisa que al continuar acepta los términos
     perfil.save(update_fields=["google_sub", "correo_verificado", "terminos_aceptados"])
     login(request, usuario, backend="cuentas.backends.Backend")
+    if nueva:
+        registrar_evento(request, "registro", metodo="google")
 
     if roles.rol_de(usuario) == roles.SIN_PERFIL:
         messages.success(request, f"¡Hola, {usuario.first_name or 'bienvenido'}! Cuéntanos cómo vas a usar TallerYa.")

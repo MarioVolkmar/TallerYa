@@ -65,6 +65,7 @@ SECCIONES = [
     Seccion("cupones", "Cupones", "cupon", "consola.vistas.cupones.seccion", descripcion="Cupones de los talleres, códigos entregados y canjes."),
     Seccion("moderacion", "Moderación", "bandera", "consola.vistas.moderacion.seccion", badge=_reportes_foro,
             descripcion="Reportes del foro y reseñas de talleres."),
+    Seccion("metricas", "Métricas", "grafica", "metricas.panel.seccion"),
     Seccion("reportes", "Reportes", "grafica", descripcion="Rangos de fechas, por mes, rankings; Excel y PDF."),
     Seccion("catalogos", "Catálogos", "lista", descripcion="Barrios, servicios, marcas y líneas de moto."),
     Seccion("notificaciones", "Notificaciones", "campana", descripcion="Notificaciones y correos enviados con su estado."),
