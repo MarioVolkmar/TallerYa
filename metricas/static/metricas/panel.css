@@ -1,0 +1,35 @@
+/* Panel de métricas: usa las variables de la consola (tema claro y oscuro). */
+.mt-cabeza { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: flex-end; justify-content: space-between; }
+.mt-periodos { display: flex; flex-wrap: wrap; gap: .4rem; }
+.mt-tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .75rem; margin: 1rem 0; }
+.mt-tarjeta, .mt-caja { background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; padding: .9rem 1rem; }
+.mt-caja { margin-bottom: 1rem; min-width: 0; }
+.mt-num { font-family: "Oswald", sans-serif; font-size: 1.9rem; line-height: 1.1; color: var(--cs-acento); }
+.mt-etq, .mt-nota, .mt-conv { color: var(--cs-suave); font-size: .85rem; }
+.mt-nota { margin: .2rem 0 .6rem; }
+.mt-caja-cabeza { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; align-items: baseline; }
+.mt-leyenda { font-size: .82rem; color: var(--cs-suave); display: flex; flex-wrap: wrap; gap: .3rem .9rem; align-items: center; }
+.mt-l { display: inline-block; width: 14px; height: 10px; margin-right: 4px; vertical-align: middle; }
+.mt-l-barra { background: var(--cs-borde); }
+.mt-l-linea { border-top: 3px solid var(--cs-acento); height: 0; }
+.mt-l-linea2 { border-top: 3px dashed var(--cs-ok); height: 0; }
+.mt-grafico { width: 100%; height: auto; display: block; margin-top: .5rem; }
+.mt-guia { stroke: var(--cs-borde); stroke-width: 1; stroke-dasharray: 2 4; }
+.mt-eje { fill: var(--cs-suave); font-size: 13px; }
+.mt-barra { fill: var(--cs-borde); }
+.mt-linea { fill: none; stroke: var(--cs-acento); stroke-width: 2.5; stroke-linejoin: round; }
+.mt-linea-2 { stroke: var(--cs-ok); stroke-dasharray: 6 4; }
+.mt-activos { display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; font-size: .9rem; margin-top: .5rem; }
+.mt-rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 0 1rem; }
+.mt-rejilla-2 { gap: 1rem; }
+.mt-barras, .mt-embudo { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .55rem; }
+.mt-fila-txt { display: flex; justify-content: space-between; gap: .75rem; font-size: .9rem; }
+.mt-fila-txt > :first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mt-fila-txt code { font-size: .82rem; }
+.mt-pista { height: 8px; background: var(--cs-papel-2); border-radius: 99px; overflow: hidden; margin-top: 3px; }
+.mt-relleno { height: 100%; background: var(--cs-acento); border-radius: 99px; }
+.mt-cero { background: transparent; }
+.mt-h4 { font-weight: 700; margin-top: .5rem; }
+.mt-ret td, .mt-ret th { text-align: center; white-space: nowrap; }
+.mt-celda { background: color-mix(in srgb, var(--cs-acento) calc(var(--p, 0) * 1%), transparent); }
+.mt-pie { margin-top: 1rem; }
