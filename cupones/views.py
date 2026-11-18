@@ -6,6 +6,8 @@ from django.core.cache import cache
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
+from metricas.nucleo import registrar_evento
+
 from .forms import CanjeForm, ObtenerCuponForm
 from .models import CodigoCupon, Cupon, Motociclista
 from .servicios import (CuponNoDisponible, ErrorCanje, RequierePlus, buscar_codigo, canjear, obtener_codigo,
@@ -68,6 +70,8 @@ def obtener(request, pk):
             return redirect("cupones:lista")
         if not nuevo:
             messages.info(request, "Ya tenías este cupón. Aquí está tu código.")
+        else:
+            registrar_evento(request, "cupon_obtenido", cupon=cupon.pk)
         return redirect(codigo)
     return render(request, "cupones/obtener.html", {"cupon": cupon, "form": form, "moto": moto})
 
@@ -135,6 +139,7 @@ def canjear_cupon(request):
                 cache.set(clave, cache.get(clave, 0) + 1, BLOQUEO_SEGUNDOS)
                 form.add_error(None, str(e))
             else:
+                registrar_evento(request, "cupon_canjeado", con_sesion=bool(taller))
                 form = CanjeForm(initial={"taller": d.get("taller").slug if d.get("taller") else ""})
     elif request.method == "GET" and inicial["codigo"]:
         form.cleaned_data = {}  # formulario sin enviar: add_error lo necesita (antes, un código malo daba error 500)

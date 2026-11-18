@@ -33,6 +33,7 @@
   function cargar() {
     if (cargado) return;
     cargado = true;
+    (window.tyM = window.tyM || []).push(["visor_3d", { origen: "moto" }]);
     librerias.forEach(function (url) { precargar(url, false); });
     precargar(modulo, false);
     propios.forEach(function (url) { precargar(url, false); });

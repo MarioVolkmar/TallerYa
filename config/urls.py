@@ -30,6 +30,7 @@ admin.site.login_form = EntrarAdminForm  # mismo límite de intentos que el logi
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("consola.urls")),
+    path("", include("metricas.urls")),
     path("", include("cuentas.urls")),
     path("", include("foro.urls")),
     path("", include("garaje.urls")),

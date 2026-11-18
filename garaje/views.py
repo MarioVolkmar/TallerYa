@@ -22,6 +22,8 @@ from talleres.models import Servicio, Taller
 
 from django.core.exceptions import ValidationError
 
+from metricas.nucleo import registrar_evento
+
 from . import hoja_vida, intervalos
 from .gastos import resumen as resumen_gastos
 from .forms import LecturaForm, MantenimientoForm, MotoForm, validar_documento
@@ -107,6 +109,7 @@ def agregar(request):
                     m.moto = moto
                 for m in nuevos:  # uno a uno: cada mantenimiento también queda en la hoja de vida
                     m.save()
+            registrar_evento(request, "moto_creada", guia=guia)
             if guia:  # primer uso: sigue al paso 3 (su plan y su moto en 3D)
                 return redirect("garaje:bienvenida_plan", pk=moto.pk)
             messages.success(request, "¡Moto agregada! " + _mensaje_al_dia(len(nuevos)))
@@ -584,6 +587,7 @@ def detalle(request, pk):
         messages.info(request, "Esa moto no está en tu garaje. Revisa con qué cuenta entraste.")
         return redirect(reverse("garaje:garaje") + "?lista=1")
     plan = calcular_plan(moto)
+    registrar_evento(request, "plan_visto")
 
     # Talleres sugeridos para lo que toca ya o pronto, con sus cupones disponibles.
     pendientes = [t for t in plan.urgentes + plan.pronto if t.tarea.servicio_id]
@@ -658,6 +662,7 @@ def despiece_json(request, pk):
     despiece = Despiece.para(moto)
     if not despiece:
         raise Http404("Esta moto no tiene despiece")
+    registrar_evento(request, "despiece_abierto")
     return JsonResponse(datos_despiece(despiece, calcular_plan(moto)))
 
 

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "tramites",
     "ayuda",
     "consola",
+    "metricas",  # medición de uso propia; quitar esta línea y el middleware la apaga del todo
 ]
 
 MIDDLEWARE = [
@@ -69,9 +70,13 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "metricas.middleware.MedirUso",  # páginas vistas (metricas/); METRICAS_ACTIVAS=0 la apaga
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# Medición de uso propia (metricas/): encendida salvo METRICAS_ACTIVAS=0. Apagada al correr las pruebas.
+METRICAS_ACTIVAS = env_bool("METRICAS_ACTIVAS", sys.argv[1:2] != ["test"])
 
 ROOT_URLCONF = "config.urls"
 
