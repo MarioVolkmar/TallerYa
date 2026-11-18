@@ -1,0 +1,168 @@
+{
+ "moto": "TVS Apache RTR 160 4V 2026 (Colombia)",
+ "fuente": "tvs-apache-rtr160-4v-2026-colombia-catalogo-partes.pdf",
+ "figuras": {
+  "8": {
+   "titulo": "Clutch (con slipper clutch)",
+   "paginas": [
+    27
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "RETEN CORONA CLUTCH",
+     "cantidad": 1,
+     "codigo": "NF080030",
+     "nota": "SAP 10081024"
+    },
+    {
+     "ref": "2",
+     "descripcion": "CORONA CLUTCH",
+     "cantidad": 1,
+     "codigo": "NF070110",
+     "nota": "SAP 10086655"
+    },
+    {
+     "ref": "3",
+     "descripcion": "BUJE",
+     "cantidad": 1,
+     "codigo": "NF080040",
+     "nota": "SAP 10081025"
+    },
+    {
+     "ref": "4",
+     "descripcion": "PORTA RESORTES",
+     "cantidad": 1,
+     "codigo": "NF070060",
+     "nota": "SAP 10081022"
+    },
+    {
+     "ref": "5",
+     "descripcion": "DISCOS CLUTCH (LLEGA 2 UNDS X EMPAQUE)",
+     "cantidad": 2,
+     "codigo": "N9070310",
+     "nota": "SAP 10084948"
+    },
+    {
+     "ref": "6",
+     "descripcion": "DISCOS CLUTCH (LLEGA 3 UNDS X EMPAQUE)",
+     "cantidad": 3,
+     "codigo": "N9070190",
+     "nota": "SAP 10085631"
+    },
+    {
+     "ref": "7",
+     "descripcion": "DISCO SEPARADOR CLUTCH",
+     "cantidad": 5,
+     "codigo": "NF070050",
+     "nota": "SAP 10098754"
+    },
+    {
+     "ref": "8",
+     "descripcion": "ARANDELA ANTIBRINCO",
+     "cantidad": 1,
+     "codigo": "NF070100",
+     "nota": "SAP 10081164"
+    },
+    {
+     "ref": "9",
+     "descripcion": "RESORTE ANTIBRINCO",
+     "cantidad": 1,
+     "codigo": "NF070090",
+     "nota": "SAP 10081163"
+    },
+    {
+     "ref": "10",
+     "descripcion": "RESORTE PRESION CLUTCH",
+     "cantidad": 3,
+     "codigo": "NF070070",
+     "nota": "SAP 10080839"
+    },
+    {
+     "ref": "11",
+     "descripcion": "ARANDELA ESPACIADORA CLUTCH",
+     "cantidad": 1,
+     "codigo": "M7070240",
+     "nota": "SAP 10080253"
+    },
+    {
+     "ref": "12",
+     "descripcion": "CORONA INTERNA CLUTCH",
+     "cantidad": 1,
+     "codigo": "NF070040",
+     "nota": "SAP 10081162"
+    },
+    {
+     "ref": "13",
+     "descripcion": "PORTA DISCOS CLUTCH",
+     "cantidad": 1,
+     "codigo": "NF070080",
+     "nota": "SAP 10081023"
+    },
+    {
+     "ref": "14",
+     "descripcion": "TORNILLO M6X25",
+     "cantidad": 3,
+     "codigo": "N2200500",
+     "nota": "SAP 10079690"
+    },
+    {
+     "ref": "15",
+     "descripcion": "ARANDELA",
+     "cantidad": 1,
+     "codigo": "M7070110",
+     "nota": "SAP 10079667"
+    },
+    {
+     "ref": "16",
+     "descripcion": "TUERCA",
+     "cantidad": 1,
+     "codigo": "M7070100",
+     "nota": "SAP 10080577"
+    },
+    {
+     "ref": "17",
+     "descripcion": "RODAMIENTO BOLAS 15X32X9",
+     "cantidad": 1,
+     "codigo": "M1200380",
+     "nota": "SAP 10080509"
+    },
+    {
+     "ref": "18",
+     "descripcion": "PIN ADAPTADOR CLUTCH",
+     "cantidad": 1,
+     "codigo": "M7070120",
+     "nota": "SAP 10080282"
+    },
+    {
+     "ref": "19",
+     "descripcion": "BALIN 3/16",
+     "cantidad": 1,
+     "codigo": "420404000",
+     "nota": "SAP 10081362"
+    },
+    {
+     "ref": "20",
+     "descripcion": "PIN EMPUJADOR CLUTCH",
+     "cantidad": 1,
+     "codigo": "M7070150",
+     "nota": "SAP 10080725"
+    },
+    {
+     "ref": "21",
+     "descripcion": "ARANDELA",
+     "cantidad": 1,
+     "codigo": "M7200460",
+     "nota": "SAP 10079535"
+    },
+    {
+     "ref": "22",
+     "descripcion": "KIT CLUTCH COMPL. Fig.4,5,6,7,8,9,10,12,13,14)",
+     "cantidad": 1,
+     "codigo": "NF070010",
+     "nota": "SAP 10078534"
+    }
+   ]
+  }
+ }
+}

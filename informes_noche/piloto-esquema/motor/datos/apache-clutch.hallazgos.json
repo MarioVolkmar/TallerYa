@@ -1,0 +1,67 @@
+[
+ {
+  "campo": "fichas.1.porque",
+  "reemplazar": "Es de goma y barato: si lo sacas, va nuevo.",
+  "por": "Es barato: si está gastado, marcado o deformado, va nuevo."
+ },
+ {
+  "campo": "fichas.1.sirve",
+  "reemplazar": "Sella y centra el cubo de la campana sobre su [[3|buje]].",
+  "por": "Mantiene la campana y su [[3|buje]] en su sitio sobre el eje (posición aprox.)."
+ },
+ {
+  "campo": "fichas.1.fallas.0.1",
+  "reemplazar": "Se endurece y se agrieta con el calor y el aceite viejo.",
+  "por": "Se gasta o se deforma y deja juego a la campana."
+ },
+ {
+  "campo": "funciona.pasos.5.t",
+  "reemplazar": "La rueda de atrás no brinca ni se bloquea.",
+  "por": "La rueda de atrás brinca mucho menos."
+ },
+ {
+  "campo": "funciona.pasos.4.t",
+  "reemplazar": "aprietan más: por eso la palanca es suave.",
+  "por": "aprietan más; así bastan resortes blandos y la palanca es suave."
+ },
+ {
+  "campo": "cuando.1.cuando",
+  "reemplazar": "ajústalo con la tuerca del cable.",
+  "por": "ajústalo con el ajustador del cable en el brazo del clutch y aprieta la contratuerca."
+ },
+ {
+  "campo": "cuando.0.cuando",
+  "reemplazar": "<b>10W-30</b> API SL, JASO MA2",
+  "por": "<b>10W-30</b> sintético API SL, JASO MA2"
+ },
+ {
+  "campo": "fichas.5.cuando",
+  "reemplazar": "Revísalos cuando patine con el juego libre bien ajustado.",
+  "por": "Revísalos cada 24.000 km, o antes si patina con el juego libre bien ajustado."
+ },
+ {
+  "campo": "fichas.17.arrastra.0",
+  "reemplazar": "la [[18|pin adaptador]]",
+  "por": "el [[18|pin adaptador]]"
+ },
+ {
+  "campo": "fichas.9.porque",
+  "reemplazar": "Si quedó plano o lo pusiste al revés, va nuevo o al derecho; fíjate de qué lado mira la curva al sacarlo.",
+  "por": "Si quedó plano, va nuevo; si estaba al revés, voltéalo. Al sacarlo, fíjate de qué lado mira la curva."
+ },
+ {
+  "campo": "fichas.1.que",
+  "reemplazar": "El anillo que el catálogo llama retén de la corona; en el plano va",
+  "por": "El aro que va"
+ },
+ {
+  "campo": "fichas.21.sintomas.0",
+  "reemplazar": "Ruido de roce con el clutch apretado.",
+  "por": "Ruido de roce con la palanca apretada."
+ },
+ {
+  "campo": "fichas.6.que",
+  "reemplazar": "El segundo tipo de disco de fricción que trae el catálogo, con otro código; van tres.",
+  "por": "El otro tipo de disco de fricción; van tres, en los puestos que indica el manual de servicio."
+ }
+]

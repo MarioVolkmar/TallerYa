@@ -1,0 +1,3123 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 8",
+  "titulo": "Clutch · TVS Apache RTR 160 4V",
+  "aviso": "Prototipo local. Dibujos propios. Es la figura 8 del catálogo: la versión con slipper clutch (antirrebote), la de las motos recientes; la fig. 7 es el clutch sin slipper. La tapa del clutch, con el brazo y la guía del cable, va en la figura 6."
+ },
+ "visor": {
+  "titulo": "Clutch",
+  "sub": "Lámina 8 · 21 números"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del clutch",
+  "laminaAria": "Dibujo del clutch con slipper de la TVS Apache RTR 160 4V en el eje de la caja: campana, manzana, discos, placa de presión con rampas, resortes, placa de los resortes y los pines que los separan. Cada número abre la ficha de su pieza.",
+  "introFunciona": "Del ralentí a una reducción brusca en seis pasos. A la izquierda, el clutch cortado; a la derecha, el cigüeñal moviendo la campana, el eje de la caja adentro y cuánto aprietas la palanca.",
+  "introCadenas": "En el clutch una pieza mal cuidada carga a las demás. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "Lo que pide el manual del propietario de la Apache RTR 160 4V y lo que conviene revisar en el taller."
+ },
+ "pie": "Dibujo propio de TallerYa a partir del catálogo de partes TVS Apache RTR 160 4V 2026 (fig. 8). Prototipo local.",
+ "encuadreArmado": [
+  226,
+  170,
+  432,
+  336
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 580",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": [
+   {
+    "t": "<b>1 · Ralentí en neutro.</b> Con la palanca suelta, los resortes aprietan los discos. El cigüeñal mueve la campana y esta mueve el eje de la caja; en neutro, la rueda no se mueve.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Pegado: todo gira junto"
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la palanca.</b> El cable gira el brazo del clutch en la tapa, los pines empujan la placa de los resortes y la placa de presión se aleja: los discos se separan y el eje de la caja se queda quieto.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Neutro",
+     "corona": "lento",
+     "caja": "quieto",
+     "estado": "Suelto: eje quieto"
+    }
+   },
+   {
+    "t": "<b>3 · Metes primera.</b> Con los discos sueltos el eje está quieto y el cambio entra sin golpe. Si suena «clac» fuerte, el clutch está arrastrando.",
+    "s": {
+     "palanca": 1,
+     "luz": "≈1 mm",
+     "patina": false,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "quieto",
+     "estado": "Suelto: listo para salir"
+    }
+   },
+   {
+    "t": "<b>4 · Sueltas despacio.</b> En el punto de fricción los discos se rozan y patinan un poco: el eje arranca despacio y la moto sale suave. Aquí es donde más se gastan.",
+    "s": {
+     "palanca": 0.45,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Primera",
+     "corona": "lento",
+     "caja": "lento",
+     "estado": "Patina: la moto arranca"
+    }
+   },
+   {
+    "t": "<b>5 · Palanca suelta y aceleras.</b> Los resortes aprietan los discos y las rampas entre la manzana y la placa de presión aprietan más: por eso la palanca es suave. El eje gira con la campana.",
+    "s": {
+     "palanca": 0,
+     "luz": "0 mm",
+     "patina": false,
+     "marcha": "Tercera",
+     "corona": "",
+     "caja": "",
+     "estado": "Pegado: la moto anda"
+    }
+   },
+   {
+    "t": "<b>6 · Reduces de golpe.</b> La rueda empuja al motor y las rampas corren al revés: alejan un poco la placa de presión y los discos patinan. La rueda de atrás no brinca ni se bloquea.",
+    "s": {
+     "palanca": 0,
+     "luz": "casi 0",
+     "patina": true,
+     "marcha": "Segunda",
+     "corona": "lento",
+     "caja": "",
+     "estado": "Rampas: no brinca"
+    }
+   }
+  ]
+ },
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades de las 21 piezas y del kit ref. 22: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11).",
+   "Medidas del balín (3/16) y de la balinera (15 × 32 × 9 mm): descripción del catálogo, fig. 8.",
+   "Aceite 10W-30 API SL JASO MA2, 1,2 L, intervalos de cambio, discos cada 24.000 km y juego libre de 8 - 13 mm: manual del propietario TVS Apache RTR 160 4V (inglés), pp. 84, 88 y 95-96 impresas."
+  ],
+  "aproximado": [
+   "Proporciones, vista y orden del dibujo: deducidos del plano del catálogo, en vista caballera con el eje de la caja hacia ti, como los otros clutch.",
+   "Papel de cada placa (placa de presión adentro con las torres y las rampas, placa de los resortes afuera con la balinera), orden de los pines y lugar del retén y de las arandelas: deducidos del plano y de la práctica de taller.",
+   "Torques, largo libre de los resortes y espesor de los discos: no están en el manual del propietario; van como «manual de servicio»."
+  ],
+  "lista": [
+   "Catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)».",
+   "Manual del propietario TVS Apache RTR 160 4V (inglés)."
+  ]
+ },
+ "comun": {
+  "atras": [
+   -0.5,
+   -0.32
+  ],
+  "sombra": "url(#akSombra)",
+  "colores": {
+   "acero": "url(#akAcero)",
+   "cromo": "url(#akCromo)",
+   "rosca": "url(#akRosca)",
+   "plast": "url(#akPlast)",
+   "estrias": "url(#akEstrias)",
+   "fric": "url(#akFric)"
+  }
+ },
+ "lamina": "apache-clutch",
+ "moto": "tvs-apache160-4v",
+ "figura": 8,
+ "catalogo": "tvs-apache160-4v",
+ "intervalos": "tvs_apache_rtr_160",
+ "arte": "apache-clutch",
+ "carcasas": [
+  {
+   "id": "13",
+   "transparente": 0.3,
+   "rayosx": 0.22,
+   "brillo": true
+  },
+  {
+   "id": "12",
+   "transparente": 0.4,
+   "rayosx": 0.22
+  }
+ ],
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22"
+ ],
+ "nombres": {
+  "21": "Arandela de atrás de la campana",
+  "1": "Retén de la campana",
+  "2": "Campana del clutch",
+  "11": "Arandela espaciadora",
+  "3": "Buje de la campana",
+  "4": "Placa de presión",
+  "8": "Asiento del resorte antibrinco",
+  "9": "Resorte antibrinco",
+  "5": "Discos de fricción",
+  "6": "Discos de fricción (tipo B)",
+  "7": "Discos separadores",
+  "12": "Manzana del clutch",
+  "15": "Arandela de la tuerca",
+  "16": "Tuerca de la manzana",
+  "10": "Resortes del clutch",
+  "13": "Placa de los resortes",
+  "14": "Tornillos de los resortes",
+  "17": "Balinera de la placa de los resortes",
+  "18": "Pin adaptador",
+  "19": "Balín",
+  "20": "Pin empujador"
+ },
+ "ordenChips": [
+  "21",
+  "1",
+  "2",
+  "11",
+  "3",
+  "4",
+  "8",
+  "9",
+  "5",
+  "6",
+  "7",
+  "12",
+  "15",
+  "16",
+  "10",
+  "13",
+  "14",
+  "17",
+  "18",
+  "19",
+  "20"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "21",
+   "n": "21",
+   "comun": "arandela",
+   "p": {
+    "r": 16,
+    "ri": 9,
+    "e": 2,
+    "x": 430,
+    "y": 334
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    430,
+    334
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "1",
+   "n": "1",
+   "comun": "reten",
+   "p": {
+    "r": 20,
+    "ri": 12,
+    "x": 430,
+    "y": 334
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    430,
+    334
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteCampana",
+   "args": [
+    440,
+    340
+   ],
+   "anc": [
+    370,
+    282
+   ],
+   "et": [
+    -40,
+    -40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "comun": "arandela",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "e": 2,
+    "x": 424,
+    "y": 330
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    300,
+    342
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "comun": "buje",
+   "p": {
+    "r": 17,
+    "ri": 12,
+    "largo": 22,
+    "x": 428,
+    "y": 333
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    310,
+    292
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "artePlacaPresion",
+   "args": [
+    425,
+    330
+   ],
+   "anc": [
+    372,
+    300
+   ],
+   "et": [
+    -36,
+    -26
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "comun": "arandela",
+   "p": {
+    "r": 58,
+    "ri": 46,
+    "e": 2,
+    "x": 437,
+    "y": 338
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    437,
+    338
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "comun": "arandela",
+   "p": {
+    "r": 60,
+    "ri": 44,
+    "e": 2,
+    "x": 437,
+    "y": 338
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    437,
+    338
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      88.0,
+      0.0
+     ],
+     [
+      87.7,
+      7.7
+     ],
+     [
+      86.7,
+      15.3
+     ],
+     [
+      75.3,
+      20.2
+     ],
+     [
+      73.3,
+      26.7
+     ],
+     [
+      70.7,
+      33.0
+     ],
+     [
+      67.5,
+      39.0
+     ],
+     [
+      63.9,
+      44.7
+     ],
+     [
+      59.8,
+      50.1
+     ],
+     [
+      62.2,
+      62.2
+     ],
+     [
+      56.6,
+      67.4
+     ],
+     [
+      50.5,
+      72.1
+     ],
+     [
+      39.0,
+      67.5
+     ],
+     [
+      33.0,
+      70.7
+     ],
+     [
+      26.7,
+      73.3
+     ],
+     [
+      20.2,
+      75.3
+     ],
+     [
+      13.5,
+      76.8
+     ],
+     [
+      6.8,
+      77.7
+     ],
+     [
+      0.0,
+      88.0
+     ],
+     [
+      -7.7,
+      87.7
+     ],
+     [
+      -15.3,
+      86.7
+     ],
+     [
+      -20.2,
+      75.3
+     ],
+     [
+      -26.7,
+      73.3
+     ],
+     [
+      -33.0,
+      70.7
+     ],
+     [
+      -39.0,
+      67.5
+     ],
+     [
+      -44.7,
+      63.9
+     ],
+     [
+      -50.1,
+      59.8
+     ],
+     [
+      -62.2,
+      62.2
+     ],
+     [
+      -67.4,
+      56.6
+     ],
+     [
+      -72.1,
+      50.5
+     ],
+     [
+      -67.5,
+      39.0
+     ],
+     [
+      -70.7,
+      33.0
+     ],
+     [
+      -73.3,
+      26.7
+     ],
+     [
+      -75.3,
+      20.2
+     ],
+     [
+      -76.8,
+      13.5
+     ],
+     [
+      -77.7,
+      6.8
+     ],
+     [
+      -88.0,
+      0.0
+     ],
+     [
+      -87.7,
+      -7.7
+     ],
+     [
+      -86.7,
+      -15.3
+     ],
+     [
+      -75.3,
+      -20.2
+     ],
+     [
+      -73.3,
+      -26.7
+     ],
+     [
+      -70.7,
+      -33.0
+     ],
+     [
+      -67.5,
+      -39.0
+     ],
+     [
+      -63.9,
+      -44.7
+     ],
+     [
+      -59.8,
+      -50.1
+     ],
+     [
+      -62.2,
+      -62.2
+     ],
+     [
+      -56.6,
+      -67.4
+     ],
+     [
+      -50.5,
+      -72.1
+     ],
+     [
+      -39.0,
+      -67.5
+     ],
+     [
+      -33.0,
+      -70.7
+     ],
+     [
+      -26.7,
+      -73.3
+     ],
+     [
+      -20.2,
+      -75.3
+     ],
+     [
+      -13.5,
+      -76.8
+     ],
+     [
+      -6.8,
+      -77.7
+     ],
+     [
+      -0.0,
+      -88.0
+     ],
+     [
+      7.7,
+      -87.7
+     ],
+     [
+      15.3,
+      -86.7
+     ],
+     [
+      20.2,
+      -75.3
+     ],
+     [
+      26.7,
+      -73.3
+     ],
+     [
+      33.0,
+      -70.7
+     ],
+     [
+      39.0,
+      -67.5
+     ],
+     [
+      44.7,
+      -63.9
+     ],
+     [
+      50.1,
+      -59.8
+     ],
+     [
+      62.2,
+      -62.2
+     ],
+     [
+      67.4,
+      -56.6
+     ],
+     [
+      72.1,
+      -50.5
+     ],
+     [
+      67.5,
+      -39.0
+     ],
+     [
+      70.7,
+      -33.0
+     ],
+     [
+      73.3,
+      -26.7
+     ],
+     [
+      75.3,
+      -20.2
+     ],
+     [
+      76.8,
+      -13.5
+     ],
+     [
+      77.7,
+      -6.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      58
+     ]
+    ],
+    "e": 3,
+    "material": "fric",
+    "x": 429,
+    "y": 333
+   },
+   "anc": [
+    367,
+    383
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      88.0,
+      0.0
+     ],
+     [
+      87.7,
+      7.7
+     ],
+     [
+      86.7,
+      15.3
+     ],
+     [
+      75.3,
+      20.2
+     ],
+     [
+      73.3,
+      26.7
+     ],
+     [
+      70.7,
+      33.0
+     ],
+     [
+      67.5,
+      39.0
+     ],
+     [
+      63.9,
+      44.7
+     ],
+     [
+      59.8,
+      50.1
+     ],
+     [
+      62.2,
+      62.2
+     ],
+     [
+      56.6,
+      67.4
+     ],
+     [
+      50.5,
+      72.1
+     ],
+     [
+      39.0,
+      67.5
+     ],
+     [
+      33.0,
+      70.7
+     ],
+     [
+      26.7,
+      73.3
+     ],
+     [
+      20.2,
+      75.3
+     ],
+     [
+      13.5,
+      76.8
+     ],
+     [
+      6.8,
+      77.7
+     ],
+     [
+      0.0,
+      88.0
+     ],
+     [
+      -7.7,
+      87.7
+     ],
+     [
+      -15.3,
+      86.7
+     ],
+     [
+      -20.2,
+      75.3
+     ],
+     [
+      -26.7,
+      73.3
+     ],
+     [
+      -33.0,
+      70.7
+     ],
+     [
+      -39.0,
+      67.5
+     ],
+     [
+      -44.7,
+      63.9
+     ],
+     [
+      -50.1,
+      59.8
+     ],
+     [
+      -62.2,
+      62.2
+     ],
+     [
+      -67.4,
+      56.6
+     ],
+     [
+      -72.1,
+      50.5
+     ],
+     [
+      -67.5,
+      39.0
+     ],
+     [
+      -70.7,
+      33.0
+     ],
+     [
+      -73.3,
+      26.7
+     ],
+     [
+      -75.3,
+      20.2
+     ],
+     [
+      -76.8,
+      13.5
+     ],
+     [
+      -77.7,
+      6.8
+     ],
+     [
+      -88.0,
+      0.0
+     ],
+     [
+      -87.7,
+      -7.7
+     ],
+     [
+      -86.7,
+      -15.3
+     ],
+     [
+      -75.3,
+      -20.2
+     ],
+     [
+      -73.3,
+      -26.7
+     ],
+     [
+      -70.7,
+      -33.0
+     ],
+     [
+      -67.5,
+      -39.0
+     ],
+     [
+      -63.9,
+      -44.7
+     ],
+     [
+      -59.8,
+      -50.1
+     ],
+     [
+      -62.2,
+      -62.2
+     ],
+     [
+      -56.6,
+      -67.4
+     ],
+     [
+      -50.5,
+      -72.1
+     ],
+     [
+      -39.0,
+      -67.5
+     ],
+     [
+      -33.0,
+      -70.7
+     ],
+     [
+      -26.7,
+      -73.3
+     ],
+     [
+      -20.2,
+      -75.3
+     ],
+     [
+      -13.5,
+      -76.8
+     ],
+     [
+      -6.8,
+      -77.7
+     ],
+     [
+      -0.0,
+      -88.0
+     ],
+     [
+      7.7,
+      -87.7
+     ],
+     [
+      15.3,
+      -86.7
+     ],
+     [
+      20.2,
+      -75.3
+     ],
+     [
+      26.7,
+      -73.3
+     ],
+     [
+      33.0,
+      -70.7
+     ],
+     [
+      39.0,
+      -67.5
+     ],
+     [
+      44.7,
+      -63.9
+     ],
+     [
+      50.1,
+      -59.8
+     ],
+     [
+      62.2,
+      -62.2
+     ],
+     [
+      67.4,
+      -56.6
+     ],
+     [
+      72.1,
+      -50.5
+     ],
+     [
+      67.5,
+      -39.0
+     ],
+     [
+      70.7,
+      -33.0
+     ],
+     [
+      73.3,
+      -26.7
+     ],
+     [
+      75.3,
+      -20.2
+     ],
+     [
+      76.8,
+      -13.5
+     ],
+     [
+      77.7,
+      -6.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      58
+     ]
+    ],
+    "e": 3,
+    "material": "fric",
+    "x": 433,
+    "y": 335.5
+   },
+   "anc": [
+    389,
+    401
+   ],
+   "et": [
+    -30,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      74.0,
+      0.0
+     ],
+     [
+      72.9,
+      12.8
+     ],
+     [
+      69.5,
+      25.3
+     ],
+     [
+      64.1,
+      37.0
+     ],
+     [
+      56.7,
+      47.6
+     ],
+     [
+      47.6,
+      56.7
+     ],
+     [
+      37.0,
+      64.1
+     ],
+     [
+      25.3,
+      69.5
+     ],
+     [
+      12.8,
+      72.9
+     ],
+     [
+      0.0,
+      74.0
+     ],
+     [
+      -12.8,
+      72.9
+     ],
+     [
+      -25.3,
+      69.5
+     ],
+     [
+      -37.0,
+      64.1
+     ],
+     [
+      -47.6,
+      56.7
+     ],
+     [
+      -56.7,
+      47.6
+     ],
+     [
+      -64.1,
+      37.0
+     ],
+     [
+      -69.5,
+      25.3
+     ],
+     [
+      -72.9,
+      12.8
+     ],
+     [
+      -74.0,
+      0.0
+     ],
+     [
+      -72.9,
+      -12.8
+     ],
+     [
+      -69.5,
+      -25.3
+     ],
+     [
+      -64.1,
+      -37.0
+     ],
+     [
+      -56.7,
+      -47.6
+     ],
+     [
+      -47.6,
+      -56.7
+     ],
+     [
+      -37.0,
+      -64.1
+     ],
+     [
+      -25.3,
+      -69.5
+     ],
+     [
+      -12.8,
+      -72.9
+     ],
+     [
+      -0.0,
+      -74.0
+     ],
+     [
+      12.8,
+      -72.9
+     ],
+     [
+      25.3,
+      -69.5
+     ],
+     [
+      37.0,
+      -64.1
+     ],
+     [
+      47.6,
+      -56.7
+     ],
+     [
+      56.7,
+      -47.6
+     ],
+     [
+      64.1,
+      -37.0
+     ],
+     [
+      69.5,
+      -25.3
+     ],
+     [
+      72.9,
+      -12.8
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      50
+     ]
+    ],
+    "e": 1.5,
+    "material": "acero",
+    "x": 432,
+    "y": 334.9
+   },
+   "anc": [
+    412,
+    404.9
+   ],
+   "et": [
+    -10,
+    40
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "arte": "arteManzana",
+   "args": [
+    437,
+    338.1
+   ],
+   "anc": [
+    482,
+    293.1
+   ],
+   "et": [
+    40,
+    -50
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "comun": "arandela",
+   "p": {
+    "r": 14,
+    "ri": 7,
+    "e": 2,
+    "x": 447,
+    "y": 344.5
+   },
+   "anc": [
+    459,
+    350.5
+   ],
+   "et": [
+    30,
+    20
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 448,
+    "y": 345.0
+   },
+   "anc": [
+    459,
+    338.5
+   ],
+   "et": [
+    30,
+    -20
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "comun": "resorte",
+   "p": {
+    "r": 8,
+    "largo": 26,
+    "vueltas": 5,
+    "alambre": 2.6,
+    "copias": [
+     [
+      -48.0,
+      27.7
+     ],
+     [
+      -48.0,
+      -27.7
+     ]
+    ],
+    "x": 478.0,
+    "y": 343.8
+   },
+   "anc": [
+    479,
+    344.5
+   ],
+   "et": [
+    40,
+    -26
+   ],
+   "vis": "exp",
+   "oculto": true
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      44.0,
+      0.0
+     ],
+     [
+      43.6,
+      5.7
+     ],
+     [
+      34.8,
+      9.3
+     ],
+     [
+      22.2,
+      9.2
+     ],
+     [
+      20.8,
+      12.0
+     ],
+     [
+      19.0,
+      14.6
+     ],
+     [
+      17.0,
+      17.0
+     ],
+     [
+      14.6,
+      19.0
+     ],
+     [
+      12.0,
+      20.8
+     ],
+     [
+      9.2,
+      22.2
+     ],
+     [
+      6.2,
+      23.2
+     ],
+     [
+      3.1,
+      23.8
+     ],
+     [
+      0.0,
+      24.0
+     ],
+     [
+      -3.1,
+      23.8
+     ],
+     [
+      -9.3,
+      34.8
+     ],
+     [
+      -16.8,
+      40.7
+     ],
+     [
+      -22.0,
+      38.1
+     ],
+     [
+      -26.8,
+      34.9
+     ],
+     [
+      -25.5,
+      25.5
+     ],
+     [
+      -19.0,
+      14.6
+     ],
+     [
+      -20.8,
+      12.0
+     ],
+     [
+      -22.2,
+      9.2
+     ],
+     [
+      -23.2,
+      6.2
+     ],
+     [
+      -23.8,
+      3.1
+     ],
+     [
+      -24.0,
+      0.0
+     ],
+     [
+      -23.8,
+      -3.1
+     ],
+     [
+      -23.2,
+      -6.2
+     ],
+     [
+      -22.2,
+      -9.2
+     ],
+     [
+      -20.8,
+      -12.0
+     ],
+     [
+      -19.0,
+      -14.6
+     ],
+     [
+      -25.5,
+      -25.5
+     ],
+     [
+      -26.8,
+      -34.9
+     ],
+     [
+      -22.0,
+      -38.1
+     ],
+     [
+      -16.8,
+      -40.7
+     ],
+     [
+      -9.3,
+      -34.8
+     ],
+     [
+      -3.1,
+      -23.8
+     ],
+     [
+      -0.0,
+      -24.0
+     ],
+     [
+      3.1,
+      -23.8
+     ],
+     [
+      6.2,
+      -23.2
+     ],
+     [
+      9.2,
+      -22.2
+     ],
+     [
+      12.0,
+      -20.8
+     ],
+     [
+      14.6,
+      -19.0
+     ],
+     [
+      17.0,
+      -17.0
+     ],
+     [
+      19.0,
+      -14.6
+     ],
+     [
+      20.8,
+      -12.0
+     ],
+     [
+      22.2,
+      -9.2
+     ],
+     [
+      34.8,
+      -9.3
+     ],
+     [
+      43.6,
+      -5.7
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      16
+     ],
+     [
+      32.0,
+      0.0,
+      3.5
+     ],
+     [
+      0.0,
+      32.0,
+      3.5
+     ],
+     [
+      -32.0,
+      0.0,
+      3.5
+     ],
+     [
+      -0.0,
+      -32.0,
+      3.5
+     ]
+    ],
+    "e": 3,
+    "material": "acero",
+    "x": 447,
+    "y": 344.5
+   },
+   "anc": [
+    417,
+    372.5
+   ],
+   "et": [
+    -70,
+    30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 6,
+    "brida": 7.5,
+    "largo": 25,
+    "d": 6,
+    "copias": [
+     [
+      -48.0,
+      27.7
+     ],
+     [
+      -48.0,
+      -27.7
+     ]
+    ],
+    "x": 480,
+    "y": 345.1
+   },
+   "anc": [
+    480,
+    345.1
+   ],
+   "et": [
+    60,
+    10
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "comun": "rodamiento",
+   "p": {
+    "r": 17,
+    "ri": 8.5,
+    "ancho": 10,
+    "x": 450,
+    "y": 346.4
+   },
+   "anc": [
+    458,
+    338.4
+   ],
+   "et": [
+    30,
+    -90
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "comun": "pasador",
+   "p": {
+    "r": 5,
+    "largo": 22,
+    "x": 455,
+    "y": 349.6
+   },
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    455,
+    350
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "arte": "arteBalin",
+   "args": [
+    455,
+    349.6
+   ],
+   "vis": "exp",
+   "oculto": true,
+   "anc": [
+    455,
+    350
+   ],
+   "et": [
+    0,
+    -30
+   ]
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "comun": "revolucion",
+   "p": {
+    "perfil": "@varilla",
+    "x": 455,
+    "y": 349.6
+   },
+   "anc": [
+    455,
+    349.6
+   ],
+   "et": [
+    -30,
+    90
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Cable, tapa y pines.</b> Afloja el cable y suéltalo del brazo del clutch. Con el motor frío, drena el aceite y quita la tapa del clutch (fig. 6). Saca el [[20|pin empujador]], el [[19|balín]] y el [[18|pin adaptador]]. Al armar: empaque nuevo y 1,2 L de 10W-30 JASO MA2.",
+   "m": {
+    "20": [
+     403,
+     -23
+    ],
+    "19": [
+     376,
+     -41
+    ],
+    "18": [
+     332,
+     -70
+    ]
+   }
+  },
+  {
+   "t": "<b>Resortes y placa.</b> Afloja los tres [[14|tornillos]] en cruz, media vuelta cada uno, hasta soltar los [[10|resortes]]. Saca la [[13|placa de los resortes]] con su [[17|balinera]]. Al armar: en cruz y parejo (torque: manual de servicio).",
+   "m": {
+    "14": [
+     222,
+     -164
+    ],
+    "13": [
+     133,
+     -204
+    ],
+    "17": [
+     307,
+     -100
+    ],
+    "10": [
+     54,
+     -252
+    ]
+   }
+  },
+  {
+   "t": "<b>Tuerca de la manzana.</b> Traba la [[12|manzana]] con una herramienta de sujeción y afloja la [[16|tuerca]]; saca la [[15|arandela]]. Al armar: arandela en su lugar y tuerca al torque del manual de servicio.",
+   "m": {
+    "16": [
+     302,
+     60
+    ],
+    "15": [
+     350,
+     -18
+    ]
+   }
+  },
+  {
+   "t": "<b>Manzana y discos.</b> Saca la [[12|manzana]], los [[5|discos de fricción]] de los dos tipos, los [[7|separadores]], el [[9|resorte antibrinco]] con su [[8|asiento]] y la [[4|placa de presión]]. Fotografía el orden. Al armar: discos remojados en aceite del motor.",
+   "m": {
+    "12": [
+     265,
+     250
+    ],
+    "7": [
+     150,
+     145
+    ],
+    "5": [
+     -10,
+     35
+    ],
+    "6": [
+     70,
+     90
+    ],
+    "9": [
+     -150,
+     110
+    ],
+    "8": [
+     -215,
+     70
+    ],
+    "4": [
+     -104,
+     -38
+    ]
+   }
+  },
+  {
+   "t": "<b>Campana.</b> Saca la [[11|arandela]] que quedó en el eje, la [[2|campana]], su [[3|buje]], el [[1|retén]] y la [[21|arandela]] de atrás. Revisa las ventanas y los dientes: si las ventanas tienen escalones, los discos se traban.",
+   "m": {
+    "2": [
+     -178,
+     -130
+    ],
+    "3": [
+     -119,
+     -88
+    ],
+    "11": [
+     -46,
+     -28
+    ],
+    "1": [
+     -335,
+     -70
+    ],
+    "21": [
+     -335,
+     -5
+    ]
+   }
+  }
+ ],
+ "textoArmado": "El clutch va en la punta derecha del eje de la caja, bañado en aceite, detrás de la tapa derecha del motor. Toca un grupo para ver sus piezas.",
+ "fichas": {
+  "21": {
+   "nombre": "Arandela de atrás de la campana",
+   "que": "La arandela que va en el eje de la caja, detrás de la [[2|campana]] (posición aprox.).",
+   "sirve": "Hace de tope para que la campana no roce contra la carcasa.",
+   "sintomas": [
+    "Ruido de roce con el clutch apretado."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca o se adelgaza con los años."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin marcas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques la campana.",
+   "arrastra": [],
+   "conecta": [
+    "2",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pines)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "M7200460",
+   "cat": "ARANDELA · 1 pieza"
+  },
+  "1": {
+   "nombre": "Retén de la campana",
+   "que": "El anillo que el catálogo llama retén de la corona; en el plano va junto al cubo de la [[2|campana]] (posición aprox.).",
+   "sirve": "Sella y centra el cubo de la campana sobre su [[3|buje]].",
+   "sintomas": [
+    "Campana con juego o que suena al soltar la palanca."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se endurece y se agrieta con el calor y el aceite viejo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es de goma y barato: si lo sacas, va nuevo.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que saques la campana.",
+   "arrastra": [],
+   "conecta": [
+    "2",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pines)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "NF080030",
+   "cat": "RETEN CORONA CLUTCH · 1 pieza"
+  },
+  "2": {
+   "nombre": "Campana del clutch",
+   "cat": "CORONA CLUTCH · 1 pieza",
+   "codigo": "NF070110",
+   "que": "La canasta con la corona dentada atrás: la mueve el piñón del cigüeñal y en sus ventanas entran las orejas de los [[5|discos de fricción]].",
+   "sirve": "Recibe la fuerza del motor y se la pasa a los discos de fricción.",
+   "sintomas": [
+    "Golpeteo o «clac» al soltar la palanca.",
+    "La palanca se siente a saltos al soltarla despacio."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las orejas de los discos marcan escalones en las ventanas."
+    ],
+    [
+     "golpe",
+     "Dientes de la corona picados por golpes al cambiar."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si las ventanas no tienen escalones, se vuelve a poner; con escalones hondos, campana nueva.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que cambies los discos.",
+   "arrastra": [
+    "Ventanas con escalones → los [[5|discos de fricción]] se traban y el clutch arrastra."
+   ],
+   "conecta": [
+    "3",
+    "1",
+    "5",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "torno",
+      "color": "campana",
+      "perfil": "@corona3d"
+     },
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 67,
+       "r": 110
+      },
+      "z": [
+       -48,
+       -40
+      ],
+      "huecos": [
+       {
+        "r": 94
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "11": {
+   "nombre": "Arandela espaciadora",
+   "cat": "ARANDELA ESPACIADORA CLUTCH · 1 pieza",
+   "codigo": "M7070240",
+   "que": "La arandela que va en el eje de la caja, entre la [[2|campana]] y la [[12|manzana]] (posición aprox.).",
+   "sirve": "Hace de apoyo para que la manzana no roce contra la campana.",
+   "sintomas": [
+    "Campana con juego hacia adentro y hacia afuera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta y deja juego."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin marcas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques la campana.",
+   "arrastra": [
+    "Arandela gastada → la [[12|manzana]] roza la [[2|campana]] y se calienta."
+   ],
+   "conecta": [
+    "2",
+    "3"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "3": {
+   "nombre": "Buje de la campana",
+   "cat": "BUJE · 1 pieza",
+   "codigo": "NF080040",
+   "que": "El buje de acero que va en el eje de la caja, dentro de la [[2|campana]].",
+   "sirve": "Deja que la campana gire suelta sobre el eje cuando aprietas la palanca.",
+   "sintomas": [
+    "Campana con juego o que cabecea.",
+    "Ruido de roce con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se raya si el aceite está sucio o falta aceite."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si tiene rayas o juego, va nuevo; es barato frente a la campana.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que saques la campana.",
+   "arrastra": [
+    "Buje gastado → la [[2|campana]] cabecea y gasta los [[5|discos de fricción]] disparejo."
+   ],
+   "conecta": [
+    "2",
+    "11"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "4": {
+   "nombre": "Placa de presión",
+   "cat": "PORTA RESORTES · 1 pieza · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "NF070060",
+   "que": "La placa de adentro, con tres torres que pasan por la [[12|manzana]] y por dentro de los [[10|resortes]]; en ellas enroscan los [[14|tornillos]]. Entre ella y la manzana van las rampas del slipper.",
+   "sirve": "Aprieta los discos con la fuerza de los resortes; sus rampas ayudan a apretar al acelerar y la sueltan un poco cuando reduces de golpe.",
+   "sintomas": [
+    "Patina aunque los discos sean nuevos.",
+    "Agarra disparejo.",
+    "La rueda de atrás brinca al reducir de golpe."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se azula y se tuerce cuando el clutch patina mucho."
+    ],
+    [
+     "desgaste",
+     "Las rampas se marcan o se pican: el slipper deja de trabajar parejo."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la cara está plana y las roscas sanas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Placa torcida → aprieta disparejo y los [[5|discos de fricción]] patinan."
+   ],
+   "conecta": [
+    "12",
+    "10",
+    "14",
+    "5"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "forma3d": {
+    "partes": [
+     {
+      "tipo": "prisma",
+      "color": "acero",
+      "contorno": {
+       "n": 36,
+       "r": 75
+      },
+      "z": [
+       -6,
+       0
+      ],
+      "huecos": [
+       {
+        "r": 30
+       }
+      ]
+     },
+     {
+      "tipo": "cilindro",
+      "color": "alum",
+      "r": 9,
+      "z": [
+       0,
+       14
+      ],
+      "pos": [
+       32,
+       0
+      ],
+      "repetir": 4
+     }
+    ]
+   }
+  },
+  "8": {
+   "nombre": "Asiento del resorte antibrinco",
+   "que": "El aro plano que va en la [[12|manzana]], debajo del [[9|resorte antibrinco]].",
+   "sirve": "Le da un apoyo parejo al resorte para que no marque la manzana.",
+   "sintomas": [
+    "Tirones al soltar la palanca."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se marca si el resorte se mueve."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está torcido ni marcado, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que cambies los discos.",
+   "arrastra": [],
+   "conecta": [
+    "9",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pines)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "NF070100",
+   "cat": "ARANDELA ANTIBRINCO · 1 pieza · también en el kit ref. 22 (kit clutch completo, NF070010)"
+  },
+  "9": {
+   "nombre": "Resorte antibrinco",
+   "que": "Un aro de acero curvo (como un platillo) que va con su [[8|asiento]] en la [[12|manzana]], antes del primer disco.",
+   "sirve": "Hace que el clutch agarre suave, sin tirones ni temblor, cuando sueltas la palanca.",
+   "sintomas": [
+    "La moto sale a brincos aunque sueltes despacio."
+   ],
+   "fallas": [
+    [
+     "montaje",
+     "Al revés no hace su trabajo: la moto sale a tirones."
+    ],
+    [
+     "calor",
+     "Se aplana con el calor de patinar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si quedó plano o lo pusiste al revés, va nuevo o al derecho; fíjate de qué lado mira la curva al sacarlo.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que cambies los discos.",
+   "arrastra": [
+    "Resorte plano → la moto sale a tirones y los [[5|discos de fricción]] se gastan disparejo."
+   ],
+   "conecta": [
+    "8",
+    "5",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pines)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "NF070090",
+   "cat": "RESORTE ANTIBRINCO · 1 pieza · también en el kit ref. 22 (kit clutch completo, NF070010)"
+  },
+  "5": {
+   "nombre": "Discos de fricción",
+   "cat": "DISCOS CLUTCH (LLEGA 2 UNDS X EMPAQUE) · 2 piezas · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "N9070310",
+   "que": "Los discos con forro y orejas por fuera. El catálogo trae dos tipos con código distinto: dos de este y tres del [[6|otro tipo]].",
+   "sirve": "Al apretarse contra los [[7|separadores]] pasan la fuerza de la [[2|campana]] a la [[12|manzana]].",
+   "sintomas": [
+    "El motor sube de vueltas y la moto no avanza igual (patina), sobre todo en subida.",
+    "Olor a quemado después de mucho clutch."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El forro se gasta con el uso y más si usas mucho la palanca a medias."
+    ],
+    [
+     "calor",
+     "Aceite para carro o viejo: se vitrifican y resbalan."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Gastados, o brillantes y duros (vitrificados), van nuevos, el juego completo de los dos tipos.",
+   "dif": "taller",
+   "cuando": "Revísalos cuando patine con el juego libre bien ajustado.",
+   "arrastra": [
+    "Discos gastados → los [[10|resortes]] se calientan y se cansan."
+   ],
+   "conecta": [
+    "2",
+    "6",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "6": {
+   "nombre": "Discos de fricción (tipo B)",
+   "cat": "DISCOS CLUTCH (LLEGA 3 UNDS X EMPAQUE) · 3 piezas · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "N9070190",
+   "que": "El segundo tipo de disco de fricción que trae el catálogo, con otro código; van tres.",
+   "sirve": "Trabaja igual que los [[5|discos de fricción]] del otro tipo; va en el lugar que indica el manual de servicio.",
+   "sintomas": [
+    "Puede agarrar a saltos si quedó en el puesto equivocado."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Ponerlo en el lugar del otro tipo cambia cómo agarra el clutch."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Va nuevo junto con los del otro tipo.",
+   "dif": "taller",
+   "cuando": "Revísalo con los demás discos.",
+   "arrastra": [
+    "Disco en el puesto equivocado → el clutch agarra a saltos y los discos se gastan disparejo."
+   ],
+   "conecta": [
+    "5",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "7": {
+   "nombre": "Discos separadores",
+   "cat": "DISCO SEPARADOR CLUTCH · 5 piezas · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "NF070050",
+   "que": "Los discos lisos de acero con estrías por dentro; van cinco, entre los de fricción.",
+   "sirve": "Hacen de cara de apoyo para los discos de fricción y giran con la [[12|manzana]].",
+   "sintomas": [
+    "Clutch que arrastra: la moto se mueve con la palanca apretada."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se azulan y se tuercen cuando el clutch patina mucho."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si están planos y sin color azul, se vuelven a poner.",
+   "dif": "taller",
+   "cuando": "Revísalos cada vez que cambies los discos de fricción.",
+   "arrastra": [
+    "Separador torcido → los [[5|discos de fricción]] siguen rozando con la palanca apretada."
+   ],
+   "conecta": [
+    "12",
+    "5",
+    "6"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "12": {
+   "nombre": "Manzana del clutch",
+   "cat": "CORONA INTERNA CLUTCH · 1 pieza · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "NF070040",
+   "que": "El cubo con estrías por fuera y por dentro: por fuera engranan los [[7|separadores]] y por dentro el eje de la caja; hacia la [[4|placa de presión]] tiene las rampas del slipper.",
+   "sirve": "Pasa la fuerza de los discos al eje de la caja.",
+   "sintomas": [
+    "Clutch que arrastra aunque los discos estén buenos."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Las estrías de afuera se marcan con escalones."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si las estrías están lisas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Estrías con escalones → los [[7|separadores]] no se deslizan y el clutch arrastra."
+   ],
+   "conecta": [
+    "7",
+    "4",
+    "16",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "15": {
+   "nombre": "Arandela de la tuerca",
+   "cat": "ARANDELA · 1 pieza",
+   "codigo": "M7070110",
+   "que": "La arandela que va debajo de la [[16|tuerca]].",
+   "sirve": "Reparte el apriete de la tuerca sobre la [[12|manzana]].",
+   "sintomas": [
+    "Tuerca que se afloja."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Si falta o va al revés, la tuerca no queda firme."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está plana y sin grietas, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que quites la tuerca.",
+   "arrastra": [
+    "Sin arandela → la [[16|tuerca]] se afloja."
+   ],
+   "conecta": [
+    "16",
+    "12"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "16": {
+   "nombre": "Tuerca de la manzana",
+   "cat": "TUERCA · 1 pieza",
+   "codigo": "M7070100",
+   "que": "La tuerca con brida que sujeta la [[12|manzana]] en el eje de la caja.",
+   "sirve": "Impide que la manzana se salga del eje.",
+   "sintomas": [
+    "Ruido metálico en el clutch si quedó floja."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Floja o sin su arandela, se suelta con el uso."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana, se vuelve a poner al torque del manual de servicio.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que saques la manzana.",
+   "arrastra": [
+    "Tuerca floja → la [[12|manzana]] golpea y daña las estrías del eje."
+   ],
+   "conecta": [
+    "12",
+    "15"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "10": {
+   "nombre": "Resortes del clutch",
+   "cat": "RESORTE PRESION CLUTCH · 3 piezas · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "NF070070",
+   "que": "Los tres resortes que van entre la [[13|placa de los resortes]] y la [[12|manzana]]; por dentro de cada uno pasa una torre de la [[4|placa de presión]].",
+   "sirve": "Aprietan los discos para que el clutch no patine.",
+   "sintomas": [
+    "Patina con discos buenos.",
+    "Palanca muy blanda."
+   ],
+   "fallas": [
+    [
+     "calor",
+     "Se cansan (pierden largo) con el calor de patinar."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si están más cortos que el límite del manual de servicio, van nuevos los tres.",
+   "dif": "taller",
+   "cuando": "Mídelos cada vez que cambies los discos.",
+   "arrastra": [
+    "Resortes cansados → los [[5|discos de fricción]] patinan y se queman."
+   ],
+   "conecta": [
+    "4",
+    "13",
+    "14"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "13": {
+   "nombre": "Placa de los resortes",
+   "cat": "PORTA DISCOS CLUTCH · 1 pieza · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "NF070080",
+   "que": "La placa de afuera con tres orejas: lleva la [[17|balinera]] en el centro y los tres [[14|tornillos]].",
+   "sirve": "Recibe el empuje del [[18|pin adaptador]] y aleja la [[4|placa de presión]] para soltar los discos.",
+   "sintomas": [
+    "Clutch que no suelta parejo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "El alojamiento de la balinera se agranda."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si no está torcida ni rajada, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Placa torcida → la [[4|placa de presión]] se va de lado y el clutch arrastra."
+   ],
+   "conecta": [
+    "17",
+    "14",
+    "10",
+    "20"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "14": {
+   "nombre": "Tornillos de los resortes",
+   "cat": "TORNILLO M6X25 · 3 piezas · también en el kit ref. 22 (kit clutch completo, NF070010)",
+   "codigo": "N2200500",
+   "que": "Los tres tornillos con brida que sujetan la [[13|placa de los resortes]] y comprimen los [[10|resortes]].",
+   "sirve": "Aprietan la placa de los resortes contra las torres de la [[4|placa de presión]].",
+   "sintomas": [
+    "Clutch que agarra disparejo si uno quedó flojo."
+   ],
+   "fallas": [
+    [
+     "armado",
+     "Apretados de un solo lado o pasados de torque, tuercen la placa o dañan la rosca."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la rosca está sana, se vuelven a poner.",
+   "dif": "basico",
+   "cuando": "Revísalos cada vez que abras el clutch.",
+   "arrastra": [
+    "Tornillo flojo → la [[13|placa de los resortes]] se tuerce."
+   ],
+   "conecta": [
+    "13",
+    "10",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "17": {
+   "nombre": "Balinera de la placa de los resortes",
+   "cat": "RODAMIENTO BOLAS 15X32X9 · 1 pieza",
+   "codigo": "M1200380",
+   "que": "La balinera de 15 × 32 × 9 mm que va en el centro de la [[13|placa de los resortes]].",
+   "sirve": "Deja que la placa gire con el clutch mientras el [[18|pin adaptador]] la empuja sin girar.",
+   "sintomas": [
+    "Chillido al apretar la palanca.",
+    "Palanca áspera."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se seca o se le mete mugre del aceite viejo."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si suena o gira áspera, va nueva.",
+   "dif": "taller",
+   "cuando": "Revísala cada vez que abras el clutch.",
+   "arrastra": [
+    "Balinera trabada → la [[18|pin adaptador]] se gasta en la punta."
+   ],
+   "conecta": [
+    "13",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "18": {
+   "nombre": "Pin adaptador",
+   "que": "El pin corto que va entre el [[19|balín]] y la [[17|balinera]] de la [[13|placa de los resortes]] (posición aprox.).",
+   "sirve": "Pasa el empuje del brazo del clutch a la placa de los resortes.",
+   "sintomas": [
+    "Palanca dura o que no suelta del todo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se gasta en la punta y el juego libre cambia."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si la punta no está gastada ni torcida, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que abras el clutch.",
+   "arrastra": [],
+   "conecta": [
+    "19",
+    "17",
+    "20"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pines)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "M7070120",
+   "cat": "PIN ADAPTADOR CLUTCH · 1 pieza"
+  },
+  "19": {
+   "nombre": "Balín",
+   "que": "Una bola de acero de 3/16 de pulgada entre el [[20|pin empujador]] y el [[18|pin adaptador]].",
+   "sirve": "Deja que los pines se empujen sin rozar de lado: el empuje pasa por un punto.",
+   "sintomas": [
+    "Palanca áspera o con saltos."
+   ],
+   "fallas": [
+    [
+     "perdida",
+     "Se pierde al desarmar: sin él, el clutch no suelta."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es barato: si está marcado o se perdió, va nuevo.",
+   "dif": "taller",
+   "cuando": "Cuídalo cada vez que abras el clutch: se cae fácil.",
+   "arrastra": [],
+   "conecta": [
+    "18",
+    "20"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, medida (3/16), código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pines)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "420404000",
+   "cat": "BALIN 3/16 · 1 pieza"
+  },
+  "20": {
+   "nombre": "Pin empujador",
+   "cat": "PIN EMPUJADOR CLUTCH · 1 pieza",
+   "codigo": "M7070150",
+   "que": "El pin largo que recibe el empuje del brazo del clutch en la tapa y lo pasa al [[19|balín]].",
+   "sirve": "Lleva el movimiento de la palanca hasta los pines de adentro.",
+   "sintomas": [
+    "Palanca dura o que no suelta del todo."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "La punta se gasta o se dobla."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "Si está recto y con la punta sana, se vuelve a poner.",
+   "dif": "taller",
+   "cuando": "Revísalo cada vez que quites la tapa del clutch.",
+   "arrastra": [
+    "Pin gastado → falta recorrido y el clutch arrastra."
+   ],
+   "conecta": [
+    "19",
+    "18"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo de partes TVS Apache RTR 160 4V 2026 (Colombia), fig. 8 «Clutch (con slipper clutch)» (p. 11)."
+    ],
+    [
+     "ap",
+     "Cómo trabaja y cómo falla: práctica de taller en clutch de este tipo (resortes, placa de los resortes y pin empujador)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "cadenas": [
+  {
+   "t": "Cable sin juego libre",
+   "p": [
+    [
+     "20",
+     "El cable queda tenso y los pines siguen empujando la placa de los resortes."
+    ],
+    [
+     "4",
+     "La placa de presión no aprieta del todo los discos."
+    ],
+    [
+     "5",
+     "Los discos patinan en subida y se queman."
+    ],
+    [
+     "7",
+     "Los separadores se recalientan, se azulan y se tuercen."
+    ]
+   ]
+  },
+  {
+   "t": "Aceite equivocado o viejo",
+   "p": [
+    [
+     "5",
+     "Con aceite para carro (con aditivos antifricción) o muy viejo, los discos resbalan y se vitrifican."
+    ],
+    [
+     "10",
+     "El calor de patinar cansa los resortes."
+    ],
+    [
+     "4",
+     "La placa de presión se azula y aprieta disparejo: patina aunque cambies los discos."
+    ]
+   ]
+  },
+  {
+   "t": "Campana con escalones",
+   "p": [
+    [
+     "2",
+     "Las orejas de los discos marcan escalones en las ventanas de la campana."
+    ],
+    [
+     "5",
+     "Los discos se traban en los escalones y no se separan bien."
+    ],
+    [
+     "7",
+     "Los separadores siguen arrastrando: la moto se mueve con la palanca apretada."
+    ],
+    [
+     "12",
+     "Los separadores, al trabarse, también marcan escalones en las estrías de la manzana."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Cambiar el aceite del motor (baña el clutch)",
+   "cuando": "A los <b>500-750 km</b>, a los <b>5.000-6.000 km</b>, a los <b>11.500-12.000 km</b> y después cada <b>6.000 km</b> o <b>6 meses</b>. <b>10W-30</b> API SL, JASO MA2: <b>1,2 L</b> (1,4 L si se desarma el motor).",
+   "fuente": "manual del propietario TVS Apache RTR 160 4V (inglés), cuadro de mantenimiento (p. 84 impresa, 91 del PDF) y lubricantes (p. 88 impresa, 95 del PDF). <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Revisar el juego libre de la palanca",
+   "cuando": "<b>8 - 13 mm</b> en la punta de la palanca, con el motor frío; ajústalo con la tuerca del cable.",
+   "fuente": "manual del propietario TVS Apache RTR 160 4V (inglés), «Clutch adjustment» (pp. 95-96 impresas, 102-103 del PDF). <span class=\"esq-s-ok\">Seguro</span>"
+  },
+  {
+   "que": "Revisar los discos del clutch",
+   "cuando": "Revisarlos y cambiarlos si hace falta cada <b>24.000 km</b>, o antes si patina con el juego libre bien ajustado.",
+   "fuente": "manual del propietario TVS Apache RTR 160 4V (inglés), cuadro de mantenimiento (p. 84 impresa), fila «Clutch plates». <span class=\"esq-s-ok\">Seguro</span>"
+  }
+ ],
+ "sujeta": {
+  "14": [
+   "13",
+   "10"
+  ],
+  "16": [
+   "12"
+  ],
+  "15": [
+   "12"
+  ],
+  "12": [
+   "2"
+  ],
+  "20": [
+   "13"
+  ],
+  "18": [
+   "13"
+  ],
+  "19": [
+   "13"
+  ],
+  "11": [
+   "2"
+  ]
+ },
+ "v2": {
+  "grupos": [
+   {
+    "id": "mando",
+    "nombre": "Pines, balín y balinera",
+    "corto": "Pines",
+    "piezas": [
+     "20",
+     "19",
+     "18",
+     "17"
+    ],
+    "torn": [],
+    "pasos": [
+     0,
+     1
+    ],
+    "marca": [
+     560,
+     470
+    ]
+   },
+   {
+    "id": "resortes",
+    "nombre": "Resortes y placa de los resortes",
+    "corto": "Resortes",
+    "piezas": [
+     "13",
+     "10"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de los resortes",
+      "corto": "Tornillos",
+      "ids": [
+       "14"
+      ],
+      "cant": 3
+     }
+    ],
+    "pasos": [
+     1
+    ],
+    "marca": [
+     500,
+     392
+    ]
+   },
+   {
+    "id": "discos",
+    "nombre": "Manzana, discos y placa de presión",
+    "corto": "Discos",
+    "piezas": [
+     "12",
+     "5",
+     "6",
+     "7",
+     "9",
+     "8",
+     "4"
+    ],
+    "torn": [
+     {
+      "nombre": "Tuerca y arandela de la manzana",
+      "corto": "Tuerca",
+      "ids": [
+       "16",
+       "15"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     2,
+     3
+    ],
+    "marca": [
+     520,
+     270
+    ]
+   },
+   {
+    "id": "campana",
+    "nombre": "Campana del clutch",
+    "corto": "Campana",
+    "piezas": [
+     "2",
+     "3",
+     "1"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandelas del eje",
+      "corto": "Arandelas",
+      "ids": [
+       "11",
+       "21"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     4
+    ],
+    "marca": [
+     318,
+     262
+    ]
+   }
+  ],
+  "con3d": [
+   "2",
+   "4"
+  ],
+  "toqueExtra": [],
+  "inicio": "Piezas del clutch"
+ },
+ "perfiles": {
+  "varilla": [
+   [
+    0,
+    -30
+   ],
+   [
+    3.5,
+    -30
+   ],
+   [
+    3.5,
+    -4
+   ],
+   [
+    7,
+    -3
+   ],
+   [
+    7,
+    3
+   ],
+   [
+    0,
+    3
+   ]
+  ],
+  "corona3d": [
+   [
+    16,
+    -36
+   ],
+   [
+    96,
+    -36
+   ],
+   [
+    96,
+    0
+   ],
+   [
+    86,
+    0
+   ],
+   [
+    86,
+    -30
+   ],
+   [
+    30,
+    -30
+   ],
+   [
+    30,
+    -26
+   ],
+   [
+    16,
+    -26
+   ]
+  ]
+ },
+ "pendientes": [
+  "Confirmar con el manual de servicio el papel de cada placa (refs. 4 y 13), el orden de los pines (18, 19 y 20) y el lugar del retén (1) y de las arandelas (11 y 21).",
+  "Torques de los tornillos de los resortes y de la tuerca de la manzana, largo libre de los resortes y espesor mínimo de los discos: manual de servicio.",
+  "En qué puesto van los discos de fricción de los dos tipos (refs. 5 y 6) y de qué lado mira el resorte antibrinco (9): manual de servicio.",
+  "garaje/intervalos/tvs_apache_rtr_160.json no tiene tareas de aceite ni de clutch: las filas de «Cuándo» van sin tarea, con la fuente del manual del propietario.",
+  "La tapa del clutch (fig. 6) con el brazo y la guía del cable, y la versión sin slipper (fig. 7), quedan para otras láminas."
+ ],
+ "remapeo": {
+  "desde": "cb125f-clutch",
+  "mapa": {
+   "1": "2",
+   "2": "3",
+   "3": "12",
+   "4": "5",
+   "5": "6",
+   "6": "7",
+   "7": "4",
+   "8": "13",
+   "9": "20",
+   "10": "10",
+   "11": "14",
+   "12": "16",
+   "13": "11",
+   "14": "15",
+   "15": "17"
+  }
+ },
+ "hermana": "cb125f-clutch",
+ "kits": {
+  "22": [
+   "4",
+   "5",
+   "6",
+   "7",
+   "8",
+   "9",
+   "10",
+   "12",
+   "13",
+   "14"
+  ]
+ }
+}

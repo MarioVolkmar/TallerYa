@@ -1,0 +1,67 @@
+[
+ {
+  "campo": "pasos.0.t",
+  "reemplazar": "Anota por dónde pasa en el chasis.",
+  "por": "Anota por dónde pasa en el chasis. Al armar, déjalo con holgura: la rueda de adelante debe girar libre."
+ },
+ {
+  "campo": "fichas.6.porque",
+  "reemplazar": "limpia el pistón y empújalo despacio.",
+  "por": "limpia el pistón y empújalo despacio. Después bombea la manigueta hasta que quede firme antes de rodar: el primer apretón no frena."
+ },
+ {
+  "campo": "pasos.2.t",
+  "reemplazar": "Con el cáliper fuera no aprietes la manigueta: sacarías el pistón.",
+  "por": "Si solo cambias pastillas (sin soltar la manguera), no aprietes la manigueta con el cáliper fuera: sacarías el pistón."
+ },
+ {
+  "campo": "pasos.1.t",
+  "reemplazar": "Afloja la unión y sácala con sus dos arandelas de cobre: van nuevas al armar.",
+  "por": "Afloja la unión, sácala con sus dos arandelas de cobre (van nuevas) y que no gotee en pastillas ni disco."
+ },
+ {
+  "campo": "fichas.2.fallas.1.1",
+  "reemplazar": "El líquido viejo trae agua y raya el cilindro por dentro.",
+  "por": "El líquido viejo trae agua: oxida el cilindro por dentro y daña las copas."
+ },
+ {
+  "campo": "fichas.2.porque",
+  "reemplazar": "va completa y después se purga.",
+  "por": "va completa y después se purga. Pide la de freno combinado: la normal no trae la palanca del cable."
+ },
+ {
+  "campo": "cadenas.3.p.2.1",
+  "reemplazar": "La manigueta se va al fondo: casi no frena.",
+  "por": "Con aire en el sistema, la bomba empuja burbujas: la manigueta se va al fondo y casi no frena."
+ },
+ {
+  "campo": "fichas.9.sirve",
+  "reemplazar": "jala la bomba",
+  "por": "jala la palanca de abajo de la bomba"
+ },
+ {
+  "campo": "fichas.6.cuando",
+  "reemplazar": "(aprox.: el límite del manual de servicio AKT no está a mano)",
+  "por": "(aprox.: confirma el límite en el manual de servicio AKT)"
+ },
+ {
+  "campo": "fichas.liquido.cuando",
+  "reemplazar": "(aprox.: práctica de taller; el manual de esta moto está escaneado)",
+  "por": "(aprox.: práctica de taller; confírmalo en el manual del propietario)"
+ },
+ {
+  "campo": "cuando.0.fuente",
+  "reemplazar": "el manual del propietario NKD está escaneado y no se pudo leer el cuadro.",
+  "por": "confirmar en el manual del propietario NKD."
+ },
+ {
+  "campo": "fichas.8.porque",
+  "reemplazar": "Apriete: sin dato, manual de servicio AKT.",
+  "por": "Apriétalos con torquímetro al apriete del manual de servicio AKT (aquí no hay dato)."
+ },
+ {
+  "campo": "fichas.3.cuando",
+  "reemplazar": "si la sientas dura",
+  "por": "si la sientes dura"
+ }
+]

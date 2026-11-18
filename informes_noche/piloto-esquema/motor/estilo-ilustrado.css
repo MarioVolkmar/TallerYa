@@ -1,0 +1,22 @@
+/* estilo-ilustrado.css: PILOTO de estilo gráfico (fondo claro con grilla, rótulos con línea guía, flechas de flujo).
+   Va después de esquema.css y solo toca el lienzo del dibujo y el de «Cómo funciona»; el resto de la página sigue igual. */
+.esq-lienzo{border-color:#c9d1d8;background:#f2f4f6}
+#lamina .esq-ctx-txt{fill:#56626c}
+/* números sobre fondo claro: disco blanco con borde de tinta, se llena de mostaza al tocar */
+#lamina .esq-et line{stroke:#2b3640;opacity:.55}
+#lamina .esq-et .esq-bola .esq-disco{fill:#fff;stroke:#2b3640;stroke-width:1.4}
+#lamina .esq-et text{fill:#1d2a33;font-weight:700}
+#lamina .esq-pz:hover .esq-et .esq-disco,#lamina.esq-numeros .esq-et .esq-disco{fill:var(--mostaza);stroke:#1d2a33}
+/* rótulos: nombre en el color del sistema + qué hace; solo con el dibujo armado */
+.esq-est-rot-n{font:700 14px "Oswald",sans-serif;letter-spacing:.04em}
+.esq-est-rot-t{font:500 12.5px "Archivo",sans-serif;fill:#3a4650}
+.esq-est-rotulos{transition:opacity .35s}
+#lamina.esq-explotado .esq-est-rotulos,#lamina.esq-transparente .esq-est-rotulos,#lamina.esq-ampliado .esq-est-rotulos,#lamina.esq-engrupo .esq-est-rotulos{opacity:0}
+/* en el celular los rótulos quedarían en 5 px: se ocultan y queda la numeración (y la leyenda en las fichas) */
+@media(max-width:700px){#lamina .esq-est-rotulos{display:none}}
+/* «Cómo funciona» */
+#fn .esq-fn-et{fill:#2b3640}
+#fn .esq-fn-et.esq-claro{fill:#1d2a33}
+.esq-est-fn-ley{font:600 14px "Archivo",sans-serif;fill:#2b3640}
+@media(max-width:700px){.esq-est-fn-ley{font-size:22px}}
+.esq-est-flujo{transition:opacity .35s}

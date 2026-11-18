@@ -1,0 +1,1379 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina 8",
+  "titulo": "Clutch (con slipper clutch) · tvs-apache160-4v",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "Clutch (con slipper clutch)",
+  "sub": "Lámina 8 · 22 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina 8",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "apache-clutch",
+ "moto": "tvs-apache160-4v",
+ "figura": 8,
+ "catalogo": "tvs-apache160-4v",
+ "intervalos": "tvs_apache_rtr_160",
+ "arte": "apache-clutch",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22"
+ ],
+ "nombres": {
+  "1": "Reten corona clutch",
+  "2": "Clutch (reten corona clutch)",
+  "3": "Buje",
+  "4": "Porta Resortes",
+  "5": "Discos clutch (llega 2 unds x empaque)",
+  "6": "Discos clutch (llega 3 unds x empaque)",
+  "7": "Disco separador clutch",
+  "8": "Arandela antibrinco",
+  "9": "Resorte antibrinco",
+  "10": "Resorte presion clutch",
+  "11": "Arandela espaciadora clutch",
+  "12": "Clutch (resorte presion clutch)",
+  "13": "Clutch (resorte presion clutch, otro)",
+  "14": "Tornillo m6x25",
+  "15": "Arandela (resorte presion clutch)",
+  "16": "Tuerca",
+  "17": "Rodamiento bolas 15x32x9",
+  "18": "Clutch",
+  "19": "Balin 3/16",
+  "20": "Clutch",
+  "21": "Arandela (clutch)",
+  "22": "Kit clutch compl. fig.4,5,6,7,8,9,,,,)"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+  "22"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "reten",
+   "p": {
+    "r": 18,
+    "ri": 10,
+    "x": 70,
+    "y": 90
+   }
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "pinon",
+   "p": {
+    "r": 40,
+    "dientes": 15,
+    "x": 130,
+    "y": 90
+   }
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "buje",
+   "p": {
+    "r": 9,
+    "ri": 5,
+    "largo": 18,
+    "x": 70,
+    "y": 145
+   }
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    130,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 210,
+    "y": 90
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    270,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 270,
+    "y": 90
+   }
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    210,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "placa",
+   "p": {
+    "contorno": [
+     [
+      -24,
+      -16
+     ],
+     [
+      24,
+      -16
+     ],
+     [
+      24,
+      16
+     ],
+     [
+      -24,
+      16
+     ]
+    ],
+    "huecos": [
+     [
+      0,
+      0,
+      9
+     ]
+    ],
+    "x": 210,
+    "y": 145
+   }
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    210,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 210,
+    "y": 200
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    270,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 270,
+    "y": 145
+   }
+  },
+  {
+   "id": "10",
+   "n": "10",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "resorte",
+   "p": {
+    "r": 9,
+    "largo": 36,
+    "x": 350,
+    "y": 90
+   }
+  },
+  {
+   "id": "11",
+   "n": "11",
+   "anc": [
+    350,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 350,
+    "y": 200
+   }
+  },
+  {
+   "id": "12",
+   "n": "12",
+   "anc": [
+    410,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "pinon",
+   "p": {
+    "r": 40,
+    "dientes": 15,
+    "x": 410,
+    "y": 90
+   }
+  },
+  {
+   "id": "13",
+   "n": "13",
+   "anc": [
+    350,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "14",
+   "n": "14",
+   "anc": [
+    410,
+    200
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 410,
+    "y": 200
+   }
+  },
+  {
+   "id": "15",
+   "n": "15",
+   "anc": [
+    350,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 350,
+    "y": 255
+   }
+  },
+  {
+   "id": "16",
+   "n": "16",
+   "anc": [
+    410,
+    255
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tuerca",
+   "p": {
+    "r": 12,
+    "x": 410,
+    "y": 255
+   }
+  },
+  {
+   "id": "17",
+   "n": "17",
+   "anc": [
+    410,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "rodamiento",
+   "p": {
+    "r": 18,
+    "ri": 9,
+    "x": 410,
+    "y": 145
+   }
+  },
+  {
+   "id": "18",
+   "n": "18",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 490,
+    "y": 90
+   }
+  },
+  {
+   "id": "19",
+   "n": "19",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "20",
+   "n": "20",
+   "anc": [
+    490,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "pasador",
+   "p": {
+    "r": 4,
+    "largo": 28,
+    "x": 490,
+    "y": 145
+   }
+  },
+  {
+   "id": "21",
+   "n": "21",
+   "anc": [
+    550,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "arandela",
+   "p": {
+    "r": 12,
+    "ri": 6,
+    "x": 550,
+    "y": 145
+   }
+  },
+  {
+   "id": "22",
+   "n": "22",
+   "anc": [
+    630,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Reten corona clutch.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Discos clutch (llega 2 unds x empaque).</b> (texto del paso)",
+   "m": {
+    "5": [
+     0,
+     0
+    ],
+    "6": [
+     0,
+     0
+    ],
+    "7": [
+     0,
+     0
+    ],
+    "9": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Resorte presion clutch.</b> (texto del paso)",
+   "m": {
+    "10": [
+     0,
+     0
+    ],
+    "12": [
+     0,
+     0
+    ],
+    "13": [
+     0,
+     0
+    ],
+    "17": [
+     0,
+     0
+    ],
+    "11": [
+     0,
+     0
+    ],
+    "14": [
+     0,
+     0
+    ],
+    "15": [
+     0,
+     0
+    ],
+    "16": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Clutch.</b> (texto del paso)",
+   "m": {
+    "18": [
+     0,
+     0
+    ],
+    "19": [
+     0,
+     0
+    ],
+    "20": [
+     0,
+     0
+    ],
+    "21": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Kit clutch compl. fig.4,5,6,7,8,9,,,,).</b> (texto del paso)",
+   "m": {
+    "22": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Reten corona clutch",
+   "cat": "RETEN CORONA CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF080030"
+  },
+  "2": {
+   "nombre": "Clutch (reten corona clutch)",
+   "cat": "CORONA CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070110"
+  },
+  "3": {
+   "nombre": "Buje",
+   "cat": "BUJE · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF080040"
+  },
+  "4": {
+   "nombre": "Porta Resortes",
+   "cat": "PORTA RESORTES · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070060"
+  },
+  "5": {
+   "nombre": "Discos clutch (llega 2 unds x empaque)",
+   "cat": "DISCOS CLUTCH (LLEGA 2 UNDS X EMPAQUE) · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "N9070310"
+  },
+  "6": {
+   "nombre": "Discos clutch (llega 3 unds x empaque)",
+   "cat": "DISCOS CLUTCH (LLEGA 3 UNDS X EMPAQUE) · 3 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "N9070190"
+  },
+  "7": {
+   "nombre": "Disco separador clutch",
+   "cat": "DISCO SEPARADOR CLUTCH · 5 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070050"
+  },
+  "8": {
+   "nombre": "Arandela antibrinco",
+   "cat": "ARANDELA ANTIBRINCO · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070100"
+  },
+  "9": {
+   "nombre": "Resorte antibrinco",
+   "cat": "RESORTE ANTIBRINCO · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070090"
+  },
+  "10": {
+   "nombre": "Resorte presion clutch",
+   "cat": "RESORTE PRESION CLUTCH · 3 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070070"
+  },
+  "11": {
+   "nombre": "Arandela espaciadora clutch",
+   "cat": "ARANDELA ESPACIADORA CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M7070240"
+  },
+  "12": {
+   "nombre": "Clutch (resorte presion clutch)",
+   "cat": "CORONA INTERNA CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070040"
+  },
+  "13": {
+   "nombre": "Clutch (resorte presion clutch, otro)",
+   "cat": "PORTA DISCOS CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070080"
+  },
+  "14": {
+   "nombre": "Tornillo m6x25",
+   "cat": "TORNILLO M6X25 · 3 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "N2200500"
+  },
+  "15": {
+   "nombre": "Arandela (resorte presion clutch)",
+   "cat": "ARANDELA · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M7070110"
+  },
+  "16": {
+   "nombre": "Tuerca",
+   "cat": "TUERCA · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M7070100"
+  },
+  "17": {
+   "nombre": "Rodamiento bolas 15x32x9",
+   "cat": "RODAMIENTO BOLAS 15X32X9 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M1200380"
+  },
+  "18": {
+   "nombre": "Clutch",
+   "cat": "PIN ADAPTADOR CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M7070120"
+  },
+  "19": {
+   "nombre": "Balin 3/16",
+   "cat": "BALIN 3/16 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "420404000"
+  },
+  "20": {
+   "nombre": "Clutch",
+   "cat": "PIN EMPUJADOR CLUTCH · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M7070150"
+  },
+  "21": {
+   "nombre": "Arandela (clutch)",
+   "cat": "ARANDELA · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "M7200460"
+  },
+  "22": {
+   "nombre": "Kit clutch compl. fig.4,5,6,7,8,9,,,,)",
+   "cat": "KIT CLUTCH COMPL. Fig.4,5,6,7,8,9,10,12,13,14) · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo tvs-apache160-4v, fig. 8."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "NF070010"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "reten-corona-c",
+    "nombre": "Reten corona clutch",
+    "piezas": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "discos-clutch",
+    "nombre": "Discos clutch (llega 2 unds x empaque)",
+    "piezas": [
+     "5",
+     "6",
+     "7",
+     "9"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandela antibrinco",
+      "corto": "Arandela",
+      "ids": [
+       "8"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "resorte-presio",
+    "nombre": "Resorte presion clutch",
+    "piezas": [
+     "10",
+     "12",
+     "13",
+     "17"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandela espaciadora clutch",
+      "corto": "Arandela",
+      "ids": [
+       "11"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tornillo m6x25s",
+      "corto": "Tornillo",
+      "ids": [
+       "14"
+      ],
+      "cant": 3
+     },
+     {
+      "nombre": "Arandela",
+      "corto": "Arandela",
+      "ids": [
+       "15"
+      ],
+      "cant": 1
+     },
+     {
+      "nombre": "Tuerca",
+      "corto": "Tuerca",
+      "ids": [
+       "16"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "clutch",
+    "nombre": "Clutch",
+    "piezas": [
+     "18",
+     "19",
+     "20"
+    ],
+    "torn": [
+     {
+      "nombre": "Arandela",
+      "corto": "Arandela",
+      "ids": [
+       "21"
+      ],
+      "cant": 1
+     }
+    ],
+    "pasos": [
+     3
+    ]
+   },
+   {
+    "id": "kit-clutch-com",
+    "nombre": "Kit clutch compl. fig.4,5,6,7,8,9,,,,)",
+    "piezas": [
+     "22"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: clutch (con slipper clutch)"
+ }
+}

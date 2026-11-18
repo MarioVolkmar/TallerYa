@@ -1,6 +1,6 @@
 # Auditoría externa pendiente (2026-11-17)
 
-9 láminas desde la última auditoría.
+11 láminas desde la última auditoría.
 
 | lámina | fecha | min (creación + revisión) | revisión integrada | nota UX | nota mecánica | pendientes |
 |---|---|---|---|---|---|---|
@@ -13,6 +13,8 @@
 | nmax-horquilla | 2026-11-16 | 16 | {'mecanica': 3.5, 'ux': 3.9} | - | - | 0 |
 | boxer-carburador | 2026-11-16 | 25 | {'mecanica': 4.0, 'ux': 4.3} | 4.82 | - | 4 |
 | cb125f-suspension-trasera | 2026-11-17 | 14 | {'mecanica': 4.0, 'ux': 4.3} | 4.2 | - | 2 |
+| nkd-freno | 2026-11-17 | 17 | {'mecanica': 4.2, 'ux': 4.4} | 4.0 | - | 5 |
+| apache-clutch | 2026-11-17 | 17 | {'mecanica': 3.8, 'ux': 4.4} | 4.65 | - | 5 |
 
 ## Brief para la sesión auditora (pegar tal cual)
-Eres la auditora externa del esquema pedagógico de TallerYa (C:\dev\TallerYa). Sigue `informes_noche/piloto-esquema/guia-auditoria-externa.md` con estas láminas: cb125f-freno, cb125f-culata, cb125f-clutch, cb125f-horquilla, crypton-freno, nkd-transmision, nmax-horquilla, boxer-carburador, cb125f-suspension-trasera. Sortea 2, revísalas a fondo (mecánica y UX) contra el manual y la CVT (fig. 12), compara con las notas de la revisión integrada (tabla de arriba), mira la tendencia y entrega una página con veredicto sigue / ajustar / parar. Registra con `venv/Scripts/python.exe informes_noche/piloto-esquema/motor/metricas.py auditoria cb125f-suspension-trasera <veredicto>`. Los PDF solo se leen; sin commit.
+Eres la auditora externa del esquema pedagógico de TallerYa (C:\dev\TallerYa). Sigue `informes_noche/piloto-esquema/guia-auditoria-externa.md` con estas láminas: cb125f-freno, cb125f-culata, cb125f-clutch, cb125f-horquilla, crypton-freno, nkd-transmision, nmax-horquilla, boxer-carburador, cb125f-suspension-trasera, nkd-freno, apache-clutch. Sortea 2, revísalas a fondo (mecánica y UX) contra el manual y la CVT (fig. 12), compara con las notas de la revisión integrada (tabla de arriba), mira la tendencia y entrega una página con veredicto sigue / ajustar / parar. Registra con `venv/Scripts/python.exe informes_noche/piloto-esquema/motor/metricas.py auditoria apache-clutch <veredicto>`. Los PDF solo se leen; sin commit.

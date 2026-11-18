@@ -362,8 +362,10 @@ def revisar_sellos_freno(D, err, avi):
     for k, F in D["fichas"].items():
         if F.get("ctx"):
             continue
-        texto = F.get("nombre", "") + " " + F.get("cat", "")
-        if SELLOS_FRENO.search(texto) and HIDRAULICO.search(texto) and not re.search(r"pastilla|zapata|\bPAD\b|SHOE", texto, re.I):
+        # ronda 10: solo la descripción propia (no «· también en el kit ref. N») y sin manigueta, tornillos, interruptor ni cable
+        texto = F.get("nombre", "") + " " + F.get("cat", "").split(" · ")[0]
+        if SELLOS_FRENO.search(texto) and HIDRAULICO.search(texto) and not re.search(
+                r"pastilla|zapata|\bPAD\b|SHOE|manigueta|palanca|LEVER|tornillo|BOLT|interruptor|SWITCH|cable", texto, re.I):
             c = sin_html(F.get("cuando", ""))
             if not re.search(r"\b2 años\b|cada dos años|con el (cambio del )?l[ií]quido", c, re.I):
                 err.append(f"ficha {k} ({F.get('nombre')}): un kit o sello del freno hidráulico va con el intervalo del líquido "

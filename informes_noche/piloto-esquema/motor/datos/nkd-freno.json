@@ -1,0 +1,1290 @@
+{
+ "lamina": "nkd-freno",
+ "moto": "akt-nkd125",
+ "figura": "F5",
+ "catalogo": "akt-nkd125",
+ "intervalos": "akt_nkd_125",
+ "sistema": "Freno delantero",
+ "arte": "nkd-freno",
+ "hermana": "crypton-freno",
+ "remapeo": {
+  "desde": "crypton-freno",
+  "mapa": {
+   "10": "6",
+   "4": "7",
+   "manguera": "5",
+   "5": "x5",
+   "6": "x6",
+   "7": "x7",
+   "1": "x1",
+   "2": "x2",
+   "3": "x3",
+   "8": "x8",
+   "9": "x9"
+  }
+ },
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9"
+ ],
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F-5",
+  "titulo": "Freno delantero · AKT NKD 125",
+  "aviso": "Prototipo local. Dibujos propios. Figura F-5 del catálogo (2025): bomba, manguera, cáliper y el cable que llega del pedal; el disco va en la F-6."
+ },
+ "visor": {
+  "titulo": "Sistema del freno delantero",
+  "sub": "Lámina F-5 · 9 números"
+ },
+ "textos": {
+  "pestanasAria": "Qué ver del freno",
+  "laminaAria": "Dibujo del freno delantero de la AKT NKD 125. Cada número abre la ficha de su pieza.",
+  "introFunciona": "De la mano al disco en siete pasos. El cáliper aparece cortado por la mitad, como si lo miraras desde arriba.",
+  "introCadenas": "En un freno nada falla solo. Toca un número para ver la pieza en el dibujo.",
+  "introCuando": "El manual del propietario de la NKD está escaneado: estos plazos son de práctica de taller hasta confirmarlos."
+ },
+ "pie": "Dibujos propios de TallerYa a partir del catálogo de partes AKT NKD 125 2025 (fig. F-5). Datos sin fuente marcados como aproximados.",
+ "encuadreArmado": [
+  100,
+  -75,
+  820,
+  637.78
+ ],
+ "radioToqueMin": 9,
+ "comun": {
+  "atras": [
+   -1,
+   0
+  ],
+  "sombra": "url(#fSombra)",
+  "colores": {
+   "acero": "url(#gAcero)",
+   "cromo": "url(#gCromoV)",
+   "rosca": "url(#pRosca)"
+  }
+ },
+ "contexto": [
+  {
+   "arte": "arteDiscoCtx",
+   "alPrincipio": true
+  },
+  {
+   "arte": "arteBarra",
+   "alPrincipio": true,
+   "clase": "esq-ctx-barra"
+  },
+  {
+   "arte": "arteManubrio",
+   "alPrincipio": true
+  }
+ ],
+ "piezas": [
+  {
+   "id": "9",
+   "n": "9",
+   "arte": "arteCable",
+   "anc": [
+    205,
+    320
+   ],
+   "et": [
+    -46,
+    6
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "comun": "manguera",
+   "p": {
+    "x": 250,
+    "y": 40,
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      -10,
+      60
+     ],
+     [
+      20,
+      130
+     ],
+     [
+      100,
+      170
+     ],
+     [
+      182,
+      188
+     ]
+    ]
+   },
+   "anc": [
+    330,
+    200
+   ],
+   "et": [
+    -10,
+    40
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "6a",
+   "n": "6",
+   "arte": "artePastilla",
+   "args": [
+    -8,
+    0,
+    0
+   ],
+   "anc": [
+    392.59,
+    382.197
+   ],
+   "et": [
+    -52,
+    34
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "6b",
+   "n": "6",
+   "arte": "artePastilla",
+   "args": [
+    -1,
+    3,
+    0
+   ],
+   "anc": [
+    398.405,
+    383.755
+   ],
+   "et": [
+    36,
+    50
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "arte": "arteCaliperNKD",
+   "anc": [
+    361.023,
+    373.739
+   ],
+   "et": [
+    -90,
+    -14
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8b",
+   "n": "8",
+   "comun": "tornillo",
+   "p": {
+    "x": 432,
+    "y": 226,
+    "cabeza": 8,
+    "brida": 10,
+    "largo": 20,
+    "d": 7
+   },
+   "anc": [
+    432,
+    226
+   ],
+   "et": [
+    40,
+    -30
+   ],
+   "vis": "exp"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "arte": "arteBombaNKD",
+   "anc": [
+    300,
+    10
+   ],
+   "et": [
+    -100,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "arte": "arteInterruptor",
+   "args": [
+    1
+   ],
+   "anc": [
+    377,
+    67
+   ],
+   "et": [
+    20,
+    60
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "arte": "arteManigueta",
+   "args": [
+    1
+   ],
+   "anc": [
+    480,
+    30
+   ],
+   "et": [
+    40,
+    -60
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8a",
+   "n": "8",
+   "comun": "tornillo",
+   "p": {
+    "x": 252,
+    "y": 38,
+    "cabeza": 8,
+    "brida": 10,
+    "largo": 20,
+    "d": 7
+   },
+   "anc": [
+    252,
+    38
+   ],
+   "et": [
+    -60,
+    30
+   ],
+   "vis": "arm"
+  }
+ ],
+ "carcasas": [
+  {
+   "id": "7",
+   "transparente": 0.26,
+   "rayosx": 0.22,
+   "brillo": true
+  }
+ ],
+ "ocultas": [
+  "6"
+ ],
+ "kits": {
+  "1": [
+   "2",
+   "3",
+   "5",
+   "6",
+   "7",
+   "8"
+  ]
+ },
+ "sujeta": {
+  "8b": [
+   "5"
+  ],
+  "8a": [
+   "5"
+  ]
+ },
+ "nombres": {
+  "2": "Bomba del freno",
+  "3": "Manigueta",
+  "4": "Interruptor del freno",
+  "5": "Manguera",
+  "6": "Pastillas",
+  "7": "Cáliper",
+  "8": "Tornillos de unión",
+  "9": "Cable del CBS"
+ },
+ "ordenChips": [
+  "2",
+  "3",
+  "4",
+  "8",
+  "5",
+  "7",
+  "6",
+  "9"
+ ],
+ "textoArmado": "El freno delantero armado: la bomba y la manigueta en el manubrio, la manguera hasta el cáliper y el cable que llega del pedal.",
+ "pasos": [
+  {
+   "m": {
+    "9": [
+     -70,
+     40
+    ]
+   },
+   "t": "<b>Cable del pedal.</b> Afloja la tuerca de ajuste en el pedal y suelta el cable de la palanca de abajo de la [[2|bomba]]. Anota por dónde pasa en el chasis. Al armar, déjalo con holgura: la rueda de adelante debe girar libre."
+  },
+  {
+   "m": {
+    "8b": [
+     70,
+     -50
+    ]
+   },
+   "t": "<b>Unión en el cáliper.</b> Trapo sobre la pintura y saca el líquido del depósito con una jeringa. Afloja la unión, sácala con sus dos arandelas de cobre (van nuevas) y que no gotee en pastillas ni disco."
+  },
+  {
+   "m": {
+    "7": [
+     180,
+     40
+    ],
+    "6a": [
+     180,
+     40
+    ],
+    "6b": [
+     180,
+     40
+    ]
+   },
+   "t": "<b>Cáliper.</b> Saca los dos tornillos que lo sujetan a la barra y sácalo del disco. Si solo cambias pastillas (sin soltar la manguera), no aprietes la manigueta con el cáliper fuera: sacarías el pistón."
+  },
+  {
+   "m": {
+    "6a": [
+     -70,
+     150
+    ],
+    "6b": [
+     60,
+     165
+    ]
+   },
+   "t": "<b>Pastillas.</b> Saca el pasador y las dos pastillas. Se cambian siempre por pares; limpia el pistón antes de empujarlo para que entren las nuevas."
+  },
+  {
+   "m": {
+    "8a": [
+     -60,
+     -40
+    ]
+   },
+   "t": "<b>Unión en la bomba.</b> Con el depósito vacío y el trapo puesto, afloja la unión de arriba y saca sus dos arandelas."
+  },
+  {
+   "m": {
+    "5": [
+     -40,
+     60
+    ]
+   },
+   "t": "<b>Manguera.</b> Sácala de sus guías sin doblarla. Si tiene grietas o se infla, va nueva."
+  },
+  {
+   "m": {
+    "4": [
+     20,
+     80
+    ]
+   },
+   "t": "<b>Interruptor del freno.</b> Desconecta sus cables y sácalo de debajo de la manigueta."
+  },
+  {
+   "m": {
+    "3": [
+     70,
+     -60
+    ]
+   },
+   "t": "<b>Manigueta.</b> Saca el perno del pivote y la manigueta. Al armar: grasa en el pivote y que regrese sola."
+  },
+  {
+   "m": {
+    "2": [
+     -20,
+     -70
+    ]
+   },
+   "t": "<b>Bomba.</b> Afloja la abrazadera y saca la bomba. Al armar: depósito nivelado, líquido nuevo, purgar y probar los frenos con la moto quieta antes de rodar."
+  }
+ ],
+ "v2": {
+  "grupos": [
+   {
+    "id": "mando",
+    "nombre": "Bomba y manigueta",
+    "piezas": [
+     "2",
+     "3",
+     "4"
+    ],
+    "torn": [],
+    "pasos": [
+     6,
+     7,
+     8
+    ]
+   },
+   {
+    "id": "cable",
+    "nombre": "Cable del pedal (CBS)",
+    "corto": "Cable CBS",
+    "piezas": [
+     "9"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "manguera",
+    "nombre": "Manguera",
+    "piezas": [
+     "5"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillos de unión",
+      "corto": "Uniones",
+      "ids": [
+       "8a",
+       "8b"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     1,
+     4,
+     5
+    ]
+   },
+   {
+    "id": "caliper",
+    "nombre": "Cáliper y pastillas",
+    "corto": "Cáliper",
+    "piezas": [
+     "7",
+     "6a",
+     "6b"
+    ],
+    "torn": [],
+    "pasos": [
+     2,
+     3
+    ]
+   }
+  ],
+  "con3d": [
+   "8"
+  ],
+  "inicio": "Piezas del freno delantero",
+  "toqueExtra": []
+ },
+ "fichas": {
+  "2": {
+   "nombre": "Bomba del freno",
+   "cat": "Bomba Freno Delantero 125NKD CBS · 1 pieza · también en el kit ref. 1 (Sistema De Freno Delantero Cto 125NKD CBS, 291410316-0001)",
+   "que": "El cilindro del freno en el manubrio: un cuerpo de aluminio con su depósito de líquido arriba y un pistón pequeño adentro. Esta trae abajo una palanca para el [[9|cable]] del pedal.",
+   "sirve": "Cuando aprietas la [[3|manigueta]], su pistón empuja el [[liquido|líquido]] por la [[5|manguera]] hasta el [[7|cáliper]].",
+   "sintomas": [
+    "La manigueta se siente esponjosa o llega hasta el puño.",
+    "Hay líquido en el manubrio o debajo de la tapa.",
+    "El nivel del depósito baja sin que las pastillas estén gastadas."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "Las copas del pistón se endurecen y dejan pasar líquido: la manigueta se va al fondo."
+    ],
+    [
+     "humedad",
+     "El líquido viejo trae agua: oxida el cilindro por dentro y daña las copas."
+    ],
+    [
+     "golpe",
+     "En una caída la bomba se raja o se dobla la abrazadera."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "El catálogo la vende entera, sin juego de reparación aparte. Si pierde líquido o la manigueta se va al fondo, va completa y después se purga. Pide la de freno combinado: la normal no trae la palanca del cable.",
+   "dif": "taller",
+   "cuando": "Mira el nivel del depósito en cada servicio. Revisa sus copas cada 2 años, con el cambio del líquido (aprox.), o antes si hay fuga.",
+   "arrastra": [
+    "Copas gastadas → la manigueta se va al fondo y el [[7|cáliper]] no recibe presión.",
+    "Fuga en la tapa → el [[liquido|líquido]] daña la pintura del tanque o el tablero."
+   ],
+   "conecta": [
+    "3",
+    "4",
+    "5",
+    "8",
+    "9",
+    "liquido"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ],
+    [
+     "ap",
+     "Palanca para el cable del CBS: por el nombre del catálogo («CBS») y el plano; confirmar en la moto."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ap",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "codigo": "BOMB_FRENO_DE"
+  },
+  "3": {
+   "nombre": "Manigueta del freno",
+   "cat": "Manigueta Freno 125NKD CBS · 1 pieza · también en el kit ref. 1 (Sistema De Freno Delantero Cto 125NKD CBS, 291410316-0001)",
+   "que": "La palanca de aluminio delante del puño derecho. Gira en un perno y su nariz empuja el pistón de la [[2|bomba]].",
+   "sirve": "Multiplica la fuerza de tus dedos y la lleva a la bomba. Al soltarla, un resorte de la bomba la regresa.",
+   "sintomas": [
+    "Queda dura o no regresa sola.",
+    "Tiene juego de lado a lado en el pivote.",
+    "Está doblada o le falta la punta después de una caída."
+   ],
+   "fallas": [
+    [
+     "golpe",
+     "En las caídas se dobla o se parte la punta."
+    ],
+    [
+     "desgaste",
+     "El pivote sin grasa se gasta y la manigueta baila."
+    ],
+    [
+     "humedad",
+     "El pivote se oxida y la manigueta se pega."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Una manigueta doblada o rajada no se endereza: puede partirse frenando. Si solo está dura, se limpia y se engrasa el pivote.",
+   "dif": "facil",
+   "cuando": "Mírala después de cualquier caída y engrasa el pivote cada 2 años, con el cambio del líquido (aprox.), o antes si la sientes dura.",
+   "arrastra": [
+    "Manigueta doblada → no llega bien al pistón de la [[2|bomba]] y frenas menos.",
+    "Manigueta que no regresa → el freno queda rozando y calienta las [[6|pastillas]]."
+   ],
+   "conecta": [
+    "2",
+    "4"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "ManifreNKDCBS"
+  },
+  "4": {
+   "nombre": "Interruptor del freno",
+   "cat": "Switch Freno Del 110S/125R · 1 pieza",
+   "que": "Un pulsador pequeño debajo de la [[3|manigueta]], con sus cables eléctricos.",
+   "sirve": "Prende la luz de freno de atrás cuando aprietas la manigueta.",
+   "sintomas": [
+    "La luz de freno no prende con la manigueta (con el pedal sí).",
+    "La luz de freno se queda prendida."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El agua de la lavada le sulfata los contactos."
+    ],
+    [
+     "golpe",
+     "Se parte el émbolo o se suelta un cable."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Es una pieza sellada y barata: si falla, se cambia. Antes revisa el fusible, el bombillo y el cableado.",
+   "dif": "facil",
+   "cuando": "Pruébalo en cada servicio: aprieta la manigueta y mira que prenda la luz de atrás.",
+   "arrastra": [
+    "Interruptor dañado → no se ve que frenas y te pueden chocar por detrás."
+   ],
+   "conecta": [
+    "3",
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ok",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "291500023-0001"
+  },
+  "5": {
+   "nombre": "Manguera del freno",
+   "cat": "Manguera Freno Delantera 125SL/NKD/NKD CBS · 1 pieza · también en el kit ref. 1 (Sistema De Freno Delantero Cto 125NKD CBS, 291410316-0001)",
+   "que": "El tubo de caucho reforzado que va de la [[2|bomba]] al [[7|cáliper]]. Cada punta lleva un ojo con su [[8|tornillo de unión]].",
+   "sirve": "Lleva la presión del [[liquido|líquido]] hasta el cáliper sin inflarse.",
+   "sintomas": [
+    "La manigueta se siente esponjosa.",
+    "Grietas, humedad o una parte inflada.",
+    "Se pellizca o roza al girar el manubrio."
+   ],
+   "fallas": [
+    [
+     "edad",
+     "El caucho se agrieta y se infla con los años y el sol."
+    ],
+    [
+     "golpe",
+     "Se pellizca si queda mal guiada al girar el manubrio."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "El caucho no se repara: si está agrietada o inflada, va nueva, con arandelas nuevas en las dos uniones, y después se purga.",
+   "dif": "taller",
+   "cuando": "Revísala en cada servicio y cada 2 años, con el cambio del líquido; cámbiala cada 4 años (aprox.: práctica de taller).",
+   "arrastra": [
+    "Manguera inflada → la manigueta se siente esponjosa y el [[7|cáliper]] recibe menos presión."
+   ],
+   "conecta": [
+    "2",
+    "7",
+    "8"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ],
+    [
+     "ap",
+     "Cambio cada 4 años: práctica de taller; el manual del propietario está escaneado."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "291780128-0001"
+  },
+  "6": {
+   "nombre": "Pastillas de freno (juego)",
+   "cat": "Jgo Pastillas Freno Delantero 110S/125 · 1 pieza · también en el kit ref. 1 (Sistema De Freno Delantero Cto 125NKD CBS, 291410316-0001)",
+   "que": "Dos placas de acero con un bloque de material de fricción pegado. Van dentro del [[7|cáliper]], una a cada lado del [[disco|disco]].",
+   "sirve": "Son las que rozan el disco. Se gastan a propósito para que el disco dure.",
+   "sintomas": [
+    "Les queda poco material o la ranura casi no se ve.",
+    "Chillido metálico o raspado al frenar.",
+    "Frena menos y tienes que apretar más.",
+    "El nivel del depósito baja poco a poco."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Cada frenada las gasta. En Medellín se gastan más rápido por las lomas y el trancón."
+    ],
+    [
+     "calor",
+     "Con calor sostenido se cristalizan: chillan y frenan menos."
+    ],
+    [
+     "maluso",
+     "Aceite, grasa o líquido de frenos las contaminan; una pastilla untada no se recupera."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Se cambia el juego completo, nunca una sola. Antes de meterlas, limpia el pistón y empújalo despacio. Después bombea la manigueta hasta que quede firme antes de rodar: el primer apretón no frena.",
+   "dif": "taller",
+   "cuando": "Míralas en cada servicio. Cámbialas cuando les quede cerca de 1 mm de material (aprox.: confirma el límite en el manual de servicio AKT).",
+   "arrastra": [
+    "Pastillas al metal → rayan el [[disco|disco]].",
+    "Pastillas untadas → frenas menos y toca cambiarlas."
+   ],
+   "conecta": [
+    "7",
+    "disco"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ],
+    [
+     "ap",
+     "Límite de cerca de 1 mm: práctica de taller."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "2917300SL-0001"
+  },
+  "7": {
+   "nombre": "Cáliper (completo)",
+   "cat": "Caliper Delantero Completo NKD · 1 pieza · también en el kit ref. 1 (Sistema De Freno Delantero Cto 125NKD CBS, 291410316-0001)",
+   "que": "La «pinza» del freno: un cuerpo de aluminio con un pistón adentro, su soporte y el purgador. El catálogo lo vende completo.",
+   "sirve": "Convierte la presión del [[liquido|líquido]] en fuerza sobre las [[6|pastillas]], que aprietan el [[disco|disco]].",
+   "sintomas": [
+    "La rueda queda frenada o caliente después de rodar.",
+    "Olor a quemado después de frenar.",
+    "Una pastilla se gasta mucho más que la otra.",
+    "Manchas de líquido alrededor."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "El líquido viejo trae agua: oxida el pistón por dentro y se pega."
+    ],
+    [
+     "edad",
+     "Los sellos se endurecen con los años y el calor: fugas o pistón que no regresa."
+    ],
+    [
+     "humedad",
+     "Si los pasadores se oxidan, el cuerpo deja de deslizarse y trabaja una sola pastilla."
+    ]
+   ],
+   "decision": "repara",
+   "porque": "Se limpia, se engrasan los pasadores y se le cambia el líquido. Si el pistón está picado o hay fuga, el catálogo solo trae el cáliper completo.",
+   "dif": "taller",
+   "cuando": "Límpialo en cada cambio de pastillas y revisa sus sellos cada 2 años, con el cambio del líquido (aprox.).",
+   "arrastra": [
+    "Pistón pegado → una pastilla roza siempre y el [[disco|disco]] se recalienta.",
+    "Fuga en el cáliper → líquido en las [[6|pastillas]]: toca cambiarlas."
+   ],
+   "conecta": [
+    "6",
+    "5",
+    "8",
+    "disco",
+    "barra"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ],
+    [
+     "ap",
+     "Forma del cuerpo y del soporte: tomada de otra lámina de freno de TallerYa y del plano, no medida."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ok",
+    "cuando": "ap"
+   },
+   "codigo": "291640147-0001"
+  },
+  "8": {
+   "nombre": "Tornillos de unión de la manguera",
+   "cat": "Tornillo Conexion Manguera Freno · 2 piezas · también en el kit ref. 1 (Sistema De Freno Delantero Cto 125NKD CBS, 291410316-0001)",
+   "que": "Dos tornillos huecos, uno en cada punta de la [[5|manguera]]. El líquido pasa por un agujero en su centro.",
+   "sirve": "Sujetan el ojo de la manguera a la [[2|bomba]] y al [[7|cáliper]], con una arandela de cobre a cada lado que sella.",
+   "sintomas": [
+    "Humedad o costra de líquido alrededor de la unión.",
+    "La manigueta pierde firmeza poco a poco."
+   ],
+   "fallas": [
+    [
+     "maluso",
+     "Reutilizar las arandelas de cobre o apretar de menos deja una fuga."
+    ],
+    [
+     "maluso",
+     "Apretar de más daña la rosca de la bomba o del cáliper."
+    ]
+   ],
+   "decision": "reutiliza",
+   "porque": "El tornillo sano se reutiliza; las arandelas de cobre van siempre nuevas. Apriétalos con torquímetro al apriete del manual de servicio AKT (aquí no hay dato).",
+   "dif": "taller",
+   "cuando": "Revísalos cada 2 años, con el cambio del líquido (aprox.), o cuando cambies la manguera.",
+   "arrastra": [
+    "Unión floja → entra aire y la [[2|bomba]] no logra presión."
+   ],
+   "conecta": [
+    "5",
+    "2",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ],
+    [
+     "ap",
+     "Arandelas de cobre: práctica de taller; no salen en esta figura."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "291800021-0001"
+  },
+  "9": {
+   "nombre": "Cable del freno combinado (CBS)",
+   "cat": "Cable Freno 125NKD CBS · 1 pieza",
+   "que": "Un cable de acero con funda, de 127 cm, que va del pedal del freno trasero a la palanca de abajo de la [[2|bomba]].",
+   "sirve": "Cuando pisas el pedal, jala la palanca de abajo de la bomba y frena también un poco adelante: así la moto frena con las dos ruedas.",
+   "sintomas": [
+    "Al pisar el pedal, la rueda de adelante no frena nada.",
+    "La rueda de adelante queda rozando después de ajustar el freno de atrás.",
+    "El pedal se siente duro o no regresa."
+   ],
+   "fallas": [
+    [
+     "humedad",
+     "Entra agua en la funda, el cable se oxida y se pone duro."
+    ],
+    [
+     "desgaste",
+     "Se estira y pierde el ajuste."
+    ],
+    [
+     "maluso",
+     "Ajustarlo muy tenso deja el freno de adelante rozando."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Un cable deshilachado u oxidado no se arregla: va nuevo. Si solo está flojo, se ajusta como dice el manual de servicio.",
+   "dif": "taller",
+   "cuando": "Revisa su ajuste cada vez que ajustes el freno de atrás (aprox.).",
+   "arrastra": [
+    "Cable muy tenso → las [[6|pastillas]] rozan el [[disco|disco]] sin que frenes.",
+    "Cable roto → el pedal frena solo atrás y la moto tarda más en parar."
+   ],
+   "conecta": [
+    "2"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "Nombre, código y cantidad: catálogo AKT NKD 125 2025, fig. F-5 (p. 18)."
+    ],
+    [
+     "ok",
+     "Largo de 127 cm: nota del catálogo, fig. F-5."
+    ],
+    [
+     "ap",
+     "Cómo reparte la frenada el CBS: práctica de taller; confirmar el ajuste en el manual de servicio AKT."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   },
+   "codigo": "294280003-0001"
+  },
+  "liquido": {
+   "ctx": true,
+   "nombre": "Líquido de frenos DOT 3 o DOT 4",
+   "cat": "Otra lámina · líquido del sistema",
+   "que": "El líquido que llena la bomba, la manguera y el [[7|cáliper]].",
+   "sirve": "No se deja comprimir: por eso pasa la fuerza de tu mano al cáliper al instante.",
+   "fallas": [
+    [
+     "humedad",
+     "Absorbe la humedad del aire con los años. Con agua hierve antes: nuevo hierve sobre 230 °C y con humedad puede bajar a unos 155 °C (mínimos de la norma)."
+    ],
+    [
+     "calor",
+     "Si hierve en una bajada larga se forman burbujas, y las burbujas sí se comprimen."
+    ]
+   ],
+   "sintomas": [
+    "La manigueta se siente esponjosa o se va al fondo después de frenar mucho.",
+    "El líquido se ve oscuro en el visor."
+   ],
+   "cuando": "Cámbialo cada 2 años (aprox.: práctica de taller; confírmalo en el manual del propietario). No mezcles tipos: rellena con el que dice la tapa.",
+   "decision": "cambia",
+   "dif": "taller",
+   "conecta": [
+    "2",
+    "5",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ok",
+     "230 °C / 155 °C: mínimos de la norma FMVSS 116."
+    ]
+   ],
+   "porque": "Es DOT 3 o DOT 4 y se cambia por tiempo, no por kilómetros.",
+   "arrastra": [
+    "Líquido con agua → hierve antes y el pistón del [[7|cáliper]] se oxida por dentro."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ok",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "disco": {
+   "ctx": true,
+   "nombre": "Disco de freno",
+   "cat": "Fig. F-6 (rueda delantera)",
+   "codigo": "",
+   "que": "El plato de acero atornillado a la rueda delantera. Las [[6|pastillas]] lo aprietan por los dos lados.",
+   "sirve": "Gira con la rueda; al apretarlo, el movimiento se vuelve calor y la moto frena.",
+   "sintomas": [
+    "Rayas profundas en la cara.",
+    "La manigueta vibra al frenar (disco torcido)."
+   ],
+   "fallas": [
+    [
+     "desgaste",
+     "Se adelgaza con los años de frenadas."
+    ],
+    [
+     "calor",
+     "Se tuerce si se recalienta con una pastilla pegada."
+    ]
+   ],
+   "decision": "cambia",
+   "porque": "Si está por debajo del grosor mínimo marcado en el disco o torcido, va nuevo, con pastillas nuevas.",
+   "dif": "taller",
+   "cuando": "Mídelo en cada cambio de pastillas.",
+   "arrastra": [
+    "Disco torcido → la manigueta vibra y las [[6|pastillas]] se gastan disparejas."
+   ],
+   "conecta": [
+    "6",
+    "7"
+   ],
+   "certeza": [
+    [
+     "ap",
+     "Disco en la fig. F-6 del catálogo; dibujo de contexto."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  },
+  "barra": {
+   "ctx": true,
+   "nombre": "Barra derecha de la suspensión",
+   "cat": "Otra lámina (suspensión delantera)",
+   "que": "La barra donde va atornillado el [[7|cáliper]].",
+   "sirve": "Sostiene la rueda y el freno.",
+   "fallas": [
+    [
+     "edad",
+     "Si su retenedor bota aceite, el aceite baja por la barra y puede caer en el [[disco|disco]] y las [[6|pastillas]]."
+    ]
+   ],
+   "sintomas": [
+    "Aceite en la barra o en el disco.",
+    "El freno pierde agarre de repente."
+   ],
+   "cuando": "Mira si hay aceite en la barra en cada lavada.",
+   "decision": "repara",
+   "dif": "taller",
+   "conecta": [
+    "7"
+   ],
+   "certeza": [],
+   "porque": "Si hay aceite, se arregla el retenedor y se limpia el disco; si el aceite tocó las pastillas, van pastillas nuevas.",
+   "arrastra": [
+    "Retenedor que bota aceite → [[disco|disco]] y [[6|pastillas]] untados."
+   ],
+   "certezaDe": {
+    "que": "ok",
+    "sirve": "ap",
+    "sintomas": "ap",
+    "fallas": "ap",
+    "porque": "ap",
+    "cuando": "ap"
+   }
+  }
+ },
+ "funciona": {
+  "vbCelular": "-6 14 512 700",
+  "vbEscritorio": "0 0 900 440",
+  "pasos": [
+   {
+    "t": "<b>1 · En reposo.</b> La rueda gira y el disco gira con ella. Las pastillas quedan casi tocando el disco, a una fracción de milímetro (aquí el espacio está exagerado para que se vea).",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>2 · Aprietas la manigueta derecha.</b> Es una palanca: con poco esfuerzo empuja un pistón pequeño dentro de la bomba. Si pisas el pedal, el cable del freno combinado jala la misma bomba.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>3 · La presión viaja por el líquido.</b> El líquido no se comprime: la presión llega al cáliper al instante y su pistón, más grande que el de la bomba, multiplica tu fuerza (aprox.).",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>4 · El pistón empuja una pastilla.</b> La presión saca el pistón del cáliper y este pega la pastilla de su lado contra el disco. El sello del pistón se tuerce un poquito: eso servirá al soltar.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": 0,
+     "calor": 0,
+     "rueda": ""
+    }
+   },
+   {
+    "t": "<b>5 · El cáliper flota y jala la otra.</b> El cuerpo del cáliper se desliza sobre pasadores: al empujar, se corre al otro lado y trae la otra pastilla, y el disco queda prensado por los dos lados. Si los pasadores están oxidados, frena una sola pastilla.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 0,
+     "rueda": "lento"
+    }
+   },
+   {
+    "t": "<b>6 · Fricción: el movimiento se vuelve calor.</b> Las pastillas frenan el disco y la rueda, y el movimiento se vuelve calor: en una bajada larga el disco pasa de 200 °C (aprox.). El líquido viejo, con agua, hierve antes y la manigueta se vuelve esponjosa.",
+    "s": {
+     "lever": -4,
+     "mp": 22,
+     "pulso": true,
+     "piston": 7,
+     "cuerpo": -7,
+     "calor": 1,
+     "rueda": "quieto"
+    }
+   },
+   {
+    "t": "<b>7 · Sueltas.</b> La presión cae. El sello, que estaba torcido, regresa el pistón y las pastillas se despegan apenas del disco. Si el sello está viejo o el pistón sucio, el pistón no regresa: el freno queda pegado y se calienta solo.",
+    "s": {
+     "lever": 0,
+     "mp": 0,
+     "pulso": false,
+     "piston": 0,
+     "cuerpo": 0,
+     "calor": 0.35,
+     "rueda": ""
+    }
+   }
+  ]
+ },
+ "cadenas": [
+  {
+   "t": "Pastillas que llegan al metal",
+   "p": [
+    [
+     "6",
+     "Se gastan y nadie mira cuánto material les queda."
+    ],
+    [
+     "disco",
+     "La placa de acero raya el disco: toca cambiar disco y pastillas."
+    ],
+    [
+     "7",
+     "El pistón sale de más, se ensucia y se puede pegar."
+    ]
+   ]
+  },
+  {
+   "t": "Líquido de más de 2 años",
+   "p": [
+    [
+     "liquido",
+     "Absorbió agua y hierve antes."
+    ],
+    [
+     "7",
+     "El agua oxida el pistón y los sellos se endurecen: el freno queda pegado."
+    ],
+    [
+     "6",
+     "Una pastilla queda rozando y se gasta sola."
+    ],
+    [
+     "disco",
+     "El disco se recalienta y se puede torcer."
+    ]
+   ]
+  },
+  {
+   "t": "Cable del CBS muy tenso",
+   "p": [
+    [
+     "9",
+     "Queda tenso después de ajustar el freno de atrás."
+    ],
+    [
+     "2",
+     "Jala un poco la bomba todo el tiempo."
+    ],
+    [
+     "6",
+     "Las pastillas de adelante rozan sin que frenes."
+    ],
+    [
+     "disco",
+     "El disco se calienta y la moto se siente pesada."
+    ]
+   ]
+  },
+  {
+   "t": "Arandelas de cobre reutilizadas",
+   "p": [
+    [
+     "8",
+     "La unión queda sin sellar."
+    ],
+    [
+     "5",
+     "Sale líquido por la punta de la manguera y entra aire."
+    ],
+    [
+     "2",
+     "Con aire en el sistema, la bomba empuja burbujas: la manigueta se va al fondo y casi no frena."
+    ]
+   ]
+  }
+ ],
+ "cuando": [
+  {
+   "que": "Pastillas: revisar el desgaste",
+   "cuando": "En cada servicio; cámbialas con cerca de 1 mm de material.",
+   "fuente": "Práctica de taller; confirmar en el manual del propietario NKD. <span class=\"esq-s-ap\">Práctica de taller</span>"
+  },
+  {
+   "que": "Líquido de frenos: cambiar",
+   "cuando": "Cada <b>2 años</b>, ruede lo que ruede.",
+   "fuente": "Práctica de taller (plazo usual de las marcas); confirmar en el manual del propietario NKD. <span class=\"esq-s-ap\">Práctica de taller</span>"
+  },
+  {
+   "que": "Manguera del freno: revisar y cambiar",
+   "cuando": "Revísala en cada servicio; cámbiala cada <b>4 años</b>.",
+   "fuente": "Práctica de taller. <span class=\"esq-s-ap\">Práctica de taller</span>"
+  },
+  {
+   "que": "Cable del freno combinado: revisar el ajuste",
+   "cuando": "Cada vez que ajustes el freno de atrás.",
+   "fuente": "Práctica de taller; ajuste exacto en el manual de servicio AKT. <span class=\"esq-s-ap\">Práctica de taller</span>"
+  }
+ ],
+ "fuentes": {
+  "seguro": [
+   "Números, nombres, códigos y cantidades: catálogo de partes AKT NKD 125 2025, fig. F-5 «Sistema freno delantero» (p. 18).",
+   "Cable del CBS de 127 cm: nota del mismo catálogo."
+  ],
+  "aproximado": [
+   "Vista desde el lado derecho: bomba arriba en el manubrio y cáliper abajo en la barra; proporciones a ojo.",
+   "Cáliper, pastillas y disco adaptados de otras láminas de freno de TallerYa (cáliper flotante y bomba de manubrio).",
+   "Contenido del kit ref. 1: por el plano (la llave abarca bomba, manguera y cáliper).",
+   "Orden del desarme, fallas, síntomas y plazos: práctica de taller."
+  ],
+  "lista": [
+   "Catálogo de partes AKT NKD 125 2025 (local).",
+   "Manual del propietario AKT NKD 125 (escaneado, sin texto)."
+  ]
+ },
+ "pendientes": [
+  "Torques de los tornillos de unión y del cáliper: sin dato; confirmar con el manual de servicio AKT.",
+  "Tipo de líquido (DOT 3 o DOT 4) y plazos de cambio: el manual del propietario está escaneado; no hay tareas de freno en garaje/intervalos/akt_nkd_125.json.",
+  "Contenido exacto del kit ref. 1 y si trae el interruptor: confirmar con AKT.",
+  "Ajuste del cable del CBS: confirmar en el manual de servicio.",
+  "Sin 3D propio para bomba y cáliper (solo el tornillo de unión, de la biblioteca)."
+ ]
+}

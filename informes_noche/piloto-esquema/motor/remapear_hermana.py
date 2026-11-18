@@ -18,6 +18,11 @@
 - Al final lista lo heredado que el catálogo nuevo no respalda: cada ficha cuyo nombre trae una pieza que su descripción no
   dice (o-ring donde el catálogo dice GASKET, «asiento»), y piezas nombradas en los textos que la figura nueva no tiene
   («tija de arriba»). Catálogo: --catalogo/--figura o los de datos/<lamina>.esqueleto.json. Revísalo antes de la revisora.
+- Imprime cuántas piezas de la figura nueva cubre la hermana (%): con menos del 50 %, combina hermanas (--arte-extra) o
+  parte de la biblioteca y plantillas. Lista también las cifras con unidad heredadas (dientes, mm, L, N·m, balineras 6xxx,
+  «cuatro resortes») que el catálogo nuevo no respalda.
+- --arte-extra <lamina2>:<funcion1,funcion2>: con --arte, trae esas funciones del -arte.js de una segunda hermana (avisa de
+  degradados url(#…) y ayudantes que no existen en el arte copiado).
 - Sin --escribir: solo dice qué cambiaría.
 Después: plantillas_ficha.py --hermana, separar_numeros.py y autocontrol.py --rapido (avisa si un enlace o una cadena quedó con
 el número viejo).
@@ -158,7 +163,26 @@ EQUIPO = [  # piezas que una moto tiene y otra no: si la figura nueva no las tra
     (r"cadena", r"CHAIN|CADENA"), (r"correa", r"BELT|CORREA"), (r"radiador|refrigerante", r"RADIATOR|RADIADOR"), (r"tambor|bandas", r"SHOE|BANDA|DRUM|TAMBOR")]
 
 
-def ajenas(D, lam, cat_moto=None, fig=None):
+NUM_PAL = {"dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "seis": 6, "siete": 7, "ocho": 8}
+CIFRA = re.compile(r"\b\d+(?:[.,]\d+)?(?:\s*[x×]\s*\d+(?:[.,]\d+)?)*\s*(?:mm|cm|L|cc|ml|N·m|kgf|dientes|T)\b|\b6[0-3]\d{2}(?:[-\s]?(?:2RS|ZZ|Z))?\b|\b\d+\s?T\b")
+
+def cifras(D, C, fig):
+    """Cifras con unidad y cantidades en palabras de las fichas que el catálogo nuevo no respalda (restos de la hermana)."""
+    norm = lambda t: re.sub(r"\s+", "", t.upper().replace("×", "X").replace(",", "."))
+    toda = norm(" ".join(q.get("descripcion", "") + " " + q.get("descripcion_en", "") for q in C["partes"]))
+    cant = {q["ref"]: q.get("cantidad") for q in C["partes"]}
+    o = []
+    for k, F in D.get("fichas", {}).items():
+        t = re.sub(r"<[^>]+>|\[\[[^|\]]+\||\]\]", "", json.dumps({x: F.get(x) for x in F if x not in ("cat", "codigo", "certeza")}, ensure_ascii=False))
+        for m in CIFRA.finditer(t):
+            c = norm(m.group(0)); c0 = re.sub(r"(MM|CM|L|CC|ML|N·M|KGF|DIENTES)$", "", c)
+            if c0 and c0 not in toda: o.append(f"ficha {k}: «{m.group(0)}» no está en la fig. {fig}")
+        q = cant.get(re.sub(r"[a-z]$", "", k))
+        for m in re.finditer(r"\b(dos|tres|cuatro|cinco|seis|siete|ocho)\b", t, re.I):
+            if q and NUM_PAL[m.group(1).lower()] != q: o.append(f"ficha {k}: «{t[m.start():m.end() + 12].strip()}…», el catálogo dice {q}")
+    return o
+
+def ajenas(D, lam, cat_moto=None, fig=None, N=None):
     """Lo heredado que el catálogo nuevo no respalda (una línea por hallazgo)."""
     import re as _re
     esq = AQUI / "datos" / f"{lam}.esqueleto.json"
@@ -182,6 +206,14 @@ def ajenas(D, lam, cat_moto=None, fig=None):
     for es, en in EQUIPO:
         n = len(_re.findall(es, todo, _re.I))
         if n and not _re.search(en, toda): o.append(f"«{_re.search(es, todo, _re.I).group(0)}» aparece {n} vez/veces y la fig. {fig} no trae esa pieza (¿equipo de la hermana?)")
+    if N is not None:
+        refs = {q["ref"] for q in C["partes"] if not re.search(r"\bKIT\b|COMPL", q.get("descripcion", ""), re.I)}
+        cub = refs & set(N.values()); pct = round(100 * len(cub) / max(1, len(refs)))
+        print(f"  la hermana cubre {len(cub)} de {len(refs)} piezas de la fig. {fig} ({pct} %)" + ("" if pct >= 50 else
+              " · MENOS DE LA MITAD: combina con otra hermana (--arte-extra) o parte de la biblioteca y plantillas"))
+        falta = sorted(refs - cub, key=lambda x: (len(x), x))
+        if falta: print(f"  sin pieza de la hermana: {', '.join(falta)}")
+    o += cifras(D, C, fig)
     print(f"  heredado sin respaldo en el catálogo nuevo ({len(o)}; corrígelo antes de la revisora):" if o else "  heredado contra el catálogo nuevo: sin diferencias de nombre ni de equipo")
     for x in o[:25]: print("   - " + x)
     if len(o) > 25: print(f"   … y {len(o) - 25} más")
@@ -203,6 +235,23 @@ def copiar_arte(D, herm, lam):
     usadas = {p.get("arte") for p in D.get("piezas", [])} | {c.get("arte") for c in D.get("contexto", [])}
     sobran = [f.split(":")[1] for f in fun if f.split(":")[1] not in usadas]
     if sobran: print(f"  sin pieza que las use (bórralas o úsalas): {', '.join(sobran)}")
+
+
+def arte_extra(lam, spec):
+    """--arte-extra lamina2:f1,f2 → copia esas funciones del arte de lamina2 al de esta lámina y las exporta."""
+    org, _, fs = spec.partition(":"); src = (AQUI / "datos" / f"{org}-arte.js").read_text(encoding="utf-8")
+    dst = AQUI / "datos" / f"{lam}-arte.js"; t = dst.read_text(encoding="utf-8")
+    for f in [x for x in fs.split(",") if x]:
+        if re.search(rf"function\s+{f}\s*\(", t): print(f"  {f}: ya está"); continue
+        m = re.search(rf"^function\s+{f}\s*\(.*?^\}}\s*$", src, re.S | re.M)
+        if not m: print(f"  aviso: {f} no está en {org}-arte.js"); continue
+        cuerpo = m.group(0).replace(org, lam)
+        t = t.replace("return {defs:", f"/* traída de {org} (--arte-extra) */\n{cuerpo}\nreturn {{defs:", 1).replace("return {defs:DEFS,", f"return {{defs:DEFS,{f},", 1)
+        ids = sorted(set(re.findall(r"url\(#([\w-]+)\)", cuerpo)) - set(re.findall(r'id="([\w-]+)"', t)))
+        ayud = sorted({x for x in re.findall(r"\b([a-zA-Z_]\w*)\(", cuerpo) if not re.search(rf"(function\s+{x}\b|const\s+{x}\s*=)", t)}
+                      - {"function", "if", "for", "while", "return", "Math", "round", "max", "min", "map", "join", "forEach", "push", "abs", "cos", "sin", "hypot", "atan2", "sqrt", "url", "rgba", "rotate", "translate", "scale", "matrix", "slice", "filter", "toFixed", "concat", "fill", "keys", "entries", "replace", "repeat", "String", "Number", "Array", "from", "includes", "indexOf", "reduce", "split", "parseFloat", "parseInt", "floor", "ceil", "PI"})
+        print(f"  traída {f} de {org}" + (f" · degradados que faltan: {', '.join(ids)}" if ids else "") + (f" · ayudantes que faltan: {', '.join(ayud)}" if ayud else ""))
+    dst.write_text(t, encoding="utf-8")
 
 
 def main():
@@ -231,10 +280,11 @@ def main():
         L = {str(k): str(v) for k, v in json.loads(a[a.index("--mapa-lado") + 1]).items()}
         D = espejar(D, L, float(a[a.index("--espejo") + 1])); D["remapeo"]["lado"] = L
         print(f"  espejo en x = {a[a.index('--espejo') + 1]}: {len(L)} números del otro lado (piezas, fichas, enlaces, grupos y pasos)")
-    ajenas(D, lam, a[a.index("--catalogo") + 1] if "--catalogo" in a else None, a[a.index("--figura") + 1] if "--figura" in a else None)
+    ajenas(D, lam, a[a.index("--catalogo") + 1] if "--catalogo" in a else None, a[a.index("--figura") + 1] if "--figura" in a else None, N)
     print(f"{lam} desde {herm}: {len(N)} números cambiados" + (f" · quedan con el mismo número (revisa que sean la misma pieza; si no, mapéalas): {', '.join(sin)}" if sin else ""))
     if "--escribir" not in a: print("(sin --escribir: no se guardó)"); return 0
     if "--arte" in a: copiar_arte(D, herm, lam)
+    if "--arte" in a and "--arte-extra" in a: arte_extra(lam, a[a.index("--arte-extra") + 1])
     destino.write_text(json.dumps(D, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"escrito datos/{lam}.json; ahora: plantillas_ficha.py datos/{lam}.json --hermana {herm} --escribir")
     return 0

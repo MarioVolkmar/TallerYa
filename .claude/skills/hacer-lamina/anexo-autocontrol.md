@@ -10,6 +10,7 @@ Lo automatizable ya lo revisa el validador: preguntas 1, 2, 3, 4, 9 (parte), 10a
 9. ¿El orden del desarme es el real, y cada pieza sale en el paso en que de verdad queda libre? El validador solo revisa lo que pusiste en `sujeta`.
 10. ¿Hay herramienta especial o aviso de seguridad donde hace falta? Sujetar la polea, el compresor del resorte, la moto en el gato, el motor frío.
 11. ¿Explicas el principio sin inventar piezas? En el freno, el sello devuelve el pistón y no hay ningún resorte.
+12. Clutch y frenos: ¿cierra el camino de la fuerza? Resortes → placa → discos → manzana, o manigueta → líquido → pistón → pastilla. Si renombras piezas de una hermana, revisa que siga cerrando.
 13. ¿Los síntomas son de moto y no de carro? Por ejemplo, «se va hacia un lado» no aplica con un solo disco.
 14. ¿«Cómo funciona», las fichas y los pasos dicen lo mismo sobre la misma pieza? Lee juntos todos los textos que nombran cada «(N)».
 16. ¿Lo del manual está como «Seguro» y la práctica de taller como «Práctica de taller» o «Aproximado», sin mezclarlos? El validador solo ve que haya marca.

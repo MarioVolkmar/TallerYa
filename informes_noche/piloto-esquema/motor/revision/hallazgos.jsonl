@@ -117,3 +117,30 @@
 {"fecha": "2026-11-17", "lamina": "cb125f-suspension-trasera", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "«Su soporte» es vago.", "aplicado": true}
 {"fecha": "2026-11-17", "lamina": "cb125f-suspension-trasera", "revisora": "integrada", "gravedad": "menor", "categoria": "desarme-orden", "texto": "Aflojarla no basta.", "aplicado": true}
 {"fecha": "2026-11-17", "lamina": "cb125f-suspension-trasera", "revisora": "integrada", "gravedad": "menor", "categoria": "jerga", "texto": "Explica «bujes».", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "grave", "categoria": "seguridad", "texto": "Falta cómo dejar el cable al armar.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "grave", "categoria": "seguridad", "texto": "Falta bombear tras cambiar pastillas.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "grave", "categoria": "desarme-orden", "texto": "Aviso sin caso.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "grave", "categoria": "seguridad", "texto": "Goteo sobre pastillas y disco.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "dato-tecnico", "texto": "Oxida, no raya.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "dato-tecnico", "texto": "Versión CBS.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "cadena-no-causal", "texto": "Eslabón causal.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "sinonimo", "texto": "Mismo nombre.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Nota interna.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Nota interna.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Nota interna.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Frase cortada.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "nkd-freno", "revisora": "integrada", "gravedad": "menor", "categoria": "otro", "texto": "Conjugación.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "grave", "categoria": "dato-tecnico", "texto": "Camino de la fuerza no cierra: resortes entre placa 13 y placa 4 (se corrige en el script: resortes entre placa de los resortes y manzana, torres de la placa de presión pasan por la manzana).", "aplicado": false}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "grave", "categoria": "dato-tecnico", "texto": "No es un sello de goma.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "grave", "categoria": "dato-tecnico", "texto": "No sella; retiene.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "grave", "categoria": "dato-tecnico", "texto": "Falla de goma no aplica.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "dato-tecnico", "texto": "Promete de más.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Falta el eslabón.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "dato-tecnico", "texto": "Manual p. 103 del PDF.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "dato-tecnico", "texto": "Manual pide sintético.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "dato-tecnico", "texto": "Intervalo del manual.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "genero-numero", "texto": "Pin es masculino.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Dos casos cruzados.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "catalogo-en-prosa", "texto": "Catálogo en la prosa.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "claridad", "texto": "Ambiguo.", "aplicado": true}
+{"fecha": "2026-11-17", "lamina": "apache-clutch", "revisora": "integrada", "gravedad": "menor", "categoria": "catalogo-en-prosa", "texto": "Catálogo en la prosa.", "aplicado": true}

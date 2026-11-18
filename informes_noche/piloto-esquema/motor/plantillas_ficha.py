@@ -10,7 +10,8 @@ Uso:
 Las plantillas son un borrador correcto y prudente, no la ficha final: la creadora cambia «dónde va», el síntoma propio de
 este sistema y los enlaces [[n|texto]] a las piezas vecinas. {pieza} = nombre de la ficha en minúscula; {donde} = «dónde va»
 si la ficha ya trae «que» (si no, queda la frase genérica). Tipos: tornillos, tuerca, arandela, oring, empaque, sello, reten,
-rodamiento, buje, resorte, seguro, grapa, abrazadera, caucho, manguera, tubo, filtro, tapa, caja, conjunto, pieza.
+rodamiento, buje, resorte, seguro, grapa, abrazadera, caucho, manguera, tubo, filtro, tapa, caja, conjunto, pieza; por sistema
+también aro-reten («RETEN CORONA/CLUTCH…»: aro de retención, no sello), bomba-freno, manigueta, interruptor-freno y cable-cbs.
 Por sistema (ronda 8, mandan sobre el tipo): carburador (chicle-alta, chicle-baja, aguja-cortina, cortina, flota, aguja-corte, cuba,
 tornillo-mezcla, tornillo-ralenti, ahogador, aislador), freno de tambor (bandas, leva-freno), rueda y transmisión (cadena, pinon, rin, llanta).
 Modelo de estilo: las funciones por concepto de capturas-rediseno/armar26v2.py.
@@ -210,8 +211,38 @@ P.update({
    sintomas=["Labrado gastado.", "Pierde aire o tiene rajas."], fallas=[["desgaste", "El labrado se gasta."], ["edad", "El caucho se reseca con los años."]],
    decision="cambia", porque="Va nueva si llegó al testigo de desgaste o está rajada. La presión es la del manual.",
    dif="taller", cuando="Revisa presión y labrado cada semana.", arrastra=["Llanta lisa → frena largo y patina en mojado."], certezaDe=AP),
+
+ # ronda 10: «retén» en catálogos en español también es un aro de retención (clutch, caja: adentro todo va en aceite)
+ "aro-reten": dict(que="El aro de acero que mantiene la pieza en su sitio {donde} (posición aprox.).", sirve="Retiene y ubica la pieza sobre el eje para que no se corra.",
+   sintomas=["La pieza tiene juego o se corre en el eje.", "Ruido de golpeteo al soltar la palanca."],
+   fallas=[["desgaste", "Se gasta o se deforma y deja juego."], ["maluso", "Se dobla si se saca haciendo palanca."]],
+   decision="cambia", porque="Es barato: si está gastado, marcado o deformado, va nuevo.",
+   dif="taller", cuando="Revísalo cada vez que desarmes esta parte.", arrastra=["Aro gastado → la pieza cabecea y se gastan los dientes y el buje."], certezaDe=AP),
+ # ronda 10 (NKD freno): mandos del freno hidráulico y del CBS
+ "bomba-freno": dict(que="La bomba de freno {donde}: el cilindro con su depósito de líquido.", sirve="Convierte el apretón de la manigueta en presión de líquido hacia el cáliper.",
+   sintomas=["Manigueta esponjosa o que llega al puño.", "Líquido oscuro o fuga por el guardapolvo."],
+   fallas=[["humedad", "El líquido absorbe agua, se oscurece y oxida el cilindro."], ["desgaste", "Las copas del pistón se gastan y la presión se escapa."]],
+   decision="repara", porque="Con fuga o manigueta esponjosa después de purgar, va el kit de la bomba; si el cilindro está rayado, bomba nueva. Seguridad: sin freno firme no se sale.",
+   dif="taller", cuando="Revisa el nivel del líquido antes de rodar y cámbialo cuando lo pida el manual.", arrastra=["Bomba con fuga → entra aire y la moto frena largo."], certezaDe=AP),
+ "manigueta": dict(que="La manigueta (palanca) {donde}.", sirve="Es lo que aprietas con la mano: mueve el pistón o el cable.",
+   sintomas=["Juego de lado o que no vuelve sola.", "Doblada o partida después de una caída."],
+   fallas=[["golpe", "Se dobla o se parte en una caída."], ["desgaste", "El pivote se gasta y queda con juego."]],
+   decision="cambia", porque="Doblada o partida va nueva: enderezarla la debilita. Con juego, se cambia el tornillo del pivote y se engrasa.",
+   dif="facil", cuando="Revísala si se cae la moto y engrasa el pivote en cada mantenimiento.", arrastra=["Manigueta doblada → el recorrido cambia y el freno no responde igual."], certezaDe=AP),
+ "interruptor-freno": dict(que="El interruptor de la luz de freno {donde}.", sirve="Prende la luz de freno cuando aprietas el freno.",
+   sintomas=["La luz de freno no prende o se queda prendida."], fallas=[["humedad", "El agua oxida los contactos."], ["desgaste", "El botón se pega o se rompe."]],
+   decision="cambia", porque="No se repara: si no prende con la bombilla buena, va nuevo. Sin luz de freno, los de atrás no te ven frenar.",
+   dif="facil", cuando="Prueba la luz de freno antes de rodar.", arrastra=["Interruptor dañado → la luz de freno no avisa al de atrás."], certezaDe=AP),
+ "cable-cbs": dict(que="El cable del freno combinado (CBS) {donde}.", sirve="Al pisar el freno de atrás, tira también del delantero para repartir la frenada.",
+   sintomas=["El freno delantero no reacciona al pisar el de atrás.", "El cable está duro, pelado o con óxido."],
+   fallas=[["humedad", "Se oxida por dentro y se pone duro."], ["ajuste", "Se destiempla y deja de repartir la frenada."]],
+   decision="cambia", porque="Un cable duro o pelado va nuevo; el ajuste es el del manual. Seguridad: prueba los dos frenos antes de rodar.",
+   dif="taller", cuando="Revisa su juego y lubrícalo en cada mantenimiento.", arrastra=["Cable duro → el freno delantero queda pegado o no ayuda."], certezaDe=AP),
 })
 SISTEMA = [  # (expresión sobre «DESCRIPCIÓN EN MAYÚSCULAS SIN TILDES | clave en inglés», plantilla); gana la primera
+    (r"^RETEN\s+(CORONA|CAMPANA|CLUTCH|EMBRAGUE|BUJE|PI[NÑ]ON PRIMARIO)", "aro-reten"),
+    (r"MASTER CYLINDER|CYLINDER, MASTER|BOMBA (DE )?FRENO", "bomba-freno"), (r"(^|\| )\.*\s*(BRAKE LEVER|LEVER, (FRONT |REAR )?(BRAKE|CLUTCH)|MANIGUETA)", "manigueta"),
+    (r"STOP SWITCH|SWITCH, (FRONT |REAR )?STOP|(INTERRUPTOR|SWICHE) (DE )?(STOP|FRENO)", "interruptor-freno"), (r"\bCBS\b|EQUALIZER|IGUALADOR", "cable-cbs"),
     (r"MAIN JET|JET, MAIN|CHICLE (DE )?ALTA|CHICLE PRINCIPAL", "chicle-alta"), (r"PILOT JET|SLOW JET|JET, (PILOT|SLOW)|CHICLE (DE )?BAJA|CHICLE (DE )?RALENTI|BOQUEREL", "chicle-baja"),
     (r"NEEDLE, JET|JET NEEDLE|AGUJA (DE (LA )?)?CORTINA|AGUJA (DEL )?ACELER", "aguja-cortina"), (r"NEEDLE VALVE|VALVE, NEEDLE|VALVE SET, NEEDLE|AGUJA (DE )?(CORTE|FLOTA|FLOTADOR)|PUNZON", "aguja-corte"),
     (r"(^|\| )\.*\s*(THROTTLE VALVE|VALVE, THROTTLE|PISTON VALVE|CORTINA)", "cortina"), (r"(^|\| )\.*\s*(FLOAT|FLOTA|FLOTADOR)\b(?!.*(CHAMBER|BOWL))", "flota"),

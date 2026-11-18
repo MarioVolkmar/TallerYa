@@ -1,0 +1,589 @@
+{
+ "cabeza": {
+  "cinta": "TallerYa · esquema piloto · lámina F5",
+  "titulo": " · akt-nkd125",
+  "aviso": "Prototipo local. Dibujos propios."
+ },
+ "visor": {
+  "titulo": "",
+  "sub": "Lámina F5 · 9 piezas"
+ },
+ "textos": {
+  "pestanasAria": "Vistas de la lámina",
+  "laminaAria": "Dibujo de la lámina F5",
+  "introFunciona": "",
+  "introCadenas": "",
+  "introCuando": ""
+ },
+ "pie": "",
+ "encuadreArmado": [
+  0,
+  0,
+  900,
+  700
+ ],
+ "radioToqueMin": 9,
+ "funciona": {
+  "vbCelular": "0 0 470 560",
+  "vbEscritorio": "0 0 900 320",
+  "pasos": []
+ },
+ "fuentes": {
+  "seguro": [],
+  "aproximado": [],
+  "lista": []
+ },
+ "comun": {
+  "atras": [
+   0.5,
+   -0.32
+  ],
+  "colores": {}
+ },
+ "lamina": "nkd-freno",
+ "moto": "akt-nkd125",
+ "figura": "F5",
+ "catalogo": "akt-nkd125",
+ "intervalos": "akt_nkd_125",
+ "arte": "nkd-freno",
+ "refsFigura": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9"
+ ],
+ "nombres": {
+  "1": "Sistema de freno delantero completo cbs",
+  "2": "Bomba freno delantero cbs",
+  "3": "Manigueta freno cbs",
+  "4": "Switch freno del",
+  "5": "Manguera freno delantera cbs",
+  "6": "Juego de pastillas freno delantero",
+  "7": "Caliper delantero completo",
+  "8": "Tornillo conexion manguera freno",
+  "9": "Cable freno cbs"
+ },
+ "ordenChips": [
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9"
+ ],
+ "ocultas": [],
+ "piezas": [
+  {
+   "id": "1",
+   "n": "1",
+   "anc": [
+    70,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "2",
+   "n": "2",
+   "anc": [
+    130,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "3",
+   "n": "3",
+   "anc": [
+    70,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "4",
+   "n": "4",
+   "anc": [
+    130,
+    145
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "5",
+   "n": "5",
+   "anc": [
+    210,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm",
+   "comun": "manguera",
+   "p": {
+    "g": 9,
+    "puntos": [
+     [
+      0,
+      0
+     ],
+     [
+      40,
+      20
+     ],
+     [
+      80,
+      20
+     ]
+    ],
+    "x": 210,
+    "y": 90
+   }
+  },
+  {
+   "id": "6",
+   "n": "6",
+   "anc": [
+    350,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "7",
+   "n": "7",
+   "anc": [
+    490,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  },
+  {
+   "id": "8",
+   "n": "8",
+   "anc": [
+    550,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "exp",
+   "comun": "tornillo",
+   "p": {
+    "cabeza": 10,
+    "largo": 40,
+    "d": 10,
+    "x": 550,
+    "y": 90
+   }
+  },
+  {
+   "id": "9",
+   "n": "9",
+   "anc": [
+    630,
+    90
+   ],
+   "et": [
+    0,
+    -30
+   ],
+   "vis": "arm"
+  }
+ ],
+ "pasos": [
+  {
+   "t": "<b>Sistema de freno delantero completo cbs.</b> (texto del paso)",
+   "m": {
+    "1": [
+     0,
+     0
+    ],
+    "2": [
+     0,
+     0
+    ],
+    "3": [
+     0,
+     0
+    ],
+    "4": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Manguera freno delantera cbs.</b> (texto del paso)",
+   "m": {
+    "5": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Juego de pastillas freno delantero.</b> (texto del paso)",
+   "m": {
+    "6": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Caliper delantero completo.</b> (texto del paso)",
+   "m": {
+    "7": [
+     0,
+     0
+    ],
+    "8": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "t": "<b>Cable freno cbs.</b> (texto del paso)",
+   "m": {
+    "9": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "textoArmado": "",
+ "fichas": {
+  "1": {
+   "nombre": "Sistema de freno delantero completo cbs",
+   "cat": "Sistema De Freno Delantero Cto 125NKD CBS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "291410316-0001"
+  },
+  "2": {
+   "nombre": "Bomba freno delantero cbs",
+   "cat": "Bomba Freno Delantero 125NKD CBS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "BOMB_FRENO_DE"
+  },
+  "3": {
+   "nombre": "Manigueta freno cbs",
+   "cat": "Manigueta Freno 125NKD CBS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "ManifreNKDCBS"
+  },
+  "4": {
+   "nombre": "Switch freno del",
+   "cat": "Switch Freno Del 110S/125R · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "291500023-0001"
+  },
+  "5": {
+   "nombre": "Manguera freno delantera cbs",
+   "cat": "Manguera Freno Delantera 125SL/NKD/NKD CBS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "291780128-0001"
+  },
+  "6": {
+   "nombre": "Juego de pastillas freno delantero",
+   "cat": "Jgo Pastillas Freno Delantero 110S/125 · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "2917300SL-0001"
+  },
+  "7": {
+   "nombre": "Caliper delantero completo",
+   "cat": "Caliper Delantero Completo NKD · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "291640147-0001"
+  },
+  "8": {
+   "nombre": "Tornillo conexion manguera freno",
+   "cat": "Tornillo Conexion Manguera Freno · 2 piezas",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "291800021-0001"
+  },
+  "9": {
+   "nombre": "Cable freno cbs",
+   "cat": "Cable Freno 125NKD CBS · 1 pieza",
+   "que": "",
+   "sirve": "",
+   "sintomas": [],
+   "fallas": [],
+   "decision": "",
+   "porque": "",
+   "dif": "",
+   "cuando": "",
+   "arrastra": [],
+   "conecta": [],
+   "certeza": [
+    [
+     "ok",
+     "Nombre y cantidad: catálogo akt-nkd125, fig. F5."
+    ]
+   ],
+   "certezaDe": {
+    "que": "ok"
+   },
+   "codigo": "294280003-0001"
+  }
+ },
+ "cadenas": [],
+ "cuando": [],
+ "sujeta": {},
+ "v2": {
+  "grupos": [
+   {
+    "id": "sistema-de-fre",
+    "nombre": "Sistema de freno delantero completo cbs",
+    "piezas": [
+     "1",
+     "2",
+     "3",
+     "4"
+    ],
+    "torn": [],
+    "pasos": [
+     0
+    ]
+   },
+   {
+    "id": "manguera-freno",
+    "nombre": "Manguera freno delantera cbs",
+    "piezas": [
+     "5"
+    ],
+    "torn": [],
+    "pasos": [
+     1
+    ]
+   },
+   {
+    "id": "juego-de-pasti",
+    "nombre": "Juego de pastillas freno delantero",
+    "piezas": [
+     "6"
+    ],
+    "torn": [],
+    "pasos": [
+     2
+    ]
+   },
+   {
+    "id": "caliper-delant",
+    "nombre": "Caliper delantero completo",
+    "piezas": [
+     "7"
+    ],
+    "torn": [
+     {
+      "nombre": "Tornillo conexion manguera frenos",
+      "corto": "Tornillo",
+      "ids": [
+       "8"
+      ],
+      "cant": 2
+     }
+    ],
+    "pasos": [
+     3
+    ]
+   },
+   {
+    "id": "cable-freno-cb",
+    "nombre": "Cable freno cbs",
+    "piezas": [
+     "9"
+    ],
+    "torn": [],
+    "pasos": [
+     4
+    ]
+   }
+  ],
+  "con3d": [],
+  "toqueExtra": [],
+  "inicio": "Piezas: "
+ }
+}

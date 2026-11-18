@@ -1376,6 +1376,150 @@
     "mecanica": 4.0,
     "ux": 4.3
    }
+  },
+  "nkd-freno": {
+   "lamina": "nkd-freno",
+   "fecha": "2026-11-17",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-17T12:38",
+     "fin": "2026-11-17T12:40"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-17T12:40",
+     "fin": "2026-11-17T12:49"
+    },
+    "validacion": {
+     "inicio": "2026-11-17T12:49",
+     "fin": "2026-11-17T12:50"
+    },
+    "mediciones": {
+     "inicio": "2026-11-17T12:51",
+     "fin": "2026-11-17T12:53"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-17T12:51",
+     "fin": "2026-11-17T12:53"
+    },
+    "revision": {
+     "inicio": "2026-11-17T12:53",
+     "fin": "2026-11-17T12:54"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": 0,
+   "piezas_3d": 1,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4,
+    "5": 4,
+    "7": 4,
+    "promedio": 4.0
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": 20,
+   "pendientes": 5,
+   "explicacion": "catalogo 2 min: la F-5 no estaba extraida. dibujo_contenido 9 min (CORTE): la hermana crypton-freno solo tenia caliper y la F-5 es el sistema entero (bomba, manigueta, interruptor, cable CBS); se trajo bomba y manigueta de nmax-fig26, se dibujo el cable y se reescribieron casi todas las fichas; un heredoc fallido costo ~1 min. notas_ux a ojo 4,0 < 4,5: notas conservadoras sin segunda mirada; el medible dio 4,88.",
+   "notas_revision": {
+    "mecanica": 4.2,
+    "ux": 4.4
+   },
+   "tokens": {
+    "inicio": 58000,
+    "fin": 220380
+   },
+   "tokens_revisora": 89410,
+   "graves": 4,
+   "mediciones": 1,
+   "modelo": "claude-opus-5-5 (no Fable: el uso semanal de Fable quedó en 0 %)"
+  },
+  "apache-clutch": {
+   "lamina": "apache-clutch",
+   "fecha": "2026-11-17",
+   "fases": {
+    "catalogo": {
+     "inicio": "2026-11-17T13:00",
+     "fin": "2026-11-17T13:02"
+    },
+    "dibujo_contenido": {
+     "inicio": "2026-11-17T13:02",
+     "fin": "2026-11-17T13:10"
+    },
+    "validacion": {
+     "inicio": "2026-11-17T13:10",
+     "fin": "2026-11-17T13:12"
+    },
+    "mediciones": {
+     "inicio": "2026-11-17T13:12",
+     "fin": "2026-11-17T13:14"
+    },
+    "revision_espera": {
+     "inicio": "2026-11-17T13:12",
+     "fin": "2026-11-17T13:15"
+    },
+    "revision": {
+     "inicio": "2026-11-17T13:15",
+     "fin": "2026-11-17T13:15"
+    }
+   },
+   "rondas_revision": 1,
+   "rondas_correccion": 0,
+   "errores_revisoras": {
+    "graves": 4,
+    "total": 14,
+    "aplicados": 13,
+    "a_mano": 1
+   },
+   "piezas_3d": 2,
+   "contexto_creadora": {},
+   "uso_plan": {},
+   "notas_mecanica": {},
+   "notas_ux": {
+    "1": 4.5,
+    "2": 4.5,
+    "3": 4,
+    "4": 4.5,
+    "5": 4.5,
+    "7": 4.5,
+    "6": 5,
+    "8": 4.7,
+    "9": 5.0,
+    "10": 5.0,
+    "11": 4.8,
+    "12": 4.8,
+    "promedio": 4.65,
+    "medible": 4.88
+   },
+   "pct_seguro": 100,
+   "pct_certeza_total": null,
+   "pendientes": 5,
+   "explicacion": "catálogo 2 min: extraer_catalogo.py no lee el formato TVS (columnas No./PARTE Nº/DESCRIPCIÓN/CANT./SAP), extracción a mano ~1,5 min. dibujo_contenido 8 min: 6 piezas nuevas (antibrinco, pines, balín, retén) sin hermana, reescritura de fichas heredadas de la Honda y un comando colgado esperando stdin (~2 min).",
+   "tokens": {
+    "inicio": 108628,
+    "fin": 195091,
+    "creacion": 86463,
+    "revisora": 103051
+   },
+   "notas_revision": {
+    "mecanica": 3.8,
+    "ux": 4.4
+   },
+   "hermana": {
+    "lamina": "cb125f-clutch",
+    "cubre": "15 de 21",
+    "pct": 71,
+    "otras": {
+     "akt-embrague": "~10 de 21 (48 %)",
+     "boxer-embrague": "~10 de 21 (48 %)"
+    }
+   },
+   "catalogo_extraccion": "extraer_catalogo.py no lee el formato TVS (lee 1 pieza basura); extracción a mano con pymupdf en ~1,5 min"
   }
  },
  "creacion_meta_min": 10,

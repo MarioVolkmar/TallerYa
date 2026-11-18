@@ -33,6 +33,7 @@ Responde ✔ / ✘ con una línea por cada ✘ (cita la ficha o el paso):
 4. **Fallas y síntomas:** son de moto (no de carro), con su causa; «¿se repara o se cambia?» es lo que haría un taller.
 5. **Datos:** lo que dice «Seguro» sale de verdad del manual o del catálogo, y lo aproximado está marcado. Los `pendientes` de la creadora: ¿alguno es un error y no una duda?
 6. **Cadenas «Si falla»:** cada eslabón sigue de verdad al anterior.
+7. **Camino de la fuerza (clutch y frenos):** sigue la fuerza de punta a punta y mira que cierre. En el clutch: resortes → placa → discos → manzana, y los resortes se apoyan en una pieza que no se mueve con la placa. En el freno: manigueta o pedal → líquido o cable → pistón → pastilla → disco. Si se queda encerrada en un conjunto, es grave aunque el texto «suene» bien.
 
 Nota 1-5 y una lista corta de cambios. No reescribas fichas: di qué cambiar.
 

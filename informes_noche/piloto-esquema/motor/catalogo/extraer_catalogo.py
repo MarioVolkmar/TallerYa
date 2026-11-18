@@ -13,6 +13,9 @@ Uso:
   python extraer_catalogo.py <pdf> <salida.json> --figura F10 --columna C [--saltar 2U] [--moto honda-cb125f]
       Catálogo Honda (inglés; 'Reqd. QTY' por versión con columnas «7 8 A C» y códigos de mercado): se guarda como «F10».
       Sin --columna lista las versiones. Las filas de reemplazo heredan la ref; --saltar descarta mercados (2U = Nissin).
+  python extraer_catalogo.py <pdf> <salida.json> --figura 8 [--moto tvs-apache160-4v]
+      Catálogo TVS Colombia (cabecera «FIG. No. | PARTE Nº | DESCRIPCIÓN | CANT. | SAP»): se detecta solo; el SAP va a «nota».
+Si no reconoce la tabla (o salen menos de 3 piezas con número), sale con error y NO escribe nada.
 Usa pymupdf (words) y agrupa por columnas relativas a la cabecera."""
 import argparse, json, os, re, sys
 if hasattr(sys.stdout, "reconfigure"): sys.stdout.reconfigure(encoding="utf-8"); sys.stderr.reconfigure(encoding="utf-8")  # consola de Windows (cp1252)
@@ -117,6 +120,51 @@ def filas_genericas(page):
         nota = " ".join(a[4] for a in f["w"] if obs and a[0] >= obs[0] - 2)
         out.append({"ref": ref, "codigo": limpiar(f["cod"][4]), "descripcion": limpiar(desc), "cant": cant, "nota": limpiar(nota)})
     return out, [c[0] for c in cols]
+
+# ---------- catálogo TVS: una celda por línea, 5 por fila (No. | PARTE Nº | DESCRIPCIÓN | CANT. | SAP) ----------
+def tabla_tvs(page):
+    L = [x.strip() for x in page.get_text().split("\n")]
+    if "SAP" not in L or not any(x.upper().startswith("CANT") for x in L):
+        return []
+    i, out = L.index("SAP") + 1, []
+    while i + 4 < len(L) and re.fullmatch(r"\d+[A-Z]?", L[i]):
+        ref, cod, desc, cant, sap = L[i:i + 5]
+        if not re.fullmatch(r"\d+", cant):
+            break
+        out.append({"ref": ref, "descripcion": limpiar(desc), "cantidad": int(cant), "codigo": cod.strip(), "nota": f"SAP {sap}"})
+        i += 5
+    return out
+
+def main_tvs(pdf, salida, figura, moto):
+    d = pymupdf.open(pdf)
+    partes, paginas, titulo = [], [], ""
+    for i, page in enumerate(d):
+        fg = figura_generica(page)
+        if not fg or fg[0] != str(figura):
+            continue
+        fs = tabla_tvs(page)
+        if fs:
+            partes += fs; paginas.append(i + 1); titulo = titulo or fg[1]
+    if not partes:
+        return None
+    m = re.search(r"FIGURA\s*N\W{0,2}\s*" + re.escape(str(figura)) + r"\s*:\s*(.+?)\s*$", re.sub(r"\s+", " ", d[paginas[0] - 1].get_text()))
+    if m: titulo = m.group(1).strip()
+    return guardar(pdf, salida, figura, moto, {"titulo": titulo, "paginas": paginas, "partes": partes}, "TVS")
+
+def guardar(pdf, salida, figura, moto, fig, formato):
+    """Control de cordura común: con menos de 3 piezas con número, error y no escribe (antes dejaba 1 pieza basura)."""
+    buenas = [p for p in fig["partes"] if re.fullmatch(r"\d+[A-Za-z]?", str(p.get("ref", "")))]
+    if len(buenas) < 3:
+        print(f"ERROR figura {figura}: el formato {formato} dio {len(fig['partes'])} filas y {len(buenas)} con número; no escribo nada. "
+              "Mira UNA página de la tabla y extrae a mano (ref, descripcion, cantidad, codigo, nota) o agrega el formato aquí.")
+        return 3
+    res = json.load(open(salida, encoding="utf-8")) if os.path.exists(salida) else {"moto": moto or os.path.splitext(os.path.basename(salida))[0], "fuente": os.path.basename(pdf), "figuras": {}}
+    res["figuras"][str(figura)] = fig
+    with open(salida, "w", encoding="utf-8") as fh:
+        json.dump(res, fh, indent=1, ensure_ascii=False)
+    print(f"figura {figura} «{fig['titulo']}» ({formato}), pp. {fig['paginas']}: {len(fig['partes'])} piezas")
+    for p in fig["partes"]: print(f"  {p['ref']:>3} {p['codigo']:12} {p['cantidad']:>2} {p['descripcion']}")
+    return 0
 
 # ---------- catálogo AKT: «E- 4» + tabla Ref. | PLM | Articulo | Descripciones | Cant | NOTA (filas «E4-1») ----------
 def clave_fig(f):
@@ -237,6 +285,8 @@ def main_generico(pdf, salida, figura, columna, moto, saltar=None):
     if clave_fig(figura) or re.fullmatch(r"\s*[A-Za-z]-?\d+-\d+\s*", str(figura)):
         r = main_honda(pdf, salida, figura, columna, moto, saltar)   # «F10», «F-10», «E-1-2»: catálogo Honda
         if r is not None: return r
+    r = main_tvs(pdf, salida, figura, moto)   # TVS: «PARTE Nº … CANT. | SAP», una celda por línea
+    if r is not None: return r
     d = pymupdf.open(pdf)
     filas, paginas, titulo, columnas = [], [], "", []
     for i, page in enumerate(d):
@@ -271,6 +321,8 @@ def main_generico(pdf, salida, figura, columna, moto, saltar=None):
         if re.search(r"\bcomplet[oa]s?\b", desc, re.I):   # «Clutch Completo»: kit de venta (recuadro punteado), no una pieza del dibujo
             conjuntos.append({"ref": r, "descripcion": desc, "codigo": sel["codigo"]}); continue
         partes.append({"ref": r, "descripcion": desc, "cantidad": int(sel["cant"][col]), "codigo": sel["codigo"], "nota": f"columna {col}" + (f"; {sel['nota']}" if sel["nota"] else "")})
+    if len([p for p in partes if re.fullmatch(r"\d+[A-Za-z]?", p["ref"])]) < 3:
+        print(f"ERROR figura {figura}: solo {len(partes)} piezas reconocibles (formato no reconocido); no escribo nada. Mira UNA página y extrae a mano."); return 3
     res = json.load(open(salida, encoding="utf-8")) if os.path.exists(salida) else {"moto": moto or os.path.splitext(os.path.basename(salida))[0], "fuente": os.path.basename(pdf), "figuras": {}}
     fig = {"titulo": titulo, "paginas": paginas, "columna": col, "columnas": columnas, "partes": partes}
     if fuera: fig["fuera"] = f"No aplican a la columna {col}: " + "; ".join(fuera) + "."

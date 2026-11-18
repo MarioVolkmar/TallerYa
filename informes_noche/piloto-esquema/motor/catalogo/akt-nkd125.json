@@ -403,6 +403,77 @@
      "nota": ""
     }
    ]
+  },
+  "F5": {
+   "titulo": "",
+   "paginas": [
+    18
+   ],
+   "partes": [
+    {
+     "ref": "1",
+     "descripcion": "Sistema De Freno Delantero Cto 125NKD CBS",
+     "cantidad": 1,
+     "codigo": "291410316-0001",
+     "nota": ""
+    },
+    {
+     "ref": "2",
+     "descripcion": "Bomba Freno Delantero 125NKD CBS",
+     "cantidad": 1,
+     "codigo": "BOMB_FRENO_DE",
+     "nota": ""
+    },
+    {
+     "ref": "3",
+     "descripcion": "Manigueta Freno 125NKD CBS",
+     "cantidad": 1,
+     "codigo": "ManifreNKDCBS",
+     "nota": ""
+    },
+    {
+     "ref": "4",
+     "descripcion": "Switch Freno Del 110S/125R",
+     "cantidad": 1,
+     "codigo": "291500023-0001",
+     "nota": ""
+    },
+    {
+     "ref": "5",
+     "descripcion": "Manguera Freno Delantera 125SL/NKD/NKD CBS",
+     "cantidad": 1,
+     "codigo": "291780128-0001",
+     "nota": ""
+    },
+    {
+     "ref": "6",
+     "descripcion": "Jgo Pastillas Freno Delantero 110S/125",
+     "cantidad": 1,
+     "codigo": "2917300SL-0001",
+     "nota": ""
+    },
+    {
+     "ref": "7",
+     "descripcion": "Caliper Delantero Completo NKD",
+     "cantidad": 1,
+     "codigo": "291640147-0001",
+     "nota": ""
+    },
+    {
+     "ref": "8",
+     "descripcion": "Tornillo Conexion Manguera Freno",
+     "cantidad": 2,
+     "codigo": "291800021-0001",
+     "nota": ""
+    },
+    {
+     "ref": "9",
+     "descripcion": "Cable Freno 125NKD CBS",
+     "cantidad": 1,
+     "codigo": "294280003-0001",
+     "nota": "127Cm SISTEMA FRENO DELANTERO"
+    }
+   ]
   }
  }
 }
