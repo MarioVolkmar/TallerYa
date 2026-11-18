@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static humanize garaje_extras tramites %}
+{% load static humanize garaje_extras tramites cotizador %}
 {% block title %}{{ moto }} · Mi garaje · TallerYa{% endblock %}
 
 {% block content %}
@@ -477,7 +477,7 @@
 <script src="{% static 'garaje/js/despiece.js' %}?v=20261115-dx" defer></script>
 {% endif %}
 
-{% include "garaje/_agenda.html" %}
+{% include "garaje/_agenda.html" %}{% cotizador_script %}
 
 {% if talleres %}
 <section id="talleres" class="mt-10 scroll-mt-24" data-plegable>

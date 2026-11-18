@@ -1,0 +1,26 @@
+/* Piloto del cotizador (app cotizador). Solo se carga con COTIZADOR_ACTIVO=1. Usa los colores de tallerya.css. */
+.cotizador-boton-ficha { width: 100%; justify-content: center; margin-top: .5rem; }
+.cotizador-boton { white-space: nowrap; }
+.accion-repuestos li.cotizador-li { display: block; }
+.cotizador-li:empty { display: none; }
+.cotizador-recuadro { margin-top: .75rem; padding: .85rem .95rem; border-radius: 12px; background: var(--pizarra, #1d2427);
+  border: 1px solid var(--borde, #354044); color: var(--crema, #ede3cc); font-size: .86rem; line-height: 1.45;
+  overflow-wrap: anywhere; }
+.cotizador-cargando { color: #a59d8d; font-style: italic; }
+.cotizador-cabeza { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.cotizador-titulo { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; color: var(--mostaza, #e3a72f); }
+.cotizador-cerrar { width: 2rem; height: 2rem; border-radius: 999px; font-size: 1.2rem; line-height: 1; color: var(--crema, #ede3cc); }
+.cotizador-cerrar:hover { background: rgba(255, 255, 255, .08); }
+.cotizador-rango { font-family: "Oswald", sans-serif; font-size: 1.5rem; line-height: 1.2; margin-top: .2rem; }
+.cotizador-guion { font-size: .9rem; color: #a59d8d; }
+.cotizador-texto { margin-top: .25rem; }
+.cotizador-sub { margin-top: .7rem; font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: #a59d8d; }
+.cotizador-vendedores { margin-top: .3rem; display: grid; gap: .45rem; }
+.cotizador-vendedores li { display: grid; gap: .1rem; padding-bottom: .45rem; border-bottom: 1px solid rgba(255, 255, 255, .07); }
+.cotizador-vendedores li:last-child { border-bottom: 0; padding-bottom: 0; }
+.cotizador-vendedores a { color: var(--crema, #ede3cc); text-decoration: underline; text-underline-offset: 2px; }
+.cotizador-dato { font-size: .78rem; color: #d6ccb6; }
+.cotizador-ejemplo { margin-top: .4rem; padding: .45rem .6rem; border-radius: 8px; background: rgba(227, 167, 47, .14);
+  border: 1px dashed var(--mostaza, #e3a72f); font-size: .8rem; }
+.cotizador-pie { margin-top: .7rem; font-size: .72rem; color: #a59d8d; }
+.cotizador-recuadro code { color: var(--lava, #f2611d); }

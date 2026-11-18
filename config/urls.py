@@ -39,6 +39,7 @@ urlpatterns = [
     path("", include("tramites.urls")),
     path("", include("ayuda.urls")),
     path("", include("cupones.urls")),
+    path("cotizador/", include("cotizador.urls")),  # piloto; sus vistas responden 404 con COTIZADOR_ACTIVO=0
     path("", include("talleres.urls")),
     # Fotos subidas por los talleres. Suficiente para el MVP (en Render, con un Disk montado en
     # DJANGO_MEDIA_ROOT); con mucho tráfico conviene moverlas a un almacenamiento como S3 o Cloudinary.
