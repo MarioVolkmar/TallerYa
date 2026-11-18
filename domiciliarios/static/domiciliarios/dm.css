@@ -1,0 +1,99 @@
+/* TallerYa Ruta (app domiciliarios). Prefijo dm-: no choca con tallerya.css. Pensado primero para celular. */
+.dm { --dm-bien: #3fbf6b; --dm-ojo: var(--mostaza, #e3a72f); --dm-mal: #ff5a3c; max-width: 64rem; margin: 1.5rem auto 0; }
+.dm-angosto { max-width: 36rem; }
+.dm-h1 { font-size: clamp(2rem, 7vw, 3rem); margin-top: .6rem; line-height: 1.05; }
+.dm-h2 { font-size: 1.15rem; margin-bottom: .6rem; }
+.dm-lead { margin-top: .7rem; max-width: 42rem; }
+.dm-chico { font-size: .85rem; margin-top: .4rem; }
+.dm-caja { padding: 1.1rem; margin-top: 1rem; }
+.dm-link { color: var(--lava-2); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; cursor: pointer; font: inherit; }
+.dm-ancho { width: 100%; justify-content: center; margin-top: .8rem; min-height: 3rem; }
+.dm-nota { background: rgba(227, 167, 47, .12); border-left: 3px solid var(--dm-ojo); padding: .5rem .7rem; border-radius: 4px; }
+.dm-cta { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.3rem; }
+.dm-cabeza { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+
+/* Presentación */
+.dm-beneficios { display: grid; gap: .8rem; margin-top: 1.6rem; grid-template-columns: 1fr; }
+.dm-beneficios li { padding: 1rem; display: flex; flex-direction: column; gap: .35rem; }
+.dm-beneficios b { color: var(--crema); font-size: 1.02rem; }
+.dm-beneficios span { color: var(--crema-2); font-size: .92rem; }
+.dm-tabla { width: 100%; border-collapse: collapse; margin-top: .7rem; font-size: .9rem; }
+.dm-tabla th, .dm-tabla td { text-align: left; padding: .45rem .3rem; border-bottom: 1px solid var(--borde); }
+.dm-tabla th { color: var(--crema-2); font-weight: 600; font-size: .8rem; }
+.dm-precios { display: grid; gap: .8rem; margin-top: 1rem; grid-template-columns: 1fr; }
+.dm-precio { padding: 1.1rem; }
+.dm-precio ul { margin-top: .6rem; display: grid; gap: .3rem; font-size: .92rem; }
+.dm-precio li::before { content: "✓ "; color: var(--dm-bien); font-weight: 700; }
+.dm-precio-plus { border: 1.5px solid var(--lava); }
+.dm-valor { font-family: Oswald, sans-serif; font-size: 2.2rem; margin-top: .3rem; }
+.dm-valor small { font-size: 1rem; color: var(--crema-2); }
+.dm-pasos { list-style: decimal; padding-left: 1.3rem; display: grid; gap: .4rem; }
+
+/* Tablero */
+.dm-hoy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; margin-top: 1rem; }
+.dm-hoy li { background: var(--pizarra); border-radius: 8px; padding: .7rem .8rem; border-left: 4px solid var(--borde); display: flex; flex-direction: column; min-width: 0; }
+.dm-hoy small { color: var(--crema-2); font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; }
+.dm-hoy b { font-size: 1rem; margin-top: .15rem; }
+.dm-hoy em { font-style: normal; color: var(--crema-2); font-size: .78rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dm-hoy .dm-bien { border-left-color: var(--dm-bien); }
+.dm-hoy .dm-ojo { border-left-color: var(--dm-ojo); }
+.dm-hoy .dm-mal { border-left-color: var(--dm-mal); }
+.dm-columnas { display: grid; gap: 0 1rem; grid-template-columns: 1fr; }
+.dm-columnas > div { min-width: 0; }
+.dm-form, .dm-form-jornada { display: grid; gap: .3rem; }
+.dm-form { padding: 1.1rem; margin-top: 1.2rem; }
+.dm-campo { display: block; margin-top: .5rem; }
+.dm-campo .campo { font-size: 1.1rem; min-height: 3rem; }
+.dm-checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin-top: .5rem; }
+.dm-checks label { display: flex; align-items: center; gap: .5rem; background: var(--pizarra); border-radius: 6px; padding: .6rem; font-size: .92rem; }
+.dm-salir { margin-top: 1.5rem; text-align: center; }
+.dm-balance { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+.dm-balance dl { display: grid; gap: .2rem; margin-top: .4rem; }
+.dm-balance dl > div { display: flex; justify-content: space-between; gap: 1rem; font-size: .93rem; padding: .15rem 0; }
+.dm-balance dt { color: var(--crema-2); }
+.dm-neto { border-top: 1px solid var(--borde); padding-top: .35rem !important; font-weight: 700; font-size: 1.05rem !important; color: var(--dm-bien); }
+.dm-neto.dm-negativo { color: var(--dm-mal); }
+.dm-barra { height: 8px; background: rgba(63, 191, 107, .25); border-radius: 4px; margin-top: .5rem; overflow: hidden; }
+.dm-barra span { display: block; height: 100%; background: var(--lava); }
+.dm-tareas { display: grid; gap: .5rem; }
+.dm-tareas li { border-left: 4px solid var(--borde); padding: .35rem 0 .35rem .7rem; display: flex; flex-direction: column; }
+.dm-tareas span { font-size: .9rem; }
+.dm-tareas em { font-style: normal; color: var(--crema-2); font-size: .78rem; }
+.dm-nivel-ok { border-left-color: var(--dm-bien) !important; }
+.dm-nivel-pronto { border-left-color: var(--dm-ojo) !important; }
+.dm-nivel-urgente, .dm-nivel-vencido { border-left-color: var(--dm-mal) !important; }
+.dm-tareas + .dm-link { display: inline-block; margin-top: .7rem; font-size: .9rem; }
+.dm-aliados { display: grid; gap: .6rem; }
+.dm-aliados li { display: flex; flex-direction: column; gap: .2rem; padding: .7rem; background: var(--pizarra); border-radius: 8px; }
+.dm-aliados a b { color: var(--crema); }
+.dm-chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+.dm-chips i { font-style: normal; font-size: .72rem; padding: .1rem .5rem; border-radius: 99px; background: var(--musgo); color: #bfe6d3; }
+.dm-descuento { font-size: .85rem; color: var(--lava-2); font-weight: 600; }
+.dm-bloqueado { color: var(--crema-2); font-weight: 400; }
+.dm-bloqueado::before { content: "🔒 "; }
+.dm-jornadas { display: grid; }
+.dm-jornadas li { display: flex; justify-content: space-between; padding: .35rem 0; border-bottom: 1px solid var(--borde); font-size: .92rem; }
+.dm-enlace { margin-top: .6rem; }
+.dm-caja form .dm-link { margin-top: .8rem; font-size: .85rem; }
+
+/* Comprobante */
+.dm-sello { text-align: center; }
+.dm-sello-icono { width: 4rem; height: 4rem; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; font-size: 2.2rem; font-weight: 700; color: #0b0e0f; }
+.dm-sello-bien .dm-sello-icono { background: var(--dm-bien); }
+.dm-sello-mal .dm-sello-icono { background: var(--dm-ojo); }
+
+/* Tarjeta de entrada en Mi garaje */
+.dm-aviso { display: flex; align-items: center; gap: .7rem; margin-top: 1rem; padding: .75rem .9rem; border-radius: 8px; border: 1.5px dashed var(--lava); color: var(--crema); font-size: .92rem; }
+.dm-aviso svg { color: var(--lava); flex: none; }
+.dm-aviso:hover { background: rgba(242, 97, 29, .08); }
+
+@media (min-width: 640px) {
+  .dm-beneficios { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dm-precios, .dm-balance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dm-hoy { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .dm-checks { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 960px) {
+  .dm-columnas { grid-template-columns: 1fr 1fr; }
+  .dm-beneficios { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}

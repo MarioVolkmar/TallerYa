@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+{% load static humanize %}
+{% block title %}Mi ruta · TallerYa Ruta{% endblock %}
+{% block seo %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}">
+<div class="dm">
+  <p class="etiqueta">TallerYa Ruta</p>
+  <div class="dm-cabeza">
+    <h1 class="titulo dm-h1">Mi <span class="text-lava">ruta</span></h1>
+    <a href="{% url 'domiciliarios:activar' %}" class="dm-link">Editar</a>
+  </div>
+  <p class="text-suave dm-chico"><a href="{{ moto.get_absolute_url }}" class="dm-link">{{ moto }}</a> · {{ moto.km_actual|intcomma }} km · {{ perfil.km_semana|intcomma }} km/semana{% if perfil.nombres_plataformas %} · {{ perfil.nombres_plataformas|join:", " }}{% endif %}</p>
+
+  {# Lo de hoy: pico y placa, documentos y estado del plan #}
+  <ul class="dm-hoy">
+    <li class="{% if pyp.hoy %}dm-mal{% elif manana_pyp %}dm-ojo{% else %}dm-bien{% endif %}">
+      <small>Pico y placa</small>
+      <b>{% if not moto.placa %}Agrega la placa{% elif not pyp.regla %}Sin rotación cargada{% elif pyp.hoy %}Hoy tienes{% elif manana_pyp %}Mañana tienes{% else %}Hoy libre{% endif %}</b>
+      {% if pyp.regla and moto.placa %}<em>{{ pyp.regla.horario }}</em>{% endif %}
+    </li>
+    {% for doc in documentos %}
+    <li class="{% if doc.estado == 'vencido' or doc.estado == 'urgente' %}dm-mal{% elif doc.estado == 'pronto' or not doc.vence %}dm-ojo{% else %}dm-bien{% endif %}">
+      <small>{% if doc.clave == "tecno" %}Técnico-mecánica{% else %}SOAT{% endif %}</small>
+      <b>{% if not doc.vence %}Sin fecha{% elif doc.estado == "vencido" %}Vencido{% elif doc.dias <= 30 %}Vence en {{ doc.dias }} día{{ doc.dias|pluralize }}{% else %}Al día{% endif %}</b>
+      {% if doc.vence %}<em>{{ doc.vence|date:"j M Y" }}</em>{% endif %}
+    </li>
+    {% endfor %}
+    <li class="{% if al_dia %}dm-bien{% else %}dm-mal{% endif %}">
+      <small>Mantenimiento</small>
+      <b>{% if al_dia %}Al día{% else %}{{ plan.urgentes|length }} por hacer{% endif %}</b>
+      <em>plan intensivo</em>
+    </li>
+  </ul>
+
+  <div class="dm-columnas">
+    <div>
+      <section id="jornada" class="papel dm-caja">
+        <h2 class="titulo dm-h2">Cerrar jornada</h2>
+        {% if jornada_hoy %}<p class="dm-chico dm-nota">Ya cerraste hoy con ${{ jornada_hoy.ingreso|intcomma }}. Si guardas otra vez, se reemplaza lo que ganaste. La gasolina se suma.</p>{% endif %}
+        <form method="post" action="{% url 'domiciliarios:jornada' %}" class="dm-form-jornada">
+          {% csrf_token %}
+          {% for campo in form %}
+          <label class="campo-label dm-campo">{{ campo.label }}{{ campo }}</label>
+          {% endfor %}
+          <button type="submit" class="btn btn-lava dm-ancho">Guardar jornada</button>
+        </form>
+      </section>
+
+      <section id="balance" class="papel dm-caja">
+        <h2 class="titulo dm-h2">¿Te está dejando plata?</h2>
+        <div class="dm-balance">
+          {% for nombre, b in balance.items %}
+          <div>
+            <p class="etiqueta">{% if nombre == "semana" %}Esta semana{% else %}Este mes ({{ b.nombre }}){% endif %}</p>
+            <dl>
+              <div><dt>Ganaste</dt><dd>${{ b.ingreso|intcomma }}</dd></div>
+              <div><dt>Gastaste en la moto</dt><dd>${{ b.gasto|intcomma }}</dd></div>
+              <div class="dm-neto {% if b.neto < 0 %}dm-negativo{% endif %}"><dt>Te queda</dt><dd>${{ b.neto|intcomma }}</dd></div>
+              <div><dt>Km</dt><dd>{% if b.km %}{{ b.km|intcomma }}{% else %}—{% endif %}</dd></div>
+              <div><dt>Costo por km</dt><dd>{% if b.costo_km %}${{ b.costo_km|intcomma }}{% else %}—{% endif %}</dd></div>
+              <div><dt>Ingreso por km</dt><dd>{% if b.ganancia_km %}${{ b.ganancia_km|intcomma }}{% else %}—{% endif %}</dd></div>
+            </dl>
+            {% if b.pct_gasto is not None %}<div class="dm-barra" role="img" aria-label="La moto se lleva el {{ b.pct_gasto }} % de lo que ganas"><span style="width: {{ b.pct_gasto }}%"></span></div>
+            <p class="text-suave dm-chico">La moto se lleva el {{ b.pct_gasto }} % de lo que ganas{% if b.dias %} ({{ b.dias }} jornada{{ b.dias|pluralize }}){% endif %}.</p>{% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        <p class="text-suave dm-chico">Los gastos salen de <a class="dm-link" href="{% url 'garaje:gastos' moto.pk %}">Gastos y consumo</a> y de la hoja de vida. Los km, de las lecturas del tablero.</p>
+      </section>
+    </div>
+
+    <div>
+      <section class="papel dm-caja">
+        <h2 class="titulo dm-h2">Plan de uso intensivo</h2>
+        <p class="text-suave dm-chico">A {{ perfil.km_semana|intcomma }} km por semana. Adelantamos las piezas que más sufren en domicilios (aproximado).</p>
+        <ul class="dm-tareas">
+          {% for t in proximas %}
+          <li class="dm-nivel-{{ t.nivel }}">
+            <b>{{ t.tarea.nombre }}</b>
+            <span>{% if t.nivel == "vencido" %}Toca ya{% elif t.dias_para is not None %}{% if t.dias_para == 0 %}Hoy{% else %}En {{ t.dias_para }} día{{ t.dias_para|pluralize }}{% endif %}{% endif %}{% if t.km_restantes is not None and t.km_restantes > 0 %} · {{ t.km_restantes|intcomma }} km{% endif %}</span>
+            {% if t.intervalo_intensivo %}<em>Cada {{ t.intervalo_intensivo|intcomma }} km (manual: {{ t.intervalo_normal|intcomma }})</em>{% endif %}
+          </li>
+          {% empty %}<li>Registra tus mantenimientos en <a class="dm-link" href="{{ moto.get_absolute_url }}">tu moto</a> para calcular el plan.</li>
+          {% endfor %}
+        </ul>
+        <a href="{{ moto.get_absolute_url }}" class="dm-link">Registrar un mantenimiento</a>
+      </section>
+
+      <section class="papel dm-caja">
+        <h2 class="titulo dm-h2">Talleres que te atienden en el día</h2>
+        <ul class="dm-aliados">
+          {% for a in aliados %}
+          <li>
+            <a href="{{ a.taller.get_absolute_url }}"><b>{{ a.taller.nombre }}</b></a>
+            <span class="text-suave">{{ a.taller.barrio }}{% if a.horario_texto %} · {{ a.horario_texto }}{% endif %}</span>
+            <span class="dm-chips">{% if a.en_el_dia %}<i>En el día</i>{% endif %}{% if a.horario_extendido %}<i>Horario extendido</i>{% endif %}</span>
+            {% if a.descuento %}{% if es_plus %}<span class="dm-descuento">{{ a.descuento }}</span>{% else %}<span class="dm-descuento dm-bloqueado">Descuento con Plus</span>{% endif %}{% endif %}
+          </li>
+          {% empty %}<li class="text-suave">Pronto tendremos talleres aliados cerca de ti.</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'talleres:emergencias' %}" class="btn btn-borde dm-ancho dm-urgencia">¿Varado? Emergencias</a>
+      </section>
+
+      {% if es_plus %}
+      <section id="comprobante" class="papel dm-caja">
+        <h2 class="titulo dm-h2">Comprobante de mantenimiento</h2>
+        <p class="text-suave dm-chico">Muéstralo a la plataforma o a tu flota. No muestra tu placa completa ni tus documentos, y vence a los 30 días.</p>
+        <p class="dm-enlace"><a href="{{ enlace_comprobante }}" class="dm-link" target="_blank" rel="noopener">Ver comprobante</a></p>
+        <a href="{{ whatsapp_comprobante }}" class="btn btn-lava dm-ancho" target="_blank" rel="noopener">Compartir por WhatsApp</a>
+        <form method="post" action="{% url 'domiciliarios:anular_comprobante' %}">{% csrf_token %}<button type="submit" class="dm-link">Anular los enlaces que ya compartí</button></form>
+      </section>
+      {% else %}
+      <section id="plus" class="papel dm-caja dm-precio-plus">
+        <h2 class="titulo dm-h2">Plus domiciliario · ${{ precio|intcomma }}/mes</h2>
+        <p class="text-suave dm-chico">Descuentos en los talleres aliados, comprobante de mantenimiento al día y todo lo de Plus.</p>
+        {% if solicitud %}
+          <p class="dm-chico dm-nota">Ya pediste Plus. Paga por Nequi y envía el comprobante para activarlo.</p>
+          {% if whatsapp_pago %}<a href="{{ whatsapp_pago }}" class="btn btn-lava dm-ancho" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>{% endif %}
+        {% else %}
+        <form method="post" action="{% url 'domiciliarios:plus' %}">{% csrf_token %}<button type="submit" class="btn btn-lava dm-ancho">Quiero Plus domiciliario</button></form>
+        {% endif %}
+      </section>
+      {% endif %}
+
+      {% if jornadas %}
+      <section class="papel dm-caja">
+        <h2 class="titulo dm-h2">Últimas jornadas</h2>
+        <ul class="dm-jornadas">{% for j in jornadas %}<li><span>{{ j.fecha|date:"D j M" }}</span><b>${{ j.ingreso|intcomma }}</b></li>{% endfor %}</ul>
+      </section>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

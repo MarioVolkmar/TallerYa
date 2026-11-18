@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "consola",
     "domicilio",
     "metricas",  # medición de uso propia; quitar esta línea y el middleware la apaga del todo
+    "domiciliarios",  # TallerYa Ruta (plan para domiciliarios); visible solo con DOMICILIARIOS_ACTIVO
 ]
 
 MIDDLEWARE = [
@@ -202,6 +203,9 @@ PLUS_NEQUI = os.environ.get("PLUS_NEQUI", "300 000 0000")
 # Chispa (la mascota) en estados vacíos y páginas 404/500. Ponlo en False para quitarla de todo el sitio.
 CHISPA_EN_VACIOS = env_bool("CHISPA_EN_VACIOS", True)
 PLUS_DIAS = 30
+# TallerYa Ruta, plan para domiciliarios (app domiciliarios). Apagado: ninguna URL responde y no aparece ningún enlace.
+DOMICILIARIOS_ACTIVO = env_bool("DOMICILIARIOS_ACTIVO", False)
+DOMICILIARIOS_PRECIO_PLUS = int(os.environ.get("DOMICILIARIOS_PRECIO_PLUS", "4900"))
 # Pago de PRUEBA del SOAT (no cobra): solo en local y pruebas. En producción apagado salvo que se active a propósito,
 # para que nadie marque su pedido como pagado sin pagar (tramites/pagos.py).
 SOAT_PAGO_SIMULADO = env_bool("SOAT_PAGO_SIMULADO", DEBUG or sys.argv[1:2] == ["test"])
