@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static humanize %}
+{% block title %}Comprobante de mantenimiento · TallerYa{% endblock %}
+{% block seo %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}">
+<div class="dm dm-angosto">
+  <p class="etiqueta">Comprobante TallerYa</p>
+  <div class="papel dm-caja dm-sello {% if al_dia %}dm-sello-bien{% else %}dm-sello-mal{% endif %}">
+    <p class="dm-sello-icono" aria-hidden="true">{% if al_dia %}✓{% else %}!{% endif %}</p>
+    <h1 class="titulo dm-h1">{% if al_dia %}Mantenimiento al día{% else %}Tiene mantenimientos pendientes{% endif %}</h1>
+    <p class="text-suave">{{ moto.nombre_completo }}{% if placa %} · placa {{ placa }}{% endif %}</p>
+    <p class="text-suave dm-chico">Moto de {{ nombre }}, domiciliario con plan de uso intensivo ({{ perfil.km_semana|intcomma }} km/semana). Consultado el {{ hoy|date:"j \d\e F \d\e Y"|lower }}.</p>
+  </div>
+
+  <section class="papel dm-caja">
+    <h2 class="titulo dm-h2">Documentos</h2>
+    <ul class="dm-tareas">
+      {% for doc in documentos %}
+      <li class="{% if doc.vence and doc.dias >= 0 %}dm-nivel-ok{% else %}dm-nivel-vencido{% endif %}">
+        <b>{% if doc.clave == "tecno" %}Técnico-mecánica{% else %}SOAT{% endif %}</b>
+        <span>{% if not doc.vence %}Sin fecha registrada{% elif doc.dias < 0 %}Vencido{% else %}Vigente hasta {{ doc.vence|date:"j M Y" }}{% endif %}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="papel dm-caja">
+    <h2 class="titulo dm-h2">Piezas de desgaste</h2>
+    <ul class="dm-tareas">
+      {% for t in tareas %}
+      <li class="dm-nivel-{{ t.nivel }}"><b>{{ t.tarea.nombre }}</b><span>{{ t.etiqueta }}{% if t.ultima_fecha %} · último: {{ t.ultima_fecha|date:"j M Y" }}{% endif %}</span></li>
+      {% empty %}<li class="text-suave">Sin registros de mantenimiento todavía.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <p class="text-suave dm-chico">Los datos los registra el dueño de la moto en TallerYa, y algunos servicios los confirman los talleres. TallerYa no inspeccionó la moto. Este enlace vence a los 30 días de generado, y el dueño puede anularlo cuando quiera.</p>
+</div>
+{% endblock %}

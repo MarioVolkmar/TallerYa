@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize %}
+{% load humanize domiciliarios_tags %}
 {% block title %}Mi garaje · TallerYa{% endblock %}
 {% block content %}
 <div class="flex flex-wrap items-end justify-between gap-4 mt-10">
@@ -13,7 +13,7 @@
     {% if puede_agregar %}<a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-3">Agregar moto</a>{% endif %}
   </div>
 </div>
-
+{% aviso_domiciliarios %}{# TallerYa Ruta: no pinta nada con DOMICILIARIOS_ACTIVO apagado #}
 
 <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8 lista-editable" id="lista-motos">
   {% for moto, plan in planes %}
