@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404
 from cuentas import roles
 from cuentas.models import Suscripcion
 from cupones.models import CodigoCupon, Motociclista
+from domicilio.models import MecanicoDomicilio
 from foro.models import Pregunta, Respuesta
 from notificaciones.models import Notificacion
 from talleres.models import Resena, SolicitudCita, Taller
@@ -35,6 +36,8 @@ def rol_actual(u):
         return roles.TALLER
     if Motociclista.objects.filter(usuario=u).exists():
         return roles.MOTERO
+    if MecanicoDomicilio.objects.filter(usuario=u).exists():
+        return roles.MECANICO
     return roles.SIN_PERFIL
 
 

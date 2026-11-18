@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Mi perfil de mecánico · TallerYa{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
+<section class="max-w-3xl mx-auto mt-8 md:mt-12">
+  <p class="etiqueta">Mecánico a domicilio</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Mi <span class="text-lava">perfil</span></h1>
+  <p class="dom-estado dom-estado-{{ m.estado }} mt-4">
+    {% if m.estado == "aprobado" %}✔ Publicado en el listado{% if m.verificado %} · Verificado{% endif %} · {{ n_resenas }} reseña{{ n_resenas|pluralize }}.
+    {% elif m.estado == "pendiente" %}En revisión: lo publicaremos cuando el equipo lo apruebe.
+    {% else %}Suspendido: no aparece en el listado. Escríbenos si crees que es un error.{% endif %}
+    <a href="{{ m.get_absolute_url }}" class="boton-texto ml-1">Ver cómo se ve →</a>
+  </p>
+</section>
+<section class="papel p-6 md:p-10 max-w-3xl mx-auto mt-6">
+  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
+    {% csrf_token %}
+    {% include "domicilio/_campos.html" with form=form %}
+    <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Guardar cambios</button>
+  </form>
+</section>
+{% endblock %}

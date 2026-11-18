@@ -142,6 +142,7 @@
   <div class="ib-rapidos">
     <span class="ib-rapidos-titulo">Lo más buscado</span>
     {% for s in servicios_rapidos %}<a href="{% url 'talleres:directorio' %}?servicio={{ s.id }}">{{ s }}</a>{% endfor %}
+    <a href="{% url 'domicilio:listado' %}" title="Mecánicos sin taller que van a donde está tu moto">🛵 Mecánico a domicilio</a>{# acceso discreto (sesión mecánicos a domicilio) #}
   </div>
 </form>
 

@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     "tramites",
     "ayuda",
     "consola",
+    "domicilio",
 ]
 
 MIDDLEWARE = [

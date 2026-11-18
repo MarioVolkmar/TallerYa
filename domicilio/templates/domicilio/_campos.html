@@ -1,0 +1,18 @@
+{# Campos de un formulario en rejilla de 2 columnas (registro y edición). Parámetro: form #}
+{% for field in form %}
+  <div class="{% if field.field.widget.allow_multiple_selected or field.name == 'descripcion' or field.name == 'foto' or field.name == 'urgencias' or field.name == 'acepto' %}sm:col-span-2{% endif %}">
+    {% if field.field.widget.allow_multiple_selected %}
+      <p class="campo-label mb-2">{{ field.label }}</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2">{% for cb in field %}<label class="opcion">{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+    {% elif field.field.widget.input_type == "checkbox" %}
+      <label class="opcion">{{ field }} {{ field.label }}</label>
+    {% elif field.name == "foto" %}
+      <label class="campo-label">{{ field.label }}{% if form.instance.foto %}<span class="dom-foto-actual"><img src="{{ form.instance.foto.url }}" alt="Foto actual" width="56" height="56"> Foto actual · sube otra para cambiarla</span>{% endif %}{{ field }}</label>
+    {% else %}
+      <label class="campo-label">{{ field.label }}{{ field }}</label>
+    {% endif %}
+    {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text }}</p>{% endif %}
+    {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+  </div>
+{% endfor %}
+{% for e in form.non_field_errors %}<p class="error sm:col-span-2">{{ e }}</p>{% endfor %}

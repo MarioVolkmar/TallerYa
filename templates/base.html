@@ -48,6 +48,7 @@
         {% if user.is_superuser %}<a href="{% url 'admin:index' %}" class="nav-link nav-tecnico" title="Editar tablas directamente; solo para el equipo técnico">Admin técnico</a>{% endif %}
         {% else %}
         <a href="{% url 'talleres:directorio' %}" class="nav-link {% if request.path|slice:':9' == '/talleres' or request.path|slice:':8' == '/taller/' %}activo{% endif %}">Talleres</a>
+        <a href="{% url 'domicilio:listado' %}" class="nav-link {% if request.path|slice:':10' == '/mecanicos' %}activo{% endif %}" title="Mecánicos que van a donde está tu moto">A domicilio</a>
         <a href="{{ u_cupones }}" class="nav-link {% if request.path|slice:':8' == '/cupones' %}activo{% endif %}">Cupones</a>
         <a href="{{ u_foro }}" class="nav-link {% if request.path|slice:':5' == '/foro' %}activo{% endif %}">Foro</a>
         {% if rol != "taller" %}<a href="{% url 'garaje:diagnostico' %}" class="nav-link {% if request.path|slice:':12' == '/diagnostico' %}activo{% endif %}" title="¿Qué le pasa a tu moto?">Diagnóstico</a>
@@ -109,6 +110,7 @@
           {% else %}
           {% if rol != "taller" %}<a href="{% url 'talleres:emergencias' %}" class="menu-emergencia"><span class="ib-emergencia-punto" aria-hidden="true"></span>¿Te varaste? Emergencias</a>{% endif %}
           <a href="{% url 'talleres:directorio' %}">Talleres</a>
+          <a href="{% url 'domicilio:listado' %}" class="menu-sub">Mecánicos a domicilio</a>
           <a href="{{ u_cupones }}">Cupones</a>
           <a href="{{ u_foro }}">Foro</a>
           <a href="{% url 'foro:rodadas' %}" class="menu-sub">Rodadas</a>

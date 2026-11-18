@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load seo static %}
+{% block title %}Mecánicos de motos a domicilio en Medellín · TallerYa{% endblock %}
+{% block seo %}{% seo titulo="Mecánicos de motos a domicilio en Medellín · TallerYa" descripcion="Mecánicos de motos que van a donde está tu moto en Medellín y el Valle de Aburrá: frenos, eléctrico, llantas, diagnóstico y más. Escríbeles por WhatsApp." %}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
+<section class="directorio mt-8 md:mt-12">
+  <header class="dir-cabeza">
+    <div>
+      <p class="etiqueta">Medellín y Valle de Aburrá</p>
+      <h1 class="titulo text-4xl md:text-5xl mt-3">Mecánicos a <span class="text-lava">domicilio</span></h1>
+      <p class="text-suave mt-2 max-w-xl">Mecánicos sin taller propio que van a donde está tu moto: tu casa, tu trabajo o donde te varaste.</p>
+    </div>
+    <div class="dir-stats">
+      <div class="dir-stat dir-stat-lava"><strong>{{ stats.total }}</strong><span>Mecánicos</span></div>
+      <div class="dir-stat dir-stat-verde"><strong>{{ stats.verificados }}</strong><span>Verificados</span></div>
+      <div class="dir-stat dir-stat-mostaza"><strong>{{ stats.urgencias }}</strong><span>Urgencias</span></div>
+    </div>
+  </header>
+
+  {% include "domicilio/_aviso.html" with clase="mt-6" %}
+
+  <form method="get" class="dir-form" role="search" id="dir-form">
+    <div class="bb">
+      <label class="bb-campo bb-q"><span class="sr-only">Qué necesitas</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+        <input name="q" value="{{ filtros.q }}" placeholder="Frenos, batería, nombre, marca…" autocomplete="off" maxlength="80"></label>
+      <label class="bb-campo bb-barrio"><span class="sr-only">Zona</span><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+        <select name="zona" data-auto><option value="">Todas las zonas</option>{% for z in zonas %}<option value="{{ z.id }}"{% if filtros.zona == z.id|stringformat:"s" %} selected{% endif %}>{{ z }}</option>{% endfor %}</select><svg class="bb-flecha" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></label>
+      <button class="btn btn-lava bb-boton"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Buscar</span></button>
+    </div>
+
+    <div class="dir-cuerpo">
+      <details class="dir-filtros" open>
+        <summary class="dir-filtros-titulo">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          Filtros{% if filtros_activos %}<span class="dir-filtros-n">{{ filtros_activos|length }}</span>{% endif %}
+          <svg class="dir-filtros-flecha" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="dir-filtros-cuerpo">
+          <div class="dir-grupo dir-grupo-primero">
+            <label class="dir-switch"><span class="dir-switch-texto"><span class="ib-emergencia-punto" aria-hidden="true"></span>Atiende urgencias</span>
+              <input type="checkbox" name="urgencias" value="1" data-auto {% if filtros.urgencias %}checked{% endif %}></label>
+            <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/></svg>Solo verificados</span>
+              <input type="checkbox" name="verificados" value="1" data-auto {% if filtros.verificados %}checked{% endif %}></label>
+          </div>
+          <fieldset class="dir-grupo">
+            <legend class="dir-grupo-titulo">Servicio</legend>
+            <div class="dir-chips">
+              <label class="dir-chip"><input type="radio" name="servicio" value="" data-auto {% if not filtros.servicio %}checked{% endif %}><span>Todos</span></label>
+              {% for x in servicios %}<label class="dir-chip"><input type="radio" name="servicio" value="{{ x.id }}" data-auto {% if filtros.servicio == x.id|stringformat:"s" %}checked{% endif %}><span>{{ x }}</span></label>{% endfor %}
+            </div>
+          </fieldset>
+          {% if filtros_activos %}<a href="{% url 'domicilio:listado' %}" class="dir-limpiar">Limpiar todos los filtros</a>{% endif %}
+        </div>
+      </details>
+
+      <div class="dir-resultados">
+        <div class="dir-barra">
+          <p class="dir-mostrando">{% if pagina.paginator.count %}Mostrando <strong>{{ pagina.start_index }}–{{ pagina.end_index }}</strong> de <strong>{{ pagina.paginator.count }}</strong> mecánico{{ pagina.paginator.count|pluralize }}{% else %}Sin resultados{% endif %}</p>
+          {% if mi_perfil %}<a href="{% url 'domicilio:mi_perfil' %}" class="dom-cta-mecanico">Editar mi perfil de mecánico →</a>
+          {% elif rol != "taller" %}<a href="{% url 'domicilio:registro' %}" class="dom-cta-mecanico">¿Eres mecánico a domicilio? Regístrate gratis →</a>{% endif %}
+        </div>
+        {% if filtros_activos %}
+        <div class="dir-activos">
+          {% for a in filtros_activos %}<a href="{{ a.quitar }}" class="dir-activo" title="Quitar filtro">{{ a.nombre }}<span aria-hidden="true">×</span></a>{% endfor %}
+        </div>
+        {% endif %}
+
+        {% if pagina.object_list %}
+        <div class="tc-rejilla">
+          {% for m in pagina %}{% include "domicilio/_tarjeta.html" %}{% endfor %}
+        </div>
+        {% else %}
+        <div class="papel dir-vacio">
+          {% include "parciales/vacio.html" %}
+          <p class="titulo text-2xl">Sin resultados</p>
+          <p class="text-suave mt-2">No encontramos mecánicos a domicilio con esos filtros. Prueba quitando alguno o busca un <a href="{% url 'talleres:directorio' %}" class="boton-texto">taller</a>.</p>
+          <a href="{% url 'domicilio:listado' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver todos</a>
+        </div>
+        {% endif %}
+
+        {% if pagina.has_other_pages %}
+        <nav class="paginacion" aria-label="Páginas">
+          {% if pagina.has_previous %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ pagina.previous_page_number }}" rel="prev" class="pag-paso">← Anterior</a>{% else %}<span class="pag-paso deshabilitado">← Anterior</span>{% endif %}
+          <span class="actual" aria-current="page">{{ pagina.number }}</span>
+          {% if pagina.has_next %}<a href="?{{ qs_pagina }}{% if qs_pagina %}&amp;{% endif %}pagina={{ pagina.next_page_number }}" rel="next" class="pag-paso">Siguiente →</a>{% else %}<span class="pag-paso deshabilitado">Siguiente →</span>{% endif %}
+        </nav>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+</section>
+<script>
+  // Los filtros se aplican solos al cambiarlos; en celular el panel arranca cerrado (igual que el directorio de talleres).
+  (function () {
+    var form = document.getElementById("dir-form");
+    form.querySelectorAll("[data-auto]").forEach(function (c) { c.addEventListener("change", function () { form.submit(); }); });
+    var panel = form.querySelector(".dir-filtros");
+    if (window.matchMedia("(max-width: 899px)").matches && !{{ filtros_activos|length }}) panel.open = false;
+  })();
+</script>
+{% endblock %}

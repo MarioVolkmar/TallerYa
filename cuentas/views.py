@@ -203,8 +203,11 @@ def motociclista_de(usuario):
 
 @login_required
 def mi_cuenta(request):
-    if roles.rol_de(request.user) == roles.SIN_PERFIL:
+    rol = roles.rol_de(request.user)
+    if rol == roles.SIN_PERFIL:
         return redirect("cuentas:completar")
+    if rol == roles.MECANICO:  # el mecánico a domicilio maneja su perfil en /mecanicos/mi-perfil/
+        return redirect("domicilio:mi_perfil")
     moto = motociclista_de(request.user)
     if hasattr(request.user, "taller") and not moto:  # el taller maneja todo (también su cuenta) desde el panel
         return redirect("talleres:panel")

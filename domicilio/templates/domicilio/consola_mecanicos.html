@@ -1,0 +1,36 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Mecánicos a domicilio</h1>
+  <p class="cs-sub">{{ total }} perfil{{ total|pluralize:"es" }}{% if pendientes_seccion %} · <strong>{{ pendientes_seccion }} por revisar</strong>{% endif %}</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  <input type="hidden" name="seccion" value="mecanicos">
+  <label class="cs-filtro cs-filtro-ancho"><span class="cs-etq">Buscar</span>
+    <input type="search" name="q" value="{{ q }}" class="cs-campo" placeholder="Nombre, WhatsApp o correo" maxlength="80"></label>
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>
+    <select name="estado" class="cs-campo campo"><option value="">Todos</option>{% for clave, nombre in estados %}<option value="{{ clave }}"{% if estado == clave %} selected{% endif %}>{{ nombre }}</option>{% endfor %}</select></label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if pagina.object_list %}
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Mecánicos a domicilio</caption>
+  <thead><tr><th scope="col">Mecánico</th><th scope="col">Estado</th><th scope="col">Reseñas</th><th scope="col">Acciones</th></tr></thead>
+  <tbody>
+  {% for m in pagina %}{% url 'consola:accion' 'mecanicos.estado' m.pk as a_est %}{% url 'consola:accion' 'mecanicos.verificar' m.pk as a_ver %}
+  <tr>
+    <td><a href="{{ m.get_absolute_url }}" class="cs-cuenta-nombre">{{ m.nombre }}</a> <span class="cs-id">#{{ m.pk }}</span>
+      <span class="cs-cuenta-correo">{{ m.whatsapp }}{% if m.usuario %} · <a href="?seccion=usuarios&amp;id={{ m.usuario_id }}">{{ m.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span></td>
+    <td>{% if m.estado == "aprobado" %}<span class="cs-estado cs-ok">Publicado</span>{% elif m.estado == "pendiente" %}<span class="cs-estado cs-pend">Por revisar</span>{% else %}<span class="cs-estado">Suspendido</span>{% endif %}
+      {% if m.verificado %}<span class="cs-rol cs-rol-motero">Verificado</span>{% endif %}</td>
+    <td>{{ m.n_resenas }}</td>
+    <td><div class="cs-acciones-fila">
+      {% if m.estado != "aprobado" %}{% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Aprobar" clase="cs-btn-ok" %}{% endif %}
+      {% if m.estado != "suspendido" %}{% include "consola/_boton_accion.html" with url=a_est valor="suspendido" texto="Suspender" confirmar="¿Suspender el perfil? Deja de salir en el listado." %}{% endif %}
+      {% if m.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" %}{% endif %}
+    </div></td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">No hay mecánicos con esos filtros.</p>{% endif %}

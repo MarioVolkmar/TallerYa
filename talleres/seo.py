@@ -11,7 +11,8 @@ from .models import Barrio, Servicio, Taller
 # Rutas públicas que sí se indexan. Todo lo demás (cuenta, garaje, mi-taller, admin, tareas…) lleva noindex.
 _PUBLICAS = re.compile(
     r"^/($|talleres/|taller/[^/]+/$|foro/$|foro/\d+/|foro/rodadas/$|foro/rodadas/\d+/$|cupones/$|cupones/\d+/$"
-    r"|emergencias/$|noticias/|registra-tu-taller/$|legal/|diagnostico/$|soat/$|tecnomecanica/$)"
+    r"|emergencias/$|noticias/|registra-tu-taller/$|legal/|diagnostico/$|soat/$|tecnomecanica/$"
+    r"|mecanicos/$|mecanicos/(?!registro/|mi-perfil/)[^/]+/$)"
 )
 
 
@@ -109,6 +110,9 @@ def sitemap_xml(request):
     base = request.build_absolute_uri("/").rstrip("/")
     u = [_url(base, reverse(n)) for n in (
         "talleres:inicio", "talleres:directorio", "talleres:emergencias", "foro:lista", "foro:rodadas", "cupones:lista")]
+    from domicilio.models import MecanicoDomicilio
+    u.append(_url(base, reverse("domicilio:listado")))
+    u += [_url(base, m.get_absolute_url()) for m in MecanicoDomicilio.objects.publicados().only("slug")]
     talleres = list(Taller.objects.filter(activo=True).select_related("barrio").prefetch_related("servicios"))
     barrios, servicios, combos = set(), set(), set()
     for t in talleres:

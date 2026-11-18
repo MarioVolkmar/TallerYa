@@ -98,6 +98,8 @@ class Command(BaseCommand):
         # Dos perfiles completos (fotos, video, precios, reseñas); sus citas con servicio solo si hay motos demo
         from talleres import demo_talleres
         demo_talleres.cargar()
+        from domicilio import demo as demo_domicilio  # mecánicos a domicilio ficticios
+        demo_domicilio.cargar(self.stdout)
         self.stdout.write(self.style.SUCCESS("Datos demo cargados."))
         if settings.DEBUG:  # solo en local: PIN nuevo para los talleres que no tienen (en producción, Mi taller o el admin)
             sin_pin = [t for t in Taller.objects.filter(pin_hash="") if t.activo]

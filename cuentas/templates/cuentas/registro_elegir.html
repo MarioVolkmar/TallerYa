@@ -40,6 +40,7 @@
       <span class="ver titulo text-sm tracking-widest">Registrar mi taller <span aria-hidden="true">→</span></span>
     </a>
   </div>
-  {% if not completar %}<p class="text-sm text-suave mt-6">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}" class="boton-texto">Entra aquí</a></p>{% endif %}
+  <p class="text-sm text-suave mt-6">¿Eres mecánico y no tienes taller? <a href="{% url 'domicilio:registro' %}" class="boton-texto">Regístrate como mecánico a domicilio</a></p>
+  {% if not completar %}<p class="text-sm text-suave mt-2">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}" class="boton-texto">Entra aquí</a></p>{% endif %}
 </div>
 {% endblock %}

@@ -27,7 +27,7 @@ User = get_user_model()
 
 # Páginas sin parámetros que cualquiera puede ver sin sesión (revisadas a mano).
 PUBLICAS = {
-    "", "ayuda/catalogo.json", "canjear/", "cuenta/entrar/", "cuenta/recuperar/", "cuenta/recuperar/enviado/",
+    "", "ayuda/catalogo.json", "mecanicos/", "mecanicos/registro/", "canjear/", "cuenta/entrar/", "cuenta/recuperar/", "cuenta/recuperar/enviado/",
     "cuenta/recuperar/listo/", "cuenta/registro/", "cupones/", "diagnostico/", "emergencias/", "foro/", "foro/rodadas/",
     "manifest.webmanifest", "noticias/", "plus/", "robots.txt", "sin-conexion/", "sitemap.xml", "soat/", "sw.js",
     "talleres/", "tecnomecanica/",

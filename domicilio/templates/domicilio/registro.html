@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Regístrate como mecánico a domicilio · TallerYa{% endblock %}
+
+{% block hero %}
+<section class="hero relative overflow-hidden">
+  {% include "talleres/_paisaje.html" %}
+  <div class="contenido max-w-6xl mx-auto px-4 pt-12 pb-40 md:pt-20 md:pb-52">
+    <p class="etiqueta">Para mecánicos sin taller</p>
+    <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-4 max-w-2xl">¿Vas a donde está la moto? <span class="text-lava">Aparece gratis</span></h1>
+    <p class="mt-4 max-w-md text-lg text-suave">Los motociclistas de tu zona te encuentran y te escriben por WhatsApp. Revisamos cada perfil antes de publicarlo.</p>
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
+<section class="papel relative z-10 -mt-28 md:-mt-36 p-6 md:p-10 max-w-3xl mx-auto">
+  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
+    {% csrf_token %}
+    {% if nueva_cuenta %}
+      <h2 class="titulo text-2xl sm:col-span-2">1 · Tu cuenta</h2>
+      <p class="text-sm text-suave sm:col-span-2 -mt-3">¿Ya tienes cuenta en TallerYa? <a href="{% url 'cuentas:entrar' %}?next={% url 'domicilio:registro' %}" class="boton-texto">Entra</a> y vuelve aquí.</p>
+      {% include "domicilio/_campos.html" with form=cuenta %}
+      <h2 class="titulo text-2xl sm:col-span-2 mt-4">2 · Tu perfil de mecánico</h2>
+    {% endif %}
+    {% include "domicilio/_campos.html" with form=form %}
+    <p class="text-xs text-suave sm:col-span-2">Al publicarte aceptas que TallerYa solo te promociona: el acuerdo, el pago y la garantía de cada trabajo son entre tú y el motociclista.</p>
+    <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Enviar mi perfil para revisión</button>
+  </form>
+</section>
+{% endblock %}
