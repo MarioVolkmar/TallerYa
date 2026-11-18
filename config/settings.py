@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "domicilio",
     "metricas",  # medición de uso propia; quitar esta línea y el middleware la apaga del todo
     "domiciliarios",  # TallerYa Ruta (plan para domiciliarios); visible solo con DOMICILIARIOS_ACTIVO
+    "cotizador",  # piloto del cotizador de repuestos (apagado con COTIZADOR_ACTIVO=0; ver cotizador/README.md)
 ]
 
 MIDDLEWARE = [
@@ -174,6 +175,9 @@ else:
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "TallerYa <no-responder@tallerya.co>")
 # Dirección pública del sitio para los enlaces de correos enviados sin una visita (tareas programadas)
 SITIO_URL = os.environ.get("SITIO_URL", "")
+
+# Piloto del cotizador de repuestos (app cotizador). Apagado por defecto: con 0 la página queda igual que sin la app.
+COTIZADOR_ACTIVO = env_bool("COTIZADOR_ACTIVO", False)
 
 # Proxies delante de Django que añaden su salto a X-Forwarded-For (Render: 1). Sirve para saber la IP real de quien
 # visita en los límites de intentos (cuentas/limites.py). En local, 0: se usa REMOTE_ADDR.

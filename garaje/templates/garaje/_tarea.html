@@ -1,4 +1,4 @@
-{% load humanize %}{# Una tarea de la agenda. Al tocarla se despliega su "ficha de acción": por qué importa, qué necesitas y cómo resolverlo. #}
+{% load humanize cotizador %}{# Una tarea de la agenda. Al tocarla se despliega su "ficha de acción": por qué importa, qué necesitas y cómo resolverlo. #}
 <article class="tarea tarea-{{ t.nivel|default:t.estado }}{% if proximo %} tarea-proximo{% endif %}" data-pieza="{{ t.tarea.pieza }}" data-tarea-id="{{ t.tarea.pk }}" id="tarea-{{ t.tarea.clave }}">
   <button type="button" class="tarea-cabeza" aria-expanded="false" aria-controls="tarea-mas-{{ t.tarea.pk }}">
     <span class="punto-mini punto-{{ t.nivel|default:t.estado }}" aria-hidden="true"></span>
@@ -35,7 +35,7 @@
           {% for r in t.repuestos|slice:":4" %}
           <li>
             <span class="min-w-0 flex-1"><span class="block font-semibold">{{ r.nombre }}{% if r.cantidad > 1 %} <span class="text-suave font-normal">×{{ r.cantidad }}</span>{% endif %}</span><code>{{ r.codigo }}</code></span>
-            <button type="button" class="accion-copiar" data-copiar="{{ r.codigo }}">Copiar</button>
+            <button type="button" class="accion-copiar" data-copiar="{{ r.codigo }}">Copiar</button>{% cotizador_boton r.codigo %}
           </li>
           {% endfor %}
         </ul>

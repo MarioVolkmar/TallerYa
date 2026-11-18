@@ -1,0 +1,25 @@
+{% load cotizador %}<div class="cotizador-recuadro" role="region" aria-label="Precio aproximado del repuesto">
+  <div class="cotizador-cabeza">
+    <p class="cotizador-titulo">Precio aproximado</p>
+    <button type="button" class="cotizador-cerrar" data-cotizador-cerrar aria-label="Cerrar">×</button>
+  </div>
+  {% if error %}
+  <p class="cotizador-texto">{{ error }}</p>
+  {% else %}
+  {% if c.es_ejemplo %}<p class="cotizador-ejemplo"><strong>Precios de ejemplo.</strong> Aún no estamos conectados a Mercado Libre: estos números solo muestran cómo se verá.</p>{% endif %}
+  {% if c.tipico %}
+  <p class="cotizador-rango"><span>{{ c.minimo|pesos }}</span> <span class="cotizador-guion">a</span> <span>{{ c.maximo|pesos }}</span></p>
+  <p class="cotizador-texto">Lo más común: <strong>{{ c.tipico|pesos }}</strong></p>
+  <p class="cotizador-sub">Dónde lo venden</p>
+  <ul class="cotizador-vendedores">
+    {% for v in c.vendedores %}<li>
+      {% with url=v.enlace|enlace_seguro %}{% if url %}<a href="{{ url }}" target="_blank" rel="noopener noreferrer nofollow">{{ v.titulo }}</a>{% else %}<span>{{ v.titulo }}</span>{% endif %}{% endwith %}
+      <span class="cotizador-dato"><strong>{{ v.precio|pesos }}</strong>{% if v.ciudad %} · {{ v.ciudad }}{% endif %}</span>
+    </li>{% endfor %}
+  </ul>
+  {% else %}
+  <p class="cotizador-texto">No encontramos esta pieza a la venta en línea. Pregúntala en un almacén de repuestos con su código{% if c.codigo %} <code>{{ c.codigo }}</code>{% endif %}.</p>
+  {% endif %}
+  <p class="cotizador-pie">Consultado el {{ c.consultado_en|date:"j \d\e F"|lower }} a las {{ c.consultado_en|date:"g:i a" }} en {{ c.get_fuente_display }}{% if c.descartados %} · descartamos {{ c.descartados }} resultado{{ c.descartados|pluralize }} que no eran la pieza{% endif %}. Precios orientativos: cambian con el tiempo y no incluyen envío ni mano de obra.</p>
+  {% endif %}
+</div>
