@@ -15,13 +15,20 @@ def muestras(P, I, paso):
     return f, np.stack([1 - u - v, u, v], 1)
 # vista: (eje pantalla x, signo), (eje pantalla y), (eje profundidad, signo)
 VISTAS = {'der': (0, 1, 2, 1), 'izq': (0, -1, 2, -1), 'arriba': (0, 1, 1, 1), 'frente': (2, -1, 0, 1), 'atras': (2, 1, 0, -1), 'abajo': (0, 1, 1, -1)}
-def vista(P, N, I, colcara, nombre, esc=600, caja=None, rejilla=True, colvert=None):
+def vista(P, N, I, colcara, nombre, esc=600, caja=None, rejilla=True, colvert=None, densidad=1.5):
     ax, sx, az, sz = VISTAS[nombre]; ay = 2 if az == 1 else 1
-    f, bar = muestras(P, I, 1 / esc)
-    tri = I[f]
-    Q = (P[tri] * bar[:, :, None]).sum(1); Nn = (N[tri] * bar[:, :, None]).sum(1)
+    P = P.astype(np.float32); N = N.astype(np.float32)
+    # (rapido: se descartan antes las caras que dan la espalda a la camara y se trabaja en float32; 5 veces menos tiempo)
+    fn = np.cross(P[I[:, 1]] - P[I[:, 0]], P[I[:, 2]] - P[I[:, 0]])
+    de_frente = fn[:, az] * sz > 0
+    if colcara is not None: colcara = np.asarray(colcara, np.float32)[de_frente]
+    I = I[de_frente]
+    f, bar = muestras(P, I, 1 / (esc * np.sqrt(densidad / 2.5)))
+    bar = bar.astype(np.float32); tri = I[f]
+    Q = P[tri[:, 0]] * bar[:, :1] + P[tri[:, 1]] * bar[:, 1:2] + P[tri[:, 2]] * bar[:, 2:]
+    Nn = N[tri[:, 0]] * bar[:, :1] + N[tri[:, 1]] * bar[:, 1:2] + N[tri[:, 2]] * bar[:, 2:]
     Nn /= np.maximum(np.linalg.norm(Nn, axis=1, keepdims=True), 1e-9)
-    col = colcara[f] if colvert is None else (colvert[tri] * bar[:, :, None]).sum(1)
+    col = colcara[f] if colvert is None else (colvert[tri[:, 0]] * bar[:, :1] + colvert[tri[:, 1]] * bar[:, 1:2] + colvert[tri[:, 2]] * bar[:, 2:])
     mn, mx = (P.min(0), P.max(0)) if caja is None else (np.array(caja[0], float), np.array(caja[1], float))
     dentro = np.all((Q >= mn) & (Q <= mx), axis=1); Q, Nn, col = Q[dentro], Nn[dentro], col[dentro]
     W = int((mx[ax] - mn[ax]) * esc) + 1; H = int((mx[ay] - mn[ay]) * esc) + 1
@@ -32,7 +39,8 @@ def vista(P, N, I, colcara, nombre, esc=600, caja=None, rejilla=True, colvert=No
     luz = np.clip(0.35 + 0.75 * np.clip(Nn @ L, 0, 1), 0, 1.15)[:, None]
     orden = np.argsort(Q[:, az] * sz)
     img = np.full((H, W, 3), 250, np.uint8)
-    img[np.clip(py[orden].astype(int), 0, H-1), np.clip(px[orden].astype(int), 0, W-1)] = np.clip(col[orden] * luz[orden] * 255, 0, 255).astype(np.uint8)
+    tono = np.clip(col * luz * 255, 0, 255).astype(np.uint8)
+    img[np.clip(py[orden].astype(int), 0, H-1), np.clip(px[orden].astype(int), 0, W-1)] = tono[orden]
     im = Image.fromarray(img)
     if rejilla:
         dr = ImageDraw.Draw(im)

@@ -344,8 +344,9 @@ function dibujarForma(ctx, c, y0, col) {
     }
     poli([[W * 0.62 + H * 0.2, H * 0.3], [W - 16, H * 0.3], [W - 16 - H * 0.2, H * 0.7], [W * 0.62, H * 0.7]], col.p);
   } else if (c.forma === "barra") {
-    // Barra fina inclinada, con la punta trasera cortada en diagonal
-    poli([[16, H * 0.72], [W - 90, H * 0.28], [W - 16, H * 0.28], [90, H * 0.72]], col.p);
+    // Barra fina inclinada, con la punta trasera cortada en diagonal (c.grueso la engruesa: 1 = la fina de siempre)
+    const g = 74 * (c.grueso || 1);
+    poli([[16, H * 0.72], [W - 16 - g, H * 0.28], [W - 16, H * 0.28], [16 + g, H * 0.72]], col.p);
   } else {
     // Cuña doble: una gruesa con la punta hacia adelante y una fina debajo
     poli([[20, H * 0.32], [W - 120, H * 0.22], [W - 20, H * 0.42], [60, H * 0.56]], col.p);

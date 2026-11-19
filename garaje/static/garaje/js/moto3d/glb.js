@@ -8,7 +8,7 @@ import * as THREE from "three";
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
 // Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
 // (skill moto-3d-tripo; mismo formato que el piloto)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=21" };
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=22", nkd: "../../modelos/nkd125_tripo.glb?v=10" };
 
 export function glbDeLinea(linea) {
   // Por defecto, el modelo realista de la línea (si lo tiene). ?modelo3d=procedural deja la moto genérica y
@@ -152,9 +152,11 @@ function lamparaDe(n, datos) {
 
 // Pantalla del tablero (extras.pantalla {c, n, tam}): un plano sobre el velocímetro con el dibujo de una pantalla
 // digital. Usa M.pantalla, que el visor ya atenúa con la moto apagada y enciende con "Encender".
-function ponerPantalla(moto, { c, n, tam }) {
+// El lienzo lleva dos dibujos, uno encima del otro: arriba el tablero con velocidad (el de la NMAX) y abajo un
+// tacómetro. redonda: reloj redondo de diámetro tam[0] (motos de calle, dos relojes); dibujo "tacometro" usa el de abajo.
+function texturaTablero() {
   const lienzo = document.createElement("canvas");
-  lienzo.width = 512; lienzo.height = 330;
+  lienzo.width = 512; lienzo.height = 660;
   const g = lienzo.getContext("2d");
   g.fillStyle = "#04090a"; g.fillRect(0, 0, 512, 330);
   g.strokeStyle = "#1d3a3a"; g.lineWidth = 6; g.strokeRect(8, 8, 496, 314);
@@ -179,10 +181,26 @@ function ponerPantalla(moto, { c, n, tam }) {
   g.fillText("ECO", 484, 176);
   g.fillStyle = "#7fb8b2"; g.font = "bold 22px sans-serif";
   g.fillText("ODO", 484, 214);
+  // Tacómetro (mitad de abajo): arco de 0 a 10 mil vueltas con la zona roja al final, rayas encendidas en mínimo y el cambio
+  g.fillStyle = "#04090a"; g.fillRect(0, 330, 512, 330);
+  const cx = 256, cy = 512;
+  for (let i = 0; i <= 40; i++) {
+    const a = Math.PI * (1.15 - 1.3 * i / 40), largo = i % 4 === 0 ? 26 : 14;
+    g.strokeStyle = i < 6 ? "#e9fffb" : i > 32 ? "#c0392b" : "#2a5553"; g.lineWidth = i % 4 === 0 ? 7 : 4;
+    g.beginPath(); g.moveTo(cx + Math.cos(a) * 128, cy - Math.sin(a) * 128); g.lineTo(cx + Math.cos(a) * (128 - largo), cy - Math.sin(a) * (128 - largo)); g.stroke();
+  }
+  g.fillStyle = "#7fb8b2"; g.font = "bold 20px sans-serif"; g.textAlign = "center";
+  for (let k = 0; k <= 10; k += 2) { const a = Math.PI * (1.15 - 1.3 * k / 10); g.fillText(String(k), cx + Math.cos(a) * 84, cy - Math.sin(a) * 84 + 7); }
+  g.fillText("x1000 r/min", cx, cy + 62);
+  g.fillStyle = "#f2fffd"; g.font = "bold 78px sans-serif"; g.fillText("N", cx, cy + 30);
   const tex = new THREE.CanvasTexture(lienzo);
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
+  return tex;
+}
+function ponerPantalla(moto, { c, n, tam, redonda, dibujo }) {
   const mat = moto.M.pantalla;
+  const tex = mat.userData.soloEncendida ? mat.emissiveMap : texturaTablero();
   // (el dibujo solo va en la luz que emite: con la moto apagada la pantalla queda negra, como una de verdad)
   mat.emissiveMap = tex;
   mat.color.set(0x030607); mat.emissive.set(0xbff5ee);
@@ -191,12 +209,51 @@ function ponerPantalla(moto, { c, n, tam }) {
   const N = new THREE.Vector3(...n).normalize();
   const U = new THREE.Vector3(1, 0, 0).addScaledVector(N, -N.x).normalize(); // (arriba de la pantalla = hacia adelante)
   const R = new THREE.Vector3().crossVectors(U, N);
-  const malla = new THREE.Mesh(new THREE.PlaneGeometry(tam[0], tam[1]), mat);
+  const geo = redonda ? new THREE.CircleGeometry(tam[0] / 2, 40) : new THREE.PlaneGeometry(tam[0], tam[1]);
+  // (cada pantalla toma su mitad del lienzo; la redonda, el cuadrado del centro de esa mitad)
+  const uv = geo.attributes.uv, abajo = dibujo === "tacometro" ? 0 : 0.5;
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, redonda ? 0.178 + uv.getX(i) * 0.644 : uv.getX(i), abajo + uv.getY(i) * 0.5);
+  const malla = new THREE.Mesh(geo, mat);
   malla.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(R, U, N));
   malla.position.set(...c);
   malla.name = "pantalla.tablero";
   malla.userData.glb = true;
   moto.raiz.add(malla);
+}
+
+// Labrado de las llantas del GLB (no traen UV): se envuelve alrededor del eje (u = ángulo, v = ancho) un relieve con
+// un surco central y surcos inclinados a los lados; los costados quedan lisos. Solo relieve: no cambia el color.
+function texturaLabrado() {
+  const l = document.createElement("canvas");
+  l.width = l.height = 128;
+  const g = l.getContext("2d");
+  g.fillStyle = "#8c8c8c"; g.fillRect(0, 0, 128, 128);
+  g.strokeStyle = "#1c1c1c"; g.lineCap = "round";
+  g.lineWidth = 5; g.beginPath(); g.moveTo(0, 64); g.lineTo(128, 64); g.stroke();
+  g.lineWidth = 6;
+  for (const x0 of [6, 70]) for (const s of [1, -1]) { g.beginPath(); g.moveTo(x0, 64 + s * 9); g.lineTo(x0 + 40, 64 + s * 40); g.stroke(); }
+  const tex = new THREE.CanvasTexture(l);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.anisotropy = 4;
+  return tex;
+}
+function labrarLlanta(n) {
+  const geo = n.geo.toNonIndexed(), p = geo.attributes.position, uv = new Float32Array(p.count * 2);
+  const [ex, ey] = n.extras.eje, s = n.s[0], [tx, ty, tz] = n.t;
+  let ancho = 1e-6;
+  for (let i = 0; i < p.count; i++) ancho = Math.max(ancho, Math.abs(p.getZ(i) * s + tz));
+  for (let i = 0; i < p.count; i += 3) {
+    let a0 = 0;
+    for (let k = 0; k < 3; k++) {
+      let a = Math.atan2(p.getY(i + k) * s + ty - ey, p.getX(i + k) * s + tx - ex);
+      // (los tres vértices de una cara del mismo lado del corte del ángulo: si no, una franja sale estirada)
+      if (k === 0) a0 = a; else if (a - a0 > Math.PI) a -= 2 * Math.PI; else if (a0 - a > Math.PI) a += 2 * Math.PI;
+      uv[(i + k) * 2] = a / (2 * Math.PI) * 30;
+      uv[(i + k) * 2 + 1] = 0.5 + 0.5 * (p.getZ(i + k) * s + tz) / ancho;
+    }
+  }
+  geo.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  n.geo = geo;
 }
 
 // Monta el GLB en moto (lo que devuelve construirMoto). Devuelve true si quedó puesto.
@@ -245,7 +302,12 @@ export async function montarGlb(moto, url) {
   let visorFijo = false;
   const lamparas = [];
   for (const n of nodos) {
-    const mat = M[n.material] || M.oscuro;
+    let mat = M[n.material] || M.oscuro;
+    if (n.material === "caucho" && n.extras.eje && /llanta/.test(n.nombre)) {
+      M.caucho_labrado ??= Object.assign(M.caucho.clone(), { bumpMap: texturaLabrado(), bumpScale: 2.2 });
+      labrarLlanta(n);
+      mat = M.caucho_labrado;
+    }
     const malla = new THREE.Mesh(n.geo, mat);
     malla.name = n.nombre;
     malla.position.fromArray(n.t);
@@ -287,7 +349,7 @@ export async function montarGlb(moto, url) {
     if (ex.zonas) { malla.userData.zonas = ex.zonas; moto.raiz.userData.glbZonas = true; }
     // (extras.calcas_fabrica: las calcas de fábrica de este modelo, ya ubicadas sobre él con "en: [x, y]")
     if (ex.calcas_fabrica) moto.raiz.userData.calcasFabrica = ex.calcas_fabrica;
-    if (ex.pantalla) ponerPantalla(moto, ex.pantalla);
+    for (const p of [].concat(ex.pantalla || [])) ponerPantalla(moto, p);
     // (extras.sin ["accesorios.parabrisas", "espejos.puntas"…]: opciones de Personalizar que este modelo no ofrece,
     // porque la pieza genérica desentona con él. Se quitan de la moto: el visor y el cajón ya no las ven.)
     for (const ruta of ex.sin || []) {

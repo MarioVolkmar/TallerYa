@@ -5,8 +5,9 @@ description: Convierte un modelo 3D de moto generado con Tripo (un GLB de una so
 
 # moto-3d-tripo
 
-Toma el modelo de Tripo como base y lo deja listo para `?modelo3d=tripo`. Primera moto hecha: NMAX 155
-(58,6 MB y 1,9 M de triángulos → 1,5 MB y 98 mil, 60 piezas).
+Toma el modelo de Tripo como base y lo deja como modelo realista de la línea. Motos hechas: NMAX 155 (58,6 MB y
+1,9 M de triángulos con textura → 1,2 MB, 64 piezas) y AKT NKD 125 (0,8 MB y 47 mil triángulos sin textura →
+0,96 MB, 55 piezas).
 
 ## Idea central
 
@@ -23,22 +24,60 @@ Se combinan con mínimo (Y), máximo (O) y signo contrario (NO), y se aplican **
 
 ## Pasos (todos con `venv/Scripts/python.exe -I`, carpeta de trabajo en el scratchpad)
 
-`S` = carpeta `scripts/` de esta skill, `T` = carpeta de trabajo, `N` = carpeta con `npm install meshoptimizer`
-(copiar ahí los dos `.mjs`). El GLB de entrada se copia a una carpeta propia: es un archivo descargado.
+`S` = carpeta `scripts/` de esta skill, `T` = carpeta de trabajo. El GLB de entrada se copia a una carpeta propia: es
+un archivo descargado.
 
-1. `extraer.py entrada.glb T` → posiciones, normales, UV, índices y texturas.
-2. `preparar.py T` → color por vértice, suelda por posición, mide los ejes por la huella de las llantas y escala a
-   la distancia entre ejes real (**cambiar el 1.34** por la de la ficha de la moto).
-3. `node simplificar.mjs T 160000` → primera reducción, cuidando normales y color.
-4. `cortar.py S T` → reparte en piezas (`--ver "frente;1000;(caja)+atras;1000;(caja)"` pinta el corte para revisar).
-   **Aquí están las reglas de la moto**: copiar el archivo y ajustar regiones y plantillas mirando las vistas con
-   cuadrícula (`ver2.py`). Los discos se quitan y se generan nuevos (corona con agujeros reales).
-5. `node por_pieza.mjs T` → segunda reducción por pieza con el borde bloqueado (no abre rendijas).
-6. `internos.py S T` → batería, cárter y aceite, bujía, filtro de aire, radiador, cigüeñal, pistón y correa con
-   poleas, hechos con `formas.py` (revolución, tubo, extrusión con bisel). Van con `interno: true`.
-7. `exportar.py S T salida.glb` → GLB cuantizado, espejado (el visor pone el escape en −z) y con normales lisas en
-   pintura, lentes y visor (mezcla con la normal geométrica: sin eso los reflejos salen arrugados).
-8. Copiar a `garaje/static/garaje/modelos/`, registrar en `MODELOS_TRIPO` de `moto3d/glb.js` y subir `?v=`.
+1. **Inspeccionar antes de nada** (cabecera JSON del GLB): cuántos triángulos y si trae textura. Tripo entrega dos
+   clases de archivo y cada una va por un camino:
+   | Entrada | Simplificar | Reglas |
+   |---|---|---|
+   | Pesado con textura (NMAX: 58,6 MB, 1,9 M de triángulos) | sí, pasos 3 y 5 | forma + color (`m.color()`) |
+   | Liviano sin textura ni UV (NKD: 0,8 MB, 47 mil) | no: copiar `w_*.bin` a `s_*.bin` y no poner `RAZON` | solo forma |
+2. `extraer.py entrada.glb T` y `preparar.py T <distancia entre ejes en m>` (de la ficha de la moto; `preparar` mide
+   los ejes por la huella de las llantas y escala).
+3. Solo si es pesado: `node simplificar.mjs T 160000` (en una carpeta con `npm install meshoptimizer`).
+4. **Ficha de la moto**: copiar `fichas/nkd125.py` a `fichas/<moto>.py` y ajustar. La ficha tiene `cortar(m)` (reglas
+   sobre `motor.Corte`), `internos(k)` (piezas de Rayos X con `formas.py`) y, opcionales, `RAZON`, `MEZCLA`, `ISLAS`.
+   **El motor (`motor.py`) no sabe nada de ninguna moto**: campos, plantillas, pliegues, ruedas, disco nuevo, reparto,
+   islas y render de revisión viven ahí.
+5. **Una vuelta = un comando**: `ciclo.py S T S/fichas/<moto>.py T/salida.glb [--ver "der;640;None+atras;1100;(caja)"]
+   [--solo stop,faro] [--hasta cortar] [--N carpeta_meshoptimizer]`. Corta, aligera por pieza (solo si la ficha trae
+   `RAZON`), hace los internos y exporta; imprime el cronómetro por paso y lo agrega a `T/tiempos.jsonl`.
+   Lo lento (suavizados, pliegues, componentes) se guarda en `T/cache` por la huella de sus datos: cambiar una regla
+   no recalcula las demás.
+6. Copiar a `garaje/static/garaje/modelos/`, registrar en `MODELOS_TRIPO` de `moto3d/glb.js` y subir `?v=`.
+
+`fichas/nmax155_cortar.py` y `nmax155_internos.py` son la ficha de la NMAX en el formato viejo (un programa
+suelto por paso, con `por_pieza.mjs` y `exportar.py` aparte): sirven de ejemplo de reglas **por color**; para
+retocar la NMAX conviene pasarlas antes al formato nuevo.
+
+### Tiempos medidos
+
+| Paso | NMAX (formato viejo) | NKD (motor + ficha) |
+|---|---|---|
+| Extraer + preparar | ~1 min | 2,5 s |
+| Simplificar | ~1 min | no hizo falta |
+| Una vuelta cortar → exportar | 1,5–2 min | 4,4 s (14 s con render de revisión) |
+| Render de revisión, por vista | ~20 s | 3,4 s |
+| Vueltas hasta la primera entrega | ~25 | 5 |
+| Del GLB a la página | varias horas | ~25 min |
+
+Lo que más pesa ahora no es la máquina sino **mirar**: cada render o captura que se lee cuesta más que la vuelta.
+Pedir en un solo `--ver` todas las vistas de una ronda y en la página armar una hoja de varias vistas por captura.
+
+### Modelos sin textura (aprendido en la NKD)
+
+- No hay `claro` ni `oscuro`: la pintura se delimita con **plantillas en la vista lateral `(x, y)`** (tanque, asiento,
+  tapas) más un tope en `|z|`, con el borde llevado al pliegue (`m.pliegue`). Los pliegues entre tanque, asiento y
+  tapa vienen bien marcados en la malla y el borde sale limpio.
+- Medir antes de dibujar (`scripts/medir.py`, hecho para la NKD: ajustar los centros de rueda y las cajas): ruedas con `m.rueda`, histograma de `z` cerca del eje
+  para hallar el plano del disco, y cajas de los bultos lejos del plano medio (direccionales, reflectores, espejos).
+- **Direccional de gota**: el cuerpo es una caja en `(x, y, |z|)`; la mica es la mitad que mira hacia afuera del eje
+  (`gotas()` en la ficha de la NKD). Un nodo por lado para que cada una tenga su halo.
+- Faro redondo: círculo en `(z, y)` **sin** `pliegue` (el relieve interno del lente se lleva el borde) y con el tope
+  en `x` bien atrás del lente: el lente va inclinado y un tope justo lo corta por arriba.
+- Rueda de rayos: `rin` = todo lo que queda dentro del aro y cerca del plano medio (aro, rayos y manzana juntos).
+- Islas: con piezas delgadas (barras, tallos) bajar `ISLAS = {"isla": 24}`; con 60 se las come la pieza vecina.
 
 ## Contrato con el visor (`moto3d/glb.js`)
 
@@ -58,8 +97,9 @@ Nodo = `material.parte`; el material sale de `moto.M` (más `plastico`, `negro_b
 
 ## Verificar en la página
 
-`/garaje/<pk>/?modelo3d=tripo`. Con el panel del navegador oculto el visor no arranca solo (usa
-`requestAnimationFrame`): insertar a mano el `<script type="module">` de `script[data-modulo]`, esperar
+`/garaje/<pk>/` (las líneas de `MODELOS_TRIPO` cargan su modelo por defecto). Con el panel del navegador oculto la
+página mide **0 px de ancho** y el visor no arranca: primero `resize_window` a 1280 × 800, recargar, llevar `#visor`
+a la vista (`scrollIntoView`) y, si aún no arranca, insertar a mano el `<script type="module">` de `script[data-modulo]`, esperar
 `window.__visor` y pintar con `v._ren.render(v._esc, v._cam)` antes de cada captura. Revisar siempre de cerca:
 faros, direccionales, stop, discos, cola con la placa, uniones entre pintura y plástico, y Rayos X.
 
@@ -112,12 +152,49 @@ faros, direccionales, stop, discos, cola con la placa, uniones entre pintura y p
   Buscar cómo se cambia el bombillo o fotos con la luz encendida.
 - `acomodar`: revisar baúl y parabrisas con la moto personalizada; quedan flotando si el punto no toca el modelo.
 
+## Ajustes tras la revisión del usuario en la NKD (19-nov-2026)
+
+- **Rueda de rayos en tres piezas**: `caucho.llanta_*`, `metal.aro_*` con `aro: true` y `cromo.rayos_*` con `rin: true`.
+  Con todo en `rin.*`, el color de rines de Personalizar pintaba la rueda entera; así pinta solo el aro, como en la
+  moto genérica, y los rayos se esconden al elegir otro estilo de rin.
+- **La rueda del modelo no es un círculo perfecto**: el ajuste sale de la mitad de abajo y arriba la banda de rodadura
+  llega a R + 0,02. Con el tope de la llanta en R + 0,008, ese pedazo caía en el guardabarros y se pintaba con la moto
+  (lo vio el usuario al cambiar de color). Medir el radio por ángulo y dar tope holgado fuera del guardabarros; debajo
+  de él, la llanta es la corona que mira hacia afuera del eje. **Probar siempre un color vivo de pintura** y mirar
+  ruedas y cables: en una moto negra estos derrames no se ven.
+- **Lista de salida antes de entregar** (tres cosas que el usuario vio «en el aire» en la NKD):
+  1. Mallas genéricas que siguen visibles: en la consola, listar las mallas visibles sin `userData.glb`; solo deben
+     quedar pata y placa. Un `vidrio` es el visor genérico: falta `rol: "visor_fijo"` en algún nodo.
+  2. Calcas de fábrica: definir siempre `calcas_fabrica` con `en: [x, y]` sobre el modelo; la posición relativa de la
+     línea genérica se sale del tanque. Mirarlas de cerca desde los dos lados.
+  3. Pantallas: si la cara del modelo no es plana, no poner el plano encima; hacer una carcasa (`m.extra` con
+     `formas.revolucion`) que salga de la cara y asentar la pantalla sobre ella.
+- **Tablero**: `pantalla` acepta una lista. Reloj redondo: `{c, n, tam: [diámetro, diámetro], redonda: true, dibujo:
+  "velocimetro" | "tacometro"}` (uno por reloj); el rectangular de la NMAX sigue igual. Apagada se ve negra.
+- **Tanque arrugado**: la malla de Tripo trae arrugas reales. En la ficha, `ALISAR = {"pintura.tanque": 10, …}` alisa la
+  superficie (solo vértices interiores, sin encoger) y `SUAVE = 3` alisa las normales de las piezas lisas.
+- **Labrado de llantas**: lo pone `glb.js` solo a todo nodo `caucho.llanta_*` con `eje` (relieve envuelto alrededor
+  del eje; no hace falta UV en el GLB). Vale para todas las motos.
+- **Pata**: la animación de meter y sacar el gato mueve `moto.pata`, la pata de la moto genérica, que se conserva con
+  el GLB. No recortar una pata propia del modelo como pieza móvil.
+- **Ojo, por confirmar**: el visor pone el escape en −z y con x adelante e y arriba eso es la izquierda del piloto;
+  el modelo se exporta espejado para seguir esa convención (escape, disco y cadena quedan del lado contrario al real).
+
 ## Capturar con el panel oculto
+
+Si al navegar sale la página «Sin conexión» o el visor carga un `glb.js` viejo, es el service worker del sitio dentro
+del panel (sus peticiones fallan y responde desde caché): `(await navigator.serviceWorker.getRegistrations())` y
+`unregister()` en la página, y volver a navegar. Confirmar siempre qué `?v=` cargó: `v._moto.raiz.userData.glb`.
 
 `screenshot` recorta distinto según el tamaño del panel. Lo estable: `<img>` fijo a `100vw × 100vh` con
 `object-fit: contain`, cargado con `canvas.toDataURL()` justo después de `render`. Antes de mover la cámara:
 `v._ctl.enableDamping = false; v._ctl.update()` (si no, arrastra el giro pendiente de Personalizar). La página no deja
 enviar la imagen a otro puerto (política de contenido).
+
+Para gastar pocas capturas: una función que rinde varias vistas `[posición, objetivo, fov]` en un solo lienzo de
+2 × 3 y lo muestra en el `<img>` (sin `await img.decode()`: con el panel oculto no termina nunca). La captura queda
+guardada en disco (la ruta sale en el resultado de `screenshot`) y de ahí se copia para enviarla al usuario. Para
+revisar bordes en una moto negra, cambiar `M.pintura.color` solo en memoria y devolverlo después.
 
 ## Errores ya vistos
 

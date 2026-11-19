@@ -8,8 +8,10 @@ const pos = f32("c_pos.bin"), nor = f32("c_nor.bin"), col = f32("c_col.bin");
 const bi = fs.readFileSync(`${d}/c_idx.bin`); const idx = new Uint32Array(bi.buffer, bi.byteOffset, bi.length / 4);
 const bl = fs.readFileSync(`${d}/c_lab.bin`); const lab = new Int32Array(bl.buffer, bl.byteOffset, bl.length / 4);
 const partes = JSON.parse(fs.readFileSync(`${d}/c_partes.json`, "utf8")).partes.map((p) => p.nombre);
-const RAZON = [[/llanta/, 0.11], [/rin\./, 0.4], [/stop|faro|luz|ambar|mica|dorado|luna|reflector|posapies/, 1], [/visor|asiento/, 0.4], [/pintura|titanio/, 0.45],
+let RAZON = [[/llanta/, 0.11], [/rin\./, 0.4], [/stop|faro|luz|ambar|mica|dorado|luna|reflector|posapies/, 1], [/visor|asiento/, 0.4], [/pintura|titanio/, 0.45],
   [/plastico\.(escudo|bajo)/, 0.27], [/./, 0.27]];
+// (la ficha de la moto puede traer sus propias razones: ciclo.py las deja en razon.json)
+if (fs.existsSync(`${d}/razon.json`)) RAZON = JSON.parse(fs.readFileSync(`${d}/razon.json`, "utf8")).map(([re, r]) => [new RegExp(re), r]);
 await S.ready;
 const nv = pos.length / 3;
 const salidaIdx = [], salidaLab = [];

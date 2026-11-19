@@ -1,4 +1,5 @@
-# Extrae del GLB de entrada: posiciones, normales, uv, indices (npy) y las 3 texturas
+# Extrae del GLB de entrada: posiciones, normales, indices (npy) y, si los trae, uv y texturas.
+# (Tripo tambien entrega GLB sin textura ni UV, solo geometria: ahi no se guarda uv.npy y preparar.py pone color neutro)
 import sys, json, struct, numpy as np, os
 p, sal = sys.argv[1], sys.argv[2]
 b = open(p, 'rb').read()
@@ -19,9 +20,13 @@ pr = j['meshes'][0]['primitives'][0]
 print('atributos', pr['attributes'], 'nodo', {k: v for k, v in j['nodes'][0].items() if k != 'name'})
 np.save(os.path.join(sal, 'pos.npy'), leer(pr['attributes']['POSITION']).astype(np.float32))
 np.save(os.path.join(sal, 'nor.npy'), leer(pr['attributes']['NORMAL']).astype(np.float32))
-np.save(os.path.join(sal, 'uv.npy'), leer(pr['attributes']['TEXCOORD_0']).astype(np.float32))
+if 'TEXCOORD_0' in pr['attributes'] and j.get('images'):
+    np.save(os.path.join(sal, 'uv.npy'), leer(pr['attributes']['TEXCOORD_0']).astype(np.float32))
+else:
+    print('SIN TEXTURA: el corte no podra usar color (claro, oscuro, lum); solo forma')
 np.save(os.path.join(sal, 'idx.npy'), leer(pr['indices']).astype(np.uint32).reshape(-1, 3))
-for im in j['images']:
+for im in j.get('images', []):
     v = bv[im['bufferView']]
     open(os.path.join(sal, im['name'].split('_')[-1] + '.jpg'), 'wb').write(b[base + v['byteOffset']: base + v['byteOffset'] + v['byteLength']])
-print('materiales', json.dumps(j['materials'])[:400])
+print('materiales', json.dumps(j.get('materials', []))[:400])
+print('vertices', acc[pr['attributes']['POSITION']]['count'], 'triangulos', acc[pr['indices']]['count'] // 3)

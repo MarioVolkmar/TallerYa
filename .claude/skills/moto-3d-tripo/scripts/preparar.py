@@ -1,9 +1,13 @@
+# Uso: preparar.py T <distancia entre ejes en metros, de la ficha de la moto>
 # 1) color por vertice desde la textura, 2) soldar por posicion, 3) medir ejes de rueda, 4) llevar a coordenadas de la moto
 import sys, numpy as np, os, json
 from PIL import Image
 d = sys.argv[1]
-P = np.load(f'{d}/pos.npy'); N = np.load(f'{d}/nor.npy'); uv = np.load(f'{d}/uv.npy'); I = np.load(f'{d}/idx.npy')
-tex = np.asarray(Image.open(f'{d}/basecolor.jpg').convert('RGB')).astype(np.float32)
+EJES = float(sys.argv[2])
+P = np.load(f'{d}/pos.npy'); N = np.load(f'{d}/nor.npy'); I = np.load(f'{d}/idx.npy')
+CON_COLOR = os.path.exists(f'{d}/uv.npy') and os.path.exists(f'{d}/basecolor.jpg')
+uv = np.load(f'{d}/uv.npy') if CON_COLOR else np.zeros((len(P), 2), np.float32)
+tex = np.asarray(Image.open(f'{d}/basecolor.jpg').convert('RGB')).astype(np.float32) if CON_COLOR else np.full((2, 2, 3), 150, np.float32)
 h, w = tex.shape[:2]
 # muestreo bilineal (convencion glTF: v hacia abajo)
 x = np.clip(uv[:, 0] * w - 0.5, 0, w - 1.001); y = np.clip(uv[:, 1] * h - 0.5, 0, h - 1.001)
@@ -28,10 +32,10 @@ def radio(cx):
     m = (np.abs(Pw[:, 0] - cx) < 0.01) & (np.abs(Pw[:, 2]) < 0.03) & (Pw[:, 1] < 0.4)
     return Pw[m, 1].max() / 2
 rd, rt = radio(cxd), radio(cxt)
-esc = 1.34 / (cxd - cxt)
+esc = EJES / (cxd - cxt)
 print('ejes x', cxd, cxt, 'radios', rd, rt, 'escala', esc, '-> radios m', rd*esc, rt*esc)
 cx = (cxd + cxt) / 2
 Pm = (Pw - np.array([cx, 0, 0], np.float32)) * esc
 print('caja moto', Pm.min(0).round(3), Pm.max(0).round(3))
 Pm.astype(np.float32).tofile(f'{d}/w_pos.bin'); Nw.tofile(f'{d}/w_nor.bin'); (Cw / 255).astype(np.float32).tofile(f'{d}/w_col.bin'); Iw.tofile(f'{d}/w_idx.bin')
-json.dump({'nv': int(nv), 'nt': int(len(Iw)), 'rd': float(rd*esc), 'rt': float(rt*esc)}, open(f'{d}/w.json', 'w'))
+json.dump({'nv': int(nv), 'nt': int(len(Iw)), 'rd': float(rd*esc), 'rt': float(rt*esc), 'con_color': bool(CON_COLOR), 'ejes': EJES}, open(f'{d}/w.json', 'w'))
