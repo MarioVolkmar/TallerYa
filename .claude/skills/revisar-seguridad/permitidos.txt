@@ -34,3 +34,5 @@ tramites/models.py|FileField\(|almacén privado, firma, solo dueño/staff
 cuentas/google.py|TOKEN = "https://|URL pública del endpoint de Google, no un secreto
 garaje/despiece_guia_mecanica.py|Clave:|texto de la guía ("Clave: ...")
 talleres/management/commands/cargar_demo.py|DEMO_CLAVE|clave de la cuenta demo; solo se crea con DEBUG (local)
+domiciliarios/models.py|captura = models.FileField|verificación Ruta: forms.py valida firma+Pillow y <5 MB, nombre aleatorio, PRIVADO_ROOT (no /media/); IDOR en domiciliarios/tests_ruta.py (18-nov-2026)
+domiciliarios/models.py|foto_moto = models.FileField|igual que captura; se recodifica a JPEG sin EXIF (19-nov-2026)

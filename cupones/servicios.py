@@ -16,6 +16,18 @@ class ErrorCanje(Exception):
     pass
 
 
+def es_domiciliario_verificado(motociclista):
+    from domiciliarios.bandera import activo
+    from domiciliarios.models import PerfilDomiciliario, verificacion_vigente
+    if not activo() or not motociclista or not motociclista.pk:
+        return False
+    return verificacion_vigente(PerfilDomiciliario.objects.filter(motociclista=motociclista).first()) is not None
+
+
+class RequiereVerificacion(Exception):
+    """Cupón de TallerYa Ruta: solo para domiciliarios con la verificación vigente."""
+
+
 class RequierePlus(CuponNoDisponible):
     pass
 
@@ -70,6 +82,8 @@ def obtener_codigo(cupon, nombre, celular, ref=None):
         return existente, False
     if cupon.solo_plus and not moto.es_plus:
         raise RequierePlus("Este cupón es exclusivo para suscriptores de TallerYa Plus.")
+    if cupon.solo_domiciliarios and not es_domiciliario_verificado(moto):
+        raise RequiereVerificacion("Este cupón es solo para domiciliarios verificados de TallerYa Ruta.")
     if not cupon.publico or cupon.regalo_mensual or not cupon.puede_emitirse():
         raise CuponNoDisponible("Este cupón ya no está disponible.")
     return CodigoCupon.objects.create(cupon=cupon, motociclista=moto), True
@@ -196,6 +210,8 @@ def emitir_por_logros(moto, cupon):
         raise CuponNoDisponible("Este cupón ya no está disponible.")
     if cupon.solo_plus and not moto.es_plus:
         raise RequierePlus("Este cupón es exclusivo para suscriptores de TallerYa Plus.")
+    if cupon.solo_domiciliarios and not es_domiciliario_verificado(moto):
+        raise RequiereVerificacion("Este cupón es solo para domiciliarios verificados de TallerYa Ruta.")
     hoy = timezone.localdate()
     if moto.codigos.filter(cupon=cupon, origen=CodigoCupon.Origen.LOGROS,
                            creado__year=hoy.year, creado__month=hoy.month).exists():

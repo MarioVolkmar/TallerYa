@@ -1,0 +1,26 @@
+{
+  "scooter": {
+    "fuentes": {"diagnostico": {"nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py)", "url": ""}},
+    "tips": [
+      {"titulo": "Limpieza del CVT", "texto": "El polvo de la correa se acumula en la caja: una limpieza periódica evita que la moto tiemble al arrancar y alarga la correa.", "fuentes": ["diagnostico"]},
+      {"titulo": "Bajadas largas", "texto": "Una scooter casi no tiene freno de motor: en las bajadas de Medellín alterna freno delantero y trasero para que no se recalienten.", "fuentes": ["diagnostico"]},
+      {"titulo": "Batería si la dejas quieta", "texto": "Si la moto va a estar parqueada más de una semana, préndela y ruédala un rato para que la batería no se descargue.", "fuentes": ["diagnostico"]}
+    ]
+  },
+  "calle": {
+    "fuentes": {"diagnostico": {"nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py)", "url": ""}},
+    "tips": [
+      {"titulo": "Cadena después de la lluvia", "texto": "Si te cogió el aguacero o lavaste la moto, lubrica la cadena ese mismo día: es lo que más alarga el kit de arrastre.", "fuentes": ["diagnostico"]},
+      {"titulo": "Frenos en las lomas", "texto": "En bajadas largas rebaja un cambio y deja que el motor ayude a frenar; así no recalientas los frenos.", "fuentes": ["diagnostico"]},
+      {"titulo": "Aceite para moto", "texto": "Usa aceite JASO MA o MA2: los aceites de carro hacen patinar el clutch de la moto.", "fuentes": ["diagnostico"]}
+    ]
+  },
+  "enduro": {
+    "fuentes": {"diagnostico": {"nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py)", "url": ""}},
+    "tips": [
+      {"titulo": "Filtro de aire después del polvo", "texto": "Si andas por trocha o vías destapadas, revisa el filtro de aire más seguido de lo que dice el plan.", "fuentes": ["diagnostico"]},
+      {"titulo": "Cadena después del barro", "texto": "Lava, seca y lubrica la cadena después de andar en barro: el barro con grasa lija piñón y corona.", "fuentes": ["diagnostico"]},
+      {"titulo": "Presión de llantas", "texto": "Si la bajas para la trocha, vuelve a subirla antes de salir a la vía: con poca presión la llanta se calienta y la moto se siente pesada.", "fuentes": ["diagnostico"]}
+    ]
+  }
+}

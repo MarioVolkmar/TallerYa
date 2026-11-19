@@ -19,23 +19,26 @@ User = get_user_model()
 
 
 class Base(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
+        cls.u_a = User.objects.create_user("ta@x.co", "ta@x.co", "x")
+        cls.u_b = User.objects.create_user("tb@x.co", "tb@x.co", "x")
+        cls.ta = Taller.objects.create(nombre="Taller A", responsable="A", whatsapp="573001112233", direccion="X",
+                                        barrio=barrio, activo=True, usuario=cls.u_a)
+        cls.tb = Taller.objects.create(nombre="Taller B", responsable="B", whatsapp="573001112244", direccion="Y",
+                                        barrio=barrio, activo=True, usuario=cls.u_b)
+        cls.pin_a, cls.pin_b = cls.ta.nuevo_pin(), cls.tb.nuevo_pin()
+        cls.ta.refresh_from_db()
+        cls.tb.refresh_from_db()
+        cls.u_m = User.objects.create_user("m@x.co", "m@x.co", "x")
+        cls.motero = Motociclista.objects.create(usuario=cls.u_m, nombre="Ana", celular="573001110001")
+        cls.general = Cupon.objects.create(titulo="Lavado gratis")
+        cls.codigo = CodigoCupon.objects.create(cupon=cls.general, motociclista=cls.motero)
+
     def setUp(self):
         cache.clear()
         self.addCleanup(cache.clear)
-        barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
-        self.u_a = User.objects.create_user("ta@x.co", "ta@x.co", "x")
-        self.u_b = User.objects.create_user("tb@x.co", "tb@x.co", "x")
-        self.ta = Taller.objects.create(nombre="Taller A", responsable="A", whatsapp="573001112233", direccion="X",
-                                        barrio=barrio, activo=True, usuario=self.u_a)
-        self.tb = Taller.objects.create(nombre="Taller B", responsable="B", whatsapp="573001112244", direccion="Y",
-                                        barrio=barrio, activo=True, usuario=self.u_b)
-        self.pin_a, self.pin_b = self.ta.nuevo_pin(), self.tb.nuevo_pin()
-        self.ta.refresh_from_db()
-        self.tb.refresh_from_db()
-        self.u_m = User.objects.create_user("m@x.co", "m@x.co", "x")
-        self.motero = Motociclista.objects.create(usuario=self.u_m, nombre="Ana", celular="573001110001")
-        self.general = Cupon.objects.create(titulo="Lavado gratis")
-        self.codigo = CodigoCupon.objects.create(cupon=self.general, motociclista=self.motero)
 
     def post_canje(self, codigo, taller, pin):
         return self.client.post("/canjear/", {"codigo": codigo, "taller": taller.slug, "pin": pin})

@@ -185,7 +185,11 @@ def diagnostico(request):
             esquema_diferido = esquema_url
     elif moto:
         sin_despiece = True
+    # Se anota en la sesión para poder citarlo en el foro (solo lo de esta persona)
+    recordar_diagnostico(request, sintomas[s]["nombre"], res["causa"],
+                         moto.nombre_completo if moto else getattr(del_catalogo, "etiqueta", ""))
     ctx.update({
+        "compartir_url": _url(reverse("foro:preguntar"), diagnostico=request.session["diagnosticos"][0]["consulta"]),
         "paso": "resultado", "clave": clave, "res": res, "subgrupo": subgrupo,
         "urgencia": res["urgencia"], "urgencia_info": dx.URGENCIAS[res["urgencia"]],
         "piezas": piezas, "sin_despiece": sin_despiece, "esquemas": esquemas, "esquema_diferido": esquema_diferido,
@@ -198,3 +202,81 @@ def diagnostico(request):
         "directorio": _url(reverse("talleres:directorio"), servicio=servicio.pk if servicio else None),
     })
     return render(request, "garaje/diagnostico.html", ctx)
+
+
+# ---------- Compartir en el foro ----------
+# Los diagnósticos no se guardan: son una URL con las respuestas. Para citarlos en el foro, cada resultado que alguien ve
+# se anota en SU sesión (solo la consulta) y, al publicar, el servidor vuelve a calcular el resumen desde esa consulta
+# con las motos de quien publica. Así nadie puede adjuntar el diagnóstico de otro (una moto ajena no resuelve) y el
+# resumen guardado es inmutable y no depende de texto enviado por el navegador.
+
+MAX_RECIENTES = 6
+
+
+def recordar_diagnostico(request, sintoma, causa, moto_nombre):
+    """Anota la consulta del resultado en la sesión (los últimos MAX_RECIENTES, sin repetir)."""
+    consulta = request.GET.copy()
+    consulta.pop("parte", None)
+    consulta.pop("lamina", None)
+    consulta = consulta.urlencode()
+    recientes = [d for d in request.session.get("diagnosticos", []) if d.get("consulta") != consulta]
+    recientes.insert(0, {"consulta": consulta, "sintoma": sintoma, "causa": causa, "moto": moto_nombre})
+    request.session["diagnosticos"] = recientes[:MAX_RECIENTES]
+
+
+def diagnosticos_recientes(request):
+    """Los diagnósticos que esta persona vio (de su sesión), para adjuntar en el foro."""
+    return [d for d in request.session.get("diagnosticos", []) if isinstance(d, dict) and d.get("consulta")]
+
+
+def resumen_diagnostico(consulta, usuario, con_piezas=True):
+    """Resumen público del diagnóstico de esa consulta, o None si no llega a un resultado o la moto no es de `usuario`.
+
+    Solo datos públicos: marca, modelo y año de la moto (nunca placa, apodo ni dueño), síntoma, causa, sistema y las
+    piezas candidatas. `enlace` abre el mismo diagnóstico para cualquiera (con el despiece de esa línea, no la moto)."""
+    from django.http import QueryDict
+    q = QueryDict(consulta or "")
+    perfil = getattr(usuario, "motociclista", None) if usuario and usuario.is_authenticated else None
+    moto, despiece = None, None
+    if q.get("moto", "").isdigit():
+        if not perfil:
+            return None
+        moto = perfil.motos.select_related("linea", "linea__marca").filter(pk=int(q["moto"])).first()
+        if moto is None:  # moto ajena o borrada: no se puede citar
+            return None
+    elif q.get("despiece", "").isdigit():
+        despiece = Despiece.objects.filter(pk=int(q["despiece"]), activo=True).select_related("linea", "linea__marca").first()
+    linea = getattr(moto, "linea", None) or getattr(despiece, "linea", None)
+    t = getattr(linea, "transmision", "") or q.get("t", "")
+    if t not in ("cadena", "cvt"):
+        return None
+    s = q.get("s", "")
+    sintomas = dict(dx.sintomas_para(t))
+    if s not in sintomas:
+        return None
+    respuestas = {p["clave"]: q[p["clave"]] for p in dx.SINTOMAS[s]["preguntas"] if q.get(p["clave"])}
+    contexto = {**respuestas, "t": t, "r": getattr(linea, "refrigeracion", "") if linea else ""}
+    clave = dx.resultado(s, contexto)
+    if not clave:
+        return None
+    res = dx.RESULTADOS[clave]
+    subgrupo = res.get("subgrupo") or (dx.subgrupo_freno(contexto) if res["sistema"] == "Frenos" else "")
+    if moto:
+        despiece = Despiece.para(moto)
+        marca = moto.linea.marca.nombre if moto.linea_id else moto.marca_otra
+        modelo, anio = (moto.linea.nombre if moto.linea_id else moto.linea_otra), moto.modelo
+    elif despiece:
+        marca, modelo, anio = despiece.linea.marca.nombre, despiece.linea.nombre, None
+    else:
+        marca, modelo, anio = "", "", None
+    piezas = []
+    if despiece and con_piezas:
+        sistemas_res = dx.sistemas_a_armar(res)
+        laminas = _laminas_de(despiece, None, sistemas_res)  # sin moto: no hace falta su estado de mantenimiento
+        piezas = [p["nombre"] for p in dx.piezas_candidatas(clave, laminas, subgrupo, limite=6)]
+    enlace = _url(reverse("garaje:diagnostico"), despiece=despiece.pk if despiece else None,
+                  t=None if despiece and linea and linea.transmision else t, s=s, **respuestas)
+    return {"clave": clave, "sintoma_clave": s, "sintoma": sintomas[s]["nombre"], "marca": marca[:60], "modelo": modelo[:80],
+            "anio": anio, "causa": res["causa"], "sistema": res["sistema"], "subgrupo": subgrupo or "",
+            "urgencia": res["urgencia"], "revisa": res.get("revisa", ""), "piezas": piezas, "enlace": enlace,
+            "linea_id": linea.pk if linea else None, "marca_id": linea.marca_id if linea else None}

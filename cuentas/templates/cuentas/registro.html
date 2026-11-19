@@ -6,7 +6,7 @@
   {% if request.GET.escena == "moto" %}{% include "cuentas/_escena_registro_moto.html" %}{% else %}{% include "cuentas/_escena_registro_orden.html" %}{% endif %}
 
   <section class="entrar-caja papel">
-    {% include "cuentas/_registro_tipo.html" with activo="motero" %}
+    {% include "cuentas/_registro_tipo.html" with activo=tipo_registro|default:"motero" %}
     <h1 class="titulo text-4xl md:text-5xl mt-6">Crea tu <span class="text-lava">cuenta</span></h1>
     <p class="text-suave mt-2">Tu garaje, tus cupones y los avisos de tu moto, gratis.</p>
     <div class="mt-6">{% include "cuentas/_boton_google.html" %}</div>

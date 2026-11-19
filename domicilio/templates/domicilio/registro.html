@@ -8,25 +8,49 @@
   <div class="contenido max-w-6xl mx-auto px-4 pt-12 pb-40 md:pt-20 md:pb-52">
     <p class="etiqueta">Para mecánicos sin taller</p>
     <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-4 max-w-2xl">¿Vas a donde está la moto? <span class="text-lava">Aparece gratis</span></h1>
-    <p class="mt-4 max-w-md text-lg text-suave">Los motociclistas de tu zona te encuentran y te escriben por WhatsApp. Revisamos cada perfil antes de publicarlo.</p>
+    <p class="mt-4 max-w-md text-lg text-suave">Los motociclistas de tu zona te encuentran y te escriben por WhatsApp. {{ pasos|length }} pasos cortos; revisamos cada perfil antes de publicarlo.</p>
   </div>
 </section>
 {% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
-<section class="papel relative z-10 -mt-28 md:-mt-36 p-6 md:p-10 max-w-3xl mx-auto">
-  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
+<section class="papel relative z-10 -mt-28 md:-mt-36 p-5 sm:p-6 md:p-10 max-w-3xl mx-auto">
+  <ol class="dom-pasos-barra" aria-label="Pasos del registro">
+    {% for clave, titulo, campos in pasos %}<li data-ir-paso="{{ forloop.counter }}"><span>{{ forloop.counter }}</span>{{ titulo }}</li>{% endfor %}
+  </ol>
+  {% if nueva_cuenta %}<p class="text-sm text-suave mt-4">¿Ya tienes cuenta en TallerYa? <a href="{% url 'cuentas:entrar' %}?next={% url 'domicilio:registro' %}" class="boton-texto">Entra</a> y vuelve aquí.</p>{% endif %}
+  {% for e in form.non_field_errors %}<p class="error mt-3">{{ e }}</p>{% endfor %}
+
+  <form method="post" enctype="multipart/form-data" novalidate id="dom-registro" class="mt-4">
     {% csrf_token %}
-    {% if nueva_cuenta %}
-      <h2 class="titulo text-2xl sm:col-span-2">1 · Tu cuenta</h2>
-      <p class="text-sm text-suave sm:col-span-2 -mt-3">¿Ya tienes cuenta en TallerYa? <a href="{% url 'cuentas:entrar' %}?next={% url 'domicilio:registro' %}" class="boton-texto">Entra</a> y vuelve aquí.</p>
-      {% include "domicilio/_campos.html" with form=cuenta %}
-      <h2 class="titulo text-2xl sm:col-span-2 mt-4">2 · Tu perfil de mecánico</h2>
-    {% endif %}
-    {% include "domicilio/_campos.html" with form=form %}
-    <p class="text-xs text-suave sm:col-span-2">Al publicarte aceptas que TallerYa solo te promociona: el acuerdo, el pago y la garantía de cada trabajo son entre tú y el motociclista.</p>
-    <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Enviar mi perfil para revisión</button>
+    {% for clave, titulo, campos in pasos %}
+    <fieldset class="dom-paso" data-paso="{{ forloop.counter }}">
+      <legend class="titulo text-2xl">{{ forloop.counter }} · {{ titulo }}</legend>
+      {% if clave == "trabajo" %}<p class="text-sm text-suave mt-1">Lo que verán los motociclistas en tu perfil.</p>
+      {% elif clave == "verificacion" %}<p class="text-sm text-suave mt-1">Con esto revisamos que eres tú y que sabes del oficio. La cédula y las referencias <strong>no se publican</strong>.</p>{% endif %}
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4">
+        {% include "domicilio/_campos.html" with form=campos %}
+        {% if clave == "verificacion" %}
+        <div class="sm:col-span-2">
+          <label class="campo-label">Fotos de trabajos que hayas hecho (opcional, hasta {{ maximo_trabajos }})
+            <input type="file" name="trabajos" accept="image/jpeg,image/png,image/webp" multiple></label>
+          <p class="text-xs text-suave mt-1.5">Motos que arreglaste, tu herramienta… Ayudan a que te aprobemos y te verifiquemos más rápido. JPG, PNG o WEBP de máximo 5 MB.</p>
+        </div>
+        {% endif %}
+      </div>
+      <div class="dom-paso-botones">
+        {% if not forloop.first %}<button type="button" class="btn btn-borde text-xs px-5 py-3" data-atras>← Atrás</button>{% endif %}
+        {% if forloop.last %}
+          <button class="btn btn-lava py-3.5 px-6 text-sm">Enviar mi perfil para revisión</button>
+        {% else %}
+          <button type="button" class="btn btn-lava py-3 px-6 text-sm" data-siguiente>Siguiente →</button>
+        {% endif %}
+      </div>
+      {% if forloop.last %}<p class="text-xs text-suave mt-4">Al publicarte aceptas que TallerYa solo te promociona: el acuerdo, el pago y la garantía de cada trabajo son entre tú y el motociclista.</p>{% endif %}
+    </fieldset>
+    {% endfor %}
   </form>
 </section>
+<script src="{% static 'domicilio/js/pasos.js' %}" defer></script>
 {% endblock %}

@@ -163,16 +163,19 @@ class CiudadYBarrioTests(TestCase):
 
 
 class PanelTallerTests(TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpTestData(cls):
         from django.contrib.auth import get_user_model
         User = get_user_model()
-        self.duenio = User.objects.create_user("t@panel.co", "t@panel.co", "x")
+        cls.duenio = User.objects.create_user("t@panel.co", "t@panel.co", "x")
         barrio = Barrio.objects.get_or_create(nombre="Belén")[0]
-        self.taller = Taller.objects.create(nombre="Taller Panel", responsable="A", whatsapp="573001112233", direccion="X",
-                                            barrio=barrio, activo=True, usuario=self.duenio)
-        self.otro = Taller.objects.create(nombre="Otro", responsable="B", whatsapp="573001112244", direccion="X", barrio=barrio, activo=True)
-        self.cita = SolicitudCita.objects.create(taller=self.taller, nombre="Camilo", telefono="300 555 1234", moto="NMAX",
-                                                 fecha_preferida=date.today() + timedelta(days=2))
+        cls.taller = Taller.objects.create(nombre="Taller Panel", responsable="A", whatsapp="573001112233", direccion="X",
+                                           barrio=barrio, activo=True, usuario=cls.duenio)
+        cls.otro = Taller.objects.create(nombre="Otro", responsable="B", whatsapp="573001112244", direccion="X", barrio=barrio, activo=True)
+        cls.cita = SolicitudCita.objects.create(taller=cls.taller, nombre="Camilo", telefono="300 555 1234", moto="NMAX",
+                                                fecha_preferida=date.today() + timedelta(days=2))
+
+    def setUp(self):
         self.client.force_login(self.duenio)
 
     def test_panel_muestra_citas_y_mi_cuenta_redirige(self):

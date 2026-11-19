@@ -169,3 +169,7 @@ venv/Scripts/python.exe informes_noche/piloto-esquema/motor/autocontrol.py <lami
 - [ ] La nota mecánica de la revisora ≥ 4,8, la de la línea base. Si alguna nota baja, se explica en `explicacion` (`metricas.py dato …`); sin explicación no está terminada.
 - [ ] Métricas anotadas en cada fase y `informe` comparado contra la CVT y el promedio, diciendo qué fase tardó más de lo esperado y por qué.
 - [ ] Sin errores de consola. Funciona sin red, salvo las fuentes de Google.
+
+
+## Ahorro de tokens
+Registros largos (render, IoU, builds, pruebas, mediciones) a un archivo en el scratchpad; mostrar solo el resumen (`> log.txt; tail -15 log.txt`). Capturas solo como prueba final, a `scale: 0.5`. Tope de ~150 mil tokens de contexto: al llegar, nota de relevo y sesión nueva (ver CLAUDE.md, «Modelo según la tarea»).

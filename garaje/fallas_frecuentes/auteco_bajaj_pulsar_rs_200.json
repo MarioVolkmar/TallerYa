@@ -1,0 +1,191 @@
+{
+  "linea": "Auteco Bajaj Pulsar RS 200",
+  "tipo": "sport",
+  "revisado": "2026-11-18",
+  "nota": "Fallas propias del modelo según las fuentes listadas; el resto es del tipo de moto con los datos del manual.",
+  "fuentes": {
+    "manual": {
+      "nombre": "Owner's Manual Bajaj Pulsar RS200 (datos en garaje/intervalos/auteco_bajaj_pulsar_rs_200.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    },
+    "motoryk": {
+      "nombre": "Motoryk: problemas reportados del modelo (guía de compra de usadas)",
+      "url": "https://www.motoryk.com/bikes/bajaj/pulsar-rs-200/problems"
+    }
+  },
+  "fallas": [
+    {
+      "clave": "frio-minimo",
+      "titulo": "Le cuesta prender en frío o el mínimo baila",
+      "sintoma": "En la mañana necesita varios intentos o en el semáforo el motor sube y baja de vueltas.",
+      "causa": "Los dueños reportan inyectores sucios.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa bujías y filtro de aire; si siguen bien, pide limpieza de inyectores en un taller con escáner.",
+      "alcance": "modelo",
+      "fuentes": [
+        "motoryk"
+      ],
+      "tareas": [
+        "bujia",
+        "filtro-aire"
+      ],
+      "diagnostico": {
+        "s": "se_apaga",
+        "cuando": "frio"
+      },
+      "taller": "Sincronización",
+      "domicilio": "Inyección electrónica"
+    },
+    {
+      "clave": "link-trasero",
+      "titulo": "Golpeteo atrás en los huecos",
+      "sintoma": "Al pasar huecos o resaltos suena un golpe seco debajo del asiento.",
+      "causa": "Desgaste de los rodamientos del eslabón (link) de la suspensión trasera.",
+      "gravedad": "cuidado",
+      "que_hacer": "Pide revisar y engrasar el link de la suspensión; si hay juego, cambiar rodamientos.",
+      "alcance": "modelo",
+      "fuentes": [
+        "motoryk"
+      ],
+      "tareas": [
+        "suspension-tras"
+      ],
+      "pieza": "suspension_tras",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "huecos"
+      },
+      "taller": "Suspensión",
+      "domicilio": "Suspensión"
+    },
+    {
+      "clave": "arrastre-gastado",
+      "titulo": "Traqueteo de la cadena o tirones al acelerar",
+      "sintoma": "La cadena suena, cuelga o da golpecitos al soltar y dar acelerador.",
+      "causa": "Kit de arrastre gastado por falta de lubricar y tensar; con lluvia, parrillero y lomas se gasta más rápido.",
+      "gravedad": "cuidado",
+      "que_hacer": "Lubrica y tensa ya. Deja el juego de la cadena en 15–25 mm, como pide el manual. Si la corona tiene los dientes en punta, cambia el kit completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Pastillas gastadas o líquido de frenos viejo. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Revisa el grosor de las pastillas y el nivel del líquido; si están al límite, cámbialas ya.",
+      "tareas": [
+        "pastillas-tras",
+        "liquido-frenos"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 20.000 km, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "recalienta",
+      "titulo": "Se calienta en el trancón",
+      "sintoma": "El ventilador no para, la temperatura sube en el tablero o el depósito del refrigerante baja.",
+      "causa": "Poco refrigerante, una fuga en mangueras o radiador, o el ventilador que no prende. Que el ventilador prenda en el trancón es normal.",
+      "gravedad": "peligro",
+      "que_hacer": "Si la temperatura sigue subiendo, para y apaga. Revisa el nivel en frío y pide revisar ventilador, mangueras y radiador.",
+      "tareas": [
+        "refrigerante"
+      ],
+      "pieza": "refrigeracion",
+      "diagnostico": {
+        "s": "se_apaga",
+        "cuando": "caliente",
+        "radiador": "si"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "Bajaj DTS-i SAE 20W-50; 1.400 ml en reparación. Cada 5.000 km. El manual da 10.000 km solo con el aceite especial Bajaj DTS-i 10000 (con relleno a los 5.000). Con aceite corriente, lo prudente es 5.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 20.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 20.000 km. No se limpia: se cambia.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Bujía",
+      "texto": "3 bujías (2 Bosch UR6CE y 1 Bosch YR5NEO); separación 0,7–0,9 mm. Cada 40.000 km. Revisar y calibrar cada 10.000 km; si el motor falla o prende difícil, cámbialas antes. Son 3 bujías: se cambian juntas.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

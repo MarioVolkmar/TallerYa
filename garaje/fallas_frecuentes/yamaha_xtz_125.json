@@ -1,0 +1,167 @@
+{
+  "linea": "Yamaha XTZ 125",
+  "tipo": "enduro",
+  "revisado": "2026-11-18",
+  "nota": "Fallas propias del modelo según las fuentes listadas; el resto es del tipo de moto con los datos del manual.",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual del propietario Yamaha XTZ125 (datos en garaje/intervalos/yamaha_xtz_125.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    },
+    "mw": {
+      "nombre": "Motor and Wheels: problemas comunes de la Yamaha XTZ 125",
+      "url": "https://motorandwheels.com/common-problems-yamaha-xtz-125/"
+    }
+  },
+  "fallas": [
+    {
+      "clave": "arranque-bateria",
+      "titulo": "Le cuesta prender con el botón",
+      "sintoma": "El arranque gira lento o no hace nada, sobre todo en la mañana.",
+      "causa": "Los dueños lo asocian a la batería pequeña y cansada.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide medir la batería y la carga. Mientras tanto, arranca con el pedal si tu versión lo tiene.",
+      "alcance": "modelo",
+      "fuentes": [
+        "mw"
+      ],
+      "tareas": [
+        "bateria"
+      ],
+      "pieza": "bateria",
+      "diagnostico": {
+        "s": "no_prende",
+        "arranque": "lento"
+      },
+      "taller": "Sistema eléctrico",
+      "domicilio": "Batería y arranque"
+    },
+    {
+      "clave": "arrastre-trocha",
+      "titulo": "La cadena se gasta rápido",
+      "sintoma": "La cadena se afloja seguido, suena o la corona tiene los dientes en punta.",
+      "causa": "Barro y polvo pegados al lubricante forman una pasta que lija cadena, piñón y corona.",
+      "gravedad": "cuidado",
+      "que_hacer": "Después de trocha, lava, seca y lubrica la cadena. Deja el juego de la cadena en 25–40 mm, como pide el manual. Si el kit está gastado, cámbialo completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 3.000 km, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "filtro-polvo",
+      "titulo": "Pierde fuerza después de andar en polvo",
+      "sintoma": "La moto se siente perezosa, acelera lento y gasta más gasolina.",
+      "causa": "Filtro de aire tapado de polvo o mojado.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa el filtro de aire: con polvo o lluvia toca atenderlo antes de lo que dice el plan.",
+      "tareas": [
+        "filtro-aire"
+      ],
+      "pieza": "filtro_aire",
+      "diagnostico": {
+        "s": "sin_fuerza",
+        "como": "lenta"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 20W-50, API SG o superior, JASO MA; 1,00 L. Cada 3.000 km. OJO: va con 20W-50, no con 10W-40.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 3.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 6.000 km. A los 3.000, 9.000 y 15.000 km se limpia; a los 6.000 y 12.000 km se cambia. En trocha o con polvo, más seguido.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Bujía",
+      "texto": "NGK CR6HSA; separación de electrodos 0,6–0,7 mm. Cada 6.000 km. A los 3.000, 9.000 y 15.000 km se limpia y se ajusta la separación; a los 6.000 y 12.000 km se cambia.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

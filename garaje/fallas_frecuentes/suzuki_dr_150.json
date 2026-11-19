@@ -1,0 +1,141 @@
+{
+  "linea": "Suzuki DR 150",
+  "tipo": "enduro",
+  "revisado": "2026-11-18",
+  "nota": "Generado con manage.py esqueleto_fallas: alcance «tipo» con los datos del manual. Agregar fallas propias del modelo solo con fuente (skill fallas-modelo).",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual de servicio Suzuki DR150 carburada (datos en garaje/intervalos/suzuki_dr_150.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    }
+  },
+  "fallas": [
+    {
+      "clave": "arrastre-trocha",
+      "titulo": "La cadena se gasta rápido",
+      "sintoma": "La cadena se afloja seguido, suena o la corona tiene los dientes en punta.",
+      "causa": "Barro y polvo pegados al lubricante forman una pasta que lija cadena, piñón y corona.",
+      "gravedad": "cuidado",
+      "que_hacer": "Después de trocha, lava, seca y lubrica la cadena. Deja el juego de la cadena en 20–30 mm, como pide el manual. Si el kit está gastado, cámbialo completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 3.000 km o cada 6 meses, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "filtro-polvo",
+      "titulo": "Pierde fuerza después de andar en polvo",
+      "sintoma": "La moto se siente perezosa, acelera lento y gasta más gasolina.",
+      "causa": "Filtro de aire tapado de polvo o mojado.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa el filtro de aire: con polvo o lluvia toca atenderlo antes de lo que dice el plan.",
+      "tareas": [
+        "filtro-aire"
+      ],
+      "pieza": "filtro_aire",
+      "diagnostico": {
+        "s": "sin_fuerza",
+        "como": "lenta"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 10W-40 (5W-30 en frío), API SG o superior; 1.000 ml en el cambio (1.200 ml en revisión general). Cada 3.000 km o cada 6 meses. El primer cambio es a los 1.000 km. La malla del sumidero y el filtro centrífugo se cambian cada 12.000 km o 18 meses.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 3.000 km o cada 6 meses.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Filtro de papel engrasado. Cada 12.000 km o cada 18 meses. Con polvo o trocha, revísalo más seguido.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Bujía",
+      "texto": "NGK CPR7EA-9; separación 0,8–0,9 mm. Cada 10.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

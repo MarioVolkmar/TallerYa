@@ -10,7 +10,7 @@ from metricas.nucleo import registrar_evento
 
 from .forms import CanjeForm, ObtenerCuponForm
 from .models import CodigoCupon, Cupon, Motociclista
-from .servicios import (CuponNoDisponible, ErrorCanje, RequierePlus, buscar_codigo, canjear, obtener_codigo,
+from .servicios import (CuponNoDisponible, ErrorCanje, RequierePlus, RequiereVerificacion, buscar_codigo, canjear, obtener_codigo,
                         obtener_codigo_para)
 
 SESION_REF = "ref"
@@ -65,6 +65,9 @@ def obtener(request, pk):
         except RequierePlus as e:
             messages.info(request, str(e))
             return redirect("cuentas:plus")
+        except RequiereVerificacion as e:
+            messages.info(request, str(e))
+            return redirect("domiciliarios:verificacion")
         except CuponNoDisponible as e:
             messages.error(request, str(e))
             return redirect("cupones:lista")

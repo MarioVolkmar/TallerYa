@@ -1,0 +1,63 @@
+{
+  "linea": "AKT NKD 125",
+  "tipo": "calle",
+  "revisado": "2026-11-18",
+  "nota": "Hay pocos reportes públicos y verificables de fallas propias de la NKD: casi todo lo que sigue es lo que más les pasa a las motos de trabajo de 125 cc con cadena (alcance «tipo»). Ampliar cuando haya reportes de dueños o de talleres aliados.",
+  "fuentes": {
+    "manual": {"nombre": "Manual del propietario AKT NKD 125 (datos ya cargados en garaje/intervalos/akt_nkd_125.json)", "url": "https://www.elcarrocolombiano.com/dos-ruedas/akt-nkd-125-mastech-nueva-edicion-para-la-moto-mas-popular-de-colombia/"},
+    "diagnostico": {"nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma", "url": ""},
+    "carroya": {"nombre": "CarroYa: la NKD 125 entre las motos más vendidas de Colombia", "url": "https://www.carroya.com/noticias/tema/akt-nkd-125"}
+  },
+  "fallas": [
+    {
+      "clave": "arrastre-gastado",
+      "titulo": "Traqueteo de la cadena o tirones al acelerar",
+      "sintoma": "Suena la cadena, sientes golpecitos al soltar o dar acelerador, o la cadena cuelga más de lo normal.",
+      "causa": "Kit de arrastre (cadena, piñón y corona) gastado por falta de lubricar y tensar. Con lluvia, parrillero y lomas se gasta mucho más rápido.",
+      "gravedad": "cuidado",
+      "que_hacer": "Lubrica y tensa ya. Si los dientes de la corona están en punta o la cadena se estira sin remedio, cambia el kit completo: cambiar solo la cadena dura poco.",
+      "alcance": "tipo",
+      "tareas": ["cadena-lubricar", "kit-arrastre"],
+      "pieza": "cadena",
+      "diagnostico": {"s": "ruido", "donde": "arrastre"},
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "fuentes": ["manual", "diagnostico"]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: es normal que se abran con el uso y hay que ajustarlas en cada servicio.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío. Si se deja mucho tiempo, la moto pierde fuerza y gasta más.",
+      "alcance": "tipo",
+      "tareas": ["valvulas"],
+      "pieza": "motor",
+      "diagnostico": {"s": "ruido", "donde": "motor", "tipo": "tic"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "fuentes": ["diagnostico"]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar el pedal hasta el fondo para que frene, o chilla al frenar.",
+      "causa": "Bandas (o pastillas, según la versión) gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "No lo dejes para después: ajusta el freno y revisa el desgaste. Si las bandas llegaron al límite, cámbialas.",
+      "alcance": "tipo",
+      "tareas": ["bandas-tras", "pastillas-tras"],
+      "pieza": "freno_tras",
+      "diagnostico": {"s": "frena_mal", "cual": "tras", "como": "poco"},
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "fuentes": ["diagnostico"]
+    }
+  ],
+  "tips": [
+    {"titulo": "Cadena cada 500 km", "texto": "El manual pide lubricar la cadena cada 500 km. Si llueve o la lavas, lubrícala ese mismo día: es lo que más alarga el kit.", "fuentes": ["manual"]},
+    {"titulo": "Usa el aceite que pide", "texto": "20W-50 JASO MA2: el JASO MA2 es para motos con clutch en aceite. Un aceite de carro hace patinar el clutch.", "fuentes": ["manual"]},
+    {"titulo": "Moto de trabajo, mantenimiento corto", "texto": "Si la usas para trabajar o andas con parrillero todo el día, haz los servicios con el kilometraje y no esperes a la fecha: llegas antes de lo que crees.", "fuentes": ["carroya", "manual"]}
+  ]
+}

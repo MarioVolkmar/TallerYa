@@ -20,8 +20,19 @@ from django.utils import timezone
 from cuentas import correos, limites
 from cuentas.forms import CuentaTallerForm
 from cuentas.models import Perfil
-from .forms import PerfilMecanicoForm, ResenaMecanicoForm
-from .models import MecanicoDomicilio, ResenaMecanico, TipoServicio, Zona
+from urllib.parse import quote
+
+from django.conf import settings
+from django.http import JsonResponse
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
+from django.views.decorators.http import require_POST
+
+from talleres import perfil as perfil_taller
+
+from talleres.models import Resena
+from .forms import PASO_TRABAJO, PASO_VERIFICACION, EdicionMecanicoForm, PerfilMecanicoForm, ResenaMecanicoForm, TallerDomicilioForm, foto_trabajo
+from .models import FotoTrabajo, MecanicoDomicilio, MecanicoFavorito, ResenaMecanico, TallerDomicilio, TipoServicio, Zona
 
 User = get_user_model()
 POR_PAGINA = 12
@@ -39,29 +50,66 @@ def _con_nota(qs):
     )
 
 
+def _talleres_con_domicilio(q, zona, servicio, urgencias, verificados):
+    """Talleres aprobados que también van a domicilio, con los mismos filtros que los mecánicos (consultas fijas)."""
+    qs = (TallerDomicilio.objects.publicados().select_related("taller", "taller__barrio")
+          .prefetch_related("zonas", "servicios"))
+    if q:
+        qs = qs.filter(Q(taller__nombre__icontains=q) | Q(taller__descripcion__icontains=q)
+                       | Q(pk__in=TallerDomicilio.servicios.through.objects.filter(tiposervicio__nombre__icontains=q).values("tallerdomicilio_id"))
+                       | Q(taller__marcas__nombre__icontains=q)).distinct()
+    if zona:
+        qs = qs.filter(zonas=zona)
+    if servicio:
+        qs = qs.filter(servicios=servicio)
+    if urgencias:
+        qs = qs.filter(urgencias=True)
+    if verificados:
+        qs = qs.filter(taller__verificado=True)
+    items = list(qs)
+    notas = {r["taller"]: r for r in Resena.objects.filter(visible=True, taller__in=[d.taller_id for d in items])
+             .values("taller").annotate(p=Avg("estrellas"), n=Count("id"))}
+    for d in items:
+        nota = notas.get(d.taller_id, {})
+        d.es_taller, d.prom, d.n_resenas = True, nota.get("p") or 0.0, nota.get("n", 0)
+        d.nombre, d.verificado = d.taller.nombre, d.taller.verificado
+    return items
+
+
 def listado(request):
+    """Mecánicos independientes y talleres que también van a domicilio, en un solo listado con los mismos filtros."""
     f = request.GET
-    mecanicos = MecanicoDomicilio.objects.publicados().prefetch_related("zonas", "servicios")
-    if q := f.get("q", "").strip()[:80]:
-        mecanicos = mecanicos.filter(
-            Q(nombre__icontains=q) | Q(descripcion__icontains=q)
-            | Q(pk__in=MecanicoDomicilio.servicios.through.objects.filter(tiposervicio__nombre__icontains=q).values("mecanicodomicilio_id"))
-            | Q(pk__in=MecanicoDomicilio.marcas.through.objects.filter(marca__nombre__icontains=q).values("mecanicodomicilio_id")))
+    tipo = f.get("tipo", "")
+    q = f.get("q", "").strip()[:80]
     zona = Zona.objects.filter(pk=f["zona"]).first() if f.get("zona", "").isdigit() else None
     servicio = TipoServicio.objects.filter(pk=f["servicio"]).first() if f.get("servicio", "").isdigit() else None
-    if zona:
-        mecanicos = mecanicos.filter(zonas=zona)
-    if servicio:
-        mecanicos = mecanicos.filter(servicios=servicio)
-    if f.get("urgencias"):
-        mecanicos = mecanicos.filter(urgencias=True)
-    if f.get("verificados"):
-        mecanicos = mecanicos.filter(verificado=True)
-    mecanicos = _con_nota(mecanicos).order_by("-verificado", "-prom", "-n_resenas", "nombre", "pk")
 
-    pagina = Paginator(mecanicos, POR_PAGINA).get_page(f.get("pagina"))
+    mecanicos = []
+    if tipo != "talleres":
+        qs = MecanicoDomicilio.objects.publicados().prefetch_related("zonas", "servicios")
+        if q:
+            qs = qs.filter(
+                Q(nombre__icontains=q) | Q(descripcion__icontains=q)
+                | Q(pk__in=MecanicoDomicilio.servicios.through.objects.filter(tiposervicio__nombre__icontains=q).values("mecanicodomicilio_id"))
+                | Q(pk__in=MecanicoDomicilio.marcas.through.objects.filter(marca__nombre__icontains=q).values("mecanicodomicilio_id")))
+        if zona:
+            qs = qs.filter(zonas=zona)
+        if servicio:
+            qs = qs.filter(servicios=servicio)
+        if f.get("urgencias"):
+            qs = qs.filter(urgencias=True)
+        if f.get("verificados"):
+            qs = qs.filter(verificado=True)
+        mecanicos = list(_con_nota(qs))
+    talleres = ([] if tipo == "independientes" else
+                _talleres_con_domicilio(q, zona, servicio, f.get("urgencias"), f.get("verificados")))
+    # Un solo orden para todos: verificados primero, luego nota y número de reseñas
+    todos = sorted(mecanicos + talleres,
+                   key=lambda x: (not x.verificado, -(x.prom or 0), -x.n_resenas, x.nombre.lower()))
+
+    pagina = Paginator(todos, POR_PAGINA).get_page(f.get("pagina"))
     for m in pagina:
-        m.estrellas_pct = round(m.prom * 20)
+        m.estrellas_pct = round((m.prom or 0) * 20)
         servicios = list(m.servicios.all())
         m.servicios_vista, m.servicios_mas = servicios[:4], max(len(servicios) - 4, 0)
         zonas = list(m.zonas.all())
@@ -80,17 +128,22 @@ def listado(request):
         activos.append({"nombre": str(zona), "quitar": "?" + sin("zona")})
     if servicio:
         activos.append({"nombre": str(servicio), "quitar": "?" + sin("servicio")})
+    if tipo in ("independientes", "talleres"):
+        activos.append({"nombre": "Solo independientes" if tipo == "independientes" else "Solo talleres",
+                        "quitar": "?" + sin("tipo")})
     for clave, nombre in (("urgencias", "Atiende urgencias"), ("verificados", "Solo verificados")):
         if f.get(clave):
             activos.append({"nombre": nombre, "quitar": "?" + sin(clave)})
 
-    publicados = MecanicoDomicilio.objects.publicados()
+    stats = MecanicoDomicilio.objects.publicados().aggregate(
+        total=Count("pk"), verificados=Count("pk", filter=Q(verificado=True)),
+        urgencias=Count("pk", filter=Q(urgencias=True)))
+    stats["talleres"] = TallerDomicilio.objects.publicados().count()
     return render(request, "domicilio/listado.html", {
         "pagina": pagina, "qs_pagina": sin(), "filtros": f, "filtros_activos": activos,
-        "zonas": Zona.objects.all(), "servicios": TipoServicio.objects.all(),
-        "stats": publicados.aggregate(total=Count("pk"), verificados=Count("pk", filter=Q(verificado=True)),
-                                      urgencias=Count("pk", filter=Q(urgencias=True))),
+        "zonas": Zona.objects.all(), "servicios": TipoServicio.objects.all(), "stats": stats,
         "mi_perfil": _perfil_de(request.user),
+        "mi_taller": getattr(request.user, "taller", None) if request.user.is_authenticated else None,
     })
 
 
@@ -106,7 +159,7 @@ def _clave_resena(request, mecanico):
 
 def ficha(request, slug):
     mecanico = get_object_or_404(
-        MecanicoDomicilio.objects.prefetch_related("zonas", "servicios", "marcas"), slug=slug)
+        MecanicoDomicilio.objects.prefetch_related("zonas", "servicios", "marcas", "fotos_trabajo"), slug=slug)
     es_dueno = request.user.is_authenticated and mecanico.usuario_id == request.user.pk
     if not mecanico.publicado and not (es_dueno or request.user.is_staff):
         raise Http404("Este perfil no está publicado.")
@@ -144,11 +197,90 @@ def ficha(request, slug):
         reparto[r.estrellas] += 1
     prom = sum(r.estrellas for r in resenas) / len(resenas) if resenas else None
     nota = {"prom": prom, "n": len(resenas), "pct": round(prom * 20) if prom else 0}
+
+    # Mismas secciones que el detalle del taller, numeradas solo las que se muestran
+    fotos = list(mecanico.fotos_trabajo.all())
+    zonas = list(mecanico.zonas.all())
+    especialidades = perfil_taller.especialidades_texto(mecanico.especialidades)
+    compromisos = perfil_taller.compromisos_lista(mecanico)
+    marcas = list(mecanico.marcas.all())
+    herramientas = mecanico.herramientas_lista
+    verificaciones = _verificaciones(mecanico, fotos)
+    from talleres.views import _tabla_precios  # misma tabla «Precios desde» del taller (PrecioMecanico tiene sus campos)
+    tabla_precios = _tabla_precios(mecanico)
+    con_precio = {f["pk"] for f in tabla_precios["filas"]}
+    nombres = [n for n, hay in (("trabajo", especialidades or marcas or compromisos or herramientas or mecanico.anios_experiencia),
+                                ("resenas", True), ("cobertura", True)) if hay]
+    numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
+    medellin = [z for z in zonas if z.ciudad == "Medellín"]
     return render(request, "domicilio/ficha.html", {
         "m": mecanico, "es_dueno": es_dueno, "resenas": resenas, "nota": nota,
         "reparto": [(n, c, round(c * 100 / len(resenas)) if resenas else 0) for n, c in reparto.items()],
-        "form": form, "mi_resena": mi_resena,
+        "form": form, "mi_resena": mi_resena, "abrir_resena": request.method == "POST",
+        "fotos": fotos, "zonas": zonas, "zonas_medellin": medellin,
+        "zonas_municipios": [z for z in zonas if z.ciudad != "Medellín"],
+        "especialidades": especialidades, "compromisos": compromisos, "marcas": marcas, "herramientas": herramientas,
+        "verificaciones": verificaciones, "numeros": numeros,
+        "servicios": list(mecanico.servicios.all()), "cuando": CUANDO, "tabla_precios": tabla_precios,
+        "otros_servicios": [s for s in mecanico.servicios.all() if s.pk not in con_precio],
+        "es_favorito": request.user.is_authenticated and MecanicoFavorito.objects.filter(
+            usuario=request.user, mecanico=mecanico).exists(),
     })
+
+
+def _verificaciones(mecanico, fotos):
+    """Lo que el equipo sí verificó, en lenguaje simple, para el sello «Verificado por TallerYa» de la ficha.
+    «verificado» lo marca el equipo después de revisar identidad y experiencia (ver el admin); cada línea sale solo
+    si además hay con qué respaldarla. Sin «verificado» no hay sello (lista vacía)."""
+    if not mecanico.verificado:
+        return []
+    lineas = []
+    if mecanico.cedula_huella:
+        lineas.append("Identidad confirmada")
+    if mecanico.anios_experiencia or fotos:
+        lineas.append("Experiencia revisada")
+    if mecanico.referencias.strip():
+        lineas.append("Referencias comprobadas")
+    return lineas or ["Perfil revisado por el equipo"]
+
+
+CUANDO = [("ahora", "Ahora mismo (estoy varado)"), ("hoy", "Hoy"), ("manana", "Mañana"), ("semana", "Esta semana")]
+
+
+def visita(request, slug):
+    """«Solicitar visita»: arma el mensaje de WhatsApp con lo que eligió el motociclista y lo lleva a wa.me.
+    No guarda nada (el acuerdo es entre el motociclista y el mecánico); solo acepta servicios y zonas del mecánico."""
+    mecanico = get_object_or_404(MecanicoDomicilio.objects.publicados(), slug=slug)
+    g = request.GET
+    servicio = mecanico.servicios.filter(pk=g["servicio"]).first() if g.get("servicio", "").isdigit() else None
+    zona = mecanico.zonas.filter(pk=g["zona"]).first() if g.get("zona", "").isdigit() else None
+    cuando = dict(CUANDO).get(g.get("cuando", ""), "")
+    moto = " ".join(g.get("moto", "").split())[:60]
+    detalle = " ".join(g.get("detalle", "").split())[:300]
+    lineas = [f"Hola {mecanico.nombre}, te encontré en TallerYa y quiero pedir una visita a domicilio."]
+    for etiqueta, valor in (("Servicio", servicio), ("Zona", zona), ("Moto", moto), ("Cuándo", cuando), ("Detalle", detalle)):
+        if valor:
+            lineas.append(f"{etiqueta}: {valor}")
+    return redirect(f"https://wa.me/{mecanico.whatsapp}?text={quote(chr(10).join(lineas))}")
+
+
+@require_POST
+def favorito(request, slug):
+    """Guarda o quita un mecánico de favoritos (como talleres.views.favorito: JSON al corazón o redirección)."""
+    mecanico = get_object_or_404(MecanicoDomicilio.objects.publicados(), slug=slug)
+    es_fetch = request.headers.get("X-Requested-With") == "fetch"
+    if not request.user.is_authenticated:
+        entrar = f"{reverse(settings.LOGIN_URL)}?next={mecanico.get_absolute_url()}"
+        return JsonResponse({"entrar": entrar}, status=401) if es_fetch else redirect(entrar)
+    fav, creado = MecanicoFavorito.objects.get_or_create(usuario=request.user, mecanico=mecanico)
+    if not creado:
+        fav.delete()
+    if es_fetch:
+        return JsonResponse({"favorito": creado})
+    destino = request.POST.get("next", "")
+    if not url_has_allowed_host_and_scheme(destino, {request.get_host()}, require_https=request.is_secure()):
+        destino = mecanico.get_absolute_url()
+    return redirect(destino)
 
 
 def registro(request):
@@ -171,6 +303,7 @@ def registro(request):
     cuenta = CuentaTallerForm(request.POST or None, prefix="cuenta") if nueva_cuenta else None
     perfil = PerfilMecanicoForm(request.POST or None, request.FILES or None,
                                 initial={"nombre": request.user.first_name} if not nueva_cuenta else None)
+    trabajos = request.FILES.getlist("trabajos")[:FotoTrabajo.MAXIMO] if request.method == "POST" else []
     if request.method == "POST" and perfil.is_valid() and (cuenta is None or cuenta.is_valid()):
         with transaction.atomic():
             usuario = request.user
@@ -184,27 +317,138 @@ def registro(request):
             mecanico.verificado = False
             mecanico.save()
             perfil.save_m2m()
+            rechazadas = _guardar_trabajos(mecanico, trabajos)
         if nueva_cuenta:
             login(request, usuario, backend="cuentas.backends.Backend")
             Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
             correos.enviar_verificacion(request, usuario)
-        messages.success(request, "¡Listo! Revisaremos tu perfil y lo publicaremos pronto. Mientras tanto puedes verlo y editarlo aquí.")
+        if rechazadas:
+            messages.error(request, f"{rechazadas} foto(s) de trabajos no se subieron: usa JPG, PNG o WEBP de máximo 5 MB.")
+        messages.success(request, "¡Listo! Tu perfil quedó en revisión. Aquí ves su estado y lo que te falta.")
         return redirect("domicilio:mi_perfil")
-    return render(request, "domicilio/registro.html", {"cuenta": cuenta, "form": perfil, "nueva_cuenta": nueva_cuenta})
+    pasos = ([("cuenta", "Tu cuenta", list(cuenta))] if nueva_cuenta else []) + [
+        ("trabajo", "Tu trabajo", perfil.campos(PASO_TRABAJO)),
+        ("verificacion", "Verificación", perfil.campos(PASO_VERIFICACION)),
+    ]
+    return render(request, "domicilio/registro.html", {
+        "cuenta": cuenta, "form": perfil, "nueva_cuenta": nueva_cuenta, "pasos": pasos,
+        "maximo_trabajos": FotoTrabajo.MAXIMO})
+
+
+def _guardar_trabajos(mecanico, archivos):
+    """Guarda hasta FotoTrabajo.MAXIMO fotos de trabajos (re-codificadas). Devuelve cuántas se rechazaron."""
+    libres = FotoTrabajo.MAXIMO - mecanico.fotos_trabajo.count()
+    rechazadas = 0
+    for archivo in archivos[:max(libres, 0)]:
+        limpia = foto_trabajo(archivo)
+        if limpia:
+            FotoTrabajo.objects.create(mecanico=mecanico, imagen=limpia)
+        else:
+            rechazadas += 1
+    return rechazadas
 
 
 @login_required
 def mi_perfil(request):
+    """El mecánico ve el estado de su perfil (pendiente, publicado, suspendido), lo que le falta, y lo edita."""
     mecanico = _perfil_de(request.user)
     if not mecanico:
         return redirect("domicilio:registro")
-    form = PerfilMecanicoForm(request.POST or None, request.FILES or None, instance=mecanico)
+    form = EdicionMecanicoForm(request.POST or None, request.FILES or None, instance=mecanico)
     if request.method == "POST" and form.is_valid():
         form.save()
+        if rechazadas := _guardar_trabajos(mecanico, request.FILES.getlist("trabajos")):
+            messages.error(request, f"{rechazadas} foto(s) de trabajos no se subieron: usa JPG, PNG o WEBP de máximo 5 MB.")
         messages.success(request, "Guardamos los cambios de tu perfil.")
         return redirect("domicilio:mi_perfil")
+    pasos = mecanico.pasos()
     return render(request, "domicilio/mi_perfil.html", {
-        "m": mecanico, "form": form,
+        "m": mecanico, "form": form, "pasos": pasos,
+        "faltan_obligatorios": [t for t, hecho, obligatorio in pasos if obligatorio and not hecho],
+        "hechos": sum(h for _, h, _ in pasos), "total_pasos": len(pasos),
         "n_resenas": mecanico.resenas.filter(visible=True).count(),
+        "fotos": mecanico.fotos_trabajo.all(), "maximo_trabajos": FotoTrabajo.MAXIMO,
+        "resenas": mecanico.resenas.filter(visible=True), "n_precios": mecanico.precios.count(),
     })
 
+
+@login_required
+def mis_precios(request):
+    """El mecánico publica rangos «desde–hasta» por servicio y cilindraje (como «Mis precios» del taller)."""
+    from .forms import precios_formset
+    mecanico = _perfil_de(request.user)
+    if not mecanico:
+        return redirect("domicilio:registro")
+    Formset = precios_formset(mecanico)
+    formset = Formset(request.POST or None, instance=mecanico, queryset=mecanico.precios.select_related("servicio"))
+    if request.method == "POST" and formset.is_valid():
+        formset.save()
+        messages.success(request, "Guardamos tus precios de referencia.")
+        return redirect("domicilio:mis_precios")
+    return render(request, "domicilio/mis_precios.html", {"m": mecanico, "formset": formset})
+
+
+@login_required
+@require_POST
+def responder_resena(request, pk):
+    """El mecánico responde una reseña de su perfil (como el taller). Solo las de su propio perfil: 404 si no."""
+    resena = get_object_or_404(ResenaMecanico, pk=pk, mecanico__usuario=request.user)
+    texto = request.POST.get("respuesta", "").strip()[:600]
+    resena.respuesta = texto
+    resena.respondida_en = timezone.now() if texto else None
+    resena.save(update_fields=["respuesta", "respondida_en"])
+    messages.success(request, "Respuesta publicada en tu perfil." if texto else "Quitamos tu respuesta.")
+    return redirect(reverse("domicilio:mi_perfil") + "#resenas")
+
+
+@login_required
+@require_POST
+def borrar_trabajo(request, pk):
+    """Borra una foto de trabajo. Se busca dentro de las fotos del propio perfil: otra cuenta recibe 404 (sin IDOR)."""
+    foto = get_object_or_404(FotoTrabajo, pk=pk, mecanico__usuario=request.user)
+    foto.imagen.delete(save=False)
+    foto.delete()
+    messages.success(request, "Borramos la foto.")
+    return redirect("domicilio:mi_perfil")
+
+
+@login_required
+@require_POST
+def alternar_taller(request):
+    """Interruptor del panel del taller: prende o apaga «Va a domicilio» sin salir del panel. Solo su propio taller."""
+    taller = getattr(request.user, "taller", None)
+    if not taller:
+        raise Http404
+    servicio, _ = TallerDomicilio.objects.get_or_create(taller=taller)
+    servicio.activo = request.POST.get("valor") == "1"
+    servicio.save(update_fields=["activo", "actualizado"])
+    if not servicio.activo:
+        messages.success(request, "Apagado: ya no sales como «Va a domicilio».")
+    elif not servicio.zonas.exists():
+        messages.success(request, "¡Listo! Ya sales como «Va a domicilio». Elige las zonas que cubres para que te encuentren.")
+        return redirect("domicilio:mi_taller")
+    else:
+        messages.success(request, "¡Listo! Ya sales como «Va a domicilio» en el directorio y en Mecánicos a domicilio.")
+    return redirect("talleres:panel")
+
+
+@login_required
+def mi_taller(request):
+    """El taller activa «También atiendo a domicilio». Solo el taller de la propia cuenta (sin id en la URL)."""
+    taller = getattr(request.user, "taller", None)
+    if not taller:
+        messages.info(request, "Esta sección es para cuentas de taller.")
+        return redirect("cuentas:mi_cuenta")
+    servicio, _ = TallerDomicilio.objects.get_or_create(taller=taller)
+    form = TallerDomicilioForm(request.POST or None, instance=servicio)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        if not servicio.activo:
+            texto = "Guardado. No sales en Mecánicos a domicilio mientras esté apagado."
+        elif taller.activo:
+            texto = "¡Listo! Ya sales en Mecánicos a domicilio."
+        else:
+            texto = "Guardado. Saldrás en Mecánicos a domicilio cuando aprobemos tu taller."
+        messages.success(request, texto)
+        return redirect("domicilio:mi_taller")
+    return render(request, "domicilio/mi_taller.html", {"taller": taller, "form": form, "servicio": servicio})

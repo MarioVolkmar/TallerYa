@@ -1,0 +1,35 @@
+{# Tarjeta de un taller que también va a domicilio, en el listado de /mecanicos/. Espera d (TallerDomicilio preparado en views.listado) #}
+<article class="tc dom-tarjeta dom-tarjeta-taller">
+  <a href="{{ d.taller.get_absolute_url }}" class="tc-enlace" aria-label="Ver el taller {{ d.nombre }}"></a>
+  <div class="dom-tarjeta-cabeza">
+    <span class="dom-foto dom-foto-taller" aria-hidden="true">{% if d.taller.foto %}<img src="{{ d.taller.foto.url }}" alt="" loading="lazy" width="72" height="72">{% else %}<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>{% endif %}</span>
+    <div class="min-w-0">
+      <div class="dom-chapas">
+        <span class="tc-chapa dom-chapa-taller" title="Taller del directorio que también va a domicilio">Taller</span>
+        {% if d.verificado %}<span class="tc-chapa tc-chapa-verif" title="Verificado por TallerYa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Verificado</span>{% endif %}
+        {% if d.urgencias %}<span class="tc-chapa tc-chapa-lava">Urgencias</span>{% endif %}
+      </div>
+      <h3 class="tc-nombre">{{ d.nombre }}</h3>
+      <p class="tc-ubic"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg><span>Taller en {{ d.taller.barrio }} · va a {{ d.zonas_vista|join:", " }}{% if d.zonas_mas %} y {{ d.zonas_mas }} más{% endif %}</span></p>
+    </div>
+  </div>
+  <div class="tc-cuerpo">
+    <div class="tc-nota-fila">
+      {% if d.n_resenas %}
+      <span class="tc-puntaje">{{ d.prom|floatformat:1 }}</span>
+      <span class="tc-estrellas" aria-label="{{ d.prom|floatformat:1 }} de 5 estrellas"><span style="width: {{ d.estrellas_pct }}%">★★★★★</span>★★★★★</span>
+      <span class="tc-suave">{{ d.n_resenas }} reseña{{ d.n_resenas|pluralize }}</span>
+      {% else %}<span class="tc-nuevo">Nuevo en TallerYa</span>{% endif %}
+    </div>
+    {% if d.taller.descripcion %}<p class="tc-desc">{{ d.taller.descripcion }}</p>{% endif %}
+    <div class="tc-servicios">
+      {% for s in d.servicios_vista %}<span class="tc-servicio">{{ s }}</span>{% endfor %}
+      {% if d.servicios_mas %}<span class="tc-servicio tc-mas">+{{ d.servicios_mas }}</span>{% endif %}
+    </div>
+    <div class="tc-pie">
+      <span class="tc-horario">{% if d.tarifa_visita %}Visita desde <strong>{{ d.tarifa_texto }}</strong>{% elif d.taller.horario %}{{ d.taller.horario }}{% endif %}</span>
+      <a href="{% url 'talleres:ir_whatsapp' d.taller.slug %}" target="_blank" rel="noopener nofollow" class="tc-wa" title="Escribir por WhatsApp" aria-label="Escribir a {{ d.nombre }} por WhatsApp"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></svg></a>
+      <span class="tc-ver">Ver taller <span aria-hidden="true">→</span></span>
+    </div>
+  </div>
+</article>

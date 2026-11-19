@@ -10,6 +10,7 @@
   <p class="text-sm text-suave mt-3">{% include "foro/_autor.html" with autor=pregunta.autor %} · {% hace pregunta.creado %}</p>
   <div class="separador my-5"></div>
   <p class="cuerpo-post">{{ cuerpo_pregunta }}</p>
+  {% if pregunta.diagnostico %}{% include "foro/_diagnostico.html" with d=pregunta.diagnostico %}{% endif %}
   {% include "foro/_acciones.html" with obj=pregunta tipo="pregunta" propio=es_autor votos=votos_pregunta mio=voto_pregunta_mio reportado=pregunta_reportada %}
 </article>
 
@@ -32,6 +33,7 @@
       <form method="post" action="{{ pregunta.get_absolute_url }}" class="space-y-4">
         {% csrf_token %}
         {% include "cuentas/_campos.html" %}
+        {% include "foro/_adjuntar_diagnostico.html" with diag_previa=None %}
         <button class="btn btn-lava py-3 px-8 text-sm">Publicar respuesta</button>
       </form>
     {% else %}
@@ -44,6 +46,13 @@
     {% endif %}
   </div>
 </section>
+{% if diag_parecidos %}
+<section class="mt-10" aria-labelledby="fo-parecidos">
+  <h2 class="titulo text-xl" id="fo-parecidos">Diagnósticos parecidos en el foro</h2>
+  <ul class="fo-parecidos">{% for p in diag_parecidos %}<li><a href="{{ p.get_absolute_url }}">{{ p.titulo }}</a></li>{% endfor %}</ul>
+  <a href="{% url 'foro:lista' %}?sistema={{ pregunta.diagnostico.sistema|urlencode }}" class="boton-seccion mt-3">Ver temas con diagnósticos de {{ pregunta.diagnostico.sistema|lower }} →</a>
+</section>
+{% endif %}
 {% load static %}<script src="{% static 'foro/js/hilo.js' %}" defer data-sugerir="{% url 'foro:sugerir_usuarios' %}" data-pregunta="{{ pregunta.pk }}"></script>
 
 {% endblock %}

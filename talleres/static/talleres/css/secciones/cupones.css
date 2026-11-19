@@ -1,0 +1,93 @@
+/* TallerYa · estilos solo de las páginas de «cupones» (plantillas cupones/...).
+   Se cargan después de tallerya.css (la base común) y antes de tw.css: {% css_seccion %} en templates/base.html.
+   Si una clase de aquí pasa a usarse en otra sección, muévela a tallerya.css. */
+/* Página del cupón */
+.cupon-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin-top: .7rem; color: var(--crema-2); font-size: .92rem; }
+.cupon-meta > span { display: inline-flex; align-items: center; gap: .4rem; }
+.cupon-meta svg { color: var(--mostaza); }
+.cupon-estado { padding: .2rem .7rem; border-radius: 999px; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .72rem; }
+.cupon-estado-vigente { background: rgba(63, 191, 107, .15); color: var(--ok); }
+.cupon-estado-usado { background: rgba(255, 255, 255, .08); color: var(--crema-2); }
+.cupon-estado-vencido { background: rgba(255, 90, 60, .14); color: #ff8a70; }
+.tiquete-cuerpo { flex: 1; min-width: 0; padding: 1.6rem 1.5rem; text-align: center; }
+.tiquete-etiqueta { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .3em; font-size: .72rem; color: #6b665b; }
+.tiquete-codigo { font-family: "Oswald", sans-serif; font-weight: 700; font-size: clamp(2.4rem, 7vw, 3.8rem); line-height: 1.1; letter-spacing: .04em; margin-top: .4rem; user-select: all; }
+.tiquete-taller { display: inline-block; margin-top: .6rem; padding: .2rem .8rem; border-radius: 999px; background: rgba(17, 21, 23, .08); font-size: .82rem; font-weight: 700; color: #4a463e; }
+.tiquete-talon { position: relative; display: grid; place-items: center; width: 7.5rem; flex-shrink: 0; border-left: 2px dashed rgba(17, 21, 23, .25); background: rgba(17, 21, 23, .05); }
+.tiquete-talon::before, .tiquete-talon::after { content: ""; position: absolute; left: calc(var(--muesca) / -2 - 1px); width: var(--muesca); height: var(--muesca);
+  border-radius: 50%; background: var(--carbon); }
+.tiquete-talon::before { top: calc(var(--muesca) / -2); }
+.tiquete-talon::after { bottom: calc(var(--muesca) / -2); }
+.tiquete-copiar { display: flex; flex-direction: column; align-items: center; gap: .35rem; padding: .7rem .9rem; border-radius: 14px; color: var(--carbon);
+  font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; transition: background .15s ease, color .15s ease; }
+.tiquete-sello { transform: rotate(-12deg); padding: .3rem .7rem; border: 2px solid currentColor; border-radius: 8px; font-family: "Oswald", sans-serif;
+  text-transform: uppercase; letter-spacing: .15em; font-weight: 700; color: #b23a22; }
+@media (max-width: 520px) {
+  .tiquete-talon { width: auto; padding: .7rem; border-left: 0; border-top: 2px dashed rgba(17, 21, 23, .25); }
+  .tiquete-talon::before, .tiquete-talon::after { display: none; }
+}
+.cupon-lugar { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem; margin-top: .6rem; font-size: .9rem; color: var(--crema-2); }
+.cupon-direccion { display: inline-flex; align-items: center; gap: .35rem; }
+.cupon-direccion svg { color: var(--lava); }
+.cupon-datos { display: grid; gap: .55rem; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, .07); font-size: .85rem; color: var(--crema-2); }
+.cupon-datos li { display: flex; gap: .55rem; align-items: flex-start; }
+.cupon-datos svg { color: var(--mostaza); flex-shrink: 0; margin-top: .15rem; }
+.cupon-datos strong { color: var(--crema); }
+.cupon-consejo { display: flex; gap: .5rem; align-items: flex-start; margin-top: 1rem; font-size: .8rem; color: var(--crema-2); }
+.cupon-consejo svg { color: var(--mostaza); flex-shrink: 0; margin-top: .1rem; }
+.paso-item { position: relative; text-align: center; padding: 0 .4rem; }
+.paso-icono { position: relative; display: inline-grid; place-items: center; width: 3.8rem; height: 3.8rem; border-radius: 50%;
+  background: linear-gradient(180deg, var(--pizarra-2), var(--pizarra)); color: var(--lava-2); border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: 0 0 0 6px var(--carbon), 4px 4px 0 #0b0e0f; }
+.paso-num { position: absolute; top: -.35rem; right: -.35rem; display: grid; place-items: center; width: 1.45rem; height: 1.45rem; border-radius: 50%;
+  background: var(--mostaza); color: #2a1d02; font-family: "Oswald", sans-serif; font-weight: 700; font-size: .78rem; }
+@media (max-width: 767px) {
+  .paso-item { display: grid; grid-template-columns: 3.8rem 1fr; column-gap: 1rem; text-align: left; padding: 0; }
+  .paso-item .paso-icono { grid-row: span 2; }
+}
+/* ---------- Cupones con QR ---------- */
+.tiquete-qr { width: 11rem; max-width: 100%; aspect-ratio: 1; margin: .7rem auto .4rem; padding: .55rem; border-radius: 14px; background: #fff; }
+.tiquete-qr svg { display: block; width: 100%; height: 100%; }
+.tiquete-qr:empty { display: none; }
+.cj-escanear { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; }
+.cj-camara { position: relative; overflow: hidden; border-radius: 16px; background: #000; aspect-ratio: 1; max-height: 22rem; margin: 0 auto; }
+.cj-camara video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cj-marco { position: absolute; inset: 18%; border-radius: 18px; box-shadow: 0 0 0 9999px rgba(0, 0, 0, .45); border: 3px solid var(--lava); animation: cj-marco 1.6s ease-in-out infinite; }
+@keyframes cj-marco { 50% { border-color: var(--mostaza); } }
+.cj-camara-texto { position: absolute; left: 0; right: 0; bottom: .9rem; text-align: center; font-size: .85rem; font-weight: 700; color: #fff; text-shadow: 0 1px 3px #000; }
+.cj-cerrar { position: absolute; top: .6rem; right: .6rem; width: 2.2rem; height: 2.2rem; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #fff; font-size: 1.3rem; line-height: 1; }
+.cj-camara-error { margin-top: .7rem; font-size: .82rem; color: #ff8a70; }
+.cj-vista-etiqueta { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--mostaza); }
+.cj-aviso { margin-top: .8rem; padding: .55rem .8rem; border-radius: 10px; font-size: .84rem; font-weight: 600; }
+.cj-aviso-bien { background: rgba(134, 219, 166, .12); color: #86dba6; }
+.cj-aviso-malo { background: rgba(255, 106, 80, .12); color: #ff8a70; }
+/* Obtener cupón */
+.ob-intro { margin-top: .5rem; font-size: .88rem; color: #b9b2a2; }
+.ob-cuenta, .ob-taller { display: flex; align-items: center; gap: .7rem; margin-top: 1rem; padding: .75rem .9rem; border-radius: 14px;
+  background: rgba(227, 167, 47, .07); border: 1px solid rgba(227, 167, 47, .28); color: var(--crema-2); font-size: .85rem; transition: border-color .2s, background .2s; }
+.ob-cuenta:hover, .ob-taller:hover { border-color: var(--mostaza); background: rgba(227, 167, 47, .12); }
+.ob-cuenta svg, .ob-taller svg { flex-shrink: 0; color: var(--mostaza); }
+.ob-cuenta strong { color: var(--mostaza); }
+.ob-flecha { margin-left: auto; color: var(--mostaza); transition: transform .2s; }
+.ob-cuenta:hover .ob-flecha, .ob-taller:hover .ob-flecha { transform: translateX(3px); }
+.ob-taller { margin-top: 1.1rem; background: #1c2326; border-color: rgba(255, 255, 255, .08); }
+.ob-taller small { display: block; font-size: .66rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: #8d9496; }
+.ob-taller strong { display: block; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .04em; color: var(--crema); }
+.ob-form { display: grid; gap: 1rem; margin-top: 1.3rem; }
+.ob-privacidad { display: flex; align-items: center; justify-content: center; gap: .4rem; font-size: .74rem; color: #8d9496; }
+.ob-privacidad svg { color: #86dba6; flex-shrink: 0; }
+/* Cupones: sección "Canjéalos con puntos" */
+.cp-puntos-cabeza { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+.cp-mis-puntos { display: inline-flex; align-items: center; gap: .35rem; padding: .45rem .95rem; border-radius: 999px; background: rgba(232, 169, 42, .12);
+  border: 1px solid rgba(232, 169, 42, .3); font-size: .82rem; color: #e8c477; text-decoration: none; }
+.cp-mis-puntos b { font-family: "Oswald", sans-serif; font-size: 1.05rem; color: var(--mostaza, #e8a92a); }
+.cp-mis-puntos:hover { background: rgba(232, 169, 42, .2); }
+.cp-lista { display: grid; gap: .5rem; margin-top: 1.25rem; padding: 0; list-style: none; }
+.cp-costo { flex-shrink: 0; min-width: 4.4rem; padding: .3rem .55rem; border-radius: 10px; background: rgba(232, 169, 42, .12); text-align: center; font-size: .72rem; color: #e8c477; }
+.cp-costo b { display: block; font-family: "Oswald", sans-serif; font-size: 1.15rem; line-height: 1.1; color: var(--mostaza, #e8a92a); }
+.cp-texto { display: grid; min-width: 0; flex: 1; }
+.cp-texto strong { font-size: .9rem; color: var(--crema); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cp-texto small { font-size: .76rem; color: #9ba2a4; }
+.cp-accion { flex-shrink: 0; padding: .35rem .9rem; border-radius: 999px; background: var(--lava); color: #1a0a05; font-size: .78rem; font-weight: 700; text-decoration: none; }
+.cp-falta { flex-shrink: 0; font-size: .76rem; color: #8d9496; }
+.cp-vacio { margin-top: 1.1rem; padding: .9rem 1rem; border-radius: 12px; border: 1px dashed rgba(255, 255, 255, .12); font-size: .85rem; color: #9ba2a4; }

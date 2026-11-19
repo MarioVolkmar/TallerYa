@@ -15,6 +15,7 @@ from django.views.decorators.http import require_POST
 
 from cupones.models import Cupon, Motociclista
 from cupones.servicios import CuponNoDisponible, reclamar_regalo_mensual
+from domiciliarios.intensivo import precargar_trabajo
 from garaje.plan import calcular_plan
 
 from django.contrib.admin.views.decorators import staff_member_required
@@ -43,10 +44,24 @@ def _motos_con_plan(motociclista):
                  .prefetch_related("mantenimientos", "ajustes", "lecturas"))
     tareas = list(TareaMantenimiento.objects.filter(activo=True).select_related("servicio"))
     Despiece.precargar(motos)
+    precargar_trabajo(motos)  # TallerYa Ruta: qué moto es de trabajo, en una consulta
     return [(m, calcular_plan(m, tareas=tareas)) for m in motos]
 
 
 REGISTRO_MAX_POR_HORA = 20  # envíos del formulario por IP (con errores incluidos); uno normal usa 1-3
+
+
+def ruta_activa():
+    from domiciliarios.bandera import activo
+    return activo()
+
+
+def activar_ruta(motociclista):
+    """«Soy domiciliario»: la cuenta queda con TallerYa Ruta activado. La primera moto que agregue queda como «La uso
+    para trabajar» (domiciliarios/senales.py); km por semana de arranque, que luego se ajustan con sus jornadas."""
+    from domiciliarios.models import PerfilDomiciliario
+    PerfilDomiciliario.objects.get_or_create(motociclista=motociclista, defaults={
+        "km_semana": 1200, "moto": motociclista.motos.order_by("pk").first()})
 
 
 def registro(request):
@@ -60,8 +75,12 @@ def registro(request):
             return redirect(request.get_full_path())
         limites.sumar(clave, 3600)
     tipo = request.GET.get("tipo")
+    if tipo == "domiciliario" and not ruta_activa():
+        tipo = "motero"
     if tipo == "taller":
         return _registro_taller(request)
+    if tipo == "mecanico":  # alta por pasos propia (cuenta + perfil + verificación) en la app domicilio
+        return redirect("domicilio:registro")
     form = RegistroForm(request.POST or None)
     if request.method == "POST" and form.is_valid():
         d = form.cleaned_data
@@ -75,15 +94,17 @@ def registro(request):
             moto.usuario = usuario
             moto.save()
         login(request, usuario, backend="cuentas.backends.Backend")
-        registrar_evento(request, "registro", metodo="correo", tipo="motero")
+        registrar_evento(request, "registro", metodo="correo", tipo="domiciliario" if tipo == "domiciliario" else "motero")
         Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
+        if tipo == "domiciliario":
+            activar_ruta(moto)
         correos.enviar_verificacion(request, usuario)
         messages.success(request, f"¡Bienvenido a TallerYa, {d['nombre']}! Te enviamos un enlace a {usuario.email} para confirmar tu correo.")
         siguiente = request.GET.get("next", "")
         if url_has_allowed_host_and_scheme(siguiente, {request.get_host()}, require_https=request.is_secure()):
             return redirect(siguiente)
         return redirect(guia.destino(usuario, reverse("cuentas:mi_cuenta")))
-    return render(request, "cuentas/registro.html", {"form": form})
+    return render(request, "cuentas/registro.html", {"form": form, "tipo_registro": tipo})
 
 
 def _registro_taller(request):
@@ -450,7 +471,9 @@ def completar_perfil(request):
     if roles.rol_de(request.user) != roles.SIN_PERFIL:
         return redirect("cuentas:mi_cuenta")
     tipo = request.GET.get("tipo")
-    if tipo == "motero":
+    if tipo == "domiciliario" and not ruta_activa():
+        tipo = "motero"
+    if tipo in ("motero", "domiciliario"):
         form = CelularForm(request.POST or None)
         if request.method == "POST" and form.is_valid():
             moto = form.motociclista_existente or Motociclista(celular=form.cleaned_data["celular"],
@@ -459,6 +482,8 @@ def completar_perfil(request):
                 moto.referido_por = Motociclista.objects.filter(codigo_referido=ref).first()
             moto.usuario = request.user
             moto.save()
+            if tipo == "domiciliario":
+                activar_ruta(moto)
             messages.success(request, "¡Listo! Ya puedes agregar tu moto al garaje.")
             return redirect(request.session.pop("google_siguiente", "") or guia.destino(request.user, reverse("talleres:inicio")))
         return render(request, "cuentas/completar_motero.html", {"form": form})
@@ -473,6 +498,8 @@ def completar_perfil(request):
             messages.success(request, "¡Recibimos tu taller! Lo revisaremos y lo publicaremos pronto.")
             return redirect("cuentas:mi_cuenta")
         return render(request, "cuentas/completar_taller.html", {"negocio": negocio})
+    if tipo == "mecanico":  # cuenta de Google sin rol: solo le falta el perfil de mecánico
+        return redirect("domicilio:registro")
     return render(request, "cuentas/registro_elegir.html", {"completar": True})
 
 

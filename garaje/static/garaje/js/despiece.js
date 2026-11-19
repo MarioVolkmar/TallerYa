@@ -13,11 +13,13 @@
   });
   const piezas = new Set((seccion.dataset.piezas || "").split(",").filter(Boolean));
   let pedido = null;
+  let red = null; // la descarga de los datos, que puede ir adelantada (ver abajo)
+  const descargar = () => (red ||= fetch(seccion.dataset.datos, { credentials: "same-origin", headers: { Accept: "application/json" } })
+    .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); }));
 
   function cargar() {
     if (!pedido) {
-      pedido = fetch(seccion.dataset.datos, { credentials: "same-origin", headers: { Accept: "application/json" } })
-        .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      pedido = descargar()
         .then((datos) => {
           iniciar(datos);
           seccion.classList.remove("despiece-cargando", "despiece-fallo");
@@ -26,6 +28,7 @@
         })
         .catch(() => {
           pedido = null;
+          red = null;
           seccion.classList.add("despiece-fallo");
           if (error) error.hidden = false;
           if (aviso) aviso.textContent = "No se pudieron cargar las piezas.";
@@ -46,13 +49,21 @@
   // En el diagnóstico (data-bajo-demanda) las láminas solo se piden al abrir una guía: precargar todo el despiece
   // competiría con el esquema, que es lo que la persona está esperando.
   if (seccion.dataset.bajoDemanda) return;
+  // Los datos se piden de una vez (≈27 KB comprimidos; el servidor los calcula mientras baja el 3D) y el esquema se
+  // arma con lo primero que pase: que se acerque a la pantalla, que la página quede libre o que el 3D esté listo.
+  // (Antes se esperaba a requestIdleCallback, que con el 3D armándose no llegaba: en celular el esquema salía a los
+  // 15–23 s en la primera visita.)
+  descargar().catch(() => {});
   if ("IntersectionObserver" in window) {
     const vigia = new IntersectionObserver((entradas) => {
       if (entradas.some((e) => e.isIntersecting)) { vigia.disconnect(); cargar(); }
     }, { rootMargin: "800px 0px" });
     vigia.observe(seccion);
   }
-  (window.requestIdleCallback || ((f) => setTimeout(f, 2000)))(cargar, { timeout: 5000 });
+  (window.requestIdleCallback || ((f) => setTimeout(f, 1000)))(cargar, { timeout: 1500 });
+  setTimeout(cargar, 1500); // (el plazo de requestIdleCallback también puede quedar en cola detrás del 3D)
+  if (window.TallerYa3DInicial) cargar();
+  else document.addEventListener("moto3d-listo", cargar, { once: true });
   // Pieza pedida desde el diagnóstico guiado: se cargan los datos ya, sin esperar.
   const pedida = Number(new URLSearchParams(location.search).get("pieza")) || 0;
   if (pedida) cargar();
@@ -846,8 +857,27 @@
       return franja;
     }
 
+    // Las guías llegan aparte (?guias=1): despiece.json solo trae una marca (guia: 1) para que el esquema salga antes.
+    let pedidoGuias = null;
+    function cargarGuias() {
+      if (!pedidoGuias) {
+        const base = $("despiece").dataset.datos; // (aquí `seccion` es la función que arma las partes de la guía)
+        const url = base + (base.includes("?") ? "&" : "?") + "guias=1";
+        pedidoGuias = fetch(url, { credentials: "same-origin", headers: { Accept: "application/json" } })
+          .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+          .then(({ guias }) => {
+            laminas.forEach((l) => l.partes.forEach((p) => { if (guias[String(p.id)]) p.guia = guias[String(p.id)]; }));
+          })
+          .catch((e) => { pedidoGuias = null; throw e; });
+      }
+      return pedidoGuias;
+    }
+
     function abrirGuia(parte) {
       if (!parte || !parte.guia) return;
+      if (parte.guia === 1) {
+        return cargarGuias().then(() => { if (parte.guia !== 1) abrirGuia(parte); }).catch(() => {});
+      }
       if (guia.hidden) origenGuia = document.activeElement;
       elegir(parte);
       const g = parte.guia;
@@ -1047,11 +1077,14 @@
       const lamina = laminas.find((l) => l.partes.some((p) => p.id === Number(id)));
       if (!lamina) return;
       mostrar(lamina, Number(id));
-      abrirGuia(lamina.partes.find((p) => p.id === Number(id)));
-      if (opciones.sospechosa) guia.querySelector(".guia-cabeza .flex")?.appendChild(el("span", "guia-sospecha", "Puede ser esta"));
+      return Promise.resolve(abrirGuia(lamina.partes.find((p) => p.id === Number(id)))).then(() => {
+        if (opciones.sospechosa) guia.querySelector(".guia-cabeza .flex")?.appendChild(el("span", "guia-sospecha", "Puede ser esta"));
+      });
     };
 
     if (laminas.length) mostrar(laminas[0]);
+    // Las guías se precargan cuando la página queda libre, para que «Ver guía» abra sin espera
+    (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(() => cargarGuias().catch(() => {}), { timeout: 4000 });
     // Al entrar a la moto, las familias de sistemas empiezan cerradas (se abren al tocarlas o al elegir un sistema).
     sistemas.querySelectorAll(".sistemas-familia").forEach((f) => {
       f.classList.add("plegada");

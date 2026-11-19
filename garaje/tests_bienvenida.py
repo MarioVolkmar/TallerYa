@@ -35,7 +35,8 @@ class GuiaBienvenidaTests(TestCase):
         r = self.client.get(reverse("garaje:bienvenida_plan", args=[moto.pk]))
         self.assertContains(r, "ya está en el garaje")
         self.assertContains(r, reverse("garaje:vista_3d", args=[moto.pk]))
-        self.assertContains(r, "sin registro")
+        self.assertContains(r, "estimado")  # sin registros: lo urgente sale estimado, sin pedir que lo registre
+        self.assertNotContains(r, "sin registro: cuando sepas")
         self.assertTrue(guia.pendiente(self.usuario) is False)  # ya tiene moto
         self.assertIsNone(Perfil.de(self.usuario).guia_terminada)
         r = self.client.get(reverse("garaje:bienvenida_listo", args=[moto.pk]))

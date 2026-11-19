@@ -19,6 +19,11 @@
         <a href="{% url 'talleres:estadisticas' %}" class="btn btn-borde text-xs px-4 py-2">Estadísticas del mes</a>
         <a href="{% url 'talleres:agenda' %}" class="btn btn-borde text-xs px-4 py-2">Agenda y horario</a>
         <a href="{% url 'talleres:precios' %}" class="btn btn-borde text-xs px-4 py-2">Mis precios</a>
+        {% with d=taller.domicilio %}<form method="post" action="{% url 'domicilio:alternar_taller' %}" class="pt-domicilio">{% csrf_token %}
+          <input type="hidden" name="valor" value="{% if d.activo %}0{% else %}1{% endif %}">
+          <button type="submit" class="btn btn-borde text-xs px-4 py-2 pt-domicilio-btn" role="switch" aria-checked="{% if d.activo %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Va a domicilio</button>
+          {% if d.activo %}<a href="{% url 'domicilio:mi_taller' %}" class="pt-domicilio-zonas">{% with zs=d.zonas.all %}{% if zs %}{{ zs|length }} zona{{ zs|length|pluralize }}{% else %}Elegir zonas{% endif %}{% endwith %}</a>{% endif %}
+        </form>{% endwith %}
         <a href="{% url 'talleres:servicios_taller' %}" class="btn btn-borde text-xs px-4 py-2">Servicios registrados</a>
       </div>
     </div>

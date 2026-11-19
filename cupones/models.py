@@ -60,9 +60,12 @@ class CuponQuerySet(models.QuerySet):
         return self.filter(activo=True).filter(Q(valido_hasta__isnull=True) | Q(valido_hasta__gte=hoy))
 
     def disponibles(self):
-        """Cupones que se muestran en la lista (incluye los de Plus, que piden suscripción al obtenerlos)."""
+        """Cupones que se muestran en la lista (incluye los de Plus, que piden suscripción al obtenerlos).
+        Los de domiciliarios verificados solo existen con DOMICILIARIOS_ACTIVO (apagada, no se ven)."""
+        from django.conf import settings
+        qs = self if getattr(settings, "DOMICILIARIOS_ACTIVO", False) else self.filter(solo_domiciliarios=False)
         return (
-            self.vigentes()
+            qs.vigentes()
             .filter(publico=True, regalo_mensual=False)
             .filter(Q(taller__isnull=True) | Q(taller__activo=True))
             .annotate(num_emitidos=Count("codigos"))
@@ -98,6 +101,10 @@ class Cupon(models.Model):
     )
     solo_plus = models.BooleanField(
         "solo Plus", default=False, help_text="Solo lo pueden obtener los suscriptores de TallerYa Plus.",
+    )
+    solo_domiciliarios = models.BooleanField(
+        "solo domiciliarios verificados", default=False,
+        help_text="TallerYa Ruta: solo lo obtienen los domiciliarios con la verificación vigente.",
     )
     regalo_mensual = models.BooleanField(
         "regalo mensual Plus", default=False,

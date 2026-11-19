@@ -7,18 +7,71 @@
 <section class="max-w-3xl mx-auto mt-8 md:mt-12">
   <p class="etiqueta">Mecánico a domicilio</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">Mi <span class="text-lava">perfil</span></h1>
-  <p class="dom-estado dom-estado-{{ m.estado }} mt-4">
-    {% if m.estado == "aprobado" %}✔ Publicado en el listado{% if m.verificado %} · Verificado{% endif %} · {{ n_resenas }} reseña{{ n_resenas|pluralize }}.
-    {% elif m.estado == "pendiente" %}En revisión: lo publicaremos cuando el equipo lo apruebe.
-    {% else %}Suspendido: no aparece en el listado. Escríbenos si crees que es un error.{% endif %}
-    <a href="{{ m.get_absolute_url }}" class="boton-texto ml-1">Ver cómo se ve →</a>
-  </p>
+
+  <div class="dom-estado-caja dom-estado-{{ m.estado }} mt-5">
+    <p class="dom-estado-titulo">
+      {% if m.estado == "aprobado" %}✔ Publicado{% if m.verificado %} · Verificado{% endif %}
+      {% elif m.estado == "pendiente" %}⏳ En revisión
+      {% else %}⛔ Suspendido{% endif %}
+    </p>
+    <p class="text-sm mt-1">
+      {% if m.estado == "aprobado" %}Sales en <a href="{% url 'domicilio:listado' %}" class="boton-texto">Mecánicos a domicilio</a> · {{ n_resenas }} reseña{{ n_resenas|pluralize }}.{% if not m.verificado %} Completa lo que falta abajo para ganar la insignia «Verificado».{% endif %}
+      {% elif m.estado == "pendiente" %}Todavía no sales en el listado. El equipo revisa los perfiles en 1 o 2 días hábiles{% if faltan_obligatorios %}, pero antes te falta: <strong>{{ faltan_obligatorios|join:", " }}</strong>{% endif %}. Te avisamos cuando quede publicado.
+      {% else %}No apareces en el listado. Escríbenos si crees que es un error.{% endif %}
+    </p>
+    {% if m.nota_al_mecanico %}<p class="dom-nota-equipo mt-3"><strong>Mensaje del equipo:</strong> {{ m.nota_al_mecanico }}</p>{% endif %}
+    <a href="{{ m.get_absolute_url }}" class="boton-texto text-sm mt-2 inline-block">Ver cómo se ve mi perfil →</a>
+  </div>
+
+  <div class="papel p-5 md:p-6 mt-5">
+    <div class="flex items-baseline justify-between gap-3">
+      <h2 class="titulo text-xl">Tu perfil al {% widthratio hechos total_pasos 100 %}%</h2>
+      <span class="text-sm text-suave">{{ hechos }} de {{ total_pasos }}</span>
+    </div>
+    <div class="dom-progreso mt-2" aria-hidden="true"><span style="width: {% widthratio hechos total_pasos 100 %}%"></span></div>
+    <ul class="dom-lista-pasos mt-4">
+      {% for texto, hecho, obligatorio in pasos %}
+      <li class="{% if hecho %}hecho{% endif %}"><span class="dom-check" aria-hidden="true">{% if hecho %}✔{% else %}·{% endif %}</span>{{ texto }}{% if obligatorio and not hecho %} <em>(obligatorio)</em>{% endif %}<span class="sr-only">{% if hecho %} — listo{% else %} — falta{% endif %}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="flex flex-wrap gap-3 mt-5">
+    <a href="{% url 'domicilio:mis_precios' %}" class="btn btn-borde text-xs px-4 py-2">💲 Mis precios{% if n_precios %} ({{ n_precios }}){% endif %}</a>
+    <a href="#resenas" class="btn btn-borde text-xs px-4 py-2">★ Mis reseñas ({{ resenas|length }})</a>
+  </div>
 </section>
-<section class="papel p-6 md:p-10 max-w-3xl mx-auto mt-6">
+
+<section class="papel p-5 sm:p-6 md:p-10 max-w-3xl mx-auto mt-6">
+  <h2 class="titulo text-2xl mb-4">Editar mi perfil</h2>
   <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
     {% csrf_token %}
     {% include "domicilio/_campos.html" with form=form %}
+    <div class="sm:col-span-2">
+      <p class="campo-label">Fotos de trabajos ({{ fotos|length }} de {{ maximo_trabajos }})</p>
+      {% if fotos %}<div class="dom-trabajos mt-2">{% for f in fotos %}<figure><img src="{{ f.imagen.url }}" alt="Trabajo {{ forloop.counter }}" loading="lazy" width="120" height="90"><button type="submit" form="borrar-{{ f.pk }}" class="dom-trabajo-borrar" aria-label="Borrar foto {{ forloop.counter }}">×</button></figure>{% endfor %}</div>{% endif %}
+      {% if fotos|length < maximo_trabajos %}<input type="file" name="trabajos" accept="image/jpeg,image/png,image/webp" multiple class="mt-2">
+      <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP de máximo 5 MB. Se muestran en tu perfil público.</p>{% endif %}
+    </div>
     <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Guardar cambios</button>
   </form>
+  {% for f in fotos %}<form method="post" action="{% url 'domicilio:borrar_trabajo' f.pk %}" id="borrar-{{ f.pk }}" hidden>{% csrf_token %}</form>{% endfor %}
+</section>
+
+<section class="papel p-5 sm:p-6 md:p-10 max-w-3xl mx-auto mt-6" id="resenas">
+  <h2 class="titulo text-2xl mb-4">Mis reseñas</h2>
+  {% for r in resenas %}
+  <div class="perfil-resena">
+    <span class="perfil-resena-inicial" aria-hidden="true">{{ r.nombre|first|upper }}</span>
+    <div class="min-w-0 flex-1">
+      <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span> <span class="text-xs text-suave">· {{ r.creado|date:"j M Y"|lower }}</span></p>
+      <p class="text-sm text-suave mt-0.5">{{ r.comentario }}</p>
+      <form method="post" action="{% url 'domicilio:responder_resena' r.pk %}" class="mt-2 space-y-2">{% csrf_token %}
+        <label class="campo-label">{% if r.respuesta %}Tu respuesta (bórrala para quitarla){% else %}Responder (se publica en tu ficha){% endif %}
+          <textarea name="respuesta" rows="2" maxlength="600" class="campo">{{ r.respuesta }}</textarea></label>
+        <button class="boton-seccion">{% if r.respuesta %}Actualizar respuesta{% else %}Publicar respuesta{% endif %}</button>
+      </form>
+    </div>
+  </div>
+  {% empty %}<p class="text-suave text-sm">Aún no tienes reseñas. Pídele a tus clientes que te califiquen en tu ficha.</p>{% endfor %}
 </section>
 {% endblock %}

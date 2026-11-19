@@ -56,21 +56,87 @@ class Jornada(models.Model):
 
 
 class TallerAliado(models.Model):
-    """Taller apto para domiciliarios: atiende en el día o en horario extendido. Lo marca el equipo desde el admin."""
+    """Taller con descuento para domiciliarios verificados con Plus. Lo marca el equipo desde el admin.
+    No se muestra en el directorio: solo dentro de TallerYa Ruta (Mi ruta y la presentación)."""
 
     taller = models.OneToOneField("talleres.Taller", on_delete=models.CASCADE, related_name="aliado_domiciliarios")
-    en_el_dia = models.BooleanField("servicio en el día", default=True,
-                                    help_text="Cambio de aceite, frenos o cadena sin dejar la moto de un día para otro")
-    horario_extendido = models.BooleanField(default=False, help_text="Abre antes de las 7 a. m. o cierra después de las 7 p. m.")
-    horario_texto = models.CharField("horario para domiciliarios", max_length=80, blank=True, help_text="Ej: Lun-Sáb 6am-9pm")
-    descuento = models.CharField(max_length=120, blank=True, help_text="Solo lo ven los domiciliarios con Plus. Ej: 10% en mano de obra")
+    descuento = models.CharField(max_length=120, help_text="Lo usan los domiciliarios verificados con Plus. Ej: 10% en mano de obra")
     activo = models.BooleanField(default=True)
     orden = models.PositiveSmallIntegerField(default=0)
 
     class Meta:
         ordering = ["orden", "taller__nombre"]
-        verbose_name = "taller aliado de domiciliarios"
-        verbose_name_plural = "talleres aliados de domiciliarios"
+        verbose_name = "descuento de taller para domiciliarios"
+        verbose_name_plural = "descuentos de talleres para domiciliarios"
 
     def __str__(self):
-        return str(self.taller)
+        return f"{self.taller} · {self.descuento}"
+
+
+def ruta_verificacion(instancia, nombre):
+    # Nombre aleatorio y la extensión del contenido real (forms.py ya la validó): no revela nombre, placa ni plataforma.
+    from pathlib import Path
+    from uuid import uuid4
+    return f"verificacion_ruta/{uuid4().hex}{Path(nombre).suffix.lower()}"
+
+
+def _almacen_privado():
+    # Fuera de MEDIA_ROOT (PRIVADO_ROOT): /media/ nunca las sirve; solo la vista verificacion_foto, al dueño o al staff.
+    from garaje.models import AlmacenPrivado
+    return AlmacenPrivado()
+
+
+class Verificacion(models.Model):
+    """«Domiciliario verificado» con dos fotos: el pantallazo del perfil de repartidor en la app (donde se ve la moto: placa
+    o datos del vehículo) y una foto de la moto con la placa visible. El revisor compara las dos placas con la de una moto
+    de su garaje. Las fotos se borran al aprobar o rechazar: queda solo el resultado (Ley 1581)."""
+
+    class Estado(models.TextChoices):
+        PENDIENTE = "pendiente", "Por revisar"
+        APROBADA = "aprobada", "Aprobada"
+        RECHAZADA = "rechazada", "Rechazada"
+        VENCIDA = "vencida", "Vencida"
+
+    perfil = models.ForeignKey(PerfilDomiciliario, on_delete=models.CASCADE, related_name="verificaciones")
+    plataforma = models.CharField(max_length=20, choices=PLATAFORMAS)
+    captura = models.FileField("pantallazo del perfil en la app", storage=_almacen_privado, upload_to=ruta_verificacion,
+                               blank=True)
+    foto_moto = models.FileField("foto de la moto con la placa", storage=_almacen_privado, upload_to=ruta_verificacion,
+                                 blank=True)
+    moto = models.ForeignKey("garaje.Moto", on_delete=models.SET_NULL, null=True, blank=True, related_name="+",
+                             verbose_name="moto del garaje que se verifica")
+    autorizacion = models.DateTimeField("autorizó el tratamiento de datos")
+    estado = models.CharField(max_length=10, choices=Estado.choices, default=Estado.PENDIENTE, db_index=True)
+    motivo = models.CharField("motivo del rechazo", max_length=200, blank=True)
+    revisado_por = models.ForeignKey("auth.User", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    revisado_en = models.DateTimeField(null=True, blank=True)
+    vence = models.DateField(null=True, blank=True)
+    renovaciones = models.PositiveSmallIntegerField(default=0)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-creado"]
+        verbose_name = "verificación de domiciliario"
+        verbose_name_plural = "verificaciones de domiciliarios"
+
+    def __str__(self):
+        return f"{self.perfil.motociclista} · {self.get_estado_display()}"
+
+    @property
+    def tiene_fotos(self):
+        return bool(self.captura or self.foto_moto)
+
+    def borrar_fotos(self):
+        """Borra los archivos del disco y vacía los campos (no guarda: lo hace quien llama)."""
+        for campo in (self.captura, self.foto_moto):
+            if campo:
+                campo.delete(save=False)
+
+
+def verificacion_vigente(perfil, hoy=None):
+    """La verificación aprobada y sin vencer del perfil, o None."""
+    if not perfil or not perfil.pk:
+        return None
+    hoy = hoy or timezone.localdate()
+    return (perfil.verificaciones.filter(estado=Verificacion.Estado.APROBADA, vence__gte=hoy)
+            .order_by("-vence").first())

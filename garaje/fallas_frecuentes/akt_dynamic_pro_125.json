@@ -1,0 +1,109 @@
+{
+  "linea": "AKT Dynamic Pro 125",
+  "tipo": "scooter",
+  "revisado": "2026-11-18",
+  "nota": "Generado con manage.py esqueleto_fallas: alcance «tipo» con los datos del manual. Agregar fallas propias del modelo solo con fuente (skill fallas-modelo).",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual de usuario AKT Dynamic Pro CBS (datos en garaje/intervalos/akt_dynamic_pro_125.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    }
+  },
+  "fallas": [
+    {
+      "clave": "cvt-tiembla",
+      "titulo": "Tiembla al arrancar desde parado",
+      "sintoma": "Al salir del semáforo la moto vibra unos segundos antes de coger impulso, más en subida o con parrillero.",
+      "causa": "Polvo de la correa y de las zapatas acumulado en la campana del clutch, o zapatas vidriadas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide una limpieza del CVT y que revisen zapatas y campana. Si la campana está marcada o azulada, se cambia.",
+      "tareas": [
+        "correa-cvt"
+      ],
+      "pieza": "correa",
+      "diagnostico": {
+        "s": "cvt",
+        "que": "tiembla"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "correa-gastada",
+      "titulo": "Acelera pero no avanza como antes",
+      "sintoma": "El motor sube de vueltas y la moto se queda, sobre todo en lomas; a veces chilla la tapa del CVT.",
+      "causa": "Correa gastada o rodillos del variador aplanados. Una correa vieja puede reventarse.",
+      "gravedad": "cuidado",
+      "que_hacer": "Revisa cuánto lleva la correa. El manual la cambia cada 6.000 km. Si ya pasó, cambia correa y revisa rodillos en el mismo servicio.",
+      "tareas": [
+        "correa-cvt"
+      ],
+      "pieza": "correa",
+      "diagnostico": {
+        "s": "cvt",
+        "que": "lenta"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 20W-50 o 10W-40. Cada 2.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "La correa",
+      "texto": "Cada 6.000 km. Es revisión: la primera a los 3.000 km y luego cada 6.000.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 6.000 km. Se revisa en cada servicio.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

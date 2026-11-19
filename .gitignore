@@ -26,3 +26,9 @@ trabajo_emprendimiento/
 
 # Última medición de velocidad de la skill revisar-seguridad (cambia en cada corrida)
 .claude/skills/revisar-seguridad/ultima_velocidad.json
+
+# Referencias e intermedios del modelado 3D (solo local)
+modelos_3d_local/
+
+# Fotos de referencia para Tripo (solo local)
+FOTOS_MODELADO_TRIPO/

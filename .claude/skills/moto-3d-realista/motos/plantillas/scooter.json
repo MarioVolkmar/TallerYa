@@ -1,0 +1,2267 @@
+{
+ "moto": "Yamaha NMAX 155 (2020-2025)",
+ "linea_visor": "nmax",
+ "version": 4,
+ "medidas": {
+  "largo_total": {
+   "m": 1.935,
+   "fuente": "1000ps.com modelo 8865 (2024) y ficha Yamaha Malasia; el perfil del visor 360° de Yamaha Japón mide 1.938-1.956"
+  },
+  "ancho_total": {
+   "m": 0.74,
+   "fuente": "1000ps.com / Yamaha Malasia; visor 360° frontal: puños ±0.37"
+  },
+  "alto_total": {
+   "m": 1.16,
+   "fuente": "1000ps.com / Yamaha Malasia; el visor 360° da 1.27 hasta los espejos (la ficha no los cuenta)"
+  },
+  "entre_ejes": {
+   "m": 1.34,
+   "fuente": "1000ps.com / Yamaha Malasia (calibra el perfil del visor 360°)"
+  },
+  "altura_asiento": {
+   "m": 0.765,
+   "fuente": "fichas; el perfil lateral da 0.78 en la parte más baja"
+  },
+  "llanta_del": {
+   "medida": "110/70-13",
+   "R_m": 0.242,
+   "fuente": "1000ps.com / motorcycledb; perfil lateral: 0.44..0.92 → R 0.24"
+  },
+  "llanta_tras": {
+   "medida": "130/70-13",
+   "R_m": 0.256,
+   "fuente": "1000ps.com / motorcycledb"
+  },
+  "perfil_y_anchos": {
+   "fuente": "perfil.py sobre los cuadros 5 (lateral), 32 (frente) y 14 (atrás) del visor 360° de https://www.yamaha-motor.co.jp/mc/lineup/nmax155/ (solo referencia local)"
+  },
+  "dos_tonos": {
+   "fuente": "fotos de estudio de Autocar India (4 colores) y Yamaha Japón: frente y costados en color, panel bajo en segundo tono, bajos y piso en negro"
+  }
+ },
+ "secciones": {
+  "costado": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.8,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.45,
+    1
+   ],
+   [
+    1,
+    0.05,
+    1
+   ],
+   [
+    0.84,
+    0.6,
+    1
+   ],
+   [
+    0.52,
+    0.93,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "frontal": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.72,
+    -0.96,
+    1
+   ],
+   [
+    0.97,
+    -0.45,
+    1
+   ],
+   [
+    1,
+    0.05,
+    1
+   ],
+   [
+    0.88,
+    0.55,
+    1
+   ],
+   [
+    0.6,
+    0.86,
+    1
+   ],
+   [
+    0.3,
+    0.95,
+    1
+   ],
+   [
+    0,
+    1,
+    1
+   ]
+  ],
+  "punta": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.5,
+    -0.88,
+    1
+   ],
+   [
+    0.86,
+    -0.38,
+    1
+   ],
+   [
+    1,
+    0.12,
+    1
+   ],
+   [
+    0.8,
+    0.6,
+    1
+   ],
+   [
+    0.48,
+    0.86,
+    1
+   ],
+   [
+    0.22,
+    0.95,
+    1
+   ],
+   [
+    0,
+    1,
+    1
+   ]
+  ],
+  "caja": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.86,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.72
+   ],
+   [
+    1,
+    0.62,
+    1
+   ],
+   [
+    0.9,
+    1,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "placa": [
+   [
+    0,
+    -1
+   ],
+   [
+    1,
+    -1,
+    1
+   ],
+   [
+    1,
+    1,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "lente": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.8,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.4,
+    1
+   ],
+   [
+    1,
+    0.6,
+    1
+   ],
+   [
+    0.7,
+    1,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "costado_alto": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.8,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.45,
+    1
+   ],
+   [
+    1,
+    0.4,
+    1
+   ],
+   [
+    0.8,
+    0.78,
+    1
+   ],
+   [
+    0.5,
+    0.95,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "cuna": [
+   [
+    0,
+    -1
+   ],
+   [
+    1,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.1,
+    1
+   ],
+   [
+    0,
+    1,
+    1
+   ]
+  ],
+  "tunel": [
+   [
+    0,
+    -1
+   ],
+   [
+    1,
+    -1,
+    1
+   ],
+   [
+    1,
+    0.15,
+    1
+   ],
+   [
+    0.55,
+    1,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "asiento": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.88,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.2,
+    1
+   ],
+   [
+    0.9,
+    0.55,
+    1
+   ],
+   [
+    0.62,
+    0.95,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "boomerang": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.6,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.6,
+    1
+   ],
+   [
+    1,
+    0.6,
+    1
+   ],
+   [
+    0.6,
+    1,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "escudo": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.9,
+    -0.95,
+    1
+   ],
+   [
+    1,
+    -0.3
+   ],
+   [
+    1,
+    0.4
+   ],
+   [
+    0.85,
+    0.95,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "costado_sup": [
+   [
+    0,
+    0.05
+   ],
+   [
+    1,
+    0.05,
+    1
+   ],
+   [
+    0.84,
+    0.6,
+    1
+   ],
+   [
+    0.52,
+    0.93,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "costado_sup_alto": [
+   [
+    0,
+    0.4
+   ],
+   [
+    1,
+    0.4,
+    1
+   ],
+   [
+    0.8,
+    0.78,
+    1
+   ],
+   [
+    0.5,
+    0.95,
+    1
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "costado_inf": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.8,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.45,
+    1
+   ],
+   [
+    1,
+    0.05,
+    1
+   ],
+   [
+    0,
+    0.05
+   ]
+  ],
+  "costado_inf_alto": [
+   [
+    0,
+    -1
+   ],
+   [
+    0.8,
+    -1,
+    1
+   ],
+   [
+    1,
+    -0.45,
+    1
+   ],
+   [
+    1,
+    0.4,
+    1
+   ],
+   [
+    0,
+    0.4
+   ]
+  ]
+ },
+ "piezas": [
+  {
+   "nombre": "llanta_del",
+   "material": "caucho",
+   "tipo": "llanta",
+   "centro": [
+    0.67,
+    0.242
+   ],
+   "R": 0.242,
+   "rin_pulg": 13,
+   "ancho": 0.11,
+   "extras": {
+    "pieza": "llanta_del"
+   }
+  },
+  {
+   "nombre": "llanta_tras",
+   "material": "caucho",
+   "tipo": "llanta",
+   "centro": [
+    -0.67,
+    0.256
+   ],
+   "R": 0.256,
+   "rin_pulg": 13,
+   "ancho": 0.13,
+   "extras": {
+    "pieza": "llanta_tras"
+   }
+  },
+  {
+   "nombre": "rin_del",
+   "material": "rin",
+   "tipo": "rin",
+   "centro": [
+    0.67,
+    0.242
+   ],
+   "rin_pulg": 13,
+   "ancho": 0.085,
+   "brazos": 5,
+   "en_y": true,
+   "abre": 0.1,
+   "apertura": 0.13,
+   "ancho_brazo": 0.03,
+   "grueso_brazo": 0.024,
+   "extras": {
+    "pieza": "llanta_del",
+    "rin": true
+   },
+   "partes": "brazos"
+  },
+  {
+   "centro": [
+    0.67,
+    0.242
+   ],
+   "rin_pulg": 13,
+   "ancho": 0.085,
+   "nombre": "aro_del",
+   "tipo": "aro",
+   "material": "rin",
+   "extras": {
+    "pieza": "llanta_del",
+    "aro": true
+   }
+  },
+  {
+   "nombre": "rin_tras",
+   "material": "rin",
+   "tipo": "rin",
+   "centro": [
+    -0.67,
+    0.256
+   ],
+   "rin_pulg": 13,
+   "ancho": 0.1,
+   "brazos": 5,
+   "en_y": true,
+   "abre": 0.1,
+   "apertura": 0.13,
+   "ancho_brazo": 0.03,
+   "grueso_brazo": 0.024,
+   "extras": {
+    "pieza": "llanta_tras",
+    "rin": true
+   },
+   "partes": "brazos"
+  },
+  {
+   "centro": [
+    -0.67,
+    0.256
+   ],
+   "rin_pulg": 13,
+   "ancho": 0.1,
+   "nombre": "aro_tras",
+   "tipo": "aro",
+   "material": "rin",
+   "extras": {
+    "pieza": "llanta_tras",
+    "aro": true
+   }
+  },
+  {
+   "nombre": "disco_del",
+   "material": "metal",
+   "tipo": "disco",
+   "centro": [
+    0.67,
+    0.242
+   ],
+   "z": 0.058,
+   "r0": 0.078,
+   "r1": 0.115,
+   "extras": {
+    "pieza": "freno_del"
+   }
+  },
+  {
+   "nombre": "disco_tras",
+   "material": "metal",
+   "tipo": "disco",
+   "centro": [
+    -0.67,
+    0.256
+   ],
+   "z": -0.066,
+   "r0": 0.078,
+   "r1": 0.115,
+   "extras": {
+    "pieza": "freno_tras"
+   }
+  },
+  {
+   "nombre": "caliper_del",
+   "material": "oscuro",
+   "tipo": "caja",
+   "c": [
+    0.61,
+    0.34,
+    0.07
+   ],
+   "tam": [
+    0.065,
+    0.09,
+    0.032
+   ],
+   "extras": {
+    "pieza": "freno_del"
+   }
+  },
+  {
+   "nombre": "caliper_tras",
+   "material": "oscuro",
+   "tipo": "caja",
+   "c": [
+    -0.6,
+    0.35,
+    -0.078
+   ],
+   "tam": [
+    0.06,
+    0.08,
+    0.03
+   ],
+   "extras": {
+    "pieza": "freno_tras"
+   }
+  },
+  {
+   "nombre": "barras",
+   "material": "metal",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.6,
+     0.41,
+     0.085
+    ],
+    [
+     0.5,
+     0.64,
+     0.085
+    ]
+   ],
+   "h": 0.018,
+   "w": 0.018,
+   "nseg": 14,
+   "espejo": true,
+   "extras": {
+    "pieza": "suspension_del"
+   }
+  },
+  {
+   "nombre": "botellas",
+   "material": "oscuro",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.675,
+     0.225,
+     0.085
+    ],
+    [
+     0.6,
+     0.43,
+     0.085
+    ]
+   ],
+   "h": 0.027,
+   "w": 0.027,
+   "nseg": 14,
+   "espejo": true,
+   "extras": {
+    "pieza": "suspension_del"
+   }
+  },
+  {
+   "nombre": "guardabarros_del",
+   "material": "plastico",
+   "tipo": "arco",
+   "centro": [
+    0.67,
+    0.242
+   ],
+   "r": 0.266,
+   "a0": 8,
+   "a1": 128,
+   "semiancho": 0.066,
+   "grueso": 0.014
+  },
+  {
+   "nombre": "frontal",
+   "material": "pintura",
+   "tipo": "panel",
+   "seccion": "frontal",
+   "seccion2": "punta",
+   "pasos": 26,
+   "estaciones": [
+    {
+     "x": 0.24,
+     "ys": 0.62,
+     "yt": 1.0,
+     "w": 0.245,
+     "kt": 0.8
+    },
+    {
+     "x": 0.3,
+     "ys": 0.5,
+     "yt": 1.02,
+     "w": 0.282,
+     "kt": 0.6
+    },
+    {
+     "x": 0.4,
+     "ys": 0.468,
+     "yt": 1.047,
+     "w": 0.262,
+     "kt": 0.6
+    },
+    {
+     "x": 0.5,
+     "ys": 0.53,
+     "yt": 1.03,
+     "w": 0.185,
+     "kt": 0.6,
+     "mezcla": 0.3
+    },
+    {
+     "x": 0.57,
+     "ys": 0.558,
+     "yt": 1.002,
+     "w": 0.12,
+     "kt": 0.6,
+     "mezcla": 0.6
+    }
+   ]
+  },
+  {
+   "nombre": "contraescudo",
+   "material": "plastico",
+   "tipo": "panel",
+   "seccion": "caja",
+   "pasos": 6,
+   "estaciones": [
+    {
+     "x": 0.225,
+     "ys": 0.6,
+     "yt": 0.985,
+     "w": 0.215
+    },
+    {
+     "x": 0.26,
+     "ys": 0.5,
+     "yt": 1.0,
+     "w": 0.235
+    }
+   ]
+  },
+  {
+   "nombre": "mascara_faros",
+   "material": "negro_brillo",
+   "tipo": "panel",
+   "eje": "y",
+   "nseg": 20,
+   "pasos": 10,
+   "estaciones": [
+    {
+     "y": 0.72,
+     "x0": 0.55,
+     "x1": 0.695,
+     "w": 0.1,
+     "n": 4
+    },
+    {
+     "y": 0.78,
+     "x0": 0.55,
+     "x1": 0.705,
+     "w": 0.17,
+     "n": 4
+    },
+    {
+     "y": 0.84,
+     "x0": 0.55,
+     "x1": 0.689,
+     "w": 0.185,
+     "n": 4
+    },
+    {
+     "y": 0.9,
+     "x0": 0.54,
+     "x1": 0.665,
+     "w": 0.175,
+     "n": 4
+    },
+    {
+     "y": 0.95,
+     "x0": 0.53,
+     "x1": 0.637,
+     "w": 0.14,
+     "n": 4
+    },
+    {
+     "y": 1.005,
+     "x0": 0.51,
+     "x1": 0.595,
+     "w": 0.11,
+     "n": 4
+    }
+   ],
+   "seccion": "cuna"
+  },
+  {
+   "nombre": "barbilla",
+   "material": "pintura",
+   "tipo": "panel",
+   "eje": "y",
+   "nseg": 20,
+   "pasos": 8,
+   "estaciones": [
+    {
+     "y": 0.585,
+     "x0": 0.5,
+     "x1": 0.615,
+     "w": 0.13,
+     "n": 4
+    },
+    {
+     "y": 0.65,
+     "x0": 0.5,
+     "x1": 0.655,
+     "w": 0.115,
+     "n": 4
+    },
+    {
+     "y": 0.73,
+     "x0": 0.5,
+     "x1": 0.684,
+     "w": 0.09,
+     "n": 4
+    }
+   ],
+   "seccion": "cuna"
+  },
+  {
+   "nombre": "faros",
+   "material": "luz",
+   "tipo": "loft",
+   "eje": "y",
+   "nseg": 16,
+   "pasos": 6,
+   "espejo": true,
+   "estaciones": [
+    {
+     "y": 0.79,
+     "x0": 0.607,
+     "x1": 0.662,
+     "w": 0.036,
+     "zc": 0.138,
+     "n": 5
+    },
+    {
+     "y": 0.855,
+     "x0": 0.592,
+     "x1": 0.647,
+     "w": 0.042,
+     "zc": 0.148,
+     "n": 5
+    }
+   ]
+  },
+  {
+   "nombre": "luces_dia",
+   "material": "luz",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.575,
+     0.93,
+     0.17
+    ],
+    [
+     0.605,
+     0.885,
+     0.165
+    ],
+    [
+     0.65,
+     0.85,
+     0.12
+    ],
+    [
+     0.69,
+     0.8,
+     0.04
+    ]
+   ],
+   "h": 0.006,
+   "w": 0.007,
+   "nseg": 8,
+   "pasos": 3,
+   "espejo": true
+  },
+  {
+   "nombre": "posicion",
+   "material": "luz",
+   "tipo": "caja",
+   "c": [
+    0.693,
+    0.79,
+    0
+   ],
+   "tam": [
+    0.012,
+    0.03,
+    0.04
+   ],
+   "n": 4
+  },
+  {
+   "nombre": "direccionales_del",
+   "material": "ambar",
+   "tipo": "caja",
+   "c": [
+    0.59,
+    0.665,
+    0.162
+   ],
+   "tam": [
+    0.065,
+    0.02,
+    0.035
+   ],
+   "espejo": true
+  },
+  {
+   "nombre": "visor",
+   "material": "vidrio_oscuro",
+   "tipo": "loft",
+   "eje": "y",
+   "nseg": 20,
+   "pasos": 8,
+   "estaciones": [
+    {
+     "y": 1.0,
+     "x0": 0.535,
+     "x1": 0.55,
+     "w": 0.2,
+     "n": 4
+    },
+    {
+     "y": 1.1,
+     "x0": 0.469,
+     "x1": 0.5,
+     "w": 0.188,
+     "n": 4
+    },
+    {
+     "y": 1.215,
+     "x0": 0.43,
+     "x1": 0.442,
+     "w": 0.17,
+     "n": 3
+    }
+   ],
+   "extras": {
+    "rol": "visor",
+    "acomodar": [
+     {
+      "grupo": "accesorios.parabrisas",
+      "ref": "abajo_frente",
+      "a": [
+       0.55,
+       0.99,
+       null
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "nombre": "manubrio",
+   "material": "metal",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.12000000000000001,
+     1.03,
+     -0.34
+    ],
+    [
+     0.11,
+     1.04,
+     -0.15
+    ],
+    [
+     0.105,
+     1.0450000000000002,
+     0
+    ],
+    [
+     0.11,
+     1.04,
+     0.15
+    ],
+    [
+     0.12000000000000001,
+     1.03,
+     0.34
+    ]
+   ],
+   "h": 0.011,
+   "w": 0.011,
+   "nseg": 10,
+   "extras": {
+    "manubrio": {
+     "x": 0.122,
+     "y": 1.03,
+     "extremo": 0.372
+    }
+   }
+  },
+  {
+   "nombre": "punos",
+   "material": "caucho",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.117,
+     1.032,
+     0.265
+    ],
+    [
+     0.12200000000000001,
+     1.0290000000000001,
+     0.372
+    ]
+   ],
+   "h": 0.017,
+   "w": 0.017,
+   "nseg": 12,
+   "espejo": true
+  },
+  {
+   "nombre": "cubre_manubrio",
+   "material": "acento",
+   "tipo": "panel",
+   "seccion": "frontal",
+   "pasos": 8,
+   "estaciones": [
+    {
+     "x": 0.11,
+     "ys": 0.995,
+     "yt": 1.075,
+     "w": 0.13,
+     "kt": 0.8
+    },
+    {
+     "x": 0.21,
+     "ys": 0.971,
+     "yt": 1.12,
+     "w": 0.18,
+     "kt": 0.75
+    },
+    {
+     "x": 0.32,
+     "ys": 0.96,
+     "yt": 1.1,
+     "w": 0.19,
+     "kt": 0.75
+    }
+   ]
+  },
+  {
+   "nombre": "tallo_espejo",
+   "material": "oscuro",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.12000000000000001,
+     1.06,
+     0.24
+    ],
+    [
+     0.11,
+     1.14,
+     0.27
+    ],
+    [
+     0.09999999999999999,
+     1.19,
+     0.29
+    ]
+   ],
+   "h": 0.007,
+   "w": 0.007,
+   "nseg": 8,
+   "espejo": true,
+   "extras": {
+    "padre": "espejos.fabrica"
+   }
+  },
+  {
+   "nombre": "espejos",
+   "material": "oscuro",
+   "tipo": "caja",
+   "c": [
+    0.09999999999999999,
+    1.228,
+    0.31
+   ],
+   "tam": [
+    0.035,
+    0.07,
+    0.125
+   ],
+   "n": 2.3,
+   "espejo": true,
+   "extras": {
+    "padre": "espejos.fabrica"
+   }
+  },
+  {
+   "nombre": "tunel",
+   "material": "plastico",
+   "tipo": "panel",
+   "nseg": 24,
+   "pasos": 14,
+   "estaciones": [
+    {
+     "x": -0.2,
+     "ys": 0.38,
+     "yt": 0.66,
+     "w": 0.13,
+     "n": 3
+    },
+    {
+     "x": 0.0,
+     "ys": 0.38,
+     "yt": 0.6,
+     "w": 0.12,
+     "n": 3,
+     "kt": 0.8
+    },
+    {
+     "x": 0.15,
+     "ys": 0.38,
+     "yt": 0.568,
+     "w": 0.115,
+     "n": 3,
+     "kt": 0.8
+    },
+    {
+     "x": 0.25,
+     "ys": 0.4,
+     "yt": 0.648,
+     "w": 0.14,
+     "n": 3
+    },
+    {
+     "x": 0.3,
+     "ys": 0.45,
+     "yt": 0.8,
+     "w": 0.16,
+     "n": 3
+    }
+   ],
+   "seccion": "tunel"
+  },
+  {
+   "nombre": "piso",
+   "material": "plastico",
+   "tipo": "panel",
+   "seccion": "caja",
+   "pasos": 16,
+   "estaciones": [
+    {
+     "x": -0.42,
+     "ys": 0.3,
+     "yt": 0.45,
+     "w": 0.22
+    },
+    {
+     "x": -0.25,
+     "ys": 0.15,
+     "yt": 0.42,
+     "w": 0.26
+    },
+    {
+     "x": 0.0,
+     "ys": 0.14,
+     "yt": 0.4,
+     "w": 0.27
+    },
+    {
+     "x": 0.25,
+     "ys": 0.146,
+     "yt": 0.42,
+     "w": 0.264
+    },
+    {
+     "x": 0.39,
+     "ys": 0.2,
+     "yt": 0.52,
+     "w": 0.255
+    }
+   ],
+   "extras": {
+    "acomodar": [
+     {
+      "grupo": "accesorios.led",
+      "ref": "arriba",
+      "a": [
+       null,
+       0.135,
+       null
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "nombre": "alfombras",
+   "material": "caucho",
+   "tipo": "caja",
+   "c": [
+    0.06,
+    0.404,
+    0.185
+   ],
+   "tam": [
+    0.5,
+    0.008,
+    0.14
+   ],
+   "n": 6,
+   "espejo": true
+  },
+  {
+   "nombre": "boomerang",
+   "material": "pintura2",
+   "tipo": "panel",
+   "seccion": "boomerang",
+   "pasos": 22,
+   "espejo": true,
+   "estaciones": [
+    {
+     "x": -0.6,
+     "ys": 0.43,
+     "yt": 0.5,
+     "w": 0.012,
+     "zc": 0.232
+    },
+    {
+     "x": -0.45,
+     "ys": 0.37,
+     "yt": 0.51,
+     "w": 0.012,
+     "zc": 0.25
+    },
+    {
+     "x": -0.2,
+     "ys": 0.28,
+     "yt": 0.45,
+     "w": 0.012,
+     "zc": 0.268
+    },
+    {
+     "x": 0.1,
+     "ys": 0.21,
+     "yt": 0.41,
+     "w": 0.012,
+     "zc": 0.277
+    },
+    {
+     "x": 0.3,
+     "ys": 0.2,
+     "yt": 0.44,
+     "w": 0.012,
+     "zc": 0.277
+    },
+    {
+     "x": 0.4,
+     "ys": 0.28,
+     "yt": 0.53,
+     "w": 0.012,
+     "zc": 0.262
+    }
+   ]
+  },
+  {
+   "nombre": "costados",
+   "material": "pintura",
+   "tipo": "panel",
+   "seccion": "costado_sup",
+   "pasos": 28,
+   "estaciones": [
+    {
+     "x": -0.875,
+     "ys": 0.735,
+     "yt": 0.8,
+     "w": 0.05,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.84,
+     "ys": 0.69,
+     "yt": 0.82,
+     "w": 0.1,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.75,
+     "ys": 0.52,
+     "yt": 0.78,
+     "w": 0.19,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.58,
+     "ys": 0.45,
+     "yt": 0.77,
+     "w": 0.236,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.4,
+     "ys": 0.38,
+     "yt": 0.74,
+     "w": 0.241,
+     "kt": 0.85,
+     "mezcla": 0.71
+    },
+    {
+     "x": -0.2,
+     "ys": 0.34,
+     "yt": 0.7,
+     "w": 0.22,
+     "kt": 0.85,
+     "mezcla": 0.4
+    },
+    {
+     "x": -0.05,
+     "ys": 0.36,
+     "yt": 0.66,
+     "w": 0.17,
+     "kt": 0.85,
+     "mezcla": 0.16
+    },
+    {
+     "x": 0.05,
+     "ys": 0.4,
+     "yt": 0.6,
+     "w": 0.12,
+     "kt": 0.85,
+     "mezcla": 0
+    }
+   ],
+   "seccion2": "costado_sup_alto"
+  },
+  {
+   "nombre": "costados_bajo",
+   "material": "plastico",
+   "tipo": "panel",
+   "seccion": "costado_inf",
+   "pasos": 28,
+   "estaciones": [
+    {
+     "x": -0.875,
+     "ys": 0.735,
+     "yt": 0.8,
+     "w": 0.05,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.84,
+     "ys": 0.69,
+     "yt": 0.82,
+     "w": 0.1,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.75,
+     "ys": 0.52,
+     "yt": 0.78,
+     "w": 0.19,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.58,
+     "ys": 0.45,
+     "yt": 0.77,
+     "w": 0.236,
+     "kt": 0.85,
+     "mezcla": 1
+    },
+    {
+     "x": -0.4,
+     "ys": 0.38,
+     "yt": 0.74,
+     "w": 0.241,
+     "kt": 0.85,
+     "mezcla": 0.71
+    },
+    {
+     "x": -0.2,
+     "ys": 0.34,
+     "yt": 0.7,
+     "w": 0.22,
+     "kt": 0.85,
+     "mezcla": 0.4
+    },
+    {
+     "x": -0.05,
+     "ys": 0.36,
+     "yt": 0.66,
+     "w": 0.17,
+     "kt": 0.85,
+     "mezcla": 0.16
+    },
+    {
+     "x": 0.05,
+     "ys": 0.4,
+     "yt": 0.6,
+     "w": 0.12,
+     "kt": 0.85,
+     "mezcla": 0
+    }
+   ],
+   "seccion2": "costado_inf_alto"
+  },
+  {
+   "nombre": "bajo_trasero",
+   "material": "plastico",
+   "tipo": "loft",
+   "nseg": 18,
+   "pasos": 10,
+   "estaciones": [
+    {
+     "x": -0.78,
+     "ys": 0.42,
+     "yt": 0.566,
+     "w": 0.156,
+     "n": 3
+    },
+    {
+     "x": -0.45,
+     "ys": 0.3,
+     "yt": 0.5,
+     "w": 0.19,
+     "n": 3
+    },
+    {
+     "x": -0.12,
+     "ys": 0.28,
+     "yt": 0.42,
+     "w": 0.18,
+     "n": 3
+    }
+   ]
+  },
+  {
+   "nombre": "asiento",
+   "material": "asiento",
+   "tipo": "panel",
+   "nseg": 28,
+   "pasos": 28,
+   "estaciones": [
+    {
+     "x": -0.885,
+     "ys": 0.78,
+     "yt": 0.868,
+     "w": 0.1,
+     "n": 3,
+     "nb": 6
+    },
+    {
+     "x": -0.78,
+     "ys": 0.775,
+     "yt": 0.891,
+     "w": 0.15,
+     "n": 3,
+     "nb": 6,
+     "kt": 0.85
+    },
+    {
+     "x": -0.62,
+     "ys": 0.77,
+     "yt": 0.88,
+     "w": 0.165,
+     "n": 3,
+     "nb": 6,
+     "kt": 0.85
+    },
+    {
+     "x": -0.505,
+     "ys": 0.755,
+     "yt": 0.835,
+     "w": 0.18,
+     "n": 3,
+     "nb": 6,
+     "kt": 0.85
+    },
+    {
+     "x": -0.47,
+     "ys": 0.73,
+     "yt": 0.79,
+     "w": 0.19,
+     "n": 3,
+     "nb": 6,
+     "kt": 0.85
+    },
+    {
+     "x": -0.3,
+     "ys": 0.71,
+     "yt": 0.779,
+     "w": 0.195,
+     "n": 3,
+     "nb": 6,
+     "kt": 0.85
+    },
+    {
+     "x": -0.15,
+     "ys": 0.69,
+     "yt": 0.775,
+     "w": 0.17,
+     "n": 3,
+     "nb": 6,
+     "kt": 0.8
+    },
+    {
+     "x": -0.04,
+     "ys": 0.655,
+     "yt": 0.708,
+     "w": 0.108,
+     "n": 3,
+     "nb": 6
+    },
+    {
+     "x": 0.03,
+     "ys": 0.61,
+     "yt": 0.643,
+     "w": 0.08,
+     "n": 3,
+     "nb": 6
+    }
+   ],
+   "seccion": "asiento"
+  },
+  {
+   "nombre": "agarradera",
+   "material": "oscuro",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.6,
+     0.84,
+     0.2
+    ],
+    [
+     -0.74,
+     0.87,
+     0.21
+    ],
+    [
+     -0.84,
+     0.875,
+     0.17
+    ],
+    [
+     -0.885,
+     0.862,
+     0.1
+    ]
+   ],
+   "h": 0.014,
+   "w": 0.018,
+   "n": 3,
+   "nseg": 10,
+   "pasos": 3,
+   "espejo": true,
+   "extras": {
+    "acomodar": [
+     {
+      "grupo": "accesorios.baul",
+      "ref": "abajo",
+      "a": [
+       -0.86,
+       0.895,
+       0
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "nombre": "stop",
+   "material": "stop",
+   "tipo": "panel",
+   "seccion": "lente",
+   "pasos": 4,
+   "estaciones": [
+    {
+     "x": -0.885,
+     "ys": 0.74,
+     "yt": 0.785,
+     "w": 0.055
+    },
+    {
+     "x": -0.86,
+     "ys": 0.735,
+     "yt": 0.795,
+     "w": 0.075
+    }
+   ]
+  },
+  {
+   "nombre": "direccionales_tras",
+   "material": "ambar",
+   "tipo": "caja",
+   "c": [
+    -0.83,
+    0.635,
+    0.105
+   ],
+   "tam": [
+    0.04,
+    0.04,
+    0.035
+   ],
+   "espejo": true,
+   "n": 2.2
+  },
+  {
+   "nombre": "portaplaca",
+   "material": "plastico",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.86,
+     0.7,
+     0
+    ],
+    [
+     -0.93,
+     0.53,
+     0
+    ],
+    [
+     -0.97,
+     0.43,
+     0
+    ],
+    [
+     -1.015,
+     0.35,
+     0
+    ]
+   ],
+   "h": 0.011,
+   "w": [
+    0.075,
+    0.088,
+    0.09,
+    0.06
+   ],
+   "n": 5,
+   "nseg": 12,
+   "pasos": 2,
+   "extras": {
+    "placa": {
+     "c": [
+      -0.972,
+      0.47,
+      0
+     ],
+     "incl": -0.38,
+     "tam": [
+      0.235,
+      0.105
+     ],
+     "fuente": "Res. 1421/2011 MinTransporte: 235 x 105 mm; posición medida en v360_05"
+    }
+   }
+  },
+  {
+   "nombre": "guardabarros_tras",
+   "material": "plastico",
+   "tipo": "arco",
+   "centro": [
+    -0.67,
+    0.256
+   ],
+   "r": 0.285,
+   "a0": 40,
+   "a1": 120,
+   "semiancho": 0.075,
+   "grueso": 0.012
+  },
+  {
+   "nombre": "bloque_motor",
+   "material": "motor",
+   "tipo": "loft",
+   "nseg": 20,
+   "pasos": 10,
+   "estaciones": [
+    {
+     "x": -0.3,
+     "ys": 0.17,
+     "yt": 0.38,
+     "w": 0.12,
+     "n": 3.5
+    },
+    {
+     "x": -0.12,
+     "ys": 0.15,
+     "yt": 0.36,
+     "w": 0.13,
+     "n": 3.5
+    },
+    {
+     "x": 0.0,
+     "ys": 0.2,
+     "yt": 0.32,
+     "w": 0.09,
+     "n": 3
+    }
+   ],
+   "extras": {
+    "pieza": "motor"
+   }
+  },
+  {
+   "nombre": "caja_cvt",
+   "material": "plastico",
+   "tipo": "panel",
+   "seccion": "caja",
+   "pasos": 14,
+   "estaciones": [
+    {
+     "x": -0.72,
+     "ys": 0.21,
+     "yt": 0.3,
+     "w": 0.03,
+     "zc": 0.105
+    },
+    {
+     "x": -0.55,
+     "ys": 0.2,
+     "yt": 0.32,
+     "w": 0.04,
+     "zc": 0.11
+    },
+    {
+     "x": -0.28,
+     "ys": 0.18,
+     "yt": 0.35,
+     "w": 0.045,
+     "zc": 0.115
+    },
+    {
+     "x": -0.14,
+     "ys": 0.2,
+     "yt": 0.33,
+     "w": 0.035,
+     "zc": 0.11
+    }
+   ],
+   "extras": {
+    "pieza": "correa"
+   }
+  },
+  {
+   "nombre": "tapa_cvt",
+   "material": "metal",
+   "tipo": "torno",
+   "perfil": [
+    [
+     0.0,
+     0.0
+    ],
+    [
+     0.055,
+     0.0
+    ],
+    [
+     0.06,
+     -0.006
+    ],
+    [
+     0.0,
+     -0.01
+    ]
+   ],
+   "centro": [
+    -0.25,
+    0.27,
+    0.163
+   ],
+   "nseg": 28,
+   "extras": {
+    "pieza": "correa"
+   }
+  },
+  {
+   "nombre": "amortiguadores",
+   "material": "resorte",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.73,
+     0.36,
+     0.145
+    ],
+    [
+     -0.785,
+     0.64,
+     0.145
+    ]
+   ],
+   "h": 0.024,
+   "w": 0.024,
+   "nseg": 12,
+   "espejo": true,
+   "extras": {
+    "pieza": "suspension_tras"
+   }
+  },
+  {
+   "nombre": "vastagos",
+   "material": "oscuro",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.72,
+     0.31,
+     0.145
+    ],
+    [
+     -0.795,
+     0.69,
+     0.145
+    ]
+   ],
+   "h": 0.014,
+   "w": 0.014,
+   "nseg": 10,
+   "espejo": true,
+   "extras": {
+    "pieza": "suspension_tras"
+   }
+  },
+  {
+   "nombre": "escape_tubo",
+   "material": "oscuro",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.02,
+     0.2,
+     -0.04
+    ],
+    [
+     -0.2,
+     0.14,
+     -0.1
+    ],
+    [
+     -0.4,
+     0.22,
+     -0.16
+    ]
+   ],
+   "h": 0.02,
+   "w": 0.02,
+   "nseg": 10,
+   "extras": {
+    "padre": "escapeFabrica"
+   }
+  },
+  {
+   "nombre": "escape_silenciador",
+   "material": "oscuro",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.4,
+     0.25,
+     -0.17
+    ],
+    [
+     -0.56,
+     0.33,
+     -0.215
+    ],
+    [
+     -0.7,
+     0.44,
+     -0.25
+    ],
+    [
+     -0.78,
+     0.51,
+     -0.26
+    ]
+   ],
+   "h": [
+    0.05,
+    0.08,
+    0.08,
+    0.06
+   ],
+   "w": [
+    0.05,
+    0.065,
+    0.065,
+    0.05
+   ],
+   "n": 2.4,
+   "nseg": 18,
+   "extras": {
+    "padre": "escapeFabrica"
+   }
+  },
+  {
+   "nombre": "escape_protector",
+   "tipo": "panel",
+   "material": "carter",
+   "seccion": "escudo",
+   "extras": {
+    "padre": "escapeFabrica"
+   },
+   "estaciones": [
+    {
+     "x": -0.47,
+     "ys": 0.28,
+     "yt": 0.37,
+     "w": 0.018,
+     "zc": -0.265
+    },
+    {
+     "x": -0.58,
+     "ys": 0.34,
+     "yt": 0.46,
+     "w": 0.018,
+     "zc": -0.295
+    },
+    {
+     "x": -0.69,
+     "ys": 0.42,
+     "yt": 0.53,
+     "w": 0.016,
+     "zc": -0.315
+    }
+   ]
+  },
+  {
+   "nombre": "escape_punta",
+   "material": "cromo",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.775,
+     0.515,
+     -0.262
+    ],
+    [
+     -0.805,
+     0.535,
+     -0.265
+    ]
+   ],
+   "h": 0.032,
+   "w": 0.032,
+   "nseg": 14,
+   "pasos": 1,
+   "extras": {
+    "padre": "escapeFabrica"
+   }
+  },
+  {
+   "nombre": "bastidor",
+   "material": "chasis",
+   "tipo": "barrido",
+   "camino": [
+    [
+     0.3,
+     0.7,
+     0.06
+    ],
+    [
+     0.33,
+     0.3,
+     0.1
+    ],
+    [
+     0.2,
+     0.16,
+     0.12
+    ],
+    [
+     -0.25,
+     0.16,
+     0.12
+    ],
+    [
+     -0.5,
+     0.42,
+     0.1
+    ],
+    [
+     -0.86,
+     0.64,
+     0.07
+    ]
+   ],
+   "h": 0.016,
+   "w": 0.016,
+   "nseg": 10,
+   "pasos": 4,
+   "espejo": true
+  },
+  {
+   "nombre": "caballete",
+   "material": "chasis",
+   "tipo": "barrido",
+   "camino": [
+    [
+     -0.2,
+     0.17,
+     0.11
+    ],
+    [
+     -0.25,
+     0.09,
+     0.13
+    ],
+    [
+     -0.3,
+     0.02,
+     0.14
+    ]
+   ],
+   "h": 0.012,
+   "w": 0.012,
+   "nseg": 8,
+   "espejo": true
+  },
+  {
+   "nombre": "estribos",
+   "material": "oscuro",
+   "tipo": "caja",
+   "c": [
+    -0.47,
+    0.41,
+    0.25
+   ],
+   "tam": [
+    0.08,
+    0.02,
+    0.05
+   ],
+   "n": 4,
+   "espejo": true
+  },
+  {
+   "nombre": "tallo_direccional",
+   "tipo": "barrido",
+   "material": "plastico",
+   "espejo": true,
+   "camino": [
+    [
+     -0.89,
+     0.64,
+     0.04
+    ],
+    [
+     -0.86,
+     0.637,
+     0.075
+    ],
+    [
+     -0.835,
+     0.635,
+     0.095
+    ]
+   ],
+   "h": 0.007,
+   "w": 0.007,
+   "nseg": 8,
+   "pasos": 1
+  },
+  {
+   "nombre": "stop_alas",
+   "tipo": "barrido",
+   "material": "stop",
+   "espejo": true,
+   "camino": [
+    [
+     -0.865,
+     0.775,
+     0.06
+    ],
+    [
+     -0.83,
+     0.782,
+     0.098
+    ],
+    [
+     -0.79,
+     0.79,
+     0.14
+    ]
+   ],
+   "h": 0.009,
+   "w": 0.008,
+   "nseg": 8,
+   "pasos": 2
+  },
+  {
+   "nombre": "reflector",
+   "tipo": "caja",
+   "material": "stop",
+   "c": [
+    -1.005,
+    0.355,
+    0
+   ],
+   "tam": [
+    0.012,
+    0.022,
+    0.06
+   ],
+   "n": 4
+  }
+ ],
+ "rasgos": {
+  "eje_del": [
+   0.67,
+   0.242,
+   0
+  ],
+  "eje_tras": [
+   -0.67,
+   0.256,
+   0
+  ],
+  "faro_der": {
+   "nodo": "faros",
+   "lado": -1
+  },
+  "faro_izq": {
+   "nodo": "faros",
+   "lado": 1
+  },
+  "punta_nariz": {
+   "nodo": "mascara_faros",
+   "punto": "max_x"
+  },
+  "puno_der": {
+   "nodo": "punos",
+   "lado": -1,
+   "punto": "min_z"
+  },
+  "espejo_der": {
+   "nodo": "espejos",
+   "lado": -1
+  },
+  "stop": {
+   "nodo": "stop"
+  },
+  "escape_punta": {
+   "nodo": "escape_punta",
+   "punto": "min_x"
+  },
+  "asiento_escalon": {
+   "nodo": "asiento",
+   "en_x": -0.49,
+   "punto": "max_y"
+  },
+  "visor_punta": {
+   "nodo": "visor",
+   "en_z": 0,
+   "punto": "max_y"
+  },
+  "portaplaca_punta": {
+   "nodo": "portaplaca",
+   "punto": "min_y"
+  },
+  "espejo_izq": {
+   "nodo": "espejos",
+   "lado": 1
+  },
+  "puno_izq": {
+   "nodo": "punos",
+   "lado": 1,
+   "punto": "max_z"
+  }
+ },
+ "rasgos_nota": "Anclas fijas (ejes) y rasgos calculados de los vertices del GLB (revisar.py): se comparan con las marcas de modelos_3d_local/<moto>/rasgos.json.",
+ "familia": "scooter",
+ "base": {
+  "entre_ejes": 1.34,
+  "asiento": 0.765,
+  "ancho": 0.74,
+  "desde": "nmax155.json v4 (IoU 0,888; rasgos 12/12)"
+ },
+ "nota_plantilla": "Plantilla de scooter deportivo de 13-14 pulgadas (NMAX v4). Para otra scooter: escalar_ficha.py con sus medidas, luego perfil.py --estaciones para las alturas reales, generar, iou.py --torno, revisar.py y ajustar_ficha.py. Las marcas de rasgos (rasgos.json) son de cada moto: marcarlas de nuevo."
+}

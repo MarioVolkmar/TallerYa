@@ -28,6 +28,11 @@ def _citas_pendientes():
     return SolicitudCita.objects.filter(estado=SolicitudCita.Estado.PENDIENTE).count()
 
 
+def _domiciliarios_pendientes():
+    from domiciliarios.consola import pendientes
+    return pendientes()
+
+
 def _mecanicos_pendientes():
     from domicilio.consola import pendientes
     return pendientes()
@@ -58,6 +63,8 @@ SECCIONES = [
             descripcion="Aprobar o rechazar registros de talleres. Mientras tanto: Administración › Talleres por aprobar."),
     Seccion("mecanicos", "Mecánicos a domicilio", "personas", "domicilio.consola.seccion", badge=_mecanicos_pendientes,
             descripcion="Aprobar, suspender y verificar perfiles de mecánicos a domicilio."),
+    Seccion("domiciliarios", "Domiciliarios", "personas", "domiciliarios.consola.seccion", badge=_domiciliarios_pendientes,
+            descripcion="TallerYa Ruta: aprobar o rechazar verificaciones de domiciliarios (las fotos se borran al decidir)."),
     Seccion("citas", "Citas y servicios", "calendario", "consola.vistas.citas.seccion", badge=_citas_pendientes,
             descripcion="Citas pedidas a los talleres y servicios registrados en la hoja de vida."),
     Seccion("plus", "Pagos y Plus", "estrella", badge=_plus_solicitadas,

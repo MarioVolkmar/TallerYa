@@ -1,0 +1,18 @@
+{# Adjuntar un diagnóstico propio (de la sesión). Variables: diag_previa + diag_consulta (viene del resultado) o mis_diagnosticos #}
+{% if diag_previa %}
+  <div class="fo-adjunto">
+    <p class="campo-label">Diagnóstico adjunto</p>
+    <input type="hidden" name="diagnostico" value="{{ diag_consulta }}">
+    {% include "foro/_diagnostico.html" with d=diag_previa %}
+    <a href="{% url 'foro:preguntar' %}" class="boton-seccion fo-adjunto-quitar">Quitar el diagnóstico</a>
+  </div>
+{% elif mis_diagnosticos %}
+  <label class="campo-label" for="{{ id_diag|default:'diagnostico' }}">Adjuntar un diagnóstico tuyo (opcional)
+    <select name="diagnostico" id="{{ id_diag|default:'diagnostico' }}" class="campo">
+      <option value="">Sin diagnóstico</option>
+      {% for d in mis_diagnosticos %}<option value="{{ d.consulta }}">{{ d.etiqueta }}</option>{% endfor %}
+    </select>
+  </label>
+{% else %}
+  <p class="text-xs text-suave">¿Tu moto falla? <a href="{% url 'garaje:diagnostico' %}" class="text-lava">Haz el diagnóstico guiado</a> y adjúntalo para que te ayuden mejor.</p>
+{% endif %}

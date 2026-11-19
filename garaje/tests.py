@@ -130,8 +130,9 @@ class GarajeTests(TestCase):
         self.assertEqual(t.estado, "vencido")
 
     def test_sin_registro_en_moto_usada_y_supuesto_en_moto_nueva(self):
+        # Usada y sin registro: ya no queda "Sin registro"; se estima lo prudente (desde nueva ya pasó el intervalo)
         usada = next(t for t in calcular_plan(self.crear_moto(km=30000)).tareas if t.tarea.clave == "aceite")
-        self.assertEqual(usada.estado, "desconocido")
+        self.assertEqual((usada.estado, usada.estimado, usada.supuesto), ("vencido", True, False))
         nueva = next(t for t in calcular_plan(self.crear_moto(km=300)).tareas if t.tarea.clave == "aceite")
         self.assertEqual(nueva.estado, "ok")
         self.assertTrue(nueva.supuesto)
@@ -161,8 +162,8 @@ class GarajeTests(TestCase):
         moto = self.crear_moto(km=30000)
         frenos = TareaMantenimiento.objects.get(clave="pastillas-del")
         Mantenimiento.objects.create(moto=moto, tarea=frenos, km=29900, fecha=timezone.localdate())
-        # pastillas al día, pero el líquido de frenos (misma pieza) no tiene registro
-        self.assertEqual(calcular_plan(moto).piezas()["freno_del"]["estado"], "desconocido")
+        # pastillas al día, pero el líquido de frenos (misma pieza) no tiene registro: se estima vencido y manda
+        self.assertEqual(calcular_plan(moto).piezas()["freno_del"]["estado"], "vencido")
 
     # --- Página ---
 
@@ -247,8 +248,11 @@ class DespieceTests(TestCase):
         self.assertEqual([p["ref"] for p in partes], [2, 3, 9])  # todas las partes van a la lista
         self.assertIsNone(next(p for p in partes if p["ref"] == 3)["x"])  # sin marcar: no aparece en el dibujo
         pastillas = next(p for p in partes if p["ref"] == 9)
-        self.assertEqual(pastillas["estado"], "desconocido")  # moto usada sin registro
-        self.assertEqual(datos["laminas"][0]["estado"], "desconocido")
+        # Moto usada sin registro: el mismo estado estimado que la agenda y el 3D, y dice que es estimado
+        self.assertEqual(pastillas["estado"], "vencido")
+        self.assertEqual(pastillas["tarea"]["etiqueta"], "Toca ya (estimado)")
+        self.assertIn("(estimado)", pastillas["tarea"]["detalle"])
+        self.assertEqual(datos["laminas"][0]["estado"], "vencido")
 
     def test_a_400_km_es_roja_en_plan_3d_despiece_y_campana(self):
         """Un solo criterio de color: pastillas (cada 6.000 km) a 400 km es "urgente" → roja en todas partes."""
@@ -277,6 +281,23 @@ class DespieceTests(TestCase):
         self.assertNotContains(r, 'id="datos-despiece"')  # las láminas ya no van incrustadas
         r = self.client.get(reverse("garaje:despiece_json", args=[self.moto.pk]))
         self.assertContains(r, "2DP-F5805-00")
+
+    def test_json_sin_guias_guias_aparte_y_etag(self):
+        """despiece.json trae una marca en vez de la guía (pesa más de la mitad); ?guias=1 las trae; con ETag responde 304."""
+        self.client.force_login(self.usuario)
+        url = reverse("garaje:despiece_json", args=[self.moto.pk])
+        r = self.client.get(url)
+        partes = [p for l in r.json()["laminas"] for p in l["partes"]]
+        con_guia = [p for p in partes if p.get("guia")]
+        self.assertTrue(con_guia)
+        self.assertTrue(all(p["guia"] == 1 for p in con_guia))
+        guias = self.client.get(url, {"guias": "1"}).json()["guias"]
+        self.assertEqual(set(guias), {str(p["id"]) for p in con_guia})
+        self.assertTrue(all(g.get("que_hace") for g in guias.values()))
+        self.assertEqual(r["Cache-Control"], "private, no-cache")
+        self.assertEqual(self.client.get(url, HTTP_IF_NONE_MATCH=r["ETag"]).status_code, 304)
+        self.assertEqual(self.client.get(url, HTTP_IF_NONE_MATCH='W/' + r["ETag"]).status_code, 304)   # tras GZip
+        self.assertEqual(self.client.get(url, HTTP_IF_NONE_MATCH='"otro"').status_code, 200)
 
     def test_marcar_desde_el_admin(self):
         from django.urls import reverse as rev
@@ -369,6 +390,123 @@ class GuiaPiezasTests(TestCase):
         self.assertEqual(intervalo_texto(aceite), "Cada 2.500 km o cada 4 meses")
         liquido = TareaMantenimiento.objects.get(clave="liquido-frenos")
         self.assertEqual(intervalo_texto(liquido), "Cada 20.000 km o cada 2 años")
+
+
+class EstimacionSinRegistroTests(TestCase):
+    """Tareas sin ningún registro: se estiman desde que la moto era nueva (plan._estimar_sin_registro)."""
+
+    def setUp(self):
+        usuario = get_user_model().objects.create_user("estima", password="x")
+        self.perfil = Motociclista.objects.create(usuario=usuario)
+        self.nkd = LineaMoto.objects.get(nombre="NKD 125")
+        self.hoy = timezone.localdate()
+
+    def moto(self, km, **extra):
+        extra.setdefault("modelo", self.hoy.year)
+        return Moto.objects.create(motociclista=self.perfil, linea=self.nkd, km_inicial=km, km_actual=km, **extra)
+
+    def tarea(self, moto, clave):
+        return next(t for t in calcular_plan(moto).tareas if t.tarea.clave == clave)
+
+    def test_moto_usada_sin_registro_queda_toca_ya_estimado(self):
+        t = self.tarea(self.moto(12000), "aceite")
+        self.assertEqual((t.estado, t.nivel, t.origen), ("vencido", "vencido", "estimado"))
+        self.assertEqual(t.etiqueta, "Toca ya (estimado)")
+        self.assertIn("lo prudente es hacerlo ya", t.detalle)
+        self.assertTrue(t.detalle.startswith("Tu moto tiene 12.000 km y esto toca cada 2.500 km o cada 4 meses, lo que pase "
+                                             "primero; aquí manda el kilometraje"), t.detalle)
+        self.assertIsNone(t.km_desde)   # sin cifras inventadas de cuánto se pasó
+        plan = calcular_plan(self.moto(12000))
+        self.assertIn(t.tarea.pk, [x.tarea.pk for x in plan.estimados])
+        self.assertNotIn(t.tarea.pk, [x.tarea.pk for x in plan.sin_registro])  # no se repite en el grupo gris
+
+    def test_texto_con_km_por_dia(self):
+        moto = self.moto(12000)
+        LecturaKm.objects.create(moto=moto, km=11620, fecha=self.hoy - timedelta(days=10))
+        LecturaKm.objects.create(moto=moto, km=12000, fecha=self.hoy)
+        t = self.tarea(moto, "aceite")
+        self.assertAlmostEqual(t.ritmo, 38)
+        # Ya vencido por km: los km/día no cambian nada, así que no se mencionan
+        self.assertNotIn("km/día", t.detalle)
+
+    def test_por_tiempo_joven_queda_al_dia_con_fecha(self):
+        # Una tarea solo por tiempo (líquido de frenos sin intervalo de km), matriculada hace 200 días: faltan 530.
+        liquido = TareaMantenimiento.objects.get(clave="liquido-frenos")
+        liquido.intervalo_km = None
+        liquido.save()
+        moto = self.moto(5000, matricula=self.hoy - timedelta(days=200))
+        t = self.tarea(moto, "liquido-frenos")
+        self.assertEqual((t.estado, t.estimado, t.dias_restantes), ("ok", True, 530))
+        self.assertEqual(t.fecha_estimada, self.hoy + timedelta(days=530))
+        self.assertEqual(t.detalle, "Tu moto tiene ~7 meses y esto toca cada 2 años: faltan ~18 meses (estimado).")
+        self.assertEqual(t.intervalo, "Cada 2 años")
+        moto.matricula = self.hoy - timedelta(days=800)   # ya pasaron los 2 años sin registro
+        moto.save()
+        t = self.tarea(moto, "liquido-frenos")
+        self.assertEqual(t.estado, "vencido")
+        self.assertEqual(t.detalle, "Tu moto tiene ~2 años y 2 meses y esto toca cada 2 años: lo prudente es hacerlo "
+                                    "ya (estimado).")
+
+    def test_modelo_del_ano_no_da_edad_imposible(self):
+        # XR 190L modelo de este año con 1.600 km, sin matrícula ni ritmo medido: la edad sale de los km al uso típico
+        # (~2 meses), nunca de mediados del año anterior; la batería (cada 12 meses) no puede salir vencida.
+        moto = self.moto(1600, modelo=self.hoy.year)
+        bateria = self.tarea(moto, "bateria")
+        self.assertEqual(bateria.estado, "ok")
+        self.assertLessEqual(bateria.edad_dias, (self.hoy - date(self.hoy.year, 1, 1)).days)
+        self.assertEqual(bateria.edad_dias, round(1600 / 25))
+
+    def test_modelo_viejo_con_pocos_km_y_sin_ritmo_toma_el_uso_tipico(self):
+        moto = self.moto(9000, modelo=2015)
+        self.assertEqual(self.tarea(moto, "bateria").edad_dias, 360)   # 9.000 km / 25 km/día
+
+    def test_intervalo_en_claro(self):
+        moto = self.moto(1600)
+        plan = {t.tarea.clave: t for t in calcular_plan(moto).tareas}
+        self.assertEqual(plan["aceite"].intervalo, "Cada 2.500 km o cada 4 meses, lo que pase primero")
+        bateria = plan["bateria"]
+        self.assertEqual((bateria.tarea.intervalo_km, bateria.intervalo), (None, "Cada 12 meses"))
+
+    def test_sin_matricula_usa_km_por_dia_si_dan_una_moto_mas_joven(self):
+        liquido = TareaMantenimiento.objects.get(clave="liquido-frenos")
+        liquido.intervalo_km = None
+        liquido.save()
+        moto = self.moto(9000, modelo=2015)   # el año del modelo diría 11 años
+        LecturaKm.objects.create(moto=moto, km=8700, fecha=self.hoy - timedelta(days=10))
+        LecturaKm.objects.create(moto=moto, km=9000, fecha=self.hoy)
+        t = self.tarea(moto, "liquido-frenos")   # 9.000 km / 30 km/día = 300 días de vieja
+        self.assertEqual((t.estado, t.dias_restantes), ("ok", 430))
+
+    def test_moto_nueva_cero_km_sigue_supuesta_y_al_dia(self):
+        plan = calcular_plan(self.moto(0))
+        self.assertFalse(plan.urgentes)
+        self.assertTrue(all(t.estado != "vencido" for t in plan.tareas))
+
+    def test_km_por_dia_absurdos_no_se_usan(self):
+        moto = self.moto(50000)
+        LecturaKm.objects.create(moto=moto, km=100, fecha=self.hoy - timedelta(days=8))
+        LecturaKm.objects.create(moto=moto, km=50000, fecha=self.hoy)   # 6.000 km/día: corrección, no ritmo
+        t = self.tarea(moto, "aceite")
+        self.assertEqual(t.estado, "vencido")
+        self.assertTrue(t.ritmo is None or t.ritmo <= 400)
+
+    def test_registro_completo_no_cambia(self):
+        moto = self.moto(12000)
+        aceite = TareaMantenimiento.objects.get(clave="aceite")
+        Mantenimiento.objects.create(moto=moto, tarea=aceite, km=11000, fecha=self.hoy - timedelta(days=10))
+        t = self.tarea(moto, "aceite")
+        self.assertEqual((t.estado, t.estimado, t.origen, t.km_restantes), ("ok", False, "exacto", 1500))
+        self.assertEqual(t.etiqueta, "Al día")
+
+    def test_agenda_dice_estimado_sin_invitar_a_registrar(self):
+        # El dueño ya dijo que no sabe: solo se indica, discreto, que es estimado (ni aviso ni botón de "regístralo")
+        self.client.force_login(self.perfil.usuario)
+        moto = self.moto(12000)
+        html = self.client.get(reverse("garaje:moto", args=[moto.pk])).content.decode()
+        self.assertIn('class="tarea-estimado"', html)
+        self.assertNotIn("sin registro.</strong>", html)
+        self.assertNotIn("Registrar cuándo se hizo", html)
+        self.assertNotIn("regístralo", html.lower().split("tarea-estimado")[1][:400])
 
 
 @tag("lenta")

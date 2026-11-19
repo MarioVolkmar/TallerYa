@@ -1,0 +1,78 @@
+{
+  "linea": "Bajaj Pulsar NS 200",
+  "tipo": "calle",
+  "revisado": "2026-11-18",
+  "fuentes": {
+    "manual": {"nombre": "Manual del propietario Pulsar NS 200 (datos ya cargados en garaje/intervalos/auteco_bajaj_pulsar_ns_200.json)", "url": "https://colombia.globalbajaj.com/en/BRANDS/Pulsar/Pulsar-NS-200-FI-ABS"},
+    "motoryk": {"nombre": "Motoryk: problemas reportados de la Pulsar NS200 (guía de compra de usadas)", "url": "https://www.motoryk.com/bikes/bajaj/pulsar-ns200-ns-series/problems"},
+    "zigwheels": {"nombre": "ZigWheels (India): preguntas de dueños de NS200", "url": "https://zigwheels.com/newbikes/faqs/what-are-the-main-problem-facing-with-ns200/1653255"}
+  },
+  "fallas": [
+    {
+      "clave": "recalienta",
+      "titulo": "Se calienta en el trancón",
+      "sintoma": "El ventilador no para, la temperatura sube en el tablero o ves que el depósito del refrigerante baja.",
+      "causa": "Poco refrigerante, una fuga en mangueras o radiador, o el ventilador que no prende. Que el ventilador prenda en el trancón es normal; que la temperatura siga subiendo, no.",
+      "gravedad": "peligro",
+      "que_hacer": "Si la temperatura sigue subiendo, para y apaga: seguir rodando puede dañar el motor. Revisa el nivel en frío y pide revisar ventilador, mangueras y radiador.",
+      "alcance": "modelo",
+      "tareas": ["refrigerante"],
+      "pieza": "refrigeracion",
+      "diagnostico": {"s": "se_apaga", "cuando": "caliente", "radiador": "si"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "fuentes": ["motoryk", "manual", "zigwheels"]
+    },
+    {
+      "clave": "clutch-patina",
+      "titulo": "El clutch patina o los cambios entran duro",
+      "sintoma": "En cambios altos acelera y no avanza, salen neutros falsos o la manigueta tiene mucho juego.",
+      "causa": "Discos del clutch gastados o la guaya desajustada. El uso en trancón (mucho clutch) los gasta antes.",
+      "gravedad": "cuidado",
+      "que_hacer": "Primero que ajusten el juego de la manigueta. Si sigue patinando, toca cambiar discos y revisar el aceite: un aceite que no es para motos con clutch húmedo (JASO MA2) también lo hace patinar.",
+      "alcance": "modelo",
+      "tareas": ["aceite"],
+      "pieza": "motor",
+      "diagnostico": {"s": "cambios", "que": "patina"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "fuentes": ["motoryk", "manual"]
+    },
+    {
+      "clave": "mono-fuga",
+      "titulo": "El amortiguador trasero gotea o rebota",
+      "sintoma": "Hay aceite en el cuerpo del monoshock y la parte de atrás rebota en los resaltos.",
+      "causa": "El monoamortiguador pierde aceite y se hunde antes de tiempo, más si andas siempre con parrillero.",
+      "gravedad": "cuidado",
+      "que_hacer": "Ajusta la precarga si llevas peso. Si ya gotea, toca repararlo o cambiarlo: sin amortiguación la llanta trasera pierde agarre al frenar.",
+      "alcance": "modelo",
+      "tareas": ["suspension-tras"],
+      "pieza": "suspension_tras",
+      "diagnostico": {"s": "ruido", "donde": "huecos"},
+      "taller": "Suspensión",
+      "domicilio": "Suspensión",
+      "fuentes": ["motoryk"]
+    },
+    {
+      "clave": "electrico",
+      "titulo": "Fallas pequeñas del eléctrico",
+      "sintoma": "Direccionales o pito que fallan, el tablero que muestra pixeles raros o la batería que se descarga.",
+      "causa": "Comandos del manubrio con humedad, conexiones flojas o batería cansada. La lluvia de Medellín no ayuda.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide revisar comandos y conectores (limpieza y grasa dieléctrica) y medir la batería antes de cambiar piezas.",
+      "alcance": "modelo",
+      "tareas": ["bateria"],
+      "pieza": "bateria",
+      "diagnostico": {"s": "electrico", "que": "una"},
+      "taller": "Sistema eléctrico",
+      "domicilio": "Sistema eléctrico",
+      "fuentes": ["motoryk"]
+    }
+  ],
+  "tips": [
+    {"titulo": "Aceite cada 5.000 km, no 10.000", "texto": "El dato de 10.000 km del manual indio es solo con un aceite especial de la garantía allá. Aquí, con 20W-50 JASO MA2, cámbialo cada 5.000 km.", "fuentes": ["manual"]},
+    {"titulo": "Son tres bujías", "texto": "La NS 200 tiene tres bujías. Cuando toque cambiarlas (30.000 km) que cambien las tres, no solo la que se ve.", "fuentes": ["manual"]},
+    {"titulo": "El filtro de aire es viscoso", "texto": "No se sopla ni se lava: se cambia cada 20.000 km, o antes si andas mucho por vías polvorientas.", "fuentes": ["manual"]},
+    {"titulo": "Refrigerante y mangueras", "texto": "El refrigerante y las mangueras del radiador se cambian cada 30.000 km o 3 años. Usa refrigerante para motos, nunca agua sola.", "fuentes": ["manual"]}
+  ]
+}

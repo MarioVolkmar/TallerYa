@@ -16,6 +16,7 @@ class Categoria(models.TextChoices):
     RUTAS = "rutas", "Rutas y paseos"
     REPUESTOS = "repuestos", "Compra y venta de repuestos"
     TALLERES = "talleres", "Talleres"
+    DOMICILIARIOS = "domiciliarios", "Domiciliarios"  # TallerYa Ruta: solo se ofrece con DOMICILIARIOS_ACTIVO
     GENERAL = "general", "General"
 
 
@@ -32,6 +33,8 @@ class Pregunta(models.Model):
         "Respuesta", on_delete=models.SET_NULL, null=True, blank=True, related_name="+",
     )
     visible = models.BooleanField(default=True)
+    diagnostico = models.ForeignKey("DiagnosticoCompartido", on_delete=models.SET_NULL, null=True, blank=True,
+                                    related_name="preguntas", verbose_name="diagnóstico citado")
     creado = models.DateTimeField(auto_now_add=True)
     # Última interacción (creación, respuesta nueva o edición de la pregunta): ordena "Recientes" y los grupos.
     ultima_actividad = models.DateTimeField("última actividad", null=True, blank=True, db_index=True)
@@ -76,6 +79,8 @@ class Respuesta(models.Model):
                               verbose_name="en respuesta a")
     cuerpo = models.TextField(max_length=3000)
     visible = models.BooleanField(default=True)
+    diagnostico = models.ForeignKey("DiagnosticoCompartido", on_delete=models.SET_NULL, null=True, blank=True,
+                                    related_name="respuestas", verbose_name="diagnóstico citado")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -221,3 +226,41 @@ class Asistencia(models.Model):
     class Meta:
         ordering = ["creado"]
         constraints = [models.UniqueConstraint(fields=["rodada", "usuario"], name="un_voy_por_rodada")]
+
+
+class DiagnosticoCompartido(models.Model):
+    """Resumen inmutable de un diagnóstico guiado citado en el foro (los diagnósticos no se guardan: son una URL).
+
+    Lo arma el servidor al publicar (garaje.vista_diagnostico.resumen_diagnostico) desde una consulta que el autor vio
+    en su sesión y con sus propias motos. Solo datos públicos de la moto: marca, modelo y año; nunca placa ni dueño."""
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="diagnosticos_compartidos")
+    clave = models.CharField("resultado", max_length=40, db_index=True)
+    sintoma_clave = models.CharField(max_length=40)
+    sintoma = models.CharField("síntoma", max_length=80)
+    marca = models.CharField(max_length=60, blank=True)
+    modelo = models.CharField(max_length=80, blank=True)
+    anio = models.PositiveSmallIntegerField("año", null=True, blank=True)
+    causa = models.CharField("causa probable", max_length=200)
+    sistema = models.CharField(max_length=60, db_index=True)
+    subgrupo = models.CharField(max_length=80, blank=True)
+    urgencia = models.CharField(max_length=20)
+    revisa = models.CharField("revisa tú mismo", max_length=300, blank=True)
+    piezas = models.JSONField("piezas sugeridas", default=list, blank=True)
+    enlace = models.CharField(max_length=500, help_text="Abre el mismo diagnóstico (con el despiece de la línea, no la moto)")
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "diagnóstico compartido"
+        verbose_name_plural = "diagnósticos compartidos"
+
+    def __str__(self):
+        return f"{self.sintoma}: {self.causa}"
+
+    @property
+    def moto(self):
+        return " ".join(str(x) for x in (self.marca, self.modelo, self.anio) if x)
+
+    @classmethod
+    def desde_resumen(cls, autor, resumen):
+        campos = {f.name for f in cls._meta.fields} - {"id", "autor", "creado"}
+        return cls.objects.create(autor=autor, **{k: v for k, v in resumen.items() if k in campos})

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load seo static %}
+{% load seo static domiciliarios_tags %}
 {% block title %}Mecánicos de motos a domicilio en Medellín · TallerYa{% endblock %}
 {% block seo %}{% seo titulo="Mecánicos de motos a domicilio en Medellín · TallerYa" descripcion="Mecánicos de motos que van a donde está tu moto en Medellín y el Valle de Aburrá: frenos, eléctrico, llantas, diagnóstico y más. Escríbeles por WhatsApp." %}{% endblock %}
 {% block content %}
@@ -9,14 +9,15 @@
     <div>
       <p class="etiqueta">Medellín y Valle de Aburrá</p>
       <h1 class="titulo text-4xl md:text-5xl mt-3">Mecánicos a <span class="text-lava">domicilio</span></h1>
-      <p class="text-suave mt-2 max-w-xl">Mecánicos sin taller propio que van a donde está tu moto: tu casa, tu trabajo o donde te varaste.</p>
+      <p class="text-suave mt-2 max-w-xl">Mecánicos independientes y talleres que van a donde está tu moto: tu casa, tu trabajo o donde te varaste.</p>
     </div>
     <div class="dir-stats">
       <div class="dir-stat dir-stat-lava"><strong>{{ stats.total }}</strong><span>Mecánicos</span></div>
-      <div class="dir-stat dir-stat-verde"><strong>{{ stats.verificados }}</strong><span>Verificados</span></div>
+      <div class="dir-stat dir-stat-verde"><strong>{{ stats.talleres }}</strong><span>Talleres</span></div>
       <div class="dir-stat dir-stat-mostaza"><strong>{{ stats.urgencias }}</strong><span>Urgencias</span></div>
     </div>
   </header>
+  {% include "domiciliarios/_varado.html" %}
 
   {% include "domicilio/_aviso.html" with clase="mt-6" %}
 
@@ -44,6 +45,14 @@
               <input type="checkbox" name="verificados" value="1" data-auto {% if filtros.verificados %}checked{% endif %}></label>
           </div>
           <fieldset class="dir-grupo">
+            <legend class="dir-grupo-titulo">Quién va</legend>
+            <div class="dir-chips">
+              <label class="dir-chip"><input type="radio" name="tipo" value="" data-auto {% if not filtros.tipo %}checked{% endif %}><span>Todos</span></label>
+              <label class="dir-chip"><input type="radio" name="tipo" value="independientes" data-auto {% if filtros.tipo == "independientes" %}checked{% endif %}><span>Mecánicos independientes</span></label>
+              <label class="dir-chip"><input type="radio" name="tipo" value="talleres" data-auto {% if filtros.tipo == "talleres" %}checked{% endif %}><span>Talleres</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="dir-grupo">
             <legend class="dir-grupo-titulo">Servicio</legend>
             <div class="dir-chips">
               <label class="dir-chip"><input type="radio" name="servicio" value="" data-auto {% if not filtros.servicio %}checked{% endif %}><span>Todos</span></label>
@@ -56,9 +65,10 @@
 
       <div class="dir-resultados">
         <div class="dir-barra">
-          <p class="dir-mostrando">{% if pagina.paginator.count %}Mostrando <strong>{{ pagina.start_index }}–{{ pagina.end_index }}</strong> de <strong>{{ pagina.paginator.count }}</strong> mecánico{{ pagina.paginator.count|pluralize }}{% else %}Sin resultados{% endif %}</p>
+          <p class="dir-mostrando">{% if pagina.paginator.count %}Mostrando <strong>{{ pagina.start_index }}–{{ pagina.end_index }}</strong> de <strong>{{ pagina.paginator.count }}</strong> resultado{{ pagina.paginator.count|pluralize }}{% else %}Sin resultados{% endif %}</p>
           {% if mi_perfil %}<a href="{% url 'domicilio:mi_perfil' %}" class="dom-cta-mecanico">Editar mi perfil de mecánico →</a>
-          {% elif rol != "taller" %}<a href="{% url 'domicilio:registro' %}" class="dom-cta-mecanico">¿Eres mecánico a domicilio? Regístrate gratis →</a>{% endif %}
+          {% elif mi_taller %}<a href="{% url 'domicilio:mi_taller' %}" class="dom-cta-mecanico">{% if mi_taller.domicilio.activo %}Editar mi servicio a domicilio →{% else %}¿Tu taller va a domicilio? Actívalo →{% endif %}</a>
+          {% else %}<a href="{% url 'domicilio:registro' %}" class="dom-cta-mecanico">¿Eres mecánico a domicilio? Regístrate gratis →</a>{% endif %}
         </div>
         {% if filtros_activos %}
         <div class="dir-activos">
@@ -68,7 +78,7 @@
 
         {% if pagina.object_list %}
         <div class="tc-rejilla">
-          {% for m in pagina %}{% include "domicilio/_tarjeta.html" %}{% endfor %}
+          {% for m in pagina %}{% if m.es_taller %}{% include "domicilio/_tarjeta_taller.html" with d=m %}{% else %}{% include "domicilio/_tarjeta.html" %}{% endif %}{% endfor %}
         </div>
         {% else %}
         <div class="papel dir-vacio">

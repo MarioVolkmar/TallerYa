@@ -17,6 +17,7 @@
 {% block content %}
 <div class="relative z-10 -mt-28 md:-mt-36">
   <form method="get" class="papel fo-buscador" role="search" id="fo-form">
+    {% if sistema %}<input type="hidden" name="sistema" value="{{ sistema }}">{% endif %}
     {% if categoria %}<input type="hidden" name="categoria" value="{{ categoria }}">{% endif %}
     {% if filtro == "sin-respuesta" %}<input type="hidden" name="orden" value="sin-respuesta">{% elif orden_elegido %}<input type="hidden" name="orden" value="{{ orden_elegido }}">{% endif %}
     <label class="fo-q"><span class="sr-only">Buscar</span>
@@ -41,12 +42,13 @@
   </nav>
 
   <div class="fo-barra">
-    <p class="fo-total">{{ pagina.paginator.count }} tema{{ pagina.paginator.count|pluralize }}</p>
+    <p class="fo-total">{{ pagina.paginator.count }} tema{{ pagina.paginator.count|pluralize }}{% if sistema %} <a href="?{{ qs_sin_sistema }}" class="chip fo-filtro-diag" title="Quitar el filtro">🩺 Diagnóstico: {{ sistema }} ✕</a>{% endif %}</p>
     <form method="get" class="fo-ordenar" id="fo-ordenar">
       {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
       {% if categoria %}<input type="hidden" name="categoria" value="{{ categoria }}">{% endif %}
       {% if marca %}<input type="hidden" name="marca" value="{{ marca }}">{% endif %}
       {% if linea %}<input type="hidden" name="linea" value="{{ linea }}">{% endif %}
+      {% if sistema %}<input type="hidden" name="sistema" value="{{ sistema }}">{% endif %}
       <label class="fo-ordenar-label"><span>Ordenar:</span>
         <select name="orden" class="campo !mt-0">
           <option value=""{% if not orden_elegido and filtro != "sin-respuesta" %} selected{% endif %}>Todos</option>

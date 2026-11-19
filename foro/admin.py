@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.db.models import Count, Q
 
-from .models import Pregunta, Reporte, Respuesta
+from .models import DiagnosticoCompartido, Pregunta, Reporte, Respuesta
 
 
 class RespuestaInline(admin.TabularInline):
@@ -86,3 +86,11 @@ class RodadaAdmin(admin.ModelAdmin):
     raw_id_fields = ("pregunta", "organizador")
     date_hierarchy = "fecha_hora"
     inlines = [AsistenciaInline]
+
+
+@admin.register(DiagnosticoCompartido)
+class DiagnosticoCompartidoAdmin(admin.ModelAdmin):
+    list_display = ("causa", "sintoma", "sistema", "marca", "modelo", "anio", "autor", "creado")
+    list_filter = ("sistema", "urgencia")
+    search_fields = ("causa", "sintoma", "marca", "modelo")
+    readonly_fields = [f.name for f in DiagnosticoCompartido._meta.fields]

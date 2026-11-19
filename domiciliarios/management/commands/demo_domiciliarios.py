@@ -14,7 +14,7 @@ from django.utils import timezone
 
 from cuentas.models import Perfil, Suscripcion
 from cupones.models import Motociclista
-from domiciliarios.models import Jornada, PerfilDomiciliario, TallerAliado
+from domiciliarios.models import Jornada, PerfilDomiciliario, TallerAliado, Verificacion
 from garaje.models import Gasto, LecturaKm, LineaMoto, Mantenimiento, Moto, TareaMantenimiento
 from talleres.models import Taller
 
@@ -93,12 +93,20 @@ class Command(BaseCommand):
         if not sin_plus:
             Suscripcion.objects.create(motociclista=motero, notas="Plan domiciliario · demo").activar()
 
+        # Verificado (sin fotos: así queda tras la revisión) y una pregunta en el foro de domiciliarios
+        Verificacion.objects.create(perfil=dp, plataforma="rappi", autorizacion=timezone.now(),
+                                    estado=Verificacion.Estado.APROBADA, moto=moto, revisado_en=timezone.now(),
+                                    vence=hoy + timedelta(days=150))
+        from foro.models import Categoria, Pregunta
+        Pregunta.objects.filter(autor=usuario).delete()
+        Pregunta.objects.create(autor=usuario, categoria=Categoria.DOMICILIARIOS, linea=linea,
+                                titulo="¿Cada cuánto le cambian la cadena si ruedan 170 km al día?",
+                                cuerpo="Trabajo en Rappi con una NKD. ¿A cuántos km les dura el kit de arrastre a ustedes?")
+
         descuentos = ["10 % en mano de obra", "Cambio de aceite con revisión de frenos gratis", "15 % en kit de arrastre"]
         aliados = 0
         for i, taller in enumerate(Taller.objects.filter(activo=True).order_by("-abierto_24h", "nombre")[:3]):
-            TallerAliado.objects.update_or_create(taller=taller, defaults={
-                "en_el_dia": True, "horario_extendido": i != 1, "horario_texto": "Lun-Sáb 6am-9pm" if i != 1 else "",
-                "descuento": descuentos[i], "activo": True, "orden": i})
+            TallerAliado.objects.update_or_create(taller=taller, defaults={"descuento": descuentos[i], "activo": True, "orden": i})
             aliados += 1
         self.stdout.write(self.style.SUCCESS(
             f"Demo lista: {CORREO} · {len(jornadas)} jornadas · {aliados} talleres aliados · "

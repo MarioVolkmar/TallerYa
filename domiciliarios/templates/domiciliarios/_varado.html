@@ -1,0 +1,11 @@
+{% load static domiciliarios_tags %}{% ruta_activa as ruta_on %}{% if ruta_on %}
+{# Mecánicos a domicilio: acceso «¿Te varaste en ruta?» (TallerYa Ruta; nada con la bandera apagada) #}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
+<aside class="papel dm-varado" data-dm-varado>
+  <div><b>¿Te varaste en ruta?</b><span class="text-suave dm-chico">Mecánicos que atienden urgencias y van a donde estás.</span></div>
+  <div class="dm-ruta-acciones">
+    <a href="?urgencias=1" class="btn btn-lava">Ver urgencias</a>
+    <a href="{% url 'talleres:emergencias' %}" class="dm-link">Grúa y emergencias</a>
+  </div>
+</aside>
+{% endif %}

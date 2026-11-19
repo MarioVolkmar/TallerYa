@@ -124,13 +124,16 @@ class IdorTests(Escenario):
 
     def _intentar(self, intruso, casos):
         fallas = []
+        datos = {"estado": "cancelada", "valor": "1", "texto": "x", "km": "9", "cuerpo": "hackeado", "titulo": "hackeado"}
         for url in casos:
-            if self.client.get(url).status_code == 404 and not self._existe(url):
+            # El GET con datos también sirve para ver si la ruta sigue existiendo (antes era un GET aparte).
+            r = self.client.get(url, datos)
+            if r.status_code == 404 and not self._existe(url):
                 fallas.append(f"{url}: la ruta ya no existe; actualizar CASOS")
                 continue
             for metodo in ("get", "post"):
-                r = getattr(self.client, metodo)(url, {"estado": "cancelada", "valor": "1", "texto": "x", "km": "9",
-                                                         "cuerpo": "hackeado", "titulo": "hackeado"})
+                if metodo == "post":
+                    r = self.client.post(url, datos)
                 if r.status_code == 200:
                     fallas.append(f"{metodo.upper()} {url} → {r.status_code} {r.get('Location', '')}")
         return fallas

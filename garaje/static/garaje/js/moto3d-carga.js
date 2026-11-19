@@ -30,6 +30,23 @@
     m.src = modulo;
     document.body.appendChild(m);
   }
+  // El armado del 3D ocupa la página varios segundos en un celular: arranca cuando el esquema del despiece ya se
+  // pintó (o a los 2,5 s si tarda o no hay esquema), así el esquema no queda detrás. La descarga va adelantada.
+  function trasEsquema() {
+    var esquema = document.getElementById("despiece");
+    var hecho = false;
+    function seguir() {
+      if (hecho) return;
+      hecho = true;
+      if (obs) obs.disconnect();
+      requestAnimationFrame(function () { setTimeout(arrancar, 0); });
+    }
+    var obs = null;
+    if (!esquema || esquema.classList.contains("despiece-listo") || !("MutationObserver" in window)) return seguir();
+    obs = new MutationObserver(function () { if (esquema.classList.contains("despiece-listo") || esquema.classList.contains("despiece-fallo")) seguir(); });
+    obs.observe(esquema, { attributes: true, attributeFilter: ["class"] });
+    setTimeout(seguir, 2500);
+  }
   function cargar() {
     if (cargado) return;
     cargado = true;
@@ -37,8 +54,8 @@
     librerias.forEach(function (url) { precargar(url, false); });
     precargar(modulo, false);
     propios.forEach(function (url) { precargar(url, false); });
-    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arrancar);
-    else arrancar();
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", trasEsquema);
+    else trasEsquema();
   }
 
   var caja = visor.getBoundingClientRect();

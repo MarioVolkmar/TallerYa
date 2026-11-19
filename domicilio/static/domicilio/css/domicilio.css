@@ -29,3 +29,86 @@
 .dom-resena-form { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px dashed rgba(255, 255, 255, .15); }
 .dom-foto-actual { display: flex; align-items: center; gap: .6rem; margin: .4rem 0; font-size: .8rem; font-weight: 400; color: #9ba2a4; text-transform: none; letter-spacing: 0; }
 .dom-foto-actual img { width: 3.5rem; height: 3.5rem; border-radius: 50%; object-fit: cover; }
+
+/* Alta por pasos (registro.html + js/pasos.js) */
+.dom-pasos-barra { display: flex; gap: .4rem; list-style: none; padding: 0; margin: 0; counter-reset: paso; }
+.dom-pasos-barra li { flex: 1; display: flex; align-items: center; gap: .45rem; padding: .55rem .6rem; border-radius: 10px;
+  background: rgba(255, 255, 255, .05); font-size: .8rem; font-weight: 600; color: #9ba2a4; min-width: 0; }
+.dom-pasos-barra li span { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; flex-shrink: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, .1); font-size: .75rem; }
+.dom-pasos-barra li.actual { background: rgba(227, 167, 47, .14); color: var(--crema); }
+.dom-pasos-barra li.actual span { background: var(--mostaza); color: #2a1d02; }
+.dom-pasos-barra li.hecho span { background: #3c8a5a; color: #fff; }
+.dom-paso { border: 0; padding: 0; margin: 0; min-width: 0; }
+.dom-paso + .dom-paso { margin-top: 2rem; }
+.dom-paso[hidden] { display: none; }
+.dom-paso-botones { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: space-between; margin-top: 1.6rem; }
+.dom-paso-botones .btn-lava { margin-left: auto; }
+.dom-grupo-falta { outline: 2px solid #ff9c8a; outline-offset: 4px; border-radius: 8px; }
+.dom-grupo-falta::after { content: "Elige al menos una opción."; grid-column: 1 / -1; color: #ff9c8a; font-size: .8rem; }
+
+/* Estado y lo que falta (mi_perfil.html) */
+.dom-estado-caja { padding: 1rem 1.15rem; border-radius: 14px; background: rgba(255, 255, 255, .06); color: var(--crema-2); }
+.dom-estado-caja.dom-estado-pendiente { background: rgba(227, 167, 47, .12); border: 1px solid rgba(227, 167, 47, .4); }
+.dom-estado-caja.dom-estado-aprobado { background: rgba(80, 170, 110, .12); border: 1px solid rgba(80, 170, 110, .4); }
+.dom-estado-caja.dom-estado-suspendido { background: rgba(220, 70, 50, .12); border: 1px solid rgba(220, 70, 50, .4); }
+.dom-estado-titulo { font-family: "Oswald", sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--crema); }
+.dom-estado-apagado { background: rgba(255, 255, 255, .06); color: #9ba2a4; }
+.dom-nota-equipo { padding: .6rem .8rem; border-radius: 10px; background: rgba(0, 0, 0, .25); font-size: .9rem; }
+.dom-progreso { height: .5rem; border-radius: 999px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+.dom-progreso span { display: block; height: 100%; background: var(--mostaza); border-radius: inherit; }
+.dom-lista-pasos { list-style: none; padding: 0; display: grid; gap: .45rem; font-size: .92rem; }
+.dom-lista-pasos li { display: flex; gap: .6rem; align-items: baseline; color: var(--crema-2); }
+.dom-lista-pasos li em { color: #ff9c8a; font-style: normal; font-size: .8rem; }
+.dom-lista-pasos li.hecho { color: #9ba2a4; }
+.dom-check { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; flex-shrink: 0; border-radius: 50%;
+  background: rgba(255, 255, 255, .1); font-size: .75rem; }
+.dom-lista-pasos li.hecho .dom-check { background: #3c8a5a; color: #fff; }
+
+/* Fotos de trabajos */
+.dom-trabajos { display: flex; flex-wrap: wrap; gap: .6rem; }
+.dom-trabajos figure { position: relative; margin: 0; }
+.dom-trabajos img { width: 7.5rem; height: 5.6rem; object-fit: cover; border-radius: 10px; }
+.dom-trabajo-borrar { position: absolute; top: .25rem; right: .25rem; width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  background: rgba(0, 0, 0, .7); color: #fff; font-size: 1rem; line-height: 1; }
+
+/* Tarjeta de taller en el listado mixto */
+.dom-foto-taller { background: #2c3539; color: var(--mostaza); border-radius: 18px; }
+.dom-chapa-taller { background: #2c3539; color: var(--mostaza); border: 1px solid rgba(227, 167, 47, .5); }
+@media (max-width: 480px) { .dom-pasos-barra li { font-size: 0; gap: 0; justify-content: center; } .dom-pasos-barra li span { font-size: .75rem; } }
+
+/* Ficha: sello «Verificado por TallerYa» (desplegable junto al nombre) */
+.dom-sello { display: inline-block; margin-top: .6rem; position: relative; }
+.dom-sello summary { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .7rem; border-radius: 999px; cursor: pointer;
+  list-style: none; font-size: .8rem; font-weight: 700; color: #86dba6; background: rgba(60, 138, 90, .16); border: 1px solid rgba(134, 219, 166, .4); }
+.dom-sello summary::-webkit-details-marker { display: none; }
+.dom-sello summary:hover { background: rgba(60, 138, 90, .26); }
+.dom-sello[open] .dom-sello-flecha { transform: rotate(180deg); }
+.dom-sello-cuerpo { position: absolute; left: 0; top: calc(100% + .4rem); z-index: 30; width: min(22rem, calc(100vw - 7.5rem)); padding: .8rem 1rem; border-radius: 12px; background: rgba(17, 21, 23, .97); box-shadow: 0 12px 30px rgba(0, 0, 0, .45);
+  border: 1px solid rgba(134, 219, 166, .25); font-size: .88rem; max-width: 22rem; }
+.dom-sello-cuerpo ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .3rem; color: var(--crema); }
+.dom-sello-cuerpo p { margin-top: .55rem; font-size: .78rem; color: #9ba2a4; }
+
+/* Aviso legal discreto bajo los botones y dentro de «Solicitar visita» */
+.dom-aviso-mini { margin-top: .9rem; font-size: .78rem; color: #8c9496; max-width: 40rem; }
+.dom-aviso-mini summary { cursor: pointer; list-style: none; }
+.dom-aviso-mini summary::-webkit-details-marker { display: none; }
+.dom-aviso-mini summary span { text-decoration: underline; text-underline-offset: 2px; margin-left: .2rem; }
+.dom-aviso-mini summary:hover span { color: var(--crema-2); }
+.dom-aviso-mini p { margin-top: .4rem; line-height: 1.45; }
+.dom-aviso-visita { font-size: .78rem; line-height: 1.45; color: #9ba2a4; padding: .6rem .8rem; border-left: 3px solid var(--mostaza);
+  background: rgba(227, 167, 47, .07); border-radius: 0 8px 8px 0; }
+.dom-aviso-visita strong, .dom-aviso-mini strong { color: var(--crema-2); }
+
+/* Chips de servicio que abren la visita: flecha pequeña y cursor de botón */
+.dom-chip-accion { display: inline-flex; align-items: center; gap: .3rem; cursor: pointer; }
+.dom-chip-accion svg { opacity: .55; transition: transform .15s ease, opacity .15s ease; }
+.dom-chip-accion:hover svg, .dom-chip-accion:focus-visible svg { opacity: 1; transform: translateX(2px); }
+
+.perfil-avatar.dom-foto-grande { overflow: hidden; }
+.perfil-cabeza:has(.dom-sello[open]) { position: relative; z-index: 40; }  /* el desplegable queda encima de la descripción y los botones */
+
+/* Precios: fila de la visita a domicilio sobre la tabla «Precios desde» */
+.dom-visita-fila { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .6rem; margin-top: .9rem; padding: .65rem .9rem; border-radius: 10px;
+  background: rgba(227, 167, 47, .08); border: 1px dashed rgba(227, 167, 47, .35); font-size: .95rem; }
+.dom-visita-fila strong { color: var(--mostaza); }

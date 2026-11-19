@@ -27,6 +27,14 @@ def _lista_corta(nombres, maximo=3):
     return f"{', '.join(nombres[:maximo])} y {len(nombres) - maximo} más"
 
 
+def _en_dias(dias):
+    if dias is None:
+        return "sin fecha"
+    if dias < 0:
+        return "vencido"
+    return "hoy" if dias == 0 else f"en {dias} día{'s' if dias != 1 else ''}"
+
+
 def generar_para(usuario):
     """Avisos de mantenimiento y documentos de las motos del usuario (agrupados por moto)."""
     from garaje.avisos import url_talleres
@@ -36,7 +44,10 @@ def generar_para(usuario):
     if not perfil:
         return
     hoy = timezone.localdate()
-    for moto in perfil.motos.select_related("linea", "linea__marca"):
+    from domiciliarios.intensivo import precargar_trabajo
+    motos = list(perfil.motos.select_related("linea", "linea__marca"))
+    precargar_trabajo(motos)
+    for moto in motos:
         plan = calcular_plan(moto)
         ajustes = {a.tarea_id: a for a in moto.ajustes.select_related("tarea")}
         # Mismo criterio que la agenda: "Toca ya" = rojo (vencido o urgente), "Se acerca" = amarillo.
@@ -49,10 +60,13 @@ def generar_para(usuario):
             firma = hashlib.sha1("|".join(f"{t.tarea.pk}:{t.ultimo_km}" for t in tareas).encode()).hexdigest()[:12]
             n = len(tareas)
             plural = "s" if n != 1 else ""
+            # Moto de trabajo (TallerYa Ruta): el domiciliario piensa en días, no en km
+            nombres = ([f"{t.tarea.nombre} ({'toca ya' if t.estado == 'vencido' else _en_dias(t.dias_para)})" for t in tareas] if getattr(plan, "de_trabajo", False)
+                       else [t.tarea.nombre for t in tareas])
             notificar(
                 usuario, f"plan:{moto.pk}:{estado}:{firma}",
                 f"{titulo}: {n} mantenimiento{plural} de tu {moto}",
-                _lista_corta([t.tarea.nombre for t in tareas]),
+                _lista_corta(nombres),
                 url_talleres([t.tarea.servicio_id for t in tareas], moto), Notificacion.Tipo.MANTENIMIENTO,
             )
         for a in ajustes.values():

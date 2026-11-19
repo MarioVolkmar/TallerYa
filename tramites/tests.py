@@ -190,6 +190,6 @@ class TramitesAbiertosTests(TestCase):
         h = self.client.get(reverse("talleres:inicio")).content.decode()
         for nombre in ("tramites:soat", "tramites:tecnomecanica", "garaje:diagnostico", "talleres:emergencias"):
             self.assertIn(reverse(nombre), h)
-        self.assertIn('aria-controls="menu-servicios"', h)
-        self.assertIn(">Diagnóstico</a>", h)
-        self.assertIn("Papeles de tu moto", h)
+        self.assertIn("data-diag-portada", h)  # el diagnóstico salió del menú: acceso en la portada
+        self.assertIn(">Diagnóstico</a>", h)   # y en el pie
+        self.assertIn("Resuelve sin salir de TallerYa", h)

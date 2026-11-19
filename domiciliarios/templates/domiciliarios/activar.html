@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Soy domiciliario · TallerYa Ruta{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}">
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
 <div class="dm dm-angosto">
   {% url 'domiciliarios:inicio' as url_inicio %}
   {% include "parciales/volver.html" with url=url_inicio texto="TallerYa Ruta" %}

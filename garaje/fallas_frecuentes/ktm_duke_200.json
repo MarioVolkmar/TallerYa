@@ -1,0 +1,191 @@
+{
+  "linea": "KTM Duke 200",
+  "tipo": "calle",
+  "revisado": "2026-11-18",
+  "nota": "Fallas propias del modelo según las fuentes listadas; el resto es del tipo de moto con los datos del manual.",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual del propietario KTM Duke 200 2024 (datos en garaje/intervalos/ktm_duke_200.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    },
+    "cararac": {
+      "nombre": "Cararac: problemas comunes de la KTM Duke 200 y soluciones",
+      "url": "https://cararac.com/blog/ktm-duke-200-problems-and-solutions.html"
+    }
+  },
+  "fallas": [
+    {
+      "clave": "se-apaga-desacelerar",
+      "titulo": "Se apaga al desacelerar o después de la lluvia",
+      "sintoma": "Al soltar el acelerador o al llegar al semáforo el motor se muere, sobre todo después de un aguacero.",
+      "causa": "Los dueños lo asocian a inyector sucio, bomba de gasolina débil o conectores con humedad.",
+      "gravedad": "cuidado",
+      "que_hacer": "Pide revisión con escáner: limpieza de inyector y cuerpo de aceleración y revisión de conectores. Que no se apague en plena curva.",
+      "alcance": "modelo",
+      "fuentes": [
+        "cararac"
+      ],
+      "tareas": [
+        "bujia",
+        "filtro-aire"
+      ],
+      "diagnostico": {
+        "s": "se_apaga",
+        "cuando": "minimo"
+      },
+      "taller": "Sincronización",
+      "domicilio": "Inyección electrónica"
+    },
+    {
+      "clave": "carga-debil",
+      "titulo": "Aviso de batería baja o luces débiles",
+      "sintoma": "Se prende el aviso de batería o la moto arranca cada vez con menos ganas.",
+      "causa": "Fallas del sistema de carga (estator o regulador) reportadas por dueños.",
+      "gravedad": "cuidado",
+      "que_hacer": "Pide medir el voltaje de carga con el motor prendido antes de cambiar la batería: si el estator no carga, la batería nueva también se descarga.",
+      "alcance": "modelo",
+      "fuentes": [
+        "cararac"
+      ],
+      "tareas": [
+        "bateria"
+      ],
+      "pieza": "bateria",
+      "diagnostico": {
+        "s": "electrico",
+        "que": "descarga"
+      },
+      "taller": "Sistema eléctrico",
+      "domicilio": "Sistema eléctrico"
+    },
+    {
+      "clave": "arrastre-gastado",
+      "titulo": "Traqueteo de la cadena o tirones al acelerar",
+      "sintoma": "La cadena suena, cuelga o da golpecitos al soltar y dar acelerador.",
+      "causa": "Kit de arrastre gastado por falta de lubricar y tensar; con lluvia, parrillero y lomas se gasta más rápido.",
+      "gravedad": "cuidado",
+      "que_hacer": "Lubrica y tensa ya. Deja el juego de la cadena en 5–7 mm, como pide el manual. Si la corona tiene los dientes en punta, cambia el kit completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Pastillas gastadas o líquido de frenos viejo. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Revisa el grosor de las pastillas y el nivel del líquido; si están al límite, cámbialas ya.",
+      "tareas": [
+        "pastillas-tras",
+        "liquido-frenos"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 15.000 km, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "recalienta",
+      "titulo": "Se calienta en el trancón",
+      "sintoma": "El ventilador no para, la temperatura sube en el tablero o el depósito del refrigerante baja.",
+      "causa": "Poco refrigerante, una fuga en mangueras o radiador, o el ventilador que no prende. Que el ventilador prenda en el trancón es normal.",
+      "gravedad": "peligro",
+      "que_hacer": "Si la temperatura sigue subiendo, para y apaga. Revisa el nivel en frío y pide revisar ventilador, mangueras y radiador.",
+      "tareas": [
+        "refrigerante"
+      ],
+      "pieza": "refrigeracion",
+      "diagnostico": {
+        "s": "se_apaga",
+        "cuando": "caliente",
+        "radiador": "si"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 10W-40 o 15W-50, JASO MA2; 1,5 L. Cada 7.500 km o cada 12 meses. Con el aceite se cambia el filtro y se limpia el tamiz. El primer servicio es a los 1.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 15.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Refrigerante",
+      "texto": "Cada 4 años. Solo por tiempo. La protección anticongelante se revisa cada 7.500 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Líquido de frenos",
+      "texto": "DOT 4 / DOT 5.1. Cada 2 años. Solo por tiempo; aplica a los dos frenos.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

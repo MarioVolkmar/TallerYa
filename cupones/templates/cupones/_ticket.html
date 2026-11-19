@@ -9,7 +9,7 @@
         <span class="ticket-taller sin-enlace">Todos los talleres aliados</span>
       {% endif %}
       <span class="flex items-center gap-1.5 shrink-0">
-        {% if cupon.solo_plus %}<span class="insignia insignia-plus">Plus</span>{% endif %}
+        {% if cupon.solo_plus %}<span class="insignia insignia-plus">Plus</span>{% endif %}{% if cupon.solo_domiciliarios %}<span class="insignia insignia-plus" title="Solo domiciliarios verificados de TallerYa Ruta">Domiciliarios</span>{% endif %}
       </span>
     </div>
     <h3 class="titulo text-2xl md:text-[1.7rem] mt-3">{{ cupon.titulo }}</h3>

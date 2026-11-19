@@ -19,7 +19,8 @@
   {% for m in pagina %}{% url 'consola:accion' 'mecanicos.estado' m.pk as a_est %}{% url 'consola:accion' 'mecanicos.verificar' m.pk as a_ver %}
   <tr>
     <td><a href="{{ m.get_absolute_url }}" class="cs-cuenta-nombre">{{ m.nombre }}</a> <span class="cs-id">#{{ m.pk }}</span>
-      <span class="cs-cuenta-correo">{{ m.whatsapp }}{% if m.usuario %} · <a href="?seccion=usuarios&amp;id={{ m.usuario_id }}">{{ m.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span></td>
+      <span class="cs-cuenta-correo">{{ m.whatsapp }}{% if m.usuario %} · <a href="?seccion=usuarios&amp;id={{ m.usuario_id }}">{{ m.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span>
+      <span class="cs-cuenta-correo">{% if m.cedula_ultimos %}Cédula …{{ m.cedula_ultimos }}{% else %}Sin cédula{% endif %} · {{ m.n_fotos }} foto{{ m.n_fotos|pluralize }} de trabajos{% if m.referencias %} · con referencias{% endif %}</span></td>
     <td>{% if m.estado == "aprobado" %}<span class="cs-estado cs-ok">Publicado</span>{% elif m.estado == "pendiente" %}<span class="cs-estado cs-pend">Por revisar</span>{% else %}<span class="cs-estado">Suspendido</span>{% endif %}
       {% if m.verificado %}<span class="cs-rol cs-rol-motero">Verificado</span>{% endif %}</td>
     <td>{{ m.n_resenas }}</td>

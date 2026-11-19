@@ -1,0 +1,140 @@
+{
+  "linea": "Honda Dio 110",
+  "tipo": "scooter",
+  "revisado": "2026-11-18",
+  "nota": "Generado con manage.py esqueleto_fallas: alcance «tipo» con los datos del manual. Agregar fallas propias del modelo solo con fuente (skill fallas-modelo).",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual de mantenimiento Honda Dio SCV110 (datos en garaje/intervalos/honda_dio_110.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    }
+  },
+  "fallas": [
+    {
+      "clave": "cvt-tiembla",
+      "titulo": "Tiembla al arrancar desde parado",
+      "sintoma": "Al salir del semáforo la moto vibra unos segundos antes de coger impulso, más en subida o con parrillero.",
+      "causa": "Polvo de la correa y de las zapatas acumulado en la campana del clutch, o zapatas vidriadas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide una limpieza del CVT y que revisen zapatas y campana. Si la campana está marcada o azulada, se cambia.",
+      "tareas": [
+        "correa-cvt"
+      ],
+      "pieza": "correa",
+      "diagnostico": {
+        "s": "cvt",
+        "que": "tiembla"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "correa-gastada",
+      "titulo": "Acelera pero no avanza como antes",
+      "sintoma": "El motor sube de vueltas y la moto se queda, sobre todo en lomas; a veces chilla la tapa del CVT.",
+      "causa": "Correa gastada o rodillos del variador aplanados. Una correa vieja puede reventarse.",
+      "gravedad": "cuidado",
+      "que_hacer": "Revisa cuánto lleva la correa. El manual la cambia cada 24.000 km. Si ya pasó, cambia correa y revisa rodillos en el mismo servicio.",
+      "tareas": [
+        "correa-cvt"
+      ],
+      "pieza": "correa",
+      "diagnostico": {
+        "s": "cvt",
+        "que": "lenta"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 4.000 km, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 10W-30, JASO MB, API SG o superior (no del tipo Energy Conserving). Cada 4.000 km o cada 12 meses. El primer cambio es a los 1.000 km. El filtro tamiz se limpia cada 12.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "La correa",
+      "texto": "Cada 24.000 km. Se revisa cada 8.000 km y se cambia a los 24.000.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 4.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 16.000 km. Con polvo o lluvia, más seguido.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

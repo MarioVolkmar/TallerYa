@@ -33,13 +33,44 @@ def intervalo_intensivo(km, pieza):
 
 
 def ritmo_intensivo(moto, km_semana, hoy=None):
-    """km por día: el declarado o el de las lecturas reales, el que sea mayor (mejor avisar antes que tarde)."""
-    declarado = km_semana / 7
+    """km por día: los reales (lecturas del tablero y cierres de jornada) cuando hay al menos una semana de datos; si
+    no, los declarados en km por semana."""
     real, estimado = ritmo_km(moto, hoy)
-    return max(declarado, real) if real and not estimado else declarado
+    return real if real and not estimado else km_semana / 7
 
 
-def plan_intensivo(moto, km_semana, hoy=None):
+def km_semana_sugerido(moto):
+    """Para crear el perfil desde el interruptor de la moto: el ritmo real si lo hay, si no unos 1.200 km/semana."""
+    real, estimado = ritmo_km(moto)
+    km = round(real * 7) if real and not estimado else 1200
+    return min(5000, max(50, km))
+
+
+def precargar_trabajo(motos):
+    """Para listas de motos (Mi garaje, Mi cuenta, avisos): una sola consulta en vez de una por moto."""
+    from .bandera import activo
+    from .models import PerfilDomiciliario
+    if not activo() or not motos:
+        return
+    por_moto = {p.moto_id: p for p in PerfilDomiciliario.objects.filter(moto__in=[m.pk for m in motos])}
+    for m in motos:
+        m._perfil_trabajo = por_moto.get(m.pk)
+
+
+def perfil_de_trabajo(moto):
+    """El perfil de domiciliario si esta moto es «la uso para trabajar» (y la bandera está prendida); si no, None."""
+    from .bandera import activo
+    from .models import PerfilDomiciliario
+    if not activo() or not getattr(moto, "pk", None):
+        return None
+    cache = getattr(moto, "_perfil_trabajo", False)
+    if cache is False:
+        cache = PerfilDomiciliario.objects.filter(moto=moto).first()
+        moto._perfil_trabajo = cache
+    return cache
+
+
+def plan_intensivo(moto, km_semana, hoy=None, tareas=None):
     hoy = hoy or timezone.localdate()
     ritmo = ritmo_intensivo(moto, km_semana, hoy)
     ultimos = {}
@@ -49,7 +80,10 @@ def plan_intensivo(moto, km_semana, hoy=None):
     propios = intervalos.de_linea(moto.linea, moto.modelo) if moto.linea_id else {}
     specs = moto.specs()
     plan = PlanMoto(moto=moto, km_por_dia=ritmo, ritmo_estimado=False)
-    for tarea in TareaMantenimiento.objects.filter(activo=True).select_related("servicio"):
+    plan.de_trabajo = True  # la página de la moto y los avisos lo usan (tarjeta Mi ruta, alertas en días)
+    if tareas is None:
+        tareas = TareaMantenimiento.objects.filter(activo=True).select_related("servicio")
+    for tarea in tareas:
         if not tarea.aplica_a(specs):
             continue
         tarea = intervalos.aplicar(tarea, moto.linea, propios) if propios else tarea

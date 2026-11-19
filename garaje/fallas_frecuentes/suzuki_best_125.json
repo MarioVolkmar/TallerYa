@@ -1,0 +1,118 @@
+{
+  "linea": "Suzuki Best 125",
+  "tipo": "semi",
+  "revisado": "2026-11-18",
+  "nota": "Generado con manage.py esqueleto_fallas: alcance «tipo» con los datos del manual. Agregar fallas propias del modelo solo con fuente (skill fallas-modelo).",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual del propietario Suzuki Best 125 (datos en garaje/intervalos/suzuki_best_125.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    }
+  },
+  "fallas": [
+    {
+      "clave": "arrastre-gastado",
+      "titulo": "Traqueteo de la cadena o tirones al acelerar",
+      "sintoma": "La cadena suena, cuelga o da golpecitos al soltar y dar acelerador.",
+      "causa": "Kit de arrastre gastado por falta de lubricar y tensar; con lluvia, parrillero y lomas se gasta más rápido.",
+      "gravedad": "cuidado",
+      "que_hacer": "Lubrica y tensa ya. Si la corona tiene los dientes en punta, cambia el kit completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 3.000 km, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 10W-40, API SF/SG; 800 ml. Cada 3.000 km. El primer cambio es a los 1.000 km y luego cada 3.000.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 3.000 km. La primera revisión es a los 1.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 4.000 km. Es de papel y el manual pide limpiarlo cada 4.000 km: limpieza en seco, sin lavarlo; se cambia si está roto o muy sucio.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Bujía",
+      "texto": "NGK C6HS o Denso U20FS-U; separación 0,6–0,8 mm. Cada 6.000 km. Se limpia cada 3.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

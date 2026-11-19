@@ -42,7 +42,10 @@ def _preparar_tarjetas(talleres, usuario=None):
              .values("taller").annotate(prom=Avg("estrellas"), n=Count("id"))}
     con_cupon = set(Cupon.objects.disponibles().filter(taller__in=ids).values_list("taller", flat=True))
     favoritos = _favoritos_de(usuario, ids)
+    from domicilio.models import TallerDomicilio  # «Va a domicilio» (una consulta para todas las tarjetas)
+    a_domicilio = set(TallerDomicilio.objects.filter(activo=True, taller__in=ids).values_list("taller", flat=True))
     for t in talleres:
+        t.va_domicilio = t.pk in a_domicilio
         nota = notas.get(t.pk)
         t.prom = nota["prom"] if nota else None
         t.n_resenas = nota["n"] if nota else 0
@@ -156,10 +159,12 @@ def directorio(request, fijos=None, seo=None):
         talleres = talleres.filter(marcas__id=f["marca"])
     if f.get("verificados"):
         talleres = talleres.filter(verificado=True)
+    if f.get("domicilio"):  # «Va a domicilio»: el mismo criterio de /mecanicos/ (TallerDomicilio activo; el taller ya es activo)
+        talleres = talleres.filter(domicilio__activo=True)
     solo_favoritos = bool(f.get("favoritos")) and request.user.is_authenticated
     if solo_favoritos:
         talleres = talleres.filter(favoritos__usuario=request.user)
-    if q or any(f.get(k) for k in ("barrio", "servicio", "marca", "verificados", "cupon")):
+    if q or any(f.get(k) for k in ("barrio", "servicio", "marca", "verificados", "cupon", "domicilio")):
         registrar_evento(request, "busqueda_talleres", q=termino_busqueda(q), barrio=bool(f.get("barrio")),
                          servicio=bool(f.get("servicio")), marca=bool(f.get("marca")))
     if f.get("cupon"):
@@ -192,7 +197,8 @@ def directorio(request, fijos=None, seo=None):
     for clave, modelo in (("barrio", Barrio), ("servicio", Servicio), ("marca", Marca)):
         if f.get(clave, "").isdigit() and (obj := modelo.objects.filter(pk=f[clave]).first()):
             activos.append({"nombre": str(obj), "quitar": "?" + sin(clave)})
-    for clave, nombre in (("favoritos", "Mis favoritos"), ("verificados", "Solo verificados"), ("cupon", "Con cupón")):
+    for clave, nombre in (("favoritos", "Mis favoritos"), ("verificados", "Solo verificados"), ("cupon", "Con cupón"),
+                          ("domicilio", "Va a domicilio")):
         if f.get(clave) and (clave != "favoritos" or solo_favoritos):
             activos.append({"nombre": nombre, "quitar": "?" + sin(clave)})
 

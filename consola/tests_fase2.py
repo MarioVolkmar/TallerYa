@@ -185,7 +185,7 @@ class SembrarDemoTests(TestCase):
 
 
 class CabeceraPorRolTests(Base):
-    """La cabecera del administrador es corta; la de motero, taller y visitante no cambia."""
+    """La cabecera del administrador es corta; motero, taller y visitante tienen la suya (ver talleres/tests_navegacion.py)."""
     def cabecera(self):
         html = self.client.get(reverse("talleres:directorio")).content.decode()
         return html[html.index('id="cabecera"'):html.index("</header>")]
@@ -210,7 +210,7 @@ class CabeceraPorRolTests(Base):
         self.client.logout()
         c = self.cabecera()
         self.assertIn("Crear cuenta", c)
-        self.assertIn("Mi garaje", c)
+        self.assertNotIn("Mi garaje", c)  # el visitante ve Talleres, Comunidad, Emergencias, Entrar y Crear cuenta
         self.assertNotIn("Consola", c)
 
     def test_taller_sin_cambios(self):

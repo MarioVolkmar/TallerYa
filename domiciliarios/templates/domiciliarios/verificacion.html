@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Verificarme · TallerYa Ruta{% endblock %}
+{% block seo %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
+<div class="dm dm-angosto">
+  <a href="{% url 'domiciliarios:panel' %}" class="dm-volver">← Mi ruta</a>
+  <h1 class="titulo dm-h1">Verificarme como <span class="text-lava">domiciliario</span></h1>
+
+  {# Estado de la solicitud: siempre arriba y en una frase #}
+  {% if vigente %}
+  <section class="dm-estado dm-estado-ok" role="status">
+    <b>✓ Estás verificado</b>
+    <span>Vale hasta el {{ vigente.vence|date:"j \d\e F \d\e Y" }}. Se renueva solo si sigues cerrando jornadas.</span>
+  </section>
+  <p class="dm-chico text-suave">Ya tienes la insignia, los descuentos de talleres con Plus y el comprobante. Tus fotos se borraron.</p>
+  <a href="{% url 'domiciliarios:panel' %}" class="btn btn-lava dm-ancho">Volver a Mi ruta</a>
+
+  {% elif pendiente %}
+  <section class="dm-estado dm-estado-espera" role="status">
+    <b>En revisión</b>
+    <span>Enviada el {{ pendiente.creado|date:"j M" }}. Te avisamos en la campana apenas la revisemos.</span>
+  </section>
+  <div class="dm-enviadas">
+    <a href="{% url 'domiciliarios:verificacion_foto' pendiente.pk 'captura' %}" target="_blank" rel="noopener"><img src="{% url 'domiciliarios:verificacion_foto' pendiente.pk 'captura' %}" alt="Tu pantallazo" loading="lazy"><span>Pantallazo</span></a>
+    {% if pendiente.foto_moto %}<a href="{% url 'domiciliarios:verificacion_foto' pendiente.pk 'foto_moto' %}" target="_blank" rel="noopener"><img src="{% url 'domiciliarios:verificacion_foto' pendiente.pk 'foto_moto' %}" alt="Tu moto" loading="lazy"><span>Moto</span></a>{% endif %}
+  </div>
+  <form method="post" action="{% url 'domiciliarios:cancelar_verificacion' %}">{% csrf_token %}<button type="submit" class="btn btn-borde dm-ancho">Retirar y borrar mis fotos</button></form>
+
+  {% else %}
+  {% if ultima.estado == "rechazada" %}
+  <section class="dm-estado dm-estado-mal" role="status">
+    <b>No pudimos verificarte</b>
+    <span>Motivo: {{ ultima.motivo }}</span>
+    <span>Corrige eso y envía las fotos otra vez abajo.</span>
+  </section>
+  {% elif ultima.estado == "vencida" %}
+  <section class="dm-estado dm-estado-espera" role="status">
+    <b>Tu verificación venció</b>
+    <span>Envía las 2 fotos otra vez para renovarla.</span>
+  </section>
+  {% else %}
+  <p class="dm-lead text-suave">Con 2 fotos activas la insignia y lo de Plus: descuentos en talleres y comprobante. Lo demás de Ruta es gratis y no pide nada.</p>
+  {% endif %}
+
+  {% if not form.fields.moto.queryset.exists %}
+  <section class="papel dm-caja">
+    <p><b>Primero agrega la placa de tu moto.</b></p>
+    <p class="dm-chico text-suave">La comparamos con la de las fotos.</p>
+    <a href="{% url 'garaje:garaje' %}" class="btn btn-lava dm-ancho">Ir a mi garaje</a>
+  </section>
+  {% else %}
+  <form method="post" enctype="multipart/form-data" class="dm-pasos-form" novalidate data-dm-verificacion>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<p class="dm-error">{{ form.non_field_errors|join:" " }}</p>{% endif %}
+
+    <section class="papel dm-paso">
+      <h2 class="dm-paso-titulo"><span>1</span>Tu app y tu moto</h2>
+      <label class="dm-campo"><span>{{ form.plataforma.label }}</span>{{ form.plataforma }}</label>
+      <label class="dm-campo"><span>{{ form.moto.label }}</span>{{ form.moto }}
+        {% for e in form.moto.errors %}<small class="dm-error">{{ e }}</small>{% endfor %}</label>
+    </section>
+
+    <section class="papel dm-paso">
+      <h2 class="dm-paso-titulo"><span>2</span>Pantallazo de tu perfil</h2>
+      <div class="dm-ejemplo">
+        <svg viewBox="0 0 120 200" aria-hidden="true" class="dm-ejemplo-img"><rect x="6" y="4" width="108" height="192" rx="14" fill="#1d2326" stroke="#5c6669" stroke-width="3"/><circle cx="60" cy="48" r="18" fill="#5c6669"/><rect x="28" y="76" width="64" height="9" rx="4" fill="#f4ecdf"/><rect x="36" y="92" width="48" height="6" rx="3" fill="#9ba2a4"/><rect x="18" y="116" width="84" height="44" rx="6" fill="#2a3134"/><rect x="26" y="124" width="40" height="6" rx="3" fill="#9ba2a4"/><rect x="26" y="138" width="54" height="14" rx="3" fill="#f2c94c"/><rect x="31" y="142" width="44" height="6" rx="2" fill="#1d2326"/><rect x="18" y="168" width="84" height="16" rx="8" fill="#ff5a3c"/></svg>
+        <ul class="dm-ejemplo-lista">
+          <li class="dm-si">Tu <b>nombre</b> se lee</li>
+          <li class="dm-si">Se ve la <b>placa</b> o los datos de la moto</li>
+          <li class="dm-no">Sin contraseñas: nunca te las pedimos</li>
+        </ul>
+      </div>
+      <label class="dm-subir">{{ form.captura }}<span class="dm-subir-boton">Elegir pantallazo</span><span class="dm-subir-nombre" data-nombre>Ninguno elegido</span></label>
+      {% for e in form.captura.errors %}<small class="dm-error">{{ e }}</small>{% endfor %}
+    </section>
+
+    <section class="papel dm-paso">
+      <h2 class="dm-paso-titulo"><span>3</span>Foto de tu moto</h2>
+      <div class="dm-ejemplo">
+        <svg viewBox="0 0 120 120" aria-hidden="true" class="dm-ejemplo-img"><rect x="4" y="4" width="112" height="112" rx="10" fill="#1d2326"/><path d="M30 88c0-14 10-26 30-26s30 12 30 26" fill="none" stroke="#5c6669" stroke-width="6"/><rect x="44" y="30" width="32" height="36" rx="6" fill="#2a3134"/><circle cx="60" cy="40" r="5" fill="#ff5a3c"/><rect x="34" y="72" width="52" height="24" rx="3" fill="#f2c94c" stroke="#1d2326" stroke-width="2"/><rect x="40" y="80" width="40" height="8" rx="2" fill="#1d2326"/></svg>
+        <ul class="dm-ejemplo-lista">
+          <li class="dm-si">La <b>placa completa</b> y legible</li>
+          <li class="dm-si">De día o con buena luz</li>
+          <li class="dm-si">La misma moto del paso 1</li>
+        </ul>
+      </div>
+      <label class="dm-subir">{{ form.foto_moto }}<span class="dm-subir-boton">Tomar o elegir foto</span><span class="dm-subir-nombre" data-nombre>Ninguna elegida</span></label>
+      {% for e in form.foto_moto.errors %}<small class="dm-error">{{ e }}</small>{% endfor %}
+    </section>
+
+    <section class="papel dm-paso">
+      <h2 class="dm-paso-titulo"><span>4</span>Autoriza y envía</h2>
+      <p class="dm-chico text-suave">Ley 1581 de 2012: usamos las fotos solo para verificarte. Las guardamos en privado, con un nombre al azar y sin los datos ocultos de la foto (ubicación, celular). Solo las ves tú y quien revisa. <b>Se borran apenas decidimos.</b> Puedes retirarlas cuando quieras.</p>
+      <label class="dm-check">{{ form.autorizo }} <span>{{ form.autorizo.label }}</span></label>
+      {% for e in form.autorizo.errors %}<small class="dm-error">{{ e }}</small>{% endfor %}
+      <button type="submit" class="btn btn-lava dm-ancho dm-grande">Enviar para revisión</button>
+    </section>
+  </form>
+  <script src="{% static 'domiciliarios/verificacion.js' %}" defer></script>
+  {% endif %}
+  {% endif %}
+</div>
+{% endblock %}

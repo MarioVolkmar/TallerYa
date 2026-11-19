@@ -13,8 +13,8 @@
     {% if puede_agregar %}<a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-3">Agregar moto</a>{% endif %}
   </div>
 </div>
-{% aviso_domiciliarios %}{# TallerYa Ruta: no pinta nada con DOMICILIARIOS_ACTIVO apagado #}
 
+{% ruta_activa as ruta_on %}
 <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8 lista-editable" id="lista-motos">
   {% for moto, plan in planes %}
   <div class="moto-ficha">
@@ -53,6 +53,13 @@
       </div>
     </div>
   </a>
+  {% if plan.de_trabajo %}<a href="{% url 'domiciliarios:panel' %}" class="ficha-trabajo" title="Moto de trabajo · ir a Mi ruta">Trabajo</a>{% endif %}{# TallerYa Ruta: solo con la bandera prendida #}
+  {% if ruta_on %}{# Modo «Editar»: marcar o desmarcar la moto de trabajo sin entrar a la moto #}
+  <form method="post" action="{% url 'domiciliarios:moto_trabajo' moto.pk %}" class="ficha-editar-trabajo">{% csrf_token %}
+    <input type="hidden" name="valor" value="{% if plan.de_trabajo %}0{% else %}1{% endif %}">
+    <input type="hidden" name="volver" value="garaje">
+    <button type="submit" class="ficha-switch" role="switch" aria-checked="{% if plan.de_trabajo %}true{% else %}false{% endif %}"><span aria-hidden="true"></span>La uso para trabajar</button>
+  </form>{% endif %}
   <button type="button" class="eliminar-pill" data-eliminar="{% url 'garaje:eliminar' moto.pk %}" data-nombre="{{ moto }}" aria-label="Eliminar {{ moto }}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>Eliminar</button>
   </div>
   {% empty %}

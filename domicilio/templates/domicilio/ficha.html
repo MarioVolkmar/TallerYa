@@ -3,6 +3,7 @@
 {% block title %}{{ m.nombre }} · Mecánico de motos a domicilio · TallerYa{% endblock %}
 {% block seo %}{% if m.publicado %}{% seo titulo=m.nombre|add:" · Mecánico a domicilio · TallerYa" descripcion=m.descripcion|default:"Mecánico de motos a domicilio en Medellín y el Valle de Aburrá."|truncatechars:155 %}{% else %}<meta name="robots" content="noindex">{% endif %}{% endblock %}
 
+{# Misma estructura y clases que talleres/detalle.html (perfil-*, papel, insignia…); lo propio va en domicilio.css #}
 {% block hero %}
 <section class="hero relative overflow-hidden perfil-hero portada-garaje">
   <span class="perfil-hero-luz" aria-hidden="true"></span>
@@ -10,26 +11,42 @@
     {% url 'domicilio:listado' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mecánicos a domicilio" %}
     {% if not m.publicado %}<p class="dom-estado dom-estado-{{ m.estado }} mt-4">{% if m.estado == "pendiente" %}Tu perfil está en revisión: solo tú y el equipo de TallerYa lo ven por ahora.{% else %}Perfil suspendido: no aparece en el listado.{% endif %}</p>{% endif %}
     <div class="perfil-cabeza mt-6">
-      <span class="perfil-avatar dom-foto-grande" aria-hidden="true">{% if m.foto %}<img src="{{ m.foto.url }}" alt="" width="96" height="96">{% else %}{{ m.iniciales }}{% endif %}</span>
+      <span class="perfil-avatar dom-foto-grande{% if m.foto %} con-logo{% endif %}" aria-hidden="true">{% if m.foto %}<img src="{{ m.foto.url }}" alt="" width="96" height="96">{% else %}{{ m.iniciales }}{% endif %}</span>
       <div class="min-w-0">
         <div class="flex flex-wrap gap-2">
-          <span class="insignia">🛵 A domicilio</span>
-          {% if m.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
+          <span class="insignia insignia-dom">🛵 Mecánico a domicilio</span>
           {% if m.urgencias %}<span class="insignia insignia-lava">Atiende urgencias</span>{% endif %}
         </div>
         <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-2 max-w-3xl">{{ m.nombre }}</h1>
+        {% if verificaciones %}
+        <details class="dom-sello">
+          <summary><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/></svg>Verificado por TallerYa<svg class="dom-sello-flecha" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <div class="dom-sello-cuerpo">
+            <ul>{% for texto in verificaciones %}<li>✔ {{ texto }}</li>{% endfor %}</ul>
+            <p>Revisamos cada perfil antes de publicarlo. Sus datos privados no se muestran.</p>
+          </div>
+        </details>
+        {% endif %}
         <p class="perfil-datos">
-          {% if nota.n %}<a href="#resenas" class="perfil-nota"><span class="estrellas" aria-hidden="true">★</span> <strong>{{ nota.prom|floatformat:1 }}</strong> · {{ nota.n }} reseña{{ nota.n|pluralize }}</a>{% endif %}
-          {% if m.anios_experiencia %}<span>🔧 {{ m.anios_experiencia }} año{{ m.anios_experiencia|pluralize }} de experiencia</span>{% endif %}
+          {% if nota.n %}<a href="#resenas" class="perfil-nota"><span class="estrellas" aria-hidden="true">★</span> <strong>{{ nota.prom|floatformat:1 }}</strong> · {{ nota.n }} reseña{{ nota.n|pluralize }}</a>{% else %}<span>Nuevo en TallerYa</span>{% endif %}
+          {% if zonas %}<a href="#cobertura">📍 Va a {{ zonas|slice:":3"|join:", " }}{% if zonas|length > 3 %} y {{ zonas|length|add:"-3" }} más{% endif %}</a>{% endif %}
           {% if m.horario %}<span>🕒 {{ m.horario }}</span>{% endif %}
         </p>
+        <p class="perfil-domicilio">{% if m.tarifa_visita %}Visita desde <strong>{{ m.tarifa_texto }}</strong> <span class="text-suave">(orientativa, sin repuestos)</span>{% else %}Tarifa de visita: pregúntale por WhatsApp{% endif %}{% if m.anios_experiencia %} · 🔧 {{ m.anios_experiencia }} año{{ m.anios_experiencia|pluralize }} de experiencia{% endif %}</p>
       </div>
     </div>
+    {% if m.descripcion %}<p class="perfil-lema">{{ m.descripcion|truncatechars:300 }}</p>{% endif %}
     <div class="perfil-acciones mt-6">
-      <a href="{{ m.whatsapp_url }}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp text-sm px-6 py-3">Escribir por WhatsApp</a>
+      {% if m.publicado %}<button type="button" class="btn btn-lava text-sm px-6 py-3" data-abrir="dialogo-visita">📅 Solicitar visita</button>{% endif %}
+      <a href="{{ m.whatsapp_url }}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp text-sm px-6 py-3">WhatsApp</a>
       <a href="tel:+{{ m.whatsapp }}" rel="nofollow" class="btn btn-borde text-sm px-5 py-3">📞 Llamar</a>
+      {% if m.publicado and not es_dueno %}{% include "domicilio/_favorito.html" with clase="btn btn-borde text-sm px-5 py-3 fav-detalle" %}{% endif %}
       {% if es_dueno %}<a href="{% url 'domicilio:mi_perfil' %}" class="btn text-sm px-5 py-3 perfil-editar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Editar mi perfil</a>{% endif %}
     </div>
+    <details class="dom-aviso-mini">
+      <summary>TallerYa conecta; el acuerdo y el pago son con el mecánico. <span>Más info</span></summary>
+      <p>{% include "domicilio/_aviso_texto.html" %}</p>
+    </details>
   </div>
 </section>
 {% endblock %}
@@ -37,41 +54,82 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
 <div class="relative z-10 -mt-24 md:-mt-32 space-y-10">
-  {% include "domicilio/_aviso.html" %}
 
-  <section class="grid grid-cols-1 gap-6 md:grid-cols-3 items-start" aria-label="Perfil">
-    <div class="papel p-6 md:col-span-2 space-y-5">
-      <div>
-        <h2 class="titulo text-2xl">Sobre {{ m.nombre }}</h2>
-        <p class="text-suave mt-2 dom-descripcion">{{ m.descripcion|default:"Aún no escribió una descripción." }}</p>
-      </div>
-      <div>
-        <h3 class="campo-label">Trabajos que hace a domicilio</h3>
-        <div class="tc-servicios mt-2">{% for s in m.servicios.all %}<span class="tc-servicio">{{ s }}</span>{% endfor %}</div>
-      </div>
-      {% if m.marcas.all %}<div>
-        <h3 class="campo-label">Marcas que mejor conoce</h3>
-        <p class="mt-1">{{ m.marcas.all|join:", " }}</p>
-      </div>{% endif %}
+  <!-- Precios desde (misma tabla que el taller) + visita a domicilio -->
+  <section class="papel p-5 md:p-7 perfil-precios" id="precios" aria-labelledby="servicios-titulo">
+    <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <h2 class="titulo text-2xl" id="servicios-titulo">{% if tabla_precios.filas %}Precios desde{% else %}Servicios a domicilio{% endif %}</h2>
+      {% if tabla_precios.filas %}<p class="text-xs text-suave">Mano de obra y repuestos típicos · orientativos, no son una cotización</p>{% endif %}
     </div>
-    <div class="papel p-6 space-y-4">
-      <div>
-        <h3 class="campo-label">Zonas donde atiende</h3>
-        <ul class="dom-zonas mt-2">{% for z in m.zonas.all %}<li>{{ z }}</li>{% endfor %}</ul>
-      </div>
-      <div>
-        <h3 class="campo-label">Tarifa de visita</h3>
-        <p class="mt-1">{% if m.tarifa_visita %}<strong class="text-lg">{{ m.tarifa_texto }}</strong> <span class="text-xs text-suave">orientativa, sin repuestos</span>{% else %}<span class="text-suave">Pregúntale por WhatsApp</span>{% endif %}</p>
-      </div>
-      <div>
-        <h3 class="campo-label">Urgencias</h3>
-        <p class="mt-1">{% if m.urgencias %}Sí, atiende motos varadas{% else %}No, solo con cita{% endif %}</p>
+    <p class="dom-visita-fila">🛵 <span>Visita a domicilio</span> <strong>{% if m.tarifa_visita %}desde {{ m.tarifa_texto }}{% else %}pregúntale{% endif %}</strong>{% if m.tarifa_visita %}<span class="text-xs text-suave">se suma al servicio; sin repuestos</span>{% endif %}</p>
+    {% if tabla_precios.filas %}
+    <div class="perfil-precios-tabla">
+      <table>
+        <thead><tr><th scope="col">Servicio</th>{% for c in tabla_precios.columnas %}<th scope="col">{{ c }}</th>{% endfor %}</tr></thead>
+        <tbody>
+          {% for fila in tabla_precios.filas %}
+          <tr>
+            <th scope="row">{% if m.publicado %}<button type="button" data-abrir="dialogo-visita" data-servicio="{{ fila.pk }}" title="Solicitar visita: {{ fila.servicio|lower }}">{{ fila.servicio|capfirst }}</button>{% else %}{{ fila.servicio|capfirst }}{% endif %}</th>
+            {% for celda in fila.celdas %}<td>{% if celda %}{{ celda }}{% else %}<span class="text-suave" aria-label="Sin precio">—</span>{% endif %}</td>{% endfor %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+    {% if otros_servicios %}
+    <div class="mt-4">
+      {% if tabla_precios.filas %}<p class="text-sm text-suave mb-2">También hace:</p>{% endif %}
+      <div class="perfil-chips">
+        {% for s in otros_servicios %}{% if m.publicado %}<button type="button" class="perfil-chip perfil-chip-servicio dom-chip-accion" data-abrir="dialogo-visita" data-servicio="{{ s.pk }}" title="Solicitar visita: {{ s|lower }}">{{ s|capfirst }}<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>{% else %}<span class="perfil-chip">{{ s|capfirst }}</span>{% endif %}{% endfor %}
       </div>
     </div>
+    {% endif %}
   </section>
 
+  {% if fotos %}
+  <!-- Trabajos: franja de una fila, como las fotos del taller -->
+  <section aria-labelledby="fotos-titulo">
+    <div class="flex items-center justify-between gap-3">
+      <h2 class="perfil-subtitulo" id="fotos-titulo">Fotos de sus trabajos</h2>
+      <button type="button" class="boton-seccion" data-foto="0">Ver {% if fotos|length > 1 %}las {{ fotos|length }} fotos{% else %}la foto{% endif %}</button>
+    </div>
+    <div class="perfil-franja mt-3">
+      {% for f in fotos %}<button type="button" class="perfil-franja-foto" data-foto="{{ forloop.counter0 }}" data-src="{{ f.imagen.url }}" aria-label="Ver trabajo {{ forloop.counter }}"><img src="{{ f.imagen.url }}" alt="Trabajo {{ forloop.counter }} de {{ m.nombre }}" loading="lazy" decoding="async"></button>{% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if numeros.trabajo %}
+  <!-- En qué es bueno y cómo trabaja -->
+  <section>
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.trabajo }}</span>En qué es bueno y cómo trabaja</h2>
+    <div class="separador mt-4 mb-6"></div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
+      <div class="papel p-6 space-y-5">
+        {% if m.anios_experiencia %}<div><h3 class="perfil-subtitulo">Experiencia</h3><p class="mt-2"><strong class="text-2xl">{{ m.anios_experiencia }}</strong> año{{ m.anios_experiencia|pluralize }} reparando motos</p></div>{% endif %}
+        {% if especialidades %}<div><h3 class="perfil-subtitulo">Especialidades</h3><div class="perfil-chips mt-3">{% for e in especialidades %}<span class="perfil-chip">{{ e }}</span>{% endfor %}</div></div>{% endif %}
+        {% if marcas %}<div><h3 class="perfil-subtitulo">Marcas que mejor conoce</h3><div class="perfil-chips mt-3">{% for x in marcas %}<span class="perfil-chip perfil-chip-marca">{{ x.nombre|capfirst }}</span>{% endfor %}</div></div>{% endif %}
+      </div>
+      {% if compromisos or herramientas %}
+      <div class="papel p-6 space-y-5">
+        {% if compromisos %}<div>
+          <h3 class="perfil-subtitulo">Cómo trabaja</h3>
+          <ul class="perfil-compromisos mt-3">{% for icono, texto in compromisos %}<li><span class="perfil-compromiso-icono" aria-hidden="true">{{ icono }}</span><span>{{ texto }}</span></li>{% endfor %}</ul>
+        </div>{% endif %}
+        {% if herramientas %}<div><h3 class="perfil-subtitulo">Herramientas y equipo que lleva</h3><div class="perfil-chips mt-3">{% for h in herramientas %}<span class="perfil-chip">🧰 {{ h|capfirst }}</span>{% endfor %}</div></div>{% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Reseñas -->
   <section id="resenas">
-    <h2 class="titulo text-2xl md:text-3xl">Reseñas</h2>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.resenas }}</span>Reseñas</h2>
+      {% if m.publicado and not es_dueno %}{% if user.is_authenticated %}<button type="button" class="boton-seccion" data-abrir="dialogo-resena">★ {% if mi_resena %}Editar mi reseña{% else %}Escribir reseña{% endif %}</button>{% else %}<a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}%23resenas" class="boton-seccion">★ Entra para calificar</a>{% endif %}{% endif %}
+    </div>
     <div class="separador mt-4 mb-6"></div>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3 items-start">
       <div class="papel p-6 perfil-puntaje">
@@ -89,28 +147,87 @@
             <div class="min-w-0">
               <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span> <span class="text-xs text-suave">· {{ r.creado|date:"j M Y"|lower }}</span></p>
               <p class="text-sm text-suave mt-0.5">{{ r.comentario }}</p>
+              {% if r.respuesta %}<div class="perfil-respuesta"><p class="perfil-respuesta-quien">Respuesta de {{ m.nombre }}</p><p>{{ r.respuesta }}</p></div>{% endif %}
             </div>
           </div>
-        {% empty %}<p class="text-suave text-sm">Aún no hay reseñas.</p>{% endfor %}
+        {% empty %}<p class="text-suave text-sm">Aún no hay reseñas.{% if m.publicado and not es_dueno %} ¿Te atendió? Sé el primero en calificarlo.{% endif %}</p>{% endfor %}
+      </div>
+    </div>
+  </section>
 
-        {% if m.publicado and not es_dueno %}
-        <div class="dom-resena-form">
-          {% if user.is_authenticated %}
-          <form method="post" class="space-y-3">{% csrf_token %}
-            <p class="titulo text-xl">{% if mi_resena %}Edita tu reseña{% else %}¿Te atendió? Califícalo{% endif %}</p>
-            <label class="campo-label">Estrellas{{ form.estrellas }}</label>
-            {% for e in form.estrellas.errors %}<p class="error">{{ e }}</p>{% endfor %}
-            <label class="campo-label">{{ form.comentario.label }}{{ form.comentario }}</label>
-            {% for e in form.comentario.errors %}<p class="error">{{ e }}</p>{% endfor %}
-            <button class="btn btn-lava text-sm px-6 py-3">{% if mi_resena %}Actualizar reseña{% else %}Publicar reseña{% endif %}</button>
-          </form>
-          {% else %}
-          <p class="text-sm">¿Te atendió? <a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}%23resenas" class="boton-texto">Entra</a> para dejar tu reseña.</p>
-          {% endif %}
-        </div>
-        {% endif %}
+  <!-- Zona de cobertura (en vez del mapa del taller: no tiene local, va a donde está la moto) -->
+  <section id="cobertura">
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.cobertura }}</span>Zona de cobertura</h2>
+    <div class="separador mt-4 mb-6"></div>
+    <div class="papel p-6 md:p-8 space-y-5">
+      {% if zonas_medellin %}<div><h3 class="perfil-subtitulo">Medellín</h3><ul class="dom-zonas mt-3">{% for z in zonas_medellin %}<li>📍 {{ z.nombre }}</li>{% endfor %}</ul></div>{% endif %}
+      {% if zonas_municipios %}<div><h3 class="perfil-subtitulo">Valle de Aburrá</h3><ul class="dom-zonas mt-3">{% for z in zonas_municipios %}<li>📍 {{ z }}</li>{% endfor %}</ul></div>{% endif %}
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 text-suave">
+        {% if m.horario %}<p class="flex gap-2.5"><span aria-hidden="true">🕒</span><span>{{ m.horario }}</span></p>{% endif %}
+        <p class="flex gap-2.5"><span aria-hidden="true">🚨</span><span>{% if m.urgencias %}Sale a atender motos varadas, también fuera de su horario{% else %}No atiende urgencias: mejor con cita{% endif %}</span></p>
       </div>
     </div>
   </section>
 </div>
+
+{% if m.publicado %}
+<!-- Ventana: solicitar visita (arma el mensaje de WhatsApp; TallerYa no guarda nada) -->
+<dialog id="dialogo-visita" class="dialogo-eliminar dialogo-registrar" aria-labelledby="dialogo-visita-titulo">
+  <form method="get" action="{% url 'domicilio:visita' m.slug %}" target="_blank" class="space-y-4">
+    <div class="flex items-start justify-between gap-3 dialogo-cabeza">
+      <p class="titulo text-2xl" id="dialogo-visita-titulo">Solicitar visita de <span class="text-lava">{{ m.nombre }}</span></p>
+      <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <p class="text-sm text-suave">Elige lo que necesitas y te abrimos WhatsApp con el mensaje listo.</p>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <label class="campo-label">Servicio<select name="servicio" class="campo"><option value="">Aún no sé (diagnóstico)</option>{% for s in servicios %}<option value="{{ s.pk }}">{{ s }}</option>{% endfor %}</select></label>
+      <label class="campo-label">¿Dónde está la moto?<select name="zona" class="campo"><option value="">Otra zona</option>{% for z in zonas %}<option value="{{ z.pk }}">{{ z }}</option>{% endfor %}</select></label>
+      <label class="campo-label">Moto<input type="text" name="moto" maxlength="60" class="campo" placeholder="Ej: Yamaha NMAX 2022"></label>
+      <label class="campo-label">¿Cuándo?<select name="cuando" class="campo">{% for clave, texto in cuando %}{% if clave != "ahora" or m.urgencias %}<option value="{{ clave }}"{% if clave == "hoy" %} selected{% endif %}>{{ texto }}</option>{% endif %}{% endfor %}</select></label>
+      <label class="campo-label sm:col-span-2">¿Qué le pasa? (opcional)<textarea name="detalle" rows="2" maxlength="300" class="campo" placeholder="Ej: no prende, hace ruido al frenar…"></textarea></label>
+    </div>
+    <p class="dom-aviso-visita" role="note">{% include "domicilio/_aviso_texto.html" %}</p>
+    <div class="flex flex-wrap justify-end gap-3 dialogo-pie">
+      <button type="button" class="boton-seccion" data-cerrar>Cancelar</button>
+      <button class="btn btn-whatsapp text-xs px-6 py-3" data-cerrar-al-enviar>Abrir WhatsApp</button>
+    </div>
+  </form>
+</dialog>
+{% endif %}
+
+{% if m.publicado and not es_dueno and user.is_authenticated %}
+<!-- Ventana: escribir reseña (solo con cuenta, una por cuenta) -->
+<dialog id="dialogo-resena" class="dialogo-eliminar" aria-labelledby="dialogo-resena-titulo">
+  <form method="post" action="{{ m.get_absolute_url }}#resenas" class="space-y-4">
+    {% csrf_token %}
+    <div class="flex items-start justify-between gap-3">
+      <p class="titulo text-2xl" id="dialogo-resena-titulo">Califica a <span class="text-lava">{{ m.nombre }}</span></p>
+      <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <fieldset class="estrellas-elegir" aria-label="Estrellas">
+      {% for i in "54321" %}<input type="radio" name="estrellas" value="{{ i }}" id="resena-estrella-{{ i }}" required{% if mi_resena.estrellas|stringformat:"s" == i %} checked{% endif %}><label for="resena-estrella-{{ i }}" title="{{ i }} de 5">★</label>{% endfor %}
+    </fieldset>
+    {% for e in form.estrellas.errors %}<p class="error">{{ e }}</p>{% endfor %}
+    <label class="campo-label">{{ form.comentario.label }}{{ form.comentario }}</label>
+    {% for e in form.comentario.errors %}<p class="error">{{ e }}</p>{% endfor %}
+    <div class="flex flex-wrap justify-end gap-3">
+      <button type="button" class="boton-seccion" data-cerrar>Cancelar</button>
+      <button class="btn btn-lava text-xs px-6 py-3">{% if mi_resena %}Actualizar reseña{% else %}Publicar reseña{% endif %}</button>
+    </div>
+  </form>
+</dialog>
+{% endif %}
+
+{% if fotos %}
+<!-- Visor de fotos (mismas clases que el del taller) -->
+<dialog id="visor-fotos" class="visor-fotos" aria-label="Trabajos de {{ m.nombre }}">
+  <button type="button" class="visor-fotos-cerrar" data-cerrar aria-label="Cerrar">×</button>
+  <button type="button" class="visor-fotos-flecha izq" data-paso="-1" aria-label="Anterior">‹</button>
+  <figure><img id="visor-fotos-img" alt=""><figcaption id="visor-fotos-texto"></figcaption></figure>
+  <button type="button" class="visor-fotos-flecha der" data-paso="1" aria-label="Siguiente">›</button>
+</dialog>
+{% endif %}
+<div id="dom-ficha" data-abrir-resena="{% if abrir_resena and form.errors %}1{% endif %}" hidden></div>
+<script src="{% static 'domicilio/js/ficha.js' %}" defer></script>
+<script src="{% static 'talleres/js/favoritos.js' %}" defer></script>
 {% endblock %}

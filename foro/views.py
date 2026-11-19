@@ -17,7 +17,7 @@ from talleres.models import Marca
 
 from metricas.nucleo import registrar_evento
 
-from . import menciones, reacciones
+from . import diagnosticos, menciones, reacciones
 from .forms import PreguntaForm, RespuestaForm
 from .models import Categoria, Reaccion, Voto, REPORTES_PARA_OCULTAR, Pregunta, Reporte, Respuesta
 
@@ -36,6 +36,12 @@ def _puede_publicar(usuario):
 
 NOMBRES_CORTOS = {"rutas": "Rutas", "repuestos": "Repuestos"}  # pestañas cortas (el nombre completo va en title)
 
+
+
+def categorias_visibles():
+    """Las categorías del foro; «Domiciliarios» (TallerYa Ruta) solo con DOMICILIARIOS_ACTIVO."""
+    from domiciliarios.bandera import activo
+    return [(c, n) for c, n in Categoria.choices if c != Categoria.DOMICILIARIOS or activo()]
 
 def _sin(qd, *claves):
     copia = qd.copy()
@@ -60,7 +66,7 @@ def lista(request):
     if q:
         preguntas = preguntas.filter(Q(titulo__icontains=q) | Q(cuerpo__icontains=q) | Q(respuestas__cuerpo__icontains=q)).distinct()
     categoria = f.get("categoria", "")
-    if categoria in Categoria.values:
+    if categoria in dict(categorias_visibles()):
         preguntas = preguntas.filter(categoria=categoria)
     marca = f.get("marca", "")
     if marca.isdigit():
@@ -69,6 +75,10 @@ def lista(request):
     if linea.isdigit():
         preguntas = preguntas.filter(linea_id=linea)
     # "Sin respuesta" llega como filtro=… (enlaces viejos) o como orden=… (selector "Ordenar")
+    # Temas que citan un diagnóstico de ese sistema (Frenos, Motor…)
+    sistema = f.get("sistema", "") if f.get("sistema", "") in diagnosticos.SISTEMAS else ""
+    if sistema:
+        preguntas = preguntas.filter(diagnostico__sistema=sistema)
     sin_respuesta = f.get("filtro") == "sin-respuesta" or f.get("orden") == "sin-respuesta"
     if sin_respuesta:
         preguntas = preguntas.filter(num_respuestas=0)
@@ -85,7 +95,7 @@ def lista(request):
     from garaje.models import LineaMoto
     # Vista por defecto (sin búsqueda, filtros, orden elegido ni página): "Recientes" arriba y los temas agrupados por
     # categoría. Con cualquier filtro u orden, la lista plana con páginas.
-    agrupada = not any(f.get(k) for k in ("q", "categoria", "marca", "linea", "filtro", "orden", "pagina"))
+    agrupada = not any(f.get(k) for k in ("q", "categoria", "marca", "linea", "filtro", "orden", "pagina", "sistema"))
     recientes, grupos = [], []
     if agrupada:
         recientes = list(preguntas[:5])
@@ -95,9 +105,9 @@ def lista(request):
         "pagina": Paginator(preguntas, 15).get_page(f.get("pagina")),
         "marcas": Marca.objects.all(), "q": q, "marca": marca, "linea": linea, "categoria": categoria,
         "lineas": LineaMoto.objects.filter(marca_id=marca).order_by("nombre") if marca.isdigit() else [],
-        "categorias": [(c, n, NOMBRES_CORTOS.get(c, n)) for c, n in Categoria.choices], "orden": orden, "ordenes": ORDENES,
+        "categorias": [(c, n, NOMBRES_CORTOS.get(c, n)) for c, n in categorias_visibles()], "orden": orden, "ordenes": ORDENES,
         "orden_elegido": f.get("orden") if f.get("orden") in ORDENES else "", "qs_todos": _sin(sin_orden, "filtro"),
-        "filtro": "sin-respuesta" if sin_respuesta else "",
+        "filtro": "sin-respuesta" if sin_respuesta else "", "sistema": sistema, "qs_sin_sistema": _sin(sin_pagina, "sistema"),
         "qs_orden": sin_orden.urlencode(), "qs_categoria": sin_categoria.urlencode(), "qs_pagina": sin_pagina.urlencode(),
     })
 
@@ -122,23 +132,35 @@ def _grupos_por_categoria(preguntas, por_grupo=5):
 
 @login_required
 def preguntar(request):
-    form = PreguntaForm(request.POST or None)
+    # ?diagnostico=<consulta>: viene del botón «Preguntar en el foro» del resultado del diagnóstico
+    consulta = (request.POST.get("diagnostico") if request.method == "POST" else request.GET.get("diagnostico", "")) or ""
+    previa = diagnosticos.vista_previa(request, consulta)
+    inicial = {}
+    if previa and request.method != "POST":
+        inicial = {"categoria": Categoria.FALLAS, "marca": previa["marca_id"], "linea": previa["linea_id"],
+                   "titulo": f"Mi {previa['modelo'] or 'moto'}: {previa['sintoma'].lower()}. ¿Qué puede ser?"[:150]}
+    form = PreguntaForm(request.POST or None, initial=inicial)
     if request.method == "POST" and form.is_valid():
-        if not _puede_publicar(request.user):
+        diagnostico, error = diagnosticos.adjuntar(request)
+        if error:
+            messages.error(request, error)
+        elif not _puede_publicar(request.user):
             messages.error(request, "Has publicado mucho en poco tiempo. Intenta de nuevo en un rato.")
         else:
             pregunta = form.save(commit=False)
             pregunta.autor = request.user
+            pregunta.diagnostico = diagnosticos.guardar(request.user, diagnostico)
             pregunta.save()
             menciones.notificar_publicacion(pregunta, pregunta, request.user)
             registrar_evento(request, "foro_pregunta", categoria=pregunta.categoria)
             messages.success(request, "¡Pregunta publicada! Vuelve pronto para ver las respuestas.")
             return redirect(pregunta)
-    return render(request, "foro/preguntar.html", {"form": form})
+    return render(request, "foro/preguntar.html", {"form": form, "diag_previa": previa, "diag_consulta": consulta if previa else "",
+                                                   "mis_diagnosticos": diagnosticos.opciones(request)})
 
 
 def pregunta(request, pk, slug=None):
-    pregunta = get_object_or_404(Pregunta.objects.select_related("autor", "marca", "linea", "autor__taller", "rodada"), pk=pk, visible=True)
+    pregunta = get_object_or_404(Pregunta.objects.select_related("autor", "marca", "linea", "autor__taller", "rodada", "diagnostico"), pk=pk, visible=True)
     if getattr(pregunta, "rodada", None):  # las rodadas se ven (y se comentan) en su propia página
         return redirect(pregunta.rodada)
     if slug != pregunta.slug:
@@ -172,11 +194,15 @@ def publicar_respuesta(request, pregunta, en_rodada=False):
             messages.error(request, "Ese mensaje ya no está disponible. Tu respuesta no se publicó.")
             return redirect(request.path), None, form
     if form.is_valid():
-        if not _puede_publicar(request.user):
+        diagnostico, error = diagnosticos.adjuntar(request)
+        if error:
+            messages.error(request, error)
+        elif not _puede_publicar(request.user):
             messages.error(request, "Has publicado mucho en poco tiempo. Intenta de nuevo en un rato.")
         else:
             respuesta = form.save(commit=False)
             respuesta.pregunta, respuesta.autor, respuesta.padre = pregunta, request.user, padre
+            respuesta.diagnostico = diagnosticos.guardar(request.user, diagnostico)
             respuesta.save()
             menciones.notificar_publicacion(respuesta, pregunta, request.user, en_rodada=en_rodada)
             registrar_evento(request, "foro_respuesta", rodada=en_rodada)
@@ -186,7 +212,7 @@ def publicar_respuesta(request, pregunta, en_rodada=False):
 
 def contexto_hilo(request, pregunta, padre, form, por_votos=True):
     """Respuestas en hilo con menciones, reacciones, votos, reportes y formularios (temas del foro y rodadas)."""
-    respuestas = list(pregunta.respuestas.filter(visible=True).select_related("autor", "autor__taller", "autor__perfil")
+    respuestas = list(pregunta.respuestas.filter(visible=True).select_related("autor", "autor__taller", "autor__perfil", "diagnostico")
                       .annotate(num_votos=Count("votos")))
     if por_votos:  # primer nivel: la mejor respuesta primero, luego las más votadas; en hilo, orden de llegada
         respuestas.sort(key=lambda r: (r.pk != pregunta.mejor_respuesta_id, -r.num_votos, r.creado))
@@ -227,6 +253,8 @@ def contexto_hilo(request, pregunta, padre, form, por_votos=True):
         "motivos_reporte": reacciones.MOTIVOS_REPORTE,
         # Diálogo de reporte abierto sin JavaScript (?reportar=respuesta-12)
         "reporte_sin_js": _reporte_sin_js(request),
+        "mis_diagnosticos": diagnosticos.opciones(request),
+        "diag_parecidos": diagnosticos.parecidos(pregunta),
     }
 
 

@@ -1,0 +1,11 @@
+{# Mi ruta: aviso para verificarse (contexto: verificado, verif_pendiente). Verificado: nada aquí; va como chip en la ficha. #}
+{% if not verificado %}
+<div class="dm-aviso-verif{% if verif_pendiente %} dm-aviso-espera{% endif %}">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+  <div class="dm-aviso-texto">
+    {% if verif_pendiente %}<b>Tu verificación está en revisión</b><span>Te avisamos en la campana.</span>
+    {% else %}<b>Verifícate con 2 fotos</b><span>Para la insignia y los descuentos Plus.</span>{% endif %}
+  </div>
+  <a href="{% url 'domiciliarios:verificacion' %}" class="btn {% if verif_pendiente %}btn-borde{% else %}btn-lava{% endif %} dm-btn-sec">{% if verif_pendiente %}Ver solicitud{% else %}Verificarme{% endif %}</a>
+</div>
+{% endif %}

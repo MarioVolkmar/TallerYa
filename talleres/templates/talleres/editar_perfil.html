@@ -9,6 +9,7 @@
     {% if taller.activo %}<a href="{{ taller.get_absolute_url }}" class="boton-seccion" target="_blank" rel="noopener">Ver cómo lo ven los moteros →</a>{% endif %}
   </div>
   <p class="text-suave mt-2">Un perfil completo, con fotos de tu local y tus trabajos, genera más confianza y más citas.</p>
+  <p class="text-sm mt-2">🛵 ¿También atiendes a domicilio? <a href="{% url 'domicilio:mi_taller' %}" class="boton-texto">Actívalo aquí</a> y sales en Mecánicos a domicilio.</p>
   <div class="pt-completo{% if completitud.pct == 100 %} listo{% endif %} mt-5">
     <span class="pt-completo-fila"><span>Perfil completo</span><strong>{{ completitud.pct }}%</strong></span>
     <span class="pt-barra"><span style="width: {{ completitud.pct }}%"></span></span>

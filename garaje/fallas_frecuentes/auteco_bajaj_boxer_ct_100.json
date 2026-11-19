@@ -1,0 +1,78 @@
+{
+  "linea": "Bajaj Boxer CT 100",
+  "tipo": "calle",
+  "revisado": "2026-11-18",
+  "nota": "Hay pocos reportes públicos de fallas propias de la Boxer CT 100 (tiene fama de aguantadora); lo que sigue es lo que más les pasa a las motos de trabajo de 100 cc con carburador y cadena (alcance «tipo»), con los datos del manual.",
+  "fuentes": {
+    "manual": {"nombre": "Manual del propietario Bajaj Boxer CT 100 (datos ya cargados en garaje/intervalos/auteco_bajaj_boxer_ct_100.json)", "url": "https://colombia.globalbajaj.com/en/BRANDS/Boxer/BOXER-CT-100-ES"},
+    "c3": {"nombre": "C3 Care Car Center: Boxer CT 100, características y servicio de taller", "url": "https://www.c3carecarcenter.com/blog/todo-sobre-el-boxer-ct-100-caracteristicas-y-servicio-de-taller/"},
+    "diagnostico": {"nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma", "url": ""}
+  },
+  "fallas": [
+    {
+      "clave": "arrastre-gastado",
+      "titulo": "Traqueteo de la cadena o tirones al acelerar",
+      "sintoma": "La cadena suena, cuelga o da golpecitos al soltar y dar acelerador.",
+      "causa": "Kit de arrastre gastado por falta de lubricar y tensar; en moto de trabajo con carga se gasta rápido.",
+      "gravedad": "cuidado",
+      "que_hacer": "Lubrica y deja el juego de la cadena entre 20 y 30 mm. Si la corona tiene los dientes en punta, cambia el kit completo.",
+      "alcance": "tipo",
+      "tareas": ["cadena-lubricar", "kit-arrastre"],
+      "pieza": "cadena",
+      "diagnostico": {"s": "ruido", "donde": "arrastre"},
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "fuentes": ["manual", "diagnostico"]
+    },
+    {
+      "clave": "se-apaga-frio",
+      "titulo": "Se apaga en frío o el mínimo no se sostiene",
+      "sintoma": "En la mañana se apaga en los primeros minutos o en los semáforos, y toca tenerla acelerada.",
+      "causa": "Carburador sucio o mal graduado, filtro de aire tapado o bujía descalibrada.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa filtro de aire y bujía (se calibra a 0,7–0,8 mm). Si sigue, pide limpieza y graduación del carburador (sincronización).",
+      "alcance": "tipo",
+      "tareas": ["filtro-aire", "bujia"],
+      "pieza": "filtro_aire",
+      "diagnostico": {"s": "se_apaga", "cuando": "frio"},
+      "taller": "Sincronización",
+      "domicilio": "Carburación",
+      "fuentes": ["manual", "c3", "diagnostico"]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas por el uso normal.",
+      "gravedad": "molestia",
+      "que_hacer": "Calibración de válvulas en frío: la primera a los 750 km y después cada 5.000 km.",
+      "alcance": "tipo",
+      "tareas": ["valvulas"],
+      "pieza": "motor",
+      "diagnostico": {"s": "ruido", "donde": "motor", "tipo": "tic"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "fuentes": ["manual", "diagnostico"]
+    },
+    {
+      "clave": "frenos-banda",
+      "titulo": "Los frenos de banda frenan cada vez menos",
+      "sintoma": "La manigueta o el pedal llegan muy lejos antes de frenar.",
+      "causa": "Bandas gastadas o freno desajustado; con carga y en bajadas se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta los frenos y revisa el indicador de desgaste. Si llegaron al límite, cambia las bandas ya.",
+      "alcance": "tipo",
+      "tareas": ["bandas-del", "bandas-tras"],
+      "pieza": "freno_tras",
+      "diagnostico": {"s": "frena_mal", "cual": "ambos", "como": "poco"},
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "fuentes": ["diagnostico"]
+    }
+  ],
+  "tips": [
+    {"titulo": "Juego de la cadena: 20 a 30 mm", "texto": "Es lo que pide el manual. Más flojo, la cadena salta y gasta el piñón; más tensa, se rompen rodamientos.", "fuentes": ["manual"]},
+    {"titulo": "Primera calibración de válvulas a los 750 km", "texto": "Si la compraste nueva, no te saltes esa: después va cada 5.000 km.", "fuentes": ["manual"]},
+    {"titulo": "Moto de trabajo con carga", "texto": "Si llevas mercancía o parrillero a diario, revisa frenos y cadena cada semana. Son los que primero sufren con el peso en las lomas.", "fuentes": ["c3", "manual"]}
+  ]
+}

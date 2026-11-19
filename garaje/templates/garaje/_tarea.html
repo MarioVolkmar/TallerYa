@@ -17,8 +17,8 @@
     <div class="barra barra-{{ t.nivel|default:t.estado }}" role="progressbar" aria-valuenow="{{ t.porcentaje }}" aria-valuemin="0" aria-valuemax="100" aria-label="Avance hacia el próximo {{ t.tarea.nombre|lower }}"><span style="width: {{ t.porcentaje }}%"></span></div>
     {% endif %}
     <p class="tarea-meta">
-      {% if t.ultimo_km is not None %}Último: {{ t.ultimo_km|intcomma }} km · {{ t.ultima_fecha|date:"j M Y"|lower }}{% elif t.supuesto %}Contamos desde que la moto era nueva.{% else %}Sin registros todavía.{% endif %}
-      {% if t.tarea.intervalo_km %} · Cada {{ t.tarea.intervalo_km|intcomma }} km{% endif %}{% if t.tarea.intervalo_dias %} · o {{ t.tarea.intervalo_dias }} días{% endif %}{% if t.tarea.fuente_intervalo %} · <span class="tarea-fuente" title="{{ t.tarea.fuente_intervalo }}">{% if t.tarea.intervalo_aproximado %}Aproximado{% else %}Según el manual{% if t.tarea.especificacion %}: {{ t.tarea.especificacion }}{% endif %}{% endif %}</span>{% endif %}
+      {% if t.ultimo_km is not None %}Último: {{ t.ultimo_km|intcomma }} km · {{ t.ultima_fecha|date:"j M Y"|lower }}{% elif t.supuesto %}Contamos desde que la moto era nueva.{% elif t.estimado %}<span class="tarea-estimado">Estimado</span>: sin registro, contamos desde que la moto era nueva.{% else %}Sin registros todavía.{% endif %}
+      {% if t.intervalo %} · {{ t.intervalo }}{% endif %}{% if t.tarea.fuente_intervalo %} · <span class="tarea-fuente" title="{{ t.tarea.fuente_intervalo }}">{% if t.tarea.intervalo_aproximado %}Aproximado{% else %}Según el manual{% if t.tarea.especificacion %}: {{ t.tarea.especificacion }}{% endif %}{% endif %}</span>{% endif %}
     </p>
 
     <div class="accion-grid">

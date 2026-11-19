@@ -36,7 +36,8 @@ def pendientes():
 
 def seccion(request):
     qs = (MecanicoDomicilio.objects.select_related("usuario")
-          .annotate(n_resenas=Count("resenas", filter=Q(resenas__visible=True)))
+          .annotate(n_resenas=Count("resenas", filter=Q(resenas__visible=True), distinct=True),
+                    n_fotos=Count("fotos_trabajo", distinct=True))
           .order_by("estado", "-creado"))  # "aprobado" < "pendiente" < "suspendido": se reordena abajo
     q = request.GET.get("q", "").strip()[:80]
     if q:

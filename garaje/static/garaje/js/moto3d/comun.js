@@ -27,9 +27,19 @@ const pendientesCeder = [];
 canalCeder.port1.onmessage = () => pendientesCeder.shift()?.();
 // Pedazo más largo (ms) que el armado tuvo la página ocupada sin soltarla: __visor.info().pedazoMasLargo
 export const pedazos = { desde: 0, max: 0 };
+// scheduler.yield() pone la continuación delante de las demás tareas: bien para el armado, pero las respuestas de red
+// y los clics de la página quedaban en cola hasta que el 3D terminaba (el esquema del despiece esperaba al 3D entero).
+// Cada TURNO_MS se cede un turno de verdad, al final de la cola, para que lo demás avance.
+const TURNO_MS = 120;
+let desdeTurno = 0;
 export async function ceder() {
-  pedazos.max = Math.max(pedazos.max, performance.now() - pedazos.desde);
-  if (window.scheduler?.yield) await scheduler.yield();
-  else await new Promise((r) => { pendientesCeder.push(r); canalCeder.port2.postMessage(0); });
+  const ahora = performance.now();
+  pedazos.max = Math.max(pedazos.max, ahora - pedazos.desde);
+  if (!desdeTurno) desdeTurno = ahora;
+  if (window.scheduler?.yield && ahora - desdeTurno < TURNO_MS) await scheduler.yield();
+  else {
+    await new Promise((r) => { pendientesCeder.push(r); canalCeder.port2.postMessage(0); });
+    desdeTurno = performance.now();
+  }
   pedazos.desde = performance.now();
 }

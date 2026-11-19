@@ -4,21 +4,76 @@
     {
       "name": "tallerya",
       "runtimeExecutable": "venv/Scripts/python.exe",
-      "runtimeArgs": ["manage.py", "runserver", "127.0.0.1:8001"],
+      "runtimeArgs": [
+        "manage.py",
+        "runserver",
+        "127.0.0.1:8001"
+      ],
       "port": 8001
     },
     {
       "name": "estatico",
       "runtimeExecutable": "venv/Scripts/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8010", "--bind", "127.0.0.1"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8010",
+        "--bind",
+        "127.0.0.1"
+      ],
       "port": 8010
     },
     {
       "name": "estatico-dev",
       "runtimeExecutable": "venv/Scripts/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8012", "--bind", "127.0.0.1", "--directory", "C:/dev/TallerYa"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8012",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "C:/dev/TallerYa"
+      ],
       "port": 8012,
       "autoPort": false
+    },
+    {
+      "name": "tallerya-medir",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "manage.py",
+        "runserver",
+        "127.0.0.1:8024",
+        "--noreload"
+      ],
+      "port": 8024,
+      "autoPort": false
+    },
+    {
+      "name": "tallerya-3d",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "manage.py",
+        "runserver",
+        "127.0.0.1:8014",
+        "--noreload"
+      ],
+      "port": 8014,
+      "autoPort": false
+    },
+    {
+      "name": "tallerya-alt",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "C:/dev/TallerYa/.claude/worktrees/moto-3d-alterna-6c92e5/manage.py",
+        "runserver",
+        "localhost:8016",
+        "--noreload"
+      ],
+      "port": 8016,
+      "autoPort": false,
+      "url": "http://localhost:8016"
     }
   ]
 }

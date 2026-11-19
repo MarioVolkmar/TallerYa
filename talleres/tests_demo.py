@@ -4,7 +4,7 @@ import tempfile
 
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, override_settings
+from django.test import TestCase, override_settings, tag
 from django.urls import reverse
 
 from garaje.models import LineaMoto, RegistroServicio, ServicioTaller
@@ -52,6 +52,7 @@ class TalleresDemoTests(TestCase):
         self.assertTrue(RegistroServicio.objects.filter(moto=nkd, verificado=True, taller__nombre="Taller Doble Leva").exists())
 
 
+@tag("lenta")  # carga el demo completo dos veces (~3 s): corre en la suite completa
 @override_settings(MEDIA_ROOT=MEDIOS)
 class ComandoCargarDemoTests(TestCase):
     def test_aguanta_cupones_repetidos_y_no_borra_nada(self):

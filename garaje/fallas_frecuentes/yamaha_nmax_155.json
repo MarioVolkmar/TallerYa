@@ -1,0 +1,94 @@
+{
+  "linea": "Yamaha NMAX 155",
+  "tipo": "scooter",
+  "revisado": "2026-11-18",
+  "fuentes": {
+    "manual": {"nombre": "Manual del propietario Yamaha NMAX 155 (datos ya cargados en garaje/intervalos/yamaha_nmax_155.json)", "url": "https://www.yamahamotos.cl/wp-content/uploads/2021/12/NMAX.pdf"},
+    "motoryk": {"nombre": "Motoryk: problemas reportados de la NMAX 125/155 (guía de compra de usadas)", "url": "https://www.motoryk.com/bikes/yamaha/nmax-125-155/problems"},
+    "gridoto": {"nombre": "GridOto (Indonesia, donde la NMAX es masiva): notas de mecánicos sobre el servicio del CVT", "url": "https://otomotifnet.gridoto.com/read/232815442/tips-ampuh-mencegah-cvt-yamaha-nmax-gredek-segera-cek-komponen-ini"},
+    "gridoto_servicio": {"nombre": "GridOto: cada cuánto se hace el servicio del CVT de la NMAX", "url": "https://www.gridoto.com/read/224261029/bagian-cvt-yamaha-nmax-wajib-servis-secara-berkala-biayanya-murah-sob"}
+  },
+  "fallas": [
+    {
+      "clave": "cvt-tiembla",
+      "titulo": "Tiembla al arrancar desde parado",
+      "sintoma": "Al salir del semáforo la moto vibra o «trepida» unos segundos antes de coger impulso. Se nota más en subida o con parrillero.",
+      "causa": "Polvo de la correa y de las zapatas acumulado en la campana del clutch, o zapatas que se vidriaron. Es de lo que más reportan los dueños de NMAX.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide una limpieza del CVT: abren la tapa, sacan el polvo y revisan zapatas y campana. Si la campana está azulada o marcada, se cambia. No lo dejes mucho: el temblor gasta la correa.",
+      "alcance": "modelo",
+      "tareas": ["correa-cvt"],
+      "pieza": "correa",
+      "diagnostico": {"s": "cvt", "que": "tiembla"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "fuentes": ["gridoto", "motoryk"]
+    },
+    {
+      "clave": "correa-gastada",
+      "titulo": "Acelera pero no avanza como antes",
+      "sintoma": "El motor sube de vueltas y la moto se queda, sobre todo en lomas. A veces suena un chillido o un traqueteo en la tapa del CVT.",
+      "causa": "Correa gastada o rodillos (pesas del variador) aplanados. Una correa vieja puede reventarse y dejarte varado.",
+      "gravedad": "cuidado",
+      "que_hacer": "Revisa cuánto lleva la correa: Yamaha la cambia cada 18.000 km (te avisa el indicador V-BELT). Si ya pasó o la sientes así, cambia correa y revisa rodillos en el mismo servicio.",
+      "alcance": "modelo",
+      "tareas": ["correa-cvt"],
+      "pieza": "correa",
+      "diagnostico": {"s": "cvt", "que": "lenta"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico",
+      "fuentes": ["manual", "motoryk", "gridoto"]
+    },
+    {
+      "clave": "frio-minimo",
+      "titulo": "Le cuesta prender en frío o el mínimo baila",
+      "sintoma": "En la mañana necesita varios intentos, o en el semáforo el motor sube y baja de vueltas.",
+      "causa": "Los dueños reportan inyector sucio. Antes de eso revisa lo sencillo: bujía y filtro de aire.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa bujía y filtro de aire según el plan. Si siguen bien, pide limpieza de inyector y del cuerpo de aceleración en un taller con escáner.",
+      "alcance": "modelo",
+      "tareas": ["bujia", "filtro-aire"],
+      "diagnostico": {"s": "se_apaga", "cuando": "frio"},
+      "taller": "Sincronización",
+      "domicilio": "Inyección electrónica",
+      "fuentes": ["motoryk", "manual"]
+    },
+    {
+      "clave": "bateria-quieta",
+      "titulo": "Después de unos días quieta, no prende",
+      "sintoma": "La dejas parqueada varios días y al volver el arranque gira lento o no hace nada.",
+      "causa": "En las versiones con llave inteligente, el sistema consume un poco de batería aunque la moto esté apagada; con una batería ya cansada se nota rápido.",
+      "gravedad": "molestia",
+      "que_hacer": "Si la vas a dejar quieta más de una semana, prende la moto y ruédala un rato, o usa un cargador de mantenimiento. Pide medir la batería: si no sostiene la carga, toca cambiarla.",
+      "alcance": "modelo",
+      "tareas": ["bateria"],
+      "pieza": "bateria",
+      "diagnostico": {"s": "no_prende", "arranque": "lento"},
+      "taller": "Sistema eléctrico",
+      "domicilio": "Batería y arranque",
+      "fuentes": ["motoryk"]
+    },
+    {
+      "clave": "barras-fuga",
+      "titulo": "Aceite en las barras de la suspensión delantera",
+      "sintoma": "Ves una película de aceite en las barras de adelante y la moto rebota más en los huecos.",
+      "causa": "Retenedores de la horquilla gastados; los huecos y resaltos de la ciudad los castigan.",
+      "gravedad": "cuidado",
+      "que_hacer": "Cambia retenedores y aceite de la horquilla. Si el aceite llega al disco de freno, deja de rodar hasta limpiarlo.",
+      "alcance": "modelo",
+      "tareas": ["suspension-del"],
+      "pieza": "suspension_del",
+      "diagnostico": {"s": "fuga", "que": "barras"},
+      "taller": "Suspensión",
+      "domicilio": "Suspensión",
+      "fuentes": ["motoryk"]
+    }
+  ],
+  "tips": [
+    {"titulo": "El indicador V-BELT es cambio, no revisión", "texto": "Cuando parpadea (cada 18.000 km) toca cambiar la correa. Aprovecha y pide limpiar la caja del CVT y revisar rodillos y zapatas.", "fuentes": ["manual"]},
+    {"titulo": "Limpieza del CVT entre cambios", "texto": "Con el polvo y los trancones de Medellín, una limpieza del CVT cada 8.000 a 10.000 km evita el temblor al arrancar y alarga la correa.", "fuentes": ["gridoto_servicio", "motoryk"]},
+    {"titulo": "No olvides el aceite de la transmisión final", "texto": "Es aparte del aceite de motor: son apenas 0,10 L y se cambia cada 12.000 km o cada año. Muchos lo olvidan.", "fuentes": ["manual"]},
+    {"titulo": "El filtro de aire no se sopla", "texto": "Es de papel con aceite: se cambia, no se limpia con aire. Soplarlo lo daña y deja pasar mugre al motor.", "fuentes": ["manual"]},
+    {"titulo": "Refrigerante: míralo en frío", "texto": "En los trancones el ventilador trabaja mucho. Revisa el nivel del depósito con el motor frío, y si baja seguido busca la fuga.", "fuentes": ["manual"]}
+  ]
+}

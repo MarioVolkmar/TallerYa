@@ -1,4 +1,7 @@
-"""Recordatorio de pico y placa por WhatsApp para mañana. Programarlo una vez al día por la tarde (p. ej. 6 p. m.)."""
+"""Recordatorio de pico y placa por WhatsApp para mañana. Programarlo una vez al día por la tarde (p. ej. 6 p. m.).
+
+TallerYa Ruta (con DOMICILIARIOS_ACTIVO): a las motos de trabajo les deja además el aviso dentro de TallerYa la noche
+anterior (misma clave que el aviso al navegar, así que nunca se repite), aunque no tengan WhatsApp activado."""
 from datetime import timedelta
 
 from django.conf import settings
@@ -28,3 +31,22 @@ class Command(BaseCommand):
                 moto.save(update_fields=["pico_placa_enviado"])
                 enviados += 1
         self.stdout.write(f"Recordatorios de pico y placa enviados: {enviados}")
+        self.stdout.write(f"Avisos de pico y placa a domiciliarios: {self.avisar_domiciliarios(manana)}")
+
+    def avisar_domiciliarios(self, manana):
+        from domiciliarios.bandera import activo
+        if not activo():
+            return 0
+        from domiciliarios.models import PerfilDomiciliario
+        from notificaciones.models import Notificacion
+        from notificaciones.servicios import notificar
+        avisos = 0
+        for perfil in (PerfilDomiciliario.objects.filter(moto__isnull=False, motociclista__usuario__isnull=False)
+                       .exclude(moto__placa="").select_related("moto", "motociclista__usuario")):
+            moto = perfil.moto
+            aplica, regla = tiene_pico_placa(moto, manana)
+            if aplica and notificar(perfil.motociclista.usuario, f"pyp:{moto.pk}:{manana}", "Mañana tienes pico y placa",
+                                    f"{moto} · placa {moto.placa} · {regla.horario}. Planea tu jornada.",
+                                    f"{moto.get_absolute_url()}#mi-ruta", Notificacion.Tipo.GENERAL):
+                avisos += 1
+        return avisos

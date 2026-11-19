@@ -210,6 +210,14 @@ PLUS_DIAS = 30
 # TallerYa Ruta, plan para domiciliarios (app domiciliarios). Apagado: ninguna URL responde y no aparece ningún enlace.
 DOMICILIARIOS_ACTIVO = env_bool("DOMICILIARIOS_ACTIVO", False)
 DOMICILIARIOS_PRECIO_PLUS = int(os.environ.get("DOMICILIARIOS_PRECIO_PLUS", "4900"))
+# «Domiciliario verificado»: vale 6 meses; se renueva sola si en los últimos RUTA_RENOVAR_VENTANA días cerró al menos
+# RUTA_RENOVAR_DIAS jornadas con una media de RUTA_RENOVAR_KM_DIA km o más (comando diario revisar_verificaciones).
+RUTA_VERIFICACION_DIAS = int(os.environ.get("RUTA_VERIFICACION_DIAS", "182"))
+RUTA_RENOVAR_KM_DIA = int(os.environ.get("RUTA_RENOVAR_KM_DIA", "80"))
+RUTA_RENOVAR_DIAS = int(os.environ.get("RUTA_RENOVAR_DIAS", "14"))
+RUTA_RENOVAR_VENTANA = int(os.environ.get("RUTA_RENOVAR_VENTANA", "30"))
+# Piloto «Tips y fallas frecuentes» por modelo en la página de la moto (garaje/fallas.py). Apagado por defecto.
+FALLAS_FRECUENTES_ACTIVO = env_bool("FALLAS_FRECUENTES_ACTIVO", False)
 # Pago de PRUEBA del SOAT (no cobra): solo en local y pruebas. En producción apagado salvo que se active a propósito,
 # para que nadie marque su pedido como pagado sin pagar (tramites/pagos.py).
 SOAT_PAGO_SIMULADO = env_bool("SOAT_PAGO_SIMULADO", DEBUG or sys.argv[1:2] == ["test"])

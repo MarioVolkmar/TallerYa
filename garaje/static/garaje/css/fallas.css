@@ -1,0 +1,32 @@
+/* Piloto «Tips y fallas frecuentes» (garaje/fallas.py). Se carga solo cuando la sección se pinta. */
+.fallas-intro { color: var(--crema-2); font-size: .9rem; margin-bottom: 1rem; }
+.fallas-lista { display: grid; gap: .75rem; }
+@media (min-width: 900px) { .fallas-lista { grid-template-columns: 1fr 1fr; align-items: start; } }
+.falla { background: var(--pizarra); border: 1px solid var(--borde); border-left: 4px solid var(--g, var(--borde)); border-radius: 10px; }
+.falla--molestia { --g: var(--desconocido, #8a9096); }
+.falla--cuidado { --g: var(--pronto, #e3a72f); }
+.falla--peligro { --g: var(--vencido, #ff5a3c); }
+.falla--toca { box-shadow: 0 0 0 2px var(--lava) inset; }
+.falla summary { list-style: none; cursor: pointer; padding: .85rem 2.2rem .85rem 1rem; position: relative; display: flex; flex-wrap: wrap; gap: .35rem .6rem; align-items: center; min-height: 44px; }
+.falla summary::-webkit-details-marker { display: none; }
+.falla summary::after { content: "+"; position: absolute; right: 1rem; top: .8rem; color: var(--crema-2); font-size: 1.2rem; line-height: 1; }
+.falla[open] summary::after { content: "–"; }
+.falla-gravedad { font-size: .68rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; color: var(--carbon); background: var(--g); border-radius: 999px; padding: .1rem .5rem; }
+.falla-titulo { font-weight: 700; color: var(--crema); flex: 1 1 12rem; }
+.falla-plan { flex-basis: 100%; font-size: .78rem; color: var(--crema-2); }
+.falla-plan--toca { color: var(--lava-2); font-weight: 600; }
+.falla-cuerpo { padding: 0 1rem 1rem; font-size: .92rem; color: var(--crema-2); }
+.falla-cuerpo p { margin: .45rem 0; }
+.falla-cuerpo strong { color: var(--crema); }
+.falla-alcance { font-size: .78rem; font-style: italic; opacity: .85; }
+.falla-acciones { display: flex; flex-wrap: wrap; gap: .5rem .9rem; align-items: center; margin-top: .75rem; }
+.falla-enlace { color: var(--lava-2); font-size: .85rem; text-decoration: underline; text-underline-offset: 3px; padding: .3rem 0; }
+.fallas-subtitulo { margin: 1.5rem 0 .6rem; font-weight: 700; color: var(--crema); }
+.fallas-tips { display: grid; gap: .5rem; padding: 0; list-style: none; }
+@media (min-width: 900px) { .fallas-tips { grid-template-columns: 1fr 1fr; } }
+.fallas-tips li { background: var(--carbon-2); border: 1px dashed var(--borde); border-radius: 10px; padding: .7rem .9rem; font-size: .9rem; color: var(--crema-2); }
+.fallas-tips strong { color: var(--crema); }
+.fallas-fuentes { margin-top: 1rem; font-size: .8rem; color: var(--crema-2); }
+.fallas-fuentes summary { cursor: pointer; }
+.fallas-fuentes ul { margin: .4rem 0 0 1.1rem; list-style: disc; }
+.fallas-fuentes a { text-decoration: underline; }

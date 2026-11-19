@@ -1,0 +1,53 @@
+{% load static %}
+{# Piloto «Tips y fallas frecuentes» (garaje/fallas.py). Sin FALLAS_FRECUENTES_ACTIVO, `fallas` es None y no se pinta nada. #}
+{% if fallas %}
+<link rel="stylesheet" href="{% static 'garaje/css/fallas.css' %}?v=20261118b">
+<section id="fallas-frecuentes" class="mt-10 scroll-mt-24 fallas" data-plegable>
+  <h2 class="titulo text-2xl md:text-3xl"><button type="button" class="seccion-boton" aria-expanded="true" aria-controls="fallas-cuerpo"><span class="numero">!</span>{% if fallas.general %}Tips para tu {{ moto.linea.get_tipo_display|default:"moto"|lower }}{% else %}Lo que más les pasa a las {{ fallas.modelo }}{% endif %}<span class="seccion-flecha" aria-hidden="true"></span></button></h2>
+  <div class="separador mt-4 mb-6"></div>
+  <div class="seccion-cuerpo" id="fallas-cuerpo">
+    {% if fallas.fallas %}
+    <p class="fallas-intro">Reportes frecuentes de dueños y mecánicos, no defectos de fábrica. Toca cada uno para ver qué hacer.{% if fallas.uso_severo %} Como la usas para trabajar, primero lo que más sufre con el uso severo.{% endif %}</p>
+    <div class="fallas-lista">
+      {% for f in fallas.fallas %}
+      <details class="falla falla--{{ f.gravedad }}{% if f.toca %} falla--toca{% endif %}">
+        <summary>
+          <span class="falla-gravedad">{{ f.gravedad_texto }}</span>
+          <span class="falla-titulo">{{ f.titulo }}</span>
+          {% if f.severo %}<span class="falla-plan falla-plan--toca">Uso severo: revísalo más seguido</span>{% endif %}
+          {% if f.alertas %}<span class="falla-plan{% if f.toca %} falla-plan--toca{% endif %}">En tu agenda: {% for a in f.alertas %}{{ a.nombre }} ({% if a.urgente %}requiere atención{% else %}próximo{% endif %}){% if not forloop.last %} · {% endif %}{% endfor %}</span>{% endif %}
+        </summary>
+        <div class="falla-cuerpo">
+          <p><strong>Cómo lo notas:</strong> {{ f.sintoma }}</p>
+          <p><strong>Causa usual:</strong> {{ f.causa }}</p>
+          <p><strong>Qué hacer:</strong> {{ f.que_hacer }}</p>
+          {% if f.costo %}<p><strong>Cuánto cuesta:</strong> {{ f.costo }}</p>{% endif %}
+          <p class="falla-alcance">{% if f.alcance == "modelo" %}Reportado por dueños de este modelo.{% else %}Pasa en muchas motos de este tipo.{% endif %}</p>
+          <div class="falla-acciones">
+            {% if f.url_diagnostico %}<a class="btn btn-lava text-xs px-4 py-2.5 falla-boton" href="{{ f.url_diagnostico }}">¿Te está pasando?</a>{% endif %}
+            <a class="falla-enlace" href="{% url 'foro:preguntar' %}">Preguntar en el foro</a>
+            {% if f.alertas %}<a class="falla-enlace" href="#plan">Ver en la agenda</a>{% endif %}
+            {% if f.en_despiece %}<a class="falla-enlace" href="#despiece">Ver la pieza</a>{% endif %}
+            {% if f.url_taller %}<a class="falla-enlace" href="{{ f.url_taller }}">Talleres que lo atienden</a>{% endif %}
+            {% if f.url_domicilio %}<a class="falla-enlace" href="{{ f.url_domicilio }}">Mecánico a domicilio</a>{% endif %}
+          </div>
+        </div>
+      </details>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if fallas.tips %}
+    <h3 class="fallas-subtitulo">{% if fallas.general %}Para cuidarla en Medellín{% else %}Tips para tu {{ fallas.modelo }}{% endif %}</h3>
+    <ul class="fallas-tips">
+      {% for t in fallas.tips %}<li><strong>{{ t.titulo }}.</strong> {{ t.texto }}</li>{% endfor %}
+    </ul>
+    {% endif %}
+    {% if fallas.fuentes %}
+    <details class="fallas-fuentes">
+      <summary>Fuentes{% if fallas.revisado %} · revisado el {{ fallas.revisado }}{% endif %}</summary>
+      <ul>{% for fu in fallas.fuentes %}<li>{% if fu.url %}<a href="{{ fu.url }}" target="_blank" rel="noopener nofollow">{{ fu.nombre }}</a>{% else %}{{ fu.nombre }}{% endif %}</li>{% endfor %}</ul>
+    </details>
+    {% endif %}
+  </div>
+</section>
+{% endif %}

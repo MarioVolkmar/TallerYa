@@ -1,0 +1,15 @@
+{% load static %}{% if mostrar %}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
+<section class="mt-14 papel dm-portada" aria-labelledby="dm-portada-titulo" data-dm-portada>
+  <div>
+    <p class="etiqueta">TallerYa Ruta · gratis</p>
+    <h2 class="titulo dm-portada-h2" id="dm-portada-titulo">¿Trabajas en tu <span class="text-lava">moto</span>?</h2>
+  </div>
+  <ul class="dm-portada-lista">
+    <li><b>Mantenimiento en días</b><span>Aceite, cadena y frenos según tus km reales.</span></li>
+    <li><b>Cierre de jornada</b><span>Cuánto ganaste y cuánto te queda.</span></li>
+    <li><b>Pico y placa</b><span>Te avisamos la noche antes.</span></li>
+  </ul>
+  <a href="{% if es_domiciliario %}{% url 'domiciliarios:panel' %}{% else %}{% url 'domiciliarios:inicio' %}{% endif %}" class="btn btn-lava dm-portada-btn">{% if es_domiciliario %}Ir a Mi ruta{% else %}Ver TallerYa Ruta{% endif %}</a>
+</section>
+{% endif %}

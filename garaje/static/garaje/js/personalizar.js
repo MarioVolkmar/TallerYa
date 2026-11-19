@@ -284,10 +284,10 @@
     }
     function pintar() {
       contenedor.innerHTML = "";
-      colores.forEach(([hex, nombre]) => {
+      colores.forEach(([hex, nombre, fondo]) => {
         const b = el("button", "muestra-color");
         b.type = "button";
-        b.style.background = hex;
+        b.style.background = fondo || hex; // ("De fábrica" guarda un valor y se pinta con el color que da en este modelo)
         b.dataset.color = hex.toLowerCase();
         b.title = nombre;
         b.setAttribute("aria-label", nombre);
@@ -345,7 +345,21 @@
   }
 
   const filaPintura = filaDeColor($("p-color"), datos.colores, () => cfg.color, (c) => { cfg.color = c; refrescarAcabados(); });
-  const filaRines = filaDeColor($("p-secundario"), datos.secundarios, () => cfg.color_secundario, (c) => { cfg.color_secundario = c; });
+  const coloresRines = [...datos.secundarios];
+  const filaRines = filaDeColor($("p-secundario"), coloresRines, () => cfg.color_secundario, (c) => { cfg.color_secundario = c; });
+  // Muestras "De fábrica" según el modelo que muestra el visor y su estilo de rin (se arman al conectar el 3D y al
+  // cambiar de rin). Rines: el secundario de serie es la muestra "De fábrica", pintada como se ven los rines de serie
+  // con ese estilo (naranja en la Duke, aro plateado en los de radios…), y el negro es otra muestra (#15181a). Así un
+  // color elegido —negro incluido— nunca es el de serie y se conserva en cualquier estilo de rin.
+  function coloresDeFabrica() {
+    const op = window.TallerYa3D?.opciones?.(estilo()) || {};
+    const serie = (op.secundarioFabrica || "#1c2022").toLowerCase();
+    coloresRines.splice(0, coloresRines.length, [serie, "De fábrica", op.colorRinFabrica || serie], ["#15181a", "Negro"],
+      ...datos.secundarios.filter(([hex]) => hex.toLowerCase() !== serie));
+    if (chasisFabrica) COLORES_CHASIS.shift();
+    chasisFabrica = op.colorChasisFabrica || null;
+    if (chasisFabrica) COLORES_CHASIS.unshift([chasisFabrica, "De fábrica"]);
+  }
   // ---------- Estilo: acabado, segundo tono, chasis, asiento, rines y accesorios ----------
   const ACABADOS = [["brillante", "Brillante"], ["mate", "Mate"], ["satinado", "Satinado"], ["metalizado", "Metalizado"], ["perlado", "Perlado"]];
   const NOMBRE_RIN = { radios: "Radios", aleacion: "Aleación", estrella: "Deportivo" };
@@ -384,7 +398,11 @@
     ["#1d2f55", "Azul"], ["#c62828", "Rojo"]];
   const estilo = () => (cfg.estilo ??= {});
   const filaTono = filaDeColor($("p-color2"), datos.colores, () => estilo().color2 || cfg.color, (c) => { estilo().color2 = c; });
-  const filaChasis = filaDeColor($("p-chasis"), COLORES_CHASIS, () => estilo().chasis || "#23282b", (c) => { estilo().chasis = c; });
+  // Chasis: si la moto lo trae a la vista (naked), la primera muestra es "De fábrica" (su color de serie) y es la que
+  // queda marcada mientras no se elija otro; elegirla quita el color propio. Ver coloresDeFabrica().
+  let chasisFabrica = null;
+  const filaChasis = filaDeColor($("p-chasis"), COLORES_CHASIS, () => estilo().chasis || chasisFabrica || "#23282b",
+    (c) => { if (c === chasisFabrica) delete estilo().chasis; else estilo().chasis = c; });
   const filaAsiento = filaDeColor($("p-asiento"), COLORES_ASIENTO, () => estilo().asiento || "#161819", (c) => { estilo().asiento = c; });
   const filaLed = filaDeColor($("p-led"), COLORES_LED, () => estilo().led || "#22d3ee", (c) => { estilo().led = c; });
   // Íconos de los retrovisores (vistos de frente, con el manubrio)
@@ -438,24 +456,48 @@
   }
   // Esfera de muestra de cada acabado, dibujada por el visor 3D con el material real
   const vistaAcabado = (acabado, color) => window.TallerYa3D?.vistaAcabado?.(acabado, color) || "";
+  // Las esferas se dibujan solo cuando hacen falta (cajón abierto o por abrirse): la primera vez el visor crea un
+  // segundo renderizador y compila los sombreadores del material físico de cada acabado, y eso, hecho al cargar la
+  // página con el cajón cerrado, la congelaba de 3 a 6 s en la primera visita (y atrasaba el esquema del despiece).
+  // Se dibuja una esfera por cuadro para no trabar la página de un solo golpe.
+  let acabadosQuieren = false;
   let refrescoAcabados = 0;
+  const VACIA = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
   function refrescarAcabados() {
     // Al arrastrar el selector de color llegan muchos cambios seguidos: se redibuja una vez por cuadro
     cancelAnimationFrame(refrescoAcabados);
-    refrescoAcabados = requestAnimationFrame(() => {
-      document.querySelectorAll("#p-acabado img[data-acabado]").forEach((img) => { img.src = vistaAcabado(img.dataset.acabado, cfg.color); });
-    });
+    if (!acabadosQuieren) return;
+    const pendientes = [...document.querySelectorAll("#p-acabado img[data-acabado]")];
+    const siguiente = () => {
+      const img = pendientes.shift();
+      if (!img) return;
+      const url = vistaAcabado(img.dataset.acabado, cfg.color);
+      if (url) img.src = url;
+      refrescoAcabados = requestAnimationFrame(siguiente);
+    };
+    refrescoAcabados = requestAnimationFrame(siguiente);
+  }
+  function quererAcabados() {
+    if (acabadosQuieren) return;
+    acabadosQuieren = true;
+    refrescarAcabados();
   }
   function pintarEstilo() {
     const op = window.TallerYa3D?.opciones?.() || { accesorios: Object.keys(ACCESORIOS), rinFabrica: "aleacion" };
     const fondo = cfg.color;
-    tarjetas($("p-acabado"), ACABADOS.map(([v, n]) => [v, n, `<img class="muestra-acabado" alt="" data-acabado="${v}" src="${vistaAcabado(v, fondo)}">`]),
+    tarjetas($("p-acabado"), ACABADOS.map(([v, n]) => [v, n, `<img class="muestra-acabado" alt="" data-acabado="${v}" src="${VACIA}">`]),
       (v) => (estilo().acabado || "brillante") === v,
       (v) => { if (v === "brillante") delete estilo().acabado; else estilo().acabado = v; });
+    refrescarAcabados();
     tarjetas($("p-rin"), RINES.map(([v, n]) => [v, n, ICONO_RIN[v === "fabrica" ? op.rinFabrica : v],
       v === "fabrica" ? NOMBRE_RIN[op.rinFabrica] : ""]),
       (v) => (estilo().rin || "fabrica") === v,
-      (v) => { if (v === "fabrica") delete estilo().rin; else estilo().rin = v; });
+      (v) => {
+        if (v === "fabrica") delete estilo().rin; else estilo().rin = v;
+        // (la muestra "De fábrica" de Rines y detalles cambia con el estilo: radios de serie = aro plateado)
+        coloresDeFabrica();
+        filaRines.pintar();
+      });
     tarjetas($("p-accesorios"), op.accesorios.map((id) => [id, ACCESORIOS[id] || id, ICONO_ACCESORIO[id] || ""]),
       (v) => (estilo().accesorios || []).includes(v),
       (v) => {
@@ -476,6 +518,7 @@
   }
 
   function pintarColores() {
+    coloresDeFabrica(); // (también al deshacer: el estilo de rin pudo cambiar)
     filaPintura.pintar();
     filaRines.pintar();
     filaTono.pintar();
@@ -630,7 +673,7 @@
         $("p-estado").textContent = "Toca una parte pintada de la carrocería.";
         $("p-estado").classList.add("sin-guardar");
       },
-      alElegir(i) { pestana("calcas"); elegir(i); },
+      alElegir(i) { prepararCajon(); pestana("calcas"); elegir(i); },
       alEmpezarArrastre() { guardarPaso(); },
       alMover(i, sitio) {
         Object.assign(cfg.calcas[i], { punto: sitio.punto, normal: sitio.normal });
@@ -712,9 +755,11 @@
 
   // ---------- Abrir y cerrar el cajón ----------
   function mostrarCajon(si) {
+    if (si) prepararCajon();
     cajon.hidden = !si;
     abrir.setAttribute("aria-expanded", String(si));
     if (si) {
+      quererAcabados();
       window.TallerYa3D?.verMoto();
       const visor = $("visor");
       const r = visor.getBoundingClientRect();
@@ -741,19 +786,37 @@
     }
   });
 
+  let cajonListo = true; // (hasta que llegue la configuración no hay nada que armar)
+  function prepararCajon() {
+    if (cajonListo) return;
+    cajonListo = true;
+    pintarColores();
+    repintarCalcas();
+    pintarFabrica();
+    if (cajon.hidden) window.TallerYa3D.resaltar(-1);
+  }
+
   function iniciar(inicial) {
     cfg = copiar(inicial);
     guardado = copiar(inicial);
     sel = cfg.calcas.length ? 0 : -1;
     conectar3D();
-    pintarColores();
-    repintarCalcas();
-    pintarFabrica();
+    // El contenido del cajón (filas de color, catálogo de calcas, calcas de fábrica) no se arma aquí: los colores
+    // guardados ya los pinta el visor, y armarlo al cargar (las miniaturas de calcas esperan a la tarjeta gráfica,
+    // ocupada compilando el 3D) congelaba la página de 2 a 10 s en un celular. Se arma al acercarse al botón,
+    // al abrir el cajón o cuando la página queda libre.
+    cajonListo = false;
     $("p-guardar").disabled = true;
     $("p-deshacer").disabled = true;
     $("p-atras").disabled = true;
     window.TallerYa3D.resaltar(-1);
     abrir.hidden = false;
+    // Quien se acerca al botón probablemente va a abrir el cajón: las esferas empiezan a dibujarse desde ya
+    const precalentarCajon = () => { prepararCajon(); quererAcabados(); };
+    ["pointerenter", "focus", "touchstart"].forEach((ev) => abrir.addEventListener(ev, precalentarCajon, { once: true, passive: true }));
+    // Si nadie se acerca, se arma igual cuando la página quede libre (y la tarjeta gráfica ya terminó con el 3D)
+    const enReposo = (fn, ms) => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: ms }) : setTimeout(fn, 200));
+    setTimeout(() => enReposo(prepararCajon, 4000), 3000);
     if (location.hash === "#personalizar") mostrarCajon(true);
   }
 

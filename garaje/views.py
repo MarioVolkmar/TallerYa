@@ -34,7 +34,7 @@ from django.http import FileResponse, Http404, HttpResponse, JsonResponse
 from django.views.decorators.cache import cache_control
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 
-from . import diagramas, pico_placa
+from . import diagramas, fallas, pico_placa
 from .despiece_variantes import (quitar_modelo, datos_tecnicos, nombre_por_sistema, nombres_de_empaques, nombres_de_sellos,
                                  nombres_distintos,
                                  separar_nombre, texto_tecnico)
@@ -45,6 +45,8 @@ from .despiece_sistemas import ORDEN_SUBGRUPOS, sistema_de, sistemas_de
 from .colores_fabrica import paleta_personalizar
 from .models import (COLORES_SECUNDARIOS, DISENOS_CALCA, DOCUMENTOS, HEX, Despiece, LecturaKm,
                      AjusteTarea, LineaMoto, Mantenimiento, Moto, ParteDespiece, TareaMantenimiento)
+from domiciliarios.intensivo import precargar_trabajo
+
 from .plan import GRAVEDAD, MARCA_SIN_IDEA, calcular_plan, es_sin_idea, fecha_de_nueva, fecha_en_km, km_en_fecha, km_es_estimado
 from .intervalos import intervalo_para
 
@@ -78,6 +80,7 @@ def garaje(request):
         return redirect(motos[0])
     tareas = list(TareaMantenimiento.objects.filter(activo=True).select_related("servicio"))  # una vez para todas
     Despiece.precargar(motos)
+    precargar_trabajo(motos)  # TallerYa Ruta: qué moto es de trabajo, en una consulta
     planes = [(m, calcular_plan(m, tareas=tareas)) for m in motos]
     return render(request, "garaje/garaje.html", {"planes": planes, "puede_agregar": len(motos) < MAX_MOTOS})
 
@@ -559,7 +562,11 @@ def resumen_plan(plan):
             km, dias = t.km_restantes, t.dias_restantes
             # Un texto corto y creíble: primero los km (es lo que manda en una moto); los días solo si no hay km
             # o si vencen antes. Sin registro no se dan cifras de vencido: solo "revísalo".
-            if t.supuesto:
+            if t.estimado and t.estado == "vencido":
+                t.texto_lu = "Toca ya · estimado"
+            elif t.estimado:
+                t.texto_lu = f"≈ faltan {intcomma(km)} km · estimado" if km and km > 0 else f"≈ faltan {dias} días · estimado"
+            elif t.supuesto:
                 t.texto_lu = f"≈ faltan {intcomma(km)} km · estimado" if km and km > 0 else "Sin registro · revísalo"
             elif km is not None and km < 0:
                 t.texto_lu = f"pasado {intcomma(-km)} km"
@@ -651,7 +658,9 @@ def detalle(request, pk):
         "otras_motos": request.motociclista.motos.exclude(pk=moto.pk),
         "despiece": despiece,
         # Las láminas pesan cientos de KB: el visor las pide aparte (despiece_json) para no frenar la página ni el 3D.
-        "piezas_despiece": sorted(set(despiece.laminas.values_list("pieza", flat=True))) if despiece else [],
+        "piezas_despiece": (piezas_despiece := sorted(set(despiece.laminas.values_list("pieza", flat=True))) if despiece else []),
+        # Piloto «Tips y fallas frecuentes» (None con FALLAS_FRECUENTES_ACTIVO apagado)
+        "fallas": fallas.para_moto(moto, plan, piezas_despiece, uso_severo=getattr(plan, "de_trabajo", False)),
     })
 
 
@@ -662,8 +671,27 @@ def despiece_json(request, pk):
     despiece = Despiece.para(moto)
     if not despiece:
         raise Http404("Esta moto no tiene despiece")
-    registrar_evento(request, "despiece_abierto")
-    return JsonResponse(datos_despiece(despiece, calcular_plan(moto)))
+    datos = datos_despiece(despiece, calcular_plan(moto))
+    # Las guías de las piezas son más de la mitad del peso (≈290 de 490 KB en la NMAX) y solo se leen al abrir la
+    # guía de una pieza: van aparte (?guias=1) y el visor las pide después de pintar el esquema.
+    if request.GET.get("guias"):
+        respuesta = JsonResponse({"guias": {str(p["id"]): p["guia"] for l in datos["laminas"] for p in l["partes"] if p.get("guia")}})
+    else:
+        registrar_evento(request, "despiece_abierto")
+        for lamina in datos["laminas"]:
+            for parte in lamina["partes"]:
+                if parte.get("guia"):
+                    parte["guia"] = 1  # marca: la guía existe y llega con ?guias=1
+        respuesta = JsonResponse(datos)
+    # Caché del navegador con ETag: si nada cambió (estado de las piezas, código), responde 304 sin cuerpo
+    respuesta["ETag"] = '"' + hashlib.md5(respuesta.content).hexdigest() + '"'
+    respuesta["Cache-Control"] = "private, no-cache"
+    # (GZipMiddleware vuelve débil el ETag al comprimir: el navegador lo devuelve como W/"…")
+    if respuesta["ETag"] in request.headers.get("If-None-Match", "").replace("W/", ""):
+        vacia = HttpResponse(status=304)
+        vacia["ETag"], vacia["Cache-Control"] = respuesta["ETag"], respuesta["Cache-Control"]
+        return vacia
+    return respuesta
 
 
 def _svg_guardado(request, generar):
@@ -1511,7 +1539,7 @@ def poner_al_dia(request, pk):
     pendientes = request.GET.get("solo") == "pendientes"
     plan = calcular_plan(moto)
     if pendientes:
-        tareas = sorted((t.tarea for t in plan.sin_registro), key=lambda t: t.orden)
+        tareas = sorted((t.tarea for t in plan.sin_registro + plan.estimados), key=lambda t: t.orden)  # sin ningún registro
     else:
         tareas = sorted((t.tarea for t in plan.tareas), key=lambda t: t.orden)
     ultimos = {}

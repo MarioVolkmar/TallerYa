@@ -1,0 +1,192 @@
+{
+  "linea": "Honda XR 150L",
+  "tipo": "enduro",
+  "revisado": "2026-11-18",
+  "nota": "Fallas propias del modelo según las fuentes listadas; el resto es del tipo de moto con los datos del manual.",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual del propietario Honda XR150L (datos en garaje/intervalos/honda_xr_150l.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    },
+    "motoryk": {
+      "nombre": "Motoryk: problemas reportados del modelo (guía de compra de usadas)",
+      "url": "https://motoryk.com/bikes/honda/xr-150l/problems"
+    }
+  },
+  "fallas": [
+    {
+      "clave": "tensor-distribucion",
+      "titulo": "Traqueteo metálico al prender en frío",
+      "sintoma": "Los primeros segundos después de prenderla suena un cascabeleo metálico arriba del motor que se calma al calentar.",
+      "causa": "Tensor de la cadenilla de distribución gastado, reportado en este modelo.",
+      "gravedad": "cuidado",
+      "que_hacer": "Pide revisar el tensor y la cadenilla. Si se deja, la cadenilla puede saltar y dañar el motor.",
+      "alcance": "modelo",
+      "fuentes": [
+        "motoryk"
+      ],
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "traqueteo"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Diagnóstico"
+    },
+    {
+      "clave": "carburador",
+      "titulo": "Prende mal y se ahoga al acelerar",
+      "sintoma": "Le cuesta prender, el mínimo es irregular o vacila cuando abres el acelerador.",
+      "causa": "Carburador sucio por depósitos de la gasolina, reportado en este modelo.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide limpieza y graduación del carburador; revisa también filtro de aire y bujía.",
+      "alcance": "modelo",
+      "fuentes": [
+        "motoryk"
+      ],
+      "tareas": [
+        "bujia",
+        "filtro-aire"
+      ],
+      "pieza": "filtro_aire",
+      "diagnostico": {
+        "s": "se_apaga",
+        "cuando": "frio"
+      },
+      "taller": "Sincronización",
+      "domicilio": "Carburación"
+    },
+    {
+      "clave": "arrastre-trocha",
+      "titulo": "La cadena se gasta rápido",
+      "sintoma": "La cadena se afloja seguido, suena o la corona tiene los dientes en punta.",
+      "causa": "Barro y polvo pegados al lubricante forman una pasta que lija cadena, piñón y corona.",
+      "gravedad": "cuidado",
+      "que_hacer": "Después de trocha, lava, seca y lubrica la cadena. Deja el juego de la cadena en 20–30 mm, como pide el manual. Si el kit está gastado, cámbialo completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "manual",
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "valvulas-tic",
+      "titulo": "Un «tic tic» metálico arriba del motor",
+      "sintoma": "Con el motor caliente oyes un golpeteo rápido y parejo que sube con las revoluciones.",
+      "causa": "Válvulas descalibradas: se abren con el uso normal y hay que ajustarlas.",
+      "gravedad": "molestia",
+      "que_hacer": "Pide calibración de válvulas en frío cada 4.000 km, como pide el manual.",
+      "tareas": [
+        "valvulas"
+      ],
+      "pieza": "motor",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "motor",
+        "tipo": "tic"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "modelo",
+      "fuentes": [
+        "diagnostico",
+        "manual",
+        "motoryk"
+      ]
+    },
+    {
+      "clave": "filtro-polvo",
+      "titulo": "Pierde fuerza después de andar en polvo",
+      "sintoma": "La moto se siente perezosa, acelera lento y gasta más gasolina.",
+      "causa": "Filtro de aire tapado de polvo o mojado.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa el filtro de aire: con polvo o lluvia toca atenderlo antes de lo que dice el plan.",
+      "tareas": [
+        "filtro-aire"
+      ],
+      "pieza": "filtro_aire",
+      "diagnostico": {
+        "s": "sin_fuerza",
+        "como": "lenta"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 10W-30, JASO MA, API SJ o superior; 1,0 L tras el drenaje. Cada 4.000 km o cada 12 meses. El primer cambio es a los 1.000 km. El filtro tamiz y el centrífugo se limpian cada 12.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Válvulas",
+      "texto": "Revisar y ajustar en frío, en taller. Cada 4.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 16.000 km. En trocha o con polvo, más seguido.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Bujía",
+      "texto": "NGK CPR8EA-9 (CPR9EA-9 para alta velocidad sostenida); separación 0,8–0,9 mm. Cada 8.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

@@ -4,6 +4,7 @@
   {% if r.pk == pregunta.mejor_respuesta_id %}<p class="fo-solucion">✓ Solución aceptada por quien preguntó</p>{% endif %}
   <p class="text-sm text-suave">{% include "foro/_autor.html" with autor=r.autor %} · {% hace r.creado %}{% if r.responde_a %}<span class="fo-responde-a"> · en respuesta a <a href="#r{{ r.padre_id }}">@{{ r.responde_a }}</a></span>{% endif %}</p>
   <p class="cuerpo-post mt-3">{{ r.cuerpo_html }}</p>
+  {% if r.diagnostico %}{% include "foro/_diagnostico.html" with d=r.diagnostico %}{% endif %}
   {% if r.autor == user %}{% include "foro/_acciones.html" with obj=r tipo="respuesta" propio=True votos=r.num_votos mio=r.vote_mio %}{% else %}{% include "foro/_acciones.html" with obj=r tipo="respuesta" propio=False votos=r.num_votos mio=r.vote_mio reportado=r.reportado %}{% endif %}
   <div id="responder-{{ r.pk }}" class="fo-responder-slot">{% if responder == r.pk %}{% include "foro/_form_hilo.html" with padre=r %}{% endif %}</div>
 </article>

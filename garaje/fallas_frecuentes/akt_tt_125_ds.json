@@ -1,0 +1,109 @@
+{
+  "linea": "AKT TT 125 DS",
+  "tipo": "enduro",
+  "revisado": "2026-11-18",
+  "nota": "Generado con manage.py esqueleto_fallas: alcance «tipo» con los datos del manual. Agregar fallas propias del modelo solo con fuente (skill fallas-modelo).",
+  "fuentes": {
+    "manual": {
+      "nombre": "Manual de usuario AKT AK 125/150 TTR (datos en garaje/intervalos/akt_tt_125_ds.json)",
+      "url": ""
+    },
+    "diagnostico": {
+      "nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma",
+      "url": ""
+    }
+  },
+  "fallas": [
+    {
+      "clave": "arrastre-trocha",
+      "titulo": "La cadena se gasta rápido",
+      "sintoma": "La cadena se afloja seguido, suena o la corona tiene los dientes en punta.",
+      "causa": "Barro y polvo pegados al lubricante forman una pasta que lija cadena, piñón y corona.",
+      "gravedad": "cuidado",
+      "que_hacer": "Después de trocha, lava, seca y lubrica la cadena. Si el kit está gastado, cámbialo completo.",
+      "tareas": [
+        "cadena-lubricar",
+        "kit-arrastre"
+      ],
+      "pieza": "cadena",
+      "diagnostico": {
+        "s": "ruido",
+        "donde": "arrastre"
+      },
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "freno-tras",
+      "titulo": "El freno de atrás cada vez frena menos",
+      "sintoma": "Tienes que pisar o apretar más para que frene, o chilla al frenar.",
+      "causa": "Bandas gastadas o freno desajustado. En las bajadas de Medellín se gastan rápido.",
+      "gravedad": "peligro",
+      "que_hacer": "Ajusta el freno y revisa el indicador de desgaste; si las bandas llegaron al límite, cámbialas ya.",
+      "tareas": [
+        "bandas-tras"
+      ],
+      "pieza": "freno_tras",
+      "diagnostico": {
+        "s": "frena_mal",
+        "cual": "tras",
+        "como": "poco"
+      },
+      "taller": "Frenos",
+      "domicilio": "Frenos",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    },
+    {
+      "clave": "filtro-polvo",
+      "titulo": "Pierde fuerza después de andar en polvo",
+      "sintoma": "La moto se siente perezosa, acelera lento y gasta más gasolina.",
+      "causa": "Filtro de aire tapado de polvo o mojado.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa el filtro de aire: con polvo o lluvia toca atenderlo antes de lo que dice el plan.",
+      "tareas": [
+        "filtro-aire"
+      ],
+      "pieza": "filtro_aire",
+      "diagnostico": {
+        "s": "sin_fuerza",
+        "como": "lenta"
+      },
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "alcance": "tipo",
+      "fuentes": [
+        "diagnostico"
+      ]
+    }
+  ],
+  "tips": [
+    {
+      "titulo": "El aceite que pide",
+      "texto": "SAE 20W-50, JASO MA, API SG. Cada 2.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "Filtro de aire",
+      "texto": "Cada 6.000 km. En trocha o con polvo, cada 3.000 km.",
+      "fuentes": [
+        "manual"
+      ]
+    },
+    {
+      "titulo": "La cadena",
+      "texto": "Juego de la cadena 1,5–2,5 cm. Cada 600 km.",
+      "fuentes": [
+        "manual"
+      ]
+    }
+  ]
+}

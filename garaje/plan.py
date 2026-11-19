@@ -45,11 +45,47 @@ class EstadoTarea:
     # · ok (verde) · desconocido. Lo pospuesto por el dueño se muestra como "pronto".
     nivel: str = ""
     pospuesta: bool = False
+    # Sin ningún registro: estado estimado desde que la moto era nueva (ver _estimar_sin_registro). ritmo = km/día usados.
+    estimado: bool = False
+    ritmo: float | None = None
+    edad_dias: int | None = None   # edad estimada de la moto (solo en lo estimado)
+    km_moto: int | None = None
+    manda: str | None = None       # "km" o "tiempo": cuál de los dos intervalos va más adelantado
+
+    @property
+    def intervalo(self):
+        """«Cada 2.500 km o 4 meses, lo que pase primero» · «Cada 12 meses» · «Cada 6.000 km»."""
+        texto = intervalos.texto(self.tarea.intervalo_km, self.tarea.intervalo_dias)
+        return f"{texto}, lo que pase primero" if self.tarea.intervalo_km and self.tarea.intervalo_dias else texto
+
+    @property
+    def ritmo_usado(self):
+        """Los km/día solo cuentan cuando manda el kilometraje y todavía falta (para la fecha aproximada)."""
+        return bool(self.ritmo and self.manda == "km" and self.estado != "vencido")
+
+    @property
+    def texto_estimado(self):
+        """«estimado con tus ~38 km/día» si los km/día se usaron; si no, solo «estimado»."""
+        return f"estimado con tus ~{round(self.ritmo)} km/día" if self.ritmo_usado else "estimado"
+
+    @property
+    def explicacion_estimada(self):
+        """Por qué sale así, sin registro: por la edad (manda el tiempo) o por los km (manda el kilometraje)."""
+        intervalo = self.intervalo[:1].lower() + self.intervalo[1:]
+        if self.manda == "tiempo":
+            base = f"Tu moto tiene {_edad(self.edad_dias)} y esto toca {intervalo}"
+        else:
+            base = f"Tu moto tiene {_miles(self.km_moto)} km y esto toca {intervalo}"
+        if self.tarea.intervalo_km and self.tarea.intervalo_dias:
+            base += "; aquí manda " + ("el tiempo" if self.manda == "tiempo" else "el kilometraje")
+        return base
 
     @property
     def etiqueta(self):
         texto = ETIQUETAS[self.nivel or self.estado]
         # Lo supuesto (no sabemos; contamos desde nueva) siempre dice que es una estimación
+        if self.estimado and (self.nivel or self.estado) != "ok":
+            return f"{texto} (estimado)"
         return f"{texto} (estimado)" if self.supuesto and (self.nivel or self.estado) not in ("ok", "desconocido") else texto
 
     @property
@@ -73,12 +109,23 @@ class EstadoTarea:
                     f"con tu ritmo de uso (≈ {_miles(self.ultimo_km)} km).")
         if self.origen == "supuesto":
             return "Estimado: no sabemos cuándo se hizo, así que contamos desde que la moto era nueva."
+        if self.origen == "estimado":
+            return f"{self.texto_estimado.capitalize()}: no hay registro, así que contamos desde que la moto era nueva."
         return ""
 
     @property
     def detalle(self):
         if self.estado == "desconocido":
             return "No sabemos cuándo se hizo por última vez. Regístralo para empezar a contar."
+        if self.estimado:
+            if self.estado == "vencido":
+                return f"{self.explicacion_estimada}: lo prudente es hacerlo ya ({self.texto_estimado})."
+            if self.manda == "km":
+                falta = f"faltan {_miles(self.km_restantes)} km"
+            else:
+                falta = (f"faltan ~{round(self.dias_restantes / 30)} meses" if self.dias_restantes > 60
+                         else f"faltan {self.dias_restantes} días")
+            return f"{self.explicacion_estimada}: {falta} ({self.texto_estimado})."
         if self.supuesto and (self.progreso or 0) > 1:
             return "No hay registro y desde nueva ya pasó el intervalo: revísalo pronto."
         partes = []
@@ -127,6 +174,11 @@ class PlanMoto:
         return self.por_estado("desconocido")
 
     @property
+    def estimados(self):
+        """Sin ningún registro, con el estado estimado desde nueva."""
+        return [t for t in self.tareas if t.estimado]
+
+    @property
     def peor_estado(self):
         return max((t.color for t in self.tareas), key=GRAVEDAD.get, default="ok")
 
@@ -146,6 +198,18 @@ class PlanMoto:
 
 def _miles(n):
     return f"{n:,}".replace(",", ".")
+
+
+def _edad(dias):
+    """«~7 meses», «~1 año y 5 meses», «~3 años»."""
+    meses = round((dias or 0) / 30.44)
+    if meses < 1:
+        return "menos de un mes"
+    if meses < 12:
+        return f"~{meses} mes{'es' if meses != 1 else ''}"
+    anos, resto = divmod(meses, 12)
+    texto = f"~{anos} año{'s' if anos != 1 else ''}"
+    return f"{texto} y {resto} mes{'es' if resto != 1 else ''}" if resto else texto
 
 
 RITMO_MIN, RITMO_MAX = 0.5, 400  # km/día creíbles; fuera de eso el dato no sirve para estimar
@@ -313,8 +377,15 @@ def fecha_en_km(moto, km, hoy=None):
     return hoy - timedelta(days=dias)
 
 
-def calcular_plan(moto, hoy=None, tareas=None):
-    """tareas: las TareaMantenimiento activas ya cargadas (Mi garaje las pasa una vez para todas las motos)."""
+def calcular_plan(moto, hoy=None, tareas=None, intensivo=True):
+    """tareas: las TareaMantenimiento activas ya cargadas (Mi garaje las pasa una vez para todas las motos).
+
+    Moto marcada «La uso para trabajar» (TallerYa Ruta, con DOMICILIARIOS_ACTIVO): plan de uso intensivo con sus km/día
+    reales (domiciliarios/intensivo.py). intensivo=False fuerza el plan normal."""
+    if intensivo:
+        from domiciliarios.intensivo import perfil_de_trabajo, plan_intensivo
+        if perfil := perfil_de_trabajo(moto):
+            return plan_intensivo(moto, perfil.km_semana, hoy, tareas)
     hoy = hoy or timezone.localdate()
     specs = moto.specs()
     ritmo, estimado = ritmo_km(moto, hoy)
@@ -327,13 +398,15 @@ def calcular_plan(moto, hoy=None, tareas=None):
     # Intervalos del manual de esta línea (garaje/intervalos/*.json); sin archivo, los generales de la base.
     propios = intervalos.de_linea(moto.linea, moto.modelo) if moto.linea_id else {}
     plan = PlanMoto(moto=moto, km_por_dia=ritmo, ritmo_estimado=estimado)
+    # Ritmo de datos reales (lecturas o km desde el registro), para la edad de lo que no tiene registro
+    ritmo_medido = ritmo if not estimado else _ritmo_registro(moto, hoy)
     if tareas is None:
         tareas = TareaMantenimiento.objects.filter(activo=True).select_related("servicio")
     for tarea in tareas:
         if not tarea.aplica_a(specs):
             continue
         tarea = intervalos.aplicar(tarea, moto.linea, propios) if propios else tarea
-        t = _estado_tarea(tarea, moto, ultimos.get(tarea.pk), ritmo, hoy)
+        t = _estado_tarea(tarea, moto, ultimos.get(tarea.pk), ritmo, hoy, ritmo_medido)
         t.pospuesta = tarea.pk in pospuestas
         # Supuesto ya pasado (no sabemos; contamos desde nueva): "Pronto", como lo pospuesto; nunca "Toca ya"
         t.nivel = nivel_tarea(t.estado, t.km_restantes, t.dias_restantes, tarea.intervalo_km,
@@ -358,7 +431,7 @@ def nivel_tarea(estado, km_restantes=None, dias_restantes=None, intervalo_km=Non
     return "pronto"
 
 
-def _estado_tarea(tarea, moto, ultimo, ritmo, hoy):
+def _estado_tarea(tarea, moto, ultimo, ritmo, hoy, ritmo_medido=None):
     supuesto = False
     if ultimo and es_sin_idea(ultimo):
         base_km, base_fecha, supuesto, origen = ultimo.km, ultimo.fecha, True, "supuesto"
@@ -371,7 +444,7 @@ def _estado_tarea(tarea, moto, ultimo, ritmo, hoy):
         creado = timezone.localdate(moto.creado) if moto.creado else hoy
         base_km, base_fecha, supuesto, origen = 0, creado, True, "supuesto"
     else:
-        return EstadoTarea(tarea=tarea, estado="desconocido")
+        return _estimar_sin_registro(tarea, moto, ritmo, hoy, ritmo_medido)
 
     progresos, km_rest, dias_rest = [], None, None
     if tarea.intervalo_km:
@@ -400,3 +473,64 @@ def _estado_tarea(tarea, moto, ultimo, ritmo, hoy):
         ultimo_km=None if supuesto else base_km, ultima_fecha=None if supuesto else base_fecha, supuesto=supuesto,
         origen=origen, km_desde=max(0, moto.km_actual - base_km),
     )
+
+
+# ---------------- Tareas sin ningún registro ----------------
+# Criterio (18-nov-2026, pedido del fundador): una tarea que nunca se registró (la moto llegó con más km que el intervalo,
+# o la tarea va solo por tiempo) ya no queda "Sin registro": se estima desde que la moto era nueva (0 km y la fecha de
+# matrícula; si no, la más reciente entre el 1 de enero del año del modelo y los km contados hacia atrás con un ritmo
+# medido, o 25 km/día; ver _fecha_nueva_estimada).
+# - Si desde nueva todavía no se cumple el intervalo (ni por km ni por tiempo), esa cuenta es el peor caso posible y es
+#   honesta: "Al día" o "Pronto", con la fecha aproximada que dan los km por día.
+# - Si desde nueva ya se cumplió (ej.: aceite cada 3.000 km y la moto tiene 12.000 sin registro), no hay forma de saber
+#   cuándo se hizo; lo prudente es asumir el peor caso razonable: que toca ya → "Toca ya (estimado)", sin cifras de cuánto
+#   se pasó (serían inventadas). La interfaz solo dice, discreto, que es estimado (sin invitar a registrar: el dueño
+#   ya dijo que no sabe); el día que registre el mantenimiento con el flujo normal, la cuenta pasa a ser exacta sola.
+# Lo de "No sé" en una moto que llegó casi nueva y "Sin idea" siguen el criterio de arriba (tope "Pronto").
+ANOS_MAX_HACIA_ATRAS = 15
+
+
+def _fecha_nueva_estimada(moto, ritmo_medido, hoy):
+    """Cuándo salió nueva, para las tareas por tiempo sin registro (edad de la moto):
+    - con fecha de matrícula, esa (es el único dato real de compra que guarda la moto);
+    - sin ella, la más reciente (la edad más corta) entre:
+      · el 1 de enero del año del modelo (una moto modelo X se vende sobre todo durante X; nunca después de hoy), y
+      · los km de hoy contados hacia atrás con un ritmo MEDIDO (lecturas del tablero o km desde que se registró en
+        TallerYa) o, si no lo hay, con el uso típico de 25 km/día.
+    El ritmo que solo sale del año del modelo no se usa aquí: es el mismo supuesto en círculo y daba edades imposibles
+    (una XR 190L modelo 2026 con 1.600 km salía con ~1 año y 5 meses y la batería vencida)."""
+    if getattr(moto, "matricula", None):
+        return moto.matricula
+    por_km = hoy - timedelta(days=min(365 * ANOS_MAX_HACIA_ATRAS,
+                                      round(moto.km_actual / (ritmo_medido or KM_DIA_TIPICO))))
+    return max(por_km, min(hoy, date(moto.modelo, 1, 1))) if moto.modelo else por_km
+
+
+def _estimar_sin_registro(tarea, moto, ritmo, hoy, ritmo_medido=None):
+    if not tarea.intervalo_km and not tarea.intervalo_dias:
+        return EstadoTarea(tarea=tarea, estado="desconocido")
+    nueva = _fecha_nueva_estimada(moto, ritmo_medido, hoy)
+    progresos, km_rest, dias_rest = [], None, None
+    if tarea.intervalo_km:
+        km_rest = tarea.intervalo_km - moto.km_actual
+        progresos.append(moto.km_actual / tarea.intervalo_km)
+    if tarea.intervalo_dias:
+        dias_rest = tarea.intervalo_dias - max(0, (hoy - nueva).days)
+        progresos.append(max(0, (hoy - nueva).days) / tarea.intervalo_dias)
+    progreso = max(progresos)
+    prog_km = moto.km_actual / tarea.intervalo_km if tarea.intervalo_km else -1
+    prog_tiempo = max(0, (hoy - nueva).days) / tarea.intervalo_dias if tarea.intervalo_dias else -1
+    comunes = dict(tarea=tarea, estimado=True, ritmo=ritmo, origen="estimado", edad_dias=max(0, (hoy - nueva).days),
+                   km_moto=moto.km_actual, manda="km" if prog_km >= prog_tiempo else "tiempo")
+    if progreso >= 1:
+        return EstadoTarea(estado="vencido", progreso=1.0, fecha_estimada=hoy,
+                           km_restantes=0 if tarea.intervalo_km else None,
+                           dias_restantes=0 if tarea.intervalo_dias else None, **comunes)
+    fechas = []
+    if km_rest is not None and ritmo:
+        fechas.append(hoy + timedelta(days=round(km_rest / ritmo)))
+    if dias_rest is not None:
+        fechas.append(hoy + timedelta(days=dias_rest))
+    return EstadoTarea(estado="pronto" if progreso >= UMBRAL_PRONTO else "ok", progreso=progreso,
+                       km_restantes=km_rest, dias_restantes=dias_rest, fecha_estimada=min(fechas) if fechas else None,
+                       km_desde=moto.km_actual if tarea.intervalo_km else None, **comunes)

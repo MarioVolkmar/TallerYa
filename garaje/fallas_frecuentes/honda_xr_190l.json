@@ -1,0 +1,63 @@
+{
+  "linea": "Honda XR 190L",
+  "tipo": "enduro",
+  "revisado": "2026-11-18",
+  "nota": "Pocos reportes públicos de fallas propias; se deja una reportada (bujes del basculante) y las del uso en trocha.",
+  "fuentes": {
+    "manual": {"nombre": "Manual del propietario Honda XR 190L (datos ya cargados en garaje/intervalos/honda_xr_190l.json)", "url": "https://www.motos.honda.com.ec/uploads/fichas/XR190L 2025.pdf"},
+    "procycle": {"nombre": "ProCycle: notas sobre el basculante de la familia XR150L/190L (fuente comercial)", "url": "https://procycle.us/node/418"},
+    "diagnostico": {"nombre": "Diagnóstico guiado de TallerYa (garaje/diagnostico.py): causas usuales por síntoma", "url": ""}
+  },
+  "fallas": [
+    {
+      "clave": "basculante-bujes",
+      "titulo": "Juego o ruido en el basculante",
+      "sintoma": "Al mover la rueda trasera de lado a lado se siente juego, o suena un «clac» en los huecos.",
+      "causa": "Los bujes o rodamientos del basculante se gastan antes de tiempo con la trocha, el agua y el barro.",
+      "gravedad": "cuidado",
+      "que_hacer": "Pide revisar y engrasar el eje del basculante; si hay juego, cambia bujes. Con juego, la moto se mueve de atrás en las curvas.",
+      "alcance": "modelo",
+      "tareas": ["suspension-tras"],
+      "pieza": "suspension_tras",
+      "diagnostico": {"s": "ruido", "donde": "huecos"},
+      "taller": "Suspensión",
+      "domicilio": "Suspensión",
+      "fuentes": ["procycle"]
+    },
+    {
+      "clave": "arrastre-trocha",
+      "titulo": "La cadena se gasta rapidísimo en trocha",
+      "sintoma": "La cadena se afloja cada semana, suena o la corona se ve gastada.",
+      "causa": "El barro y el polvo con el lubricante forman una pasta que lija cadena, piñón y corona.",
+      "gravedad": "cuidado",
+      "que_hacer": "Después de andar en barro, lava la cadena (sin hidrolavadora directa), sécala y lubrícala. Mantén la holgura entre 20 y 30 mm.",
+      "alcance": "tipo",
+      "tareas": ["cadena-lubricar", "kit-arrastre"],
+      "pieza": "cadena",
+      "diagnostico": {"s": "ruido", "donde": "arrastre"},
+      "taller": "Kit de arrastre",
+      "domicilio": "Kit de arrastre",
+      "fuentes": ["manual", "diagnostico"]
+    },
+    {
+      "clave": "filtro-polvo",
+      "titulo": "Pierde fuerza después de andar en polvo",
+      "sintoma": "La moto se siente perezosa, acelera lento y gasta más gasolina.",
+      "causa": "Filtro de aire tapado de polvo o mojado.",
+      "gravedad": "molestia",
+      "que_hacer": "Revisa el filtro de aire: con polvo o lluvia hay que cambiarlo antes de los 18.000 km del manual.",
+      "alcance": "tipo",
+      "tareas": ["filtro-aire"],
+      "pieza": "filtro_aire",
+      "diagnostico": {"s": "sin_fuerza", "como": "lenta"},
+      "taller": "Mantenimiento general",
+      "domicilio": "Mantenimiento general",
+      "fuentes": ["manual", "diagnostico"]
+    }
+  ],
+  "tips": [
+    {"titulo": "Holgura de la cadena: 20 a 30 mm", "texto": "Mídela con la moto en el gato lateral. En trocha revísala cada salida; la cadena original es DID 428V de 128 eslabones.", "fuentes": ["manual"]},
+    {"titulo": "Presión de llantas", "texto": "150 kPa (unas 22 psi) en frío, adelante y atrás. Usa cámara: si la bajas para trocha, vuelve a subirla antes de la vía.", "fuentes": ["manual"]},
+    {"titulo": "Aceite 10W-30 cada 6.000 km", "texto": "Y el filtro tamiz y el centrífugo se limpian cada 12.000 km. Pídelo en el taller: no se ven por fuera.", "fuentes": ["manual"]}
+  ]
+}

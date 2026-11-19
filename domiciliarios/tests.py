@@ -58,6 +58,7 @@ class BanderaApagadaTests(Base):
             r = self.client.get(url)
             self.assertEqual(r.status_code, 200)
             self.assertNotContains(r, "data-dm-aviso")
+            self.assertNotContains(r, "ficha-trabajo")
             self.assertNotContains(r, "/domiciliarios/")
             self.assertNotContains(r, "dm.css")
 
@@ -70,13 +71,16 @@ class PresentacionYActivarTests(Base):
         self.assertContains(r, "TallerYa Ruta")
         self.assertContains(r, "Crear cuenta gratis")
 
-    def test_mi_garaje_invita(self):
-        for url in (reverse("garaje:garaje") + "?lista=1", self.moto.get_absolute_url()):
-            r = self.client.get(url)
-            self.assertContains(r, "data-dm-aviso")
-            self.assertContains(r, reverse("domiciliarios:inicio"))
+    def test_mi_garaje_sin_aviso_y_chapa_en_la_moto_de_trabajo(self):
+        garaje = reverse("garaje:garaje") + "?lista=1"
+        r = self.client.get(garaje)
+        self.assertNotContains(r, "dm-aviso")  # sin aviso en el encabezado del garaje
+        self.assertNotContains(r, "ficha-trabajo")
+        self.assertContains(self.client.get(self.moto.get_absolute_url()), "La uso para trabajar")  # interruptor en la moto
         self.perfil()
-        self.assertContains(self.client.get(self.moto.get_absolute_url()), reverse("domiciliarios:panel"))
+        r = self.client.get(garaje)
+        self.assertContains(r, 'class="ficha-trabajo"')
+        self.assertContains(r, reverse("domiciliarios:panel"))
 
     def test_activar_crea_perfil(self):
         r = self.client.post(reverse("domiciliarios:activar"),
@@ -148,7 +152,7 @@ class JornadaTests(Base):
         self.perfil()
         r = self.client.get(reverse("domiciliarios:panel"))
         self.assertContains(r, "Cerrar jornada")
-        self.assertContains(r, "Plan de uso intensivo")
+        self.assertContains(r, "Lo próximo de la moto")
         self.assertContains(r, "Pico y placa")
         self.assertContains(r, "Plus domiciliario")  # sin Plus: la oferta
         self.assertNotContains(r, "Ver comprobante")
@@ -185,6 +189,23 @@ class CalculosTests(Base):
 class PlusYComprobanteTests(Base):
     def url(self, perfil):
         return reverse("domiciliarios:comprobante", args=[comprobante.token(perfil)])
+
+    def plus(self, verificado=True):
+        """Lo de Plus (comprobante y descuentos) exige además la verificación de domiciliario vigente."""
+        super().plus()
+        if verificado:
+            from .models import Verificacion
+            perfil = PerfilDomiciliario.objects.get(motociclista=self.motero)
+            Verificacion.objects.create(perfil=perfil, plataforma="rappi", autorizacion=timezone.now(),
+                                        estado=Verificacion.Estado.APROBADA, vence=timezone.localdate() + timedelta(days=30))
+
+    def test_plus_sin_verificar_no_da_comprobante_ni_descuentos(self):
+        p = self.perfil()
+        self.plus(verificado=False)
+        r = self.client.get(reverse("domiciliarios:panel"))
+        self.assertContains(r, "Activa tus beneficios Plus")
+        self.assertNotContains(r, "Ver comprobante")
+        self.assertEqual(self.client.get(self.url(p)).status_code, 404)
 
     def test_solicitar_plus_reutiliza_suscripcion(self):
         self.perfil()

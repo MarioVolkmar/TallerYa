@@ -405,7 +405,8 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     g.userData.armarRin(rinFabrica);
     if (R_.cintaRin) {
       // Cinta de color en el borde del rin, por ambas caras (CR4, Gixxer): un aro fino pegado a la pestaña
-      M.cinta ??= new THREE.MeshStandardMaterial({ color: R_.cintaRin, roughness: 0.35, metalness: 0.2 });
+      // (con los rines de fábrica lleva su color de serie; con un color de rines elegido, toma ese: ver aplicarPersonalizacion)
+      M.cinta ??= new THREE.MeshStandardMaterial({ color: R_.cintaRin, roughness: 0.35, metalness: 0.2, userData: { fabrica: R_.cintaRin } });
       for (const lado of [1, -1]) {
         const cinta = malla(new THREE.TorusGeometry(rinR - 0.006, 0.0035, 4, seg(48)), M.cinta, g);
         cinta.position.set(x, R, lado * ancho * 0.41);
@@ -1668,26 +1669,32 @@ export async function construirMoto(specs, colorPintura, linea = "") {
   // lente (no el centro de la caja) y hacia dónde alumbra (normal del lente). Se calculan después de vestirLuces, con las
   // lentes ya sacadas a la superficie. anclas.lamparas trae una entrada por lente; faro/stop/direccional_* siguen siendo
   // Vector3 (el lente principal o el punto medio de los dos faros), como los usaba moto3d.js.
-  function anclasLuces() {
+  // Cara de un lente (malla hija directa de decor o de un accesorio, que no tienen transformación propia): centro de la
+  // cara que mira hacia afuera de la moto, su normal y el tamaño de la cara.
+  function caraDeLente(m) {
     const ejes = [V(1, 0, 0), V(0, 1, 0), V(0, 0, 1)];
-    const centro = V((xF + xR) / 2, alturaAsiento * 0.75, 0), xMedio = (xF + xR) / 2;
+    const centro = V((xF + xR) / 2, alturaAsiento * 0.75, 0);
+    m.geometry.computeBoundingBox();
+    const t = m.geometry.boundingBox.getSize(V()).multiply(m.scale), c = m.geometry.boundingBox.getCenter(V()).multiply(m.scale);
+    const tam = [t.x, t.y, t.z], k = tam.indexOf(Math.min(...tam));
+    const dir = ejes[k].clone().applyQuaternion(m.quaternion);
+    const medio = m.position.clone().add(c.applyQuaternion(m.quaternion));
+    if (dir.dot(medio.clone().sub(centro)) < 0) dir.negate();
+    const otros = tam.filter((_, i) => i !== k);
+    return { pos: medio.addScaledVector(dir, tam[k] / 2), dir, ancho: Math.max(...otros), alto: Math.min(...otros), area: otros[0] * otros[1] };
+  }
+  function anclasLuces() {
+    const xMedio = (xF + xR) / 2;
     const lamparas = [];
     for (const m of decor.children) {
       if (!m.isMesh || ![M.luz, M.stop, M.ambar].includes(m.material)) continue;
-      m.geometry.computeBoundingBox();
-      const t = m.geometry.boundingBox.getSize(V()).multiply(m.scale), c = m.geometry.boundingBox.getCenter(V()).multiply(m.scale);
-      const tam = [t.x, t.y, t.z], k = tam.indexOf(Math.min(...tam));
-      const dir = ejes[k].clone().applyQuaternion(m.quaternion);
-      const medio = m.position.clone().add(c.applyQuaternion(m.quaternion));
-      if (dir.dot(medio.clone().sub(centro)) < 0) dir.negate();
-      const otros = tam.filter((_, i) => i !== k);
-      const pos = medio.clone().addScaledVector(dir, tam[k] / 2);
+      const { pos, dir, ancho, alto, area } = caraDeLente(m);
       let tipo = m.material === M.luz ? "faro" : m.material === M.stop ? "stop" : "direccional";
       if (tipo === "faro" && pos.x < xMedio) continue; // (luz de placa)
       if (tipo === "stop" && pos.x > xMedio) continue;
       const lado = tipo === "direccional" ? (pos.x > xMedio ? "d" : "t") + (pos.z > 0 ? "i" : "d")
         : pos.z > 0.02 ? "i" : pos.z < -0.02 ? "d" : "c";
-      lamparas.push({ tipo, lado, pos, dir, ancho: Math.max(...otros), alto: Math.min(...otros), area: otros[0] * otros[1] });
+      lamparas.push({ tipo, lado, pos, dir, ancho, alto, area });
     }
     // Principales: los lentes de más área de cada tipo (los faros dobles quedan los dos; las tiras finas de luz diurna no)
     // (faro: ≥ 80 % del lente mayor, así las tiras de luz diurna y las luces de posición no cuentan como faro)
@@ -2207,7 +2214,10 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     }
     if (naked) {
       // Chasis perimetral a la vista: dos largueros plateados (naranja en la Duke) que bajan de la tijera al pivote
-      const chasisVisto = R.chasisColor ? new THREE.MeshStandardMaterial({ color: R.chasisColor, roughness: 0.35, metalness: 0.3 }) : M.metal;
+      // (material propio, no M.metal: sigue el color de chasis de Personalizar; userData.fabrica = su color de serie)
+      M.chasisVisto = R.chasisColor ? new THREE.MeshStandardMaterial({ color: R.chasisColor, roughness: 0.35, metalness: 0.3 }) : M.metal.clone();
+      M.chasisVisto.userData.fabrica = M.chasisVisto.color.getHex();
+      const chasisVisto = M.chasisVisto;
       if (R.chasisColor) {
         // Duke: chasis multitubular (trellis) a la vista, con diagonales entre los largueros
         for (const lado of [1, -1]) {
@@ -2370,6 +2380,14 @@ export async function construirMoto(specs, colorPintura, linea = "") {
     g.visible = false;
     raiz.add(g);
     armar(g);
+    // Los lentes encendidos del accesorio (exploradoras) también son lámparas de la moto: con su ancla, la escena les
+    // pone halo y haz de noche como al faro, y solo cuando el accesorio está puesto (anclas.lamparas[].accesorio).
+    // (antes de unirDecorado, que junta los lentes de ambos lados en una sola malla)
+    for (const m of g.children) {
+      if (!m.isMesh || m.material !== M.luz) continue;
+      const { pos, dir, ancho, alto } = caraDeLente(m);
+      anclas.lamparas.push({ tipo: "auxiliar", accesorio: id, lado: pos.z > 0 ? "i" : "d", pos, dir, ancho, alto, principal: false });
+    }
     unirDecorado(g);
     accesorios[id] = g;
   }

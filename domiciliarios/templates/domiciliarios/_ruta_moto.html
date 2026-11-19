@@ -1,0 +1,39 @@
+{% load static %}{% if mostrar %}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
+{% if de_trabajo %}
+{# Franja compacta junto a la agenda: lo del día y el cierre de jornada. El detalle vive en Mi ruta. #}
+<section class="dm-franja" id="mi-ruta" aria-label="TallerYa Ruta" data-dm-ruta>
+  <div class="dm-franja-datos">
+    <p class="dm-franja-titulo">Moto de trabajo {% include "domiciliarios/_chapa_verif.html" with pendiente=verif_pendiente %}</p>
+    {% if not moto.placa %}
+    <div class="dm-franja-sinplaca">
+      <span>Agrega la placa para ver tu pico y placa de hoy y mañana.</span>
+      <a href="{% url 'garaje:editar' moto.pk %}" class="btn btn-borde dm-btn-sec">Agregar placa</a>
+    </div>
+    {% elif not pyp.regla %}
+    <p class="dm-franja-nota">Aún no tenemos la rotación de pico y placa vigente.</p>
+    {% else %}
+    <ul class="dm-franja-pyp" aria-label="Pico y placa">
+      <li class="{% if pyp.hoy %}dm-mal{% else %}dm-bien{% endif %}"><small>Hoy</small><b>{% if pyp.hoy %}Pico y placa{% else %}Libre{% endif %}</b></li>
+      <li class="{% if manana_pyp %}dm-ojo{% else %}dm-bien{% endif %}"><small>Mañana</small><b>{% if manana_pyp %}Pico y placa{% else %}Libre{% endif %}</b></li>
+    </ul>
+    {% endif %}
+    <p class="dm-franja-nota">Agenda con plan intensivo{% if km_dia %} · ~{{ km_dia }} km/día{% endif %}</p>
+  </div>
+  <div class="dm-franja-acciones">
+    <a href="{% url 'domiciliarios:panel' %}#jornada" class="btn btn-lava dm-franja-btn">{% if jornada_hoy %}Editar jornada{% else %}Cerrar jornada{% endif %}</a>
+    <a href="{% url 'domiciliarios:panel' %}" class="btn btn-borde dm-btn-sec">Mi ruta →</a>
+  </div>
+  <form method="post" action="{% url 'domiciliarios:moto_trabajo' moto.pk %}" class="dm-franja-switch">{% csrf_token %}
+    <input type="hidden" name="valor" value="0">
+    <button type="submit" class="dm-switch dm-switch-chico" role="switch" aria-checked="true"><span aria-hidden="true"></span>La uso para trabajar</button>
+  </form>
+</section>
+{% else %}
+<form method="post" action="{% url 'domiciliarios:moto_trabajo' moto.pk %}" class="dm-interruptor-solo" data-dm-aviso>{% csrf_token %}
+  <input type="hidden" name="valor" value="1">
+  <button type="submit" class="dm-switch dm-switch-chico" role="switch" aria-checked="false"><span aria-hidden="true"></span>La uso para trabajar</button>
+  <small class="text-suave">¿Domicilios o mensajería? Agenda con plan intensivo y cierre de jornada, gratis.</small>
+</form>
+{% endif %}
+{% endif %}

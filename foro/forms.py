@@ -20,6 +20,8 @@ class PreguntaForm(EstiloMixin, forms.ModelForm):
         self.fields["linea"].queryset = self.fields["linea"].queryset.select_related("marca").order_by("marca__nombre", "nombre")
         self.fields["linea"].label_from_instance = lambda l: f"{l.marca} {l.nombre}"
         self.fields["categoria"].required = False  # si no elige tema, queda en "General"
+        from .views import categorias_visibles  # «Domiciliarios» solo con TallerYa Ruta encendido
+        self.fields["categoria"].choices = [("", "---------"), *categorias_visibles()]
 
     def clean_categoria(self):
         from .models import Categoria

@@ -1,0 +1,10 @@
+{# Tarjeta de un diagnóstico citado. Variable: d (DiagnosticoCompartido o el resumen de vista previa). Solo datos públicos. #}
+<aside class="fo-diag fo-diag-{{ d.urgencia }}" aria-label="Diagnóstico citado">
+  <a href="{{ d.enlace }}" class="fo-diag-enlace" aria-label="Abrir el diagnóstico: {{ d.causa }}"></a>
+  <p class="fo-diag-cabeza"><span class="fo-diag-etiqueta">🩺 Diagnóstico TallerYa</span>{% if d.marca or d.modelo %}<span class="fo-diag-moto">{{ d.marca }} {{ d.modelo }}{% if d.anio %} {{ d.anio }}{% endif %}</span>{% endif %}</p>
+  <p class="fo-diag-sintoma">Síntoma: <strong>{{ d.sintoma }}</strong></p>
+  <p class="fo-diag-causa">{{ d.causa }}</p>
+  <p class="fo-diag-sistema">{{ d.sistema }}{% if d.subgrupo %} · {{ d.subgrupo }}{% endif %} · <span class="fo-diag-urg">{% if d.urgencia == "parar" %}No la ruedes{% elif d.urgencia == "pronto" %}Revísalo pronto{% else %}Puedes seguir rodando{% endif %}</span></p>
+  {% if d.piezas %}<ul class="fo-diag-piezas" aria-label="Piezas a revisar">{% for p in d.piezas %}<li>{{ p }}</li>{% endfor %}</ul>{% endif %}
+  <p class="fo-diag-ver">Ver el diagnóstico →</p>
+</aside>

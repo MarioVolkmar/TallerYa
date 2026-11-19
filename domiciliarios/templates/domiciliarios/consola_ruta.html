@@ -1,0 +1,58 @@
+{% load consola static %}
+<link rel="stylesheet" href="{% static 'domiciliarios/consola_ruta.css' %}?v=20261119">
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Domiciliarios · verificaciones</h1>
+  <p class="cs-sub">{{ total }} solicitud{{ total|pluralize:"es" }}{% if pendientes_seccion %} · <strong>{{ pendientes_seccion }} por revisar</strong>{% endif %} · Compara las 3 placas. Las fotos se borran al decidir.</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  <input type="hidden" name="seccion" value="domiciliarios">
+  <label class="cs-filtro cs-filtro-ancho"><span class="cs-etq">Buscar</span>
+    <input type="search" name="q" value="{{ q }}" class="cs-campo" placeholder="Nombre o correo" maxlength="80"></label>
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>
+    <select name="estado" class="cs-campo campo"><option value="">Todas</option>{% for clave, nombre in estados %}<option value="{{ clave }}"{% if estado == clave %} selected{% endif %}>{{ nombre }}</option>{% endfor %}</select></label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if pagina.object_list %}
+<div class="cr-lista">
+  {% for v in pagina %}{% url 'consola:accion' 'ruta.aprobar' v.pk as a_apr %}{% url 'consola:accion' 'ruta.rechazar' v.pk as a_rec %}
+  <article class="cr-fila{% if v.estado == 'pendiente' %} cr-pendiente{% endif %}">
+    <header class="cr-cabeza">
+      <div><a href="?seccion=usuarios&amp;id={{ v.perfil.motociclista.usuario_id }}" class="cs-cuenta-nombre">{{ v.perfil.motociclista.nombre }}</a> <span class="cs-id">#{{ v.pk }}</span>
+        <span class="cs-cuenta-correo">{{ v.get_plataforma_display }} · enviada {{ v.creado|date:"j M Y H:i" }}</span></div>
+      <div>{% if v.estado == "aprobada" %}<span class="cs-estado cs-ok">Aprobada</span> <span class="cs-cuenta-correo">vence {{ v.vence|date:"j M Y" }}{% if v.renovaciones %} · {{ v.renovaciones }} renovación{{ v.renovaciones|pluralize:"es" }}{% endif %}</span>
+        {% elif v.estado == "pendiente" %}<span class="cs-estado cs-pend">Por revisar</span>
+        {% else %}<span class="cs-estado">{{ v.get_estado_display }}</span>{% if v.motivo %} <span class="cs-cuenta-correo">{{ v.motivo }}</span>{% endif %}{% endif %}
+        {% if v.revisado_por %}<span class="cs-cuenta-correo">Revisó {{ v.revisado_por.email }} · {{ v.revisado_en|date:"j M Y" }}</span>{% endif %}</div>
+    </header>
+    {% if v.tiene_fotos %}
+    <div class="cr-comparar">
+      <figure><figcaption>1 · Pantallazo de la app</figcaption>
+        {% if v.captura %}<a href="{% url 'domiciliarios:verificacion_foto' v.pk 'captura' %}" target="_blank" rel="noopener"><img src="{% url 'domiciliarios:verificacion_foto' v.pk 'captura' %}" alt="Pantallazo del perfil" loading="lazy"></a>{% else %}<span class="cr-falta">Sin foto</span>{% endif %}</figure>
+      <figure><figcaption>2 · Foto de la moto</figcaption>
+        {% if v.foto_moto %}<a href="{% url 'domiciliarios:verificacion_foto' v.pk 'foto_moto' %}" target="_blank" rel="noopener"><img src="{% url 'domiciliarios:verificacion_foto' v.pk 'foto_moto' %}" alt="Foto de la moto con la placa" loading="lazy"></a>{% else %}<span class="cr-falta">Sin foto</span>{% endif %}</figure>
+      <figure class="cr-garaje"><figcaption>3 · Placa en su garaje</figcaption>
+        {% if v.moto %}<span class="cr-placa">{{ v.moto.placa }}</span><span class="cs-cuenta-correo">{{ v.moto }}</span>{% else %}<span class="cr-falta">La moto ya no está</span>{% endif %}
+        <p class="cs-cuenta-correo">Aprueba solo si las 3 placas coinciden y el nombre del perfil es el de la cuenta.</p></figure>
+    </div>
+    {% endif %}
+    {% if v.estado == "pendiente" %}
+    <div class="cr-acciones">
+      {% include "consola/_boton_accion.html" with url=a_apr texto="Aprobar: coinciden" clase="cs-btn-ok" confirmar="¿Aprobar? Se borran las fotos y se le avisa." %}
+      <form method="post" action="{{ a_rec }}" data-accion class="cs-form-linea cr-rechazo">{% csrf_token %}
+        <input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        <input type="text" name="valor" class="cs-campo" list="cr-motivos" placeholder="Motivo del rechazo" maxlength="200" required aria-label="Motivo del rechazo">
+        <button class="cs-btn cs-btn-chico cs-btn-sec">Rechazar</button>
+      </form>
+    </div>
+    {% endif %}
+  </article>
+  {% endfor %}
+</div>
+<datalist id="cr-motivos">
+  <option value="La placa del pantallazo no coincide con la de la moto">
+  <option value="No se lee la placa en la foto de la moto">
+  <option value="El pantallazo no muestra la placa ni los datos de la moto">
+  <option value="El nombre del perfil no coincide con el de tu cuenta">
+</datalist>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">No hay solicitudes con esos filtros.</p>{% endif %}

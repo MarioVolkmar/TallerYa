@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import F
-from django.http import Http404
+from django.http import FileResponse, Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -19,9 +19,10 @@ from garaje.models import Gasto, LecturaKm
 from . import comprobante as comp
 from .balance import balance
 from .bandera import requiere_bandera
-from .forms import JornadaForm, PerfilForm
-from .intensivo import FACTORES, al_dia, plan_intensivo
-from .models import Jornada, PerfilDomiciliario, TallerAliado
+from . import verificacion as verif
+from .forms import JornadaForm, PerfilForm, VerificacionForm
+from .intensivo import FACTORES, al_dia, km_semana_sugerido, plan_intensivo
+from .models import Jornada, PerfilDomiciliario, TallerAliado, Verificacion, verificacion_vigente
 
 NOTA_PLUS = "Plan domiciliario"
 
@@ -93,6 +94,14 @@ def salir(request):
     return redirect("domiciliarios:inicio")
 
 
+def _montos_rapidos(jornadas):
+    """4 montos de un toque para el cierre de jornada, alrededor de lo que suele ganar (redondeado a $10.000)."""
+    ingresos = [j.ingreso for j in jornadas if j.ingreso]
+    centro = round(sum(ingresos) / len(ingresos) / 10_000) * 10_000 if ingresos else 80_000
+    centro = max(40_000, centro)
+    return [centro - 20_000, centro, centro + 20_000, centro + 40_000]
+
+
 @requiere_bandera
 @login_required
 def panel(request):
@@ -107,18 +116,22 @@ def panel(request):
     hoy = timezone.localdate()
     plan = plan_intensivo(moto, perfil.km_semana, hoy)
     es_plus = motociclista.es_plus
+    vigente = verificacion_vigente(perfil, hoy)
     jornada_hoy = perfil.jornadas.filter(fecha=hoy).first()
     contexto = {
         "perfil": perfil, "moto": moto, "plan": plan, "proximas": [t for t in plan.tareas if t.nivel != "desconocido"][:5],
         "al_dia": al_dia(plan), "documentos": moto.documentos(hoy), "pyp": pico_placa.resumen(moto, hoy),
         "manana_pyp": pico_placa.tiene_pico_placa(moto, hoy + timedelta(days=1))[0] if moto.placa else False,
-        "balance": balance(perfil, hoy), "jornada_hoy": jornada_hoy, "jornadas": perfil.jornadas.all()[:7],
+        "balance": balance(perfil, hoy), "jornada_hoy": jornada_hoy, "jornadas": (jornadas := list(perfil.jornadas.all()[:7])),
+        "montos": _montos_rapidos(jornadas),
         "form": JornadaForm(moto=moto), "aliados": _aliados(), "es_plus": es_plus,
+        # Lo de Plus (descuentos y comprobante) exige además la verificación vigente; lo gratis no
+        "verificado": vigente, "beneficios": es_plus and vigente is not None, "verif_pendiente": verif.pendiente(perfil),
         "precio": settings.DOMICILIARIOS_PRECIO_PLUS,
         "whatsapp_pago": request.session.pop("dm_whatsapp", None),
         "solicitud": motociclista.suscripciones.filter(estado=Suscripcion.Estado.SOLICITADA).first(),
     }
-    if es_plus:
+    if es_plus and vigente:
         enlace = request.build_absolute_uri(reverse("domiciliarios:comprobante", args=[comp.token(perfil)]))
         contexto["enlace_comprobante"] = enlace
         contexto["whatsapp_comprobante"] = "https://wa.me/?text=" + quote(f"Comprobante de mantenimiento de mi moto (TallerYa): {enlace}")
@@ -195,8 +208,8 @@ def comprobante_publico(request, token):
         raise Http404
     perfil = (PerfilDomiciliario.objects.filter(pk=leido[0], version_comprobante=leido[1])
               .select_related("moto", "moto__linea", "moto__linea__marca", "motociclista").first())
-    # Solo con Plus vigente: si el Plus vence, el comprobante deja de abrir
-    if not perfil or not perfil.moto or not perfil.motociclista.es_plus:
+    # Solo con Plus y verificación vigentes: si alguno vence, el comprobante deja de abrir
+    if not perfil or not perfil.moto or not perfil.motociclista.es_plus or not verif.es_verificado(perfil):
         raise Http404
     hoy = timezone.localdate()
     plan = plan_intensivo(perfil.moto, perfil.km_semana, hoy)
@@ -210,3 +223,98 @@ def comprobante_publico(request, token):
     respuesta["Referrer-Policy"] = "no-referrer"  # el token no se filtra a otros sitios
     respuesta["Cache-Control"] = "private, no-store"
     return respuesta
+
+
+@requiere_bandera
+@login_required
+def verificacion(request):
+    """Subir las 2 fotos (pantallazo del perfil con la moto y foto de la moto con placa). Nunca se piden contraseñas."""
+    motociclista = _motociclista(request)
+    perfil = _perfil(motociclista)
+    if not perfil:
+        messages.info(request, "Primero activa TallerYa Ruta (es gratis).")
+        return redirect("domiciliarios:activar")
+    vigente = verificacion_vigente(perfil)
+    pendiente = verif.pendiente(perfil)
+    ultima = perfil.verificaciones.exclude(estado=Verificacion.Estado.PENDIENTE).first()
+    form = None
+    if not vigente and not pendiente:
+        form = VerificacionForm(request.POST or None, request.FILES or None, motociclista=motociclista,
+                                initial={"plataforma": (perfil.plataformas or [""])[0], "moto": perfil.moto_id})
+        if request.method == "POST" and form.is_valid():
+            nueva = form.save(commit=False)
+            nueva.perfil = perfil
+            nueva.autorizacion = timezone.now()
+            nueva.save()
+            messages.success(request, "Recibimos tus fotos. Una persona del equipo las revisa y te avisamos aquí.")
+            return redirect("domiciliarios:verificacion")
+    elif request.method == "POST":
+        return redirect("domiciliarios:verificacion")
+    return render(request, "domiciliarios/verificacion.html", {
+        "perfil": perfil, "vigente": vigente, "pendiente": pendiente, "ultima": ultima, "form": form,
+    })
+
+
+@requiere_bandera
+@login_required
+@require_POST
+def cancelar_verificacion(request):
+    """El dueño retira su solicitud: se borran las fotos y la solicitud."""
+    perfil = _perfil(_motociclista(request))
+    pendiente = verif.pendiente(perfil)
+    if pendiente:
+        pendiente.borrar_fotos()
+        pendiente.delete()
+        messages.success(request, "Listo: retiramos tu solicitud y borramos las fotos.")
+    return redirect("domiciliarios:verificacion")
+
+
+TIPOS_FOTO = {"jpg": "image/jpeg", "png": "image/png", "webp": "image/webp"}
+
+
+@requiere_bandera
+@login_required
+def verificacion_foto(request, pk, campo):
+    """Entrega la foto solo a su dueño o al staff; nunca por /media/. Mismo 404 si no existe o no es suya."""
+    if campo not in ("captura", "foto_moto"):
+        raise Http404
+    v = Verificacion.objects.filter(pk=pk).select_related("perfil__motociclista").first()
+    es_staff = request.user.is_staff and request.user.is_active
+    if not v or not (es_staff or v.perfil.motociclista.usuario_id == request.user.pk):
+        raise Http404
+    archivo = getattr(v, campo)
+    tipo = TIPOS_FOTO.get(archivo.name.rsplit(".", 1)[-1].lower()) if archivo else None
+    if not tipo:
+        raise Http404
+    respuesta = FileResponse(archivo.open("rb"), content_type=tipo)
+    respuesta["Content-Disposition"] = f'inline; filename="verificacion-{v.pk}-{campo}"'
+    respuesta["Cache-Control"] = "private, no-store"
+    respuesta["X-Content-Type-Options"] = "nosniff"
+    respuesta["Content-Security-Policy"] = "default-src 'none'; sandbox"
+    return respuesta
+
+
+@requiere_bandera
+@login_required
+@require_POST
+def moto_trabajo(request, pk):
+    """Interruptor «La uso para trabajar» de la página de la moto. Prendido: esa moto lleva el plan intensivo y la
+    tarjeta Mi ruta (crea el perfil si no existe). Apagado: vuelve al plan normal; el perfil y las jornadas quedan."""
+    motociclista = _motociclista(request)
+    moto = motociclista.motos.filter(pk=pk).first() if motociclista else None  # solo sus motos (sin IDOR)
+    if not moto:
+        raise Http404
+    perfil = _perfil(motociclista)
+    if request.POST.get("valor") == "1":
+        if not perfil:
+            perfil = PerfilDomiciliario(motociclista=motociclista, km_semana=km_semana_sugerido(moto))
+        perfil.moto = moto
+        perfil.save()
+        messages.success(request, "Listo: esta moto lleva el plan de uso intensivo y su tarjeta Mi ruta.")
+    elif perfil and perfil.moto_id == moto.pk:
+        perfil.moto = None
+        perfil.save(update_fields=["moto", "actualizado"])
+        messages.success(request, "Esta moto vuelve al plan normal. Tus jornadas quedan guardadas.")
+    if request.POST.get("volver") == "garaje":  # desde el modo «Editar» de Mi garaje (valor fijo, sin redirección abierta)
+        return redirect(reverse("garaje:garaje") + "?lista=1")
+    return redirect(moto.get_absolute_url())

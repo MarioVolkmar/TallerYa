@@ -9,6 +9,7 @@ import { construirMoto } from "./moto3d/construir.js";
 import { texturaCalca, ponerPlaca } from "./moto3d/texturas.js";
 import { unirEstaticas } from "./moto3d/geometria.js";
 import { rasgosDe } from "./moto3d/rasgos.js";
+import { glbDeLinea, montarGlb } from "./moto3d/glb.js"; // piloto: carrocería GLB con ?modelo3d=glb
 
 
 // Línea de tiempo de la carga (ms desde que se abrió la página): __visor.info().tiempos
@@ -93,6 +94,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
 
   // ---------- Escena ----------
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  // Sin revisar errores de sombreadores (con ?depurar3d sí): cada revisión es una consulta síncrona a la GPU por programa
+  renderer.debug.checkShaderErrors = new URLSearchParams(location.search).has("depurar3d");
   // Hasta 1,75× en pantallas de alta densidad: casi igual de nítido y bastante menos trabajo para la tarjeta gráfica.
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, CALIDAD.pixeles));
   renderer.shadowMap.enabled = true;
@@ -160,6 +163,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const t0Armado = performance.now();
   pedazos.desde = performance.now();
   const moto = await construirMoto(datos.specs, datos.color, datos.linea || "");
+  // Piloto de carrocería realista (skill moto-3d-realista): apagado salvo ?modelo3d=glb; si falla, queda la procedural
+  const urlGlb = glbDeLinea(datos.linea);
+  if (urlGlb) {
+    try { await montarGlb(moto, urlGlb); marcar("glb"); } catch (e) { console.warn("GLB sin cargar: queda la moto procedural", e); }
+  }
   pedazos.max = Math.max(pedazos.max, performance.now() - pedazos.desde);
   const msArmado = Math.round(performance.now() - t0Armado);
   marcar("armada");
@@ -331,6 +339,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     .sort((a, b) => (b.ancho || 0) * (b.alto || 0) - (a.ancho || 0) * (a.alto || 0)).slice(0, 2);
   const lentesStop = lamparas.filter((l) => l.tipo === "stop" && l.principal !== false);
   const lentesAmbar = lamparas.filter((l) => l.tipo === "direccional");
+  // Luces de accesorios (exploradoras): se prenden con el faro, pero solo si el accesorio está puesto
+  const lentesAuxiliares = lamparas.filter((l) => l.tipo === "auxiliar" && moto.accesorios?.[l.accesorio]);
   const promedio = (lista) => lista.reduce((a, v) => a.add(v), new THREE.Vector3()).divideScalar(lista.length);
   const posFaro = lentesFaro.length ? promedio(lentesFaro.map((l) => l.pos)) : moto.anclas?.faro?.clone() ?? ((p) => (p && p.x > 0 ? p : null))(extremoDe(moto.M.luz, 1));
   const posStop = lentesStop.length ? promedio(lentesStop.map((l) => l.pos)) : moto.anclas?.stop?.clone() ?? extremoDe(moto.M.stop, -1);
@@ -423,6 +433,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   else if (posFaro) halos.push({ sp: halo(0xfff1c8, posFaro.clone().add(V(0.1, 0, 0)), 0.55), fuerza: 0.85 });
   if (lentesStop.length) for (const l of lentesStop) halos.push({ sp: halo(0xff3322, l.pos.clone().addScaledVector(l.dir, 0.015), tamHalo(l, 2.6, 0.1, 0.22)), fuerza: 0.75 });
   else if (posStop) halos.push({ sp: halo(0xff3322, posStop.clone().add(V(-0.07, 0, 0)), 0.3), fuerza: 0.75 });
+  for (const l of lentesAuxiliares) halos.push({ sp: halo(0xfff1c8, l.pos.clone().addScaledVector(l.dir, 0.012), tamHalo(l, 2.8, 0.1, 0.2)), fuerza: 0.8, accesorio: moto.accesorios[l.accesorio] });
   for (const l of lentesAmbar) halosAmbar.push(halo(0xffa531, l.pos.clone().addScaledVector(l.dir, 0.012), tamHalo(l, 2.6, 0.08, 0.16)));
   // De noche los reflejos se marcan más (pintura y cromos lucen); se guarda el valor de día de cada material
   const conReflejo = new Map();
@@ -469,7 +480,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     suelo.material.opacity = 0.32 * (escena.environment ? fundido.reflejo : 1);
     pisoNoche.visible = k > 0.01;
     pisoNoche.material.opacity = k;
-    for (const h of halos) { h.sp.visible = e && k > 0.01; h.sp.material.opacity = h.fuerza * k; }
+    for (const h of halos) { h.sp.visible = e && k > 0.01 && (!h.accesorio || h.accesorio.visible); h.sp.material.opacity = h.fuerza * k; }
     if (!vivo.encendida) for (const sp of halosAmbar) sp.visible = false;
     for (const cono of conos) { cono.visible = conoEnModo && e && k > 0.01; cono.material.opacity = (conos.length > 1 ? 0.18 : 0.22) * k; }
     renderer.shadowMap.needsUpdate = true;
@@ -1157,6 +1168,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Arma o actualiza las calcas de fábrica según la pintura y las que el usuario quitó
   async function aplicarFabrica(cfg) {
     if (!Fabrica || !DecalGeometry) return;
+    if (moto.raiz.userData.glb) return; // (piloto GLB: sin calcas de fábrica, que llevan marca y van sobre la carrocería procedural)
     if (!fabrica.lista) {
       fabrica.lista = Fabrica.calcasDeFabrica(datos.linea || "", rasgosDe(datos.linea || "", datos.specs || {}).familia);
       fabrica.material = new THREE.MeshPhysicalMaterial({
@@ -1281,12 +1293,16 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     muestrasAcabado.set(clave, url);
     return url;
   }
-  const COLOR_CHASIS = "#23282b", COLOR_ASIENTO = "#161819";
-  function aplicarEstilo(estilo = {}) {
+  const COLOR_CHASIS = "#23282b", COLOR_ASIENTO = "#161819", SECUNDARIO_FABRICA = "#1c2022";
+  // rinesDeFabrica: el color de rines es el de serie (ver aplicarPersonalizacion)
+  function aplicarEstilo(estilo = {}, rinesDeFabrica = true) {
     const acabado = ACABADOS[estilo.acabado] || ACABADOS.brillante;
     for (const m of [moto.M.pintura, moto.M.pintura2]) Object.assign(m, acabado);
     moto.M.pintura2.color.set(estilo.color2 || moto.M.pintura.color);
     moto.M.chasis.color.set(estilo.chasis || COLOR_CHASIS);
+    // Chasis a la vista (largueros de las naked, trellis naranja de la Duke): de serie su color de fábrica; con un
+    // color de chasis elegido, ese
+    moto.M.chasisVisto?.color.set(estilo.chasis || moto.M.chasisVisto.userData.fabrica);
     moto.M.asiento.color.set(estilo.asiento || COLOR_ASIENTO);
     const rin = ["radios", "aleacion", "estrella"].includes(estilo.rin) ? estilo.rin : moto.rinFabrica;
     for (const g of [moto.piezas.llanta_del, moto.piezas.llanta_tras]) {
@@ -1294,8 +1310,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       g.traverse((o) => { if (o.userData.rin) o.visible = o.userData.rin === rin; });
       g.traverse((o) => {
         if (!o.userData.aro) return;
-        const mat = rin === "radios" ? moto.M.metal : moto.M.rin;
-        if (o.material === o.userData.original || !o.userData.original) o.material = mat;
+        // Aro de radios: plateado de serie; con un color de rines elegido, ese (antes quedaba siempre en metal y el
+        // color se perdía al pasar a radios, o no se veía en las motos que traen radios de fábrica)
+        const mat = rin === "radios" && rinesDeFabrica ? moto.M.metal : moto.M.rin;
+        // (solo a mallas: un grupo con material hacía fallar compileAsync, y los sombreadores se compilaban de golpe al dibujar)
+        if (o.isMesh && (o.material === o.userData.original || !o.userData.original)) o.material = mat;
         o.userData.original = mat;
       });
     }
@@ -1312,18 +1331,22 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       led.luz.color.copy(c);
       // (prendido o apagado lo decide pintarVivo: el neón solo brilla con la moto encendida y de noche)
       led.puesto = puestos.has("led");
-      pintarVivo(transicion.k);
     }
+    // (las luces de los accesorios —neón, exploradoras— dependen de qué quedó puesto)
+    pintarVivo(transicion.k);
     for (const v of moto.visoresFabrica) { v.userData.oculto = puestos.has("parabrisas"); v.visible = !v.userData.oculto; }
     renderer.shadowMap.needsUpdate = true;
   }
 
   function aplicarPersonalizacion(cfg) {
     moto.M.pintura.color.set(cfg.color);
-    aplicarEstilo(cfg.estilo);
-    // (con el secundario por defecto, los rines conservan su color de fábrica: Duke naranja, NS rojo, MT-03 cian)
-    const rinPorDefecto = String(cfg.color_secundario).toLowerCase() === "#1c2022" && moto.rinColor != null;
-    moto.M.rin.color.set(rinPorDefecto ? moto.rinColor : cfg.color_secundario);
+    // Con el secundario de serie (SECUNDARIO_FABRICA, la muestra "De fábrica" de Personalizar), los rines conservan su
+    // color de fábrica (Duke naranja, NS rojo, MT-03 cian; aro plateado en los de radios) y la cinta del rin el suyo
+    // (CR4). Con un color elegido —el negro también: es otra muestra, #15181a—, todo estilo de rin toma ese color.
+    const deFabrica = String(cfg.color_secundario).toLowerCase() === SECUNDARIO_FABRICA;
+    aplicarEstilo(cfg.estilo, deFabrica);
+    moto.M.rin.color.set(deFabrica && moto.rinColor != null ? moto.rinColor : cfg.color_secundario);
+    moto.M.cinta?.color.set(deFabrica ? moto.M.cinta.userData.fabrica : cfg.color_secundario);
     if (moto.M.acento) moto.M.acento.color.set(cfg.color_secundario);
     moto.raiz.updateMatrixWorld(true);
     const lista = cfg.calcas || [];
@@ -1461,14 +1484,24 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       contenedor.scrollIntoView({ behavior: reducido ? "auto" : "smooth", block: "center" });
     },
     // Qué se puede elegir en esta moto: accesorios que le quedan y el rin que trae de fábrica
-    opciones: () => ({ accesorios: Object.keys(moto.accesorios), rinFabrica: moto.rinFabrica, tipo: datos.specs.tipo }),
+    // y los colores de fábrica que la personalización respeta mientras no se elija otro (rines y chasis a la vista)
+    // (colorRinFabrica: cómo se ven los rines "De fábrica" con el estilo de rin de `estilo`)
+    opciones: (estilo = {}) => {
+      const hex = (c) => (c == null ? null : "#" + new THREE.Color(c).getHexString());
+      const rin = ["radios", "aleacion", "estrella"].includes(estilo.rin) ? estilo.rin : moto.rinFabrica;
+      return { accesorios: Object.keys(moto.accesorios), rinFabrica: moto.rinFabrica, tipo: datos.specs.tipo,
+        secundarioFabrica: SECUNDARIO_FABRICA,
+        colorRinFabrica: hex(rin === "radios" ? moto.M.metal.color : moto.rinColor ?? moto.M.cinta?.userData.fabrica ?? SECUNDARIO_FABRICA),
+        colorChasisFabrica: hex(moto.M.chasisVisto?.userData.fabrica) };
+    },
     verMoto() { document.querySelector('#visor .visor-modo [data-modo="moto"]')?.click(); },
   };
-  const crudo = { color: datos.color, color_secundario: datos.color_secundario || "#1c2022", calcas: datos.calcas || [], estilo: datos.estilo || {} };
+  const crudo = { color: datos.color, color_secundario: datos.color_secundario || SECUNDARIO_FABRICA, calcas: datos.calcas || [], estilo: datos.estilo || {} };
   moto.raiz.updateMatrixWorld(true);
   const inicial = { ...crudo, calcas: crudo.calcas.map(migrarCalca).filter(Boolean) };
-  Promise.all([document.fonts ? document.fonts.ready : null, extras().catch(() => {})]).then(() => {
+  const personalizada = Promise.all([document.fonts ? document.fonts.ready : null, extras().catch(() => {})]).then(() => {
     medir("personalizacion", () => aplicarPersonalizacion(inicial));
+    marcar("personalizado");
     // (los accesorios —baúl, parabrisas…— cambian el tamaño de la moto: la vitrina la vuelve a medir y encuadrar)
     if (vitrina) { medidaMoto = null; ajustarTamano(); }
     window.TallerYa3DInicial = inicial;
@@ -1771,6 +1804,10 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     for (const s of simples.values()) s.dispose();
     marcar("boceto");
   }
+  // Los colores y calcas guardados cambian materiales (texturas, calcas nuevas): se aplican antes de compilar, para
+  // que compileAsync cubra todas las variantes y nada corra ni dibuje mientras la tarjeta gráfica compila (si no,
+  // las variantes que faltaban se compilaban de golpe al dibujar y la espera de GPU se volvía síncrona).
+  await Promise.race([personalizada, new Promise((r) => setTimeout(r, 3000))]);
   try { await renderer.compileAsync(escena, camara); } catch { /* sin compilación previa: se compila al dibujar */ }
   marcar("compilaAsync");
   if (paginaCerrada) return; // (se salió de la página mientras compilaba: el contexto ya se liberó)

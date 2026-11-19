@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Servicio a domicilio · Mi taller · TallerYa{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
+<section class="max-w-3xl mx-auto mt-8 md:mt-12">
+  {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
+  <p class="etiqueta mt-4">{{ taller.nombre }}</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Servicio a <span class="text-lava">domicilio</span></h1>
+  <p class="text-suave mt-2">Si tu taller también va a donde está la moto, actívalo: sales con la etiqueta «Taller» en <a href="{% url 'domicilio:listado' %}" class="boton-texto">Mecánicos a domicilio</a> y con el distintivo «Va a domicilio» en tu ficha y en el directorio.</p>
+  <p class="dom-estado dom-estado-{% if servicio.activo and taller.activo %}aprobado{% elif servicio.activo %}pendiente{% else %}apagado{% endif %} mt-4">
+    {% if servicio.activo and taller.activo %}✔ Activo: sales en Mecánicos a domicilio.
+    {% elif servicio.activo %}Activo, pero tu taller aún está en revisión: saldrás cuando lo aprobemos.
+    {% else %}Apagado: no sales en Mecánicos a domicilio.{% endif %}
+  </p>
+</section>
+<section class="papel p-5 sm:p-6 md:p-10 max-w-3xl mx-auto mt-6">
+  <form method="post" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
+    {% csrf_token %}
+    {% include "domicilio/_campos.html" with form=form %}
+    <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Guardar</button>
+  </form>
+</section>
+{% endblock %}

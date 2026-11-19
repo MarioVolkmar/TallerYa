@@ -1,0 +1,56 @@
+/* TallerYa · estilos solo de las páginas de «tramites» (plantillas tramites/...).
+   Se cargan después de tallerya.css (la base común) y antes de tw.css: {% css_seccion %} en templates/base.html.
+   Si una clase de aquí pasa a usarse en otra sección, muévela a tallerya.css. */
+.tr-ficha strong { font-family: "Oswald", sans-serif; font-size: 1.15rem; color: var(--crema); }
+.tr-ficha > span { font-size: .85rem; color: #9ba2a4; }
+.tr-cc label { font-size: .82rem; color: #9ba2a4; }
+.tr-cc-fila input { width: 7rem; height: 2.6rem; padding: 0 .8rem; border-radius: 12px; background: #111618; border: 1px solid rgba(255, 255, 255, .12); color: var(--crema); }
+.tr-cc-fila > span { color: #9ba2a4; font-size: .85rem; }
+.tr-nota a { color: var(--lava); }
+.tr-siguiente:focus-visible { outline: 2px solid var(--lava); outline-offset: 3px; }
+.tr-siguiente-texto strong { font-size: .95rem; font-weight: 700; }
+.tr-siguiente-texto small { font-size: .8rem; color: #9ba2a4; }
+.tr-siguiente:hover .tr-siguiente-ir span { transform: translateX(3px); }
+.tr-form label { display: grid; gap: .35rem; font-size: .8rem; color: #9ba2a4; }
+.tr-form input { height: 2.7rem; padding: 0 .85rem; border-radius: 12px; background: #111618; border: 1px solid rgba(255, 255, 255, .12); color: var(--crema); min-width: 0; }
+.tr-form .tr-ancho { grid-column: 1 / -1; }
+.tr-form button { justify-self: start; }
+.tr-filtro select { height: 2.5rem; padding: 0 2rem 0 .9rem; border-radius: 999px; background: #111618; border: 1px solid rgba(255, 255, 255, .12); color: var(--crema); font-size: .85rem; }
+.tr-form select { height: 2.7rem; padding: 0 .85rem; border-radius: 12px; background: #111618; border: 1px solid rgba(255, 255, 255, .12); color: var(--crema); min-width: 0; }
+.tr-form input[readonly] { color: #9ba2a4; }
+.tr-archivo small { color: #949b9d; }
+.tr-archivo input[type=file] { height: auto; padding: .5rem; font-size: .8rem; }
+.tr-casilla input { width: 1.1rem; height: 1.1rem !important; margin-top: .15rem; flex-shrink: 0; accent-color: var(--lava); }
+.tr-casilla a { color: var(--lava); text-decoration: underline; }
+.tr-pasos li { display: grid; gap: .35rem; font-size: .7rem; color: #949b9d; text-align: center; }
+.tr-pasos li span { height: .3rem; border-radius: 999px; background: rgba(255, 255, 255, .1); }
+@media (max-width: 520px) {
+  .tr-pasos li { font-size: .6rem; }
+}
+.tr-llevar svg { flex-shrink: 0; margin-top: .1rem; color: var(--mostaza); }
+.tr-llevar strong { color: var(--crema); }
+.tr-cda-datos li { display: flex; align-items: flex-start; gap: .5rem; font-size: .86rem; color: #c9c2b2; }
+.tr-cda-datos svg { flex-shrink: 0; margin-top: .15rem; color: var(--lava); }
+.tr-cda-datos a { color: var(--crema); }
+.tr-cda-tc .tr-ir { position: relative; z-index: 2; }
+.tr-cda-tc .tr-ir:hover span { transform: translateX(3px); }
+/* CDA: cabecera gráfica como la de taller; el mapa va en el cuerpo, junto a los datos */
+.tr-cda-tc .tr-cda-datos { display: grid; gap: .45rem; align-content: start; }
+.tr-cda-tc .tr-cda-datos li { display: flex; align-items: flex-start; gap: .5rem; font-size: .8rem; line-height: 1.4; color: #c9c2b2; }
+.tr-cda-tc .tr-cda-datos li.tr-sin { color: var(--mostaza); font-weight: 700; }
+.tr-cda-tc .tr-cda-datos svg { flex-shrink: 0; margin-top: .12rem; color: hsl(var(--tono) 70% 62%); }
+.tr-cda-tc .tr-cda-datos a:hover { color: var(--lava-2); }
+.tr-cda-tc > .tr-cda-info { grid-column: 1; padding-bottom: 1rem; }
+.tr-cda-mapa-col iframe { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); border: 0; pointer-events: none; filter: grayscale(.3) brightness(.9); }
+.tr-cda-mapa-col span { position: absolute; left: .5rem; right: .5rem; bottom: .5rem; padding: .3rem .5rem; border-radius: 8px; background: rgba(17, 21, 23, .85); font-size: .7rem; font-weight: 700; color: var(--crema); text-align: center; }
+.tr-cda-mapa-col:hover span { background: var(--lava); color: #1a0d05; }
+.tr-talleres li { display: flex; }
+.tr-taller-info strong { font-size: .98rem; font-weight: 700; color: var(--crema); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr-taller-nota b { color: var(--mostaza, #e8a92a); }
+.tr-taller:hover .tr-taller-ir { background: var(--lava); border-color: var(--lava); color: #1a0d05; }
+.tr-cda-tc .tr-cda-portada { height: 10.5rem; }
+.tr-cda-tc .tr-cda-portada .tr-cda-mapa-col { position: absolute; inset: 0; z-index: 1; grid-column: auto; grid-row: auto; height: auto; min-height: 0; margin: 0; border: 0; border-radius: 0; }
+.tr-cda-tc .tr-cda-portada .tr-cda-mapa-col::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(17, 21, 23, .55) 0%, rgba(17, 21, 23, 0) 38%, rgba(17, 21, 23, 0) 62%, rgba(17, 21, 23, .7) 100%); }
+.tr-cda-tc .tr-cda-portada .tr-cda-mapa-col span { left: auto; right: .7rem; bottom: .7rem; z-index: 2; padding: .3rem .65rem; }
+.tr-cda-tc > .tr-cda-info { grid-column: 1; }

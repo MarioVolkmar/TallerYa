@@ -14,6 +14,7 @@
         <div class="flex flex-wrap gap-2">
           {% if taller.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
           {% if taller.destacado %}<span class="insignia insignia-lava">Destacado</span>{% endif %}
+          {% with d=taller.domicilio %}{% if d.activo %}<a href="{% url 'domicilio:listado' %}?tipo=talleres" class="insignia insignia-dom" title="También atiende a domicilio">🛵 Va a domicilio</a>{% endif %}{% endwith %}
         </div>
         <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-2 max-w-3xl">{{ taller.nombre }}</h1>
         <p class="perfil-datos">
@@ -22,6 +23,7 @@
           {% if estado_horario %}<span class="perfil-estado{% if estado_horario.abierto %} abierto{% endif %}">{{ estado_horario.texto }}</span>
           {% elif taller.horario %}<span>🕒 {{ taller.horario }}</span>{% endif %}
         </p>
+        {% with d=taller.domicilio %}{% if d.activo %}<p class="perfil-domicilio">🛵 <strong>También va a domicilio</strong>{% with zs=d.zonas.all %}{% if zs %}: {{ zs|join:", " }}{% endif %}{% endwith %}{% if d.tarifa_visita %} · visita desde {{ d.tarifa_texto }}{% endif %}{% if d.urgencias %} · atiende urgencias{% endif %}.</p>{% endif %}{% endwith %}
       </div>
     </div>
     {% if taller.descripcion %}<p class="perfil-lema">{{ taller.descripcion|truncatechars:300 }}</p>{% endif %}

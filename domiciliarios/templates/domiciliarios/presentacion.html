@@ -2,38 +2,36 @@
 {% load static humanize %}
 {% block title %}TallerYa Ruta · Para domiciliarios · TallerYa{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}">
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
 <div class="dm">
-  <p class="etiqueta">TallerYa Ruta</p>
-  <h1 class="titulo dm-h1">Tu moto es tu <span class="text-lava">trabajo</span>. Que no te deje botado.</h1>
-  <p class="text-suave dm-lead">Para domiciliarios de Rappi, DiDi, iFood, Picap, mensajería o de un negocio. Si ruedas
-    más de 100 km al día, el plan del manual se te queda corto: TallerYa Ruta lo ajusta a tu ritmo y te dice si la moto te está dejando plata.</p>
-
-  <div class="dm-cta">
-    {% if perfil %}<a href="{% url 'domiciliarios:panel' %}" class="btn btn-lava">Ir a Mi ruta</a>
-    {% elif motociclista %}<a href="{% url 'domiciliarios:activar' %}" class="btn btn-lava">Soy domiciliario: activarlo gratis</a>
-    {% elif user.is_authenticated %}<a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-lava">Completa tu perfil de motero</a>
-    {% else %}<a href="{% url 'cuentas:registro' %}?next={% url 'domiciliarios:activar' %}" class="btn btn-lava">Crear cuenta gratis</a>
-      <a href="{% url 'cuentas:entrar' %}?next={% url 'domiciliarios:activar' %}" class="btn btn-borde">Ya tengo cuenta</a>{% endif %}
-  </div>
-
-  <ul class="dm-beneficios">
-    <li class="papel"><b>Plan de uso intensivo</b><span>Con tus km por semana, adelantamos el aceite, el filtro de aire, la cadena, los frenos y las llantas, y te decimos <em>en cuántos días</em> te toca cada uno, no en cuántos km.</span></li>
-    <li class="papel"><b>Cierre de jornada en 20 segundos</b><span>Anotas lo que ganaste, los km del tablero y lo que tanqueaste. Te mostramos cuánto te queda en la semana y en el mes, cuánto te cuesta cada km y cuánto te deja.</span></li>
-    <li class="papel"><b>Todo en una pantalla</b><span>Pico y placa de hoy y mañana, SOAT, técnico-mecánica y lo próximo del mantenimiento, para mirarlo antes de salir.</span></li>
-    <li class="papel"><b>Talleres que te atienden en el día</b><span>Talleres aliados con servicio en el día u horario extendido, para que no pierdas la jornada. Con Plus, tienes descuento.</span></li>
-    <li class="papel"><b>Comprobante de mantenimiento al día</b><span>Con Plus, un enlace para mostrarle a la plataforma o a tu flota que la moto está al día. Vence a los 30 días y lo puedes anular cuando quieras.</span></li>
-  </ul>
+  {# Lo que convence en 5 segundos: para quién, qué gana y el botón #}
+  <section class="dm-hero">
+    <p class="etiqueta">TallerYa Ruta · gratis</p>
+    <h1 class="titulo dm-h1">Tu moto es tu <span class="text-lava">trabajo</span>.</h1>
+    <p class="dm-lead">Que no te deje botado ni se coma lo que ganas.</p>
+    <ul class="dm-tres">
+      <li><b>Mantenimiento en días</b><span>Según tus km reales</span></li>
+      <li><b>Cierre de jornada</b><span>Cuánto te queda</span></li>
+      <li><b>Pico y placa</b><span>Aviso la noche antes</span></li>
+    </ul>
+    <div class="dm-cta">
+      {% if perfil %}<a href="{% url 'domiciliarios:panel' %}" class="btn btn-lava dm-grande">Ir a Mi ruta</a>
+      {% elif motociclista %}<a href="{% url 'domiciliarios:activar' %}" class="btn btn-lava dm-grande">Activarlo gratis</a>
+      {% elif user.is_authenticated %}<a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-lava dm-grande">Completa tu perfil</a>
+      {% else %}<a href="{% url 'cuentas:registro' %}?tipo=domiciliario" class="btn btn-lava dm-grande">Crear cuenta gratis</a>
+        <a href="{% url 'cuentas:entrar' %}?next={% url 'domiciliarios:activar' %}" class="btn btn-borde dm-grande">Ya tengo cuenta</a>{% endif %}
+    </div>
+    <p class="dm-chico text-suave">Para Rappi, DiDi, iFood, Picap, mensajería o domicilios de un negocio.</p>
+  </section>
 
   {% if ejemplo %}
   <section class="papel dm-caja">
-    <h2 class="titulo dm-h2">¿Cuánto se adelanta?</h2>
-    <p class="text-suave dm-chico">Son intervalos generales: en tu plan usamos los del manual de tu moto, cuando los tenemos.
-      Es una aproximación al «uso severo» que describen los manuales: pare y arranque, carga, lluvia y polvo.</p>
+    <h2 class="titulo dm-h2">Si ruedas todo el día, el manual se queda corto</h2>
     <table class="dm-tabla">
-      <thead><tr><th>Pieza</th><th>Normal</th><th>Domiciliario</th></tr></thead>
+      <thead><tr><th>Pieza</th><th>Normal</th><th>Para ti</th></tr></thead>
       <tbody>{% for f in ejemplo %}<tr><td>{{ f.nombre }}</td><td>{{ f.normal|intcomma }} km</td><td class="text-lava"><b>{{ f.intensivo|intcomma }} km</b></td></tr>{% endfor %}</tbody>
     </table>
+    <p class="text-suave dm-chico">Aproximado al «uso severo» de los manuales (pare y arranque, carga, lluvia). En tu plan usamos el manual de tu moto y te lo decimos en días.</p>
   </section>
   {% endif %}
 
@@ -41,33 +39,24 @@
     <div class="papel dm-precio">
       <p class="etiqueta">Gratis</p>
       <p class="dm-valor">$0</p>
-      <ul><li>Plan de uso intensivo</li><li>Jornadas, balance y costo por km</li><li>Pico y placa y documentos</li><li>Lista de talleres aliados</li></ul>
+      <ul><li>Plan de uso intensivo</li><li>Cierre de jornada y balance</li><li>Pico y placa y documentos</li></ul>
     </div>
     <div class="papel dm-precio dm-precio-plus">
       <p class="etiqueta">Plus domiciliario</p>
       <p class="dm-valor">${{ precio|intcomma }}<small>/mes</small></p>
-      <p class="text-suave dm-chico">La mitad del Plus normal (${{ precio_plus|intcomma }}), con todo lo de Plus, más:</p>
-      <ul><li>Descuentos en talleres aliados</li><li>Comprobante de mantenimiento al día</li></ul>
+      <ul><li>Descuentos en talleres{% if aliados %} ({{ aliados|length }} aliado{{ aliados|length|pluralize }}){% endif %}</li><li>Comprobante de mantenimiento al día</li><li>Todo lo de Plus (normal: ${{ precio_plus|intcomma }})</li></ul>
+      <p class="dm-chico text-suave">Pide verificarte con 2 fotos.</p>
     </div>
   </section>
 
-  {% if aliados %}
   <section class="dm-caja">
-    <h2 class="titulo dm-h2">Talleres aliados</h2>
-    <ul class="dm-aliados">{% for a in aliados %}<li class="papel"><a href="{{ a.taller.get_absolute_url }}"><b>{{ a.taller.nombre }}</b></a>
-      <span class="text-suave">{{ a.taller.barrio }}</span>
-      <span class="dm-chips">{% if a.en_el_dia %}<i>En el día</i>{% endif %}{% if a.horario_extendido %}<i>Horario extendido</i>{% endif %}</span></li>{% endfor %}</ul>
-  </section>
-  {% endif %}
-
-  <section class="dm-caja">
-    <h2 class="titulo dm-h2">Cómo activarlo</h2>
+    <h2 class="titulo dm-h2">En 3 pasos</h2>
     <ol class="dm-pasos">
-      <li>Crea tu cuenta y agrega tu moto al garaje.</li>
-      <li>Marca que eres domiciliario: con qué plataformas trabajas y cuántos km haces por semana.</li>
-      <li>Listo: tu plan intensivo y tu tablero «Mi ruta» quedan funcionando. Si quieres Plus, lo pides desde ahí.</li>
+      <li>Crea tu cuenta y agrega tu moto.</li>
+      <li>Marca «La uso para trabajar».</li>
+      <li>Al final del día, cierra tu jornada en Mi ruta.</li>
     </ol>
-    <p class="text-suave dm-chico">El pico y placa de Medellín sí aplica a motos (primer dígito de la placa). Aquí no te prometemos excepciones para domiciliarios: confírmalas con la Secretaría de Movilidad.</p>
+    <p class="text-suave dm-chico">El pico y placa de Medellín aplica a motos. No prometemos excepciones para domiciliarios: confírmalas con la Secretaría de Movilidad.</p>
   </section>
 </div>
 {% endblock %}

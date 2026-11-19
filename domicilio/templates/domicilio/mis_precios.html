@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Mis precios · Mecánico a domicilio · TallerYa{% endblock %}
+{# Misma pantalla que «Mis precios» del taller (talleres/precios.html), con los servicios a domicilio del mecánico #}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="pt mt-8 md:mt-10 tf">
+  {% url 'domicilio:mi_perfil' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi perfil" %}
+  <form method="post" class="papel pt-caja space-y-4">
+    {% csrf_token %}{{ formset.management_form }}
+    <div>
+      <p class="etiqueta">Precios de referencia</p>
+      <h1 class="titulo text-3xl mt-1">Mis precios</h1>
+      <p class="text-sm text-suave mt-2">Publica un rango «desde–hasta» por servicio, en pesos, sin contar la visita (esa va en tu perfil{% if m.tarifa_visita %}: hoy {{ m.tarifa_texto }}{% endif %}). Se muestra en tu ficha como referencia, no como cotización.</p>
+    </div>
+    {% for e in formset.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
+    {% for form in formset %}
+    <div class="tf-precio-fila">
+      {{ form.id }}
+      <label class="campo-label">Servicio{{ form.servicio }}</label>
+      <label class="campo-label">Cilindraje{{ form.cilindraje }}</label>
+      <label class="campo-label">Desde{{ form.desde }}</label>
+      <label class="campo-label">Hasta{{ form.hasta }}</label>
+      {% if form.instance.pk %}<label class="tf-borrar">{{ form.DELETE }} Quitar</label>{% endif %}
+      {% for campo in form %}{% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}{% endfor %}
+      {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
+    </div>
+    {% endfor %}
+    <p class="text-xs text-suave">¿Necesitas más filas? Guarda y aparecerán otras tres.</p>
+    <button class="btn btn-lava text-xs px-6 py-3">Guardar precios</button>
+  </form>
+</div>
+{% endblock %}

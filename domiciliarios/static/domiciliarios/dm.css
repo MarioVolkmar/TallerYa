@@ -82,11 +82,6 @@
 .dm-sello-bien .dm-sello-icono { background: var(--dm-bien); }
 .dm-sello-mal .dm-sello-icono { background: var(--dm-ojo); }
 
-/* Tarjeta de entrada en Mi garaje */
-.dm-aviso { display: flex; align-items: center; gap: .7rem; margin-top: 1rem; padding: .75rem .9rem; border-radius: 8px; border: 1.5px dashed var(--lava); color: var(--crema); font-size: .92rem; }
-.dm-aviso svg { color: var(--lava); flex: none; }
-.dm-aviso:hover { background: rgba(242, 97, 29, .08); }
-
 @media (min-width: 640px) {
   .dm-beneficios { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .dm-precios, .dm-balance { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -97,3 +92,161 @@
   .dm-columnas { grid-template-columns: 1fr 1fr; }
   .dm-beneficios { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
+
+/* Integración con la página (moto, portada, verificación) · pensado para celular, en la calle y con guantes */
+.dm-franja, .dm-portada, .dm-interruptor-solo { --dm-bien: #3fbf6b; --dm-ojo: var(--mostaza, #e3a72f); --dm-mal: #ff5a3c; }
+.dm-insignia { display: inline-flex; align-items: center; gap: .3rem; font-size: .75rem; font-weight: 700; padding: .15rem .55rem; border-radius: 1rem; background: rgba(63, 191, 107, .15); color: #6fe39a; border: 1px solid rgba(63, 191, 107, .5); vertical-align: middle; }
+.dm-grande { min-height: 3.25rem; font-size: 1rem; }
+.dm-error { display: block; color: #ff8a73; font-size: .85rem; margin-top: .3rem; }
+.dm-volver { display: inline-block; color: var(--crema-2); font-size: .9rem; padding: .6rem 0; }
+
+/* Interruptor */
+.dm-switch { display: inline-flex; align-items: center; gap: .6rem; background: none; border: 0; padding: .3rem 0; color: var(--crema); font: inherit; font-size: .92rem; cursor: pointer; min-height: 2.75rem; text-align: left; }
+.dm-switch span { width: 2.6rem; height: 1.45rem; border-radius: 1rem; background: var(--borde); position: relative; flex-shrink: 0; transition: background .2s; }
+.dm-switch span::after { content: ""; position: absolute; top: .2rem; left: .2rem; width: 1.05rem; height: 1.05rem; border-radius: 50%; background: var(--crema); transition: transform .2s; }
+.dm-switch[aria-checked="true"] span { background: var(--dm-bien); }
+.dm-switch[aria-checked="true"] span::after { transform: translateX(1.15rem); }
+.dm-switch:focus-visible { outline: 2px solid var(--lava); outline-offset: 3px; }
+.dm-switch-chico { font-size: .85rem; color: var(--crema-2); }
+.dm-interruptor-solo { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .8rem; padding: .2rem .1rem; border-bottom: 1px solid var(--borde); }
+.dm-interruptor-solo small { font-size: .8rem; flex: 1 1 14rem; padding-bottom: .5rem; }
+
+/* Franja de la moto de trabajo, dentro de la agenda */
+.dm-franja { display: grid; grid-template-columns: 1fr; gap: .7rem; padding: .85rem 1rem; border-radius: 12px; background: var(--pizarra); border-left: 4px solid var(--lava); }
+.dm-franja-titulo { font-weight: 700; font-size: .95rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.dm-franja-pyp { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .45rem; }
+.dm-franja-pyp li { display: flex; flex-direction: column; padding: .35rem .6rem; border-radius: 8px; background: rgba(0, 0, 0, .18); border-left: 3px solid var(--borde); }
+.dm-franja-pyp small { font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--crema-2); }
+.dm-franja-pyp b { font-size: .95rem; }
+.dm-franja-pyp .dm-bien { border-left-color: var(--dm-bien); }
+.dm-franja-pyp .dm-ojo { border-left-color: var(--dm-ojo); }
+.dm-franja-pyp .dm-mal { border-left-color: var(--dm-mal); }
+.dm-franja-nota { font-size: .8rem; color: var(--crema-2); margin-top: .4rem; }
+.dm-franja-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+.dm-franja-btn { min-height: 3rem; flex: 1 1 auto; justify-content: center; }
+.dm-franja-switch { border-top: 1px solid var(--borde); padding-top: .2rem; }
+
+/* Portada */
+.dm-portada { padding: 1.3rem; display: grid; gap: 1rem; grid-template-columns: 1fr; align-items: center; }
+.dm-portada-h2 { font-size: clamp(1.7rem, 6vw, 2.4rem); line-height: 1.05; margin-top: .3rem; }
+.dm-portada-lista { display: grid; gap: .6rem; }
+.dm-portada-lista li { display: flex; flex-direction: column; gap: .1rem; padding-left: .9rem; border-left: 3px solid var(--lava); }
+.dm-portada-lista span { color: var(--crema-2); font-size: .88rem; }
+.dm-portada-btn { justify-self: stretch; justify-content: center; min-height: 3.1rem; }
+
+/* Presentación */
+.dm-hero { padding: .5rem 0 1rem; }
+.dm-tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; margin-top: 1.2rem; }
+.dm-tres li { background: var(--pizarra); border-radius: 10px; padding: .7rem .6rem; border-top: 3px solid var(--lava); display: flex; flex-direction: column; gap: .15rem; min-width: 0; }
+.dm-tres b { font-size: .9rem; line-height: 1.15; }
+.dm-tres span { font-size: .75rem; color: var(--crema-2); }
+.dm-hero .dm-cta .btn { flex: 1 1 12rem; justify-content: center; }
+
+/* Mi ruta: cierre de jornada */
+.dm-jornada { border: 1.5px solid var(--lava); }
+.dm-campo-grande > span:first-child { font-weight: 700; }
+.dm-pesos { position: relative; display: block; margin-top: .35rem; }
+.dm-pesos::before { content: "$"; position: absolute; left: .9rem; top: 50%; transform: translateY(-50%); font-size: 1.5rem; color: var(--crema-2); pointer-events: none; }
+.dm-pesos .campo { font-size: 1.7rem !important; min-height: 3.6rem !important; padding-left: 2.2rem; font-weight: 700; }
+.dm-montos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .4rem; margin: .6rem 0 .3rem; }
+.dm-monto { min-height: 2.9rem; border-radius: 8px; border: 1.5px solid var(--borde); background: var(--pizarra); color: var(--crema); font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer; }
+.dm-monto[aria-pressed="true"] { border-color: var(--lava); background: rgba(242, 97, 29, .15); }
+.dm-mas { margin-top: .5rem; }
+.dm-mas summary { cursor: pointer; color: var(--lava-2); font-size: .9rem; padding: .6rem 0; min-height: 2.75rem; }
+.dm-queda { font-family: Oswald, sans-serif; font-size: 1.9rem; color: var(--dm-bien); line-height: 1.1; margin-top: .2rem; }
+.dm-queda small { display: block; font-family: inherit; font-size: .75rem; color: var(--crema-2); text-transform: uppercase; letter-spacing: .05em; }
+.dm-queda.dm-negativo { color: var(--dm-mal); }
+.dm-varado-btn { display: flex; flex-direction: column; gap: .1rem; border-left: 4px solid var(--dm-mal); min-height: 3.5rem; }
+.dm-varado-btn span { color: var(--crema-2); font-size: .88rem; }
+
+/* Verificación */
+.dm-estado { display: flex; flex-direction: column; gap: .2rem; padding: .9rem 1rem; border-radius: 10px; margin-top: 1rem; border-left: 5px solid; background: var(--pizarra); }
+.dm-estado b { font-size: 1.05rem; }
+.dm-estado span { font-size: .9rem; color: var(--crema-2); }
+.dm-estado-ok { border-color: var(--dm-bien); }
+.dm-estado-ok b { color: #6fe39a; }
+.dm-estado-espera { border-color: var(--dm-ojo); }
+.dm-estado-mal { border-color: var(--dm-mal); }
+.dm-estado-mal b { color: #ff8a73; }
+.dm-enviadas { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin: 1rem 0; }
+.dm-enviadas a { display: flex; flex-direction: column; gap: .3rem; font-size: .8rem; color: var(--crema-2); }
+.dm-enviadas img { width: 100%; height: 10rem; object-fit: cover; border-radius: 8px; background: #111; }
+.dm-pasos-form { display: grid; gap: .9rem; margin-top: 1rem; }
+.dm-paso { padding: 1rem; display: grid; gap: .3rem; }
+.dm-paso-titulo { display: flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.05rem; }
+.dm-paso-titulo span { width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--lava); color: #0b0e0f; display: grid; place-items: center; font-size: .95rem; flex-shrink: 0; }
+.dm-paso .dm-campo { margin-top: .4rem; }
+.dm-paso .campo { min-height: 3rem; font-size: 1rem; margin-top: .3rem; }
+.dm-ejemplo { display: flex; gap: .9rem; align-items: center; margin: .3rem 0 .4rem; }
+.dm-ejemplo-img { width: 4.5rem; flex-shrink: 0; }
+.dm-ejemplo-lista { display: grid; gap: .3rem; font-size: .88rem; }
+.dm-si::before { content: "✓ "; color: var(--dm-bien); font-weight: 700; }
+.dm-no::before { content: "✕ "; color: var(--dm-mal); font-weight: 700; }
+.dm-subir { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .8rem; padding: .3rem 0; }
+.dm-subir input[type="file"] { position: absolute; inset: 0; opacity: 0; width: 100%; cursor: pointer; }
+.dm-subir-boton { display: inline-flex; align-items: center; justify-content: center; min-height: 3.1rem; padding: 0 1.2rem; border-radius: 999px; border: 2px dashed var(--lava); color: var(--crema); font-weight: 700; flex: 1 1 100%; }
+.dm-subir-nombre { font-size: .82rem; color: var(--crema-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+.dm-subir-listo .dm-subir-boton { border-style: solid; border-color: var(--dm-bien); }
+.dm-subir-listo .dm-subir-nombre { color: #6fe39a; }
+.dm-subir img { width: 5rem; height: 5rem; object-fit: cover; border-radius: 8px; }
+.dm-subir:focus-within .dm-subir-boton { outline: 2px solid var(--lava); outline-offset: 3px; }
+.dm-check { display: flex; gap: .6rem; align-items: flex-start; font-weight: 600; padding: .4rem 0; }
+.dm-check input { width: 1.5rem; height: 1.5rem; margin-top: .05rem; flex-shrink: 0; }
+
+/* Mecánicos a domicilio: ¿Te varaste en ruta? */
+.dm-varado { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .6rem 1rem; padding: .9rem 1.1rem; margin-top: 1rem; border-left: 4px solid var(--lava); }
+.dm-varado b { display: block; }
+.dm-ruta-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1.1rem; }
+@media (min-width: 768px) {
+  .dm-portada { grid-template-columns: 1fr 1.6fr auto; padding: 1.6rem 2rem; }
+  .dm-portada-lista { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dm-portada-btn { justify-self: start; }
+  .dm-franja { grid-template-columns: 1fr auto; align-items: center; }
+  .dm-franja-switch { grid-column: 1 / -1; }
+  .dm-subir-boton { flex: 0 0 auto; }
+}
+
+/* Pulido 19-nov: botones con aire, ficha de la moto, aviso de verificación y tarjetas con acción */
+.dm .btn, .dm-franja .btn, .dm-portada .btn, .dm-varado .btn { padding: .8rem 1.4rem; line-height: 1.15; letter-spacing: .08em; white-space: nowrap; text-align: center; }
+.dm-btn-sec { min-height: 2.6rem; padding: .5rem 1rem !important; font-size: .78rem; gap: .45rem; flex-shrink: 0; }
+.dm-btn-sec svg { flex-shrink: 0; }
+.dm-cabeza-panel { align-items: center; }
+.dm-ficha { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .8rem; }
+.dm-ficha li { display: inline-flex; align-items: center; gap: .4rem; padding: .35rem .75rem; border-radius: 999px; background: var(--pizarra); border: 1px solid var(--borde); font-size: .85rem; color: var(--crema-2); }
+.dm-ficha-moto { display: inline-flex; align-items: center; gap: .4rem; color: var(--crema); font-weight: 700; }
+.dm-ficha-moto svg { color: var(--lava); }
+.dm-ficha li:has(.dm-ficha-moto):hover { border-color: var(--lava); }
+.dm-ficha-ok { color: #6fe39a !important; border-color: rgba(63, 191, 107, .5) !important; background: rgba(63, 191, 107, .12) !important; font-weight: 700; }
+.dm-aviso-verif { display: flex; align-items: center; gap: .8rem; margin-top: .9rem; padding: .8rem 1rem; border-radius: 12px; background: var(--pizarra); border: 1px solid var(--borde); border-left: 4px solid var(--lava); }
+.dm-aviso-verif > svg { color: var(--lava); flex-shrink: 0; }
+.dm-aviso-espera { border-left-color: var(--dm-ojo); }
+.dm-aviso-espera > svg { color: var(--dm-ojo); }
+.dm-aviso-texto { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.dm-aviso-texto span { font-size: .85rem; color: var(--crema-2); }
+.dm-hoy-acciones li { position: relative; gap: .1rem; padding-bottom: .65rem; }
+.dm-hoy-accion { margin-top: auto; padding-top: .45rem; font-size: .8rem; font-weight: 700; color: var(--lava-2); }
+.dm-hoy-accion::after { content: ""; position: absolute; inset: 0; border-radius: 8px; }
+.dm-hoy-acciones li:hover { background: #262d30; }
+.dm-hoy-acciones li:focus-within { outline: 2px solid var(--lava); outline-offset: 2px; }
+.dm-hoy-acciones .dm-hoy-accion:focus-visible { outline: none; }
+.dm-pie-btn { margin-top: .9rem; }
+.dm-franja-sinplaca { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem; margin-top: .45rem; padding: .55rem .7rem; border-radius: 8px; background: rgba(0, 0, 0, .18); border-left: 3px solid var(--dm-ojo); font-size: .88rem; }
+.dm-franja-sinplaca span { flex: 1 1 12rem; }
+.dm-franja-acciones .dm-franja-btn { min-height: 3rem; padding: .85rem 1.6rem; font-size: .9rem; }
+@media (max-width: 420px) {
+  .dm-aviso-verif { flex-wrap: wrap; }
+  .dm-aviso-verif .btn { flex: 1 1 100%; }
+  .dm-franja-acciones { flex-direction: column; align-items: stretch; }
+  .dm-franja-acciones .btn { width: 100%; }
+}
+
+/* Chapa del estado de la verificación (franja de la moto y ficha de Mi ruta): pequeña, no compite con «Cerrar jornada» */
+.dm-chapa-verif { display: inline-flex; align-items: center; gap: .3rem; font-size: .72rem; font-weight: 700; line-height: 1; padding: .3rem .55rem;
+  border-radius: 999px; border: 1px solid; vertical-align: middle; white-space: nowrap; }
+.dm-chapa-ok { color: #6fe39a; border-color: rgba(63, 191, 107, .5); background: rgba(63, 191, 107, .12); }
+.dm-chapa-espera { color: var(--mostaza, #e3a72f); border-color: rgba(227, 167, 47, .5); background: rgba(227, 167, 47, .1); }
+.dm-chapa-no { color: var(--crema-2); border-color: var(--borde); background: transparent; }
+a.dm-chapa-verif:hover { border-color: var(--lava); color: var(--crema); }
+a.dm-chapa-verif:focus-visible { outline: 2px solid var(--lava); outline-offset: 2px; }
+.dm-ficha-chapa { padding: 0 !important; border: 0 !important; background: none !important; }
+.dm-ficha-chapa .dm-chapa-verif { font-size: .8rem; padding: .42rem .75rem; }

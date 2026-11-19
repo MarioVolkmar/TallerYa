@@ -17,7 +17,6 @@
   </div>
   <p class="text-suave mt-1">{{ moto.nombre_completo }}</p>
 </header>
-{% aviso_domiciliarios %}{# TallerYa Ruta: no pinta nada con DOMICILIARIOS_ACTIVO apagado #}
 <nav class="moto-accesos mt-4" aria-label="Más de tu moto">
   <a href="{% url 'garaje:hoja_vida' moto.pk %}" class="moto-acceso acceso-hv"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Hoja de vida</a>
   <a href="{% url 'garaje:gastos' moto.pk %}" class="moto-acceso acceso-gastos"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Gastos y consumo</a>
@@ -475,11 +474,12 @@
   </div>
   </div>
 </section>
-<script src="{% static 'garaje/js/despiece.js' %}?v=20261115-dx" defer></script>
+<script src="{% static 'garaje/js/despiece.js' %}?v=20261118-b" defer></script>
 <script src="{% static 'metricas/metricas.js' %}" defer></script>
 {% endif %}
 
 {% include "garaje/_agenda.html" %}{% cotizador_script %}
+{% include "garaje/_fallas_frecuentes.html" %}
 
 {% if talleres %}
 <section id="talleres" class="mt-10 scroll-mt-24" data-plegable>
