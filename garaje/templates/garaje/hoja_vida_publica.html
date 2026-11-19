@@ -9,6 +9,8 @@
   </div>
   <p class="hv-resumen mt-4"><span><strong>{{ resumen.total }}</strong> servicio{{ resumen.total|pluralize }}</span><span><strong>{{ resumen.verificados }}</strong> verificado{{ resumen.verificados|pluralize }} por talleres</span></p>
   {% if resumen.talleres %}<p class="hv-sello mt-3">Hecho en {{ resumen.talleres|join:", " }}</p>{% endif %}
+  {% if papeles %}<ul class="hv-papeles mt-3">{% for p in papeles %}<li class="{% if p.vigente %}hv-papel-ok{% else %}hv-papel-vencido{% endif %}">{{ p.nombre }} {% if p.vigente %}vigente hasta{% elif p.nombre == "SOAT" %}vencido desde{% else %}vencida desde{% endif %} {{ p.vence|date:"j M Y"|lower }}</li>{% endfor %}</ul>{% endif %}
+  <p class="mt-4"><a href="{% url 'garaje:hoja_vida_certificado' request.resolver_match.kwargs.token %}" class="btn btn-borde text-xs px-5 py-3">Certificado para imprimir o PDF</a></p>
   <div class="mt-6">{% include "garaje/_hoja_vida_lista.html" %}</div>
   <div class="papel p-5 mt-8 hv-compartida">
     <div class="hv-qr hv-qr-chico">{{ qr }}</div>

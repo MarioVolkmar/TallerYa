@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Certificado · Hoja de vida · {{ moto.nombre_completo }} · TallerYa{% endblock %}
+{% block chat_ayuda %}{% endblock %}
+{% block content %}
+<div class="cert-barra no-imprimir">
+  <a href="{{ url_publica }}" class="btn btn-borde text-xs px-5 py-3">Ver hoja de vida</a>
+  <button type="button" class="btn btn-lava text-xs px-5 py-3" data-imprimir>Imprimir / Guardar PDF</button>
+</div>
+<article class="cert" aria-label="Certificado de hoja de vida">
+  <header class="cert-cabeza">
+    <div>
+      <p class="cert-marca">TallerYa</p>
+      <h1 class="cert-titulo">Hoja de vida de la moto</h1>
+    </div>
+    <p class="cert-emision">Emitido el {{ emitido|date:"j M Y" }}<br>a las {{ emitido|time:"g:i a" }}</p>
+  </header>
+
+  <dl class="cert-datos">
+    <div><dt>Marca</dt><dd>{{ marca|default:"Sin dato" }}</dd></div>
+    <div><dt>Moto</dt><dd>{{ moto.nombre_completo }}</dd></div>
+    <div><dt>Modelo (año)</dt><dd>{{ moto.modelo }}</dd></div>
+    <div><dt>Placa</dt><dd>{{ placa }}</dd></div>
+    <div><dt>Kilometraje</dt><dd>{{ moto.km_actual|intcomma }} km</dd></div>
+    {% for p in papeles %}<div><dt>{{ p.nombre }}</dt><dd><span class="cert-estado {% if p.vigente %}cert-verificado{% else %}cert-vencido{% endif %}">{% if p.vigente %}Vigente hasta{% elif p.nombre == "SOAT" %}Vencido desde{% else %}Vencida desde{% endif %} {{ p.vence|date:"j M Y"|lower }}</span></dd></div>{% endfor %}
+    <div><dt>Servicios</dt><dd>{{ resumen.total }} · {{ resumen.verificados }} verificado{{ resumen.verificados|pluralize }}</dd></div>
+  </dl>
+
+  <table class="cert-tabla">
+    <thead><tr><th>Fecha</th><th>Km</th><th>Servicio</th><th>Taller</th><th>Estado</th></tr></thead>
+    <tbody>
+      {% for r in registros %}
+      <tr>
+        <td data-th="Fecha">{{ r.fecha|date:"d/m/Y" }}</td>
+        <td data-th="Km">{{ r.km|intcomma }}</td>
+        <td data-th="Servicio">{{ r.servicios }}</td>
+        <td data-th="Taller">{{ r.donde|default:"El dueño" }}</td>
+        <td data-th="Estado"><span class="cert-estado cert-{{ r.estado_verificacion }}">{% if r.verificado %}Verificado{% elif r.taller_id %}Pendiente{% else %}Propio{% endif %}</span></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="cert-vacio">Sin servicios registrados.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <footer class="cert-pie">
+    <div class="cert-qr">{{ qr }}</div>
+    <div>
+      <p><strong>¿Es auténtico?</strong> Escanea el código o abre el enlace: muestra la hoja de vida al día en TallerYa. Si no abre, el dueño lo desactivó.</p>
+      <p class="cert-url">{{ url_publica }}</p>
+      <p class="cert-nota"><strong>Verificado:</strong> lo registró el taller con un código de un solo uso que le dio el dueño. <strong>Propio:</strong> lo anotó el dueño. <strong>Pendiente:</strong> el taller aún no lo confirma. Este certificado no muestra datos personales del dueño.</p>
+    </div>
+  </footer>
+</article>
+<script>
+  document.querySelectorAll("[data-imprimir]").forEach(function (b) { b.addEventListener("click", function () { window.print(); }); });
+</script>
+{% endblock %}

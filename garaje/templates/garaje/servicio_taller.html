@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Servicio de {{ s.taller.nombre }} · TallerYa{% endblock %}
+{% block title %}Servicio de {{ s.prestador.nombre }} · TallerYa{% endblock %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="pt mt-8 md:mt-10 sv">
@@ -8,12 +8,12 @@
   <section class="papel pt-caja sv">
     <div>
       <p class="etiqueta">{{ s.moto }}</p>
-      <h1 class="titulo text-3xl mt-1">{% if s.estado == estados.POR_CONFIRMAR %}¿Le hicieron esto a tu moto?{% else %}Servicio en {{ s.taller.nombre }}{% endif %}</h1>
-      <p class="mt-2"><span class="pt-chip chip-{{ s.estado }}">{% if s.estado == estados.VERIFICADO %}Verificado por el taller{% else %}{{ s.get_estado_display }}{% endif %}</span></p>
+      <h1 class="titulo text-3xl mt-1">{% if s.estado == estados.POR_CONFIRMAR %}¿Le hicieron esto a tu moto?{% else %}Servicio {% if s.taller %}en{% else %}de{% endif %} {{ s.prestador.nombre }}{% endif %}</h1>
+      <p class="mt-2"><span class="pt-chip chip-{{ s.estado }}">{% if s.estado == estados.VERIFICADO %}Verificado por {% if s.taller %}el taller{% else %}el mecánico{% endif %}{% else %}{{ s.get_estado_display }}{% endif %}</span></p>
     </div>
-    {% if s.estado == estados.POR_CONFIRMAR %}<p class="sv-aviso"><strong>{{ s.taller.nombre }}</strong> buscó tu moto por la placa y quiere anotar este servicio. Si lo confirmas, queda verificado en tu hoja de vida y tu plan de mantenimiento se pone al día.</p>{% endif %}
+    {% if s.estado == estados.POR_CONFIRMAR %}<p class="sv-aviso"><strong>{{ s.prestador.nombre }}</strong> buscó tu moto por la placa y quiere anotar este servicio. Si lo confirmas, queda verificado en tu hoja de vida y tu plan de mantenimiento se pone al día.</p>{% endif %}
     <dl class="sv-datos">
-      <dt>Taller</dt><dd><a href="{{ s.taller.get_absolute_url }}" class="text-lava">{{ s.taller.nombre }}</a>{% if s.taller.barrio %} · {{ s.taller.barrio }}{% endif %}</dd>
+      <dt>{% if s.taller %}Taller{% else %}Mecánico a domicilio{% endif %}</dt><dd><a href="{{ s.prestador.get_absolute_url }}" class="text-lava">{{ s.prestador.nombre }}</a>{% if s.taller.barrio %} · {{ s.taller.barrio }}{% endif %}</dd>
       <dt>Fecha</dt><dd>{{ s.fecha|date:"j \d\e F \d\e Y" }}</dd>
       <dt>Qué se hizo</dt><dd>{{ s.resumen }}</dd>
       <dt>Kilometraje</dt><dd>{{ s.km }} km</dd>
@@ -28,7 +28,7 @@
     </form>
     {% elif s.estado == estados.VERIFICADO %}
     <div class="sv-botones">
-      {% if not ya_califico %}<a href="{{ s.taller.get_absolute_url }}?calificar=1" class="btn btn-lava text-xs">★ Calificar a {{ s.taller.nombre }}</a>{% endif %}
+      {% if not ya_califico %}<a href="{{ s.prestador.get_absolute_url }}?calificar=1" class="btn btn-lava text-xs">★ Calificar a {{ s.prestador.nombre }}</a>{% endif %}
       <a href="{% url 'garaje:hoja_vida' s.moto.pk %}" class="btn btn-borde text-xs">Ver mi hoja de vida</a>
     </div>
     <form method="post" class="text-center" onsubmit="return confirm('¿Quitar este servicio de tu hoja de vida y de tu plan?');">{% csrf_token %}

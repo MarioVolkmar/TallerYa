@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}Despiece de la {{ moto }}: piezas por sistema · TallerYa{% endblock %}
+{% block seo %}{% with t="Despiece de la "|add:moto|add:": piezas por sistema · TallerYa" %}{% seo titulo=t descripcion=seo_desc %}{% endwith %}{% endblock %}
+{% block content %}
+{% url 'garaje:despiece_indice' as url_indice %}{% include "parciales/volver.html" with url=url_indice texto="Todas las motos" clase="mt-8" %}
+<div class="dp max-w-5xl mx-auto mt-6">
+  <p class="etiqueta">Despiece · {{ d.linea.marca }}</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Despiece de la <span class="text-lava">{{ moto }}</span></h1>
+  <p class="dp-intro">{{ n_laminas }} dibujos con {{ n_piezas }} piezas, agrupados por sistema. Toca uno para ver qué hace cada pieza, cómo se nota cuando falla y cada cuánto revisarla.</p>
+
+  {% for sistema, laminas in sistemas %}
+  <section class="dp-sistema" aria-labelledby="dp-s-{{ forloop.counter }}">
+    <h2 class="dp-marca-titulo" id="dp-s-{{ forloop.counter }}">{{ sistema }}</h2>
+    <ul class="dp-laminas">
+      {% for l in laminas %}
+      <li><a href="{% url 'garaje:despiece_sistema' d.slug l.slug %}" class="dp-lamina">
+        <img src="{{ l.imagen }}" alt="" loading="lazy" width="320" height="320">
+        <span>{{ l.nombre }}<small>{{ l.partes|length }} pieza{{ l.partes|length|pluralize }}</small></span>
+      </a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  <aside class="dp-cta">
+    <p><strong>¿Algo le suena raro a tu {{ d.linea.nombre }}?</strong> El diagnóstico guiado te orienta y te muestra talleres que trabajan {{ d.linea.marca }}.</p>
+    <a href="{% url 'garaje:diagnostico' %}?despiece={{ d.pk }}" class="btn btn-lava text-xs px-6 py-3">Diagnosticar mi moto</a>
+  </aside>
+</div>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Despiece","item":"{{ request.scheme }}://{{ request.get_host }}{{ url_indice }}"},{"@type":"ListItem","position":2,"name":"{{ moto|escapejs }}"}]}</script>
+{% endblock %}

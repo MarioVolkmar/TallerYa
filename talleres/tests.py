@@ -678,3 +678,53 @@ class GruasTeVarasteTests(TestCase):
         self.assertNotIn("Ver todo", html)
         self.assertIn("Toca otra vez", html)
         self.assertNotIn("Toca otra vez", self.client.get(reverse("talleres:emergencias")).content.decode())
+
+
+class CotizarCitaTests(PanelTallerTests):
+    """El taller cotiza la cita (rango de precio y fecha) y el motero la acepta o la rechaza desde su enlace."""
+    def cotizar(self, **extra):
+        datos = {"desde": "$180.000", "hasta": "220.000", "incluye": "Kit original y mano de obra",
+                 "fecha": (date.today() + timedelta(days=2)).isoformat(), "hora": "09:00", "vigencia": "5", **extra}
+        r = self.client.post(reverse("talleres:cita_cotizar", args=[self.cita.pk]), datos)
+        self.cita.refresh_from_db()
+        return r
+
+    def test_cotizar_y_el_motero_acepta(self):
+        self.cotizar()
+        self.assertEqual((self.cita.estado, self.cita.cotizacion_desde, self.cita.cotizacion_hasta), ("reprogramada", 180000, 220000))
+        self.assertEqual(self.cita.cotizacion_vence, date.today() + timedelta(days=5))
+        self.assertContains(self.client.get(reverse("talleres:panel")), "Cotizaste")
+        self.client.logout()
+        enlace = reverse("talleres:cita_publica", args=[self.cita.token])
+        r = self.client.get(enlace)
+        self.assertContains(r, "$180.000 – $220.000")
+        self.assertContains(r, "Aceptar y agendar")
+        self.client.post(enlace, {"accion": "aceptar"})
+        self.cita.refresh_from_db()
+        self.assertEqual((self.cita.estado, str(self.cita.hora)), ("confirmada", "09:00:00"))
+        self.assertContains(self.client.get(enlace), "Precio acordado")
+
+    def test_el_motero_rechaza_la_cotizacion(self):
+        self.cotizar()
+        self.client.post(reverse("talleres:cita_publica", args=[self.cita.token]), {"accion": "rechazar"})
+        self.cita.refresh_from_db()
+        self.assertEqual(self.cita.estado, "pendiente")
+        self.assertTrue(self.cita.propuesta_rechazada)
+
+    def test_cotizacion_vencida_no_se_puede_aceptar(self):
+        self.cotizar()
+        SolicitudCita.objects.filter(pk=self.cita.pk).update(cotizacion_vence=date.today() - timedelta(days=1))
+        enlace = reverse("talleres:cita_publica", args=[self.cita.token])
+        self.assertContains(self.client.get(enlace), "Esta cotización venció")
+        self.client.post(enlace, {"accion": "aceptar"})
+        self.cita.refresh_from_db()
+        self.assertEqual(self.cita.estado, "reprogramada")
+
+    def test_valida_precios_y_no_cotiza_citas_ajenas(self):
+        self.cotizar(desde="300.000", hasta="200.000")
+        self.assertEqual((self.cita.estado, self.cita.cotizacion_hasta), ("pendiente", None))
+        self.cotizar(desde="", hasta="")
+        self.assertIsNone(self.cita.cotizacion_hasta)
+        ajena = SolicitudCita.objects.create(taller=self.otro, nombre="X", telefono="3000000000", moto="X", fecha_preferida=date.today())
+        r = self.client.post(reverse("talleres:cita_cotizar", args=[ajena.pk]), {"desde": "1", "hasta": "2"})
+        self.assertEqual(r.status_code, 404)

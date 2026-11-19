@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Recibir moto · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-10">
+  <p class="etiqueta">Traspaso en TallerYa</p>
+  {% if not traspaso %}
+  <h1 class="titulo text-3xl md:text-4xl mt-3">Este enlace ya no sirve</h1>
+  <p class="text-suave mt-3">Venció, ya se usó o quien vende lo canceló. Pídele un enlace nuevo desde la hoja de vida de la moto.</p>
+  <p class="mt-6"><a href="{% url 'garaje:garaje' %}" class="btn btn-lava text-xs px-6 py-3">Ir a mi garaje</a></p>
+  {% else %}
+  <div class="flex flex-wrap items-center gap-3 mt-3">
+    <h1 class="titulo text-3xl md:text-5xl">{{ moto.nombre_completo }}</h1>
+    <span class="placa-moto" title="Placa parcialmente oculta">{{ placa }}</span>
+  </div>
+  <p class="hv-resumen mt-4"><span><strong>{{ resumen.total }}</strong> servicio{{ resumen.total|pluralize }}</span><span><strong>{{ resumen.verificados }}</strong> verificado{{ resumen.verificados|pluralize }} por talleres</span></p>
+
+  <section class="papel p-5 mt-6 hv-vender">
+    {% if propia %}
+    <h2 class="titulo text-lg">Este es tu enlace de traspaso</h2>
+    <p class="text-sm text-suave mt-2">Pásaselo a quien compró la moto para que lo abra con su cuenta. Vence el {{ traspaso.vence|date:"j M Y" }}.</p>
+    <div class="hv-acciones"><a href="{% url 'garaje:hoja_vida' moto.pk %}#vender" class="btn btn-borde text-xs px-5 py-3">Volver a la hoja de vida</a></div>
+    {% elif sin_perfil %}
+    <h2 class="titulo text-lg">Falta un paso en tu cuenta</h2>
+    <p class="text-sm text-suave mt-2">Para tener garaje, tu cuenta necesita un celular de motociclista. Agrégalo y vuelve a abrir este enlace.</p>
+    <div class="hv-acciones"><a href="{% url 'cuentas:mi_cuenta' %}" class="btn btn-lava text-xs px-5 py-3">Ir a mi cuenta</a></div>
+    {% elif lleno %}
+    <h2 class="titulo text-lg">Tu garaje está lleno</h2>
+    <p class="text-sm text-suave mt-2">Tienes {{ max_motos }} motos, el máximo. Elimina una y vuelve a abrir este enlace.</p>
+    <div class="hv-acciones"><a href="{% url 'garaje:garaje' %}" class="btn btn-borde text-xs px-5 py-3">Ir a mi garaje</a></div>
+    {% else %}
+    <h2 class="titulo text-lg">¿Recibes esta moto?</h2>
+    <p class="text-sm text-suave mt-2">Al aceptar, la moto pasa a tu garaje con su hoja de vida completa, su plan de mantenimiento y el kilometraje. Los gastos, el SOAT y la técnico-mecánica de quien la vende no vienen: agrega los tuyos en los datos de la moto.</p>
+    <form method="post" class="hv-acciones">{% csrf_token %}<button class="btn btn-lava text-xs px-6 py-3">Aceptar la moto</button></form>
+    {% endif %}
+  </section>
+
+  <section class="mt-8">
+    <h2 class="titulo text-xl">Servicios</h2>
+    <div class="mt-3">{% include "garaje/_hoja_vida_lista.html" %}</div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

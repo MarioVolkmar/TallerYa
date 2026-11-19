@@ -1,5 +1,5 @@
 {% load humanize %}
-{# Línea de tiempo de servicios (necesita registros; propia=True muestra costo y botón de borrar) #}
+{# Línea de tiempo de servicios (necesita registros; propia=True muestra notas, detalle y botón de borrar; el costo nunca sale aquí) #}
 <ol class="hv-lista"{% if lista_id %} id="{{ lista_id }}"{% endif %}>
   {% for r in registros %}
   <li class="hv-item{% if r.verificado %} hv-verificado{% elif r.taller_id %} hv-pendiente{% endif %}" data-origen="{{ r.estado_verificacion }}" data-fecha="{{ r.fecha|date:'Y-m-d' }}">
@@ -10,6 +10,8 @@
     <p class="hv-servicios">{{ r.servicios }}</p>
     {% if r.verificado and r.taller %}
     <p class="hv-sello"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Hecho en {{ r.taller.nombre }} · verificado</p>
+    {% elif r.verificado and r.mecanico %}
+    <p class="hv-sello"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Mecánico a domicilio: {{ r.mecanico.nombre }} · verificado</p>
     {% elif r.taller %}
     {# Pendiente: el motero lo anotó con un taller de TallerYa que todavía no lo confirma con el código #}
     <div class="hv-pendiente-fila">
@@ -21,7 +23,6 @@
     {% endif %}
     {% if propia %}
     <div class="hv-pie">
-      {% if r.costo %}<span class="hv-costo">${{ r.costo|intcomma }}</span>{% endif %}
       {% if r.notas %}<span class="hv-notas">{{ r.notas }}</span>{% endif %}
       {% if r.servicio_taller_id %}<a href="{% url 'garaje:servicio_taller' r.servicio_taller_id %}" class="hv-notas text-lava">Ver detalle y foto</a>{% endif %}
       {% if not r.verificado %}

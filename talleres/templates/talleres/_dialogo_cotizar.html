@@ -1,0 +1,49 @@
+<!-- Cotizar: el taller responde la cita con un precio (rango), qué incluye y la fecha; el motero lo acepta en un enlace -->
+<dialog class="papel rp-dialogo" id="dialogo-cotizar" aria-labelledby="ct-titulo">
+  <form method="post" class="rp-form">
+    {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+    <div class="rp-cabeza"><p class="titulo text-2xl" id="ct-titulo">Enviar cotización</p><button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
+    <p class="rp-sub">Para <strong data-ct-nombre></strong> · <span data-ct-que></span>. Solo la ve el motero; si la acepta, la cita queda confirmada.</p>
+    <div class="rp-campos">
+      <label class="campo-label">Desde ($)<input type="text" name="desde" class="campo" inputmode="numeric" required placeholder="180.000" autocomplete="off"></label>
+      <label class="campo-label">Hasta ($)<input type="text" name="hasta" class="campo" inputmode="numeric" required placeholder="220.000" autocomplete="off"></label>
+      <label class="campo-label rp-ancho">Qué incluye <span class="rc-opcional">(opcional)</span>
+        <input type="text" name="incluye" class="campo" maxlength="160" placeholder="Kit original, mano de obra y ajuste"></label>
+      <label class="campo-label">Fecha<input type="date" name="fecha" class="campo" required min="{{ hoy|date:'Y-m-d' }}"></label>
+      <label class="campo-label">Hora
+        <select name="hora" class="campo" required><option value="" disabled selected>Elige la hora</option>{% for h in horas %}<option value="{{ h }}">{{ h }}</option>{% endfor %}</select></label>
+      <label class="campo-label">Vale por
+        <select name="vigencia" class="campo"><option value="3">3 días</option><option value="5" selected>5 días</option><option value="10">10 días</option><option value="30">30 días</option></select></label>
+      <label class="campo-label">Nota <span class="rc-opcional">(opcional)</span>
+        <input type="text" name="nota" class="campo" maxlength="200" placeholder="Si el piñón está bien, sale en el mínimo"></label>
+    </div>
+    <p class="rp-sub ct-aviso">Si es precio fijo, pon el mismo valor en los dos. Si al revisar aparece otro daño, avísale antes de cobrar algo distinto.</p>
+    <button class="btn btn-lava w-full py-3 text-sm">Enviar cotización al motero</button>
+  </form>
+</dialog>
+<script>
+  (function () {
+    var dialogo = document.getElementById("dialogo-cotizar"); if (!dialogo) return;
+    var form = dialogo.querySelector("form");
+    function miles(campo) {  // 180000 → 180.000 mientras se escribe
+      campo.addEventListener("input", function () {
+        var n = campo.value.replace(/\D/g, "").slice(0, 8);
+        campo.value = n ? Number(n).toLocaleString("es-CO") : "";
+      });
+    }
+    miles(form.desde); miles(form.hasta);
+    form.desde.addEventListener("change", function () { if (!form.hasta.value) form.hasta.value = form.desde.value; });
+    document.querySelectorAll("[data-cotizar]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        form.action = b.dataset.cotizar;
+        dialogo.querySelector("[data-ct-nombre]").textContent = b.dataset.nombre;
+        dialogo.querySelector("[data-ct-que]").textContent = b.dataset.que;
+        var fecha = form.querySelector("[name=fecha]"); fecha.value = b.dataset.fecha >= fecha.min ? b.dataset.fecha : fecha.min;
+        if (b.dataset.hora) form.hora.value = b.dataset.hora;
+        dialogo.showModal();
+      });
+    });
+    dialogo.querySelector("[data-cerrar]").addEventListener("click", function () { dialogo.close(); });
+    dialogo.addEventListener("click", function (e) { if (e.target === dialogo) dialogo.close(); });
+  })();
+</script>

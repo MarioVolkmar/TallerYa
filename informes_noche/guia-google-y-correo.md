@@ -14,6 +14,7 @@ TallerYa ya trae todo el código. Solo faltan **dos cuentas gratis** y copiar un
 4. Menú → **Credenciales** → **Crear credenciales** → **ID de cliente de OAuth** → tipo **Aplicación web**, nombre `TallerYa web`.
    - **URIs de redireccionamiento autorizados** (deben ser exactos, con la barra final):
      - `http://localhost:8001/cuenta/google/volver/` (para probar en tu computador)
+     - `http://127.0.0.1:8001/cuenta/google/volver/` (el sitio local se abre con 127.0.0.1)
      - `https://TU-DOMINIO/cuenta/google/volver/` (producción; si usas Render sin dominio propio: `https://tallerya.onrender.com/cuenta/google/volver/` con tu nombre real)
    - **Crear**. Copia el **ID de cliente** y el **Secreto del cliente**.
 5. Cuando el sitio esté desplegado y listo: en la pantalla de consentimiento pulsa **Publicar aplicación** (pasa de "Pruebas" a "En producción") para que entre cualquier persona. Con solo los permisos básicos no exige verificación larga.

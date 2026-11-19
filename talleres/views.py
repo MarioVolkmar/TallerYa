@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -815,28 +817,92 @@ def reprogramar_cita(request, pk):
     return redirect(_volver(request, reverse("talleres:panel")) .split("#")[0] + f"#cita-{cita.pk}")
 
 
+def _pesos(n):
+    return "$" + f"{n:,}".replace(",", ".")
+
+
+def _entero_pesos(texto):
+    """'$180.000' o '180000' → 180000; None si no es un monto válido."""
+    digitos = re.sub(r"\D", "", texto or "")
+    return int(digitos) if digitos and 0 < int(digitos) <= 50_000_000 else None
+
+
+@login_required
+@require_POST
+def cotizar_cita(request, pk):
+    """El taller responde la cita con un precio (rango), qué incluye, hasta cuándo vale y la fecha y hora.
+    Queda «Esperando al motero» (como al reprogramar) y el motero la acepta o la rechaza desde su enlace."""
+    import secrets
+    from datetime import date as fecha_tipo, time, timedelta
+    taller = _taller_de(request)
+    cita = get_object_or_404(SolicitudCita, pk=pk, taller=taller)
+    volver = _volver(request, reverse("talleres:panel") + "#citas")
+    desde, hasta = _entero_pesos(request.POST.get("desde")), _entero_pesos(request.POST.get("hasta"))
+    if not desde or not hasta or desde > hasta:
+        messages.error(request, "Escribe el precio desde y hasta (el «hasta» no puede ser menor). Si es un precio fijo, pon el mismo en los dos.")
+        return redirect(volver)
+    try:
+        fecha = fecha_tipo.fromisoformat(request.POST.get("fecha", ""))
+        hora = time.fromisoformat(request.POST.get("hora", ""))
+    except ValueError:
+        fecha = hora = None
+    if not fecha or not hora or fecha < timezone.localdate():
+        messages.error(request, "Elige la fecha (de hoy en adelante) y la hora para la cita.")
+        return redirect(volver)
+    dias = request.POST.get("vigencia", "5")
+    dias = int(dias) if dias.isdigit() and 1 <= int(dias) <= 30 else 5
+    cita.cotizacion_desde, cita.cotizacion_hasta = desde, hasta
+    cita.cotizacion_incluye = request.POST.get("incluye", "").strip()[:160]
+    cita.cotizacion_vence = timezone.localdate() + timedelta(days=dias)
+    cita.fecha_propuesta, cita.hora_propuesta = fecha, hora
+    cita.nota_taller = request.POST.get("nota", "").strip()[:200]
+    cita.estado, cita.propuesta_rechazada = SolicitudCita.Estado.REPROGRAMADA, False
+    cita.token = cita.token or secrets.token_urlsafe(16)
+    cita.save()
+    precio = _pesos(desde) if desde == hasta else f"{_pesos(desde)} a {_pesos(hasta)}"
+    enlace = request.build_absolute_uri(reverse("talleres:cita_publica", args=[cita.token]))
+    canales = _avisar_motero(
+        cita, f"cita-cotizada:{cita.pk}:{desde}:{hasta}:{fecha}:{hora}", f"{taller.nombre} te cotizó",
+        f"{precio} · {fecha:%d/%m} · {_hora_texto(hora)}. Acéptala o recházala.",
+        reverse("talleres:cita_publica", args=[cita.token]),
+        getattr(settings, "WHATSAPP_PLANTILLA_COTIZACION", "cita_cotizada"),
+        [cita.nombre, taller.nombre, precio, fecha.strftime("%d/%m"), _hora_texto(hora), enlace])
+    via = f" por {' y '.join(canales)}" if canales else ""
+    messages.success(request, f"Le enviamos la cotización a {cita.nombre}{via}. Te avisaremos cuando responda.")
+    return redirect(volver.split("#")[0] + f"#cita-{cita.pk}")
+
+
 def cita_publica(request, token):
     """Página del motero para aceptar o rechazar la nueva fecha que propone el taller (no necesita cuenta)."""
     cita = get_object_or_404(SolicitudCita.objects.select_related("taller", "servicio", "taller__barrio"), token=token)
     pendiente = cita.estado == SolicitudCita.Estado.REPROGRAMADA and cita.fecha_propuesta
+    cotizada = bool(cita.cotizacion_hasta)
     if request.method == "POST" and pendiente:
         dueno = cita.taller.usuario
-        if request.POST.get("accion") == "aceptar":
+        if request.POST.get("accion") == "aceptar" and cotizada and cita.cotizacion_vencida:
+            messages.error(request, "Esta cotización ya venció. Escríbele al taller para que te envíe una nueva.")
+        elif request.POST.get("accion") == "aceptar":
             cita.fecha_preferida, cita.hora = cita.fecha_propuesta, cita.hora_propuesta
             cita.estado = SolicitudCita.Estado.CONFIRMADA
             cita.fecha_propuesta = cita.hora_propuesta = None
             cita.save()
-            _avisar(dueno, f"cita-aceptada:{cita.pk}:{cita.fecha_preferida}", f"{cita.nombre} aceptó la nueva fecha",
+            que = "la cotización" if cotizada else "la nueva fecha"
+            _avisar(dueno, f"cita-aceptada:{cita.pk}:{cita.fecha_preferida}", f"{cita.nombre} aceptó {que}",
                     f"Cita confirmada para el {cita.fecha_preferida:%d/%m}", reverse("talleres:panel") + "#citas")
-            messages.success(request, "¡Listo! Tu cita quedó confirmada con la nueva fecha.")
+            messages.success(request, f"¡Listo! Tu cita quedó confirmada{' con ese precio' if cotizada else ' con la nueva fecha'}.")
         else:
             cita.estado, cita.propuesta_rechazada = SolicitudCita.Estado.PENDIENTE, True
             cita.save(update_fields=["estado", "propuesta_rechazada"])
-            _avisar(dueno, f"cita-rechazada:{cita.pk}:{cita.fecha_propuesta}", f"{cita.nombre} no puede en la nueva fecha",
-                    "Escríbele para acordar otra", reverse("talleres:panel") + "#citas")
-            messages.info(request, "Le avisamos al taller que esa fecha no te sirve. Te escribirán para acordar otra.")
+            titulo = f"{cita.nombre} no aceptó la cotización" if cotizada else f"{cita.nombre} no puede en la nueva fecha"
+            _avisar(dueno, f"cita-rechazada:{cita.pk}:{cita.fecha_propuesta}", titulo,
+                    "Escríbele para acordar otra opción", reverse("talleres:panel") + "#citas")
+            messages.info(request, "Le avisamos al taller. Te escribirán si tienen otra opción.")
         return redirect("talleres:cita_publica", token=token)
-    return render(request, "talleres/cita_publica.html", {"cita": cita, "pendiente": pendiente,
+    precio = ""
+    if cotizada:
+        desde, hasta = cita.cotizacion_desde, cita.cotizacion_hasta
+        precio = _pesos(hasta) if desde == hasta else f"{_pesos(desde)} – {_pesos(hasta)}"
+    return render(request, "talleres/cita_publica.html", {"cita": cita, "pendiente": pendiente, "precio": precio,
                                                           "hora_propuesta": _hora_texto(cita.hora_propuesta),
                                                           "hora": _hora_texto(cita.hora)})
 

@@ -4,25 +4,28 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="pt mt-8 md:mt-10 sv">
-  {% url 'talleres:servicios_taller' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Servicios registrados" %}
+  {% if volver_url %}{% include "parciales/volver.html" with url=volver_url texto=volver_texto %}
+  {% else %}{% url 'talleres:servicios_taller' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Servicios registrados" %}{% endif %}
   <section class="papel pt-caja sv">
     <div>
       <p class="etiqueta">Hoja de vida verificada</p>
       <h1 class="titulo text-3xl mt-1">Registrar un servicio</h1>
-      <p class="text-sm text-suave mt-2">Para una moto que llegó sin cita. El servicio queda en su hoja de vida con el sello de {{ taller.nombre }} y su plan de mantenimiento se pone al día.</p>
+      <p class="text-sm text-suave mt-2">{% if sin_placa %}{% if visita %}{{ visita.nombre }} no tiene la moto en TallerYa con su cuenta: pídele el código de su hoja de vida.{% else %}Pídele al dueño el código de su hoja de vida.{% endif %}{% else %}Para una moto que llegó sin cita.{% endif %} El servicio queda en su hoja de vida con el sello de {{ taller.nombre }} y su plan de mantenimiento se pone al día.</p>
     </div>
     {% if error %}<p class="error">{{ error }}</p>{% endif %}
     <div class="sv-buscar">
       <label class="campo-label" for="sv-codigo">Código de la moto (o escanea el QR de su hoja de vida)</label>
-      <form method="get"><input id="sv-codigo" name="codigo" value="{{ codigo }}" class="campo" placeholder="Ej: K7P2QM" autocomplete="off" maxlength="12"><button class="btn btn-lava text-xs px-4">Buscar</button></form>
+      <form method="get"{% if accion_buscar %} action="{{ accion_buscar }}"{% endif %}>{% if visita %}<input type="hidden" name="visita" value="{{ visita.pk }}">{% endif %}<input id="sv-codigo" name="codigo" value="{{ codigo }}" class="campo" placeholder="Ej: K7P2QM" autocomplete="off" maxlength="12"><button class="btn btn-lava text-xs px-4">Buscar</button></form>
       <small class="text-suave text-xs">Queda verificado de una vez: el dueño te lo mostró.</small>
     </div>
+    {% if not sin_placa %}
     <p class="sv-o">o</p>
     <div class="sv-buscar">
       <label class="campo-label" for="sv-placa">Placa</label>
       <form method="get"><input id="sv-placa" name="placa" value="{{ placa }}" class="campo" placeholder="Ej: ABC12D" autocomplete="off" maxlength="8"><button class="btn btn-borde text-xs px-4">Buscar</button></form>
       <small class="text-suave text-xs">El dueño recibe un aviso y lo confirma antes de que quede verificado.</small>
     </div>
+    {% endif %}
   </section>
 </div>
 {% endblock %}

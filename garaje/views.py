@@ -646,7 +646,7 @@ def detalle(request, pk):
                          if len(lecturas) > 1 and lecturas[0].km > lecturas[-1].km else None,
         **_tablero(moto, plan),
         # Historial: la hoja de vida (cada mantenimiento queda ahí) y los gastos del mes
-        "registros_hv": list(moto.hoja_vida.select_related("taller")[:5]),
+        "registros_hv": list(moto.hoja_vida.select_related("taller", "mecanico")[:5]),
         "hv_resumen": moto.hoja_vida.aggregate(total=Count("id"), verificados=Count("id", filter=Q(verificado=True))),
         "gastos": resumen_gastos(moto),
         "agenda": _agenda(moto, plan, despiece),

@@ -69,6 +69,17 @@
     setTimeout(saludar, 300);
   }
 
+  // En el celular, mientras se desplaza la página, Chispa se asoma al borde para no tapar botones
+  // (p. ej. «Ver taller») y vuelve a salir al detenerse. No toca la preferencia guardada.
+  var celular = window.matchMedia("(max-width: 639px)"), quieta;
+  window.addEventListener("scroll", function () {
+    if (!celular.matches || escondida() || (panel && !panel.hidden)) return;
+    raiz.classList.add("cc-asomada");
+    globito.hidden = true;
+    clearTimeout(quieta);
+    quieta = setTimeout(function () { raiz.classList.remove("cc-asomada"); }, 900);
+  }, { passive: true });
+
   // Arrastrar a Chispa hacia el borde derecho para esconderla (mouse o dedo); si no pasa el umbral, vuelve a su sitio
   var arrastre = null, arrastro = false;
   boton.addEventListener("pointerdown", function (ev) {

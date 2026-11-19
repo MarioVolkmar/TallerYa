@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}{{ lam.nombre }} de la {{ moto }}: despiece y cómo funciona · TallerYa{% endblock %}
+{% block seo %}{% with t=lam.nombre|add:" de la "|add:moto|add:": despiece y cómo funciona · TallerYa" %}{% seo titulo=t descripcion=seo_desc %}{% endwith %}{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=d.url_publica texto=moto clase="mt-8" %}
+<article class="dp max-w-5xl mx-auto mt-6">
+  <p class="etiqueta">Despiece · {{ moto }} · {{ lam.sistema }}</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{{ lam.nombre }} <span class="text-lava">de la {{ moto }}</span></h1>
+
+  <div class="dp-ficha">
+    <figure class="dp-dibujo">
+      <img src="{{ lam.imagen }}" alt="Dibujo del despiece: {{ lam.nombre|lower }} de la {{ moto }}, con el número de cada pieza" width="640" height="640">
+      <figcaption>Dibujo propio de TallerYa. Los números corresponden a la lista de piezas.</figcaption>
+    </figure>
+    <section aria-labelledby="dp-piezas">
+      <h2 class="dp-marca-titulo" id="dp-piezas">Piezas ({{ lam.partes|length }})</h2>
+      <ol class="dp-piezas">
+        {% for p in lam.partes %}<li><span class="dp-ref">{{ p.ref }}</span><span>{{ p.nombre }}{% if p.cantidad > 1 %} <small>×{{ p.cantidad }}</small>{% endif %}{% if p.ayuda %}<small class="dp-ayuda">{{ p.ayuda }}</small>{% endif %}</span></li>{% endfor %}
+      </ol>
+    </section>
+  </div>
+
+  {% if lam.guias %}
+  <section class="dp-guias" aria-labelledby="dp-guias">
+    <h2 class="dp-marca-titulo" id="dp-guias">Qué hace cada pieza y cuándo revisarla</h2>
+    {% for g in lam.guias %}
+    <details class="dp-guia"{% if forloop.first %} open{% endif %}>
+      <summary><span class="dp-guia-nombre">{{ g.nombre }}</span>{% if g.dificultad_texto %}<span class="dp-dificultad dp-{{ g.dificultad|default:'taller' }}">{{ g.dificultad_texto }}</span>{% endif %}</summary>
+      <p>{{ g.que_hace }}</p>
+      {% if g.cada_cuanto %}<p><strong>Cada cuánto:</strong> {{ g.cada_cuanto }}</p>{% endif %}
+      {% if g.senales %}<p class="dp-sub">Señales de que está fallando</p><ul>{% for s in g.senales %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+      {% if g.tips %}<p class="dp-sub">Consejos</p><ul>{% for s in g.tips %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+    </details>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <aside class="dp-cta">
+    <p><strong>¿Necesitas revisar el {{ lam.nombre|lower }}?</strong> Encuentra talleres en Medellín que trabajan {{ d.linea.marca }}.</p>
+    <a href="{% url 'talleres:directorio' %}?marca={{ d.linea.marca_id }}" class="btn btn-lava text-xs px-6 py-3">Ver talleres {{ d.linea.marca }}</a>
+  </aside>
+
+  {% if vecinas %}
+  <nav class="dp-vecinas" aria-label="Más de {{ lam.sistema|lower }}">
+    <h2 class="dp-marca-titulo">Más de {{ lam.sistema|lower }}</h2>
+    <ul class="dp-motos">{% for l in vecinas %}<li><a href="{% url 'garaje:despiece_sistema' d.slug l.slug %}" class="dp-moto">{{ l.nombre }}</a></li>{% endfor %}</ul>
+  </nav>
+  {% endif %}
+  <nav class="dp-pasos" aria-label="Otros sistemas">
+    {% if anterior %}<a href="{% url 'garaje:despiece_sistema' d.slug anterior.slug %}"><span aria-hidden="true">←</span> {{ anterior.nombre }}</a>{% else %}<span></span>{% endif %}
+    {% if siguiente %}<a href="{% url 'garaje:despiece_sistema' d.slug siguiente.slug %}">{{ siguiente.nombre }} <span aria-hidden="true">→</span></a>{% endif %}
+  </nav>
+</article>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Despiece","item":"{{ request.scheme }}://{{ request.get_host }}{% url 'garaje:despiece_indice' %}"},{"@type":"ListItem","position":2,"name":"{{ moto|escapejs }}","item":"{{ request.scheme }}://{{ request.get_host }}{{ d.url_publica }}"},{"@type":"ListItem","position":3,"name":"{{ lam.nombre|escapejs }}"}]}</script>
+{% endblock %}

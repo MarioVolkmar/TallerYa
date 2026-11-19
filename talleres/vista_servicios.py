@@ -32,7 +32,12 @@ def _formulario(request, taller, moto, origen, *, cita=None, motos=(), codigo=""
     from garaje.models import ServicioTaller
     tareas = st.tareas_de(moto)
     inicial = {"fecha": min(cita.fecha_preferida, timezone.localdate())} if cita else {}
+    desde, hasta = (cita.cotizacion_desde, cita.cotizacion_hasta) if cita else (None, None)
+    if hasta and desde == hasta:  # precio fijo cotizado y aceptado: ya viene puesto (el taller lo puede cambiar)
+        inicial["costo"] = f"{hasta:,}".replace(",", ".")
     form = ServicioHechoForm(request.POST or None, request.FILES or None, moto=moto, tareas=tareas, initial=inicial)
+    if hasta and desde != hasta:
+        form.fields["costo"].widget.attrs["placeholder"] = f"Cotizaste ${desde:,} a ${hasta:,}".replace(",", ".")
     if request.method == "POST" and request.POST.get("guardar") and form.is_valid():
         with transaction.atomic():
             if origen == ServicioTaller.Origen.CODIGO and not _gastar_codigo(codigo, moto):

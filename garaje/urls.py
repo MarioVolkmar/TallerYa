@@ -1,12 +1,14 @@
 from django.urls import path
 
-from . import views
+from . import despiece_publico as dp, views
 from .vista_diagnostico import despiece_publico, diagnostico
 from .vista_bienvenida import bienvenida, bienvenida_listo, bienvenida_plan, bienvenida_saltar
 from .vista_gastos import gastos_moto
 from .vista_tareas import tarea
 from .vista_servicio_taller import servicio_taller
-from .vista_hoja_vida import codigo_taller, hoja_vida_moto, hoja_vida_publica, servicio_codigo
+from .vista_servicio_mecanico import servicio_mecanico, servicio_visita
+from .vista_hoja_vida import (codigo_taller, hoja_vida_certificado, hoja_vida_moto, hoja_vida_publica, servicio_codigo,
+                              traspaso)
 
 app_name = "garaje"
 
@@ -38,8 +40,15 @@ urlpatterns = [
     path("garaje/<int:pk>/gastos/", gastos_moto, name="gastos"),
     path("garaje/servicio-taller/<int:pk>/", servicio_taller, name="servicio_taller"),
     path("garaje/servicio/<str:codigo>/", servicio_codigo, name="servicio_codigo"),
+    path("mecanicos/registrar-servicio/", servicio_mecanico, name="servicio_mecanico"),
+    path("mecanicos/visita-atendida/<int:pk>/servicio/", servicio_visita, name="servicio_visita"),
     path("tareas/<slug:nombre>/", tarea, name="tarea"),  # solo las de la lista fija vista_tareas.TAREAS
     path("hoja-de-vida/<str:token>/", hoja_vida_publica, name="hoja_vida_publica"),
+    path("hoja-de-vida/<str:token>/certificado/", hoja_vida_certificado, name="hoja_vida_certificado"),
+    path("garaje/traspaso/<str:token>/", traspaso, name="traspaso"),
+    path("despiece/", dp.indice, name="despiece_indice"),  # públicas, para Google (despiece_publico.py)
+    path("despiece/<slug:moto>/", dp.moto, name="despiece_moto"),
+    path("despiece/<slug:moto>/<slug:sistema>/", dp.sistema, name="despiece_sistema"),
     path("garaje/diagrama/<slug:clave>.svg", views.diagrama_svg, name="diagrama"),
     path("garaje/diagrama/<slug:clave>/<slug:puesto>.svg", views.pieza_svg, name="pieza_svg"),
 ]

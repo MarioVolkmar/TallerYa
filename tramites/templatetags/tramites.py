@@ -7,7 +7,7 @@ register = template.Library()
 def soat_ficha(moto, doc):
     """Botón del SOAT en la ficha de la moto: estado del pedido en curso o "Pedir" si ya toca renovar."""
     from tramites.models import PedidoSoat
-    pedido = moto.pedidos_soat.exclude(estado=PedidoSoat.Estado.CANCELADA).first()
+    pedido = moto.pedidos_soat_del_dueno().exclude(estado=PedidoSoat.Estado.CANCELADA).first()
     if pedido and not pedido.activo and pedido.estado != PedidoSoat.Estado.EMITIDA:
         pedido = None
     mostrar = pedido and (pedido.activo or doc["estado"] == "ok")

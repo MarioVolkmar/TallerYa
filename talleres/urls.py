@@ -29,6 +29,7 @@ urlpatterns = [
     path("mi-taller/resenas/", views.resenas_taller, name="resenas_taller"),
     path("mi-taller/cita/<int:pk>/estado/", views.cambiar_estado_cita, name="cita_estado"),
     path("mi-taller/cita/<int:pk>/reprogramar/", views.reprogramar_cita, name="cita_reprogramar"),
+    path("mi-taller/cita/<int:pk>/cotizar/", views.cotizar_cita, name="cita_cotizar"),
     path("cita/<str:token>/", views.cita_publica, name="cita_publica"),
     path("mi-taller/resena/<int:pk>/responder/", views.responder_resena, name="responder_resena"),
     path("mi-taller/cupones/nuevo/", views.cupon_taller, name="cupon_nuevo"),

@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.urls import reverse
@@ -191,6 +192,9 @@ class Moto(models.Model):
     pico_placa_whatsapp = models.BooleanField("recordarme el pico y placa por WhatsApp", default=False)
     pico_placa_enviado = models.DateField(null=True, blank=True, editable=False,
                                           help_text="Último día por el que se envió el recordatorio por WhatsApp")
+    # Desde cuándo es de este dueño (solo si llegó por traspaso): lo de antes que sea personal del dueño anterior
+    # (p. ej. pedidos de SOAT con sus datos) no se le muestra al nuevo.
+    dueno_desde = models.DateTimeField(null=True, blank=True, editable=False)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -229,6 +233,11 @@ class Moto(models.Model):
 
     def get_absolute_url(self):
         return reverse("garaje:moto", args=[self.pk])
+
+    def pedidos_soat_del_dueno(self):
+        """Pedidos de SOAT de quien la tiene hoy: los del dueño anterior (con sus datos) no se muestran."""
+        pedidos = self.pedidos_soat.all()
+        return pedidos.filter(creado__gte=self.dueno_desde) if self.dueno_desde else pedidos
 
     @property
     def color_contraste(self):
@@ -736,6 +745,9 @@ class RegistroServicio(models.Model):
     costo = models.PositiveIntegerField("costo (COP)", null=True, blank=True)
     taller = models.ForeignKey(Taller, on_delete=models.SET_NULL, null=True, blank=True, related_name="servicios_registrados")
     taller_otro = models.CharField("otro taller", max_length=80, blank=True)
+    # Mecánico a domicilio de TallerYa que lo hizo (en vez de un taller; nunca los dos)
+    mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", on_delete=models.SET_NULL, null=True, blank=True,
+                                 related_name="servicios_registrados", verbose_name="mecánico a domicilio")
     # Solo lo marca el sistema cuando lo registra un taller con el código del dueño.
     verificado = models.BooleanField(default=False, editable=False)
     # Una sola fuente de historial: el mantenimiento del plan que este registro representa (si viene de la ficha,
@@ -751,6 +763,8 @@ class RegistroServicio(models.Model):
         ordering = ["-fecha", "-km", "-creado"]
         verbose_name = "registro de servicio"
         verbose_name_plural = "hoja de vida (servicios)"
+        constraints = [models.CheckConstraint(condition=Q(taller__isnull=True) | Q(mecanico__isnull=True),
+                                              name="registro_taller_o_mecanico")]
 
     def __str__(self):
         return f"{self.moto} · {self.fecha:%d/%m/%Y} · {self.servicios[:40]}"
@@ -762,7 +776,11 @@ class RegistroServicio(models.Model):
 
     @property
     def donde(self):
-        return str(self.taller) if self.taller else self.taller_otro
+        if self.taller:
+            return str(self.taller)
+        if self.mecanico:
+            return f"Mecánico a domicilio: {self.mecanico.nombre}"
+        return self.taller_otro
 
 
 class CodigoServicio(models.Model):
@@ -807,8 +825,14 @@ class ServicioTaller(models.Model):
         CITA = "cita", "Cita"
         CODIGO = "codigo", "Código o QR del dueño"
         PLACA = "placa", "Búsqueda por placa"
+        VISITA = "visita", "Visita a domicilio"
 
-    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="servicios_taller")
+    # Lo hace un taller o un mecánico a domicilio (uno de los dos, nunca ambos)
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, null=True, blank=True, related_name="servicios_taller")
+    mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", on_delete=models.CASCADE, null=True, blank=True,
+                                 related_name="servicios_hechos", verbose_name="mecánico a domicilio")
+    solicitud = models.ForeignKey("domicilio.SolicitudVisita", on_delete=models.SET_NULL, null=True, blank=True,
+                                  related_name="servicios_hechos")
     moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="servicios_taller")
     cita = models.ForeignKey("talleres.SolicitudCita", on_delete=models.SET_NULL, null=True, blank=True,
                              related_name="servicios_hechos")
@@ -832,9 +856,21 @@ class ServicioTaller(models.Model):
         ordering = ["-fecha", "-creado"]
         verbose_name = "servicio registrado por el taller"
         verbose_name_plural = "servicios registrados por talleres"
+        constraints = [models.CheckConstraint(
+            condition=(Q(taller__isnull=False) & Q(mecanico__isnull=True)) | (Q(taller__isnull=True) & Q(mecanico__isnull=False)),
+            name="servicio_de_taller_o_mecanico")]
 
     def __str__(self):
-        return f"{self.taller} · {self.moto} · {self.fecha:%d/%m/%Y}"
+        return f"{self.prestador} · {self.moto} · {self.fecha:%d/%m/%Y}"
+
+    @property
+    def prestador(self):
+        """Quién lo hizo: el taller o el mecánico a domicilio."""
+        return self.taller or self.mecanico
+
+    @property
+    def prestador_texto(self):
+        return self.taller.nombre if self.taller else f"Mecánico a domicilio: {self.mecanico.nombre}"
 
     def get_absolute_url(self):
         return reverse("garaje:servicio_taller", args=[self.pk])
@@ -871,6 +907,38 @@ class EnlaceHojaVida(models.Model):
 
     def get_absolute_url(self):
         return reverse("garaje:hoja_vida_publica", args=[self.token])
+
+
+def token_traspaso():
+    return secrets.token_urlsafe(24)
+
+
+class TraspasoMoto(models.Model):
+    """Enlace de un solo uso para pasarle la moto (con su hoja de vida) a quien la compra. Queda como registro."""
+    moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="traspasos")
+    token = models.CharField(max_length=40, unique=True, default=token_traspaso, editable=False)
+    vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name="+")
+    comprador = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                  related_name="+")
+    vence = models.DateTimeField()
+    usado = models.DateTimeField(null=True, blank=True)
+    cancelado = models.DateTimeField(null=True, blank=True)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-creado"]
+        verbose_name = "traspaso de moto"
+        verbose_name_plural = "traspasos de motos"
+
+    def __str__(self):
+        return f"Traspaso de {self.moto}{' (hecho)' if self.usado else ''}"
+
+    @property
+    def vigente(self):
+        return self.usado is None and self.cancelado is None and self.vence > timezone.now()
+
+    def get_absolute_url(self):
+        return reverse("garaje:traspaso", args=[self.token])
 
 
 # ---------------------------------------------------------------------------

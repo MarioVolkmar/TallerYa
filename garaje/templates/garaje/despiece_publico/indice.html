@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}Despiece de motos: piezas y cómo funcionan · TallerYa{% endblock %}
+{% block seo %}{% seo titulo="Despiece de motos: piezas y cómo funcionan · TallerYa" descripcion=seo_desc %}{% endblock %}
+{% block content %}
+<div class="dp max-w-5xl mx-auto mt-8">
+  <p class="etiqueta">Despiece</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Conoce tu moto <span class="text-lava">pieza por pieza</span></h1>
+  <p class="dp-intro">Dibujos propios de TallerYa de {{ total }} motos que ruedan en Medellín: qué hace cada pieza, cómo se da cuenta uno de que está fallando y cada cuánto revisarla.</p>
+
+  {% for marca, lista in marcas %}
+  <section class="dp-marca" aria-labelledby="dp-marca-{{ forloop.counter }}">
+    <h2 class="dp-marca-titulo" id="dp-marca-{{ forloop.counter }}">{{ marca }}</h2>
+    <ul class="dp-motos">
+      {% for d in lista %}<li><a href="{{ d.url_publica }}" class="dp-moto">{{ d.linea.nombre }}<small>{{ d.linea.cilindraje }} cc</small></a></li>{% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  <aside class="dp-cta">
+    <p><strong>¿Tienes una de estas motos?</strong> Agrégala a tu garaje y te avisamos qué pieza revisar según los kilómetros.</p>
+    <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-6 py-3">Agregar mi moto</a>
+  </aside>
+</div>
+{% endblock %}

@@ -173,13 +173,15 @@
 {% if m.publicado %}
 <!-- Ventana: solicitar visita (arma el mensaje de WhatsApp; TallerYa no guarda nada) -->
 <dialog id="dialogo-visita" class="dialogo-eliminar dialogo-registrar" aria-labelledby="dialogo-visita-titulo">
-  <form method="get" action="{% url 'domicilio:visita' m.slug %}" target="_blank" class="space-y-4">
+  <form method="post" action="{% url 'domicilio:visita' m.slug %}" target="_blank" class="space-y-4">{% csrf_token %}
     <div class="flex items-start justify-between gap-3 dialogo-cabeza">
       <p class="titulo text-2xl" id="dialogo-visita-titulo">Solicitar visita de <span class="text-lava">{{ m.nombre }}</span></p>
       <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>
     </div>
-    <p class="text-sm text-suave">Elige lo que necesitas y te abrimos WhatsApp con el mensaje listo.</p>
+    <p class="text-sm text-suave">Elige lo que necesitas y te abrimos WhatsApp con el mensaje listo. El mecánico también la recibe en TallerYa y te puede enviar una cotización para aceptarla con un toque.</p>
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <label class="campo-label">Tu nombre<input type="text" name="nombre" maxlength="80" class="campo" required autocomplete="given-name" value="{{ user.first_name }}"></label>
+      <label class="campo-label">Tu celular<input type="tel" name="telefono" maxlength="15" class="campo" required inputmode="tel" autocomplete="tel" placeholder="300 123 4567" value="{{ celular_usuario|default:'' }}"></label>
       <label class="campo-label">Servicio<select name="servicio" class="campo"><option value="">Aún no sé (diagnóstico)</option>{% for s in servicios %}<option value="{{ s.pk }}">{{ s }}</option>{% endfor %}</select></label>
       <label class="campo-label">¿Dónde está la moto?<select name="zona" class="campo"><option value="">Otra zona</option>{% for z in zonas %}<option value="{{ z.pk }}">{{ z }}</option>{% endfor %}</select></label>
       <label class="campo-label">Moto<input type="text" name="moto" maxlength="60" class="campo" placeholder="Ej: Yamaha NMAX 2022"></label>

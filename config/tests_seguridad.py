@@ -28,6 +28,7 @@ User = get_user_model()
 # Páginas sin parámetros que cualquiera puede ver sin sesión (revisadas a mano).
 PUBLICAS = {
     "", "ayuda/catalogo.json", "mecanicos/", "mecanicos/registro/",
+    "despiece/",  # índice público del despiece (para Google): solo dibujos propios y guías, sin códigos
     "domiciliarios/",  # presentación de TallerYa Ruta (solo con DOMICILIARIOS_ACTIVO; apagada responde 404)
     "canjear/", "cuenta/entrar/", "cuenta/recuperar/", "cuenta/recuperar/enviado/",
     "cuenta/recuperar/listo/", "cuenta/registro/", "cupones/", "diagnostico/", "emergencias/", "foro/", "foro/rodadas/",

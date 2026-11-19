@@ -33,6 +33,7 @@
       <input type="hidden" id="hv-url" value="{{ url_enlace }}">
       <div class="hv-acciones">
         <button type="button" class="btn btn-borde text-xs px-5 py-3" data-copiar="{{ url_enlace }}">Copiar enlace</button>
+        <a href="{% url 'garaje:hoja_vida_certificado' enlace.token %}" class="btn btn-borde text-xs px-5 py-3">Certificado</a>
         <form method="post" data-confirmar="¿Desactivar el enlace? Quien lo tenga ya no podrá ver el historial. Si luego creas otro, será un enlace nuevo.">{% csrf_token %}<input type="hidden" name="accion" value="revocar"><button class="btn hv-desactivar text-xs px-5 py-3">Desactivar</button></form>
       </div>
       {% else %}
@@ -41,6 +42,50 @@
       {% endif %}
     </section>
   </div>
+
+  {% if tecno %}{% with doc=tecno %}
+  <section class="papel p-5 mt-6 hv-tecno" id="tecno">
+    <h2 class="titulo text-lg">Técnico-mecánica</h2>
+    <p class="text-xs text-suave mt-1">El documento solo lo ves tú. En el enlace público y el certificado sale solo hasta cuándo está vigente.</p>
+    <div class="doc-tarjeta doc-{{ doc.estado }} mt-3">
+      <div class="doc-cabeza">
+        <span class="doc-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11h6M9 15h4"/></svg></span>
+        <span class="doc-nombre">{% if doc.vence %}Vence el {{ doc.vence|date:"j M Y" }}{% if doc.estimado %} (estimada){% endif %}{% else %}Aún no tiene fecha de vencimiento{% endif %}</span>
+        {% if doc.vence %}<span class="doc-estado">{% if doc.estado == "vencido" %}Vencida{% elif doc.estado == "urgente" %}{{ doc.texto }}{% elif doc.estado == "pronto" %}Vence pronto{% else %}Vigente{% endif %}</span>{% endif %}
+      </div>
+      {% if doc.vence %}<div class="doc-barra" aria-hidden="true"><span style="width: {{ doc.pct }}%"></span></div>{% endif %}
+      <div class="doc-acciones">
+        {% if doc.estado != "ok" and doc.vence %}<a href="{% url 'tramites:tecnomecanica' %}?moto={{ moto.pk }}" class="doc-agendar">Agendar</a>{% endif %}
+        {% if doc.archivo %}<a href="{% url 'garaje:documento' moto.pk 'tecno' %}" target="_blank" rel="noopener" class="doc-abrir">Ver archivo</a>{% endif %}
+        {% if not doc.vence %}<a href="{% url 'garaje:editar' moto.pk %}" class="doc-abrir">Agregar fecha</a>{% endif %}
+      </div>
+    </div>
+  </section>
+  {% endwith %}{% endif %}
+
+  <section class="papel p-5 mt-6 hv-vender" id="vender">
+    <h2 class="titulo text-lg">¿Vendiste la moto?</h2>
+    {% if traspaso %}
+    <div class="hv-vender-activo">
+      <div class="hv-qr hv-qr-chico">{{ qr_traspaso }}</div>
+      <div>
+        <p class="text-sm">Pásale este enlace o QR a quien la compró. Lo abre con su cuenta de TallerYa, acepta y la moto pasa a su garaje con toda la hoja de vida.</p>
+        <p class="text-xs text-suave mt-2">Sirve una sola vez y vence el {{ traspaso.vence|date:"j M Y" }}.</p>
+      </div>
+    </div>
+    <div class="hv-acciones">
+      <button type="button" class="btn btn-borde text-xs px-5 py-3" data-copiar="{{ url_traspaso }}">Copiar enlace</button>
+      <form method="post" data-confirmar="¿Cancelar el traspaso? El enlace dejará de funcionar.">{% csrf_token %}<input type="hidden" name="accion" value="cancelar_traspaso"><button class="btn hv-desactivar text-xs px-5 py-3">Cancelar traspaso</button></form>
+    </div>
+    {% else %}
+    <p class="text-sm text-suave mt-2">Pásale la moto a quien la compró con su historial completo: los servicios verificados y los que anotaste tú. Así el historial le sirve de garantía.</p>
+    <ul class="hv-viaja mt-3">
+      <li class="hv-viaja-si"><strong>Viaja:</strong> servicios, plan de mantenimiento, kilometraje y placa.</li>
+      <li class="hv-viaja-no"><strong>No viaja:</strong> tus gastos{% if gastos_total %} ({{ gastos_total }}){% endif %}, lo que pagaste en cada servicio, tu SOAT y tu técnico-mecánica (fechas y fotos) y el apodo. Se borran.</li>
+    </ul>
+    <form method="post" class="hv-acciones" data-confirmar="Se creará un enlace de traspaso que vence en {{ dias_traspaso }} días. Cuando el comprador lo acepte, dejarás de ver esta moto y se borrarán tus gastos y documentos de ella. ¿Seguir?">{% csrf_token %}<input type="hidden" name="accion" value="vender"><button class="btn btn-lava text-xs px-5 py-3">Traspasar a quien la compró</button></form>
+    {% endif %}
+  </section>
 
   <section class="papel p-5 mt-6" id="agregar">
     <h2 class="titulo text-lg">Agregar un servicio</h2>

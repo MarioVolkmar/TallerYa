@@ -188,6 +188,11 @@ class SolicitudCita(models.Model):
     hora_propuesta = models.TimeField(null=True, blank=True)
     nota_taller = models.CharField("nota del taller", max_length=200, blank=True)
     propuesta_rechazada = models.BooleanField(default=False)
+    # Cotización del taller (privada entre el taller y el motero): rango de precio, qué incluye y hasta cuándo vale
+    cotizacion_desde = models.PositiveIntegerField("cotización desde", null=True, blank=True)
+    cotizacion_hasta = models.PositiveIntegerField("cotización hasta", null=True, blank=True)
+    cotizacion_incluye = models.CharField("qué incluye la cotización", max_length=160, blank=True)
+    cotizacion_vence = models.DateField("la cotización vale hasta", null=True, blank=True)
     motivo_cancelacion = models.CharField("motivo de la cancelación", max_length=200, blank=True)
     token = models.CharField(max_length=32, unique=True, null=True, blank=True, editable=False)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
@@ -203,6 +208,11 @@ class SolicitudCita(models.Model):
 
     def __str__(self):
         return f"{self.nombre} → {self.taller} ({self.fecha_preferida})"
+
+    @property
+    def cotizacion_vencida(self):
+        from django.utils import timezone
+        return bool(self.cotizacion_vence and self.cotizacion_vence < timezone.localdate())
 
 
 class FotoTaller(models.Model):

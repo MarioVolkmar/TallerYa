@@ -7,7 +7,27 @@
   <p class="text-suave mt-2">{{ cita.taller.direccion }}, {{ cita.taller.barrio }}</p>
   <section class="papel cp mt-6">
     <p class="cp-quien">{{ cita.nombre }} · {{ cita.moto }}{% if cita.servicio %} · {{ cita.servicio }}{% endif %}</p>
-    {% if pendiente %}
+    {% if pendiente and precio %}
+    <p class="cp-etiqueta">El taller te envió una cotización</p>
+    <div class="cp-cotizacion">
+      <strong class="cp-precio">{{ precio }}</strong>
+      {% if cita.cotizacion_incluye %}<p>{{ cita.cotizacion_incluye }}</p>{% endif %}
+      <dl class="cp-datos">
+        <div><dt>Fecha</dt><dd>{{ cita.fecha_propuesta|date:"l j \d\e F"|lower }}{% if hora_propuesta %} · {{ hora_propuesta }}{% endif %}</dd></div>
+        {% if cita.cotizacion_vence %}<div><dt>Vale hasta</dt><dd>{{ cita.cotizacion_vence|date:"l j \d\e F"|lower }}</dd></div>{% endif %}
+      </dl>
+    </div>
+    {% if cita.nota_taller %}<p class="cp-nota">“{{ cita.nota_taller }}”</p>{% endif %}
+    <p class="cp-aviso">Si al revisar la moto aparece otro daño, el taller debe avisarte y pedir tu permiso antes de cobrar algo distinto.</p>
+    {% if cita.cotizacion_vencida %}
+    <p class="cp-estado cp-malo">Esta cotización venció. Escríbele al taller para que te envíe una nueva.</p>
+    {% else %}
+    <form method="post" class="cp-botones">{% csrf_token %}
+      <button name="accion" value="aceptar" class="btn btn-lava py-3 text-sm">Aceptar y agendar</button>
+      <button name="accion" value="rechazar" class="btn btn-borde py-3 text-sm">No, gracias</button>
+    </form>
+    {% endif %}
+    {% elif pendiente %}
     <p class="cp-etiqueta">El taller te propone una nueva fecha</p>
     <div class="cp-fechas">
       <div class="cp-antes"><small>Pediste</small><strong>{{ cita.fecha_preferida|date:"l j \d\e F"|lower }}</strong></div>
@@ -21,6 +41,7 @@
     </form>
     {% elif cita.estado == "confirmada" %}
     <p class="cp-estado cp-ok">✓ Cita confirmada para el {{ cita.fecha_preferida|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% endif %}.</p>
+    {% if precio %}<p class="cp-nota">Precio acordado: <strong>{{ precio }}</strong>{% if cita.cotizacion_incluye %} · {{ cita.cotizacion_incluye }}{% endif %}</p>{% endif %}
     {% elif cita.estado == "cancelada" %}
     <p class="cp-estado cp-malo">Esta cita fue cancelada.</p>
     {% else %}

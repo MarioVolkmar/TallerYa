@@ -65,6 +65,11 @@ body:has(.instalar-app:not([hidden])) .cc { bottom: 92px; }
   .cc-escondida .cc-boton { clip-path: inset(0 0 46px 0); }
   .cc-mano { left: 13px; top: 40px; width: 14px; height: 10px; }
   .cc-pista { bottom: 96px; font-size: .7rem; }
+  /* Asomada mientras se desplaza la página (chispa-chat.js): mismo gesto que escondida, sin guardarse */
+  .cc-asomada { transform: translateX(37px); }
+  .cc-asomada .cc-boton { clip-path: inset(0 0 46px 0); transform: rotate(-12deg); transform-origin: 40% 45%; }
+  .cc-asomada .cc-mano { opacity: 1; }
+  .cc-asomada .cc-globito, .cc-asomada .cc-chispas, .cc-asomada .cc-pista { display: none; }
 }
 /* botón de esconder en la cabecera del chat: mismo estilo que la × */
 .cc-panel-esconder { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 1px solid rgba(239, 230, 210, .2);

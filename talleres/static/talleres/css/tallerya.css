@@ -3648,3 +3648,60 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 @media (max-width: 1023px) {
   .nav-entrar { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 .35rem; font-size: .8rem; letter-spacing: .1em; }
 }
+
+/* Diálogo de propuesta/cotización y página pública de la cita o visita (talleres y mecánicos a domicilio) */
+.rp-form { display: grid; gap: 1rem; padding: 1.4rem; }
+.rp-cabeza { display: flex; align-items: center; justify-content: space-between; }
+.rp-sub { font-size: .85rem; color: #9ba2a4; }
+.rp-sub strong { color: var(--crema); }
+.rp-campos { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+.rp-ancho { grid-column: 1 / -1; }
+/* Página del motero para aceptar la nueva fecha */
+.cp { padding: 1.4rem; display: grid; gap: 1rem; }
+.cp-quien { font-size: .85rem; color: #9ba2a4; }
+.cp-etiqueta { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--mostaza); }
+.cp-fechas { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .6rem; }
+.cp-fechas > div { padding: .8rem; border-radius: 14px; background: rgba(0, 0, 0, .2); }
+.cp-fechas small { display: block; font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #8d9496; }
+.cp-fechas strong { display: block; margin-top: .2rem; font-family: "Oswald", sans-serif; font-size: 1.05rem; line-height: 1.2; color: var(--crema); text-transform: capitalize; }
+.cp-antes strong { color: #8d9496; text-decoration: line-through; }
+.cp-nueva { border: 1px solid rgba(242, 97, 29, .5); }
+.cp-nueva em { display: block; font-style: normal; font-size: .85rem; color: var(--lava-2); font-weight: 700; }
+.cp-flecha { color: var(--lava); font-size: 1.3rem; }
+.cp-nota { font-size: .88rem; font-style: italic; color: #c9bfa7; }
+.cp-botones { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.cp-estado { padding: .7rem .9rem; border-radius: 12px; background: rgba(255, 255, 255, .05); font-size: .9rem; color: var(--crema-2); }
+.cp-ok { background: rgba(134, 219, 166, .12); color: #86dba6; }
+.cp-malo { background: rgba(255, 106, 80, .12); color: #ff8a70; }
+.cp-wa { justify-self: start; font-size: .82rem; color: #4ade80; text-decoration: underline; text-underline-offset: 3px; }
+.ct-aviso { font-size: .78rem; margin-top: -.2rem; }
+.cp-cotizacion { margin-top: .6rem; padding: 1rem 1.1rem; border-radius: 14px; border: 1px solid rgba(242, 97, 29, .35); background: rgba(242, 97, 29, .07); }
+.cp-precio { display: block; font-family: "Oswald", sans-serif; font-size: 2rem; line-height: 1.1; color: var(--crema); }
+.cp-cotizacion > p { margin-top: .3rem; color: var(--crema-2); }
+.cp-datos { display: grid; gap: .3rem; margin-top: .8rem; font-size: .88rem; }
+.cp-datos div { display: flex; justify-content: space-between; gap: 1rem; }
+.cp-datos dt { color: #a59d8d; }
+.cp-datos dd { color: var(--crema); text-align: right; }
+.cp-aviso { font-size: .78rem; color: #a59d8d; }
+
+/* Solicitudes de visita del mecánico a domicilio (domicilio/solicitudes.html) */
+.vd-filtros { display: flex; gap: .5rem; margin-top: 1.4rem; }
+.vd-filtro { display: inline-flex; align-items: center; min-height: 40px; padding: .4rem 1rem; border-radius: 999px; border: 1px solid var(--borde); color: var(--crema-2); font-weight: 600; font-size: .85rem; }
+.vd-filtro.activa { background: var(--crema); color: var(--carbon); border-color: var(--crema); }
+.vd-lista { display: grid; gap: .8rem; margin: 1.2rem 0 3rem; }
+.vd-item { padding: 1rem 1.1rem; display: grid; gap: .45rem; scroll-margin-top: 6rem; }
+.vd-cabeza { display: flex; justify-content: space-between; align-items: center; gap: .6rem; }
+.vd-quien { font-weight: 700; color: var(--crema); }
+.vd-quien span { font-weight: 400; color: var(--crema-2); }
+.vd-que, .vd-detalle { font-size: .85rem; color: var(--crema-2); }
+.vd-detalle { font-style: italic; }
+.vd-precio { font-size: .85rem; color: #8ec8ff; }
+.vd-precio strong { color: var(--crema); }
+.vd-rechazo { font-size: .8rem; color: #ff8a70; }
+.vd-chip { flex-shrink: 0; font-size: .72rem; font-weight: 700; padding: .2rem .65rem; border-radius: 999px; background: rgba(255, 255, 255, .07); color: var(--crema-2); }
+.vd-pendiente { background: rgba(227, 167, 47, .14); color: var(--mostaza); }
+.vd-cotizada { background: rgba(142, 200, 255, .12); color: #8ec8ff; }
+.vd-confirmada, .vd-atendida { background: rgba(134, 219, 166, .12); color: #86dba6; }
+.vd-botones { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .3rem; }
+.vd-form { display: contents; }
+.vd-vacio { padding: 1.2rem; margin-top: 1.2rem; color: var(--crema-2); }

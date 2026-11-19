@@ -280,3 +280,69 @@ class ResenaMecanico(models.Model):
 
     def __str__(self):
         return f"{self.estrellas}★ {self.mecanico} - {self.nombre}"
+
+
+class SolicitudVisita(models.Model):
+    """Pedido de visita a domicilio que el motociclista le hace a un mecánico (también abre WhatsApp).
+
+    Igual que la cita de un taller: el mecánico la cotiza (rango de precio, fecha y hora), el motociclista la acepta
+    o la rechaza desde su enlace y, al terminar, el servicio puede quedar en la hoja de vida de la moto."""
+    class Estado(models.TextChoices):
+        PENDIENTE = "pendiente", "Pendiente"
+        COTIZADA = "cotizada", "Esperando al motero"
+        CONFIRMADA = "confirmada", "Confirmada"
+        ATENDIDA = "atendida", "Atendida"
+        CANCELADA = "cancelada", "Cancelada"
+
+    mecanico = models.ForeignKey(MecanicoDomicilio, on_delete=models.CASCADE, related_name="solicitudes")
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                related_name="visitas_pedidas")
+    nombre = models.CharField(max_length=80)
+    telefono = models.CharField(max_length=15)
+    moto = models.CharField(max_length=60, blank=True)
+    servicio = models.ForeignKey(TipoServicio, on_delete=models.SET_NULL, null=True, blank=True)
+    zona = models.ForeignKey(Zona, on_delete=models.SET_NULL, null=True, blank=True)
+    cuando = models.CharField(max_length=10, blank=True)
+    detalle = models.CharField(max_length=300, blank=True)
+    estado = models.CharField(max_length=12, choices=Estado.choices, default=Estado.PENDIENTE, db_index=True)
+    fecha_propuesta = models.DateField(null=True, blank=True)
+    hora_propuesta = models.TimeField(null=True, blank=True)
+    cotizacion_desde = models.PositiveIntegerField(null=True, blank=True)
+    cotizacion_hasta = models.PositiveIntegerField(null=True, blank=True)
+    cotizacion_incluye = models.CharField(max_length=160, blank=True)
+    cotizacion_vence = models.DateField(null=True, blank=True)
+    nota = models.CharField("nota del mecánico", max_length=200, blank=True)
+    rechazada = models.BooleanField("el motero no aceptó la cotización", default=False)
+    token = models.CharField(max_length=32, unique=True, editable=False)
+    creado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-creado"]
+        verbose_name = "solicitud de visita"
+        verbose_name_plural = "solicitudes de visita"
+
+    def __str__(self):
+        return f"{self.nombre} → {self.mecanico} ({self.get_estado_display()})"
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            import secrets
+            self.token = secrets.token_urlsafe(16)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse("domicilio:visita_publica", args=[self.token])
+
+    @property
+    def cotizacion_vencida(self):
+        from django.utils import timezone
+        return bool(self.cotizacion_vence and self.cotizacion_vence < timezone.localdate())
+
+    @property
+    def precio_texto(self):
+        if not self.cotizacion_hasta:
+            return ""
+        p = lambda n: "$" + f"{n:,}".replace(",", ".")
+        d, h = self.cotizacion_desde, self.cotizacion_hasta
+        return p(h) if d == h else f"{p(d)} – {p(h)}"

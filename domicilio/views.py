@@ -249,9 +249,10 @@ CUANDO = [("ahora", "Ahora mismo (estoy varado)"), ("hoy", "Hoy"), ("manana", "M
 
 def visita(request, slug):
     """«Solicitar visita»: arma el mensaje de WhatsApp con lo que eligió el motociclista y lo lleva a wa.me.
-    No guarda nada (el acuerdo es entre el motociclista y el mecánico); solo acepta servicios y zonas del mecánico."""
+    Por POST (con nombre y celular) además guarda la solicitud: el mecánico la ve en su bandeja, la cotiza y el
+    motero la acepta desde su enlace (vista_solicitudes.py). Solo acepta servicios y zonas del mecánico."""
     mecanico = get_object_or_404(MecanicoDomicilio.objects.publicados(), slug=slug)
-    g = request.GET
+    g = request.POST if request.method == "POST" else request.GET
     servicio = mecanico.servicios.filter(pk=g["servicio"]).first() if g.get("servicio", "").isdigit() else None
     zona = mecanico.zonas.filter(pk=g["zona"]).first() if g.get("zona", "").isdigit() else None
     cuando = dict(CUANDO).get(g.get("cuando", ""), "")
@@ -261,6 +262,10 @@ def visita(request, slug):
     for etiqueta, valor in (("Servicio", servicio), ("Zona", zona), ("Moto", moto), ("Cuándo", cuando), ("Detalle", detalle)):
         if valor:
             lineas.append(f"{etiqueta}: {valor}")
+    if request.method == "POST":
+        from .vista_solicitudes import guardar_solicitud
+        if solicitud := guardar_solicitud(request, mecanico, servicio, zona, g.get("cuando", ""), moto, detalle):
+            lineas.append(f"Mi solicitud en TallerYa: {request.build_absolute_uri(solicitud.get_absolute_url())}")
     return redirect(f"https://wa.me/{mecanico.whatsapp}?text={quote(chr(10).join(lineas))}")
 
 
@@ -369,6 +374,7 @@ def mi_perfil(request):
         "n_resenas": mecanico.resenas.filter(visible=True).count(),
         "fotos": mecanico.fotos_trabajo.all(), "maximo_trabajos": FotoTrabajo.MAXIMO,
         "resenas": mecanico.resenas.filter(visible=True), "n_precios": mecanico.precios.count(),
+        "n_solicitudes": mecanico.solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"]).count(),
     })
 
 

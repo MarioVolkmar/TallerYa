@@ -52,6 +52,7 @@ Texto oscuro sobre lava/mostaza/crema: `#1a0d05` (no negro puro). WhatsApp: `#1f
 | Vacío | `{% include "parciales/vacio.html" with tam="chico" %}` (Chispa) + una frase de tú + **un botón** para salir del vacío (`.vacio-izq` en listas) | «—», «No hay datos», bloque vacío |
 | Dato que falta en una ficha | botón secundario o chip con la acción («Agrega la placa») | «—» o «Sin información» |
 | Número decorativo grande | `.numero-fantasma` (solo decoración, `pointer-events:none`) | — |
+| Documento para imprimir o PDF (certificado de hoja de vida) | `.cert` (hoja clara `#fbf8f1`, texto `#111517`/`#354044`, marca en lava a 24 px, estados `.cert-verificado/-pendiente/-propio`) + `.cert-barra.no-imprimir` con «Imprimir / Guardar PDF» (lava); `@media print` oculta todo lo que no es `main` | pizarra oscura en papel; librerías de PDF |
 
 ## Espaciado y forma
 - Radios: tarjetas 18 px, campos/avisos 12–16 px, botones/chips 999 px (cápsula).

@@ -183,4 +183,5 @@ def placa_enmascarada(placa):
 def resumen(registros):
     verificados = [r for r in registros if r.verificado]
     return {"total": len(registros), "verificados": len(verificados),
-            "talleres": sorted({r.taller.nombre for r in verificados if r.taller})}
+            "talleres": sorted({r.taller.nombre for r in verificados if r.taller}
+                               | {f"{r.mecanico.nombre} (a domicilio)" for r in verificados if r.mecanico})}

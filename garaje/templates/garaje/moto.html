@@ -513,7 +513,7 @@
         <span class="min-w-0">
           <span class="hv-mini-nombre" title="{{ r.servicios }}">{{ r.servicios }}</span>
           <span class="hv-mini-meta">{{ r.km|intcomma }} km ·
-            {% if r.verificado %}<em class="hv-mini-ok">Verificado{% if r.taller %} · {{ r.taller.nombre }}{% endif %}</em>
+            {% if r.verificado %}<em class="hv-mini-ok">Verificado{% if r.taller %} · {{ r.taller.nombre }}{% elif r.mecanico %} · a domicilio, {{ r.mecanico.nombre }}{% endif %}</em>
             {% elif r.taller %}<em class="hv-mini-pend">Pendiente · {{ r.taller.nombre }}</em>
             {% else %}{% if r.donde %}{{ r.donde }}{% else %}Registrado por ti{% endif %}{% endif %}</span>
         </span>

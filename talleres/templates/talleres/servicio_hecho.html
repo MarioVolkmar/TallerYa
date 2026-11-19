@@ -4,11 +4,12 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="pt mt-8 md:mt-10 sv">
-  {% if cita %}{% url 'talleres:citas_taller' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mis citas" %}
+  {% if volver_url %}{% include "parciales/volver.html" with url=volver_url texto=volver_texto %}
+  {% elif cita %}{% url 'talleres:citas_taller' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mis citas" %}
   {% else %}{% url 'talleres:registrar_servicio' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Buscar otra moto" %}{% endif %}
   <section class="papel pt-caja sv">
     <div>
-      <p class="etiqueta">{% if cita %}Cita de {{ cita.nombre }} · {{ cita.fecha_preferida|date:"j M"|lower }}{% else %}Moto sin cita{% endif %}</p>
+      <p class="etiqueta">{% if etiqueta %}{{ etiqueta }}{% elif cita %}Cita de {{ cita.nombre }} · {{ cita.fecha_preferida|date:"j M"|lower }}{% else %}Moto sin cita{% endif %}</p>
       <h1 class="titulo text-3xl mt-1">¿Qué se le hizo?</h1>
     </div>
     {% if sin_moto %}
@@ -22,7 +23,7 @@
       <div><strong>{{ moto }}</strong><small>{% if moto.placa %}Placa {{ moto.placa|upper }} · {% endif %}{{ moto.km_actual }} km registrados</small></div>
     </div>
     {% if motos|length > 1 %}
-    <nav class="sv-motos" aria-label="Moto de {{ cita.nombre }}">
+    <nav class="sv-motos" aria-label="Moto de {% firstof cita.nombre visita.nombre %}">
       {% for m in motos %}<a href="?moto={{ m.pk }}"{% if m.pk == moto.pk %} aria-current="true"{% endif %}>{{ m }}</a>{% endfor %}
     </nav>
     {% endif %}
@@ -31,6 +32,7 @@
       {% csrf_token %}
       <input type="hidden" name="guardar" value="1"><input type="hidden" name="moto" value="{{ moto.pk }}">
       {% if codigo %}<input type="hidden" name="codigo" value="{{ codigo }}">{% endif %}
+      {% if visita %}<input type="hidden" name="visita" value="{{ visita.pk }}">{% endif %}
       {% if placa %}<input type="hidden" name="placa" value="{{ placa }}">{% endif %}
       {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
       <fieldset class="sv-tareas">

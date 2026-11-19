@@ -21,7 +21,8 @@ class RegistroPropioForm(EstiloMixin, forms.ModelForm):
 
     tarea = forms.ModelChoiceField(queryset=None, required=False, label="¿Qué mantenimiento del plan cubre? (opcional)",
                                    empty_label="Ninguno (solo anotarlo aquí)")
-    costo = forms.CharField(label="Costo (opcional)", required=False, max_length=20,
+    # El valor no sale en la hoja de vida (ni pública ni del dueño): solo se suma, privado, a los gastos de la moto
+    costo = forms.CharField(label="Costo (opcional, solo va a tus gastos)", required=False, max_length=20,
                             widget=forms.TextInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 85.000"}))
 
     class Meta:

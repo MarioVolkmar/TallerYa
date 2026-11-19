@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Tu visita con {{ s.mecanico.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-10">
+  <p class="etiqueta">Tu visita a domicilio</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{{ s.mecanico.nombre }}</h1>
+  <section class="papel cp mt-6">
+    <p class="cp-quien">{{ s.nombre }}{% if s.moto %} · {{ s.moto }}{% endif %} · {% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}{% if s.zona %} · {{ s.zona }}{% endif %}</p>
+    {% if pendiente %}
+    <p class="cp-etiqueta">El mecánico te envió una cotización</p>
+    <div class="cp-cotizacion">
+      <strong class="cp-precio">{{ s.precio_texto }}</strong>
+      {% if s.cotizacion_incluye %}<p>{{ s.cotizacion_incluye }}</p>{% endif %}
+      <dl class="cp-datos">
+        <div><dt>Visita</dt><dd>{{ s.fecha_propuesta|date:"l j \d\e F"|lower }}{% if hora %} · {{ hora }}{% endif %}</dd></div>
+        {% if s.cotizacion_vence %}<div><dt>Vale hasta</dt><dd>{{ s.cotizacion_vence|date:"l j \d\e F"|lower }}</dd></div>{% endif %}
+      </dl>
+    </div>
+    {% if s.nota %}<p class="cp-nota">“{{ s.nota }}”</p>{% endif %}
+    <p class="cp-aviso">Si al revisar la moto aparece otro daño, el mecánico debe avisarte y pedir tu permiso antes de cobrar algo distinto.</p>
+    {% if s.cotizacion_vencida %}
+    <p class="cp-estado cp-malo">Esta cotización venció. Escríbele al mecánico para que te envíe una nueva.</p>
+    {% else %}
+    <form method="post" class="cp-botones">{% csrf_token %}
+      <button name="accion" value="aceptar" class="btn btn-lava py-3 text-sm">Aceptar y agendar</button>
+      <button name="accion" value="rechazar" class="btn btn-borde py-3 text-sm">No, gracias</button>
+    </form>
+    {% endif %}
+    {% elif s.estado == "confirmada" %}
+    <p class="cp-estado cp-ok">✓ Visita confirmada{% if s.fecha_propuesta %} para el {{ s.fecha_propuesta|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% endif %}{% endif %}.</p>
+    {% if s.precio_texto %}<p class="cp-nota">Precio acordado: <strong>{{ s.precio_texto }}</strong>{% if s.cotizacion_incluye %} · {{ s.cotizacion_incluye }}{% endif %}</p>{% endif %}
+    {% elif s.estado == "cancelada" %}
+    <p class="cp-estado cp-malo">Esta visita fue cancelada.</p>
+    {% elif s.estado == "atendida" %}
+    <p class="cp-estado cp-ok">✓ Visita atendida.</p>
+    {% else %}
+    <p class="cp-estado">{% if s.rechazada %}Le avisamos al mecánico que no aceptaste la cotización. Te escribirá si tiene otra opción.{% else %}Tu solicitud está pendiente: el mecánico te enviará la cotización.{% endif %}</p>
+    {% endif %}
+    <a href="https://wa.me/{{ s.mecanico.whatsapp }}" target="_blank" rel="noopener" class="cp-wa">Escribir al mecánico por WhatsApp</a>
+  </section>
+</div>
+{% endblock %}

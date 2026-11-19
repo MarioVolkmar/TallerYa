@@ -905,3 +905,106 @@ summary.agenda-titulo::-webkit-details-marker { display: none; }
   .bv-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .diag-compartir { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.1rem; }
+
+/* Hoja de vida: vender la moto (traspaso con su historial) */
+.hv-vender-activo { display: flex; align-items: flex-start; gap: 1rem; margin-top: .75rem; }
+.hv-viaja { display: grid; gap: .4rem; font-size: .85rem; color: var(--crema-2); }
+.hv-viaja li { padding-left: 1.1rem; position: relative; }
+.hv-viaja li::before { content: ""; position: absolute; left: 0; top: .5em; width: .5rem; height: .5rem; border-radius: 999px; }
+.hv-viaja-si::before { background: var(--ok); }
+.hv-viaja-no::before { background: var(--doc-pronto); }
+.hv-viaja strong { color: var(--crema); }
+
+/* Certificado de la hoja de vida: hoja clara en pantalla y lista para imprimir o guardar como PDF */
+.cert-barra { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .75rem; max-width: 52rem; margin: 2rem auto 0; }
+.cert { max-width: 52rem; margin: 1rem auto 0; padding: clamp(1.25rem, 4vw, 2.5rem); background: #fbf8f1; color: #111517; border-radius: .75rem; box-shadow: 0 10px 40px rgba(0, 0, 0, .35); }
+.cert-cabeza { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: .75rem; padding-bottom: 1rem; border-bottom: 3px solid #f2611d; }
+.cert-marca { font: 700 1.5rem/1 "Oswald", "Archivo", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #f2611d; }
+.cert-titulo { margin-top: .35rem; text-transform: uppercase; font: 700 clamp(1.4rem, 4vw, 2rem)/1.1 "Oswald", "Archivo", sans-serif; color: #111517; }
+.cert-emision { font-size: .8rem; color: #354044; text-align: right; }
+.cert-datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: .75rem 1.25rem; margin-top: 1.25rem; }
+.cert-datos dt { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: #354044; }
+.cert-datos dd { margin-top: .15rem; font-weight: 700; color: #111517; overflow-wrap: anywhere; }
+.cert-tabla { width: 100%; margin-top: 1.5rem; border-collapse: collapse; font-size: .85rem; }
+.cert-tabla th { text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: #354044; padding: .5rem; border-bottom: 2px solid #d8dcdf; }
+.cert-tabla td { padding: .55rem .5rem; border-bottom: 1px solid #e6e9eb; vertical-align: top; overflow-wrap: anywhere; }
+.cert-tabla tr { break-inside: avoid; }
+.cert-estado { display: inline-block; padding: .1rem .55rem; border-radius: 999px; font-size: .75rem; font-weight: 700; white-space: nowrap; }
+.cert-verificado { color: #146c3a; background: #dcf3e5; }
+.cert-pendiente { color: #8a5a00; background: #fbefd2; }
+.cert-propio { color: #354044; background: #eceff1; }
+.cert-vacio { text-align: center; color: #354044; }
+.cert-pie { display: flex; gap: 1.25rem; align-items: flex-start; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #d8dcdf; font-size: .8rem; color: #354044; break-inside: avoid; }
+.cert-pie p + p { margin-top: .4rem; }
+.cert-qr { width: 110px; flex-shrink: 0; }
+.cert-qr svg { display: block; width: 100%; height: auto; }
+.cert-url { font: .72rem/1.3 ui-monospace, monospace; color: #354044; overflow-wrap: anywhere; }
+.cert-nota { color: #354044; }
+@media (max-width: 640px) {
+  .cert-tabla thead { display: none; }
+  .cert-tabla tr { display: grid; grid-template-columns: 1fr auto; gap: .2rem .75rem; padding: .6rem 0; border-bottom: 1px solid #e6e9eb; }
+  .cert-tabla td { padding: 0; border: 0; }
+  .cert-tabla td[data-th="Servicio"] { grid-column: 1 / -1; font-weight: 600; }
+  .cert-tabla td[data-th="Km"] { text-align: right; color: #354044; }
+  .cert-tabla td[data-th="Taller"] { color: #354044; }
+  .cert-pie { flex-direction: column; }
+}
+@media print {
+  @page { margin: 14mm; }
+  body { background: #fff !important; }
+  body > *:not(main), .no-imprimir, main > .mensaje, main > .aviso-correo { display: none !important; }
+  main { padding: 0 !important; max-width: none !important; }
+  .cert { max-width: none; margin: 0; padding: 0; background: #fff; box-shadow: none; border-radius: 0; }
+  .cert, .cert * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+/* Despiece público (garaje/despiece_publico.py): índice, moto y sistema */
+.dp-intro { max-width: 46rem; margin-top: .9rem; color: var(--crema-2); line-height: 1.6; }
+.dp-marca, .dp-sistema, .dp-guias, .dp-vecinas { margin-top: 2.2rem; }
+.dp-marca-titulo { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: 1.05rem; color: var(--mostaza); margin-bottom: .8rem; }
+.dp-motos { display: flex; flex-wrap: wrap; gap: .5rem; }
+.dp-moto { display: inline-flex; align-items: baseline; gap: .4rem; min-height: 44px; padding: .6rem 1rem; border-radius: 999px; border: 1px solid var(--borde); background: var(--pizarra); color: var(--crema); font-weight: 600; transition: border-color .15s, color .15s; }
+.dp-moto small { font-weight: 400; color: var(--crema-2); font-size: .78rem; }
+.dp-moto:hover, .dp-moto:focus-visible { border-color: var(--lava); color: var(--lava); }
+.dp-laminas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .8rem; }
+.dp-lamina { display: flex; flex-direction: column; height: 100%; border-radius: 14px; border: 1px solid var(--borde); background: var(--pizarra); overflow: hidden; transition: border-color .15s, transform .15s; }
+.dp-lamina img { width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; background: #f4efe3; }
+.dp-lamina span { display: flex; flex-direction: column; gap: .15rem; padding: .7rem .8rem; font-weight: 600; color: var(--crema); line-height: 1.25; }
+.dp-lamina small { font-weight: 400; font-size: .78rem; color: var(--crema-2); }
+.dp-lamina:hover, .dp-lamina:focus-visible { border-color: var(--lava); transform: translateY(-2px); }
+.dp-ficha { display: grid; gap: 1.5rem; margin-top: 1.6rem; }
+@media (min-width: 900px) { .dp-ficha { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); align-items: start; } .dp-dibujo { position: sticky; top: 5.5rem; } }
+.dp-dibujo { margin: 0; }
+.dp-dibujo img { width: 100%; height: auto; border-radius: 14px; background: #f4efe3; }
+.dp-dibujo figcaption { margin-top: .5rem; font-size: .78rem; color: var(--crema-2); }
+.dp-piezas { display: grid; gap: .1rem; }
+.dp-piezas li { display: flex; gap: .7rem; align-items: baseline; padding: .45rem 0; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.dp-piezas small { color: var(--crema-2); font-size: .8rem; }
+.dp-ayuda { display: block; margin-top: .1rem; }
+.dp-ref { flex-shrink: 0; min-width: 1.9rem; text-align: center; font-family: "Oswald", sans-serif; font-weight: 600; color: var(--carbon); background: var(--mostaza); border-radius: 999px; padding: 0 .4rem; font-size: .8rem; }
+.dp-guia { border: 1px solid var(--borde); border-radius: 14px; background: var(--pizarra); padding: 0 1rem; margin-bottom: .6rem; }
+.dp-guia summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem; min-height: 48px; padding: .6rem 0; cursor: pointer; list-style: none; }
+.dp-guia summary::-webkit-details-marker { display: none; }
+.dp-guia-nombre { font-weight: 700; color: var(--crema); }
+.dp-guia[open] summary { border-bottom: 1px solid rgba(255, 255, 255, .06); }
+.dp-guia p, .dp-guia ul { margin: .7rem 0; line-height: 1.55; color: var(--crema-2); }
+.dp-guia ul { padding-left: 1.1rem; list-style: disc; }
+.dp-guia strong { color: var(--crema); }
+.dp-sub { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .06em; font-size: .8rem; color: var(--mostaza) !important; margin-bottom: .2rem !important; }
+.dp-dificultad { font-size: .75rem; padding: .15rem .6rem; border-radius: 999px; border: 1px solid var(--borde); color: var(--crema-2); }
+.dp-facil { border-color: #4f8a5b; color: #9fd3a8; }
+.dp-media { border-color: var(--mostaza); color: var(--mostaza); }
+.dp-taller { border-color: var(--lava); color: #ff9a6a; }
+.dp-cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding: 1.2rem 1.4rem; border-radius: 16px; border: 1px solid rgba(242, 97, 29, .35); background: rgba(242, 97, 29, .07); }
+.dp-cta p { max-width: 38rem; color: var(--crema-2); line-height: 1.5; }
+.dp-cta strong { color: var(--crema); }
+.dp-pasos { display: flex; justify-content: space-between; gap: 1rem; margin: 2rem 0 3rem; }
+.dp-pasos a { display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; color: var(--crema-2); font-weight: 600; }
+.dp-pasos a:hover { color: var(--lava); }
+
+/* Hoja de vida pública: hasta cuándo tiene los papeles al día (solo fecha y estado) */
+.hv-papeles { display: flex; flex-wrap: wrap; gap: .5rem; }
+.hv-papeles li { padding: .25rem .7rem; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+.hv-papel-ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 14%, transparent); }
+.hv-papel-vencido { color: var(--vencido); background: color-mix(in srgb, var(--vencido) 14%, transparent); }
+.cert-vencido { color: #a3200f; background: #fbe0db; }

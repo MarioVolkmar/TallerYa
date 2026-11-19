@@ -3,6 +3,7 @@ import mimetypes
 from pathlib import Path
 from urllib.parse import quote
 
+from django.db.models import F
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
@@ -48,7 +49,7 @@ def soat(request):
         categoria = request.GET["cat"]                     # visitante: eligió la categoría sin escribir el cc
     anio = timezone.localdate().year
     tarifa = TarifaSoat.objects.filter(anio=anio, categoria=categoria).first() if categoria else None
-    pedido = moto.pedidos_soat.exclude(estado=PedidoSoat.Estado.CANCELADA).first() if moto else None
+    pedido = moto.pedidos_soat_del_dueno().exclude(estado=PedidoSoat.Estado.CANCELADA).first() if moto else None
     # Si el pedido anterior no pasó la validación, se vuelve a mostrar con sus datos y errores
     previo = request.session.pop("soat_form", None) if moto else None
     inicial = {}
@@ -73,7 +74,9 @@ def soat(request):
 
 def _pedido_de(request, pk):
     motero = getattr(request.user, "motociclista", None)
-    return get_object_or_404(PedidoSoat.objects.select_related("moto"), pk=pk, moto__motociclista=motero)
+    # Los pedidos del dueño anterior (antes de un traspaso, con sus datos) no los ve el nuevo
+    pedidos = PedidoSoat.objects.select_related("moto").exclude(moto__dueno_desde__gt=F("creado"))
+    return get_object_or_404(pedidos, pk=pk, moto__motociclista=motero)
 
 
 @login_required

@@ -36,6 +36,7 @@
     </ul>
   </div>
   <div class="flex flex-wrap gap-3 mt-5">
+    <a href="{% url 'domicilio:solicitudes' %}" class="btn btn-lava text-xs px-4 py-2">📅 Solicitudes{% if n_solicitudes %} ({{ n_solicitudes }}){% endif %}</a>
     <a href="{% url 'domicilio:mis_precios' %}" class="btn btn-borde text-xs px-4 py-2">💲 Mis precios{% if n_precios %} ({{ n_precios }}){% endif %}</a>
     <a href="#resenas" class="btn btn-borde text-xs px-4 py-2">★ Mis reseñas ({{ resenas|length }})</a>
   </div>

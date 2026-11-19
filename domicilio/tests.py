@@ -671,3 +671,67 @@ class PreciosYRespuestasTests(Base):
         r = self.client.get(reverse("domicilio:mi_perfil"))
         self.assertContains(r, reverse("domicilio:mis_precios"))
         self.assertContains(r, "Mis reseñas")
+
+
+class SolicitudVisitaTests(Base):
+    """Solicitar visita guarda la solicitud; el mecánico la cotiza y el motero la acepta o la rechaza (como las citas)."""
+    def pedir(self, **extra):
+        datos = {"nombre": "Camilo", "telefono": "300 555 1234", "servicio": self.frenos.pk, "zona": self.robledo.pk,
+                 "moto": "Yamaha NMAX", "cuando": "hoy", "detalle": "Frena mal", **extra}
+        return self.client.post(reverse("domicilio:visita", args=[self.aprobado.slug]), datos)
+
+    def cotizar(self, s, **extra):
+        from datetime import date, timedelta
+        datos = {"desde": "80.000", "hasta": "80.000", "incluye": "Pastillas y mano de obra",
+                 "fecha": (date.today() + timedelta(days=1)).isoformat(), "hora": "10:00", **extra}
+        return self.client.post(reverse("domicilio:solicitud_cotizar", args=[s.pk]), datos)
+
+    def test_pedir_guarda_la_solicitud_y_abre_whatsapp_con_el_enlace(self):
+        from .models import SolicitudVisita
+        r = self.pedir()
+        s = SolicitudVisita.objects.get()
+        self.assertEqual((s.mecanico, s.telefono, s.estado), (self.aprobado, "573005551234", "pendiente"))
+        self.assertTrue(r["Location"].startswith("https://wa.me/"))
+        self.assertIn(s.token, r["Location"])
+
+    def test_sin_celular_no_guarda_pero_abre_whatsapp(self):
+        from .models import SolicitudVisita
+        r = self.pedir(telefono="")
+        self.assertFalse(SolicitudVisita.objects.exists())
+        self.assertTrue(r["Location"].startswith("https://wa.me/"))
+
+    def test_cotizar_aceptar_y_marcar_atendida(self):
+        from .models import SolicitudVisita
+        self.pedir()
+        s = SolicitudVisita.objects.get()
+        self.client.force_login(self.dueno)
+        self.assertContains(self.client.get(reverse("domicilio:solicitudes")), "Camilo")
+        self.cotizar(s)
+        s.refresh_from_db()
+        self.assertEqual((s.estado, s.precio_texto), ("cotizada", "$80.000"))
+        self.client.logout()
+        self.assertContains(self.client.get(s.get_absolute_url()), "Aceptar y agendar")
+        self.client.post(s.get_absolute_url(), {"accion": "aceptar"})
+        s.refresh_from_db()
+        self.assertEqual(s.estado, "confirmada")
+        self.client.force_login(self.dueno)
+        self.client.post(reverse("domicilio:solicitud_estado", args=[s.pk]), {"estado": "atendida"})
+        s.refresh_from_db()
+        self.assertEqual(s.estado, "atendida")
+
+    def test_rechazar_y_no_tocar_solicitudes_ajenas(self):
+        from .models import SolicitudVisita
+        self.pedir()
+        s = SolicitudVisita.objects.get()
+        self.client.force_login(self.dueno)
+        self.cotizar(s, desde="90.000", hasta="70.000")  # hasta menor: no cotiza
+        s.refresh_from_db()
+        self.assertEqual(s.estado, "pendiente")
+        self.cotizar(s)
+        self.client.post(s.get_absolute_url(), {"accion": "rechazar"})
+        s.refresh_from_db()
+        self.assertEqual((s.estado, s.rechazada), ("pendiente", True))
+        MecanicoDomicilio.objects.create(nombre="Otro", whatsapp="573000000998", usuario=self.otro)
+        self.client.force_login(self.otro)
+        self.assertEqual(self.cotizar(s).status_code, 404)
+        self.assertEqual(self.client.post(reverse("domicilio:solicitud_estado", args=[s.pk]), {"estado": "cancelada"}).status_code, 404)

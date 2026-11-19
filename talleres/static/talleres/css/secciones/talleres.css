@@ -215,30 +215,6 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .pt-propuesta { margin-top: .4rem; font-size: .78rem; color: #8ec8ff; }
 .pt-propuesta strong { color: var(--crema); }
 .pt-rechazo { margin-top: .4rem; font-size: .78rem; color: #ff8a70; }
-.rp-form { display: grid; gap: 1rem; padding: 1.4rem; }
-.rp-cabeza { display: flex; align-items: center; justify-content: space-between; }
-.rp-sub { font-size: .85rem; color: #9ba2a4; }
-.rp-sub strong { color: var(--crema); }
-.rp-campos { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
-.rp-ancho { grid-column: 1 / -1; }
-/* Página del motero para aceptar la nueva fecha */
-.cp { padding: 1.4rem; display: grid; gap: 1rem; }
-.cp-quien { font-size: .85rem; color: #9ba2a4; }
-.cp-etiqueta { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--mostaza); }
-.cp-fechas { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: .6rem; }
-.cp-fechas > div { padding: .8rem; border-radius: 14px; background: rgba(0, 0, 0, .2); }
-.cp-fechas small { display: block; font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #8d9496; }
-.cp-fechas strong { display: block; margin-top: .2rem; font-family: "Oswald", sans-serif; font-size: 1.05rem; line-height: 1.2; color: var(--crema); text-transform: capitalize; }
-.cp-antes strong { color: #8d9496; text-decoration: line-through; }
-.cp-nueva { border: 1px solid rgba(242, 97, 29, .5); }
-.cp-nueva em { display: block; font-style: normal; font-size: .85rem; color: var(--lava-2); font-weight: 700; }
-.cp-flecha { color: var(--lava); font-size: 1.3rem; }
-.cp-nota { font-size: .88rem; font-style: italic; color: #c9bfa7; }
-.cp-botones { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
-.cp-estado { padding: .7rem .9rem; border-radius: 12px; background: rgba(255, 255, 255, .05); font-size: .9rem; color: var(--crema-2); }
-.cp-ok { background: rgba(134, 219, 166, .12); color: #86dba6; }
-.cp-malo { background: rgba(255, 106, 80, .12); color: #ff8a70; }
-.cp-wa { justify-self: start; font-size: .82rem; color: #4ade80; text-decoration: underline; text-underline-offset: 3px; }
 /* Calificación (insignia) */
 .calif { display: inline-flex; align-items: center; gap: .55rem; padding: .35rem .7rem .35rem .45rem; border-radius: 14px; background: rgba(227, 167, 47, .1);
   border: 1px solid rgba(227, 167, 47, .3); }
@@ -414,3 +390,7 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .pt-domicilio-btn[aria-checked="true"] .pt-switch::after { transform: translateX(.9rem); }
 .pt-domicilio-zonas { font-size: .78rem; color: var(--lava-2); text-decoration: underline; text-underline-offset: 3px; }
 .tp-diag { grid-column: 1 / -1; }
+
+/* Cotización del taller en la cita (_dialogo_cotizar.html, _cita_item.html y cita_publica.html) */
+.pt-boton-lava { color: #ff9a6a; border-color: rgba(242, 97, 29, .5); }
+.pt-boton-lava:hover { background: var(--lava); color: #fff; border-color: var(--lava); }
