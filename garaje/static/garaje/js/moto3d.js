@@ -163,7 +163,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const t0Armado = performance.now();
   pedazos.desde = performance.now();
   const moto = await construirMoto(datos.specs, datos.color, datos.linea || "");
-  // Piloto de carrocería realista (skill moto-3d-realista): apagado salvo ?modelo3d=glb; si falla, queda la procedural
+  // Carrocería realista de la línea, si la tiene (moto3d/glb.js; ?modelo3d=procedural la apaga); si falla, queda la procedural
   const urlGlb = glbDeLinea(datos.linea);
   if (urlGlb) {
     try { await montarGlb(moto, urlGlb); marcar("glb"); } catch (e) { console.warn("GLB sin cargar: queda la moto procedural", e); }
@@ -309,7 +309,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const exposicionBase = renderer.toneMappingExposure;
   const direccionales = [];
   moto.raiz.traverse((o) => {
-    if (o.isMesh && o.material.emissive && o.material.color?.getHex() === 0xffb347 && !direccionales.includes(o.material)) direccionales.push(o.material);
+    // (las de lente ámbar se reconocen por su color; las de mica transparente, por la marca del material)
+    if (o.isMesh && o.material.emissive && (o.material.color?.getHex() === 0xffb347 || o.material.userData.direccional) && !direccionales.includes(o.material)) direccionales.push(o.material);
   });
   const brilloDireccional = direccionales.map((m) => m.emissiveIntensity);
 
@@ -466,7 +467,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     baseLuces.luz = e ? mezcla(2.6, 11, k) : mezcla(1.1, 0, k);
     baseLuces.stop = e ? mezcla(1.5, 7, k) : mezcla(0.7, 0, k);
     if (!anim.fase) { moto.M.luz.emissiveIntensity = baseLuces.luz; moto.M.stop.emissiveIntensity = baseLuces.stop; }
-    moto.M.pantalla.emissiveIntensity = e ? mezcla(1, 3, k) : mezcla(0.35, 0, k);
+    // (soloEncendida: pantalla con dibujo, que apagada no muestra nada; la genérica deja un brillo tenue de día)
+    moto.M.pantalla.emissiveIntensity = e ? mezcla(1, 3, k) : moto.M.pantalla.userData.soloEncendida ? 0 : mezcla(0.35, 0, k);
     haz.intensity = e ? mezcla(2.5, 26, k) : 0;
     rojoTras.intensity = e ? 2.4 * k : 0;
     direccionales.forEach((m, i) => { m.emissiveIntensity = brilloDireccional[i] * mezcla(1, e ? 1.3 : 0, k); });
@@ -1118,7 +1120,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     const z = zonaParaFabrica(c.zona);
     if (!z) return null;
     const { malla, caja } = z, t = caja.getSize(new THREE.Vector3()), centro = caja.getCenter(new THREE.Vector3());
-    const y = centro.y + (c.altura || 0) * t.y / 2, x = centro.x + (c.posicion || 0) * t.x / 2;
+    // (c.en [x, y]: punto exacto sobre la moto; si no, la posición relativa dentro de la zona)
+    const y = c.en ? c.en[1] : centro.y + (c.altura || 0) * t.y / 2, x = c.en ? c.en[0] : centro.x + (c.posicion || 0) * t.x / 2;
     const disparos = c.cara === "frente" ? [[V(caja.max.x + 0.4, y, 0), V(-1, 0, 0)]]
       : [[V(x, y, caja.max.z + 0.4), V(0, 0, -1)], [V(x, y, caja.min.z - 0.4), V(0, 0, 1)]];
     for (const [origen, dir] of disparos) {
@@ -1168,9 +1171,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Arma o actualiza las calcas de fábrica según la pintura y las que el usuario quitó
   async function aplicarFabrica(cfg) {
     if (!Fabrica || !DecalGeometry) return;
-    if (moto.raiz.userData.glb) return; // (piloto GLB: sin calcas de fábrica, que llevan marca y van sobre la carrocería procedural)
+    // (GLB sin zonas de carrocería: sin calcas de fábrica, que van sobre los paneles con zona; el que las trae sí las lleva)
+    if (moto.raiz.userData.glb && !moto.raiz.userData.glbZonas) return;
     if (!fabrica.lista) {
-      fabrica.lista = Fabrica.calcasDeFabrica(datos.linea || "", rasgosDe(datos.linea || "", datos.specs || {}).familia);
+      // (un modelo cargado puede traer sus propias calcas, ya ubicadas sobre él; si no, las de la línea)
+      fabrica.lista = moto.raiz.userData.calcasFabrica || Fabrica.calcasDeFabrica(datos.linea || "", rasgosDe(datos.linea || "", datos.specs || {}).familia);
       fabrica.material = new THREE.MeshPhysicalMaterial({
         transparent: true, depthWrite: false, polygonOffset: true, polygonOffsetFactor: -3,
         roughness: 0.3, metalness: 0.05, clearcoat: 1, clearcoatRoughness: 0.08,
@@ -1489,7 +1494,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     opciones: (estilo = {}) => {
       const hex = (c) => (c == null ? null : "#" + new THREE.Color(c).getHexString());
       const rin = ["radios", "aleacion", "estrella"].includes(estilo.rin) ? estilo.rin : moto.rinFabrica;
-      return { accesorios: Object.keys(moto.accesorios), rinFabrica: moto.rinFabrica, tipo: datos.specs.tipo,
+      return { accesorios: Object.keys(moto.accesorios), espejos: Object.keys(moto.espejos || {}), rinFabrica: moto.rinFabrica, tipo: datos.specs.tipo,
         secundarioFabrica: SECUNDARIO_FABRICA,
         colorRinFabrica: hex(rin === "radios" ? moto.M.metal.color : moto.rinColor ?? moto.M.cinta?.userData.fabrica ?? SECUNDARIO_FABRICA),
         colorChasisFabrica: hex(moto.M.chasisVisto?.userData.fabrica) };

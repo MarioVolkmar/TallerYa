@@ -1,21 +1,23 @@
 // Carga un GLB de carrocería "realista" (skill moto-3d-realista) y lo monta sobre la moto procedural.
-// Piloto: solo se activa con ?modelo3d=glb en la dirección (o localStorage "moto3d_glb" = "1") y solo para las
-// líneas que tienen GLB. Si algo falla, la moto procedural queda tal cual (respaldo).
+// Las líneas con modelo realista (MODELOS_TRIPO) lo cargan por defecto; el piloto anterior, con ?modelo3d=glb. Si algo falla, la moto procedural queda tal cual (respaldo).
 // El GLB lo escribe .claude/skills/moto-3d-realista/scripts/glb.py: nodos "material.parte", posiciones int16 y
 // normales int8 (KHR_mesh_quantization) y extras {pieza, padre, rin, rol} que dicen dónde va cada malla.
 import * as THREE from "three";
 
 // (?v= cambia con cada versión del GLB: así el navegador no se queda con el anterior en caché)
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
-// Variante ?modelo3d=tripo: malla base generada con IA, aligerada y partida en piezas con nombre (mismo formato)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=3" };
+// Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
+// (skill moto-3d-tripo; mismo formato que el piloto)
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=21" };
 
 export function glbDeLinea(linea) {
+  // Por defecto, el modelo realista de la línea (si lo tiene). ?modelo3d=procedural deja la moto genérica y
+  // ?modelo3d=glb (o localStorage "moto3d_glb" = "1") carga el piloto anterior.
   const pedido = new URLSearchParams(location.search).get("modelo3d");
-  let activo = pedido === "glb" || pedido === "tripo";
-  try { activo ||= localStorage.getItem("moto3d_glb") === "1"; } catch { /* sin almacenamiento */ }
-  if (!activo) return null;
-  const modelos = pedido === "tripo" ? MODELOS_TRIPO : MODELOS;
+  if (pedido === "procedural") return null;
+  let piloto = pedido === "glb";
+  try { piloto ||= !pedido && localStorage.getItem("moto3d_glb") === "1"; } catch { /* sin almacenamiento */ }
+  const modelos = piloto ? MODELOS : MODELOS_TRIPO;
   const clave = Object.keys(modelos).find((k) => new RegExp(k, "i").test(linea || ""));
   return clave ? new URL(modelos[clave], import.meta.url).href : null;
 }
@@ -127,6 +129,76 @@ function acomodar(moto, { grupo, ref, a }) {
   correr(moto, g, new THREE.Vector3(...[0, 1, 2].map((i) => (a[i] ?? p[i]) - p[i])));
 }
 
+// Lámpara de un nodo del GLB (extras.lampara {tipo: "faro" | "stop" | "direccional"}): centro de la cara del lente, hacia
+// dónde mira y su tamaño, en coordenadas de la moto. De ahí nacen el haz, los halos y el parpadeo al encender.
+function lamparaDe(n, datos) {
+  const p = n.geo.attributes.position, idx = n.geo.index.array, a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
+  const centro = new THREE.Vector3(), normal = new THREE.Vector3(), nt = new THREE.Vector3(), caja = new THREE.Box3();
+  const punto = (v, i) => v.fromBufferAttribute(p, i).multiply(new THREE.Vector3(...n.s)).add(new THREE.Vector3(...n.t));
+  let area = 0;
+  for (let i = 0; i < idx.length; i += 3) {
+    punto(a, idx[i]); punto(b, idx[i + 1]); punto(c, idx[i + 2]);
+    nt.crossVectors(b.clone().sub(a), c.clone().sub(a));
+    const ar = nt.length() / 2;
+    centro.addScaledVector(a.clone().add(b).add(c), ar / 3);
+    normal.add(nt);
+    area += ar;
+    caja.expandByPoint(a).expandByPoint(b).expandByPoint(c);
+  }
+  const pos = centro.divideScalar(area || 1), dir = normal.normalize();
+  const lado = datos.tipo === "direccional" ? (pos.x > 0 ? "d" : "t") + (pos.z > 0 ? "i" : "d") : pos.z > 0.02 ? "i" : pos.z < -0.02 ? "d" : "c";
+  return { tipo: datos.tipo, lado, pos, dir, ancho: caja.max.z - caja.min.z, alto: caja.max.y - caja.min.y, area };
+}
+
+// Pantalla del tablero (extras.pantalla {c, n, tam}): un plano sobre el velocímetro con el dibujo de una pantalla
+// digital. Usa M.pantalla, que el visor ya atenúa con la moto apagada y enciende con "Encender".
+function ponerPantalla(moto, { c, n, tam }) {
+  const lienzo = document.createElement("canvas");
+  lienzo.width = 512; lienzo.height = 330;
+  const g = lienzo.getContext("2d");
+  g.fillStyle = "#04090a"; g.fillRect(0, 0, 512, 330);
+  g.strokeStyle = "#1d3a3a"; g.lineWidth = 6; g.strokeRect(8, 8, 496, 314);
+  // Barra de revoluciones: sube en arco de izquierda a derecha; en mínimo van prendidos los primeros segmentos
+  for (let i = 0; i < 22; i++) {
+    const alto = 26 + i * 2.6;
+    g.fillStyle = i < 5 ? "#e9fffb" : i > 17 ? "#3a1512" : "#17302f";
+    g.fillRect(34 + i * 20.4, 104 - alto, 14, alto);
+  }
+  g.fillStyle = "#7fb8b2"; g.font = "bold 20px sans-serif"; g.textAlign = "left";
+  g.fillText("x1000 r/min", 34, 132);
+  // Velocidad
+  g.fillStyle = "#f2fffd"; g.textAlign = "right"; g.font = "bold 150px sans-serif";
+  g.fillText("0", 330, 290);
+  g.font = "bold 30px sans-serif"; g.textAlign = "left";
+  g.fillText("km/h", 344, 288);
+  // Gasolina (izquierda) y datos (derecha)
+  g.font = "bold 22px sans-serif"; g.fillStyle = "#7fb8b2";
+  g.fillText("F", 36, 176); g.fillText("E", 36, 300);
+  for (let i = 0; i < 6; i++) { g.fillStyle = i < 2 ? "#17302f" : "#e9fffb"; g.fillRect(62, 160 + i * 23.5, 44, 17); }
+  g.fillStyle = "#e9fffb"; g.textAlign = "right"; g.font = "bold 30px sans-serif";
+  g.fillText("ECO", 484, 176);
+  g.fillStyle = "#7fb8b2"; g.font = "bold 22px sans-serif";
+  g.fillText("ODO", 484, 214);
+  const tex = new THREE.CanvasTexture(lienzo);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 4;
+  const mat = moto.M.pantalla;
+  // (el dibujo solo va en la luz que emite: con la moto apagada la pantalla queda negra, como una de verdad)
+  mat.emissiveMap = tex;
+  mat.color.set(0x030607); mat.emissive.set(0xbff5ee);
+  mat.userData.soloEncendida = true;
+  mat.needsUpdate = true;
+  const N = new THREE.Vector3(...n).normalize();
+  const U = new THREE.Vector3(1, 0, 0).addScaledVector(N, -N.x).normalize(); // (arriba de la pantalla = hacia adelante)
+  const R = new THREE.Vector3().crossVectors(U, N);
+  const malla = new THREE.Mesh(new THREE.PlaneGeometry(tam[0], tam[1]), mat);
+  malla.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(R, U, N));
+  malla.position.set(...c);
+  malla.name = "pantalla.tablero";
+  malla.userData.glb = true;
+  moto.raiz.add(malla);
+}
+
 // Monta el GLB en moto (lo que devuelve construirMoto). Devuelve true si quedó puesto.
 export async function montarGlb(moto, url) {
   const nodos = await leerGlb(url);
@@ -160,9 +232,18 @@ export async function montarGlb(moto, url) {
   M.negro_brillo ??= new THREE.MeshPhysicalMaterial({ color: 0x0c0e0f, roughness: 0.22, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.05 });
   M.vidrio_oscuro ??= new THREE.MeshPhysicalMaterial({ color: 0x1b2226, transparent: true, opacity: 0.55, roughness: 0.03, clearcoat: 1, depthWrite: false });
   M.dorado ??= new THREE.MeshStandardMaterial({ color: 0xc9a23a, roughness: 0.3, metalness: 0.85 });
+  M.faro ??= new THREE.MeshPhysicalMaterial({ color: 0x3a4146, roughness: 0.12, metalness: 0.9, clearcoat: 1, clearcoatRoughness: 0.03 });
+  M.disco ??= new THREE.MeshStandardMaterial({ color: 0xb9bec1, roughness: 0.34, metalness: 0.6 });
+  // Direccional de mica transparente con bombillo ámbar (va dentro de la unidad del stop): apagada se ve clara y solo
+  // se pone ámbar cuando parpadea (userData.direccional la suma al saludo de «Encender»)
+  M.mica_dir ??= new THREE.MeshPhysicalMaterial({ color: 0xe3e7e9, roughness: 0.1, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.03,
+    emissive: 0xff9a1f, emissiveIntensity: 0, userData: { direccional: true } });
+  // Reflector ámbar (no alumbra ni parpadea)
+  M.reflector ??= new THREE.MeshPhysicalMaterial({ color: 0xff9226, roughness: 0.25, metalness: 0.1, clearcoat: 0.8 });
   M.titanio ??= new THREE.MeshStandardMaterial({ color: 0x4b4845, roughness: 0.55, metalness: 0.35 });
   const visores = [];
   let visorFijo = false;
+  const lamparas = [];
   for (const n of nodos) {
     const mat = M[n.material] || M.oscuro;
     const malla = new THREE.Mesh(n.geo, mat);
@@ -171,6 +252,8 @@ export async function montarGlb(moto, url) {
     malla.scale.fromArray(n.s);
     malla.castShadow = malla.receiveShadow = true;
     malla.userData.glb = true; // (así unirEstaticas no la fusiona con otras y conserva su nombre "material.parte")
+    // (extras.interno: pieza que va tapada por la carrocería, como la batería o el radiador; solo se ve en Rayos X)
+    if (n.extras.interno) { malla.userData.interno = true; malla.visible = false; malla.castShadow = false; }
     let destino = moto.raiz;
     const ex = n.extras;
     if (ex.pieza && moto.piezas[ex.pieza]) {
@@ -199,6 +282,22 @@ export async function montarGlb(moto, url) {
     // porque en ese GLB el visor cierra la carrocería y sin él quedaría un hueco)
     if (ex.rol === "visor_fijo") visorFijo = true;
     if (ex.placa && moto.placa) ponerPlacaEn(moto, ex.placa);
+    if (ex.lampara) lamparas.push(lamparaDe(n, ex.lampara));
+    // (extras.zonas: panel pintado donde se pegan calcas, las propias y las de fábrica, igual que en la moto genérica)
+    if (ex.zonas) { malla.userData.zonas = ex.zonas; moto.raiz.userData.glbZonas = true; }
+    // (extras.calcas_fabrica: las calcas de fábrica de este modelo, ya ubicadas sobre él con "en: [x, y]")
+    if (ex.calcas_fabrica) moto.raiz.userData.calcasFabrica = ex.calcas_fabrica;
+    if (ex.pantalla) ponerPantalla(moto, ex.pantalla);
+    // (extras.sin ["accesorios.parabrisas", "espejos.puntas"…]: opciones de Personalizar que este modelo no ofrece,
+    // porque la pieza genérica desentona con él. Se quitan de la moto: el visor y el cajón ya no las ven.)
+    for (const ruta of ex.sin || []) {
+      const [grupo, clave] = ruta.split(".");
+      const g = moto[grupo]?.[clave];
+      if (!g || (grupo === "espejos" && clave === "fabrica")) continue;
+      g.visible = false;
+      g.traverse((o) => { if (o.isMesh) ocultar(o); });
+      delete moto[grupo][clave];
+    }
     if (ex.manubrio && manubrioProc) ajustes.push(() => alManubrio(moto, manubrioProc, ex.manubrio,
       [...Object.entries(moto.espejos || {}).filter(([k]) => k !== "fabrica").map(([, g]) => g), moto.accesorios?.cubremanos]));
     for (const a of ex.acomodar || []) ajustes.push(() => acomodar(moto, a));
@@ -216,6 +315,11 @@ export async function montarGlb(moto, url) {
     moto.visoresFabrica.push(...visores);
   }
   for (const f of ajustes) f();
+  // Las lámparas del GLB reemplazan a las de la moto genérica del mismo tipo (que ya no se ven)
+  if (lamparas.length && moto.anclas) {
+    const tipos = new Set(lamparas.map((l) => l.tipo));
+    moto.anclas.lamparas = [...(moto.anclas.lamparas || []).filter((l) => !tipos.has(l.tipo)), ...lamparas];
+  }
   // Piezas de mantenimiento que el GLB no trae (batería, bujía, filtro, aceite, radiador…): en la moto real van tapadas
   // por la carrocería; las procedurales asomaban o repetían el motor del GLB. Quedan internas: solo en Rayos X.
   for (const g of Object.values(moto.piezas)) {

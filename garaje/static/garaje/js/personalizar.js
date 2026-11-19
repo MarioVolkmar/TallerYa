@@ -505,7 +505,11 @@
         if (lista.has(v)) lista.delete(v); else lista.add(v);
         if (lista.size) estilo().accesorios = [...lista].sort(); else delete estilo().accesorios;
       }, true);
-    tarjetas($("p-espejos"), ESPEJOS.map(([v, n]) => [v, n, ICONO_ESPEJOS[v]]),
+    // (retrovisores que trae esta moto; si solo quedan los de fábrica, la sección no se muestra)
+    const espejos = ESPEJOS.filter(([v]) => !op.espejos || op.espejos.includes(v));
+    $("p-espejos").hidden = espejos.length < 2;
+    if ($("p-espejos").previousElementSibling) $("p-espejos").previousElementSibling.hidden = espejos.length < 2;
+    tarjetas($("p-espejos"), espejos.map(([v, n]) => [v, n, ICONO_ESPEJOS[v]]),
       (v) => (estilo().espejos || "fabrica") === v,
       (v) => { if (v === "fabrica") delete estilo().espejos; else estilo().espejos = v; });
     // El color del LED solo aparece con la luz LED puesta
