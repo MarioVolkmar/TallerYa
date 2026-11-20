@@ -61,6 +61,7 @@ else:
 reloj.paso("internos")
 
 import exportar  # noqa: E402
-exportar.exportar(S, T, salida, mezcla=getattr(ficha, "MEZCLA", 0.75), lisas=getattr(ficha, "LISAS", None), suave=getattr(ficha, "SUAVE", 0), alisar=getattr(ficha, "ALISAR", None))
+exportar.exportar(S, T, salida, mezcla=getattr(ficha, "MEZCLA", 0.75), lisas=getattr(ficha, "LISAS", None), suave=getattr(ficha, "SUAVE", 0), alisar=getattr(ficha, "ALISAR", None),
+                  escalar=getattr(ficha, "ESCALAR", None), nivelar=getattr(ficha, "NIVELAR", False))
 reloj.paso("exportar")
 reloj.cerrar(ficha=os.path.basename(ruta_ficha))

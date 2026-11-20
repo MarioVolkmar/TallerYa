@@ -10,7 +10,7 @@ import numpy as np
 LISAS = ("pintura", "pintura2", "stop", "faro", "luz", "negro_brillo", "titanio", "ambar", "asiento", "mica_dir", "reflector")
 
 
-def exportar(S, d, salida, mezcla=0.75, lisas=None, espejar=True, suave=0, alisar=None):
+def exportar(S, d, salida, mezcla=0.75, lisas=None, espejar=True, suave=0, alisar=None, escalar=None, nivelar=False):
     import rend
     ESPEJAR, MEZCLA, LISAS_ = espejar, mezcla, tuple(lisas or LISAS)
     P, N, C, I = rend.cargar(d, "p")
@@ -87,6 +87,47 @@ def exportar(S, d, salida, mezcla=0.75, lisas=None, espejar=True, suave=0, alisa
             piezas.append((nombre, ex[f"{nombre}|pos"], ex[f"{nombre}|nor"], ex[f"{nombre}|idx"]))
     if os.path.exists(f"{d}/i_extras.json"):
         extras.update(json.load(open(f"{d}/i_extras.json")))
+
+    medidas = json.load(open(f"{d}/c_partes.json")).get("medidas", {})
+    # --- ficha ESCALAR = [{"piezas": [...], "eje": "eje_del", "factor": f}]: escala piezas alrededor del eje de la rueda
+    # (Tripo a veces hace una rueda mas grande que la otra; la Boxer trae la delantera 10 % grande)
+    fac = {"eje_del": 1.0, "eje_tras": 1.0}
+    for es in escalar or []:
+        fac[es["eje"]] = es["factor"]
+        cx, cy = medidas[es["eje"]]
+        c3 = np.array([cx, cy, 0.0])
+        piezas = [(nm, c3 + (p_ - c3) * es["factor"], n_, ix) if nm.split(".")[-1] in es["piezas"] else (nm, p_, n_, ix) for nm, p_, n_, ix in piezas]
+    # --- ficha NIVELAR = True: gira toda la moto en el plano (x, y) alrededor del eje trasero hasta que las dos ruedas
+    # toquen el piso (despues de igualarlas); gira tambien los extras con coordenadas
+    if nivelar:
+        (xd, yd), (xt, yt) = medidas["eje_del"], medidas["eje_tras"]
+        a = -np.arctan2((yd - medidas["R_del"] * fac["eje_del"]) - (yt - medidas["R_tras"] * fac["eje_tras"]), xd - xt)
+        ca, sa = np.cos(a), np.sin(a)
+        print(f"nivelar: giro {np.degrees(a):.2f} grados")
+        def gir(v, punto=True):
+            v = np.asarray(v, np.float64).copy()
+            x0, y0 = (v[..., 0] - xt, v[..., 1] - yt) if punto else (v[..., 0], v[..., 1])
+            v[..., 0], v[..., 1] = x0 * ca - y0 * sa + (xt if punto else 0), x0 * sa + y0 * ca + (yt if punto else 0)
+            return v
+        piezas = [(nm, gir(p_), gir(n_, False), ix) for nm, p_, n_, ix in piezas]
+        r4 = lambda v: [round(float(u), 4) for u in v]
+        for e in extras.values():
+            if "eje" in e:
+                e["eje"] = r4(gir(e["eje"]))
+            if "placa" in e:
+                e["placa"] = {**e["placa"], "c": r4(gir(e["placa"]["c"])), "incl": e["placa"]["incl"] + float(a)}
+            if "pantalla" in e:
+                lst = e["pantalla"] if isinstance(e["pantalla"], list) else [e["pantalla"]]
+                lst = [{**q, "c": r4(gir(q["c"])), "n": r4(gir(q["n"], False))} for q in lst]
+                e["pantalla"] = lst if isinstance(e["pantalla"], list) else lst[0]
+            if "manubrio" in e:
+                xy = gir([e["manubrio"]["x"], e["manubrio"]["y"]])
+                e["manubrio"] = {**e["manubrio"], "x": round(float(xy[0]), 4), "y": round(float(xy[1]), 4)}
+            for q in e.get("acomodar", []):
+                q["a"] = r4(gir(q["a"]))
+            for q in e.get("calcas_fabrica", []):
+                if "en" in q:
+                    q["en"] = r4(gir(q["en"])[:2]) if len(q["en"]) == 2 else r4(gir(q["en"]))
 
     binario = bytearray()
     vistas, accs, mallas, nodos = [], [], [], []

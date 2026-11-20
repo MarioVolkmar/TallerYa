@@ -34,6 +34,7 @@ class Corte:
         w = json.load(open(f"{T}/w.json")) if os.path.exists(f"{T}/w.json") else {}
         self.con_color = bool(w.get("con_color", True))
         self.reglas, self.extra, self.medidas = [], {}, {}
+        self.deformaciones = []   # funciones P -> P aplicadas tras cortar (p. ej. agrandar un rin alrededor de su eje)
         self._lum1 = None
         os.makedirs(f"{T}/cache", exist_ok=True)
         self.aciertos = self.fallos = 0
@@ -163,6 +164,8 @@ class Corte:
             os.remove(f"{self.T}/c_extra.npz")
         usados, inv = np.unique(F, return_inverse=True)
         F, V = inv.reshape(-1, 3), V[usados]
+        for fn in self.deformaciones:
+            V[:, :3] = fn(V[:, :3].copy())
         nn = V[:, 3:6] / np.maximum(np.linalg.norm(V[:, 3:6], axis=1, keepdims=True), 1e-9)
         T = self.T
         V[:, :3].astype(np.float32).tofile(f"{T}/c_pos.bin")

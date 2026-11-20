@@ -12,6 +12,18 @@
       "port": 8001
     },
     {
+      "name": "tallerya-xtz",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "manage.py",
+        "runserver",
+        "127.0.0.1:8023",
+        "--noreload"
+      ],
+      "port": 8023,
+      "autoPort": false
+    },
+    {
       "name": "estatico",
       "runtimeExecutable": "venv/Scripts/python.exe",
       "runtimeArgs": [

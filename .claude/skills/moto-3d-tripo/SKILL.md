@@ -7,7 +7,8 @@ description: Convierte un modelo 3D de moto generado con Tripo (un GLB de una so
 
 Toma el modelo de Tripo como base y lo deja como modelo realista de la línea. Motos hechas: NMAX 155 (58,6 MB y
 1,9 M de triángulos con textura → 1,2 MB, 64 piezas) y AKT NKD 125 (0,8 MB y 47 mil triángulos sin textura →
-0,96 MB, 55 piezas).
+0,96 MB, 55 piezas) y Bajaj Boxer CT 100 (49 mil triángulos sin textura → 1,03 MB, 54 piezas, `fichas/boxer100.py`) y Yamaha XTZ 150
+(48 mil sin textura, girada → 0,97 MB, 52 piezas, `fichas/xtz150.py`).
 
 ## Idea central
 
@@ -33,8 +34,10 @@ un archivo descargado.
    |---|---|---|
    | Pesado con textura (NMAX: 58,6 MB, 1,9 M de triángulos) | sí, pasos 3 y 5 | forma + color (`m.color()`) |
    | Liviano sin textura ni UV (NKD: 0,8 MB, 47 mil) | no: copiar `w_*.bin` a `s_*.bin` y no poner `RAZON` | solo forma |
-2. `extraer.py entrada.glb T` y `preparar.py T <distancia entre ejes en m>` (de la ficha de la moto; `preparar` mide
-   los ejes por la huella de las llantas y escala).
+2. `extraer.py entrada.glb T` y `preparar.py T <distancia entre ejes en m> [giro]` (de la ficha de la moto; `preparar`
+   mide los ejes por la huella de las llantas y escala). Si Tripo entregó la moto a lo largo de z (XTZ 150), `preparar`
+   se detiene y pide `giro` 90 (manubrio en +z) o 270 (en −z). Guarda los centros de rueda en `w.json`, y `medir.py`
+   (`S T`) parte de ahí con un ajuste iterativo: ya no trae los de la NKD fijos.
 3. Solo si es pesado: `node simplificar.mjs T 160000` (en una carpeta con `npm install meshoptimizer`).
 4. **Ficha de la moto**: copiar `fichas/nkd125.py` a `fichas/<moto>.py` y ajustar. La ficha tiene `cortar(m)` (reglas
    sobre `motor.Corte`), `internos(k)` (piezas de Rayos X con `formas.py`) y, opcionales, `RAZON`, `MEZCLA`, `ISLAS`.
@@ -45,7 +48,9 @@ un archivo descargado.
    `RAZON`), hace los internos y exporta; imprime el cronómetro por paso y lo agrega a `T/tiempos.jsonl`.
    Lo lento (suavizados, pliegues, componentes) se guarda en `T/cache` por la huella de sus datos: cambiar una regla
    no recalcula las demás.
-6. Copiar a `garaje/static/garaje/modelos/`, registrar en `MODELOS_TRIPO` de `moto3d/glb.js` y subir `?v=`.
+6. Copiar a `garaje/static/garaje/modelos/`, registrar en `MODELOS_TRIPO` de `moto3d/glb.js` y subir `?v=`. La clave
+   es una expresión regular contra el nombre de la línea ("Boxer CT 100"): con espacios, usar `"boxer[ _-]*ct[ _-]*100"`
+   y que no choque con otra línea (la CT 125).
 
 `fichas/nmax155_cortar.py` y `nmax155_internos.py` son la ficha de la NMAX en el formato viejo (un programa
 suelto por paso, con `por_pieza.mjs` y `exportar.py` aparte): sirven de ejemplo de reglas **por color**; para
@@ -53,14 +58,14 @@ retocar la NMAX conviene pasarlas antes al formato nuevo.
 
 ### Tiempos medidos
 
-| Paso | NMAX (formato viejo) | NKD (motor + ficha) |
-|---|---|---|
-| Extraer + preparar | ~1 min | 2,5 s |
-| Simplificar | ~1 min | no hizo falta |
-| Una vuelta cortar → exportar | 1,5–2 min | 4,4 s (14 s con render de revisión) |
-| Render de revisión, por vista | ~20 s | 3,4 s |
-| Vueltas hasta la primera entrega | ~25 | 5 |
-| Del GLB a la página | varias horas | ~25 min |
+| Paso | NMAX (formato viejo) | NKD (motor + ficha) | Boxer CT 100 | XTZ 150 |
+|---|---|---|---|---|
+| Extraer + preparar | ~1 min | 2,5 s | 3 s |
+| Simplificar | ~1 min | no hizo falta | no hizo falta |
+| Una vuelta cortar → exportar | 1,5–2 min | 4,4 s (14 s con render de revisión) | 6 s (11 s con render) |
+| Render de revisión, por vista | ~20 s | 3,4 s | ~1,5 s |
+| Vueltas hasta la primera entrega | ~25 | 5 | 5 (6 renders leídos) |
+| Del GLB a la página | varias horas | ~25 min | ~13 min (con pruebas y capturas) | ~17 min (3 vueltas, 6 renders) |
 
 Lo que más pesa ahora no es la máquina sino **mirar**: cada render o captura que se lee cuesta más que la vuelta.
 Pedir en un solo `--ver` todas las vistas de una ronda y en la página armar una hoja de varias vistas por captura.
@@ -78,6 +83,24 @@ Pedir en un solo `--ver` todas las vistas de una ronda y en la página armar una
   en `x` bien atrás del lente: el lente va inclinado y un tope justo lo corta por arriba.
 - Rueda de rayos: `rin` = todo lo que queda dentro del aro y cerca del plano medio (aro, rayos y manzana juntos).
 - Islas: con piezas delgadas (barras, tallos) bajar `ISLAS = {"isla": 24}`; con 60 se las come la pieza vecina.
+- **Mirar los dos lados antes de quitar algo** (Boxer): en la vista de atrás parecía haber un silenciador a cada lado
+  (Tripo suele hacer la moto simétrica), pero el de la izquierda era el guardacadena. Confirmar con `izq` y `der`.
+- **Guardabarros pegado a la llanta** (Boxer): Tripo los funde y el radio no los separa. Se separan por el ancho: la
+  llanta no pasa de |z| 0,037 y las faldas del guardabarros van a 0,04–0,075; arriba, lo que pasa de R + 0,012. Rango
+  de ángulos según el modelo (en la Boxer cubre de 45° a −150°: arriba y atrás).
+- **Tripo repite piezas a los dos lados** (XTZ 150: el silenciador alto, que solo va a la derecha, salió también a la
+  izquierda): la copia falsa va a `_quitar` (rígida en `ISLAS`, así no queda nada colgando).
+- **Deformar tras cortar**: `m.deformaciones.append(fn)` (fn recibe y devuelve las posiciones) se aplica a la malla ya
+  cortada, por región y no por pieza, así no se abren grietas entre piezas (XTZ: rin 21 estirado alrededor del eje).
+- **Mirar en la foto de qué lado van los discos** (XTZ: los dos a la derecha; el disco del modelo estaba a la izquierda).
+- **Las dos ruedas pueden salir del mismo tamaño** aunque la moto real tenga 21" y 18" (XTZ): el rin se mide en el
+  perfil (`PERFIL = True`: salto de |z| de ~0,015 a ~0,035), no se calcula con las pulgadas.
+- **Ruedas de distinto tamaño** (Boxer: la delantera 10 % grande): en la ficha `ESCALAR = [{"piezas": ["llanta_del", "aro_del",
+  "rayos_del", "tambor_del"], "eje": "eje_del", "factor": 0.906}]` y `NIVELAR = True`. `exportar.py` escala esas piezas
+  alrededor del eje y gira toda la moto en (x, y) alrededor del eje trasero para que las dos ruedas toquen el piso, con ejes,
+  placa, pantallas, manubrio, acomodar y calcas. El guardabarros queda con más holgura sobre la llanta.
+- Guardabarros: la falda de adentro baja hasta R − 0,08 junto a la llanta; la cara que mira al eje es guardabarros.
+- Perfil radial de la rueda: `PERFIL = True` en la ficha de la Boxer imprime el |z| (p90) por anillo de 1 cm.
 
 ## Contrato con el visor (`moto3d/glb.js`)
 
@@ -96,6 +119,13 @@ Nodo = `material.parte`; el material sale de `moto.M` (más `plastico`, `negro_b
 | `sin: ["accesorios.parabrisas", "espejos.puntas"…]` | Quita de la moto opciones de Personalizar cuya pieza genérica desentona con el modelo; el cajón deja de ofrecerlas (decisión del usuario, 19-nov-2026: en la NMAX se quitaron parabrisas alto, cubremanos y retrovisores alternativos; quedan baúl y luz LED) |
 
 ## Verificar en la página
+
+Si el usuario no tiene una moto de esa línea, lo más rápido y sin tocar la base (XTZ 150): abrir una de sus motos,
+`fetch` de la misma página, cambiar `linea` en el JSON de `#datos-moto`, `document.write`, `window.__visor = null` y
+volver a importar `moto3d.js` con `?x=<fecha>` (los módulos quedan en caché y no se vuelven a ejecutar solos). Si no:
+en `manage.py shell`, copiar una de sus motos con `pk=None`, la línea
+nueva y un apodo de prueba; revisar en `/garaje/<pk nuevo>/` y borrarla al terminar (comprobando el apodo antes). Si el
+visor abre en Rayos X, clic en `#visor [data-modo="moto"]`.
 
 `/garaje/<pk>/` (las líneas de `MODELOS_TRIPO` cargan su modelo por defecto). Con el panel del navegador oculto la
 página mide **0 px de ancho** y el visor no arranca: primero `resize_window` a 1280 × 800, recargar, llevar `#visor`

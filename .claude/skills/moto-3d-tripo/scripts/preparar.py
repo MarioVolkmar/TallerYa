@@ -1,10 +1,20 @@
-# Uso: preparar.py T <distancia entre ejes en metros, de la ficha de la moto>
+# Uso: preparar.py T <distancia entre ejes en metros, de la ficha de la moto> [giro]
+#   giro: grados alrededor de y para dejar la moto con el eje largo en x y el frente en +x (Tripo a veces la entrega
+#   a lo largo de z: XTZ 150 con el frente en +z -> giro 90). Sin giro, si el eje largo es z, avisa y se detiene.
 # 1) color por vertice desde la textura, 2) soldar por posicion, 3) medir ejes de rueda, 4) llevar a coordenadas de la moto
 import sys, numpy as np, os, json
 from PIL import Image
 d = sys.argv[1]
 EJES = float(sys.argv[2])
 P = np.load(f'{d}/pos.npy'); N = np.load(f'{d}/nor.npy'); I = np.load(f'{d}/idx.npy')
+GIRO = float(sys.argv[3]) if len(sys.argv) > 3 else 0.0
+ext = P.max(0) - P.min(0)
+if GIRO == 0 and ext[2] > ext[0] * 1.3:
+    sys.exit(f'El eje largo es z (caja {ext.round(3)}): pasar giro 90 si el frente (manubrio) esta en +z, o 270 si esta en -z')
+if GIRO:
+    a = np.radians(GIRO); c, s_ = np.cos(a), np.sin(a)
+    R = np.array([[c, 0, s_], [0, 1, 0], [-s_, 0, c]], np.float32)  # x' = x cos + z sen ; z' = -x sen + z cos
+    P = P @ R.T; N = N @ R.T
 CON_COLOR = os.path.exists(f'{d}/uv.npy') and os.path.exists(f'{d}/basecolor.jpg')
 uv = np.load(f'{d}/uv.npy') if CON_COLOR else np.zeros((len(P), 2), np.float32)
 tex = np.asarray(Image.open(f'{d}/basecolor.jpg').convert('RGB')).astype(np.float32) if CON_COLOR else np.full((2, 2, 3), 150, np.float32)
@@ -38,4 +48,5 @@ cx = (cxd + cxt) / 2
 Pm = (Pw - np.array([cx, 0, 0], np.float32)) * esc
 print('caja moto', Pm.min(0).round(3), Pm.max(0).round(3))
 Pm.astype(np.float32).tofile(f'{d}/w_pos.bin'); Nw.tofile(f'{d}/w_nor.bin'); (Cw / 255).astype(np.float32).tofile(f'{d}/w_col.bin'); Iw.tofile(f'{d}/w_idx.bin')
-json.dump({'nv': int(nv), 'nt': int(len(Iw)), 'rd': float(rd*esc), 'rt': float(rt*esc), 'con_color': bool(CON_COLOR), 'ejes': EJES}, open(f'{d}/w.json', 'w'))
+json.dump({'nv': int(nv), 'nt': int(len(Iw)), 'rd': float(rd*esc), 'rt': float(rt*esc), 'con_color': bool(CON_COLOR), 'ejes': EJES,
+           'xd': float((cxd - cx) * esc), 'xt': float((cxt - cx) * esc)}, open(f'{d}/w.json', 'w'))

@@ -8,7 +8,7 @@ import * as THREE from "three";
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
 // Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
 // (skill moto-3d-tripo; mismo formato que el piloto)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=22", nkd: "../../modelos/nkd125_tripo.glb?v=10" };
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=22", nkd: "../../modelos/nkd125_tripo.glb?v=10", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=2", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=3" };
 
 export function glbDeLinea(linea) {
   // Por defecto, el modelo realista de la línea (si lo tiene). ?modelo3d=procedural deja la moto genérica y

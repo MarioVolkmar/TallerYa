@@ -2,11 +2,16 @@ import sys; sys.path.insert(0, sys.argv[1])
 import rend, numpy as np
 P, N, C, I = rend.cargar(sys.argv[2]); x, y, z = P.T.astype(float); az = abs(z)
 def circ(cx, cy, R):
-    m = (az < 0.02) & (y < cy) & (abs(np.hypot(x-cx, y-cy) - R) < 0.04)
-    A = np.c_[2*x[m], 2*y[m], np.ones(m.sum())]; s = np.linalg.lstsq(A, x[m]**2 + y[m]**2, rcond=None)[0]
-    return s[0], s[1], np.sqrt(s[2] + s[0]**2 + s[1]**2)
-for nom, c in (('del', (0.635, 0.31)), ('tras', (-0.635, 0.32))):
-    cx, cy, R = circ(*c, 0.31); r = np.hypot(x-cx, y-cy)
+    # ajuste iterativo con ventana que se cierra: el radio de partida (preparar.py) puede venir inflado por el guardabarros
+    for ven in (0.10, 0.06, 0.04, 0.03):
+        m = (az < 0.02) & (y < cy) & (abs(np.hypot(x-cx, y-cy) - R) < ven)
+        A = np.c_[2*x[m], 2*y[m], np.ones(m.sum())]; s = np.linalg.lstsq(A, x[m]**2 + y[m]**2, rcond=None)[0]
+        cx, cy, R = s[0], s[1], np.sqrt(s[2] + s[0]**2 + s[1]**2)
+    return cx, cy, R
+import json, os
+w = json.load(open(os.path.join(sys.argv[2], 'w.json')))  # centros y radios que midio preparar.py
+for nom, c in (('del', (w.get('xd', 0.635), w['rd'])), ('tras', (w.get('xt', -0.635), w['rt']))):
+    cx, cy, R = circ(*c, c[1]); r = np.hypot(x-cx, y-cy)
     print(nom, 'centro', round(cx, 3), round(cy, 3), 'R', round(R, 3))
     bajo = y < cy - 0.05
     for a, b in ((0.10, 0.2), (0.2, 0.235), (0.235, 0.26), (0.26, R-0.02), (R-0.02, R+0.02)):
