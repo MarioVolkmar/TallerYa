@@ -8,7 +8,7 @@ from motor import O, Y, banda
 EJES = 1.27          # (para preparar.py)
 MEZCLA = 0.6
 ISLAS = {"isla": 24, "isla_pintura": 200, "rigidas": ("llanta", "rin", "aro", "rayos", "_quitar")}
-ALISAR = {"pintura.tanque": 10, "pintura2.tapa_lateral": 4, "pintura.guardabarros_del": 4, "asiento.asiento": 4}
+ALISAR = {"pintura.tanque": 10, "plastico.tapa_lateral": 4, "pintura.guardabarros_del": 4, "asiento.asiento": 4}
 SUAVE = 3            # (vueltas de alisado de normales en pintura y lentes: el tanque llega con grano y facetas)
 
 
@@ -120,7 +120,8 @@ def cortar(m):
          "en": [-0.26, 0.59], "ancho": 0.085, "giro": 0, "color": "gris"},
     ]
     m.regla("pintura.tanque", Y([lado(TANQUE, az < 0.22), 0.22 - az]), zonas=["tanque"], calcas_fabrica=CALCAS)
-    m.regla("pintura2.tapa_lateral", Y([lado(TAPA, az > 0.07), az - 0.07]), zonas=["lateral"])
+    # (plastico negro: asi va en las fotos de la NKD gris, blanca y negra de Galgo y AKT, 19-nov-2026)
+    m.regla("plastico.tapa_lateral", Y([lado(TAPA, az > 0.07), az - 0.07]), zonas=["lateral"])
     placa = {"c": [-0.978, 0.68, 0], "incl": -0.75, "tam": [0.19, 0.095]}
     m.regla("plastico.guardabarros_tras", Y([-0.86 - x, 0.775 - y, 0.13 - az]), placa=placa,
             acomodar=[{"grupo": "accesorios.baul", "ref": "abajo", "a": [-0.9, 0.9, 0]}])

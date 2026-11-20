@@ -1,0 +1,214 @@
+{
+ "glb": "garaje/static/garaje/modelos/mt03_tripo.glb",
+ "niveles": {
+  "luces": "AVISO",
+  "pintura": "ERROR",
+  "cortes": "ERROR",
+  "ruedas": "OK",
+  "lado": "OK"
+ },
+ "hallazgos": [
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "oscuro.escape: centro z pagina +0.168 (derecha); en el GLB z -0.168"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "metal.corona: z pagina -0.072 (debe ir a la izquierda, lado contrario al escape)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "INFO",
+   "texto": "disco.disco_del: a la derecha (comparar con la foto)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "INFO",
+   "texto": "disco.disco_tras: a la derecha (comparar con la foto)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "moto3d.js espeja la raiz (scale.z = -1)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 13 cm en disco.disco_del cerca de (0.77, 0.27, 0.05) (caja (0.04, 0.11, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 8 cm en disco.disco_del cerca de (0.69, 0.37, 0.05) (caja (0.08, 0.01, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 18 cm en disco.disco_del cerca de (0.63, 0.27, 0.05) (caja (0.07, 0.15, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "ERROR",
+   "texto": "borde abierto de 90 cm en disco.disco_del cerca de (0.70, 0.29, 0.05) (caja (0.29, 0.29, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 23 cm en disco.disco_del cerca de (0.75, 0.32, 0.05) (caja (0.11, 0.15, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 28 cm en disco.disco_del cerca de (0.64, 0.27, 0.05) (caja (0.12, 0.17, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "ERROR",
+   "texto": "borde abierto de 90 cm en disco.disco_del cerca de (0.70, 0.29, 0.05) (caja (0.29, 0.29, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 37 cm en disco.disco_tras cerca de (-0.69, 0.30, 0.06) (caja (0.12, 0.12, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "ERROR",
+   "texto": "borde abierto de 67 cm en disco.disco_tras cerca de (-0.69, 0.30, 0.06) (caja (0.21, 0.21, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 18 cm en disco.disco_tras cerca de (-0.67, 0.34, 0.06) (caja (0.11, 0.08, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 17 cm en disco.disco_tras cerca de (-0.71, 0.27, 0.06) (caja (0.11, 0.08, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "ERROR",
+   "texto": "borde abierto de 67 cm en disco.disco_tras cerca de (-0.69, 0.30, 0.06) (caja (0.21, 0.21, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "oscuro.mordaza_del: el 58 % de su reflejo al otro lado cae sobre otra malla (oscuro.horquilla 109, chasis.chasis 88): ¿copia simetrica de Tripo? mirar los dos lados con la foto"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "OK",
+   "texto": "caucho.llanta_del: R 0.293, eje (0.696, 0.287), centro de la banda a 3 mm del eje"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "OK",
+   "texto": "caucho.llanta_tras: R 0.304, eje (-0.689, 0.303), centro de la banda a 8 mm del eje"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "luz.faro (faro) en (0.59, 0.79, 0.00), mira (0.97, -0.26, 0.01), 9x7x12 cm; carcasa pintura.farola (46 % del borde); invade oscuro.horquilla (22 % del borde la toca)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "luz.posicion_a (faro) en (0.54, 0.91, 0.05), mira (0.70, 0.26, 0.66), 5x5x5 cm; carcasa pintura.farola (100 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "luz.posicion_b (faro) en (0.54, 0.91, -0.05), mira (0.71, 0.25, -0.66), 5x5x5 cm; carcasa pintura.farola (100 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_del_a (direccional) en (0.45, 0.65, 0.17), mira (0.95, -0.10, 0.28), 4x8x7 cm; carcasa pintura.tanque (63 % del borde); demasiado grande para un direccional (80 cm2, lado 8 cm; tope 60 cm2 / 8 cm); invade pintura.tanque (63 % del borde la toca)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_del_b (direccional) en (0.45, 0.65, -0.17), mira (0.96, -0.11, -0.26), 4x9x7 cm; carcasa pintura.tanque (54 % del borde); demasiado grande para un direccional (81 cm2, lado 9 cm; tope 60 cm2 / 8 cm); invade pintura.tanque (54 % del borde la toca)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "stop.stop (stop) en (-0.91, 0.93, -0.00), mira (-0.87, -0.50, -0.00), 3x4x11 cm; carcasa plastico.colin (100 % del borde); demasiado grande para un stop (43 cm2, lado 11 cm; tope 200 cm2 / 11 cm)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_tras_a (direccional) en (-0.97, 0.74, 0.17), mira (0.06, 0.06, 1.00), 6x3x5 cm; carcasa oscuro.direccional_tallos (100 % del borde); demasiado grande para un direccional (63 cm2, lado 6 cm; tope 60 cm2 / 8 cm)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_tras_b (direccional) en (-0.97, 0.74, -0.17), mira (0.06, 0.07, -1.00), 6x3x5 cm; carcasa oscuro.direccional_tallos (100 % del borde); demasiado grande para un direccional (64 cm2, lado 6 cm; tope 60 cm2 / 8 cm)"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color de la moto: farola, guardabarros_del, tanque"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color del chasis: chasis"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color de rines: rin_del, rin_tras"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "ERROR",
+   "texto": "solo 2 fotos reales en la hoja (minimo 3, de varios colores o angulos): --fotos"
+  }
+ ],
+ "pintura": {
+  "fijo": [
+   "llanta_del",
+   "llanta_tras",
+   "mordaza_del",
+   "corona",
+   "horquilla",
+   "faro",
+   "posicion_a",
+   "posicion_b",
+   "direccional_del_a",
+   "direccional_del_b",
+   "stop",
+   "direccional_tras_a",
+   "direccional_tras_b",
+   "direccional_tallos",
+   "luna",
+   "espejos",
+   "punos",
+   "manubrio",
+   "asiento",
+   "colin",
+   "portaplaca",
+   "escape",
+   "basculante",
+   "bloque",
+   "disco_del",
+   "disco_tras"
+  ],
+  "Color de rines": [
+   "rin_del",
+   "rin_tras"
+  ],
+  "Color de la moto": [
+   "guardabarros_del",
+   "farola",
+   "tanque"
+  ],
+  "Color del chasis": [
+   "chasis"
+  ]
+ }
+}

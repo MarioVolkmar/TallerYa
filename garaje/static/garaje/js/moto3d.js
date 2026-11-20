@@ -174,6 +174,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Guarda en el navegador los paneles nuevos (cuando el navegador esté libre, sin frenar el primer cuadro)
   // (con plazo de 2 s: en una pestaña de fondo el navegador casi nunca queda "libre" y no se guardaba)
   if (window.requestIdleCallback) requestIdleCallback(() => guardarCache(), { timeout: 2000 }); else setTimeout(guardarCache, 300);
+  // Espejo de lado: la moto (genérica y GLB de Tripo) se arma con +z = izquierda del piloto, y con el frente en +x eso
+  // es la derecha en three.js: sin este espejo el escape salía a la izquierda (19-nov-2026). Ver espejarTextura (comun.js).
+  moto.raiz.scale.z = -1;
   escena.add(moto.raiz);
   // Sombra de contacto: un óvalo oscuro y difuso justo debajo de la moto. "Asienta" las llantas en el piso
   // (la sombra del sol sola la hacía ver un poco flotando). Va pegada a la moto para seguirla en las animaciones.

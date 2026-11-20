@@ -2,6 +2,11 @@
 import * as THREE from "three";
 
 export const V = (x, y, z = 0) => new THREE.Vector3(x, y, z);
+// La moto se arma con +z = lado izquierdo del piloto (cadena y pata; el escape a -z), pero con el frente en +x, en
+// three.js +z es la DERECHA: el visor espeja la raíz de la moto (scale.z = -1, ver moto3d.js) para dejarla como la real.
+// Ese espejo invierte todo texto pintado en una textura de la malla (placa, letras de llanta, tablero): esta función lo
+// vuelve a invertir. Las calcas no la necesitan: se proyectan en coordenadas del mundo, ya espejadas.
+export function espejarTextura(t) { t.repeat.x = -1; t.offset.x = 1; return t; }
 // Tiempos del armado por etapa (ms), para ver en consola con __visor.info().etapas
 export const ETAPAS = {};
 export function medir(nombre, fn) { const t = performance.now(); const r = fn(); ETAPAS[nombre] = (ETAPAS[nombre] || 0) + performance.now() - t; return r; }

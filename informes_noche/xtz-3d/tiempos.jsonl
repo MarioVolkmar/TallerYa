@@ -5,3 +5,10 @@
 {"hora": "18:52:28", "cargar": 0.06, "reglas": 0.68, "repartir": 5.44, "ver": 3.66, "aligerar": 0.02, "internos": 0.64, "exportar": 1.54, "ficha": "xtz150.py"}
 {"hora": "18:55:35", "cargar": 0.06, "reglas": 0.64, "repartir": 5.63, "aligerar": 0.28, "internos": 0.73, "exportar": 1.56, "ficha": "xtz150.py"}
 {"hora": "19:00", "resumen": "XTZ 150 ronda 1 (rin 21, discos, monoshock, calca, internos)", "reloj_min": 14, "vueltas": 2, "renders_leidos": 1, "capturas": 3, "ficha": "xtz150.py"}
+{"hora": "19:24:59", "cargar": 0.02, "reglas": 0.71, "repartir": 4.81, "ver": 3.28, "ficha": "xtz150.py"}
+{"hora": "19:26:09", "cargar": 0.08, "reglas": 0.69, "repartir": 5.21, "ver": 3.19, "aligerar": 0.02, "internos": 0.66, "exportar": 1.37, "ficha": "xtz150.py"}
+{"hora": "19:26:44", "cargar": 0.05, "reglas": 0.5, "repartir": 4.63, "aligerar": 0.21, "internos": 0.56, "exportar": 1.27, "ficha": "xtz150.py"}
+{"hora": "19:40", "resumen": "XTZ 150 ronda 2 (grupos de pintura, dos escapes, frenos; NMAX disco delantero espejado)", "reloj_min": 9, "vueltas": 3, "renders_leidos": 3, "capturas": 4, "ficha": "xtz150.py"}
+{"hora": "19:32:52", "cargar": 0.05, "reglas": 0.51, "repartir": 4.8, "ver": 1.27, "aligerar": 0.02, "internos": 0.52, "exportar": 1.19, "ficha": "xtz150.py"}
+{"hora": "19:33:21", "cargar": 0.05, "reglas": 0.49, "repartir": 4.65, "ver": 1.63, "aligerar": 0.01, "internos": 0.59, "exportar": 1.24, "ficha": "xtz150.py"}
+{"hora": "19:55", "resumen": "XTZ 150 ronda 2b (pintura con 6 fotos, un solo escape) y NMAX motor fuera de chasis", "reloj_min": 4, "vueltas": 2, "renders_leidos": 1, "capturas": 3, "ficha": "xtz150.py"}

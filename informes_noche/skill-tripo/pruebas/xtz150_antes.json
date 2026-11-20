@@ -1,0 +1,205 @@
+{
+ "glb": "C:/Users/volkm/AppData/Local/Temp/claude/8d4b7eebc15d2ff0/a2dcbd13-3e67-4234-8095-bdeac11b991c/scratchpad/xtz125/xtz150_antes.glb",
+ "niveles": {
+  "luces": "AVISO",
+  "pintura": "ERROR",
+  "cortes": "ERROR",
+  "ruedas": "OK",
+  "lado": "OK"
+ },
+ "hallazgos": [
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "oscuro.escape: centro z pagina +0.163 (derecha); en el GLB z -0.163"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "metal.corona: z pagina -0.060 (debe ir a la izquierda, lado contrario al escape)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "INFO",
+   "texto": "disco.disco_del: a la derecha (comparar con la foto)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "INFO",
+   "texto": "disco.disco_tras: a la derecha (comparar con la foto)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "moto3d.js espeja la raiz (scale.z = -1)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "ERROR",
+   "texto": "nodo _quitar exportado: los _quitar no deben llegar al GLB (1215 triangulos)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 11 cm en cromo.rayos_del cerca de (0.56, 0.32, -0.02) (caja (0.03, 0.02, 0.01)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 8 cm en cromo.rayos_del cerca de (0.60, 0.40, -0.02) (caja (0.02, 0.03, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 7 cm en cromo.rayos_del cerca de (0.66, 0.42, -0.02) (caja (0.01, 0.03, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "ERROR",
+   "texto": "borde abierto de 44 cm en cromo.rayos_del cerca de (0.68, 0.32, -0.03) (caja (0.10, 0.11, 0.02)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 7 cm en cromo.rayos_del cerca de (0.79, 0.37, -0.02) (caja (0.02, 0.01, 0.01)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 8 cm en cromo.rayos_del cerca de (0.81, 0.29, -0.02) (caja (0.02, 0.02, 0.01)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 11 cm en metal.horquilla cerca de (0.62, 0.36, -0.06) (caja (0.03, 0.06, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 13 cm en metal.horquilla cerca de (0.68, 0.23, -0.06) (caja (0.03, 0.05, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 6 cm en metal.horquilla cerca de (0.72, 0.30, -0.05) (caja (0.02, 0.06, 0.00)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "borde abierto de 33 cm en chasis.chasis cerca de (0.58, 0.33, -0.06) (caja (0.08, 0.11, 0.02)): hueco que se ve a traves"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "OK",
+   "texto": "caucho.llanta_del: R 0.314, eje (0.679, 0.307), centro de la banda a 7 mm del eje"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "OK",
+   "texto": "caucho.llanta_tras: R 0.323, eje (-0.673, 0.312), centro de la banda a 14 mm del eje"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "luz.faro (faro) en (0.54, 0.91, -0.00), mira (0.97, 0.23, 0.03), 4x14x14 cm; carcasa pintura.farola (80 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "stop.stop (stop) en (-1.02, 0.99, 0.00), mira (-0.90, -0.41, 0.15), 5x4x10 cm; carcasa plastico.colin (100 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "ambar.direccional_del_a (direccional) en (0.45, 0.96, 0.16), mira (0.79, -0.01, 0.62), 2x4x2 cm; carcasa oscuro.direccional_del_base (81 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_del_b (direccional) en (0.45, 0.95, -0.16), mira (0.85, -0.10, -0.51), 2x4x32 cm; carcasa oscuro.direccional_del_base (76 % del borde); demasiado grande para un direccional (20 cm2, lado 32 cm; tope 120 cm2 / 11 cm)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "ambar.direccional_tras_a (direccional) en (-0.90, 0.92, 0.15), mira (-0.96, -0.01, 0.29), 2x4x6 cm; carcasa oscuro.direccional_tras_base (75 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "ambar.direccional_tras_b (direccional) en (-0.90, 0.92, -0.15), mira (-0.98, -0.01, -0.22), 2x4x7 cm; carcasa oscuro.direccional_tras_base (92 % del borde)"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color de la moto: aleta, farola, franja_lateral"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color del chasis: chasis"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color de rines: aro_del, aro_tras"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "ERROR",
+   "texto": "solo 0 fotos reales en la hoja (minimo 3, de varios colores o angulos): --fotos"
+  }
+ ],
+ "pintura": {
+  "fijo": [
+   "llanta_del",
+   "rayos_del",
+   "llanta_tras",
+   "manzana_tras",
+   "corona",
+   "rayos_tras",
+   "faro",
+   "stop",
+   "direccional_del_a",
+   "direccional_del_b",
+   "direccional_del_base",
+   "direccional_tras_a",
+   "direccional_tras_b",
+   "direccional_tras_base",
+   "barras",
+   "horquilla",
+   "guardabarros_del",
+   "tijas",
+   "luna",
+   "espejos",
+   "punos",
+   "manubrio",
+   "escape",
+   "",
+   "asiento",
+   "tanque",
+   "tapa_lateral",
+   "cubierta_lateral",
+   "colin",
+   "base_asiento",
+   "basculante",
+   "guardabarros_tras",
+   "bloque",
+   "disco_del",
+   "disco_tras",
+   "monoshock",
+   "resorte_tras"
+  ],
+  "Color de rines": [
+   "aro_del",
+   "aro_tras"
+  ],
+  "Color de la moto": [
+   "farola",
+   "aleta",
+   "franja_lateral"
+  ],
+  "Color del chasis": [
+   "chasis"
+  ]
+ }
+}

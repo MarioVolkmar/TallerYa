@@ -8,7 +8,9 @@ import * as THREE from "three";
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
 // Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
 // (skill moto-3d-tripo; mismo formato que el piloto)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=22", nkd: "../../modelos/nkd125_tripo.glb?v=10", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=2", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=3" };
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=4" };
+
+const ACCESORIOS_GLB = ["baul", "led"];
 
 export function glbDeLinea(linea) {
   // Por defecto, el modelo realista de la línea (si lo tiene). ?modelo3d=procedural deja la moto genérica y
@@ -212,7 +214,8 @@ function ponerPantalla(moto, { c, n, tam, redonda, dibujo }) {
   const geo = redonda ? new THREE.CircleGeometry(tam[0] / 2, 40) : new THREE.PlaneGeometry(tam[0], tam[1]);
   // (cada pantalla toma su mitad del lienzo; la redonda, el cuadrado del centro de esa mitad)
   const uv = geo.attributes.uv, abajo = dibujo === "tacometro" ? 0 : 0.5;
-  for (let i = 0; i < uv.count; i++) uv.setXY(i, redonda ? 0.178 + uv.getX(i) * 0.644 : uv.getX(i), abajo + uv.getY(i) * 0.5);
+  // (u al revés: la raíz de la moto va espejada en z y sin esto los números se leerían en espejo)
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, redonda ? 0.178 + (1 - uv.getX(i)) * 0.644 : 1 - uv.getX(i), abajo + uv.getY(i) * 0.5);
   const malla = new THREE.Mesh(geo, mat);
   malla.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(R, U, N));
   malla.position.set(...c);
@@ -254,6 +257,46 @@ function labrarLlanta(n) {
   }
   geo.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
   n.geo = geo;
+}
+
+// Llanta del GLB rehecha como sólido de revolución (19-nov-2026). La de Tripo no es una rueda completa: donde toca el
+// guardabarros, la horquilla o el basculante, el corte deja caras en el cuerpo fijo, y al girar se veía el hueco dando
+// vueltas (y el pedazo quieto). Se mide su perfil (radio exterior por franjas de ancho, el 98 % para no fiarse de
+// sueltos; radio interior en el asiento del aro) y se tornea alrededor del eje, 3 mm más grande para tapar esos pedazos.
+// UV como labrarLlanta (u = ángulo × 30, v = ancho). Si la medida no cuadra, se deja la malla de Tripo labrada.
+function tornearLlanta(n) {
+  const p = n.geo.attributes.position, [ex, ey] = n.extras.eje, s = n.s[0], [tx, ty, tz] = n.t;
+  const r = new Float32Array(p.count), z = new Float32Array(p.count);
+  let z0 = Infinity, z1 = -Infinity;
+  for (let i = 0; i < p.count; i++) {
+    r[i] = Math.hypot(p.getX(i) * s + tx - ex, p.getY(i) * s + ty - ey);
+    z[i] = p.getZ(i) * s + tz;
+    z0 = Math.min(z0, z[i]); z1 = Math.max(z1, z[i]);
+  }
+  const cuantil = (a, q) => { const o = Float32Array.from(a).sort(); return o[Math.min(o.length - 1, Math.floor(q * o.length))]; };
+  const rIn = cuantil(r, 0.03), FR = 14, holgura = 0.003, franjas = [];
+  for (let k = 0; k < FR; k++) {
+    const a = z0 + (z1 - z0) * k / FR, b = z0 + (z1 - z0) * (k + 1) / FR, en = [];
+    for (let i = 0; i < p.count; i++) if (z[i] >= a && z[i] <= b) en.push(r[i]);
+    franjas.push(en.length > 8 ? cuantil(en, 0.98) : null);
+  }
+  const rMax = Math.max(...franjas.filter((x) => x !== null));
+  if (!(rMax > rIn + 0.02) || franjas.filter((x) => x !== null).length < FR * 0.6) return false;
+  // Perfil (radio, z): del talón de un lado, por el costado y la banda, al talón del otro; franjas vacías interpoladas
+  const lleno = franjas.map((x, k) => x ?? (franjas[k - 1] ?? franjas[k + 1] ?? rMax));
+  const zc = (z0 + z1) / 2, mitad = (z1 - z0) / 2 + holgura;
+  const pts = [new THREE.Vector2(rIn, zc - mitad * 0.92)];
+  lleno.forEach((x, k) => pts.push(new THREE.Vector2(Math.max(rIn + 0.004, x + holgura), zc - mitad + (2 * mitad) * (k + 0.5) / FR)));
+  pts.push(new THREE.Vector2(rIn, zc + mitad * 0.92));
+  const geo = new THREE.LatheGeometry(pts, 72);
+  // (el torno gira alrededor de y: se acuesta sobre z, se lleva al eje y se pasa a las coordenadas del nodo)
+  geo.rotateX(Math.PI / 2); // (la y del perfil pasa a ser la z de la moto)
+  geo.translate(ex - tx, ey - ty, -tz).scale(1 / s, 1 / s, 1 / s);
+  const uv = geo.attributes.uv;
+  for (let i = 0; i < uv.count; i++) uv.setX(i, uv.getX(i) * 30);
+  geo.computeVertexNormals();
+  n.geo = geo;
+  return true;
 }
 
 // Monta el GLB en moto (lo que devuelve construirMoto). Devuelve true si quedó puesto.
@@ -305,7 +348,7 @@ export async function montarGlb(moto, url) {
     let mat = M[n.material] || M.oscuro;
     if (n.material === "caucho" && n.extras.eje && /llanta/.test(n.nombre)) {
       M.caucho_labrado ??= Object.assign(M.caucho.clone(), { bumpMap: texturaLabrado(), bumpScale: 2.2 });
-      labrarLlanta(n);
+      if (!tornearLlanta(n)) labrarLlanta(n);
       mat = M.caucho_labrado;
     }
     const malla = new THREE.Mesh(n.geo, mat);
@@ -347,6 +390,8 @@ export async function montarGlb(moto, url) {
     if (ex.lampara) lamparas.push(lamparaDe(n, ex.lampara));
     // (extras.zonas: panel pintado donde se pegan calcas, las propias y las de fábrica, igual que en la moto genérica)
     if (ex.zonas) { malla.userData.zonas = ex.zonas; moto.raiz.userData.glbZonas = true; }
+    // (extras.doble: pieza que Tripo dejó como lámina abierta, p. ej. llanta o guardabarros: por dentro se veía hueca)
+    if (ex.doble) malla.material.side = THREE.DoubleSide;
     // (extras.calcas_fabrica: las calcas de fábrica de este modelo, ya ubicadas sobre él con "en: [x, y]")
     if (ex.calcas_fabrica) moto.raiz.userData.calcasFabrica = ex.calcas_fabrica;
     for (const p of [].concat(ex.pantalla || [])) ponerPantalla(moto, p);
@@ -376,6 +421,16 @@ export async function montarGlb(moto, url) {
     moto.visoresFabrica.length = 0;
     moto.visoresFabrica.push(...visores);
   }
+  // Con modelo realista, Personalizar → Accesorios ofrece solo baúl y luz LED, en todas las motos (decisión del usuario,
+  // 19-nov-2026): parabrisas, cubremanos, exploradoras, sliders, escape deportivo y protector genéricos desentonan.
+  for (const clave of Object.keys(moto.accesorios || {})) {
+    if (ACCESORIOS_GLB.includes(clave)) continue;
+    const g = moto.accesorios[clave];
+    g.visible = false;
+    g.traverse((o) => { if (o.isMesh) ocultar(o); });
+    delete moto.accesorios[clave];
+  }
+  if (moto.anclas?.lamparas) moto.anclas.lamparas = moto.anclas.lamparas.filter((l) => !l.accesorio || ACCESORIOS_GLB.includes(l.accesorio));
   for (const f of ajustes) f();
   // Las lámparas del GLB reemplazan a las de la moto genérica del mismo tipo (que ya no se ven)
   if (lamparas.length && moto.anclas) {

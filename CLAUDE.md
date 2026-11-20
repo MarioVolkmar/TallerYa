@@ -33,7 +33,9 @@ Cada resultado de herramienta se queda en el contexto y se vuelve a pagar en cad
 - **Búsqueda amplia**: delegar a un subagente `Explore` (modelo `haiku`) y recibir solo la conclusión.
 - **Sesiones cortas y enfocadas**: una tarea por sesión; al cambiar de tema, sesión nueva. Lo que deba persistir va a la memoria, no al historial.
 - **Tope de ~150 mil tokens de contexto por sesión** (el 99 % del gasto es releer el historial en cada turno; línea base 19-nov: 231 mil por turno). Al llegar: escribir una nota de relevo (qué se hizo, qué falta, archivos) en el informe o la memoria y seguir en una sesión nueva.
+- **Aviso automático de contexto**: un hook (`.claude/herramientas/aviso_contexto.py`, en `.claude/settings.json`) avisa una vez al pasar ~150 mil tokens y otra hacia 250 mil; no corta nada: termina el paso en curso, deja la nota de relevo y sigue en sesión nueva.
 - **Salidas largas a archivo**: registros de pruebas, 3D, mediciones y builds se guardan en el scratchpad y se muestra solo el resumen (`> log.txt; tail -15 log.txt`).
+- **Repartir trabajo entre sesiones**: cada ronda o tarea nueva va en una sesión NUEVA con relevo corto (memoria y archivos), no en una sesión larga; SendMessage solo para aclaraciones de una o dos líneas. Al abrir sesión o agente, indicar siempre `model` según la tabla de abajo. Antes de mandar trabajo a una sesión existente, mirar su tamaño: si pasa de ~150 mil, abrir otra.
 - **Encargos a otras sesiones cortos**: apuntar a archivos e informes en vez de pegar contexto.
 - Ejecutar sin narrar opciones descartadas; respuestas finales breves.
 

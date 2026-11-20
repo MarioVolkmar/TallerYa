@@ -1,0 +1,13 @@
+{"hora": "20:48:31", "cargar": 0.04, "reglas": 0.0, "repartir": 1.46, "ver": 13.1, "ficha": "f0.py"}
+{"hora": "20:53:02", "cargar": 0.14, "reglas": 0.0, "repartir": 1.93, "ver": 11.75, "ficha": "f0.py"}
+{"hora": "20:55:15", "cargar": 0.05, "reglas": 0.0, "repartir": 1.46, "ver": 13.28, "ficha": "f0.py"}
+{"hora": "20:57:49", "cargar": 0.04, "reglas": 1.79, "repartir": 6.3, "ver": 14.12, "aligerar": 0.02, "internos": 0.84, "exportar": 1.76, "ficha": "mt03.py"}
+{"hora": "20:58:58", "cargar": 0.07, "reglas": 0.35, "repartir": 6.99, "ver": 4.55, "aligerar": 0.08, "internos": 1.56, "exportar": 1.83, "ficha": "mt03.py"}
+{"moto": "mt03", "resumen": true, "fecha": "2026-11-19", "minutos_reloj": 23, "vueltas": 5, "renders_leidos": 5, "capturas": 1, "fotos_reales": 5, "glb_mb": 1.19, "piezas": 46, "triangulos": 85684}
+{"hora": "21:18:31", "cargar": 0.03, "reglas": 0.0, "repartir": 1.19, "ver": 5.42, "ficha": "f0.py"}
+{"hora": "21:20:30", "cargar": 0.08, "reglas": 2.1, "repartir": 7.22, "ver": 8.23, "aligerar": 0.03, "internos": 0.73, "exportar": 2.03, "ficha": "mt03.py"}
+{"hora": "21:23:56", "cargar": 0.08, "reglas": 0.36, "repartir": 6.98, "aligerar": 0.35, "internos": 0.77, "exportar": 1.7, "ficha": "mt03.py"}
+{"moto": "mt03", "ronda": 2, "resumen": true, "fecha": "2026-11-19", "minutos_reloj": 10, "vueltas": 3, "renders_leidos": 2, "capturas": 1, "glb_mb": 1.18, "piezas": 50}
+{"hora": "21:31:48", "cargar": 0.04, "reglas": 0.22, "repartir": 5.97, "ver": 3.05, "aligerar": 0.02, "internos": 0.5, "exportar": 1.41, "ficha": "mt03.py"}
+{"hora": "21:32:34", "cargar": 0.04, "reglas": 0.26, "repartir": 6.0, "ver": 3.01, "aligerar": 0.02, "internos": 0.56, "exportar": 1.49, "ficha": "mt03.py"}
+{"moto": "mt03", "ronda": 3, "resumen": true, "fecha": "2026-11-19", "tema": "stop", "vueltas": 2, "fotos": 3}

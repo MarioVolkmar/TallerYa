@@ -8,7 +8,9 @@ from motor import O, Y, banda
 EJES = 1.285
 MEZCLA = 0.6
 ISLAS = {"isla": 24, "isla_pintura": 200, "rigidas": ("llanta", "rin", "aro", "rayos", "_quitar")}
-ALISAR = {"pintura.tanque": 10, "pintura2.tapa_lateral": 4, "pintura.guardabarros_del": 4, "asiento.asiento": 4, "pintura.colin": 4}
+ALISAR = {"pintura.tanque": 10, "plastico.tapa_lateral": 4, "plastico.guardabarros_del": 4, "asiento.asiento": 4, "plastico.colin": 4, "pintura.farola": 3}
+# Pintura segun 8 fotos de Galgo (turquesa, negra, negra y morada, Boxer Racing; 19-nov-2026): del color de la moto solo van
+# el TANQUE y la FAROLA; tapa lateral (con calca), colin, guardabarros, parrilla y guardacadena son plastico o chasis negro.
 SUAVE = 3
 PERFIL = False
 # Tripo hizo la rueda delantera 10 % mas grande que la trasera (R 0,330 contra 0,299); en la CT 100 las dos son de 17".
@@ -74,7 +76,7 @@ def cortar(m):
     df = m.recta(x, y, (xd, yd), (0.37, 0.98))
     m.regla("cromo.barras", Y([0.03 - df, banda(az, 0.04, 0.12), banda(y, 0.62, 0.86)]), pieza="suspension_del")
     m.regla("metal.horquilla", Y([0.04 - df, banda(az, 0.04, 0.13), 0.62 - y, x - 0.45]), pieza="suspension_del")
-    m.regla("pintura.guardabarros_del", Y([Rd + 0.09 - rd, rd - (Rd - 0.08), 0.075 - az, O([angd - 45, -150 - angd]), O([df - 0.042, 0.062 - az]),
+    m.regla("plastico.guardabarros_del", Y([Rd + 0.09 - rd, rd - (Rd - 0.08), 0.075 - az, O([angd - 45, -150 - angd]), O([df - 0.042, 0.062 - az]),
                                            # (Tripo pego el guardabarros a la llanta: se separa por el ancho, la llanta no pasa de |z| 0,037, y por la cara
                                            # de adentro, que mira hacia el eje)
                                            O([rd - (Rd + 0.008), az - 0.042, -0.3 - (m.nx * (x - xd) + m.ny * (y - yd)) / np.maximum(rd, 1e-6)])]), zonas=["guardabarros"])
@@ -92,7 +94,9 @@ def cortar(m):
     Pc, Nc, Ic = formas.con_normales(formas.unir(carcasa), 38)
     m.extra["negro_brillo.reloj"] = (Pc, Nc, Ic, {})
     reloj = [{"c": [round(float(v), 4) for v in base + nr * 0.0012], "n": [round(float(v), 4) for v in nr], "tam": [0.084, 0.084], "redonda": True, "dibujo": "velocimetro"}]
-    m.regla("oscuro.farola", Y([banda(x, 0.36, 0.60), banda(y, 0.86, 1.24), 0.185 - az]), rol="visor_fijo", pantalla=reloj)
+    # (visor ahumado arriba de la farola, como en las fotos; la farola va del color de la moto)
+    m.regla("vidrio_oscuro.visor", Y([banda(x, 0.36, 0.60), banda(y, 1.13, 1.24), 0.185 - az]))
+    m.regla("pintura.farola", Y([banda(x, 0.36, 0.60), banda(y, 0.86, 1.24), 0.185 - az]), rol="visor_fijo", pantalla=reloj)
     m.regla("oscuro.manubrio", Y([y - 1.04, 0.37 - x]), manubrio={"x": 0.20, "y": 1.10, "extremo": 0.50},
             sin=["accesorios.parabrisas", "accesorios.cubremanos", "espejos.redondos", "espejos.puntas"])
 
@@ -108,8 +112,8 @@ def cortar(m):
          "en": [-0.36, 0.68], "ancho": 0.11, "giro": 0, "color": "gris"},
     ]
     m.regla("pintura.tanque", Y([lado(TANQUE, az < 0.2), 0.2 - az]), zonas=["tanque"], calcas_fabrica=CALCAS)
-    m.regla("pintura2.tapa_lateral", Y([lado(TAPA, az > 0.06), az - 0.06]), zonas=["lateral"])
-    m.regla("pintura.colin", Y([banda(x, -1.02, -0.55), banda(y, 0.72, 0.89), 0.2 - az, O([0.1 - az, 0.86 - y])]))
+    m.regla("plastico.tapa_lateral", Y([lado(TAPA, az > 0.06), az - 0.06]), zonas=["lateral"])
+    m.regla("plastico.colin", Y([banda(x, -1.02, -0.55), banda(y, 0.72, 0.89), 0.2 - az, O([0.1 - az, 0.86 - y])]))
     placa = {"c": [-0.975, 0.585, 0], "incl": -0.75, "tam": [0.19, 0.095]}
     m.regla("plastico.guardabarros_tras", Y([-0.90 - x, 0.74 - y, 0.07 - az]), placa=placa,
             acomodar=[{"grupo": "accesorios.baul", "ref": "abajo", "a": [-0.88, 0.96, 0]}])
@@ -123,6 +127,10 @@ def cortar(m):
     MOTOR = [(-0.20, 0.24), (-0.22, 0.50), (-0.12, 0.60), (-0.05, 0.705), (0.15, 0.705), (0.15, 0.55), (0.09, 0.42), (0.06, 0.24)]
     m.regla("motor.bloque", Y([m.poligono(x, y, MOTOR), 0.18 - az]), pieza="motor")
     m.resto("chasis.chasis")
+    # Laminas abiertas de Tripo (llantas, aros, guardabarros): se dibujan por las dos caras; por dentro se veian huecas
+    for nombre, extras, _ in m.reglas:
+        if any(s in nombre for s in ("llanta", "aro_", "guardabarros", "colin", "tapa_lateral")):
+            extras["doble"] = True
 
 
 def internos(k):

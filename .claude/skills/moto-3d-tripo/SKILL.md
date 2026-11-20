@@ -39,16 +39,23 @@ un archivo descargado.
    se detiene y pide `giro` 90 (manubrio en +z) o 270 (en −z). Guarda los centros de rueda en `w.json`, y `medir.py`
    (`S T`) parte de ahí con un ajuste iterativo: ya no trae los de la NKD fijos.
 3. Solo si es pesado: `node simplificar.mjs T 160000` (en una carpeta con `npm install meshoptimizer`).
-4. **Ficha de la moto**: copiar `fichas/nkd125.py` a `fichas/<moto>.py` y ajustar. La ficha tiene `cortar(m)` (reglas
+4. **Obligatorio antes de la ficha: qué va pintado, con VARIAS fotos reales** (al menos 3, de distintos colores o ángulos:
+   fabricante, concesionario, anuncios). Hacer una tabla pieza por pieza: pintura (color de la moto), plástico negro,
+   chasis o metal. Solo lo que sale del color de la moto en todas las fotos va en `pintura.*`; el resto, en `plastico.*`,
+   `chasis.*` o `metal.*`. Galgo (`galgo.com/co/motos/...`) trae galerías de 10 a 15 fotos por moto: sacar las URL de
+   `images.ctfassets.net` con el navegador, armar una hoja de varias fotos en la página y mirarla en una sola captura (los
+   subagentes web no ven imágenes). Así se corrigieron la Boxer (pintados solo tanque y farola) y la NKD (tapa lateral negra),
+   que se habían hecho por convención. `pintura2` es el segundo tono de Personalizar: no usarlo para piezas negras.
+5. **Ficha de la moto**: copiar `fichas/nkd125.py` a `fichas/<moto>.py` y ajustar. La ficha tiene `cortar(m)` (reglas
    sobre `motor.Corte`), `internos(k)` (piezas de Rayos X con `formas.py`) y, opcionales, `RAZON`, `MEZCLA`, `ISLAS`.
    **El motor (`motor.py`) no sabe nada de ninguna moto**: campos, plantillas, pliegues, ruedas, disco nuevo, reparto,
    islas y render de revisión viven ahí.
-5. **Una vuelta = un comando**: `ciclo.py S T S/fichas/<moto>.py T/salida.glb [--ver "der;640;None+atras;1100;(caja)"]
+6. **Una vuelta = un comando**: `ciclo.py S T S/fichas/<moto>.py T/salida.glb [--ver "der;640;None+atras;1100;(caja)"]
    [--solo stop,faro] [--hasta cortar] [--N carpeta_meshoptimizer]`. Corta, aligera por pieza (solo si la ficha trae
    `RAZON`), hace los internos y exporta; imprime el cronómetro por paso y lo agrega a `T/tiempos.jsonl`.
    Lo lento (suavizados, pliegues, componentes) se guarda en `T/cache` por la huella de sus datos: cambiar una regla
    no recalcula las demás.
-6. Copiar a `garaje/static/garaje/modelos/`, registrar en `MODELOS_TRIPO` de `moto3d/glb.js` y subir `?v=`. La clave
+7. Copiar a `garaje/static/garaje/modelos/`, registrar en `MODELOS_TRIPO` de `moto3d/glb.js` y subir `?v=`. La clave
    es una expresión regular contra el nombre de la línea ("Boxer CT 100"): con espacios, usar `"boxer[ _-]*ct[ _-]*100"`
    y que no choque con otra línea (la CT 125).
 
@@ -103,6 +110,30 @@ Pedir en un solo `--ver` todas las vistas de una ronda y en la página armar una
 - Perfil radial de la rueda: `PERFIL = True` en la ficha de la Boxer imprime el |z| (p90) por anillo de 1 cm.
 
 ## Contrato con el visor (`moto3d/glb.js`)
+
+**Lados (arreglado el 19-nov-2026):** dentro del GLB y de la moto genérica, x adelante, y arriba y **+z = izquierda del
+piloto** (cadena, pata, caja del CVT; el escape va a **−z**). `exportar.py` ya lo deja así (las fichas trabajan con +z =
+escape y se espeja al exportar). El visor espeja la raíz de la moto (`moto.raiz.scale.z = -1` en `moto3d.js`), así que
+en la escena el escape queda en +z mundial, que con el frente en +x es la **derecha**, como en la moto real. No espejar
+nada más por cuenta propia (ni el GLB ni `glb.js`): textos de textura se compensan con `espejarTextura` (`comun.js`) y las
+calcas se proyectan en el mundo. Antes del arreglo todo el visor salía en espejo (escape a la izquierda).
+
+**Chequeo del lado del escape (obligatorio en cada moto nueva o regenerada):**
+1. En el GLB: el nodo `*.escape*` debe tener el centro en **z < 0**, y cadena/corona/caja del CVT en z > 0
+   (lectura rápida del JSON del GLB: `translation` + centro de `min`/`max` del accesor de posiciones).
+2. En la página, con `v = window.__visor`: centro del escape en el mundo (`localToWorld`) con **z > 0** y
+   `v._moto.raiz.scale.z === -1`. Vista trasera (`v.vista(-2, 1.15, 0)`): el escape se ve a la derecha de la imagen
+   y la placa se lee bien.
+3. Comparar con al menos una foto real del lado del escape (casi todas: escape a la derecha, cadena a la izquierda;
+   NMAX: escape a la derecha y CVT a la izquierda). Discos: mirar la foto (la NMAX lo lleva al lado opuesto del escape).
+
+**Llantas torneadas (19-nov-2026):** el corte de Tripo nunca deja la llanta como rueda completa (donde toca guardabarros,
+horquilla o basculante quedan caras en el cuerpo fijo) y al girar se veía el hueco dando vueltas. `glb.js`
+(`tornearLlanta`) rehace todo nodo `caucho.*llanta*` con `eje` como sólido de revolución medido sobre la propia malla
+(radio exterior por franjas de ancho, al 98 %; radio interior en el asiento del aro; 3 mm de holgura que tapa los pedazos
+fijos) con el mismo labrado. Regla: en la ficha basta que la llanta lleve `eje` correcto y el ancho real; no hace falta
+que salga completa ni regenerar. Aro y rayos siguen siendo los de Tripo. Chequeo: girar `r.pivote.rotation.z` 45° y
+comparar con 0° de cerca (en la NKD, antes del arreglo, se veía una muesca arriba de la llanta delantera).
 
 Nodo = `material.parte`; el material sale de `moto.M` (más `plastico`, `negro_brillo`, `titanio`, `dorado`,
 `faro`, `disco`, que crea `glb.js`). Extras por nodo:

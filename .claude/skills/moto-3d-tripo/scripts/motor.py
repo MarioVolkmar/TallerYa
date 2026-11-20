@@ -154,7 +154,7 @@ class Corte:
         if pint and isla_pintura:
             L = malla.quitar_islas(F, L, isla_pintura, [k for k in range(len(nombres)) if k not in pint])
         if "_quitar" in nombres:
-            q = L == nombres.index("_quitar")
+            q = np.isin(L, [k for k, n in enumerate(nombres) if n == "_quitar"])   # todas, no solo la primera
             F, L = F[~q], L[~q]
         partes = [{"nombre": n, "extras": e} for n, e, _ in R]
         if self.extra:

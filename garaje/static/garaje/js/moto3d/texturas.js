@@ -1,6 +1,6 @@
 // Texturas dibujadas en canvas: letras de la llanta, calcas y placa.
 import * as THREE from "three";
-import { CALIDAD } from "./comun.js";
+import { CALIDAD, espejarTextura } from "./comun.js";
 
 // =====================================================================
 // Calcas: diseños propios dibujados en canvas
@@ -41,7 +41,7 @@ export function materialLetrasLlanta(medida, enRadio, alto) {
         a += paso;
       }
     }
-    const textura = new THREE.CanvasTexture(c);
+    const textura = espejarTextura(new THREE.CanvasTexture(c)); // (la raíz de la moto va espejada)
     textura.colorSpace = THREE.SRGBColorSpace;
     textura.anisotropy = 4;
     // (Physical con una capa de barniz casi nula: así comparte el sombreador con las calcas, que llevan barniz)
@@ -186,7 +186,7 @@ export function ponerPlaca(placa, texto) {
   lienzo.width = 612;
   lienzo.height = 252;
   const ctx = lienzo.getContext("2d");
-  const textura = new THREE.CanvasTexture(lienzo);
+  const textura = espejarTextura(new THREE.CanvasTexture(lienzo)); // (la raíz de la moto va espejada)
   textura.colorSpace = THREE.SRGBColorSpace;
   textura.anisotropy = 4;
   const limpio = String(texto).toUpperCase().replace(/[^A-Z0-9]/g, "");

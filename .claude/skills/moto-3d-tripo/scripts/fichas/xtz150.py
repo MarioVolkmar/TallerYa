@@ -1,5 +1,5 @@
-# Ficha de la Yamaha XTZ 150 para ciclo.py. Modelo de Tripo SIN textura (48 mil triangulos, solo forma) entregado a lo
-# largo de z: preparar.py con giro 90. Distancia entre ejes 1,36 m (aprox., no verificada en el manual local).
+# Ficha de la Yamaha XTZ 150 (y base de la XTZ 125) para ciclo.py. Modelo de Tripo SIN textura (62.700 triangulos,
+# modelo-3d-xtz150_125.glb, un solo escape) entregado a lo largo de z: preparar.py con giro 90. Entre ejes 1,36 m (aprox.).
 # Doble proposito: rin 21 adelante y 18 atras, guardabarros delantero alto (pico bajo la farola), disco adelante.
 # Coordenadas: x adelante, y arriba, z hacia el escape (lado derecho de la moto).
 import numpy as np
@@ -9,7 +9,7 @@ from motor import O, Y, banda
 EJES = 1.36
 MEZCLA = 0.6
 ISLAS = {"isla": 24, "isla_pintura": 200, "rigidas": ("llanta", "rin", "aro", "rayos", "_quitar")}
-ALISAR = {"pintura.tanque": 10, "pintura2.tapa_lateral": 4, "pintura.guardabarros_del": 4, "asiento.asiento": 4, "pintura.farola": 3}
+ALISAR = {"pintura.aleta": 6, "plastico.tanque": 10, "plastico.tapa_lateral": 4, "plastico.guardabarros_del": 4, "asiento.asiento": 4, "pintura.farola": 3}
 SUAVE = 3
 PERFIL = False        # (True: imprime el perfil radial de cada rueda para ajustar llanta, aro y rayos)
 
@@ -49,8 +49,9 @@ def cortar(m):
 
     # --- Luces: faro bajo la farola con visera, direccionales chicas a los lados de la farola y en tallos atras,
     # stop en la punta del colin
-    FARO = [(0.072, 0.985), (-0.072, 0.985), (-0.07, 0.85), (0.07, 0.85)]
-    m.regla("luz.faro", Y([m.pliegue(m.poligono(z, y, FARO), x > 0.5, 0.006), x - 0.525]), lampara={"tipo": "faro"})
+    # faro: solo el vidrio de la cara de la farola (x 0,54-0,56 entre y 0,865 y 0,975); debajo, el lomo del guardabarros
+    FARO = [(0.07, 0.972), (-0.07, 0.972), (-0.056, 0.868), (0.056, 0.868)]
+    m.regla("luz.faro", Y([m.pliegue(m.poligono(z, y, FARO), x > 0.5, 0.006), x - 0.525, 0.58 - x]), lampara={"tipo": "faro"})
     m.regla("stop.stop", Y([-0.985 - x, banda(y, 0.945, 1.012), 0.05 - az]), lampara={"tipo": "stop"})
 
     def gotas(nombre, cuerpo, hacia):
@@ -61,16 +62,26 @@ def cortar(m):
         m.regla(f"ambar.{nombre}_b", mica, lampara={"tipo": "direccional"})
         m.regla(f"oscuro.{nombre}_base", cuerpo)
 
-    gotas("direccional_del", Y([banda(x, 0.39, 0.47), banda(y, 0.905, 0.99), banda(az, 0.145, 0.19)]), 1)
+    gotas("direccional_del", Y([banda(x, 0.37, 0.48), banda(y, 0.975, 1.06), banda(az, 0.15, 0.235)]), 1)   # en tallos junto a la farola
     gotas("direccional_tras", Y([banda(x, -0.935, -0.855), banda(y, 0.895, 0.955), banda(az, 0.12, 0.195)]), -1)
 
     # --- Tren delantero: horquilla convencional (barras cromadas arriba, botellas abajo) y guardabarros alto
     df = m.recta(x, y, (xd, yd), (0.44, 1.0))
-    m.regla("cromo.barras", Y([0.03 - df, banda(az, 0.045, 0.12), banda(y, 0.56, 0.86)]), pieza="suspension_del")
-    m.regla("metal.horquilla", Y([0.04 - df, banda(az, 0.045, 0.13), 0.56 - y, y - 0.25]), pieza="suspension_del")
-    PICO = [(0.48, 0.81), (0.62, 0.81), (0.76, 0.755), (1.0, 0.615), (0.86, 0.615), (0.70, 0.64), (0.56, 0.655), (0.47, 0.70)]
-    m.regla("pintura.guardabarros_del", Y([lado(PICO, az < 0.13), 0.13 - az]), zonas=["guardabarros"])
-    m.regla("pintura.farola", Y([banda(x, 0.44, 0.63), banda(y, 0.80, 1.06), 0.13 - az]), rol="visor_fijo")
+    m.regla("cromo.barras", Y([0.045 - df, banda(az, 0.035, 0.13), banda(y, 0.56, 0.86)]), pieza="suspension_del")
+    m.regla("metal.horquilla", Y([0.05 - df, banda(az, 0.03, 0.14), 0.56 - y, y - 0.18]), pieza="suspension_del")
+    # guardabarros alto: borde de arriba medido en la malla (sube hasta la base de la farola, y 0,85 en x 0,58-0,62)
+    PICO = [(0.47, 0.70), (0.50, 0.79), (0.575, 0.852), (0.625, 0.852), (0.665, 0.826), (0.70, 0.80), (0.74, 0.782), (0.78, 0.764),
+            (0.82, 0.746), (0.86, 0.727), (0.90, 0.705), (1.03, 0.665), (1.03, 0.60), (0.86, 0.655), (0.70, 0.64), (0.56, 0.655)]
+    # (foto oficial: guardabarros delantero y tapa lateral en plastico negro; del color de la moto van tanque con sus
+    # aletas y farola)
+    m.regla("plastico.guardabarros_del", Y([lado(PICO, az < 0.13), 0.13 - az]))
+    # farola segun la foto oficial (azul, 3/4 frente): visor ahumado arriba, marco negro alrededor del faro y costados del
+    # color de la moto que bajan hasta el guardabarros (negro)
+    FAROLA = Y([banda(x, 0.465, 0.60), banda(y, 0.845, 1.06), 0.13 - az])
+    m.regla("vidrio_oscuro.visor", Y([FAROLA, y - 0.978]), rol="visor_fijo")
+    m.regla("plastico.marco_faro", Y([FAROLA, 0.078 - az, x - 0.50]))
+    m.regla("pintura.farola", FAROLA)
+    m.regla("oscuro.tijas", Y([0.06 - df, banda(az, 0.02, 0.14), banda(y, 0.86, 1.0), 0.50 - x]), pieza="suspension_del")
 
     # --- Manubrio y espejos
     m.regla("espejo.luna", Y([y - 1.19, az - 0.40, -0.35 - m.nx]), padre="espejos.fabrica")
@@ -85,19 +96,33 @@ def cortar(m):
     ASIENTO = [(-0.92, 0.935), (-0.7, 0.955), (-0.5, 0.905), (-0.35, 0.875), (-0.24, 0.905), (-0.16, 0.965), (-0.15, 0.86),
                (-0.3, 0.81), (-0.5, 0.83), (-0.7, 0.865), (-0.92, 0.885)]
     TAPA = [(-0.64, 0.84), (-0.26, 0.81), (-0.19, 0.73), (-0.24, 0.62), (-0.40, 0.55), (-0.64, 0.665)]
-    # escape alto (silenciador con protector) bajo el asiento, lado derecho; Tripo lo repitio en el izquierdo (no existe): se quita
-    SIL = Y([banda(x, -0.90, -0.58), banda(y, 0.50, 0.90), az - 0.105])
+    # escape: silenciador inclinado del lado derecho, de bajo el asiento (x -0,82, y 0,87) hacia el motor (x -0,25, y 0,50)
+    dsil = m.recta(x, y, (-0.84, 0.88), (-0.24, 0.49))
+    SIL = Y([0.075 - dsil, banda(x, -0.88, -0.30), az - 0.115])   # (mas adentro de az 0,115 es tapa y bastidor, iguales a los dos lados)
     m.regla("oscuro.escape", Y([SIL, z]), padre="escapeFabrica")
-    m.regla("_quitar", Y([SIL, -z]))
+    # (modelo nuevo de Tripo, 19-nov: trae un solo silenciador; ya no hay copia que quitar)
     m.regla("asiento.asiento", Y([lado(ASIENTO, az < 0.2), 0.2 - az]))
     CALCAS = [
         {"id": "nombre", "nombre": "Nombre XTZ", "tipo": "texto", "texto": "XTZ150", "zona": ["tanque"], "cara": "lado",
          "en": [0.20, 0.90], "ancho": 0.24, "giro": -9, "color": "gris"},
     ]
     # calca: «XTZ150» en la aleta del tanque (foto oficial); el «YAMAHA» de la tapa no se pone (es la marca)
-    m.regla("pintura.tanque", Y([lado(TANQUE, az < 0.22), 0.22 - az]), zonas=["tanque"], calcas_fabrica=CALCAS)
-    m.regla("pintura2.tapa_lateral", Y([lado(TAPA, az > 0.05), az - 0.05]), zonas=["lateral"])
+    # Pintura segun las 4 fotos oficiales (azul, blanca, negra, arena) y la de Galgo: del color van la aleta del tanque
+    # (parte delantera, con la grafica; borde inclinado), la farola y una franja baja delante de la tapa lateral. El lomo
+    # del tanque, la tapa, el guardabarros y la cola son plastico negro.
+    tq = Y([lado(TANQUE, az < 0.22), 0.22 - az])
+    corte = x - 0.10 - 0.35 * (0.98 - y)
+    m.regla("pintura.aleta", Y([tq, corte, y - 0.655]), zonas=["tanque"], calcas_fabrica=CALCAS)
+    m.regla("plastico.tanque", tq)
+    m.regla("pintura.franja_lateral", Y([lado(TAPA, az > 0.05), az - 0.05, banda(x, -0.48, -0.19), 0.675 - y]), zonas=["lateral"])
+    m.regla("plastico.tapa_lateral", Y([lado(TAPA, az > 0.05), az - 0.05]))
+    BAJO = [(-0.62, 0.66), (-0.40, 0.54), (-0.24, 0.60), (-0.18, 0.73), (-0.30, 0.80), (-0.62, 0.82)]
+    m.regla("plastico.cubierta_lateral", Y([m.poligono(x, y, BAJO), az - 0.07]))
     m.regla("plastico.colin", Y([banda(x, -1.05, -0.62), banda(y, 0.84, 1.02), 0.2 - az]))
+    m.regla("plastico.base_asiento", Y([banda(x, -0.95, -0.15), banda(y, 0.80, 0.92), 0.2 - az]))
+    # basculante de aluminio (plateado en la foto)
+    db = m.recta(x, y, (xt, yt), (-0.15, 0.405))
+    m.regla("metal.basculante", Y([0.045 - db, banda(az, 0.03, 0.13), banda(x, xt - 0.06, -0.12)]))
     placa = {"c": [-0.995, 0.69, 0], "incl": -0.58, "tam": [0.19, 0.095]}
     m.regla("plastico.guardabarros_tras", Y([-0.86 - x, 0.89 - y, 0.07 - az]), placa=placa,
             acomodar=[{"grupo": "accesorios.baul", "ref": "abajo", "a": [-0.8, 1.0, 0]}])

@@ -1,0 +1,6 @@
+{"hora": "19:42:53", "cargar": 0.02, "reglas": 0.58, "repartir": 4.36, "aligerar": 0.2, "internos": 0.52, "exportar": 1.27, "ficha": "xtz125.py"}
+{"hora": "19:43:22", "cargar": 0.01, "reglas": 0.5, "repartir": 4.18, "ver": 3.98, "aligerar": 0.02, "internos": 0.58, "exportar": 1.15, "ficha": "xtz125.py"}
+{"hora": "19:47", "resumen": "XTZ 125 desde la malla de la XTZ 150", "min_reloj": 13, "vueltas": 2, "renders_leidos": 2, "fotos_revisadas": 8, "capturas": 1, "pruebas_garaje": "237 OK"}
+{"hora": "20:05", "resumen": "segundo mofle: motor.py solo quitaba el primer _quitar; XTZ 150 v6 y XTZ 125 v2", "min_reloj": 18, "vueltas": 2}
+{"hora": "21:00", "resumen": "GLB nuevo de Tripo (un escape) para XTZ 150 v7 y 125 v3: silenciador inclinado, direccionales delanteras en tallos", "min_reloj": 25, "vueltas": 3, "renders_leidos": 3}
+{"hora": "21:30", "resumen": "frente XTZ: faro solo el vidrio, guardabarros alto entero, visor ahumado y marco negro en la 150, farola toda del color en la 125; 150 v8, 125 v5", "min_reloj": 20, "vueltas": 4, "renders_leidos": 3}
