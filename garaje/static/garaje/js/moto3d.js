@@ -338,8 +338,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // Lámparas reales (construir.js: anclas.lamparas, centro de la cara de cada lente y su normal): los efectos de
   // noche nacen ahí. Sin ellas, como antes: el ancla del faro/stop o el extremo de su material.
   const lamparas = moto.anclas?.lamparas || [];
-  // (a lo sumo dos conos: los dos lentes de faro más grandes; la CR4 tiene tres de tamaño parecido)
-  const lentesFaro = lamparas.filter((l) => l.tipo === "faro" && l.principal !== false)
+  // (a lo sumo dos conos: los dos lentes de faro más grandes; la CR4 tiene tres de tamaño parecido. Los halos van en
+  // todos los lentes, también en las luces de posición del GLB, que no echan cono: cono false, p. ej. los ojos de la MT-03)
+  const todosFaro = lamparas.filter((l) => l.tipo === "faro" && l.principal !== false);
+  const conCono = todosFaro.filter((l) => l.cono !== false);
+  const lentesFaro = (conCono.length ? conCono : todosFaro)
     .sort((a, b) => (b.ancho || 0) * (b.alto || 0) - (a.ancho || 0) * (a.alto || 0)).slice(0, 2);
   const lentesStop = lamparas.filter((l) => l.tipo === "stop" && l.principal !== false);
   const lentesAmbar = lamparas.filter((l) => l.tipo === "direccional");
@@ -433,7 +436,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   // mira para otro lado. Faro y stop de noche con la moto encendida; los ámbar solo mientras parpadean.
   const tamHalo = (l, k, min, max) => Math.min(max, Math.max(min, Math.max(l.ancho || 0, l.alto || 0) * k));
   const halos = [], halosAmbar = [];
-  if (lentesFaro.length) for (const l of lentesFaro) halos.push({ sp: halo(0xfff1c8, l.pos.clone().addScaledVector(l.dir, 0.015), tamHalo(l, 2.4, 0.14, 0.32)), fuerza: 0.85 });
+  if (todosFaro.length) for (const l of todosFaro) halos.push({ sp: halo(0xfff1c8, l.pos.clone().addScaledVector(l.dir, 0.015), tamHalo(l, 2.4, 0.14, 0.32)), fuerza: 0.85 });
   else if (posFaro) halos.push({ sp: halo(0xfff1c8, posFaro.clone().add(V(0.1, 0, 0)), 0.55), fuerza: 0.85 });
   if (lentesStop.length) for (const l of lentesStop) halos.push({ sp: halo(0xff3322, l.pos.clone().addScaledVector(l.dir, 0.015), tamHalo(l, 2.6, 0.1, 0.22)), fuerza: 0.75 });
   else if (posStop) halos.push({ sp: halo(0xff3322, posStop.clone().add(V(-0.07, 0, 0)), 0.3), fuerza: 0.75 });

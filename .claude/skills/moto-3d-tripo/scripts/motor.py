@@ -6,6 +6,7 @@
 import hashlib
 import json
 import os
+import re
 import time
 
 import numpy as np
@@ -33,8 +34,11 @@ class Corte:
         self.nx, self.ny, self.nz = self.N.T.astype(np.float64)
         w = json.load(open(f"{T}/w.json")) if os.path.exists(f"{T}/w.json") else {}
         self.con_color = bool(w.get("con_color", True))
-        self.reglas, self.extra, self.medidas = [], {}, {}
+        self.reglas, self.extra, self.medidas, self.espejos = [], {}, {}, []
         self.deformaciones = []   # funciones P -> P aplicadas tras cortar (p. ej. agrandar un rin alrededor de su eje)
+        self.desplazamientos = []   # (pieza, funcion P -> P) que mueven solo esa pieza (ver desplazar)
+        self.conservar = []   # regex de piezas que sobrantes() no toca (CONSERVAR de la ficha)
+        self.limpiar = True   # SOBRANTES = False en la ficha lo apaga
         self._lum1 = None
         os.makedirs(f"{T}/cache", exist_ok=True)
         self.aciertos = self.fallos = 0
@@ -112,6 +116,17 @@ class Corte:
     def resto(self, nombre, **extras):
         self.reglas.append((nombre, extras, None))
 
+    def espejar(self, origen, nuevo, despegar=0.0015, **extras):
+        """Pieza par que falta de un lado (Tripo dejo solo una direccional, espejo o reposapies): tras repartir, copia las
+        caras de la regla `origen` reflejadas en z = 0 como pieza nueva `nuevo` (mismos extras salvo los que se pasen),
+        despegada `despegar` m por su normal para que no pelee con la superficie que haya debajo."""
+        self.espejos.append((origen, nuevo, despegar, extras))
+
+    def desplazar(self, nombre, fn):
+        """Mueve solo las caras de la regla `nombre` tras repartir (p. ej. despegar un guardabarros que Tripo pego a la
+        llanta). Los vertices que comparte con otras piezas se duplican: las vecinas no se estiran."""
+        self.desplazamientos.append((nombre, fn))
+
     def disco(self, nombre, cx, cy, zc, R, pieza, interior=0.5, filas=((0.66, 14, 0.0052), (0.86, 20, 0.0048)), grueso=0.0022):
         """Disco de freno nuevo: corona plana con agujeros reales (los del modelo son pintura o relieve)."""
         ri = R * interior
@@ -138,7 +153,7 @@ class Corte:
         self.extra[nombre] = (pos, nor, np.concatenate([Fd, Fd[:, [0, 2, 1]] + n]), {"pieza": pieza})
 
     # ---------- reparto
-    def cortar(self, isla=60, isla_pintura=260, rigidas=("llanta", "rin", "aro", "rayos", "_quitar")):
+    def cortar(self, isla=60, isla_pintura=260, rigidas=("llanta", "rin", "aro", "rayos", "_quitar", "direccional")):
         if self.reglas[-1][2] is not None:
             raise RuntimeError("la ultima regla debe ser m.resto(...)")
         R = self.reglas
@@ -153,15 +168,40 @@ class Corte:
         pint = [k for k, n in enumerate(nombres) if n.startswith("pintura")]
         if pint and isla_pintura:
             L = malla.quitar_islas(F, L, isla_pintura, [k for k in range(len(nombres)) if k not in pint])
-        if "_quitar" in nombres:
-            q = np.isin(L, [k for k, n in enumerate(nombres) if n == "_quitar"])   # todas, no solo la primera
-            F, L = F[~q], L[~q]
+        q = np.isin(L, [k for k, n in enumerate(nombres) if n == "_quitar"])   # todas, no solo la primera
+        if self.limpiar:
+            q |= self.sobrantes(V, F, L, R)
+        F, L = F[~q], L[~q]
         partes = [{"nombre": n, "extras": e} for n, e, _ in R]
+        for origen, nuevo, despegar, ex in self.espejos:
+            k = nombres.index(origen)
+            Fo = F[L == k]
+            if not len(Fo):
+                raise RuntimeError(f"espejar: la regla {origen} quedo vacia")
+            u, inv = np.unique(Fo, return_inverse=True)
+            pos, nor = V[u, :3].copy(), V[u, 3:6].copy()
+            nor /= np.maximum(np.linalg.norm(nor, axis=1, keepdims=True), 1e-9)
+            pos += nor * despegar
+            pos[:, 2] *= -1
+            nor[:, 2] *= -1
+            self.extra[nuevo] = (pos, nor, inv.reshape(-1, 3)[:, [0, 2, 1]], {**R[k][1], **ex})
+            print(f"espejada {origen} -> {nuevo} ({len(Fo)} caras)")
         if self.extra:
             np.savez(f"{self.T}/c_extra.npz", **{f"{n}|{k}": a for n, (p_, n_, c_, _) in self.extra.items() for k, a in (("pos", p_), ("nor", n_), ("idx", c_))})
             partes += [{"nombre": n, "extras": e} for n, (_, _, _, e) in self.extra.items()]
         elif os.path.exists(f"{self.T}/c_extra.npz"):
             os.remove(f"{self.T}/c_extra.npz")
+        for nombre, fn in self.desplazamientos:
+            sel = L == nombres.index(nombre)
+            comun = np.intersect1d(np.unique(F[sel]), np.unique(F[~sel]))
+            mapa = np.arange(len(V) + len(comun))
+            mapa[comun] = np.arange(len(V), len(V) + len(comun))
+            V = np.vstack([V, V[comun]])
+            F = F.copy()
+            F[sel] = mapa[F[sel]]
+            u = np.unique(F[sel])
+            V[u, :3] = fn(V[u, :3].copy())
+            print(f"desplazada {nombre} ({sel.sum()} caras)")
         usados, inv = np.unique(F, return_inverse=True)
         F, V = inv.reshape(-1, 3), V[usados]
         for fn in self.deformaciones:
@@ -176,6 +216,84 @@ class Corte:
         json.dump({"partes": partes, "medidas": self.medidas}, open(f"{T}/c_partes.json", "w"))
         self.V, self.F, self.L, self.nn, self.nombres = V, F, L, nn, nombres
         return V, F, L
+
+    # Piezas que nunca se quitan solas: luces, direccionales, tornilleria, placa y espejos (chicas y a veces sueltas)
+    NO_QUITAR = r"direccional|luz\.|stop|ambar|tornill|perno|placa|espejo|lente|reflector"
+    UN_LADO = r"escape|silenciador|mofle|corona|cadena|pinon|cvt"
+
+    def sobrantes(self, V, F, L, R, cajamax=0.08, carasmax=400, lejos=0.015):
+        """Sobrantes de Tripo que se quitan solos al construir (pedido del usuario, 19-nov). Devuelve la mascara de caras
+        y deja la lista en T/quitados.json para la hoja de revisar.py:
+        - isla suelta: componente conectado chico (caja < 8 cm y < 400 caras) a mas de 1,5 cm de todo lo demas;
+        - copia del otro lado: en piezas de un solo lado, los pedazos sueltos de esa pieza en el lado contrario al suyo
+          (escape a +z; corona, cadena, pinon y CVT a -z): Tripo hace la moto simetrica (segundo escape de la XTZ).
+        Nunca toca NO_QUITAR ni lo que case con CONSERVAR (regex sobre el nombre) de la ficha."""
+        nombres = [r[0] for r in R]
+        prot = [k for k, n in enumerate(nombres) if n == "_quitar" or re.search(self.NO_QUITAR, n) or "lampara" in R[k][1]
+                or any(re.search(c, n) for c in self.conservar)]
+        P = V[:, :3]
+        _, w = np.unique(np.round(P / 2e-4).astype(np.int64), axis=0, return_inverse=True)
+        w = w.ravel()
+        cf = comp.componentes(w.max() + 1, w[F])
+        ids, inv, cnt = np.unique(cf, return_inverse=True, return_counts=True)
+        q = np.zeros(len(F), bool)
+        lista = []
+        cen = P[F].mean(1)
+        # rejilla de 1,5 cm con el componente de cada vertice para medir "lejos de todo"
+        vc = np.full(len(P), -1)
+        vc[F.ravel()] = np.repeat(inv, 3)
+        celda = np.floor(P / lejos).astype(np.int64)
+        clave = (celda[:, 0] * 73856093) ^ (celda[:, 1] * 19349663) ^ (celda[:, 2] * 83492791)
+        orden = np.argsort(clave)
+        ck, cc = clave[orden], vc[orden]
+
+        def vecinos(c):
+            u = np.unique(F[inv == c])
+            cel = celda[u]
+            otros = set()
+            for d in np.array(np.meshgrid([-1, 0, 1], [-1, 0, 1], [-1, 0, 1])).T.reshape(-1, 3):
+                cl = ((cel[:, 0] + d[0]) * 73856093) ^ ((cel[:, 1] + d[1]) * 19349663) ^ ((cel[:, 2] + d[2]) * 83492791)
+                a, b = np.searchsorted(ck, cl), np.searchsorted(ck, cl, "right")
+                for i, j in zip(a, b):
+                    if j > i:
+                        otros.update(cc[i:j].tolist())
+                        if len(otros - {c, -1}):
+                            return True
+            return False
+
+        for c in np.where(cnt < carasmax)[0]:
+            m = inv == c
+            labs = np.unique(L[m])
+            if np.isin(labs, prot).any():
+                continue
+            Q = cen[m]
+            if np.linalg.norm(Q.max(0) - Q.min(0)) > cajamax or vecinos(c):
+                continue
+            q |= m
+            lista.append({"motivo": "isla suelta", "pieza": nombres[np.bincount(L[m]).argmax()], "caras": int(m.sum()),
+                          "centro": [round(float(v), 3) for v in Q.mean(0)]})
+        for k, n in enumerate(nombres):
+            if k in prot or not re.search(self.UN_LADO, n.split(".")[-1]):
+                continue
+            mk = (L == k) & ~q
+            if not mk.any():
+                continue
+            idx = np.where(mk)[0]   # componentes de esta pieza sola (la malla de Tripo viene fundida en una)
+            cl = np.zeros(len(F), np.int64) - 1
+            cl[idx] = comp.componentes(w.max() + 1, w[F[idx]])
+            cs = np.unique(cl[idx])
+            lado = 1 if re.search(r"escape|silenciador|mofle", n) else -1   # fichas: +z = escape; corona, cadena y CVT a -z
+            for c in cs:
+                m = cl == c
+                zc = cen[m, 2].mean()
+                if np.sign(zc) != lado and abs(zc) > 0.07:
+                    q |= m
+                    lista.append({"motivo": "copia del otro lado", "pieza": n, "caras": int(m.sum()),
+                                  "centro": [round(float(v), 3) for v in cen[m].mean(0)]})
+        json.dump(lista, open(f"{self.T}/quitados.json", "w"), ensure_ascii=False, indent=0)
+        for e in lista:
+            print(f"quitado solo: {e['motivo']} de {e['pieza']} ({e['caras']} caras) en {e['centro']}")
+        return q
 
     def resumen(self):
         cen = self.V[self.F][:, :, :3].mean(1)

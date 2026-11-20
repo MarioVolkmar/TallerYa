@@ -8,7 +8,7 @@ import * as THREE from "three";
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
 // Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
 // (skill moto-3d-tripo; mismo formato que el piloto)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=4" };
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=8" };
 
 const ACCESORIOS_GLB = ["baul", "led"];
 
@@ -149,7 +149,8 @@ function lamparaDe(n, datos) {
   }
   const pos = centro.divideScalar(area || 1), dir = normal.normalize();
   const lado = datos.tipo === "direccional" ? (pos.x > 0 ? "d" : "t") + (pos.z > 0 ? "i" : "d") : pos.z > 0.02 ? "i" : pos.z < -0.02 ? "d" : "c";
-  return { tipo: datos.tipo, lado, pos, dir, ancho: caja.max.z - caja.min.z, alto: caja.max.y - caja.min.y, area };
+  // (cono: false = luz de posición: halo al encender, pero el haz al piso sale de los otros faros)
+  return { tipo: datos.tipo, lado, pos, dir, ancho: caja.max.z - caja.min.z, alto: caja.max.y - caja.min.y, area, ...(datos.cono === false && { cono: false }) };
 }
 
 // Pantalla del tablero (extras.pantalla {c, n, tam}): un plano sobre el velocímetro con el dibujo de una pantalla

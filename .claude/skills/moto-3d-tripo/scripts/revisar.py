@@ -136,10 +136,9 @@ class Rejilla:
                     cod = self._cod(c0 + np.array([dx, dy, dz]))
                     a = np.searchsorted(self.cod, cod, "left")
                     z = np.searchsorted(self.cod, cod, "right")
-                    m = (z > a) & ~si
-                    for i in np.nonzero(m)[0]:
-                        if np.any(self.et[a[i]:z[i]] != excluir):
-                            si[i] = True
+                    # (en cada celda las etiquetas estan ordenadas y sin repetir: hay otra si son 2+ o la unica no es `excluir`)
+                    a_ = np.minimum(a, len(self.et) - 1)
+                    si |= (z - a > 1) | ((z > a) & (self.et[a_] != excluir))
         return si
 
 
@@ -167,18 +166,22 @@ def bordes(d):
 
 
 def componentes(nv, aristas):
-    padre = np.arange(nv)
-
-    def raiz(a):
-        while padre[a] != a:
-            padre[a] = padre[padre[a]]
-            a = padre[a]
-        return a
-    for a, c in aristas:
-        ra, rc = raiz(a), raiz(c)
-        if ra != rc:
-            padre[ra] = rc
-    return np.array([raiz(i) for i in range(nv)])
+    """Etiqueta de componente conexa por vertice (union por enganche y salto de punteros, vectorizado)."""
+    e = np.asarray(aristas, np.int64).reshape(-1, 2)
+    lab = np.arange(nv)
+    while len(e):
+        la, lc = lab[e[:, 0]], lab[e[:, 1]]
+        if np.array_equal(la, lc):
+            break
+        m = np.minimum(la, lc)
+        np.minimum.at(lab, la, m)
+        np.minimum.at(lab, lc, m)
+        while True:
+            sig = lab[lab]
+            if np.array_equal(sig, lab):
+                break
+            lab = sig
+    return lab
 
 
 # ================= 1) LADO =================
@@ -208,6 +211,15 @@ for d in nodos:
     if "_quitar" in d["nombre"] or d["mat"] == "_quitar":
         anotar("cortes", "ERROR", f"nodo {d['nombre']} exportado: los _quitar no deben llegar al GLB ({len(d['I'])} triangulos)")
 huecos_pts, flot_pts, copia_pts = [], [], []
+RUEDAS_ = [(d["ex"]["eje"], np.percentile(np.hypot(d["P"][:, 0] - d["ex"]["eje"][0], d["P"][:, 1] - d["ex"]["eje"][1]), 97))
+           for d in vis if d["parte"].startswith("llanta") and "eje" in d["ex"]]
+
+
+def en_rueda(c):
+    """Dentro del cilindro de una rueda (lo tapan la llanta torneada y el rin: hueco poco visible)."""
+    return any(np.hypot(c[0] - e[0], c[1] - e[1]) < R_ and abs(c[2]) < 0.13 for e, R_ in RUEDAS_)
+
+
 for k, d in enumerate(vis):
     be = bordes(d)
     if len(be) == 0:
@@ -215,26 +227,31 @@ for k, d in enumerate(vis):
     ab = ~REJ.hay(d["P"][np.unique(be)], k)
     if ab.mean() > 0.95:
         continue  # (pieza hecha aparte, no cortada de la malla: disco nuevo, carcasa, pantalla; sus bordes son de diseno)
-    abiertos = set(np.unique(be)[ab].tolist())
-    ea = np.array([e for e in be if e[0] in abiertos and e[1] in abiertos])
+    abiertos = np.unique(be)[ab]
+    ea = be[np.isin(be[:, 0], abiertos) & np.isin(be[:, 1], abiertos)]
     if len(ea) == 0:
         continue
     idx = np.unique(ea)
-    mapa = {v: i for i, v in enumerate(idx)}
-    comp = componentes(len(idx), [(mapa[a], mapa[c]) for a, c in ea])
+    comp = componentes(len(idx), np.searchsorted(idx, ea))
     ce = comp[np.searchsorted(idx, ea[:, 0])]
     le = np.linalg.norm(d["P"][ea[:, 0]] - d["P"][ea[:, 1]], axis=1)
+    lista = []
     for r in np.unique(comp):
         vs = idx[comp == r]
         lon = float(le[ce == r].sum())
         if lon < 0.06:
             continue
         c = d["P"][vs].mean(0)
-        caja = np.ptp(d["P"][vs], axis=0)
         huecos_pts.append(d["P"][vs])
-        # (un borde abierto chico y en el piso de la malla suele ser de Tripo; uno grande o a la vista, del corte)
-        nivel = "AVISO" if lon < 0.4 else "ERROR"
-        anotar("cortes", nivel, f"borde abierto de {lon * 100:.0f} cm en {d['nombre']} cerca de {f3(c)} (caja {f3(caja)}): hueco que se ve a traves")
+        lista.append((lon, c, en_rueda(c)))
+    if lista:
+        # (un borde abierto chico, o dentro de la rueda, suele ser de Tripo o no se ve; uno grande y a la vista, del corte)
+        fuera = [t for t in lista if not t[2]]
+        lon, c, _ = max(fuera or lista, key=lambda t: t[0])
+        nivel = "ERROR" if fuera and lon >= 0.4 else "AVISO"
+        donde = f"{len(fuera)} a la vista" + (f", {len(lista) - len(fuera)} dentro de la rueda" if len(lista) > len(fuera) else "")
+        anotar("cortes", nivel, f"{d['nombre']}: {len(lista)} bordes abiertos ({donde}), {sum(t[0] for t in lista) * 100:.0f} cm en total; "
+               f"el mayor{' a la vista' if fuera else ''} de {lon * 100:.0f} cm cerca de {f3(c)} (rojo en la hoja)")
 # piezas flotantes: componentes conectadas de cada nodo lejos de todo lo demas
 for k, d in enumerate(vis):
     w = soldar(d["P"])
@@ -252,6 +269,14 @@ for k, d in enumerate(vis):
             continue
         flot_pts.append(Q)
         anotar("cortes", "ERROR" if nv > 30 else "AVISO", f"{'pieza' if nv > 30 else 'astilla'} flotante en {d['nombre']} ({nv} vertices) en {f3(Q.mean(0))}: a mas de ~1,5 cm de todo")
+# lo que motor.sobrantes() quito solo al construir (T/quitados.json junto al GLB de la carpeta de trabajo)
+rq = os.path.join(os.path.dirname(os.path.abspath(RUTA)), "quitados.json")
+if os.path.exists(rq) and os.path.getmtime(rq) <= os.path.getmtime(RUTA) + 600:
+    qs = json.load(open(rq, encoding="utf-8"))
+    for e in qs:
+        anotar("cortes", "INFO", f"quitado solo al construir: {e['motivo']} de {e['pieza']} ({e['caras']} caras) en {f3(e['centro'])} (coord. de la ficha); si sobraba de verdad, nada; si no, CONSERVAR en la ficha")
+    if not qs:
+        anotar("cortes", "INFO", "limpieza automatica: no habia sobrantes sueltos ni copias del otro lado")
 # copias simetricas falsas de Tripo (pieza de un solo lado repetida del otro: el mofle doble de la XTZ)
 UN_LADO = r"escape|silenciador|mofle|disco_|mordaza|corona|cadena|cvt|pinon"
 for k, d in enumerate(vis):
@@ -312,8 +337,8 @@ for d in vis:
 
 # ================= 4) LUCES =================
 lamparas = [d for d in vis if d["ex"].get("lampara")]
-MAXIMO = {"faro": (0.04, 0.24), "stop": (0.03, 0.17), "direccional": (0.012, 0.11)}  # (area m2, lado mayor m)
-MAL_VECINO = r"guardabarros|portaplaca|llanta|placa|basculante|rin_|aro_|escape"
+MAXIMO = {"faro": (0.04, 0.24), "stop": (0.045, 0.30), "direccional": (0.018, 0.14)}  # (area m2, lado mayor m; NMAX y NKD reales)
+MAL_VECINO = r"guardabarros|portaplaca|llanta|placa|basculante|rin_|aro_(del|tras)|escape"
 if not lamparas:
     anotar("luces", "ERROR", "ningun nodo con extras.lampara: Encender usa las luces de la moto generica")
 tipos = [d["ex"]["lampara"]["tipo"] for d in lamparas]
@@ -360,7 +385,7 @@ for k0, d in enumerate(lamparas):
         e0 = max(cuenta, key=cuenta.get)
         carc = vis[e0]
         txt += f"; carcasa {carc['nombre']} ({cuenta[e0] * 100 // tot} % del borde)"
-        if carc["mat"] not in ("luz", "stop", "ambar", "mica_dir") and d["area"] > 0.8 * carc["area"]:
+        if carc["mat"] not in ("luz", "stop", "ambar", "mica_dir") and not carc["parte"].startswith("aro") and d["area"] > 0.8 * carc["area"]:
             probs.append(f"mas grande que su carcasa {carc['nombre']} ({d['area'] * 1e4:.0f} contra {carc['area'] * 1e4:.0f} cm2)")
         for e, c in cuenta.items():
             if re.search(MAL_VECINO, vis[e]["parte"]) and c / tot > 0.2:
@@ -373,12 +398,62 @@ for k0, d in enumerate(lamparas):
         probs.append(f"la luz (8 cm por su normal) cae sobre {', '.join(sorted(s))}")
     d["probs"] = probs
     anotar("luces", "AVISO" if probs else "OK", txt + ("; " + "; ".join(probs) if probs else ""))
-# pares de direccionales simetricos
-dirs = [d for d in lamparas if d["ex"]["lampara"]["tipo"] == "direccional"]
-for d in dirs:
-    par = [o for o in dirs if o is not d and np.linalg.norm(o["pos"] * [1, 1, -1] - d["pos"]) < 0.04]
-    if not par:
-        anotar("luces", "AVISO", f"{d['nombre']} sin pareja simetrica a menos de 4 cm (¿la otra quedo corrida o falta?)")
+
+# ================= 4b) SITIO Y PARES (cada pieza donde va segun las fotos; piezas pares completas) =================
+# Referencias medidas en el propio GLB: ejes de las ruedas (extras.eje de las llantas) y alto del manubrio.
+# Zonas por tipo (x adelante, y arriba, metros de la pagina); --ficha F.py con SITIOS = {regex: (xmin, xmax, ymin, ymax)}
+# las reemplaza o suma para una moto (la ficha manda: es lo que el usuario aprobo con las fotos).
+ejes = {d["parte"].split("_")[-1]: (d["ex"]["eje"], np.percentile(np.hypot(d["P"][:, 0] - d["ex"]["eje"][0], d["P"][:, 1] - d["ex"]["eje"][1]), 97))
+        for d in vis if d["parte"].startswith("llanta") and "eje" in d["ex"]}
+if "del" in ejes and "tras" in ejes:
+    (xd, yd), Rd = ejes["del"]
+    (xt, yt), Rt = ejes["tras"]
+    manu = [d for d in vis if re.search(r"manubrio|manillar|punos", d["parte"])]
+    y_manu = max(d["P"][:, 1].max() for d in manu) if manu else MN[1] + 0.85 * ALTO
+    ZONAS = {  # tipo: (regex sobre "mat.parte", xmin, xmax, ymin, ymax)
+        "direccional delantera": (r"direccional_del", xd - 0.30, xd + 0.45, yd + 0.6 * Rd, y_manu + 0.05),
+        "direccional trasera": (r"direccional_tras", MN[0] - 0.05, xt - 0.05, yt + 0.5 * Rt, y_manu),
+        "faro": (r"luz\.faro", xd - 0.15, MX[0] + 0.02, yd + 0.7 * Rd, y_manu + 0.05),
+        "stop": (r"stop|luz\.trasera", MN[0] - 0.02, xt, yt + 0.8 * Rt, y_manu),
+        "espejo": (r"espejo", xd - 0.65, xd + 0.25, y_manu - 0.10, MX[1] + 0.02),
+        "reposapies": (r"reposapies|estribo|posapie", xt + 0.05, xd - 0.15, MN[1], yd + Rd + 0.10),  # (scooter: piso alto)
+    }
+    rf = opcion("--ficha")
+    if rf:
+        import importlib.util
+        sp = importlib.util.spec_from_file_location("ficha_rev", rf)
+        fm = importlib.util.module_from_spec(sp)
+        sys.path.insert(0, os.path.dirname(os.path.abspath(rf)))
+        sp.loader.exec_module(fm)
+        for k_, z4 in getattr(fm, "SITIOS", {}).items():   # clave = tipo de ZONAS (cambia su caja) o regex nueva
+            ZONAS[k_] = (ZONAS[k_][0], *z4) if k_ in ZONAS else (k_, *z4)
+    for tipo, (rx, x0, x1, y0, y1) in ZONAS.items():
+        for d in vis:
+            if not re.search(rx, d["nombre"]) or re.search(r"_base|tallo|soporte", d["parte"]):
+                continue
+            c = centro(d)
+            fuera = []
+            if not x0 <= c[0] <= x1:
+                fuera.append(f"x {c[0]:+.2f} fuera de {x0:+.2f}..{x1:+.2f}")
+            if not y0 <= c[1] <= y1:
+                fuera.append(f"y {c[1]:.2f} fuera de {y0:.2f}..{y1:.2f}")
+            anotar("sitio", "AVISO" if fuera else "OK", f"{d['nombre']} ({tipo}) en {f3(c)}" + (": " + ", ".join(fuera) + " (comparar con la foto; si esta bien, SITIOS en la ficha)" if fuera else ""))
+    # pares: cada pieza de un lado necesita su reflejo (centro reflejado a < 5 cm, mismo tipo)
+    PAR = r"direccional|espejo|reposapies|estribo|posapie|posicion|retrovisor"   # (mordaza no: con un disco va sola)
+    pares = [d for d in vis if re.search(PAR, d["parte"])]
+    for d in pares:
+        c = centro(d)
+        if abs(c[2]) < 0.04 or np.ptp(d["P"][:, 2]) > 2 * abs(c[2]):
+            continue  # (en el centro o una sola malla con los dos lados)
+        tipo = re.search(PAR, d["parte"]).group(0)
+        otro = [o for o in pares if o is not d and tipo in o["parte"] and np.linalg.norm(centro(o) * [1, 1, -1] - c) < 0.05]
+        if otro:
+            continue
+        lado_ = "derecha" if c[2] > 0 else "izquierda"
+        anotar("sitio", "AVISO", f"{d['nombre']} ({lado_}) sin pareja del otro lado a menos de 5 cm: si falta, en la ficha "
+               f"m.espejar(\"{d['nombre']}\", \"<nombre del otro lado>\") (copia reflejada en z = 0; si la otra existe pero corrida, mirar la foto)")
+else:
+    anotar("sitio", "AVISO", "sin llantas con extras.eje: no se pudo revisar el sitio de las piezas")
 
 # ================= 5) PINTURA (tabla) =================
 GRUPO = {"pintura": "Color de la moto", "pintura2": "Segundo tono", "chasis": "Color del chasis", "rin": "Color de rines"}
@@ -456,7 +531,7 @@ def render(vista_, esc, caja=None, modo="normal", marcas=(), color_marca=(1, 0, 
             # (el render descarta las caras de espaldas: se agregan en los dos sentidos)
     if caja is None:
         caja = (MN - 0.03, MX + 0.03)
-    return rend.vista(PP, NN, II, CC, vista_, esc, caja, rejilla=False)
+    return rend.vista(PP, NN, II, CC, vista_, esc, caja, rejilla=False, densidad=0.6)  # (la hoja se achica: 0,6 basta)
 
 
 def titulo(im, txt, alto=22):
@@ -553,14 +628,18 @@ secciones.append(("Ruedas", [fila(tiles)]))
 
 # --- resumen arriba
 niveles = {s: max((h["nivel"] for h in hallazgos if h["seccion"] == s), key=["INFO", "OK", "AVISO", "ERROR"].index, default="OK")
-           for s in ("luces", "pintura", "cortes", "ruedas", "lado")}
+           for s in ("luces", "sitio", "pintura", "cortes", "ruedas", "lado")}
 for s in niveles:
     if niveles[s] == "INFO":
         niveles[s] = "OK"
 lineas = [f"Revision de {NOMBRE}  -  {time.strftime('%Y-%m-%d %H:%M')}  -  {len(vis)} piezas visibles",
           "   ".join(f"{s.upper()}: {v}" for s, v in niveles.items()), ""]
+def a_la_vista(h):   # errores, avisos y lo que la limpieza automatica quito (para poder pedir CONSERVAR)
+    return h["nivel"] in ("ERROR", "AVISO") or h["texto"].startswith(("quitado solo", "limpieza"))
+
+
 for h in hallazgos:
-    if h["nivel"] in ("ERROR", "AVISO"):
+    if a_la_vista(h):
         lineas.append(f"[{h['nivel']}] {h['seccion']}: {h['texto']}"[:230])
 res = Image.new("RGB", (1500, 16 * len(lineas) + 16), (255, 255, 255))
 dr = ImageDraw.Draw(res)
@@ -583,6 +662,6 @@ salida_json = opcion("--json", os.path.splitext(HOJA)[0] + ".json")
 json.dump({"glb": RUTA, "niveles": niveles, "hallazgos": hallazgos, "pintura": tabla}, open(salida_json, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 print(f"{NOMBRE}: " + "  ".join(f"{s} {v}" for s, v in niveles.items()) + f"   ({time.time() - t0:.1f} s)")
 for h in hallazgos:
-    if h["nivel"] in ("ERROR", "AVISO"):
+    if a_la_vista(h):
         print(f"  [{h['nivel']}] {h['seccion']}: {h['texto']}"[:260])
 print("hoja", HOJA, hoja.size)
