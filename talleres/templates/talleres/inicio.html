@@ -191,6 +191,7 @@
 </section>
 
 {# Comunidad: próximas rodadas y lo último del foro #}
+{% if not oculta_social %}
 <section class="mt-16">
   <div class="flex items-end justify-between gap-4 mb-6">
     <h2 class="titulo text-3xl md:text-4xl"><span class="numero">03</span>Comunidad</h2>
@@ -242,6 +243,7 @@
     </div>
   </div>
 </section>
+{% endif %}
 
 {% include "noticias/_noticiero.html" with numero="04" %}
 

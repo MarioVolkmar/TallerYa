@@ -1,0 +1,23 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Reportes por taller</h1>
+  <p class="cs-sub">Vistas del perfil y clics en WhatsApp y llamar, en {{ mes_texto }}. No se guarda quién visita, solo fecha, taller y tipo.</p>
+</header>
+<form method="get" class="cs-filtros">
+  <input type="hidden" name="seccion" value="reportes">
+  <label class="cs-filtro"><span class="cs-etq">Mes</span>
+    <select name="mes" class="cs-campo campo">{% for v, n in meses %}<option value="{{ v }}" {% if v == mes_actual %}selected{% endif %}>{{ n }}</option>{% endfor %}</select></label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Ver</button>
+</form>
+{% if filas %}
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-reporte">
+  <caption class="sr-only">Vistas y clics por taller en {{ mes_texto }}</caption>
+  <thead><tr><th scope="col">Taller</th><th scope="col">Vistas</th><th scope="col">WhatsApp</th><th scope="col">Llamar</th></tr></thead>
+  <tbody>
+  {% for f in filas %}
+  <tr><td><a href="{{ f.taller.get_absolute_url }}">{{ f.taller.nombre }}</a></td><td>{{ f.vistas }}</td><td>{{ f.whatsapp }}</td><td>{{ f.llamadas }}</td></tr>
+  {% endfor %}
+  </tbody>
+  <tfoot><tr><th scope="row">Total</th><th>{{ total.vistas }}</th><th>{{ total.whatsapp }}</th><th>{{ total.llamadas }}</th></tr></tfoot>
+</table></div>
+{% else %}<p class="cs-vacio">Aún no hay talleres activos.</p>{% endif %}

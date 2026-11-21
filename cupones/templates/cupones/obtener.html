@@ -17,7 +17,7 @@
   </div>
 
   <section class="papel p-6 md:p-8">
-    {% if moto and cupon.solo_plus and not moto.es_plus %}
+    {% if moto and cupon.solo_plus and not moto.es_plus and not oculta_social %}
       <p class="etiqueta">Exclusivo Plus</p>
       <h2 class="titulo text-2xl mt-3">Este cupón es para suscriptores</h2>
       <p class="text-sm text-suave mt-2">Con TallerYa Plus obtienes este y otros cupones exclusivos, más un regalo cada mes.</p>

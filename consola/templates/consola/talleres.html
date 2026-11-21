@@ -13,7 +13,7 @@
   <caption class="sr-only">Talleres</caption>
   <thead><tr><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col">Citas</th><th scope="col">Acciones</th></tr></thead>
   <tbody>
-  {% for t, analisis in filas %}{% url 'consola:accion' 'talleres.publicar' t.pk as a_pub %}{% url 'consola:accion' 'talleres.verificar' t.pk as a_ver %}{% url 'consola:accion' 'talleres.eliminar' t.pk as a_eli %}
+  {% for t, analisis in filas %}{% url 'consola:accion' 'talleres.publicar' t.pk as a_pub %}{% url 'consola:accion' 'talleres.verificar' t.pk as a_ver %}{% url 'consola:accion' 'talleres.eliminar' t.pk as a_eli %}{% url 'consola:accion' 'talleres.precios' t.pk as a_pre %}
   <tr>
     <td><a href="{{ t.get_absolute_url }}" class="cs-cuenta-nombre">{{ t.nombre }}</a> <span class="cs-id">#{{ t.pk }}</span>
       <span class="cs-cuenta-correo">{{ t.barrio }}{% if t.usuario %} · <a href="?seccion=usuarios&amp;id={{ t.usuario_id }}">{{ t.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span></td>
@@ -25,6 +25,8 @@
       {% else %}{% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Publicar" clase="cs-btn-ok" %}{% endif %}
       {% if t.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" %}
       {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" %}{% endif %}
+      {% if t.mostrar_precios %}{% include "consola/_boton_accion.html" with url=a_pre valor="0" texto="Ocultar precios" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_pre valor="1" texto="Mostrar precios" %}{% endif %}
       {% include "consola/_eliminar_fila.html" with url=a_eli que="el taller" %}
     </div></td>
   </tr>

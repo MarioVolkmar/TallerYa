@@ -34,8 +34,9 @@ class DetalleRediseñoTests(TestCase):
 
     def test_orden_secciones_sin_fotos_duplicadas_ni_leyendas_en_miniaturas(self):
         taller = demo_talleres.cargar()[0]
+        Taller.objects.filter(pk=taller.pk).update(mostrar_precios=True)
         html = self.client.get(taller.get_absolute_url()).content.decode()
-        claves = ["Precios desde", "Fotos del taller", "Quiénes te atienden", "Cómo trabajamos", "id=\"resenas\"",
+        claves = ["Mano de obra desde", "Fotos del taller", "Quiénes te atienden", "Cómo trabajamos", "id=\"resenas\"",
                   "Ubicación"]
         posiciones = [html.index(k) for k in claves]
         self.assertEqual(posiciones, sorted(posiciones))
@@ -61,7 +62,7 @@ class DetalleRediseñoTests(TestCase):
         self.assertContains(r, "Ubicación")
 
     def test_tabla_de_precios_desde_por_cilindraje(self):
-        taller = _taller()
+        taller = _taller(mostrar_precios=True)
         aceite = Servicio.objects.get_or_create(nombre="Cambio de aceite")[0]
         PrecioServicio.objects.create(taller=taller, servicio=aceite, cilindraje="baja", desde=38000, hasta=60000)
         PrecioServicio.objects.create(taller=taller, servicio=aceite, cilindraje="media", desde=70000, hasta=130000)

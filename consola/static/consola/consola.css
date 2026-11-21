@@ -158,6 +158,8 @@ html[data-consola-tema="claro"] .cs-tema-oscuro { display: none !important; }
 .cs-tabla { width: 100%; border-collapse: collapse; font-size: .92rem; }
 .cs-tabla th, .cs-tabla td { padding: .65rem .85rem; text-align: left; border-bottom: 1px solid var(--cs-borde); vertical-align: middle; }
 .cs-tabla thead th { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--cs-suave); }
+.cs-tabla-reporte th, .cs-tabla-reporte td { padding-inline: .5rem; }
+.cs-tabla-reporte tfoot th { color: var(--cs-texto, inherit); border-top: 2px solid var(--cs-borde); }
 .cs-tabla tbody tr:last-child > * { border-bottom: 0; }
 .cs-tabla tbody tr:hover { background: var(--cs-papel-2); }
 .cs-cuenta { display: flex; align-items: center; gap: .65rem; color: var(--cs-texto) !important; text-decoration: none; }

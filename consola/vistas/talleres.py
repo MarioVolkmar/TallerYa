@@ -26,6 +26,10 @@ interruptor("talleres.verificar", modelo=Taller, campo="verificado", etiqueta="V
             nombre="Verificar taller", si="Verificó", no="Quitó la verificación",
             describe="al taller #{pk} ({obj.nombre})")
 
+interruptor("talleres.precios", modelo=Taller, campo="mostrar_precios", etiqueta="Muestra precios de mano de obra",
+            nombre="Mostrar u ocultar precios del perfil", si="Activó los precios en", no="Ocultó los precios en",
+            describe="el perfil del taller #{pk} ({obj.nombre})")
+
 REGLAS_ELIMINAR = [
     Dependencia("citas", "cita", lambda t: t.solicitudes.count(), True, "son historial de los moteros; despublícalo."),
     Dependencia("cupones con códigos entregados", "cupón con códigos entregados",

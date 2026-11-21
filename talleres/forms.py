@@ -156,8 +156,9 @@ class PerfilTallerForm(EstiloMixin, forms.ModelForm):
     class Meta:
         model = Taller
         fields = ["descripcion", "horario", "nivel_precio", "servicios", "marcas", "foto", "especialidades",
-                  "garantia_meses", "compromisos"]
-        labels = {"descripcion": "Descripción corta", "foto": "Foto de portada"}
+                  "garantia_meses", "compromisos", "mostrar_precios"]
+        labels = {"descripcion": "Descripción corta", "foto": "Foto de portada",
+                  "mostrar_precios": "Mostrar en mi perfil los precios de mano de obra"}
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 3, "maxlength": perfil.MAXIMO_DESCRIPCION,
                                                  "placeholder": "Ej: Taller familiar en Belén desde 2012. Motos de trabajo y scooters hasta 200 cc."}),

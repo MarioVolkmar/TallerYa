@@ -1,4 +1,4 @@
-{# Tarjeta "Invita y gana". Variables: enlace_referido, num_referidos, invitacion_whatsapp #}
+{% if not oculta_social %}{# Tarjeta "Invita y gana". Variables: enlace_referido, num_referidos, invitacion_whatsapp #}
 <section class="papel invita">
   <div class="invita-cabeza">
     <span class="invita-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8zm0 0c2-4 6-4 6-1.5S15 8 12 8z"/></svg></span>
@@ -38,3 +38,4 @@
     });
   })();
 </script>
+{% endif %}

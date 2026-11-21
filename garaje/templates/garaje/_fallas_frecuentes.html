@@ -25,7 +25,7 @@
           <p class="falla-alcance">{% if f.alcance == "modelo" %}Reportado por dueños de este modelo.{% else %}Pasa en muchas motos de este tipo.{% endif %}</p>
           <div class="falla-acciones">
             {% if f.url_diagnostico %}<a class="btn btn-lava text-xs px-4 py-2.5 falla-boton" href="{{ f.url_diagnostico }}">¿Te está pasando?</a>{% endif %}
-            <a class="falla-enlace" href="{% url 'foro:preguntar' %}">Preguntar en el foro</a>
+{% if not oculta_social %}            <a class="falla-enlace" href="{% url 'foro:preguntar' %}">Preguntar en el foro</a>{% endif %}
             {% if f.alertas %}<a class="falla-enlace" href="#plan">Ver en la agenda</a>{% endif %}
             {% if f.en_despiece %}<a class="falla-enlace" href="#despiece">Ver la pieza</a>{% endif %}
             {% if f.url_taller %}<a class="falla-enlace" href="{{ f.url_taller }}">Talleres que lo atienden</a>{% endif %}

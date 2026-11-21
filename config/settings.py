@@ -73,6 +73,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "config.piloto.OcultarSocial",  # 404 en foro, Plus y referidos con PILOTO_OCULTAR_SOCIAL
     "metricas.middleware.MedirUso",  # páginas vistas (metricas/); METRICAS_ACTIVAS=0 la apaga
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -80,6 +81,10 @@ MIDDLEWARE = [
 
 # Medición de uso propia (metricas/): encendida salvo METRICAS_ACTIVAS=0. Apagada al correr las pruebas.
 METRICAS_ACTIVAS = env_bool("METRICAS_ACTIVAS", sys.argv[1:2] != ["test"])
+
+# Piloto: oculta foro, rodadas, suscripciones (Plus) y referidos (enlaces, avisos y URLs responden 404), sin borrar código.
+# Activo por defecto; PILOTO_OCULTAR_SOCIAL=0 lo devuelve todo. Apagado al correr las pruebas (se prueba con override_settings).
+PILOTO_OCULTAR_SOCIAL = env_bool("PILOTO_OCULTAR_SOCIAL", sys.argv[1:2] != ["test"])
 
 ROOT_URLCONF = "config.urls"
 
@@ -94,6 +99,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "cuentas.roles.contexto",
+                "config.piloto.contexto",
                 "notificaciones.servicios.contexto",
             ],
         },

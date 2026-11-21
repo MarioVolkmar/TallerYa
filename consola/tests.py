@@ -76,7 +76,7 @@ class LayoutTests(Base):
 
     def test_seccion_desconocida_404_y_planificada_muestra_proximamente(self):
         self.assertEqual(self.client.get(INICIO + "?seccion=nada").status_code, 404)
-        self.assertContains(self.client.get(INICIO + "?seccion=reportes"), "fase 2")
+        self.assertContains(self.client.get(INICIO + "?seccion=catalogos"), "fase 2")
 
     def test_insignias_de_pendientes(self):
         filas, total = secciones.con_pendientes()

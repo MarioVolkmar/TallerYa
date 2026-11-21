@@ -19,7 +19,7 @@ Commit de lo pendiente del 3D en `main` (modelos que usa el visor, glb.js, moto3
 
 ## Paso 3: facilitarle la vida al taller
 - Dos caminos: (a) alta asistida (formulario rápido en la consola; fotos propias o del taller, nunca de Google; enlace sin cuenta para revisar, corregir y aprobar; autorización Ley 1581); (b) autoregistro desde el celular, pendiente de revisión.
-- Precios «de referencia, confirmado el dd/mm», recordatorio cada 2-3 meses.
+- Precios de referencia SOLO de mano de obra («confirmado el dd/mm», recordatorio cada 2-3 meses). Opcionales: interruptor por taller «mostrar precios», apagado por defecto; si está apagado, el perfil muestra «Cotiza por WhatsApp». (Ajuste del usuario, 21-nov; tras hablar con talleres se decide si se quedan o solo hay cotización privada.)
 - Servicio en 30 s: placa, km, qué se hizo, precio → hoja de vida del motero y reseña verificada.
 - Reseñas abiertas con sello «verificada» si vienen de un servicio registrado.
 

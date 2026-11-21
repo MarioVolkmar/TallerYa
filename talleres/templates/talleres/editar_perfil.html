@@ -74,7 +74,9 @@
       <h2 class="form-seccion">Servicios que ofreces</h2>
       <div class="perfil-checks mt-4">{% for c in form.servicios %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
       {% for e in form.servicios.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      <p class="text-sm text-suave mt-3">Los precios «desde» por cilindraje se publican en <a href="{% url 'talleres:precios' %}" class="text-lava underline">Precios de referencia</a>.</p>
+      <p class="text-sm text-suave mt-3">Los precios «desde» por cilindraje se publican en <a href="{% url 'talleres:precios' %}" class="text-lava underline">Precios de referencia</a> (solo mano de obra, sin repuestos).</p>
+      <label class="perfil-check mt-3">{{ form.mostrar_precios }}<span>{{ form.mostrar_precios.label }}</span></label>
+      <p class="text-xs text-suave mt-1">Apagado, tu perfil dice «Cotiza por WhatsApp» y los moteros te escriben para pedir el precio.</p>
       <h2 class="form-seccion mt-7">Marcas que trabajas</h2>
       <div class="perfil-checks mt-4">{% for c in form.marcas %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
     </section>

@@ -492,6 +492,8 @@ class PreciosReferenciaTests(TestCase):
         datos = {"precios-TOTAL_FORMS": 3, "precios-INITIAL_FORMS": 0, "precios-MIN_NUM_FORMS": 0, "precios-MAX_NUM_FORMS": 60,
                  "precios-0-servicio": self.servicio.pk, "precios-0-cilindraje": "baja", "precios-0-desde": 50000, "precios-0-hasta": 90000}
         self.assertRedirects(self.client.post(reverse("talleres:precios"), datos), reverse("talleres:precios"))
+        self.assertNotContains(self.client.get(self.talleres[0].get_absolute_url()), "$50.000")  # apagado por defecto
+        Taller.objects.filter(pk=self.talleres[0].pk).update(mostrar_precios=True)
         self.assertContains(self.client.get(self.talleres[0].get_absolute_url()), "$50.000")  # el perfil muestra el «desde»
         # "hasta" menor que "desde" no se acepta
         datos.update({"precios-0-servicio": self.servicio.pk, "precios-0-cilindraje": "media", "precios-0-desde": 90000, "precios-0-hasta": 1000})

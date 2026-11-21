@@ -84,6 +84,9 @@ class Taller(models.Model):
     # nadie, ni el equipo, puede leerlo. El taller lo genera en Mi taller y se le muestra una sola vez (nuevo_pin).
     pin_hash = models.CharField("PIN de canje (hash)", max_length=128, blank=True, editable=False)
     # Agenda con franjas: el taller define su horario (HorarioTaller), la duración de cada franja y el cupo
+    mostrar_precios = models.BooleanField(
+        "mostrar precios de mano de obra", default=False,
+        help_text="Si está apagado, el perfil dice «Cotiza por WhatsApp» en vez de la tabla de precios de mano de obra.")
     agenda_activa = models.BooleanField("reservas por franjas", default=False,
                                         help_text="El motero elige un horario libre al pedir la cita.")
     duracion_franja = models.PositiveSmallIntegerField("duración de la franja (min)", default=60,
@@ -163,7 +166,18 @@ class Taller(models.Model):
 
     @property
     def whatsapp_url(self):
-        return f"https://wa.me/{self.whatsapp}?text={quote(f'Hola {self.nombre}, te encontré en TallerYa.')}"
+        return self.whatsapp_con_mensaje()
+
+    def whatsapp_con_mensaje(self, moto="", servicio=""):
+        """Enlace de WhatsApp con el mensaje ya escrito: moto y servicio si se conocen, y «te encontré en TallerYa»."""
+        texto = f"Hola {self.nombre}, te encontré en TallerYa."
+        if moto and servicio:
+            texto += f" Tengo una {moto} y necesito: {servicio}."
+        elif moto:
+            texto += f" Tengo una {moto}."
+        elif servicio:
+            texto += f" Necesito: {servicio}."
+        return f"https://wa.me/{self.whatsapp}?text={quote(texto)}"
 
 
 class SolicitudCita(models.Model):

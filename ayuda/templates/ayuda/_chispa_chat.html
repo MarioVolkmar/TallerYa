@@ -1,6 +1,6 @@
 {% load static %}{# Botón flotante del chat de ayuda con Chispa. La ventana la arma chispa-chat.js al abrirla (carga diferida). #}
 <link rel="stylesheet" href="{% static 'ayuda/css/chispa-chat.css' %}">
-<div class="cc" id="chispa-chat" data-catalogo="{% url 'ayuda:catalogo' %}" data-preguntar="{% url 'ayuda:preguntar' %}" data-foro="{% url 'foro:preguntar' %}">
+<div class="cc" id="chispa-chat" data-catalogo="{% url 'ayuda:catalogo' %}" data-preguntar="{% url 'ayuda:preguntar' %}" {% if not oculta_social %}data-foro="{% url 'foro:preguntar' %}"{% endif %}>
   <button type="button" class="cc-globito" hidden aria-label="¿Te ayudo? Abre la ayuda de Chispa">¿Te ayudo?<span class="cc-burbuja cc-b1" aria-hidden="true"></span><span class="cc-burbuja cc-b2" aria-hidden="true"></span></button>
   <button type="button" class="cc-boton" aria-haspopup="dialog" aria-expanded="false" aria-controls="chispa-chat-panel" aria-label="Pregúntale a Chispa">
     {% include "parciales/chispa.html" with pose="escena" estilo="a" id="chispa-chat-cara" vista="boton" clase="cc-figura" %}

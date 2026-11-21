@@ -351,8 +351,10 @@ def detalle(request, slug):
     # La nota media sale de las reseñas ya cargadas (evita otra consulta en la plantilla).
     taller.calificacion = sum(r.estrellas for r in resenas) / len(resenas) if resenas else None
     fotos = list(taller.fotos.all())
-    tabla_precios = _tabla_precios(taller)
-    con_precio = {fila["pk"] for fila in tabla_precios["filas"]}
+    tabla_precios = _tabla_precios(taller) if taller.mostrar_precios else None
+    con_precio = {fila["pk"] for fila in tabla_precios["filas"]} if tabla_precios else set()
+    if not taller.mostrar_precios:  # sin precios públicos: la tabla no se manda y todos los servicios van como chips
+        tabla_precios, con_precio = {"columnas": [], "filas": []}, set()
     otros_servicios = [x for x in taller.servicios.all() if x.pk not in con_precio]
     cupones = Cupon.objects.disponibles().con_nota_taller().filter(Q(taller=taller) | Q(taller__isnull=True))
     equipo = perfil.equipo_limpio(taller.equipo)
@@ -979,13 +981,27 @@ class _RedireccionContacto(HttpResponseRedirect):
     allowed_schemes = ["https", "tel"]
 
 
+def _moto_y_servicio_para_wa(request, taller):
+    """Moto del usuario (si tiene cuenta y moto) y servicio pedido (?servicio=<id>, solo uno que el taller ofrezca)."""
+    moto = ""
+    motero = getattr(request.user, "motociclista", None) if request.user.is_authenticated else None
+    if motero:
+        primera = motero.motos.select_related("linea", "linea__marca").first()
+        moto = primera.nombre_completo if primera else ""
+    servicio = ""
+    if request.GET.get("servicio", "").isdigit():
+        s = taller.servicios.filter(pk=request.GET["servicio"]).first()
+        servicio = s.nombre.lower() if s else ""
+    return moto, servicio
+
+
 def ir(request, slug, canal):
     """Cuenta el clic (sin datos personales) y lleva a WhatsApp o a la llamada."""
     taller = get_object_or_404(Taller.objects.only("pk", "nombre", "whatsapp", "usuario_id"), slug=slug, activo=True)
     registrar_evento(request, "contacto", canal="whatsapp" if canal == "whatsapp" else "llamada", taller=taller.pk)
     if canal == "whatsapp":
         estadisticas.registrar(request, taller, EventoDiario.Tipo.WHATSAPP)
-        return _RedireccionContacto(taller.whatsapp_url)
+        return _RedireccionContacto(taller.whatsapp_con_mensaje(*_moto_y_servicio_para_wa(request, taller)))
     estadisticas.registrar(request, taller, EventoDiario.Tipo.LLAMADA)
     return _RedireccionContacto(f"tel:+{taller.whatsapp}")
 

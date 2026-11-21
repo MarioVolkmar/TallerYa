@@ -140,6 +140,7 @@
     </section>
     {% endif %}
 
+{% if not oculta_social %}
     <section class="papel p-6 md:p-7">
       <div class="flex items-center justify-between gap-3">
         <h2 class="titulo text-2xl"><span class="numero">04</span>Mis preguntas</h2>
@@ -188,6 +189,7 @@
         <div class="vacio-izq mt-3">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-foro" %}<p class="text-suave text-sm">Aún no has preguntado nada en el foro. Ahí hay moteros que ya pasaron por lo mismo.</p></div>
       {% endif %}
     </section>
+{% endif %}
 
     {% if moto %}
     <!-- Mi actividad con talleres: tu relación con cada taller (lo que hiciste tú queda en la bitácora de cada moto) -->
@@ -322,6 +324,7 @@
 
   <aside class="space-y-6">
     {% if moto %}
+{% if not oculta_social %}
     <section class="papel p-6 md:p-7 relative overflow-hidden">
       <p class="etiqueta">TallerYa Plus</p>
       {% if suscripcion %}
@@ -344,6 +347,7 @@
         <a href="{% url 'cuentas:plus' %}" class="btn btn-plus w-full py-2.5 text-xs mt-4">★ Conocer Plus</a>
       {% endif %}
     </section>
+{% endif %}
 
     {% include "parciales/invita.html" %}
     {% elif not taller %}
