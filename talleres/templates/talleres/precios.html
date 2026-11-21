@@ -10,9 +10,15 @@
     <div>
       <p class="etiqueta">Precios de referencia</p>
       <h1 class="titulo text-3xl mt-1">Mis precios</h1>
-      <p class="text-sm text-suave mt-2">Publica un rango "desde–hasta" por servicio, en pesos. Se muestra en tu perfil como referencia, no como cotización.
+      <p class="text-sm text-suave mt-2">Publica un rango "desde–hasta" por servicio, en pesos. Solo mano de obra (sin repuestos). Se muestra en tu perfil como «precio de referencia, confirmado el» día que los guardas o confirmas, solo si TallerYa tiene activada la opción de mostrar precios.
         Cuando 3 o más talleres de Medellín publican el mismo servicio, mostramos la mediana en el directorio (sin decir quién cobra qué).</p>
     </div>
+    {% if confirmado %}
+    <div class="tf-confirmar">
+      <p class="text-sm">Precios de referencia, confirmados el <strong>{{ confirmado|date:"d/m/Y" }}</strong>.{% if por_confirmar %} <strong>Llevan más de 2 meses: confírmalos o actualízalos.</strong>{% endif %}</p>
+      <button name="siguen_vigentes" value="1" class="btn btn-borde text-xs px-4 py-3 mt-2" formnovalidate>Siguen vigentes</button>
+    </div>
+    {% endif %}
     {% if sin_servicios %}<p class="error">Primero elige tus servicios en <a href="{% url 'talleres:editar_perfil' %}" class="underline">tu perfil</a>.</p>{% endif %}
     {% for e in formset.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
     {% for form in formset %}

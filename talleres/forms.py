@@ -119,7 +119,8 @@ class RegistroTallerForm(EstiloMixin, forms.ModelForm):
         # El orden de los campos: la ciudad antes del barrio
         orden = ["nombre", "responsable", "whatsapp", "ciudad", "barrio", "direccion", "horario", "descripcion", "servicios", "marcas", "foto"]
         self.order_fields(orden)
-        self.fields["horario"].widget.attrs.setdefault("placeholder", "Lun-Sáb 8am-6pm")
+        if "horario" in self.fields:
+            self.fields["horario"].widget.attrs.setdefault("placeholder", "Lun-Sáb 8am-6pm")
         self.fields["direccion"].widget.attrs.setdefault("placeholder", "Calle 00 # 00-00")
 
     def clean_whatsapp(self):

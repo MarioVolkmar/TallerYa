@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Registrar servicio · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-md mx-auto mt-6 md:mt-10 px-0">
+  {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
+  <form method="post" class="papel p-5 space-y-4" novalidate>
+    {% csrf_token %}
+    <div>
+      <p class="etiqueta">Servicio en 30 segundos</p>
+      <h1 class="titulo text-3xl mt-1">Registrar servicio</h1>
+      <p class="text-sm text-suave mt-2">Queda en la hoja de vida de la moto cuando el dueño lo confirma, y él puede calificarte con reseña verificada.</p>
+    </div>
+    {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
+    {% for field in form %}
+      <div><label class="campo-label">{{ field.label }}{{ field }}</label>
+      {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+    {% endfor %}
+    <button class="btn btn-lava w-full py-3.5 text-sm">Registrar servicio</button>
+    <a class="btn btn-borde w-full py-3 text-xs" href="{% url 'talleres:registrar_servicio' %}">Con código del dueño o varias tareas: registro completo</a>
+  </form>
+</div>
+{% endblock %}

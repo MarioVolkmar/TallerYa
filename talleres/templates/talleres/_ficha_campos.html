@@ -1,0 +1,32 @@
+{# Campos de la ficha de un taller (alta sin cuenta). Variables: form, barrios_por_ciudad #}
+{% for field in form %}
+  <div class="{% if field.field.widget.input_type == 'checkbox' or field.name in 'descripcion direccion foto autoriza' %}sm:col-span-2{% endif %}">
+    {% if field.name == "autoriza" %}
+      <label class="opcion items-start"><span>{{ field }}</span> <span class="text-sm">{{ field.label }}</span></label>
+    {% elif field.field.widget.input_type == "checkbox" %}
+      <p class="campo-label mb-2">{{ field.label }}</p>
+      <div class="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 gap-2">{% for cb in field %}<label class="opcion">{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+    {% else %}
+      <label class="campo-label">{{ field.label }}{{ field }}</label>
+    {% endif %}
+    {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text }}</p>{% endif %}
+    {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+  </div>
+{% endfor %}
+{% for e in form.non_field_errors %}<p class="error sm:col-span-2">{{ e }}</p>{% endfor %}
+{{ barrios_por_ciudad|json_script:"barrios-por-ciudad" }}
+<script>
+(function () {
+  var ciudad = document.getElementById("id_ciudad"), barrio = document.getElementById("id_barrio");
+  if (!ciudad || !barrio) return;
+  var barrios = JSON.parse(document.getElementById("barrios-por-ciudad").textContent);
+  function llenar() {
+    var elegido = barrio.value, lista = barrios[ciudad.value] || [];
+    barrio.innerHTML = "";
+    barrio.add(new Option(lista.length ? "Elige el barrio" : "No hay barrios cargados para esta ciudad", ""));
+    lista.forEach(function (b) { barrio.add(new Option(b[1], b[0], false, String(b[0]) === elegido)); });
+  }
+  ciudad.addEventListener("change", llenar);
+  llenar();
+})();
+</script>

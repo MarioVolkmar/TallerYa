@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import seo, views, vista_servicios
+from . import seo, views, vista_alta, vista_servicios
 
 app_name = "talleres"
 
@@ -17,6 +17,7 @@ urlpatterns = [
     path("taller/<slug:slug>/whatsapp/", views.ir, {"canal": "whatsapp"}, name="ir_whatsapp"),
     path("taller/<slug:slug>/llamar/", views.ir, {"canal": "llamar"}, name="ir_llamar"),
     path("mi-taller/registrar-servicio/", vista_servicios.registrar_servicio, name="registrar_servicio"),
+    path("mi-taller/servicio-rapido/", vista_servicios.servicio_rapido, name="servicio_rapido"),
     path("mi-taller/servicios/", vista_servicios.servicios_taller, name="servicios_taller"),
     path("mi-taller/cita/<int:pk>/servicio/", vista_servicios.servicio_cita, name="servicio_cita"),
     path("taller/<slug:slug>/franjas/", views.franjas, name="franjas"),
@@ -38,6 +39,9 @@ urlpatterns = [
     path("mi-taller/perfil/", views.editar_perfil, name="editar_perfil"),
     path("mi-taller/foto/<int:pk>/eliminar/", views.eliminar_foto, name="eliminar_foto"),
     path("emergencias/", views.emergencias, name="emergencias"),
+    path("unete/", vista_alta.autoregistro, name="autoregistro"),
+    path("unete/enviado/<str:token>/", vista_alta.alta_enviada, name="alta_enviada"),
+    path("ficha/<str:token>/", vista_alta.revisar_ficha, name="revisar_ficha"),
     path("registra-tu-taller/", views.registro, name="registro"),
     path("legal/<slug:pagina>/", views.legal, name="legal"),
 ]

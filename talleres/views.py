@@ -276,6 +276,17 @@ def _contar_publicacion(request, taller, accion):
     from cuentas.limites import sumar
     sumar(_claves_publicar(request, taller, accion)[0], 3600)
 
+def _sellar_verificada(resena, taller, usuario):
+    """Reseña con sello «verificada»: el autor tiene un servicio de este taller ya verificado y aún sin reseñar."""
+    from garaje.models import ServicioTaller
+    usados = Resena.objects.filter(taller=taller, servicio_taller_id__isnull=False).values("servicio_taller_id")
+    servicio = (ServicioTaller.objects.filter(taller=taller, estado=ServicioTaller.Estado.VERIFICADO,
+                                              moto__motociclista__usuario=usuario)
+                .exclude(pk__in=usados).order_by("-fecha", "-pk").first())
+    if servicio:
+        resena.verificada, resena.servicio_taller_id = True, servicio.pk
+
+
 def _tabla_precios(taller):
     """Precios «desde» en tabla corta: una fila por servicio y una columna por cilindraje publicado."""
     from .models import CILINDRAJES
@@ -290,7 +301,9 @@ def _tabla_precios(taller):
         fila["celdas"][p.cilindraje] = pesos(p.desde)
     for fila in filas.values():
         fila["celdas"] = [fila["celdas"].get(c, "") for c, _ in columnas]
-    return {"columnas": [t for _, t in columnas], "filas": list(filas.values())}
+    confirmado = min((p.actualizado for p in precios), default=None)
+    return {"columnas": [t for _, t in columnas], "filas": list(filas.values()),
+            "confirmado": timezone.localtime(confirmado).date() if confirmado else None}
 
 
 
@@ -330,6 +343,8 @@ def detalle(request, slug):
             obj.taller = taller
             if request.user.is_authenticated:
                 obj.usuario = request.user  # reseña con autor; cita para el recordatorio del día antes
+                if accion != "cita":
+                    _sellar_verificada(obj, taller, request.user)
             try:
                 if accion == "cita" and taller.agenda_activa:
                     agenda.reservar(obj)
@@ -466,8 +481,8 @@ def eliminar_foto(request, pk):
 
 
 def registro(request):
-    # Los talleres ahora se registran con cuenta propia (rol "taller").
-    return redirect(reverse("cuentas:registro") + "?tipo=taller")
+    # Ruta vieja: el registro de talleres es ahora el formulario corto /unete/ (sin cuenta, revisado antes de publicar).
+    return redirect(reverse("talleres:autoregistro"))
 
 
 
@@ -591,8 +606,10 @@ def panel(request):
     from cuentas.avatares import PREDISENADOS, svg_predisenado
     from cuentas.models import Perfil
     from garaje.servicio_taller import resumen_taller
+    from . import precios as _precios
     return render(request, "talleres/panel.html", {
         "taller": taller,
+        "precios_por_confirmar": _precios.necesita_confirmar(taller),
         "resumen": resumen_taller(taller, hoy),
         "perfil": Perfil.de(request.user),
         "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
@@ -1074,11 +1091,19 @@ def precios_taller(request):
         return redirect("cuentas:mi_cuenta")
     Formset = precios_formset(taller)
     formset = Formset(request.POST or None, instance=taller, queryset=taller.precios.select_related("servicio"))
+    if request.method == "POST" and request.POST.get("siguen_vigentes"):
+        from . import precios as _precios
+        _precios.confirmar_vigentes(taller)
+        messages.success(request, "Listo: confirmaste que tus precios siguen vigentes.")
+        return redirect("talleres:precios")
     if request.method == "POST" and formset.is_valid():
         formset.save()
         messages.success(request, "Guardamos tus precios de referencia.")
         return redirect("talleres:precios")
+    from . import precios as _precios
     return render(request, "talleres/precios.html", {"taller": taller, "formset": formset,
+                                                     "confirmado": _precios.fecha_confirmacion(taller),
+                                                     "por_confirmar": _precios.necesita_confirmar(taller),
                                                      "sin_servicios": not taller.servicios.exists()})
 
 

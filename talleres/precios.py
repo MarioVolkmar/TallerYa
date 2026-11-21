@@ -1,5 +1,8 @@
 """Precios de referencia: rangos que publican los talleres y mediana de Medellín (solo con 3 o más talleres)."""
+from datetime import timedelta
 from statistics import median
+
+from django.utils import timezone
 
 from .models import CILINDRAJES, PrecioServicio
 
@@ -28,3 +31,29 @@ def medianas_medellin(servicio_id=None):
                           "desde": _redondear(median(d for d, _ in rangos)),
                           "hasta": _redondear(median(h for _, h in rangos)), "talleres": len(rangos)})
     return resultado
+
+
+# Recordatorio: los precios de mano de obra se confirman cada 2-3 meses (a los 75 días se avisa).
+DIAS_RECORDATORIO = 75
+
+
+def limite_vencimiento(ahora=None):
+    from django.utils import timezone
+    return (ahora or timezone.now()) - timedelta(days=DIAS_RECORDATORIO)
+
+
+def fecha_confirmacion(taller):
+    """Fecha de la confirmación más antigua entre sus precios (la que manda para decir «confirmado el dd/mm»), o None."""
+    from django.db.models import Min
+    f = taller.precios.aggregate(f=Min("actualizado"))["f"]
+    return timezone.localtime(f).date() if f else None
+
+
+def necesita_confirmar(taller, ahora=None):
+    """True si tiene precios y alguno lleva más de 75 días sin confirmarse."""
+    return taller.precios.filter(actualizado__lt=limite_vencimiento(ahora)).exists()
+
+
+def confirmar_vigentes(taller):
+    """«Siguen vigentes»: renueva la fecha de todos sus precios sin cambiar los valores."""
+    return taller.precios.update(actualizado=timezone.now())

@@ -49,7 +49,7 @@ class TalleresTests(TestCase):
 
     def test_registro_queda_inactivo_y_normaliza_whatsapp(self):
         # El registro de talleres ahora crea también la cuenta del taller.
-        self.assertRedirects(self.client.get(reverse("talleres:registro")), reverse("cuentas:registro") + "?tipo=taller")
+        self.assertRedirects(self.client.get(reverse("talleres:registro")), reverse("talleres:autoregistro"))
         r = self.client.post(reverse("cuentas:registro") + "?tipo=taller", {
             "email": "Luis@Taller.com", "password1": "ClaveSegura-2026", "password2": "ClaveSegura-2026", "acepto": "on",
             "nombre": "Nuevo Taller", "responsable": "Luis", "whatsapp": "300 123 4567",

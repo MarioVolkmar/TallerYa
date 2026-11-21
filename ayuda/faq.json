@@ -230,7 +230,7 @@
           "respuesta": [
             "Crea tu cuenta como taller con los datos del negocio. Queda en revisión y, cuando lo aprobamos, aparece en el directorio y puedes recibir citas, publicar precios y cupones."
           ],
-          "acciones": [{"texto": "Registrar mi taller", "url_nombre": "talleres:registro"}],
+          "acciones": [{"texto": "Registrar mi taller", "url_nombre": "talleres:autoregistro"}],
           "relacionadas": ["buscar-taller"]
         }
       ]

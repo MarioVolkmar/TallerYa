@@ -337,6 +337,9 @@ def administracion(request):
 @require_POST
 def aprobar_taller(request, pk):
     taller = get_object_or_404(Taller, pk=pk)
+    if taller.falta_aprobacion:
+        messages.error(request, "El taller aún no aprobó su ficha (Ley 1581). Envíale el enlace de revisión desde la consola.")
+        return redirect("cuentas:administracion")
     taller.activo = True
     taller.save(update_fields=["activo"])
     if taller.usuario:

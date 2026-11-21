@@ -17,8 +17,21 @@ class FotoTallerInline(admin.TabularInline):
     fields = ("imagen", "video", "descripcion", "orden")
 
 
+class TallerAdminForm(forms.ModelForm):
+    class Meta:
+        model = Taller
+        fields = "__all__"
+
+    def clean_activo(self):
+        activo = self.cleaned_data.get("activo")
+        if activo and self.instance.pk and self.instance.falta_aprobacion:
+            raise forms.ValidationError("El taller aún no aprobó su ficha (Ley 1581): no se puede publicar.")
+        return activo
+
+
 @admin.register(Taller)
 class TallerAdmin(admin.ModelAdmin):
+    form = TallerAdminForm
     inlines = [HorarioTallerInline, FotoTallerInline]
     list_display = ("nombre", "barrio", "nivel_precio", "verificado", "activo", "destacado", "creado")
     list_filter = ("verificado", "activo", "destacado", "barrio")

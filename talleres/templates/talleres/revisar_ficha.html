@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Revisa tu ficha · {{ taller.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<section class="papel max-w-2xl mx-auto mt-8 md:mt-12 p-5 md:p-8">
+  <p class="etiqueta">Ficha de tu taller</p>
+  <h1 class="titulo text-3xl mt-1">{{ taller.nombre }}</h1>
+  {% if vencida %}
+    <p class="mt-3">Este enlace venció (valen 30 días). Escríbenos por WhatsApp y te enviamos uno nuevo.</p>
+  {% elif aprobada %}
+    <p class="mt-3">Aprobaste tu ficha el {{ taller.aprobado_por_taller|date:"d/m/Y" }} a las {{ taller.aprobado_por_taller|date:"H:i" }}.
+      {% if taller.activo %}Tu taller ya está <a class="underline" href="{{ taller.get_absolute_url }}">publicado</a>.{% else %}Un asesor de TallerYa la publica en breve.{% endif %}</p>
+    <p class="text-sm text-suave mt-2">¿Algo cambió? Escríbenos por WhatsApp y lo actualizamos.</p>
+  {% else %}
+    <p class="text-suave mt-2">Cargamos estos datos con lo que nos diste. Corrige lo que haga falta, marca la autorización y aprueba para que podamos publicarlo.</p>
+    <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-6">
+      {% csrf_token %}
+      {% include "talleres/_ficha_campos.html" %}
+      <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm">Guardar y aprobar</button>
+      <p class="text-xs text-suave sm:col-span-2">Si no marcas la autorización solo guardamos tus correcciones; el taller no se publica.</p>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

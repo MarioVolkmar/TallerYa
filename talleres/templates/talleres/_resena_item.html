@@ -1,6 +1,6 @@
 {# Una reseña con su respuesta (panel y página de reseñas). Variable: r #}
 <li class="pt-resena">
-  <p class="pt-resena-cabeza"><strong>{{ r.nombre }}</strong><span class="estrellas">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span><small>{{ r.creado|date:"j M"|lower }}</small></p>
+  <p class="pt-resena-cabeza"><strong>{{ r.nombre }}</strong><span class="estrellas">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span><small>{{ r.creado|date:"j M"|lower }}</small> {% if r.verificada %}<span class="sello-verificada" title="Viene de un servicio registrado en TallerYa">✓ Verificada</span>{% endif %}</p>
   <p class="pt-resena-texto">{{ r.comentario }}</p>
   <details class="pt-responder"{% if not r.respuesta %}{% endif %}>
     <summary>{% if r.respuesta %}<span class="pt-respondida">✓ Respondiste</span> · Editar{% else %}Responder{% endif %}</summary>

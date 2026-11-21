@@ -3,6 +3,7 @@
 {% block title %}Mi taller · TallerYa{% endblock %}
 {% block content %}
 <div class="pt mt-8 md:mt-10">
+  {% if precios_por_confirmar %}<p class="papel p-3 mb-3 text-sm">Tus precios de mano de obra llevan más de 2 meses sin confirmarse. <a class="underline" href="{% url 'talleres:precios' %}">Confirmarlos o actualizarlos</a></p>{% endif %}
   <section class="papel pt-cabeza">
     <button type="button" class="cuenta-avatar pt-avatar" id="abrir-avatar" title="Cambiar avatar" aria-haspopup="dialog" aria-controls="avatar">
       {% avatar user 64 %}
@@ -18,7 +19,8 @@
         <a href="{% url 'talleres:editar_perfil' %}" class="btn btn-borde text-xs px-4 py-2">Editar perfil y fotos</a>
         <a href="{% url 'talleres:estadisticas' %}" class="btn btn-borde text-xs px-4 py-2">Estadísticas del mes</a>
         <a href="{% url 'talleres:agenda' %}" class="btn btn-borde text-xs px-4 py-2">Agenda y horario</a>
-        <a href="{% url 'talleres:precios' %}" class="btn btn-borde text-xs px-4 py-2">Mis precios</a>
+        <a href="{% url 'talleres:servicio_rapido' %}" class="btn btn-lava text-xs px-4 py-2">Registrar servicio (30 s)</a>
+        <a href="{% url 'talleres:precios' %}" class="btn btn-borde text-xs px-4 py-2">Mis precios{% if precios_por_confirmar %} · confirmar{% endif %}</a>
         {% with d=taller.domicilio %}<form method="post" action="{% url 'domicilio:alternar_taller' %}" class="pt-domicilio">{% csrf_token %}
           <input type="hidden" name="valor" value="{% if d.activo %}0{% else %}1{% endif %}">
           <button type="submit" class="btn btn-borde text-xs px-4 py-2 pt-domicilio-btn" role="switch" aria-checked="{% if d.activo %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Va a domicilio</button>

@@ -46,7 +46,7 @@
   <section class="papel p-5 md:p-7 perfil-precios" id="precios" aria-labelledby="precios-titulo">
     <div class="flex flex-wrap items-baseline justify-between gap-2">
       <h2 class="titulo text-2xl" id="precios-titulo">{% if tabla_precios.filas %}Mano de obra desde{% else %}Servicios{% endif %}</h2>
-      {% if tabla_precios.filas %}<p class="text-xs text-suave">Solo mano de obra, sin repuestos · orientativos, no son una cotización</p>{% endif %}
+      {% if tabla_precios.filas %}<p class="text-xs text-suave">Solo mano de obra, sin repuestos · precio de referencia{% if tabla_precios.confirmado %}, confirmado el {{ tabla_precios.confirmado|date:"d/m" }}{% endif %}</p>{% endif %}
     </div>
     {% if tabla_precios.filas %}
     <div class="perfil-precios-tabla">
@@ -176,7 +176,7 @@
           <div class="perfil-resena">
             <span class="perfil-resena-inicial" aria-hidden="true">{{ r.nombre|first|upper }}</span>
             <div class="min-w-0">
-              <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span> <span class="text-xs text-suave">· {{ r.creado|date:"j M Y"|lower }}</span></p>
+              <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span> <span class="text-xs text-suave">· {{ r.creado|date:"j M Y"|lower }}</span> {% if r.verificada %}<span class="sello-verificada" title="Viene de un servicio registrado en TallerYa">✓ Verificada</span>{% endif %}</p>
               <p class="text-sm text-suave mt-0.5">{{ r.comentario }}</p>
               {% if r.respuesta %}<div class="perfil-respuesta"><p class="perfil-respuesta-quien">Respuesta de {{ taller.nombre }}</p><p>{{ r.respuesta }}</p></div>{% endif %}
             </div>

@@ -1,0 +1,12 @@
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Alta asistida de un taller</h1>
+  <p class="cs-sub">Carga los datos que te dio el taller. Queda sin publicar y se genera un enlace para que él revise, corrija y apruebe.</p>
+</header>
+<form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-3xl">
+  {% csrf_token %}
+  {% include "talleres/_ficha_campos.html" %}
+  <div class="sm:col-span-2 flex gap-3">
+    <button class="cs-btn cs-btn-ok">Crear y generar enlace</button>
+    <a class="cs-btn" href="?seccion=talleres">Cancelar</a>
+  </div>
+</form>

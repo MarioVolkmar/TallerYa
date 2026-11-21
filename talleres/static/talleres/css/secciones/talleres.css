@@ -394,3 +394,7 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 /* Cotización del taller en la cita (_dialogo_cotizar.html, _cita_item.html y cita_publica.html) */
 .pt-boton-lava { color: #ff9a6a; border-color: rgba(242, 97, 29, .5); }
 .pt-boton-lava:hover { background: var(--lava); color: #fff; border-color: var(--lava); }
+
+/* Paso 3: confirmar precios y fichas de alta sin cuenta */
+.tf-confirmar { border: 1px solid var(--linea, #d9d4c8); border-radius: 12px; padding: .75rem 1rem; }
+.sello-verificada { display: inline-block; font-size: .7rem; font-weight: 700; color: #1f7a4a; border: 1px solid currentColor; border-radius: 999px; padding: 0 .5rem; white-space: nowrap; }

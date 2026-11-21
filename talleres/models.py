@@ -1,3 +1,4 @@
+import secrets
 from urllib.parse import quote
 
 from django.conf import settings
@@ -87,6 +88,20 @@ class Taller(models.Model):
     mostrar_precios = models.BooleanField(
         "mostrar precios de mano de obra", default=False,
         help_text="Si está apagado, el perfil dice «Cotiza por WhatsApp» en vez de la tabla de precios de mano de obra.")
+    # Alta: cómo llegó el taller. «cuenta» = registro normal; «asistido» = lo cargó el equipo con datos que dio el taller;
+    # «autoregistro» = lo llenó el propio taller sin cuenta. Los dos últimos se revisan con un enlace con token.
+    class Alta(models.TextChoices):
+        CUENTA = "cuenta", "Con cuenta"
+        ASISTIDO = "asistido", "Alta asistida"
+        AUTOREGISTRO = "autoregistro", "Autoregistro"
+
+    origen_alta = models.CharField("cómo se dio de alta", max_length=12, choices=Alta.choices, default=Alta.CUENTA)
+    token_revision = models.CharField(max_length=40, unique=True, null=True, blank=True, editable=False)
+    token_creado = models.DateTimeField("enlace de ficha creado", null=True, blank=True, editable=False)
+    precios_aviso_enviado = models.DateTimeField("último correo de precios por confirmar", null=True, blank=True, editable=False)
+    autoriza_datos = models.BooleanField("autorizó el tratamiento de datos (Ley 1581)", default=False)
+    aprobado_por_taller = models.DateTimeField("el taller aprobó su ficha", null=True, blank=True, editable=False)
+    aprobado_ip = models.GenericIPAddressField("IP de la aprobación", null=True, blank=True, editable=False)
     agenda_activa = models.BooleanField("reservas por franjas", default=False,
                                         help_text="El motero elige un horario libre al pedir la cita.")
     duracion_franja = models.PositiveSmallIntegerField("duración de la franja (min)", default=60,
@@ -144,6 +159,32 @@ class Taller(models.Model):
 
     def get_absolute_url(self):
         return reverse("talleres:detalle", args=[self.slug])
+
+    @property
+    def pendiente_de_revision(self):
+        """Alta que espera: no publicada y que no es el registro normal con cuenta."""
+        return not self.activo and self.origen_alta != self.Alta.CUENTA
+
+    DIAS_ENLACE = 30
+
+    def generar_token(self):
+        """Enlace nuevo (el anterior deja de servir) que vence a los 30 días."""
+        from django.utils import timezone
+        self.token_revision = secrets.token_urlsafe(24)
+        self.token_creado = timezone.now()
+        return self.token_revision
+
+    @property
+    def enlace_vencido(self):
+        from datetime import timedelta
+        from django.utils import timezone
+        desde = self.token_creado or self.creado
+        return timezone.now() - desde > timedelta(days=self.DIAS_ENLACE)
+
+    @property
+    def falta_aprobacion(self):
+        """Alta sin cuenta que el taller aún no aprobó (Ley 1581): no se puede publicar."""
+        return self.origen_alta != self.Alta.CUENTA and not self.aprobado_por_taller
 
     @cached_property
     def calificacion(self):
@@ -263,6 +304,10 @@ class Resena(models.Model):
     respuesta = models.TextField("respuesta del taller", max_length=600, blank=True)
     respondida_en = models.DateTimeField(null=True, blank=True)
     visible = models.BooleanField(default=True)
+    # Sello «verificada»: viene de un servicio registrado por el taller (id de garaje.ServicioTaller; sin FK para no
+    # crear un ciclo de migraciones entre talleres y garaje).
+    verificada = models.BooleanField(default=False)
+    servicio_taller_id = models.PositiveIntegerField(null=True, blank=True, editable=False)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:

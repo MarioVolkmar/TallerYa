@@ -148,3 +148,62 @@ def servicios_taller(request):
     pagina = Paginator(servicios, 15).get_page(request.GET.get("pagina"))
     return render(request, "talleres/servicios_taller.html", {
         "taller": taller, "pagina": pagina, "resumen": st.resumen_taller(taller)})
+
+
+def _form_rapido():
+    from django import forms
+
+    from garaje.forms import MAX_KM, leer_pesos
+    from .forms import EstiloMixin
+
+    class ServicioRapidoForm(EstiloMixin, forms.Form):
+        placa = forms.CharField(label="Placa", max_length=8, widget=forms.TextInput(
+            attrs={"autocapitalize": "characters", "autocomplete": "off", "placeholder": "ABC12D", "autofocus": True}))
+        km = forms.IntegerField(label="Kilometraje", min_value=0, max_value=MAX_KM,
+                                widget=forms.NumberInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 12500"}))
+        que = forms.CharField(label="Qué se hizo", max_length=200,
+                              widget=forms.TextInput(attrs={"placeholder": "Ej: cambio de aceite y filtro"}))
+        costo = forms.CharField(label="Precio cobrado (opcional)", required=False, max_length=20,
+                                widget=forms.TextInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 85.000"}))
+
+        def clean_placa(self):
+            from garaje import servicio_taller as st
+            return st.normalizar_placa(self.cleaned_data["placa"])
+
+        def clean_costo(self):
+            return leer_pesos(self.cleaned_data.get("costo"))
+
+    return ServicioRapidoForm
+
+
+@login_required
+def servicio_rapido(request):
+    """Servicio en 30 segundos desde el celular: placa, km, qué se hizo y precio. Va a la hoja de vida del motero
+    (cuando él lo confirma) y le abre una reseña verificada."""
+    from cuentas import limites
+    from cuentas.limites import ip_cliente
+    from garaje import servicio_taller as st
+    from garaje.models import ServicioTaller
+    taller = _taller_de(request)
+    if not taller:
+        return redirect("cuentas:mi_cuenta")
+    form = _form_rapido()(request.POST or None)
+    if request.method == "POST":
+        clave = f"placa-taller:{taller.pk}"
+        if limites.superado(clave, BUSQUEDAS_PLACA_HORA):
+            form.add_error(None, "Hiciste muchas búsquedas por placa. Intenta en un rato.")
+        elif form.is_valid():
+            limites.sumar(clave, 3600)
+            d = form.cleaned_data
+            motos = st.buscar_por_placa(d["placa"])
+            if not motos:
+                form.add_error("placa", "No hay una moto con esa placa en TallerYa. Pídele al motero que la registre en su garaje (es gratis).")
+            elif d["km"] < motos[0].km_actual:
+                form.add_error("km", f"Es menor que el kilometraje actual ({motos[0].km_actual:,} km). Revísalo.".replace(",", "."))
+            else:
+                s = st.crear(taller, motos[0], origen=ServicioTaller.Origen.PLACA, fecha=timezone.localdate(), km=d["km"],
+                             tareas=[], otros=d["que"], costo=d["costo"], registrado_por=request.user, ip=ip_cliente(request))
+                messages.success(request, f"Listo: {motos[0]} ({d['placa']}). Le pedimos al dueño que lo confirme; "
+                                          "al confirmarlo queda en su hoja de vida y puede dejarte una reseña verificada.")
+                return redirect("talleres:servicio_rapido")
+    return render(request, "talleres/servicio_rapido.html", {"taller": taller, "form": form})
