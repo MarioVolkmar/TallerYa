@@ -66,6 +66,13 @@
       {% elif not t.tarea.hazlo_tu %}
       <div class="camino"><p class="camino-texto">Aún no hay talleres en TallerYa que ofrezcan este servicio.</p></div>
       {% endif %}
+      <div class="camino camino-cotizar">
+        <p class="camino-nombre">Cotizar y resolverlo</p>
+        <div class="flex flex-wrap gap-2 mt-2">
+          <a href="{% url 'talleres:inicio' %}?servicio={{ t.tarea.servicio_id }}" class="tarea-accion tarea-accion-principal">Cotizar con un taller cercano</a>
+          <a href="{{ t.url_domicilio }}" class="tarea-accion">Pedir mecánico a domicilio</a>
+        </div>
+      </div>
     </div>
 
     <div class="tarea-acciones">

@@ -27,6 +27,7 @@ urlpatterns = [
     path("garaje/<int:pk>/documento/<slug:clave>/", views.documento, name="documento"),
     path("garaje/<int:pk>/documento/<slug:clave>/subir/", views.subir_documento, name="subir_documento"),
     path("garaje/<int:pk>/km/", views.registrar_km, name="registrar_km"),
+    path("garaje/<int:pk>/km/confirmar/", views.confirmar_km, name="confirmar_km"),
     path("garaje/<int:pk>/al-dia/", views.poner_al_dia, name="poner_al_dia"),
     path("garaje/agregar/mantenimientos/", views.tareas_alta, name="tareas_alta"),
     path("garaje/<int:pk>/ajustar/", views.ajustar_tarea, name="ajustar_tarea"),

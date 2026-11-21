@@ -12,6 +12,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from .hoja_vida import desde_mantenimiento
+from .kilometraje import registrar_lectura
 from .models import AjusteTarea, LecturaKm, Mantenimiento, Moto, RegistroServicio, ServicioTaller
 
 DIAS_EMPATE = 10  # un "ya lo hice" del dueño con la misma tarea dentro de ±10 días es el mismo servicio
@@ -115,10 +116,7 @@ def aplicar(s):
             r.costo = s.costo if i == 0 else None
             r.verificado, r.servicio_taller = True, s
             r.save()
-        if s.km > moto.km_actual:  # el taller vio el odómetro: también cuenta como lectura
-            LecturaKm.objects.create(moto=moto, km=s.km, fecha=s.fecha)
-            moto.km_actual = s.km
-            moto.save(update_fields=["km_actual"])
+        registrar_lectura(moto, s.km, s.fecha)  # el taller vio el odómetro: cuenta como lectura y recalibra el ritmo
         s.estado = ServicioTaller.Estado.VERIFICADO
         s.save(update_fields=["estado"])
     return registros

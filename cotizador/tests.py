@@ -156,7 +156,8 @@ class VistasTests(Base):
         self.client.force_login(self.usuario)
         html = self.client.get(reverse("garaje:moto", args=[self.moto.pk])).content.decode()
         self.assertNotIn("cotizador", html.lower())
-        self.assertNotIn("Cotizar", html)
+        self.assertNotIn("Cotizar por repuesto", html)
+        self.assertNotIn("Cotizar una pieza", html)
         self.assertEqual(self.client.get(reverse("cotizador:parte", args=[self.parte.pk])).status_code, 404)
         self.assertEqual(self.client.get(reverse("cotizador:codigo") + "?c=2DP-F5805-00").status_code, 404)
 

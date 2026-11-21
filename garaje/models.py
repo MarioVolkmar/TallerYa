@@ -185,8 +185,15 @@ class Moto(models.Model):
                                      upload_to=ruta_documento, blank=True)
     matricula = models.DateField("fecha de matrícula", null=True, blank=True,
                                  help_text="Sirve para calcular la primera técnico-mecánica (a los 2 años)")
+    perfil_uso = models.CharField(
+        "¿cómo la usas?", max_length=12, blank=True,
+        choices=[("fines_semana", "Solo fines de semana y paseos"), ("ciudad", "Ciudad, a diario"),
+                 ("trabajo", "Trabajo o domicilios"), ("carretera", "Mucha carretera")],
+        help_text="Con esto estimamos cuántos km recorres al día hasta tener tus lecturas")
     km_inicial = models.PositiveIntegerField("kilometraje al registrarla")
     km_actual = models.PositiveIntegerField()
+    # Última vez que dijo «no ahora» a la confirmación de km: no se le vuelve a preguntar en unos días
+    km_pregunta_pospuesta = models.DateField(null=True, blank=True, editable=False)
     # Pico y placa (solo si tiene placa)
     aviso_pico_placa = models.BooleanField("avisarme del pico y placa en TallerYa", default=True)
     pico_placa_whatsapp = models.BooleanField("recordarme el pico y placa por WhatsApp", default=False)
@@ -412,6 +419,8 @@ class LecturaKm(models.Model):
     moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="lecturas")
     km = models.PositiveIntegerField()
     fecha = models.DateField(default=timezone.localdate)
+    # Confirmada con un toque a partir de una estimación (no la escribió el motero ni la vio un taller)
+    estimada = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:

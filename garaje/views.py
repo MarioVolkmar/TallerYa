@@ -47,6 +47,8 @@ from .models import (COLORES_SECUNDARIOS, DISENOS_CALCA, DOCUMENTOS, HEX, Despie
                      AjusteTarea, LineaMoto, Mantenimiento, Moto, ParteDespiece, TareaMantenimiento)
 from domiciliarios.intensivo import precargar_trabajo
 
+from domicilio.models import TipoServicio
+from .kilometraje import km_valido, pregunta_km, registrar_lectura
 from .plan import GRAVEDAD, MARCA_SIN_IDEA, calcular_plan, es_sin_idea, fecha_de_nueva, fecha_en_km, km_en_fecha, km_es_estimado
 from .intervalos import intervalo_para
 
@@ -339,6 +341,13 @@ def _se_compra(clave, descripcion):
     return True
 
 
+def _url_domicilio(tarea, tipos):
+    """Mecánicos a domicilio, filtrados por el servicio de la tarea si existe con el mismo nombre."""
+    base = reverse("domicilio:listado")
+    nombre = tarea.servicio.nombre if tarea.servicio_id else ""
+    return f"{base}?servicio={tipos[nombre]}" if nombre in tipos else base
+
+
 def _agenda(moto, plan, despiece=None):
     """La "Agenda de mantenimiento": próximo servicio, grupos por estado y una ficha de acción por tarea."""
     hoy = timezone.localdate()
@@ -371,11 +380,13 @@ def _agenda(moto, plan, despiece=None):
     talleres.sort(key=puntaje)
     servicios_de = {tl.pk: {s_.pk for s_ in tl.servicios.all()} for tl in talleres}
 
+    tipos_domicilio = dict(TipoServicio.objects.values_list("nombre", "pk"))
     for t in plan.tareas:
         t.ajuste = ajustes.get(t.tarea.pk)
         t.repuestos = repuestos.get(t.tarea.pk, [])
         t.por_que = POR_QUE.get(t.tarea.clave) or por_que.get(t.tarea.pk) or t.tarea.descripcion
         mejor = next((tl for tl in talleres if t.tarea.servicio_id in servicios_de[tl.pk]), None)
+        t.url_domicilio = _url_domicilio(t.tarea, tipos_domicilio)
         t.taller_sugerido = mejor and {"taller": mejor, "cupon": cupones.get(mejor.pk),
                                        "whatsapp": _whatsapp_para(mejor, t.tarea, moto)}
         # Para el calendario: la fecha estimada, o en una semana si ya toca.
@@ -637,6 +648,7 @@ def detalle(request, pk):
                             "disenos": DISENOS_CALCA,
                             "url": reverse("garaje:personalizar", args=[moto.pk])},
         "lectura_form": LecturaForm(moto=moto),
+        "pregunta_km": pregunta_km(moto),
         "talleres_activos": Taller.objects.filter(activo=True).only("nombre"),
         "talleres": talleres,
         "talleres_lo_que_viene": talleres_lo_que_viene,
@@ -1352,6 +1364,26 @@ def personalizar(request, pk):
     moto.color, moto.color_secundario, moto.calcas, moto.estilo = color, secundario, calcas, estilo
     moto.save(update_fields=["color", "color_secundario", "calcas", "estilo"])
     return JsonResponse({"ok": True})
+
+
+@con_motociclista
+@require_POST
+def confirmar_km(request, pk):
+    """«¿Vas por unos X km?»: «Sí» guarda la estimación como lectura; «Ahora no» la pospone unos días."""
+    moto = _moto_de(request, pk)
+    if request.POST.get("accion") == "despues":
+        moto.km_pregunta_pospuesta = timezone.localdate()
+        moto.save(update_fields=["km_pregunta_pospuesta"])
+        return redirect(moto)
+    try:
+        km = int(request.POST.get("km", ""))
+    except ValueError:
+        km = 0
+    if km_valido(moto, km) and registrar_lectura(moto, km, estimada=True):
+        messages.success(request, f"Kilometraje actualizado: {_miles(km)} km.")
+    else:
+        messages.error(request, "No pudimos confirmar ese kilometraje. Escríbelo abajo.")
+    return redirect(moto)
 
 
 @con_motociclista

@@ -46,7 +46,7 @@ class MotoForm(EstiloMixin, forms.ModelForm):
 
     class Meta:
         model = Moto
-        fields = ["marca_otra", "linea_otra", "tipo_otra", "modelo", "color", "apodo", "placa",
+        fields = ["marca_otra", "linea_otra", "tipo_otra", "modelo", "color", "perfil_uso", "apodo", "placa",
                   "soat_vence", "soat_archivo", "tecno_vence", "tecno_archivo", "matricula"]
         widgets = {
             "modelo": forms.NumberInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 2021"}),

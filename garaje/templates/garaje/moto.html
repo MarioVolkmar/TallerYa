@@ -139,6 +139,17 @@
       </ul>
       {% endif %}
 
+      {% if pregunta_km %}
+      <form method="post" action="{% url 'garaje:confirmar_km' moto.pk %}" class="km-pregunta" id="km-pregunta">
+        {% csrf_token %}<input type="hidden" name="km" value="{{ pregunta_km.km }}">
+        <p class="km-pregunta-texto">¿Vas por unos <strong>{{ pregunta_km.km|intcomma }} km</strong>? <span>Lo calculamos con lo que recorres al día.</span></p>
+        <div class="km-pregunta-botones">
+          <button class="btn btn-lava px-4 py-3 text-xs" name="accion" value="si">Sí</button>
+          <a href="#form-km" class="btn-borde px-4 py-3 text-xs">Corregir</a>
+          <button class="km-pregunta-luego" name="accion" value="despues">Ahora no</button>
+        </div>
+      </form>
+      {% endif %}
       <form method="post" action="{% url 'garaje:registrar_km' moto.pk %}" class="odometro-form" id="form-km" novalidate>
         {% csrf_token %}
         <label class="sr-only" for="{{ lectura_form.km.id_for_label }}">{{ lectura_form.km.label }}</label>

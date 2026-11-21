@@ -65,6 +65,10 @@
         </div>
         {% endif %}
         <div>
+          <label class="campo-label">{{ form.perfil_uso.label }} <span class="font-normal text-suave">(opcional)</span>{{ form.perfil_uso }}</label>
+          <p class="text-xs text-suave mt-1">{{ form.perfil_uso.help_text }}</p>
+        </div>
+        <div>
           <label class="campo-label">Apodo <span class="font-normal text-suave">(opcional)</span>{{ form.apodo }}</label>
           {% for e in form.apodo.errors %}<p class="error">{{ e }}</p>{% endfor %}
         </div>

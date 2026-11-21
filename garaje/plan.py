@@ -246,7 +246,7 @@ def _ritmo_lecturas(moto):
 def _ritmo_estimado(moto, hoy):
     """Sin historial suficiente: desde que se registró en TallerYa; si no, desde la fecha de matrícula; si no, por el año
     del modelo."""
-    for calcular in (_ritmo_registro, _ritmo_matricula, _ritmo_modelo):
+    for calcular in (_ritmo_registro, _ritmo_matricula, _ritmo_perfil, _ritmo_modelo):
         if (ritmo := calcular(moto, hoy)) is not None:
             return ritmo
     return None
@@ -280,6 +280,12 @@ def _ritmo_registro(moto, hoy):
             if RITMO_MIN <= ritmo <= RITMO_MAX:
                 return ritmo
     return None
+
+
+def _ritmo_perfil(moto, hoy):
+    """Lo que el motero dijo al registrar la moto (ciudad a diario, fines de semana…): primer km/día, antes de tener lecturas."""
+    from .kilometraje import KM_DIA_PERFIL
+    return KM_DIA_PERFIL.get(getattr(moto, "perfil_uso", ""))
 
 
 def _ritmo_modelo(moto, hoy):
