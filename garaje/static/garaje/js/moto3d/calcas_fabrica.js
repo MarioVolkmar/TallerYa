@@ -143,9 +143,9 @@ const LINEAS = [
     N("CB", ["tanque"], { posicion: 0.25, altura: -0.1, ancho: 0.1, contorno: true, color: "letra" }),
     N("CB125F", ["lateral", "cola"], { id: "modelo", nombre: "Modelo CB125F", posicion: 0, altura: -0.3, ancho: 0.08, color: "gris" })]],
   [/cb\s*1[69]0/i, (l) => [N("CB" + (l.match(/\b(160|190)\b/) || [, "190"])[1], ["tanque"], { ancho: 0.24 }), F(["tanque"], { altura: -0.5 })]],
-  // XR 190L (fotos Galgo 2020–2026): cuña blanca y negra grande en la aleta con "XR190L" blanco de borde negro encima
+  // XR 190L (fotos Galgo 2020–2026): cuña blanca y negra grande en la aleta con "XR 190L" grande (≈ 60 % de la aleta, en diagonal) blanco de borde negro encima
   [/\bxr\s*190/i, () => [F(["tanque"], { id: "cuna", nombre: "Cuña de la aleta", angosto: 0.45, posicion: 0.0, altura: -0.25, ancho: 0.28, color: "#f2f2f2", color2: "#141414" }),
-    N("XR190L", ["tanque"], { posicion: 0.05, altura: 0.05, ancho: 0.17, giro: 8, color: "#f4f4f2", color2: "#141414" })]],
+    N("XR 190L", ["tanque"], { posicion: -0.2, altura: -0.1, ancho: 0.15, giro: 10, color: "#f4f4f2", color2: "#141414" })]],
   // DR 150 (fotos Galgo 2025): filete del color de la versión a lo largo de la tapa lateral negra y "DR150" claro
   [/\bdr\s*150/i, () => [F(["lateral", "cola"], { id: "filete", nombre: "Filete lateral", forma: "filete", posicion: 0, altura: -0.1, ancho: 0.3, giro: 6, color: "vivo:#d6e02a", color2: "vivo:#d6e02a" }),
     N("DR150", ["tanque"], { posicion: -0.05, altura: -0.45, ancho: 0.11, color: "#e8e8e8" })]],

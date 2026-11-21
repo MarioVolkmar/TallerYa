@@ -8,7 +8,7 @@ import * as THREE from "three";
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
 // Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
 // (skill moto-3d-tripo; mismo formato que el piloto)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=8" };
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=16", aerox: "../../modelos/aerox155_tripo3.glb?v=4", "xr[ _-]*190": "../../modelos/xr190l_tripo4.glb?v=7", "eco[ _-]*deluxe": "../../modelos/ecodeluxe100_tripo.glb?v=5", "fz[ _-]*25": "../../modelos/fz25_tripo.glb?v=1" };
 
 const ACCESORIOS_GLB = ["baul", "led"];
 
@@ -233,9 +233,15 @@ function texturaLabrado() {
   const g = l.getContext("2d");
   g.fillStyle = "#8c8c8c"; g.fillRect(0, 0, 128, 128);
   g.strokeStyle = "#1c1c1c"; g.lineCap = "round";
-  g.lineWidth = 5; g.beginPath(); g.moveTo(0, 64); g.lineTo(128, 64); g.stroke();
+  // (20-nov-2026: sin el canal corrido en el centro, que se veía como una raya fea; ranuras en V alternadas, como el
+  // labrado de calle: cada lado sale del hombro hacia el centro sin cruzarlo, corrido media ranura del otro lado)
   g.lineWidth = 6;
-  for (const x0 of [6, 70]) for (const s of [1, -1]) { g.beginPath(); g.moveTo(x0, 64 + s * 9); g.lineTo(x0 + 40, 64 + s * 40); g.stroke(); }
+  for (const x0 of [0, 64]) {
+    g.beginPath(); g.moveTo(x0 + 4, 14); g.lineTo(x0 + 30, 56); g.stroke();
+    g.beginPath(); g.moveTo(x0 + 36, 114); g.lineTo(x0 + 62, 72); g.stroke();
+  }
+  g.lineWidth = 4;
+  for (const x0 of [0, 64]) { g.beginPath(); g.moveTo(x0 + 26, 60); g.lineTo(x0 + 40, 68); g.stroke(); }
   const tex = new THREE.CanvasTexture(l);
   tex.wrapS = THREE.RepeatWrapping;
   tex.anisotropy = 4;
@@ -284,12 +290,30 @@ function tornearLlanta(n) {
   const rMax = Math.max(...franjas.filter((x) => x !== null));
   if (!(rMax > rIn + 0.02) || franjas.filter((x) => x !== null).length < FR * 0.6) return false;
   // Perfil (radio, z): del talón de un lado, por el costado y la banda, al talón del otro; franjas vacías interpoladas
-  const lleno = franjas.map((x, k) => x ?? (franjas[k - 1] ?? franjas[k + 1] ?? rMax));
+  let lleno = franjas.map((x, k) => x ?? (franjas[k - 1] ?? franjas[k + 1] ?? rMax));
+  // (extras.torno "redondo": corona lisa y simétrica entre el radio mayor y el de los hombros; la malla medida de algunas
+  // motos da dos lomos con un canal en el medio, que de atrás se veía como dos llantas)
+  if (n.extras.torno === "redondo") {
+    const re = Math.min(rMax - 0.012, (lleno[0] + lleno[FR - 1]) / 2);
+    lleno = lleno.map((_, k) => { const u = (k + 0.5) / FR * 2 - 1; return re + (rMax - re) * Math.sqrt(Math.max(0, 1 - u ** 4)); });
+  }
   const zc = (z0 + z1) / 2, mitad = (z1 - z0) / 2 + holgura;
-  const pts = [new THREE.Vector2(rIn, zc - mitad * 0.92)];
-  lleno.forEach((x, k) => pts.push(new THREE.Vector2(Math.max(rIn + 0.004, x + holgura), zc - mitad + (2 * mitad) * (k + 0.5) / FR)));
-  pts.push(new THREE.Vector2(rIn, zc + mitad * 0.92));
+  // (costados abombados: tres puntos entre el talón y la primera franja, que salen hasta el ancho completo a media
+  // altura; antes era un cono recto y de lado la llanta se veía rara)
+  const banda = lleno.map((x, k) => new THREE.Vector2(Math.max(rIn + 0.004, x + holgura), zc - mitad + (2 * mitad) * (k + 0.5) / FR));
+  const costado = (signo, borde) => [0.3, 0.55, 0.8].map((t) => new THREE.Vector2(rIn + (borde.x - rIn) * t,
+    zc + signo * mitad * (0.92 + 0.1 * Math.sin(Math.PI * t))));
+  const pts = [new THREE.Vector2(rIn, zc - mitad * 0.92), ...costado(-1, banda[0]), ...banda,
+    ...costado(1, banda[FR - 1]).reverse(), new THREE.Vector2(rIn, zc + mitad * 0.92)];
   const geo = new THREE.LatheGeometry(pts, 72);
+  // Labrado solo en la banda de rodadura: el costado toma la franja lisa del lienzo (antes las rayas se estiraban por
+  // todo el costado). v por punto del perfil: liso hasta el 75 % de la altura, rayas en la banda.
+  {
+    const uvp = geo.attributes.uv, alto = rMax - rIn, enBanda = pts.map((q) => q.x > rIn + 0.75 * alto);
+    const i0 = enBanda.indexOf(true), i1 = enBanda.lastIndexOf(true);
+    const vs = pts.map((q, j) => (j < i0 ? 0.04 : j > i1 ? 0.96 : 0.12 + 0.76 * (j - i0) / Math.max(1, i1 - i0)));
+    for (let i = 0; i < uvp.count; i++) uvp.setY(i, vs[i % pts.length]);
+  }
   // (el torno gira alrededor de y: se acuesta sobre z, se lleva al eje y se pasa a las coordenadas del nodo)
   geo.rotateX(Math.PI / 2); // (la y del perfil pasa a ser la z de la moto)
   geo.translate(ex - tx, ey - ty, -tz).scale(1 / s, 1 / s, 1 / s);
@@ -331,7 +355,7 @@ export async function montarGlb(moto, url) {
   // Acabados propios del GLB (no los toca Personalizar): plástico negro mate texturizado, negro de piano y mica ahumada
   M.plastico ??= new THREE.MeshStandardMaterial({ color: 0x1f2224, roughness: 0.9, metalness: 0 });
   M.negro_brillo ??= new THREE.MeshPhysicalMaterial({ color: 0x0c0e0f, roughness: 0.22, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.05 });
-  M.vidrio_oscuro ??= new THREE.MeshPhysicalMaterial({ color: 0x1b2226, transparent: true, opacity: 0.55, roughness: 0.03, clearcoat: 1, depthWrite: false });
+  M.vidrio_oscuro ??= new THREE.MeshPhysicalMaterial({ color: 0x1b2226, transparent: true, opacity: 0.86, roughness: 0.03, clearcoat: 1, depthWrite: false });
   M.dorado ??= new THREE.MeshStandardMaterial({ color: 0xc9a23a, roughness: 0.3, metalness: 0.85 });
   M.faro ??= new THREE.MeshPhysicalMaterial({ color: 0x3a4146, roughness: 0.12, metalness: 0.9, clearcoat: 1, clearcoatRoughness: 0.03 });
   M.disco ??= new THREE.MeshStandardMaterial({ color: 0xb9bec1, roughness: 0.34, metalness: 0.6 });
@@ -342,17 +366,44 @@ export async function montarGlb(moto, url) {
   // Reflector ámbar (no alumbra ni parpadea)
   M.reflector ??= new THREE.MeshPhysicalMaterial({ color: 0xff9226, roughness: 0.25, metalness: 0.1, clearcoat: 0.8 });
   M.titanio ??= new THREE.MeshStandardMaterial({ color: 0x4b4845, roughness: 0.55, metalness: 0.35 });
+  M.blanco ??= new THREE.MeshPhysicalMaterial({ color: 0xb5bbca, roughness: 0.45, metalness: 0, clearcoat: 0.4 }); // (plástico blanco de fábrica: tapas laterales de la XR 190L)
   const visores = [];
   let visorFijo = false;
   const lamparas = [];
   for (const n of nodos) {
     let mat = M[n.material] || M.oscuro;
+    // (extras.tono / acabado / emisivo: color base propio de una pieza sin tocar el material que comparten las otras
+    // motos; solo en piezas que Personalizar no recolorea)
+    if (n.material === "chasis" && n.extras.tono) {
+      // (chasis con tono de fábrica: pasa a ser el «chasis a la vista», que Personalizar deja de serie o cambia al color elegido)
+      M.chasisVisto ??= M.chasis.clone();
+      M.chasisVisto.color.set(n.extras.tono); M.chasisVisto.userData.fabrica = M.chasisVisto.color.getHex();
+      if (n.extras.acabado) Object.assign(M.chasisVisto, n.extras.acabado);
+      mat = M.chasisVisto;
+    } else if (n.extras.tono || n.extras.emisivo) {
+      mat = mat.clone();
+      if (n.extras.tono) mat.color.set(n.extras.tono);
+      if (n.extras.emisivo && mat.emissive) mat.emissive.set(n.extras.emisivo);
+      if (n.extras.acabado) Object.assign(mat, n.extras.acabado);
+      // (plástico blanco con tono de fábrica: sigue al color secundario de Personalizar; con el de serie conserva su tono)
+      if (n.material === "blanco" && n.extras.tono) { mat.userData.fabrica = mat.color.getHex(); (M.secundarios ??= []).push(mat); }
+    }
     if (n.material === "caucho" && n.extras.eje && /llanta/.test(n.nombre)) {
       M.caucho_labrado ??= Object.assign(M.caucho.clone(), { bumpMap: texturaLabrado(), bumpScale: 2.2 });
       if (!tornearLlanta(n)) labrarLlanta(n);
       mat = M.caucho_labrado;
     }
+    // (extras.luz: factor de brillo de una pieza pintada que en la foto queda a la sombra, p. ej. el colín bajo el asiento;
+    // copia en cada cuadro el color y el acabado del material compartido, así Personalizar la sigue pintando)
+    // (extras.acabado sin tono: el material propio de la pieza, p. ej. plástico inyectado en vez de pintura metalizada,
+    // con el color que Personalizar le dé al material compartido)
+    const base = mat, acab = !n.extras.tono && !n.extras.emisivo && n.extras.acabado, luz = n.extras.luz || (acab ? 1 : 0);
+    if (luz) mat = Object.assign(base.clone(), acab || {});
     const malla = new THREE.Mesh(n.geo, mat);
+    if (luz) malla.onBeforeRender = () => {
+      mat.color.copy(base.color).multiplyScalar(luz);
+      for (const k of ["roughness", "metalness", "clearcoat", "clearcoatRoughness", "side"]) if (k in base && !(acab && k in acab)) mat[k] = base[k];
+    };
     malla.name = n.nombre;
     malla.position.fromArray(n.t);
     malla.scale.fromArray(n.s);

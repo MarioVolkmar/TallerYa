@@ -9,6 +9,7 @@ Django (Python) para talleres de motos en Medellín. Todo en español (código, 
 - Despiece: `garaje/diagramas.py` (dibujos SVG propios), `despiece_fichas.py`, `despiece_glosario.py`, `despiece_mapas/*.json`, `static/garaje/js/despiece.js`; importador `manage.py importar_despiece`
 - 3D: `garaje/static/garaje/js/moto3d.js` (2200 líneas: leer por rangos)
 - Python: `venv/Scripts/python.exe` · servidor: preview `tallerya` (puerto 8001)
+- Blender 5.3 sin ventana para procesar GLB (importar, limpiar, simplificar, materiales PBR, exportar): `"/c/Program Files/Blender Foundation/Blender 5.3/blender.exe" -b --factory-startup --python script.py -- args` (scripts en el scratchpad o en la carpeta de la herramienta; salida a log) · validar y optimizar GLB: `npx gltf-transform validate|inspect|weld|simplify|quantize archivo.glb` (dev en package.json; meshopt aún no: el visor no tiene el decodificador)
 - Solo local, nunca al repo ni a servicios externos: `despiece_local/`, `manual_despiece/`, `planos_a_generar/`, `media/`, `privado/`, `db.sqlite3`
 
 ## Pruebas

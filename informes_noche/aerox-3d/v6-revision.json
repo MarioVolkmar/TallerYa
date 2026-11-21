@@ -1,0 +1,273 @@
+{
+ "glb": "C:/Users/volkm/AppData/Local/Temp/claude/8d4b7eebc15d2ff0/47b8e52c-401e-40c3-b1ce-f618739792fd/scratchpad/w/salida.glb",
+ "niveles": {
+  "luces": "AVISO",
+  "sitio": "AVISO",
+  "pintura": "OK",
+  "cortes": "AVISO",
+  "ruedas": "ERROR",
+  "lado": "OK"
+ },
+ "hallazgos": [
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "oscuro.escape: centro z pagina +0.249 (derecha); en el GLB z -0.249"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "motor.cvt: z pagina -0.158 (debe ir a la izquierda, lado contrario al escape)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "INFO",
+   "texto": "disco.disco_del: a la derecha (comparar con la foto)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "INFO",
+   "texto": "titanio.disco_portador_del: a la derecha (comparar con la foto)"
+  },
+  {
+   "seccion": "lado",
+   "nivel": "OK",
+   "texto": "moto3d.js espeja la raiz (scale.z = -1)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "caucho.llanta_tras: 4 bordes abiertos (0 a la vista, 4 dentro de la rueda), 192 cm en total; el mayor de 127 cm cerca de (-0.59, 0.20, 0.04) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "rin.rin_tras: 1 bordes abiertos (0 a la vista, 1 dentro de la rueda), 15 cm en total; el mayor de 15 cm cerca de (-0.68, 0.46, -0.01) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "oscuro.horquilla: 7 bordes abiertos (0 a la vista, 7 dentro de la rueda), 107 cm en total; el mayor de 23 cm cerca de (0.57, 0.46, -0.06) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "plastico.guardabarros_del: 9 bordes abiertos (4 a la vista, 5 dentro de la rueda), 250 cm en total; el mayor a la vista de 21 cm cerca de (0.69, 0.51, 0.03) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "pintura.laterales: 2 bordes abiertos (2 a la vista), 14 cm en total; el mayor a la vista de 8 cm cerca de (-0.78, 0.71, 0.10) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "plastico.portaplaca: 1 bordes abiertos (0 a la vista, 1 dentro de la rueda), 31 cm en total; el mayor de 31 cm cerca de (-0.89, 0.42, 0.05) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "metal.amortiguadores: 4 bordes abiertos (0 a la vista, 4 dentro de la rueda), 96 cm en total; el mayor de 55 cm cerca de (-0.69, 0.48, 0.09) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "motor.cvt: 2 bordes abiertos (0 a la vista, 2 dentro de la rueda), 26 cm en total; el mayor de 15 cm cerca de (-0.48, 0.38, -0.08) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "plastico.carroceria: 16 bordes abiertos (2 a la vista, 14 dentro de la rueda), 590 cm en total; el mayor a la vista de 9 cm cerca de (-0.76, 0.75, -0.06) (rojo en la hoja)"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "astilla flotante en caucho.llanta_del (7 vertices) en (0.46, 0.14, 0.04): a mas de ~1,5 cm de todo"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "astilla flotante en caucho.llanta_del (6 vertices) en (0.60, 0.04, 0.05): a mas de ~1,5 cm de todo"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "astilla flotante en caucho.llanta_del (21 vertices) en (0.69, 0.02, 0.05): a mas de ~1,5 cm de todo"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "astilla flotante en caucho.llanta_del (7 vertices) en (0.75, 0.04, 0.05): a mas de ~1,5 cm de todo"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "astilla flotante en caucho.llanta_del (9 vertices) en (0.88, 0.14, 0.05): a mas de ~1,5 cm de todo"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "AVISO",
+   "texto": "astilla flotante en plastico.carroceria (27 vertices) en (-0.46, 0.45, 0.05): a mas de ~1,5 cm de todo"
+  },
+  {
+   "seccion": "cortes",
+   "nivel": "INFO",
+   "texto": "limpieza automatica: no habia sobrantes sueltos ni copias del otro lado"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "OK",
+   "texto": "caucho.llanta_del: R 0.246, eje (0.672, 0.265), centro de la banda a 0 mm del eje"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "ERROR",
+   "texto": "titanio.disco_portador_del: cubre solo el 28 % de la vuelta: al girar se ve el hueco (lo que falta quedo en otra pieza fija)"
+  },
+  {
+   "seccion": "ruedas",
+   "nivel": "AVISO",
+   "texto": "caucho.llanta_tras: R 0.277, eje (-0.674, 0.278), centro de la banda a 53 mm del eje"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "luz.faro_a (faro) en (0.62, 0.75, 0.14), mira (0.72, 0.25, 0.64), 21x14x16 cm; carcasa pintura.escudo (89 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "OK",
+   "texto": "luz.faro_b (faro) en (0.62, 0.75, -0.14), mira (0.72, 0.19, -0.67), 20x14x15 cm; carcasa pintura.escudo (92 % del borde)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_del_a (direccional) en (0.56, 0.54, 0.16), mira (0.54, -0.73, -0.41), 9x6x5 cm; carcasa pintura.escudo (100 % del borde); mira al piso (dir y -0.73): incluye la cara de abajo y la luz cae sobre lo de debajo (stop MT-03)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_del_b (direccional) en (0.56, 0.54, -0.15), mira (0.56, -0.77, 0.30), 9x6x6 cm; carcasa pintura.escudo (100 % del borde); mira al piso (dir y -0.77): incluye la cara de abajo y la luz cae sobre lo de debajo (stop MT-03)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "stop.stop (stop) en (-0.73, 0.85, 0.03), mira (-0.74, -0.67, 0.01), 6x7x17 cm; carcasa plastico.carroceria (78 % del borde); mira al piso (dir y -0.67): incluye la cara de abajo y la luz cae sobre lo de debajo (stop MT-03)"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_tras_a (direccional) en (-0.77, 0.76, 0.15), mira (0.00, -0.00, -0.00), 3x3x4 cm; suelta: no toca ninguna pieza por el borde"
+  },
+  {
+   "seccion": "luces",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_tras_b (direccional) en (-0.77, 0.76, -0.09), mira (0.00, -0.00, 0.00), 3x3x4 cm; suelta: no toca ninguna pieza por el borde"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "ambar.direccional_del_a (direccional delantera) en (0.56, 0.54, 0.16)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "ambar.direccional_del_b (direccional delantera) en (0.56, 0.54, -0.15)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "ambar.direccional_tras_a (direccional trasera) en (-0.77, 0.76, 0.15)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "ambar.direccional_tras_b (direccional trasera) en (-0.77, 0.76, -0.09)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "luz.faro_a (faro) en (0.61, 0.76, 0.13)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "luz.faro_b (faro) en (0.60, 0.75, -0.13)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "stop.stop (stop) en (-0.73, 0.84, 0.03)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "espejo.luna (espejo) en (0.24, 1.16, -0.00)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "OK",
+   "texto": "oscuro.espejos (espejo) en (0.25, 1.15, 0.00)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_tras_a (derecha) sin pareja del otro lado a menos de 5 cm: si falta, en la ficha m.espejar(\"ambar.direccional_tras_a\", \"<nombre del otro lado>\") (copia reflejada en z = 0; si la otra existe pero corrida, mirar la foto)"
+  },
+  {
+   "seccion": "sitio",
+   "nivel": "AVISO",
+   "texto": "ambar.direccional_tras_b (izquierda) sin pareja del otro lado a menos de 5 cm: si falta, en la ficha m.espejar(\"ambar.direccional_tras_b\", \"<nombre del otro lado>\") (copia reflejada en z = 0; si la otra existe pero corrida, mirar la foto)"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color de la moto: escudo, laterales"
+  },
+  {
+   "seccion": "pintura",
+   "nivel": "INFO",
+   "texto": "Color de rines: rin_del, rin_tras"
+  }
+ ],
+ "pintura": {
+  "fijo": [
+   "mordaza_del",
+   "llanta_del",
+   "llanta_tras",
+   "horquilla",
+   "guardabarros_del",
+   "faro_a",
+   "faro_b",
+   "direccional_del_a",
+   "direccional_del_b",
+   "stop",
+   "luna",
+   "espejos",
+   "punos",
+   "visor",
+   "manubrio",
+   "nariz",
+   "asiento",
+   "portaplaca",
+   "escape",
+   "amortiguadores",
+   "cvt",
+   "bloque",
+   "carroceria",
+   "direccional_tras_a",
+   "direccional_tras_b",
+   "disco_del",
+   "direccional_tras_tallos",
+   "disco_portador_del"
+  ],
+  "Color de rines": [
+   "rin_del",
+   "rin_tras"
+  ],
+  "Color de la moto": [
+   "escudo",
+   "laterales"
+  ]
+ }
+}

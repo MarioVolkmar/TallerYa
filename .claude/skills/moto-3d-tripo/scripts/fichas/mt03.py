@@ -35,12 +35,15 @@ def cortar(m):
     # Disco de Tripo de los dos lados a _quitar (el del lado del escape quedaba como chasis oscuro encima del disco nuevo
     # y lo hacia ver negro; el del lado de la corona es una copia falsa)
     m.regla("_quitar", Y([rd - 0.075, 0.15 - rd, banda(az, 0.04, 0.066)]))
-    m.disco("disco.disco_del", xd, yd, 0.052, 0.144, "freno_del", interior=0.62)  # 298 mm
+    # 298 mm: pista con tres filas de agujeros escalonados (de lejos se veia lisa) y portador oscuro de 5 brazos
+    m.disco("disco.disco_del", xd, yd, 0.052, 0.144, "freno_del", interior=0.62,
+            filas=((0.69, 15, 0.0058), (0.80, 15, 0.0058), (0.91, 30, 0.0040)))
+    portador(m, xd, yd, 0.052, 0.144 * 0.62 + 0.004, "freno_del")
     m.disco("disco.disco_tras", xt, yt, 0.062, 0.107, "freno_tras", interior=0.55)  # 220 mm
     m.regla("caucho.llanta_del", Y([rd - (Rd - 0.068), O([Rd + 0.006 - rd, Y([Rd + 0.025 - rd, 22 - np.degrees(np.arctan2(y - yd, x - xd))])]), 0.062 - az]), pieza="llanta_del", eje=[xd, yd])
-    m.regla("caucho.llanta_tras", Y([rt - (Rt - 0.09), Rt + 0.02 - rt, 0.082 - az]), pieza="llanta_tras", eje=[xt, yt])
+    m.regla("caucho.llanta_tras", Y([rt - (Rt - 0.078), Rt + 0.02 - rt, 0.071 - az]), pieza="llanta_tras", eje=[xt, yt])
     m.regla("rin.rin_del", Y([Rd - 0.068 - rd, O([0.037 - az, Y([0.06 - rd, 0.05 - az])])]), pieza="llanta_del", rin=True, eje=[xd, yd])
-    m.regla("rin.rin_tras", Y([Rt - 0.09 - rt, O([0.05 - az, Y([0.07 - rt, 0.06 - az])])]), pieza="llanta_tras", rin=True, eje=[xt, yt])
+    m.regla("rin.rin_tras", Y([Rt - 0.078 - rt, O([0.05 - az, Y([0.07 - rt, 0.06 - az])])]), pieza="llanta_tras", rin=True, eje=[xt, yt])
     m.regla("metal.corona", Y([0.125 - rt, banda(-z, 0.05, 0.09)]), pieza="cadena")
 
     # --- Guardabarros delantero (corto, pintado) y horquilla invertida
@@ -70,10 +73,10 @@ def cortar(m):
     m.regla("luz.faro", Y([m.poligono(z, y, FARO), x - 0.585]), lampara={"tipo": "faro"})
     m.regla("oscuro.faro_carcasa", Y([banda(z, -0.058, 0.058), banda(y, 0.738, 0.806), x - 0.56]))
     OJO = [(0.025, 0.88), (0.10, 0.905), (0.11, 0.95), (0.03, 0.925)]
-    # Carcasa negra brillante alrededor de cada ojo (en las fotos el LED va hundido en un marco oscuro; con la moto
+    # Carcasa negra brillante, un filo fino alrededor de cada ojo (gruesa parecia un oso de anteojos o un mapache: usuario 20-nov) (en las fotos el LED va hundido en un marco oscuro; con la moto
     # blanca el ojo pintado no se distinguia). "cono": False: halo al encender, pero el haz sale del faro.
     co = np.mean(OJO, 0)
-    OJO_C = [(max(0.012, float(co[0] + (u - co[0]) * 1.45)), float(co[1] + (v - co[1]) * 1.6)) for u, v in OJO]
+    OJO_C = [(max(0.012, float(co[0] + (u - co[0]) * 1.07)), float(co[1] + (v - co[1]) * 1.10)) for u, v in OJO]
     for lado_z, letra in ((1, "a"), (-1, "b")):
         m.regla(f"luz.posicion_{letra}", Y([m.poligono(lado_z * z, y, OJO), x - 0.52]), lampara={"tipo": "faro", "cono": False})
     for lado_z, letra in ((1, "a"), (-1, "b")):
@@ -135,7 +138,27 @@ def cortar(m):
     m.regla("oscuro.basculante", Y([0.045 - db, banda(x, xt - 0.03, -0.18), banda(az, 0.03, 0.12)]), pieza="suspension_tras")
     MOTOR = [(-0.25, 0.22), (-0.25, 0.55), (-0.05, 0.63), (0.25, 0.63), (0.33, 0.45), (0.27, 0.18), (-0.15, 0.17)]
     m.regla("motor.bloque", Y([m.poligono(x, y, MOTOR), 0.17 - az]), pieza="motor")
+    # Restos de la llanta trasera de Tripo que no tomo la regla (arriba atras y un aro del lado de la corona a |z| 0,07-0,085, mas afuera que la llanta torneada del visor):
+    # quedaban fijos y se veian como una segunda llanta. Meterlos a la llanta la agrandaba (el torneado mide el radio
+    # mayor), asi que se quitan; van al final para no tocar basculante, colin ni portaplaca.
+    m.regla("_quitar", Y([rt - (Rt - 0.06), Rt + 0.045 - rt, 0.095 - az]))
     m.resto("chasis.chasis")
+
+
+def portador(m, xd, yd, zc, r_ext, pieza, brazos=5):
+    """Portador del disco (la estrella oscura entre el cubo y la pista): aro central y brazos con un remache en cada punta."""
+    eje, base = (0, 0, 1), (xd, yd, zc)
+    fs = [formas.revolucion([(0.034, -0.003), (0.050, -0.003), (0.050, 0.003), (0.034, 0.003), (0.034, -0.003)], base, eje, 32)]
+    for k in range(brazos):
+        a = 2 * np.pi * k / brazos
+        ca, sa = np.cos(a), np.sin(a)
+        rect = [(0.046, -0.009), (r_ext, -0.007), (r_ext, 0.007), (0.046, 0.009)]
+        pol = [(xd + r * ca - t * sa, yd + r * sa + t * ca) for r, t in rect]
+        fs.append(formas.extrusion(pol, zc - 0.0028, zc + 0.0028))
+        c = (xd + (r_ext - 0.004) * ca, yd + (r_ext - 0.004) * sa, zc)
+        fs.append(formas.revolucion([(0, -0.0045), (0.0045, -0.0045), (0.0045, 0.0045), (0, 0.0045)], c, eje, 10))
+    P, N, I = formas.con_normales(formas.unir(*fs), 40)
+    m.extra["titanio.disco_portador_del"] = (P, N, I, {"pieza": pieza})
 
 
 def _lamina(G1, G0):
@@ -169,24 +192,31 @@ def _espejo_z(forma):
     return P * [1, 1, -1], I[:, [0, 2, 1]]
 
 
-def guardabarros(m, xd, yd, R0=0.312, W=0.070, caida=0.024, grueso=0.003):
+def guardabarros(m, xd, yd, R0=0.338, W=0.075, caida=0.030, grueso=0.005):
     """Guardabarros delantero propio (pintado) con faldones hasta la horquilla y reflectores ambar."""
-    th = np.radians(np.linspace(32, 135, 40))
     u = np.linspace(-1, 1, 15)
-    r = R0 - caida * np.abs(u) ** 2.5
-    # (la punta delantera y la de atras bajan 6 mm, como el labio del guardabarros real)
-    r = r[None, :] - 0.006 * np.clip(1 - (np.degrees(th)[:, None] - 32) / 12, 0, 1)
+    # Punta redondeada vista desde arriba: las esquinas empiezan 10 grados mas atras que el centro (curva suave), sin
+    # angostar ni bajar el labio (asi la punta parecia doblada hacia adentro: usuario 20-nov)
+    t = np.linspace(0, 1, 40)[:, None]
+    ini = 32 + 10 * (1 - np.sqrt(1 - u[None, :] ** 2))
+    th = np.radians(ini + (135 - ini) * t)
+    r = np.broadcast_to(R0 - caida * np.abs(u) ** 3, th.shape)
     def casco(dr):
         rr = r + dr
-        return np.stack([xd + rr * np.cos(th)[:, None], yd + rr * np.sin(th)[:, None], np.broadcast_to(u * W, rr.shape)], -1)
+        return np.stack([xd + rr * np.cos(th), yd + rr * np.sin(th), np.broadcast_to(u * W, th.shape)], -1)
     formas_ = [_lamina(casco(grueso / 2), casco(-grueso / 2))]
-    # Faldon: de 76 a 128 grados, del borde del casco hacia abajo hasta r 0,215 junto a la barra (cruza la barra: atornillado)
-    tf = np.radians(np.linspace(76, 128, 16))
+    # Faldon (usuario 20-nov: con faldon chico parecia una lamina sobre la llanta): panel lateral grande como en las
+    # fotos, de 40 a 132 grados, que baja desde el borde del casco hasta r 0,20 junto a la barra (la cruza: atornillado)
+    # y sube en curva hacia la punta delantera
+    tf = np.radians(np.linspace(52, 132, 26))
     s_ = np.linspace(0, 1, 6)
-    r_lo = 0.215 + 0.075 * np.clip((100 - np.degrees(tf)) / 24, 0, 1)
-    r_hi = R0 - caida - 0.004
+    g = np.degrees(tf)
+    r_hi = R0 - caida + 0.002
+    # (nace en la punta con alto cero y baja en curva suave: un borde vertical alli se veia como un corte raro)
+    q = np.clip((g - 52) / 40, 0, 1)
+    r_lo = r_hi - (r_hi - 0.20) * q * q * (3 - 2 * q) - 0.003
     rr = r_lo[:, None] + (r_hi - r_lo[:, None]) * s_[None, :]
-    zc = W - 0.0035
+    zc = W - 0.006   # (hundido bajo el borde del casco: deja una linea de sombra, no una lamina plana)
     def faldon(zz):
         return np.stack([xd + rr * np.cos(tf)[:, None], yd + rr * np.sin(tf)[:, None], np.full(rr.shape, zz)], -1)
     f = _lamina(faldon(zc - grueso / 2), faldon(zc + grueso / 2))

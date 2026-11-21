@@ -14,7 +14,7 @@ COLORES_FABRICA = [
     # ----- 8 líneas nuevas -----
     (r"hunk\s*150", [("#1b1b1b", "Negro"), ("#b5121b", "Rojo")]),
     (r"hunk\s*125", [("#1b1b1b", "Negro"), ("#c8102e", "Rojo y gris"), ("#1f5fbf", "Azul y gris")]),
-    (r"\bxr\s*190", [("#c8102e", "Rojo"), ("#eeeeea", "Blanco"), ("#1b1b1b", "Negro"), ("#c9b48a", "Beige")]),
+    (r"\bxr\s*190", [("#e41c30", "Rojo"), ("#eeeeea", "Blanco"), ("#1b1b1b", "Negro"), ("#c9b48a", "Beige")]),
     (r"\bdr\s*150", [("#8c9196", "Gris"), ("#e8c51a", "Amarillo"), ("#1b1b1b", "Negro"), ("#1f4fa8", "Azul"),
                      ("#b5121b", "Rojo")]),
     (r"\bxtz\s*150", [("#1f3fa8", "Azul"), ("#1b1b1b", "Negro"), ("#eeeeea", "Blanco")]),

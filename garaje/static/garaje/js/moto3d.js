@@ -1359,6 +1359,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     moto.M.rin.color.set(deFabrica && moto.rinColor != null ? moto.rinColor : cfg.color_secundario);
     moto.M.cinta?.color.set(deFabrica ? moto.M.cinta.userData.fabrica : cfg.color_secundario);
     if (moto.M.acento) moto.M.acento.color.set(cfg.color_secundario);
+    for (const m of moto.M.secundarios || []) m.color.set(deFabrica ? m.userData.fabrica : cfg.color_secundario); // (tapas blancas de la XR 190L)
     moto.raiz.updateMatrixWorld(true);
     const lista = cfg.calcas || [];
     while (estadoCalcas.length > lista.length) {
