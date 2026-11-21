@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Enviar tu diagnóstico · TallerYa{% endblock %}
+{% block seo %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=volver texto="Volver al diagnóstico" clase="mt-8" %}
+<div class="diag-enviar max-w-3xl mx-auto mt-6">
+  <p class="etiqueta">Diagnóstico guiado</p>
+  <h1 class="titulo text-3xl md:text-4xl mt-3">Envíalo a <span class="text-lava">quien la revise</span></h1>
+  <p class="text-suave mt-3">Se abre WhatsApp con el mensaje ya escrito y un enlace a una ficha con lo que viste aquí. La ficha no lleva tu nombre, tu celular ni tu placa y se borra sola a los 30 días.</p>
+
+  <section class="papel p-5 mt-6" aria-label="Lo que se enviará">
+    <p class="diag-sistema">Sistema probable: <strong>{{ res.sistema }}</strong></p>
+    <h2 class="titulo text-xl mt-1">{{ res.causa }}</h2>
+    <p class="text-sm text-suave mt-2">{% if res.marca %}{{ res.marca }} {{ res.modelo }}{% if res.anio %} {{ res.anio }}{% endif %} · {% endif %}{{ res.sintoma }}</p>
+  </section>
+
+  {% if error %}<p class="enviar-error" role="alert">{{ error }}</p>{% endif %}
+
+  <form method="post" enctype="multipart/form-data" class="mt-6" novalidate>
+    {% csrf_token %}
+    <div class="enviar-campos">
+      <label class="enviar-campo">
+        <span class="enviar-etiqueta">Kilometraje (opcional)</span>
+        <input type="text" name="km" inputmode="numeric" autocomplete="off" value="{{ km|default:'' }}" placeholder="Ej: 12500">
+        {% if moto and km %}<span class="text-xs text-suave">Es un estimado: corrígelo si no es el del odómetro.</span>{% endif %}
+      </label>
+      <label class="enviar-campo">
+        <span class="enviar-etiqueta">Fotos (opcional, hasta {{ max_fotos }})</span>
+        <input type="file" name="fotos" accept="image/jpeg,image/png,image/webp" multiple>
+        <span class="text-xs text-suave">Del daño, del tablero o de la pieza. JPG, PNG o WebP de hasta 5 MB.</span>
+      </label>
+    </div>
+
+    <h2 class="titulo text-xl mt-8">Talleres</h2>
+    {% if talleres %}
+    <ul class="enviar-lista">
+      {% for t in talleres %}
+      <li><button name="destino" value="t:{{ t.pk }}" class="enviar-opcion">
+        <span class="enviar-nombre">{{ t.nombre }}{% if t.verificado %} <small>verificado</small>{% endif %}</span>
+        <span class="enviar-sub">{% if t.barrio %}{{ t.barrio }}{% else %}Taller{% endif %}</span>
+        <span class="enviar-ir">WhatsApp →</span>
+      </button></li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="text-sm text-suave mt-2">Aún no hay talleres con WhatsApp para este servicio.</p>{% endif %}
+
+    <h2 class="titulo text-xl mt-8">Mecánicos a domicilio</h2>
+    {% if mecanicos %}
+    <ul class="enviar-lista">
+      {% for m in mecanicos %}
+      <li><button name="destino" value="m:{{ m.pk }}" class="enviar-opcion">
+        <span class="enviar-nombre">{{ m.nombre }}{% if m.verificado %} <small>verificado</small>{% endif %}</span>
+        <span class="enviar-sub">{% if m.urgencias %}Atiende urgencias{% else %}A domicilio{% endif %}{% if m.tarifa_visita %} · visita desde ${{ m.tarifa_visita|floatformat:"0g" }}{% endif %}</span>
+        <span class="enviar-ir">WhatsApp →</span>
+      </button></li>
+      {% endfor %}
+    </ul>
+    {% else %}<p class="text-sm text-suave mt-2">Aún no hay mecánicos a domicilio publicados.</p>{% endif %}
+  </form>
+</div>
+{% endblock %}

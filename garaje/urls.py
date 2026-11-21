@@ -4,6 +4,7 @@ from . import despiece_publico as dp, views
 from .vista_diagnostico import despiece_publico, diagnostico
 from .vista_bienvenida import bienvenida, bienvenida_listo, bienvenida_plan, bienvenida_saltar
 from .vista_gastos import gastos_moto
+from .vista_ficha_diagnostico import enviar as diagnostico_enviar, ficha as ficha_diagnostico
 from .vista_tareas import tarea
 from .vista_servicio_taller import servicio_taller
 from .vista_servicio_mecanico import servicio_mecanico, servicio_visita
@@ -20,6 +21,8 @@ urlpatterns = [
     path("bienvenida/<int:pk>/", bienvenida_plan, name="bienvenida_plan"),
     path("bienvenida/<int:pk>/listo/", bienvenida_listo, name="bienvenida_listo"),
     path("diagnostico/", diagnostico, name="diagnostico"),
+    path("diagnostico/enviar/", diagnostico_enviar, name="diagnostico_enviar"),
+    path("diagnostico/ficha/<str:token>/", ficha_diagnostico, name="ficha_diagnostico"),
     path("diagnostico/despiece/<int:pk>.json", despiece_publico, name="diagnostico_despiece"),
     path("garaje/<int:pk>/", views.detalle, name="moto"),
     path("garaje/<int:pk>/editar/", views.editar, name="editar"),

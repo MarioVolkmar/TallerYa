@@ -189,6 +189,7 @@ def diagnostico(request):
     recordar_diagnostico(request, sintomas[s]["nombre"], res["causa"],
                          moto.nombre_completo if moto else getattr(del_catalogo, "etiqueta", ""))
     ctx.update({
+        "enviar_url": _url(reverse("garaje:diagnostico_enviar"), **fijos, s=s, **respuestas),
         "compartir_url": _url(reverse("foro:preguntar"), diagnostico=request.session["diagnosticos"][0]["consulta"]),
         "paso": "resultado", "clave": clave, "res": res, "subgrupo": subgrupo,
         "urgencia": res["urgencia"], "urgencia_info": dx.URGENCIAS[res["urgencia"]],

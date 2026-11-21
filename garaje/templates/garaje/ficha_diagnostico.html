@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Diagnóstico de una moto · TallerYa{% endblock %}
+{% block seo %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block content %}
+<div class="ficha-diag max-w-3xl mx-auto mt-10">
+  {% if vencida %}
+  <p class="etiqueta">Ficha de diagnóstico</p>
+  <h1 class="titulo text-3xl md:text-4xl mt-3">Esta ficha ya venció</h1>
+  <p class="text-suave mt-3">Las fichas duran 30 días. Pídele al motero que haga el diagnóstico otra vez y te envíe la nueva.</p>
+  <p class="mt-5"><a href="{% url 'garaje:diagnostico' %}" class="btn btn-lava text-xs px-5 py-3">Hacer un diagnóstico</a></p>
+  {% else %}
+  <p class="etiqueta">Ficha de diagnóstico · TallerYa</p>
+  <h1 class="titulo text-3xl md:text-5xl mt-3">{{ f.moto|default:"Moto sin identificar" }}</h1>
+  <p class="ficha-datos mt-3">
+    {% if f.km %}<span><strong>{{ f.km|floatformat:"0g" }}</strong> km{% if f.km_estimado %} (estimado){% endif %}</span>{% endif %}
+    <span>Enviada el {{ f.creado|date:"j M Y"|lower }}</span>
+  </p>
+  <section class="papel p-5 mt-6">
+    {% if urgencia_info %}<p class="diag-urgencia diag-urgencia-{{ f.urgencia }}"><strong>{{ urgencia_info.texto }}</strong><span>{{ urgencia_info.detalle }}</span></p>{% endif %}
+    <p class="text-sm text-suave mt-3">Síntoma que describe el motero</p>
+    <p class="ficha-valor">{{ f.sintoma }}</p>
+    <p class="text-sm text-suave mt-3">Posible causa (orientación del diagnóstico guiado, no un diagnóstico)</p>
+    <h2 class="titulo text-2xl">{{ f.causa }}</h2>
+    {% if f.sistema %}<p class="diag-sistema mt-1">Sistema: <strong>{{ f.sistema }}</strong></p>{% endif %}
+    {% if f.revisa %}<p class="diag-revisa"><strong>Lo que se le sugirió revisar:</strong> {{ f.revisa }}</p>{% endif %}
+    {% if f.piezas %}<p class="text-sm text-suave mt-3">Piezas candidatas</p><ul class="ficha-piezas">{% for p in f.piezas %}<li>{{ p }}</li>{% endfor %}</ul>{% endif %}
+  </section>
+  {% with fotos=f.fotos.all %}{% if fotos %}
+  <h2 class="titulo text-xl mt-8">Fotos del motero</h2>
+  <ul class="ficha-fotos">{% for foto in fotos %}<li><a href="{{ foto.imagen.url }}" target="_blank" rel="noopener"><img src="{{ foto.imagen.url }}" alt="Foto {{ forloop.counter }} de la moto" loading="lazy"></a></li>{% endfor %}</ul>
+  {% endif %}{% endwith %}
+  <p class="text-xs text-suave mt-8">Esta ficha no incluye el nombre, el celular ni la placa del motero y vence el {{ f.vence|date:"j M Y"|lower }}. Responde por el mismo WhatsApp por el que te llegó.</p>
+  {% endif %}
+</div>
+{% endblock %}

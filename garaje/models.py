@@ -1,4 +1,5 @@
 import re
+from datetime import timedelta
 import secrets
 from pathlib import Path
 from uuid import uuid4
@@ -985,3 +986,78 @@ class Gasto(models.Model):
 
     def __str__(self):
         return f"{self.get_tipo_display()} · {self.moto} · ${self.valor}"
+
+
+# ---------- Ficha pública de un diagnóstico (piloto, paso 4) ----------
+VIGENCIA_FICHA_DIAS = 30
+
+
+def ruta_foto_ficha(instancia, nombre):
+    return f"diagnosticos/{uuid4().hex}.jpg"
+
+
+class FichaDiagnostico(models.Model):
+    """Foto fija de un diagnóstico que el motero envía a un taller o a un mecánico a domicilio por WhatsApp.
+    Se abre con un token no adivinable, sin cuenta, y vence a los 30 días. Solo guarda moto (marca, modelo, año),
+    km, síntoma, causa y fotos: nunca placa, nombre, teléfono ni dueño."""
+
+    class Destino(models.TextChoices):
+        TALLER = "taller", "Taller"
+        DOMICILIO = "domicilio", "Mecánico a domicilio"
+
+    token = models.CharField(max_length=48, unique=True, editable=False)
+    consulta = models.CharField(max_length=300, blank=True, help_text="Respuestas del diagnóstico (para reabrirlo)")
+    moto = models.CharField(max_length=140, blank=True)
+    km = models.PositiveIntegerField(null=True, blank=True)
+    km_estimado = models.BooleanField(default=False)
+    sintoma = models.CharField(max_length=80)
+    causa = models.CharField(max_length=200)
+    sistema = models.CharField(max_length=80, blank=True)
+    urgencia = models.CharField(max_length=12, blank=True)
+    revisa = models.CharField(max_length=300, blank=True)
+    piezas = models.JSONField(default=list, blank=True)
+    enlace = models.CharField("enlace al diagnóstico", max_length=300, blank=True)
+    destino = models.CharField(max_length=10, choices=Destino.choices)
+    taller = models.ForeignKey(Taller, on_delete=models.SET_NULL, null=True, blank=True, related_name="fichas_diagnostico")
+    mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", on_delete=models.SET_NULL, null=True, blank=True,
+                                 related_name="fichas_diagnostico")
+    creado = models.DateTimeField(auto_now_add=True)
+    vence = models.DateTimeField()
+    vistas = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-creado"]
+        verbose_name = "ficha de diagnóstico"
+        verbose_name_plural = "fichas de diagnóstico"
+
+    def __str__(self):
+        return f"{self.sintoma} · {self.moto or 'sin moto'}"
+
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = secrets.token_urlsafe(24)
+        if not self.vence:
+            self.vence = timezone.now() + timedelta(days=VIGENCIA_FICHA_DIAS)
+        super().save(*args, **kwargs)
+
+    @property
+    def vencida(self):
+        return timezone.now() >= self.vence
+
+    def get_absolute_url(self):
+        return reverse("garaje:ficha_diagnostico", args=[self.token])
+
+
+class FotoFichaDiagnostico(models.Model):
+    ficha = models.ForeignKey(FichaDiagnostico, on_delete=models.CASCADE, related_name="fotos")
+    imagen = models.ImageField(upload_to=ruta_foto_ficha)
+    orden = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ["orden", "pk"]
+
+
+@receiver(post_delete, sender=FotoFichaDiagnostico)
+def _borrar_archivo_foto_ficha(sender, instance, **kwargs):
+    if instance.imagen:
+        instance.imagen.delete(save=False)
