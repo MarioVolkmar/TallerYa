@@ -1,6 +1,6 @@
 """Captura del visor 3D en Chrome sin ventana (local). Uso: cap.py salida.png [pk] [luces 0/1]
 Vistas relativas al centro de la caja de la moto, en coordenadas de la escena (x adelante, y arriba, +z derecha/escape)."""
-import base64, json, sys, time
+import base64, json, os, sys, time
 sys.path.insert(0, r"C:\dev\TallerYa\.claude\skills\optimizar-velocidad")
 import medir_chrome as mc
 
@@ -28,6 +28,7 @@ JS = """(async () => {
   document.querySelector('#visor [data-modo="moto"]')?.click();
   await new Promise(r => setTimeout(r, 3500));
   if (LUCES) v.vivo(true, false);
+  PREJS
   await new Promise(r => setTimeout(r, 800));
   v._ctl.enableDamping = false; v._ctl.autoRotate = false;
   const caja = new v._moto.raiz.constructor.prototype.constructor === undefined ? null : null;
@@ -61,7 +62,7 @@ def main():
         t("Page.navigate", url=f"{BASE}/garaje/{pk}/")
         time.sleep(3)
         t("Runtime.evaluate", expression="document.querySelector('#visor')?.scrollIntoView()")
-        js = JS.replace("LUCES", "true" if luces else "false").replace("VISTAS", json.dumps(VISTAS)).replace("TAMW", str(TW)).replace("TAMH", str(TH))
+        js = JS.replace("LUCES", "true" if luces else "false").replace("VISTAS", json.dumps(VISTAS)).replace("TAMW", str(TW)).replace("TAMH", str(TH)).replace("PREJS", os.environ.get("PRE", ""))  # PRE: JS antes de capturar (p. ej. Rayos X)
         r = t("Runtime.evaluate", expression=js, awaitPromise=True, returnByValue=True, timeout=90000)
         v = r.get("result", {}).get("value") or {}
         if "img" not in v:

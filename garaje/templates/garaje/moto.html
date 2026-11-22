@@ -267,8 +267,8 @@
 
   <div class="cajon-pestanas" role="tablist" aria-label="Qué personalizar">
     <button type="button" role="tab" id="tab-pintura" aria-controls="panel-pintura" aria-selected="true">Pintura</button>
-    <button type="button" role="tab" id="tab-estilo" aria-controls="panel-estilo" aria-selected="false">Estilo</button>
-    <button type="button" role="tab" id="tab-calcas" aria-controls="panel-calcas" aria-selected="false">
+    <button type="button" role="tab" class="solo-generica" id="tab-estilo" aria-controls="panel-estilo" aria-selected="false">Estilo</button>
+    <button type="button" role="tab" class="con-calcas" id="tab-calcas" aria-controls="panel-calcas" aria-selected="false">
       Calcas <span class="pestana-cuenta" id="p-contador"></span>
     </button>
   </div>
@@ -282,19 +282,19 @@
       <p class="cajon-etiqueta mt-6">Rines y detalles</p>
       <div class="muestras" id="p-secundario"></div>
 
-      <div class="cajon-fila mt-6">
+      <div class="cajon-fila mt-6 solo-generica">
         <p class="cajon-etiqueta">Dos tonos</p>
         <label class="interruptor"><input type="checkbox" id="p-dos-tonos"><span aria-hidden="true"></span><span class="sr-only">Pintar el colín de otro color</span></label>
       </div>
-      <div id="p-caja-tono" hidden>
+      <div id="p-caja-tono" class="solo-generica" hidden>
         <div class="muestras mt-3" id="p-color2"></div>
       </div>
 
-      <button type="button" class="cajon-desplegar" id="p-mas-colores" aria-expanded="false" aria-controls="p-caja-zonas">
+      <button type="button" class="cajon-desplegar solo-generica" id="p-mas-colores" aria-expanded="false" aria-controls="p-caja-zonas">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
         Chasis y asiento
       </button>
-      <div id="p-caja-zonas" hidden>
+      <div id="p-caja-zonas" class="solo-generica" hidden>
         <p class="cajon-etiqueta mt-4 fila-quitar">Chasis <button type="button" class="boton-quitar" data-quitar="chasis" hidden>De fábrica</button></p>
         <div class="muestras" id="p-chasis"></div>
         <p class="cajon-etiqueta mt-6 fila-quitar">Asiento <button type="button" class="boton-quitar" data-quitar="asiento" hidden>De fábrica</button></p>

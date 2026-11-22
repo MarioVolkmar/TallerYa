@@ -86,6 +86,17 @@
       "port": 8016,
       "autoPort": false,
       "url": "http://localhost:8016"
+    },
+    {
+      "name": "tallerya-3dcompleto",
+      "runtimeExecutable": "venv/Scripts/python.exe",
+      "runtimeArgs": [
+        "manage.py",
+        "runserver",
+        "127.0.0.1:8031"
+      ],
+      "port": 8031,
+      "autoPort": false
     }
   ]
 }

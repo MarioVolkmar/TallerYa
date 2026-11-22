@@ -1,0 +1,1183 @@
+{
+ "escala": 1.9767801160070582,
+ "ejes": {
+  "tras": [
+   -0.675,
+   0.2815
+  ],
+  "del": [
+   0.6746,
+   0.2619
+  ]
+ },
+ "decision": [
+  {
+   "parte": 0,
+   "zona": 0,
+   "tri": 46412,
+   "texto": "Quitar.",
+   "pieza": "basura",
+   "acabado": "oculta",
+   "material": null
+  },
+  {
+   "parte": 1,
+   "zona": 0,
+   "tri": 13582,
+   "texto": "llanta trasera, caucho",
+   "pieza": "llanta_tras",
+   "acabado": "caucho",
+   "material": "caucho"
+  },
+  {
+   "parte": 10,
+   "zona": 0,
+   "tri": 4826,
+   "texto": "cola guardafango trasero plastico mate",
+   "pieza": "guardabarros_tras",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 11,
+   "zona": 0,
+   "tri": 4923,
+   "texto": "protector mofle plastico mate",
+   "pieza": "escape",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 12,
+   "zona": 0,
+   "tri": 3934,
+   "texto": "color negro mate. Comando, retrovisor y acelerador",
+   "pieza": "espejo",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 12,
+   "zona": 5,
+   "tri": 301,
+   "texto": "Espejo reflectante",
+   "pieza": "espejo",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 13,
+   "zona": 0,
+   "tri": 3078,
+   "texto": "amortiguador trasero",
+   "pieza": "amortiguador",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 14,
+   "zona": 0,
+   "tri": 1891,
+   "texto": "guardafango delantero- plastico mate",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 15,
+   "zona": 0,
+   "tri": 2936,
+   "texto": "plasticos moto. plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 15,
+   "zona": 2,
+   "tri": 639,
+   "texto": "stop moto",
+   "pieza": "stop",
+   "acabado": "mica_roja",
+   "material": "stop"
+  },
+  {
+   "parte": 16,
+   "zona": 0,
+   "tri": 3065,
+   "texto": "Carenaje frontal - plastico mate",
+   "pieza": "carenado",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 17,
+   "zona": 0,
+   "tri": 3313,
+   "texto": "Fondo moto- PLastico mate o negro",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 18,
+   "zona": 0,
+   "tri": 2609,
+   "texto": "caliper freno delantero",
+   "pieza": "caliper",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 19,
+   "zona": 0,
+   "tri": 3397,
+   "texto": "mofle negro",
+   "pieza": "escape",
+   "acabado": "@oscuro",
+   "material": "oscuro"
+  },
+  {
+   "parte": 2,
+   "zona": 0,
+   "tri": 5526,
+   "texto": "Plasticos y carenaje lateral moto. Tapas laterales",
+   "pieza": "tapa_lateral",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 2,
+   "zona": 1,
+   "tri": 365,
+   "texto": "Direccional",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "material": "ambar"
+  },
+  {
+   "parte": 2,
+   "zona": 2,
+   "tri": 1794,
+   "texto": "gato lateral",
+   "pieza": "pata",
+   "acabado": "chasis",
+   "material": "chasis"
+  },
+  {
+   "parte": 2,
+   "zona": 3,
+   "tri": 2143,
+   "texto": "Tapas  plastico brillante",
+   "pieza": "tapa_lateral",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 2,
+   "zona": 4,
+   "tri": 506,
+   "texto": "posapie metalico",
+   "pieza": "posapies",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 2,
+   "zona": 5,
+   "tri": 125,
+   "texto": "logo de yamaha",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 2,
+   "zona": 6,
+   "tri": 13782,
+   "texto": "Tapas Carenaje, piso, plastico mate",
+   "pieza": "tapa_lateral",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 20,
+   "zona": 0,
+   "tri": 2816,
+   "texto": "rejilla radiador plastico mate",
+   "pieza": "radiador",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 21,
+   "zona": 0,
+   "tri": 4822,
+   "texto": "guardafango delantero color principal o negro",
+   "pieza": "guardabarros_del",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 22,
+   "zona": 0,
+   "tri": 2913,
+   "texto": "amortiguador trasero",
+   "pieza": "amortiguador",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 23,
+   "zona": 0,
+   "tri": 4088,
+   "texto": "plasticos moto. plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 23,
+   "zona": 3,
+   "tri": 1618,
+   "texto": "plastico brillante",
+   "pieza": "otra",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 24,
+   "zona": 0,
+   "tri": 12406,
+   "texto": "plastico mate. Tapas de la caja cvt",
+   "pieza": "cvt",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 25,
+   "zona": 0,
+   "tri": 7575,
+   "texto": "sillin moto",
+   "pieza": "asiento",
+   "acabado": "vinilo",
+   "material": "asiento"
+  },
+  {
+   "parte": 26,
+   "zona": 0,
+   "tri": 3382,
+   "texto": "Plasticos moto. plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 26,
+   "zona": 3,
+   "tri": 13,
+   "texto": "luz placa",
+   "pieza": "portaplaca",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 26,
+   "zona": 7,
+   "tri": 2592,
+   "texto": "tapa lateral-color principal moto",
+   "pieza": "tapa_lateral",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 27,
+   "zona": 0,
+   "tri": 4636,
+   "texto": "rin trasero",
+   "pieza": "rin_tras",
+   "acabado": "aluminio",
+   "material": "rin"
+  },
+  {
+   "parte": 28,
+   "zona": 0,
+   "tri": 4393,
+   "texto": "fondo baul plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 29,
+   "zona": 0,
+   "tri": 4029,
+   "texto": "rin trasero",
+   "pieza": "rin_tras",
+   "acabado": "aluminio",
+   "material": "rin"
+  },
+  {
+   "parte": 3,
+   "zona": 0,
+   "tri": 16324,
+   "texto": "llanta delantera, caucho",
+   "pieza": "llanta_del",
+   "acabado": "caucho",
+   "material": "caucho"
+  },
+  {
+   "parte": 30,
+   "zona": 0,
+   "tri": 3914,
+   "texto": "tijera moto automatica, negro",
+   "pieza": "basculante",
+   "acabado": "plastico_mate",
+   "material": "chasis"
+  },
+  {
+   "parte": 31,
+   "zona": 0,
+   "tri": 3743,
+   "texto": "disco de freno delantero, aluminio",
+   "pieza": "disco_del",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 32,
+   "zona": 0,
+   "tri": 2709,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 33,
+   "zona": 0,
+   "tri": 2723,
+   "texto": "Carenaje moto - Color principal moto",
+   "pieza": "carenado",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 34,
+   "zona": 0,
+   "tri": 2601,
+   "texto": "soporte mofle. negro",
+   "pieza": "escape",
+   "acabado": "@oscuro",
+   "material": "oscuro"
+  },
+  {
+   "parte": 35,
+   "zona": 0,
+   "tri": 2578,
+   "texto": "protectores mofre plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 36,
+   "zona": 0,
+   "tri": 2430,
+   "texto": "Parabrisas",
+   "pieza": "visor",
+   "acabado": "mica_faro",
+   "material": "vidrio_oscuro"
+  },
+  {
+   "parte": 37,
+   "zona": 0,
+   "tri": 2359,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 38,
+   "zona": 0,
+   "tri": 1871,
+   "texto": "plasticos moto. plastico brillante",
+   "pieza": "otra",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 38,
+   "zona": 4,
+   "tri": 476,
+   "texto": "posapies metalico",
+   "pieza": "posapies",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 39,
+   "zona": 0,
+   "tri": 2235,
+   "texto": "suspension delantera",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 4,
+   "zona": 0,
+   "tri": 5095,
+   "texto": "carenaje frontal- Color principal moto",
+   "pieza": "carenado",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 4,
+   "zona": 100,
+   "tri": 4233,
+   "texto": "interior del frente bajo el manubrio (mira atrás)",
+   "pieza": "carenado",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 40,
+   "zona": 0,
+   "tri": 2111,
+   "texto": "motor aluminio",
+   "pieza": "motor",
+   "acabado": "aluminio",
+   "material": "carter"
+  },
+  {
+   "parte": 41,
+   "zona": 0,
+   "tri": 1574,
+   "texto": "guardafango delantero -plastico mate",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 42,
+   "zona": 0,
+   "tri": 1522,
+   "texto": "plasticos mate - plasticos moto",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 43,
+   "zona": 0,
+   "tri": 1338,
+   "texto": "freno trasero, aluminio",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 44,
+   "zona": 0,
+   "tri": 1285,
+   "texto": "mofle silenciador",
+   "pieza": "escape",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 45,
+   "zona": 0,
+   "tri": 1302,
+   "texto": "plasticos mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 46,
+   "zona": 0,
+   "tri": 1183,
+   "texto": "porta placa plastico mate",
+   "pieza": "portaplaca",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 47,
+   "zona": 0,
+   "tri": 1124,
+   "texto": "plasticos mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 48,
+   "zona": 0,
+   "tri": 1061,
+   "texto": "Farola. Farola",
+   "pieza": "frente",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 48,
+   "zona": 2,
+   "tri": 125,
+   "texto": "Parte del caneraje frontal- Color principal moto",
+   "pieza": "otra",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 49,
+   "zona": 0,
+   "tri": 1013,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 5,
+   "zona": 0,
+   "tri": 4091,
+   "texto": "plasticos moto. plastico color principal moto",
+   "pieza": "otra",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 5,
+   "zona": 1,
+   "tri": 343,
+   "texto": "plasticos brillantes",
+   "pieza": "otra",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 5,
+   "zona": 2,
+   "tri": 108,
+   "texto": "logo yamaha",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 5,
+   "zona": 3,
+   "tri": 4728,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 50,
+   "zona": 0,
+   "tri": 1018,
+   "texto": "soporte mofle negro",
+   "pieza": "escape",
+   "acabado": "@oscuro",
+   "material": "oscuro"
+  },
+  {
+   "parte": 51,
+   "zona": 0,
+   "tri": 981,
+   "texto": "guaya freno trasero",
+   "pieza": "freno_tras",
+   "acabado": "@oscuro",
+   "material": "oscuro"
+  },
+  {
+   "parte": 52,
+   "zona": 0,
+   "tri": 971,
+   "texto": "Negro mate, comando y cabrilla",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 53,
+   "zona": 0,
+   "tri": 905,
+   "texto": "leva freno",
+   "pieza": "palanca",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 54,
+   "zona": 0,
+   "tri": 888,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 55,
+   "zona": 0,
+   "tri": 866,
+   "texto": "horquilla moto",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 56,
+   "zona": 0,
+   "tri": 865,
+   "texto": "Farola. farola",
+   "pieza": "frente",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 56,
+   "zona": 2,
+   "tri": 100,
+   "texto": "Parte del carenaje frontal -pintra principal",
+   "pieza": "carenado",
+   "acabado": "pintura",
+   "material": "pintura"
+  },
+  {
+   "parte": 57,
+   "zona": 0,
+   "tri": 896,
+   "texto": "rejilla radiador plastico mate",
+   "pieza": "radiador",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 58,
+   "zona": 0,
+   "tri": 849,
+   "texto": "freno trasero",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 59,
+   "zona": 0,
+   "tri": 645,
+   "texto": "direccional",
+   "pieza": "direccional",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 59,
+   "zona": 2,
+   "tri": 195,
+   "texto": "plastico transparente por donde sale la luz de la ",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "material": "ambar"
+  },
+  {
+   "parte": 6,
+   "zona": 0,
+   "tri": 7401,
+   "texto": "Tacometro y retrovisor. plasticos mate",
+   "pieza": "tablero",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 6,
+   "zona": 3,
+   "tri": 317,
+   "texto": "tacometro",
+   "pieza": "tablero",
+   "acabado": "plastico_brillo",
+   "material": "pantalla"
+  },
+  {
+   "parte": 6,
+   "zona": 5,
+   "tri": 409,
+   "texto": "Espejo reflectante",
+   "pieza": "espejo",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 60,
+   "zona": 0,
+   "tri": 670,
+   "texto": "horquilla moto",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 61,
+   "zona": 0,
+   "tri": 592,
+   "texto": "direccional",
+   "pieza": "direccional",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 61,
+   "zona": 2,
+   "tri": 163,
+   "texto": "plastico transparente por donde sale la luz de la ",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "material": "ambar"
+  },
+  {
+   "parte": 62,
+   "zona": 0,
+   "tri": 657,
+   "texto": "Plasticos mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 63,
+   "zona": 0,
+   "tri": 649,
+   "texto": "horquilla moto",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 64,
+   "zona": 0,
+   "tri": 588,
+   "texto": "motor -",
+   "pieza": "motor",
+   "acabado": "motor",
+   "material": "motor"
+  },
+  {
+   "parte": 65,
+   "zona": 0,
+   "tri": 550,
+   "texto": "cola - guardabarros trasero plastico mate",
+   "pieza": "guardabarros_tras",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 66,
+   "zona": 0,
+   "tri": 512,
+   "texto": "escape",
+   "pieza": "escape",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 67,
+   "zona": 0,
+   "tri": 521,
+   "texto": "piso moto, negro",
+   "pieza": "pisadera",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 68,
+   "zona": 0,
+   "tri": 465,
+   "texto": "leva freno",
+   "pieza": "palanca",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 69,
+   "zona": 0,
+   "tri": 416,
+   "texto": "freno trasero",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "material": "metal"
+  },
+  {
+   "parte": 7,
+   "zona": 0,
+   "tri": 2899,
+   "texto": "Suspension delantera",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "material": "cromo"
+  },
+  {
+   "parte": 70,
+   "zona": 0,
+   "tri": 391,
+   "texto": "Sobra o no importa",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 71,
+   "zona": 0,
+   "tri": 378,
+   "texto": "tijera trasera negro",
+   "pieza": "basculante",
+   "acabado": "plastico_mate",
+   "material": "chasis"
+  },
+  {
+   "parte": 72,
+   "zona": 0,
+   "tri": 322,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 73,
+   "zona": 0,
+   "tri": 316,
+   "texto": "direccional",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "material": "ambar"
+  },
+  {
+   "parte": 74,
+   "zona": 0,
+   "tri": 300,
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  },
+  {
+   "parte": 8,
+   "zona": 0,
+   "tri": 4469,
+   "texto": "motor aluminio",
+   "pieza": "motor",
+   "acabado": "aluminio",
+   "material": "carter"
+  },
+  {
+   "parte": 9,
+   "zona": 0,
+   "tri": 1717,
+   "texto": "plasticos moto. plasticos brillantes",
+   "pieza": "otra",
+   "acabado": "plastico_brillo",
+   "material": "negro_brillo"
+  },
+  {
+   "parte": 9,
+   "zona": 1,
+   "tri": 5326,
+   "texto": "platicos mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "material": "plastico"
+  }
+ ],
+ "nodos": [
+  {
+   "name": "caucho.llanta_tras",
+   "tri": 6792
+  },
+  {
+   "name": "rin.rin_tras",
+   "tri": 6235
+  },
+  {
+   "name": "caucho.llanta_del",
+   "tri": 4971
+  },
+  {
+   "name": "rin.rin_del",
+   "tri": 5513
+  },
+  {
+   "name": "metal.disco_del",
+   "tri": 2883
+  },
+  {
+   "name": "plastico.restos_rueda_del",
+   "tri": 350
+  },
+  {
+   "name": "pintura.borde_faro_1",
+   "tri": 34
+  },
+  {
+   "name": "luz_reflector.reflector_faro_1",
+   "tri": 591
+  },
+  {
+   "name": "luz.faro_1",
+   "tri": 491
+  },
+  {
+   "name": "pintura.borde_faro_2",
+   "tri": 91
+  },
+  {
+   "name": "plastico.borde_faro_2",
+   "tri": 16
+  },
+  {
+   "name": "luz_reflector.reflector_faro_2",
+   "tri": 535
+  },
+  {
+   "name": "luz.faro_2",
+   "tri": 398
+  },
+  {
+   "name": "stop.stop_1",
+   "tri": 461
+  },
+  {
+   "name": "negro_brillo.carcasa_direccional_1",
+   "tri": 26
+  },
+  {
+   "name": "ambar.direccional_1",
+   "tri": 260
+  },
+  {
+   "name": "ambar.direccional_2",
+   "tri": 299
+  },
+  {
+   "name": "ambar.direccional_3",
+   "tri": 189
+  },
+  {
+   "name": "ambar.direccional_4",
+   "tri": 157
+  },
+  {
+   "name": "plastico.soporte_placa",
+   "tri": 1069
+  },
+  {
+   "name": "asiento.asiento",
+   "tri": 1893
+  },
+  {
+   "name": "carter.motor",
+   "tri": 1660
+  },
+  {
+   "name": "chasis.basculante",
+   "tri": 2434
+  },
+  {
+   "name": "chasis.pata",
+   "tri": 1430
+  },
+  {
+   "name": "cromo.espejo",
+   "tri": 245
+  },
+  {
+   "name": "cromo.horquilla",
+   "tri": 3291
+  },
+  {
+   "name": "metal.amortiguador",
+   "tri": 5083
+  },
+  {
+   "name": "metal.caliper",
+   "tri": 2405
+  },
+  {
+   "name": "metal.escape",
+   "tri": 889
+  },
+  {
+   "name": "metal.freno_tras",
+   "tri": 1977
+  },
+  {
+   "name": "metal.palanca",
+   "tri": 452
+  },
+  {
+   "name": "metal.posapies",
+   "tri": 350
+  },
+  {
+   "name": "motor.motor",
+   "tri": 146
+  },
+  {
+   "name": "negro_brillo.direccional",
+   "tri": 921
+  },
+  {
+   "name": "negro_brillo.piezas",
+   "tri": 1401
+  },
+  {
+   "name": "negro_brillo.tapa_lateral",
+   "tri": 592
+  },
+  {
+   "name": "oscuro.escape",
+   "tri": 1754
+  },
+  {
+   "name": "oscuro.freno_tras",
+   "tri": 587
+  },
+  {
+   "name": "pantalla.tablero",
+   "tri": 235
+  },
+  {
+   "name": "pintura.carenado",
+   "tri": 1942
+  },
+  {
+   "name": "pintura.guardabarros_del",
+   "tri": 1280
+  },
+  {
+   "name": "pintura.piezas",
+   "tri": 1277
+  },
+  {
+   "name": "pintura.tapa_lateral",
+   "tri": 2667
+  },
+  {
+   "name": "plastico.carenado",
+   "tri": 1956
+  },
+  {
+   "name": "plastico.cvt",
+   "tri": 3100
+  },
+  {
+   "name": "plastico.escape",
+   "tri": 1237
+  },
+  {
+   "name": "plastico.espejo",
+   "tri": 2272
+  },
+  {
+   "name": "plastico.guardabarros_del",
+   "tri": 2205
+  },
+  {
+   "name": "plastico.guardabarros_tras",
+   "tri": 1720
+  },
+  {
+   "name": "plastico.piezas",
+   "tri": 11170
+  },
+  {
+   "name": "plastico.pisadera",
+   "tri": 327
+  },
+  {
+   "name": "plastico.portaplaca",
+   "tri": 9
+  },
+  {
+   "name": "plastico.radiador",
+   "tri": 2618
+  },
+  {
+   "name": "plastico.tablero",
+   "tri": 1993
+  },
+  {
+   "name": "plastico.tapa_lateral",
+   "tri": 3468
+  },
+  {
+   "name": "vidrio_oscuro.visor",
+   "tri": 1176
+  },
+  {
+   "name": "aceiteVisible.aceite_nivel",
+   "tri": 72
+  },
+  {
+   "name": "bateria.bat_cuerpo",
+   "tri": 140
+  },
+  {
+   "name": "bujia.bujia_aislador",
+   "tri": 50
+  },
+  {
+   "name": "carter.aceite_carter",
+   "tri": 240
+  },
+  {
+   "name": "caucho.cvt_correa",
+   "tri": 40
+  },
+  {
+   "name": "cromo.motor_piston",
+   "tri": 198
+  },
+  {
+   "name": "metal.aceite_tapon",
+   "tri": 44
+  },
+  {
+   "name": "metal.bat_bornes",
+   "tri": 152
+  },
+  {
+   "name": "metal.bujia_rosca",
+   "tri": 70
+  },
+  {
+   "name": "metal.cvt_polea_conducida",
+   "tri": 96
+  },
+  {
+   "name": "metal.cvt_polea_motriz",
+   "tri": 96
+  },
+  {
+   "name": "metal.motor_ciguenal",
+   "tri": 424
+  },
+  {
+   "name": "motor.motor_cilindro",
+   "tri": 218
+  },
+  {
+   "name": "oscuro.bujia_capuchon",
+   "tri": 38
+  },
+  {
+   "name": "oscuro.filtro_caja",
+   "tri": 244
+  }
+ ]
+}

@@ -46,9 +46,10 @@ def por_tri(m, f):
     c = m["pos"][m["idx"]].mean(1); s = f(c); return compacta(m, s), compacta(m, ~s)
 def reflejar_z(m):
     return {"pos": m["pos"] * [1, 1, -1], "nor": m["nor"] * [1, 1, -1], "idx": m["idx"][:, [0, 2, 1]]}
-def cortar(m, n, d):
-    """Parte la malla por el plano n·p = d partiendo los triángulos del borde (sin dientes). Devuelve (n·p>d, n·p<d)."""
-    n = np.asarray(n, float); pos = list(m["pos"]); nor = list(m["nor"]); s = m["pos"] @ n - d
+def cortar(m, n, d, s=None):
+    """Parte la malla por el plano n·p = d partiendo los triángulos del borde (sin dientes). Devuelve (n·p>d, n·p<d).
+    Con s (un valor por vértice) corta por la superficie s = 0, p. ej. un cilindro alrededor del eje."""
+    pos = list(m["pos"]); nor = list(m["nor"]); s = m["pos"] @ np.asarray(n, float) - d if s is None else s
     arriba, abajo, cache = [], [], {}
     def corte(a, b_):
         k = (min(a, b_), max(a, b_))
@@ -81,7 +82,17 @@ def G(*ids):
 RIN = {"roughness": 0.3, "metalness": 0.7, "clearcoat": 0.5}
 llanta_t = G(1); rin_t = G(20, 38)
 del_m = G(23)
-rin_d, llanta_d = por_tri(del_m, lambda c: np.hypot(c[:, 0] - EJE_D[0], c[:, 1] - EJE_D[1]) < 0.098 * S)
+def centro_rueda(m, eje):
+    """Centro del eje por ajuste de círculo (mínimos cuadrados) a la banda de rodadura en el plano xy: la caja de Tripo
+    no es exacta y una rueda descentrada cabecea al girar."""
+    p = m["pos"]; r = radio(m, eje); q = p[r > np.quantile(r, 0.85)]
+    A = np.c_[2 * q[:, 0], 2 * q[:, 1], np.ones(len(q))]; sol = np.linalg.lstsq(A, (q[:, :2] ** 2).sum(1), rcond=None)[0]
+    return [round(float(sol[0]), 4), round(float(sol[1]), 4)]
+EJE_T = centro_rueda(llanta_t, np.array(EJE_T)); EJE_D = centro_rueda(del_m, np.array(EJE_D))
+print("ejes ajustados", EJE_T, EJE_D)
+# La delantera trae llanta y rin en una sola parte: se separan por el cilindro r = 0,098 (en unidades de Tripo) partiendo
+# los triángulos del borde, sin dientes
+llanta_d, rin_d = cortar(del_m, None, None, s=radio(del_m, np.array(EJE_D)) - 0.098 * S)
 def ajustar_rin(rin, llanta, eje, nombre):
     """Rin integrado: la pestaña del aro cubre el talón de la llanta (radio 3 % de la llanta + 4 mm), escalado parejo."""
     r_ll = np.quantile(radio(llanta, eje), 0.03); r_rin = np.quantile(radio(rin, eje), 0.995)
@@ -90,12 +101,14 @@ def ajustar_rin(rin, llanta, eje, nombre):
         rin["pos"][:, :2] = (rin["pos"][:, :2] - eje) * f + eje
     print(f"{nombre}: talón llanta r={r_ll:.3f}  pestaña rin r={r_rin:.3f}  factor rin {f:.3f}  llanta R={radio(llanta, eje).max():.3f}")
 ajustar_rin(rin_t, llanta_t, np.array(EJE_T), "tras"); ajustar_rin(rin_d, llanta_d, np.array(EJE_D), "del")
-pieza("caucho.llanta_tras", llanta_t, pieza="llanta_tras", eje=EJE_T, torno="redondo")
-pieza("caucho.llanta_del", llanta_d, pieza="llanta_del", eje=EJE_D, torno="redondo")
-pieza("rin.rin_tras", rin_t, pieza="llanta_tras", rin=True, eje=EJE_T, acabado=RIN)
-pieza("rin.rin_del", rin_d, pieza="llanta_del", rin=True, eje=EJE_D, acabado=RIN)
-pieza("metal.disco_del", G(25), pieza="llanta_del", eje=EJE_D, acabado={"roughness": 0.35, "metalness": 0.9})
-pieza("metal.freno_tras", G(22), pieza="llanta_tras", eje=EJE_T, acabado={"roughness": 0.4, "metalness": 0.85})
+# Ruedas de Tripo que giran tal cual (extras.rueda): el visor no tornea la llanta; el nodo va con su traslación en el eje
+# (final.py) y eso hace de pivote. Todo lo que gira con la rueda lleva la misma marca; el freno y la horquilla, no.
+pieza("caucho.llanta_tras", llanta_t, rueda="tras", pieza="llanta_tras", eje=EJE_T)
+pieza("caucho.llanta_del", llanta_d, rueda="del", pieza="llanta_del", eje=EJE_D)
+pieza("rin.rin_tras", rin_t, rueda="tras", pieza="llanta_tras", rin=True, eje=EJE_T, acabado=RIN)
+pieza("rin.rin_del", rin_d, rueda="del", pieza="llanta_del", rin=True, eje=EJE_D, acabado=RIN)
+pieza("metal.disco_del", G(25), rueda="del", pieza="llanta_del", eje=EJE_D, acabado={"roughness": 0.35, "metalness": 0.9})
+pieza("metal.freno_tras", G(22), rueda="tras", pieza="llanta_tras", eje=EJE_T, acabado={"roughness": 0.4, "metalness": 0.85})
 
 # --- Luces (como la Eco): faros = mica curva de Tripo + reflector detrás + bombillo; direccionales y stop cortados por planos
 def normal_media(m):
@@ -126,34 +139,58 @@ st = G(7); xs = st["pos"][:, 0]
 stop, carc_s = cortar(st, [-1, 0, 0], -(xs.min() + 0.05))
 pieza("stop.stop", stop, lampara={"tipo": "stop"})
 pieza("negro_brillo.carcasa_stop", carc_s, doble=True)
-pieza("reflector.reflector_tras", G(62))
 pieza("negro_brillo.luz_placa", G(41))
 
 # --- Carrocería (Personalizar pinta "pintura"), plásticos y negro
-pieza("pintura.carenado", G(12, 32, 42), doble=True, zonas=["lateral"])
+# Según las fotos, la pintura va en el frente, el escudo de afuera, el túnel, las tapas laterales, el colín y el
+# guardabarros. Bajos y pisaderas (parte 12 bajo y = 0,45 m), la franja de la pisadera (32), la tapa del túnel (42) y el
+# escudo de adentro (37, 40) son plástico negro texturizado.
+PLAST = {"roughness": 0.86, "metalness": 0}
+c12 = G(12); tunel, bajos = cortar(c12, [0, 1, 0], 0.45)
+pieza("pintura.carenado", tunel, doble=True, zonas=["lateral"])
+pieza("plastico.bajos", unir(bajos, G(32)), doble=True)
+pieza("plastico.tapa_tunel", G(42), doble=True)
 pieza("pintura.frente", G(34, 8), doble=True, rol="visor_fijo")
-pieza("pintura.escudo_der", G(45, 37), doble=True)
-pieza("pintura.escudo_izq", G(40), doble=True)
+pieza("pintura.escudo", G(45), doble=True)
+pieza("plastico.escudo_interior", G(37, 40), doble=True)
 pieza("pintura.tapa_lateral_izq", G(74), doble=True, zonas=["lateral"])
 pieza("pintura.tapa_lateral_der", G(16), doble=True, zonas=["lateral"])
 pieza("pintura.colin", G(27, 19), doble=True)
 pieza("pintura.guardabarros_del", G(14), doble=True, zonas=["guardabarros"])
-PLAST = {"roughness": 0.86, "metalness": 0}
-pieza("plastico.interior", G(21, 26, 31, 50), doble=True, acabado=PLAST)
-pa = G(2); x0, x1 = pa["pos"][:, 0].min(), pa["pos"][:, 0].max(); y0_, y1_ = pa["pos"][:, 1].min(), pa["pos"][:, 1].max()
-incl = -float(np.arctan2(y1_ - y0_, x1 - x0))
-pieza("plastico.portaplaca", pa, doble=True, acabado=PLAST,
-      placa={"c": [round(float(x0 + 0.35 * (x1 - x0)), 4), round(float(y0_ + 0.65 * (y1_ - y0_)), 4), 0.0], "incl": round(incl, 3), "tam": [0.15, 0.08]})
-pieza("oscuro.visera", G(30), acabado={"roughness": 0.2, "metalness": 0.1, "clearcoat": 0.8})
+pieza("plastico.interior", G(21, 26, 31, 50), doble=True)
+# Placa: sobre el soporte que Tripo modeló con el tamaño de la placa (parte 62, antes «reflector»), en su cara que mira atrás (triángulos con normal hacia -x), con su plano medido: centro
+# ponderado por área e inclinación por la normal media (incl negativa = arriba hacia adelante). Placa de moto: 17 × 12 cm.
+pl = G(62); pa = unir(G(2), pl); t = pl["pos"][pl["idx"]]; nt = np.cross(t[:, 1] - t[:, 0], t[:, 2] - t[:, 0]); ar = np.linalg.norm(nt, axis=1)
+nt = nt / np.maximum(ar[:, None], 1e-12); ct3 = t.mean(1)
+atras = nt[:, 0] < -0.5
+if (ar[atras].sum() if atras.any() else 0) < 1e-4:
+    atras = nt[:, 0] > 0.5; nt = -nt
+w = ar[atras]; cp = (ct3[atras] * w[:, None]).sum(0) / w.sum(); nm = (nt[atras] * w[:, None]).sum(0); nm /= np.linalg.norm(nm)
+incl = -float(np.arcsin(np.clip(nm[1], -1, 1)))
+cpl = cp + nm * 0.006
+print(f"placa c={np.round(cpl, 3)} normal={np.round(nm, 2)} incl={incl:.3f} área={w.sum():.4f}")
+pieza("plastico.portaplaca", pa, doble=True,
+      placa={"c": [round(float(cpl[0]), 4), round(float(cpl[1]), 4), 0.0], "incl": round(incl, 3), "tam": [0.17, 0.12]})
+# Visor ahumado translúcido (lo único translúcido junto con las micas)
+pieza("vidrio_oscuro.visor", G(30), doble=True)
 pieza("asiento.asiento", G(18), acabado={"roughness": 0.62, "sheen": 0.35, "sheenRoughness": 0.5, "clearcoat": 0.12, "clearcoatRoughness": 0.6})
 pieza("oscuro.frente_centro", G(44, 51, 59), doble=True)
 pieza("oscuro.agarradera", G(70))
 
 # --- Manubrio, espejos, palancas
-mb = G(56); zx = float(mb["pos"][:, 0].mean()); yt = float(mb["pos"][:, 1].max())
+mb = G(56); zx = float(mb["pos"][:, 0].mean())
+# Tablero: en la cara de atrás de la caja del instrumento (la capota negra de la parte 56, bajo el visor), mirando al
+# piloto. Triángulos del centro (|z| < 6 cm) con normal hacia atrás y arriba, de la mitad alta: centro por área y normal media.
+t = mb["pos"][mb["idx"]]; nt = np.cross(t[:, 1] - t[:, 0], t[:, 2] - t[:, 0]); ar = np.linalg.norm(nt, axis=1)
+nt = nt / np.maximum(ar[:, None], 1e-12); c3 = t.mean(1)
+sel = (np.abs(c3[:, 2]) < 0.06) & (nt[:, 0] < -0.3) & (nt[:, 1] > 0.2) & (np.abs(nt[:, 2]) < 0.5)
+sel &= c3[:, 1] > np.quantile(c3[sel, 1], 0.4)
+w = ar[sel]; cc = (c3[sel] * w[:, None]).sum(0) / w.sum(); nn = (nt[sel] * w[:, None]).sum(0); nn[2] = 0; nn /= np.linalg.norm(nn)
+ct_ = [float(cc[0] + nn[0] * 0.004), float(cc[1] + nn[1] * 0.004)]; nt_ = nn[:2]
+print(f"tablero c={np.round(ct_, 3)} n={np.round(nt_, 2)} área={w.sum():.4f}")
 pieza("oscuro.manubrio", mb, manubrio={"x": round(zx, 4), "y": round(float(np.quantile(mb["pos"][:, 1], 0.6)), 4), "extremo": round(float(np.abs(mb["pos"][:, 2]).max()), 4)},
       sin=["accesorios.parabrisas", "accesorios.cubremanos", "espejos.redondos", "espejos.puntas"],
-      pantalla=[{"c": [round(zx + 0.03, 4), round(yt - 0.01, 4), 0.0], "n": [-0.55, 0.835, 0.0], "tam": [0.12, 0.055], "dibujo": "tacometro"}])
+      pantalla=[{"c": [round(ct_[0], 4), round(ct_[1], 4), 0.0], "n": [round(float(nt_[0]), 3), round(float(nt_[1]), 3), 0.0], "tam": [0.12, 0.055], "dibujo": "tacometro"}])
 pieza("oscuro.espejos", G(4), padre="espejos.fabrica", acabado={"roughness": 0.35, "metalness": 0.1, "clearcoat": 0.6})
 pieza("caucho.punos", G(48), acabado={"roughness": 0.95, "metalness": 0})
 pieza("metal.palancas", G(49, 65))

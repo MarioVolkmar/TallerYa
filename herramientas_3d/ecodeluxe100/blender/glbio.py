@@ -37,7 +37,7 @@ def escribir(salida, nodos_in, generador="TallerYa"):
         accs.append(a); return len(accs)-1
     tri = 0
     for m in nodos_in:
-        mundo = m["pos"]; centro = (mundo.min(0)+mundo.max(0))/2; esc = float(np.abs(mundo-centro).max()) or 1.0
+        mundo = m["pos"]; centro = np.asarray(m["centro"], float) if m.get("centro") is not None else (mundo.min(0)+mundo.max(0))/2; esc = float(np.abs(mundo-centro).max()) or 1.0
         q = np.clip(np.round((mundo-centro)/esc*32767), -32767, 32767).astype(np.int16)
         nn = m["nor"]/np.maximum(np.linalg.norm(m["nor"],axis=1,keepdims=True),1e-9)
         qn = np.clip(np.round(nn*127), -127, 127).astype(np.int8)

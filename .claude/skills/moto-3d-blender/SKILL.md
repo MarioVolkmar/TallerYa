@@ -1,0 +1,41 @@
+---
+name: moto-3d-blender
+description: Arma el 3D «modelo completo» de una moto para el visor de TallerYa desde un GLB de Tripo YA DESPIEZADO y las etiquetas que el usuario hizo en /garaje/etiquetar-3d/ (material por zona, luces que encienden, ruedas que giran, placa), con revisión automática e imagen-resumen junto a las fotos. Un comando, ~1 min. Úsala cuando pidan «el 3D de la moto X con las etiquetas», «rehacer el 3D de la X», «montar el Tripo etiquetado de la X» o cuando una moto ya tenga etiquetas en garaje/etiquetas_3d/.
+---
+
+# moto-3d-blender
+
+Meta: 20-30 min por moto. Fuente de verdad: las etiquetas del usuario (`garaje/etiquetas_3d/<modelo>.json`).
+
+## Reglas del usuario (no se negocian)
+- La geometría de Tripo NO se cambia: solo girar/escalar parejo, repartir en nodos, separar por zonas, poner la placa y arreglar piezas flotando o errores que él señale. Nada de piezas propias encima (ni faros, ni rines, ni llantas).
+- Llantas de Tripo, que giran con `extras.rueda`. Color con sentido: plástico negro en negro, solo la carrocería pintada lleva `pintura`; un material por acabado; solo micas y visor translúcidos.
+- Luces separadas y que encienden: faro(s), stop y 4 direccionales.
+
+## Cómo hacer una moto nueva
+1. **Insumos**: GLB de Tripo ya despiezado; etiquetas del usuario en `/garaje/etiquetar-3d/` (→ `garaje/etiquetas_3d/<modelo>.json`); fotos en `FOTOS_MODELADO_TRIPO/<moto>/referencia/` (frente, lateral, atrás, 3/4, farola).
+2. **Ficha** `fichas/<moto>.json` copiando `aerox155.json`: entrada, etiquetas, salida, fotos, distancia entre ejes, ruedas (llanta, rin, disco; `rin_corte_r` si vienen juntos), luces (`de: [parte, zona]`, `cara`, y en el faro `recorte`), placa (parte del portaplacas), `internos_de` y `forzar` para etiquetas ambiguas (con su nota).
+3. **Un comando** (~1 min, un solo Blender a la vez):
+   `python -I .claude/skills/moto-3d-blender/scripts/correr.py .claude/skills/moto-3d-blender/fichas/<moto>.json informes_noche/<moto>-3d-etiquetas`
+   = `armar.py` → `revisar.py` (falla si no cumple) → `resumen.py` (6 vistas junto a las fotos).
+4. **Revisar**: mirar UNA imagen, `resumen.png`, y `fichas/<moto>.armado.json` (decisión por parte y zona). Corregir con `forzar` y repetir.
+5. **Conectar**: `MODELOS_TRIPO` en `garaje/static/garaje/js/moto3d/glb.js` con `?v=` nuevo (no borrar GLB anteriores).
+6. **Visor y capturas**: `venv/Scripts/python.exe .claude/skills/moto-3d-blender/scripts/capturar.py salida.png <pk> <luces 0/1> vistas.json 1280 720` (`PRE="v.vivo(true,true); await new Promise(r=>setTimeout(r,2500));"` = de noche y encendida). Ruedas, Personalizar (rojo solo en `pintura.*`), Rayos X y luces en 1280 y 375 px.
+
+## Pasos fijos (los hace `armar.py` / `revisar.py`; no hay que pedirlos)
+- **Bordes de micas y zonas por isolínea**: la pertenencia a cada zona se suaviza por vértice y los triángulos se parten por 0,5 (sin mover vértices). `bordes_limpios: false` lo apaga.
+- **Faro como la foto**: en la luz del faro, `recorte: {contra: [partes que tapan la mica], tira: 0.02, contorno: [[u, v], ...]}`. Borde de arriba = recta ajustada al borde del carenado; `contorno` = polígono de la foto de frente (`farola.jpg`) en la caja de la mica vista de frente (u: 0 afuera → 1 centro; v: 0 arriba → 1 abajo; arriba puede sobrar: manda la recta). Adentro: mica = tira LED (`luz`) + reflector cromado (`luz_reflector`); lo del carenado que tapa la mica se quita y lo que no tiene mica detrás pasa a mica; la mica que sobra afuera va a pintura o plástico mate, **nunca a carcasa negra** (con `contorno` no se usa `cara`). La mica sale con sombreado suave (`normales_suaves`: normales promediadas y triángulos volteados al frente; `recorte.suave: false` lo apaga). Comparar de cerca contra la foto de frente.
+- **Placa**: la colombiana (23,5 × 13,5 cm) al 78 % = 18,3 × 10,5 cm (`PLACA_CO`, pedido del usuario), en la cara que mira atrás de la parte `placa.parte` = la que las etiquetas llaman «porta placa»/«portaplaca» (el soporte bajo las direccionales, no el guardabarros); se pega por delante de lo más saliente del soporte (que las pestañas no la atraviesen); `placa.tam` la cambia.
+- **forzar_cara**: lo de una zona que mira hacia un lado pasa a otro acabado, cortado por la isolínea de la normal suavizada: `"forzar_cara": {"4": {"0": {"cara": [-1,0,0], "umbral": 0.15, "como": "carenado/plastico_mate"}}}` = interior del frente bajo el manubrio (mira atrás) en plástico negro mate, como en la moto real.
+- **Gato / soporte lateral / pata / caballete**: metal negro (`chasis`), nunca del color de la moto (`garaje/deduccion_3d.py`).
+- **Peso ≤ 1,5 MB**: gltf-transform weld + simplify con `--lock-border` (sin grietas entre mica y carenado; `simplificar.bordes_fijos: false` lo apaga) (por defecto `ratio 0.25`, `error 0.0015`; ruedas con `error_ruedas 0.0007` para que el rin no se meta en la llanta) y reescritura cuantizada con los mismos extras. `revisar.py` falla si pasa de 1,5 MB: subir `error` o bajar `ratio` en `simplificar` de la ficha.
+- **Tablero que enciende**: la zona propia del tablero en plástico brillante, mica o vidrio (la que el usuario marca «tacómetro»/«pantalla») sale como `pantalla.tablero` = `M.pantalla`: negra apagada, brilla con «Encender» (`pintarVivo`). `ficha.pantalla: [[parte, zona]]` la fuerza si la deducción no la encuentra.
+- **Nodo de rueda = solo la rueda**: el eje sale de un ajuste robusto del borde exterior de la llanta (sectores que no cuadran fuera); lo que sobresale del borde (restos de Tripo, p. ej. guardabarros pegado a la llanta) sale del nodo que gira como `plastico.restos_rueda_<lado>`, fijo (`ruedas.<lado>.restos: "quitar"` lo borra). `revisar.py` falla si la llanta no es redonda alrededor del pivote (> 8 mm) o si quedan vértices fuera del radio.
+- **Lo que gira debe ser de revolución** (`armar.py` `de_revolucion`, `revisar.py`): área por sector (24) en la banda exterior; < 0,5 = le falta un pedazo o tiene un bulto que daría vueltas a la vista. Un disco de Tripo incompleto (el pedazo que tapaba la mordaza) queda FIJO como vino (`ruedas.<lado>.disco_gira` lo fuerza). `revisar.py` además mide el eje real (normal del plano de la llanta) y falla si se inclina > 1,5° del z del visor. Al parar, el visor deja las ruedas en ángulo 0 (`ruedasHacia`, `moto3d.js`).
+- **Calcas de fábrica** (paso 7, ~10 min): mirar la foto lateral (`lateral_der_foto_1280.jpg`), pasar cada gráfico a metros con los ejes y el piso de la foto (px → x, y) y escribirlo en `ficha.calcas_fabrica` (formato de `calcas_fabrica.js`: `tipo` texto/numero/franja, `forma` linea/rayas/insignia/barra…, `en: [x, y]`, `ancho`, `giro` + = sube hacia el frente, `color`, `zona`). Se DIBUJAN (atlas pequeño en el visor), no se recortan de la foto, y nunca el emblema de la marca (insignia lisa). `ficha.calcas_zonas {nodo: ["panel"]}` marca las piezas no pintadas donde van (panel negro del costado). El visor las proyecta como capa fina (decal de 5 cm con desfase de profundidad: sin z-fighting ni tocar la geometría), sigue por las piezas vecinas con zona y cada una tiene su interruptor. Revisar de cerca que ninguna salga doble ni cortada.
+- **Personalizar en «modelo completo»**: solo color de la moto, acabado, rines y sillín (sin Estilo); pestaña Calcas solo si hay calcas de fábrica. Las personalizadas están apagadas en todo el sitio (`settings.CALCAS_PERSONALIZADAS = False`; `True` las reactiva). **Calcas por moto (cuando el usuario quiera)**: textura o decal sobre los nodos `pintura.*` con `extras.zonas` (`lateral`, `guardabarros`), calcas de fábrica en `extras.calcas_fabrica` (con `en: [x, y]`, como las genéricas) y `extras.calcas: true` en la escena (lo escribe `glbio.escribir(..., {"modelo_completo": True, "calcas": True})`); con eso vuelve la pestaña.
+- **Luces en el visor** (modo «modelo completo», `moto3d.js` `pintarVivo`/`haciaPiso`): mica clara apagada, emisivo fuerte encendida, reflector que se prende, halos, haz casi al frente aunque la mica mire en V, stop rojo intenso con luz roja atrás, direccionales ámbar que parpadean al encender. Las motos viejas no cambian.
+
+## Archivos aparte (leer solo si hace falta)
+- `detalles.md`: scripts, mapeo etiqueta → material, extras y qué revisa cada chequeo.
+- `trampas.md`: lo que ya falló y cómo se resolvió.

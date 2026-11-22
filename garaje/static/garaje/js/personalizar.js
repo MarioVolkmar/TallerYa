@@ -10,6 +10,10 @@
     ["#c62828", "Rojo"], ["#1f4fa8", "Azul"], ["#c0c4c8", "Plata"]];
 
   const cajon = $("personalizar");
+  // settings.CALCAS_PERSONALIZADAS (apagadas desde el 21-nov-2026): sin la subpestaña «Personalizadas» ni el color de las
+  // de fábrica; en Calcas queda solo la lista de las de fábrica con su interruptor. Lo guardado en cfg.calcas no se toca.
+  const PROPIAS = datos.calcas_personalizadas !== false;
+  if (!PROPIAS) cajon?.classList.add("sin-calcas-propias");
   const abrir = $("abrir-personalizar");
   let cfg = null;
   let guardado = null;
@@ -165,10 +169,11 @@
       color.setAttribute("aria-pressed", String(selFab === c.id));
       color.setAttribute("aria-label", `Cambiar el color: ${c.nombre}`);
       color.addEventListener("click", () => { selFab = selFab === c.id ? null : c.id; pintarFabrica(); });
-      fila.append(etiqueta, color);
+      fila.append(etiqueta);
+      if (PROPIAS) fila.append(color); // (sin calcas personalizadas, las de fábrica solo se ponen o se quitan)
       caja.append(fila);
     }
-    pintarEditorFabrica(lista);
+    if (PROPIAS) pintarEditorFabrica(lista);
   }
   // Editor de color de una calca de fábrica: principal y secundario (estilo.color_fabrica) y "Color original"
   let selFab = null;
@@ -489,6 +494,9 @@
       (v) => (estilo().acabado || "brillante") === v,
       (v) => { if (v === "brillante") delete estilo().acabado; else estilo().acabado = v; });
     refrescarAcabados();
+    // (modelo completo: la rueda del GLB no cambia de estilo; la sección se oculta)
+    $("p-rin").hidden = op.estiloRin === false;
+    if ($("p-rin").previousElementSibling) $("p-rin").previousElementSibling.hidden = op.estiloRin === false;
     tarjetas($("p-rin"), RINES.map(([v, n]) => [v, n, ICONO_RIN[v === "fabrica" ? op.rinFabrica : v],
       v === "fabrica" ? NOMBRE_RIN[op.rinFabrica] : ""]),
       (v) => (estilo().rin || "fabrica") === v,
@@ -758,8 +766,33 @@
   }
 
   // ---------- Abrir y cerrar el cajón ----------
+  // Modelo completo (GLB de Tripo con las etiquetas del usuario, 21-nov-2026): en Pintura solo color de la moto, acabado,
+  // rines y sillín; sin pestaña Estilo, y sin Calcas mientras el modelo no traiga las suyas (opciones().calcas). Lo demás lo
+  // esconde la clase del cajón (.solo-generica / .con-calcas, garaje.css). Las motos genéricas quedan igual.
+  let ajusteCompleto = false;
+  function ajustarCompleto() {
+    const op = window.TallerYa3D?.opciones?.() || {};
+    if (ajusteCompleto || !op.modeloCompleto) return;
+    ajusteCompleto = true;
+    cajon.classList.add("modelo-completo");
+    cajon.classList.toggle("sin-calcas", !op.calcas);
+    $("p-color").previousElementSibling.textContent = "Color de la moto";
+    const etqRines = $("p-secundario").previousElementSibling;
+    etqRines.textContent = "Rines";
+    // (acabado: de Estilo a Pintura, después del color)
+    const etqAcabado = $("p-acabado").previousElementSibling;
+    etqAcabado.classList.add("mt-6");
+    etqRines.before(etqAcabado, $("p-acabado"));
+    // (sillín: sale de «Chasis y asiento», que no aplica, y queda a la vista)
+    const etqAsiento = $("p-asiento").previousElementSibling;
+    etqAsiento.firstChild.textContent = "Sillín ";
+    $("panel-pintura").append(etqAsiento, $("p-asiento"));
+    if (!$("panel-pintura").hidden) return;
+    pestana("pintura");
+  }
+
   function mostrarCajon(si) {
-    if (si) prepararCajon();
+    if (si) { prepararCajon(); ajustarCompleto(); }
     cajon.hidden = !si;
     abrir.setAttribute("aria-expanded", String(si));
     if (si) {
@@ -794,6 +827,7 @@
   function prepararCajon() {
     if (cajonListo) return;
     cajonListo = true;
+    ajustarCompleto();
     pintarColores();
     repintarCalcas();
     pintarFabrica();

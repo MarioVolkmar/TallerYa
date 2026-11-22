@@ -7,6 +7,7 @@ import unicodedata
 from functools import wraps
 from pathlib import Path
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import caches
@@ -643,10 +644,12 @@ def detalle(request, pk):
         "plan": plan,
         "datos_3d": {"specs": moto.specs(), "color": moto.color, "piezas": _acciones_piezas(moto, plan),
                      "linea": moto.nombre_completo, "placa": moto.placa,
-                     "color_secundario": moto.color_secundario, "calcas": moto.calcas, "estilo": moto.estilo},
+                     "color_secundario": moto.color_secundario, "calcas": moto.calcas, "estilo": moto.estilo,
+                     "calcas_personalizadas": settings.CALCAS_PERSONALIZADAS},
         "personalizacion": {"colores": paleta_personalizar(moto.nombre_completo), "secundarios": COLORES_SECUNDARIOS,
                             "disenos": DISENOS_CALCA,
-                            "url": reverse("garaje:personalizar", args=[moto.pk])},
+                            "url": reverse("garaje:personalizar", args=[moto.pk]),
+                            "calcas_personalizadas": settings.CALCAS_PERSONALIZADAS},
         "lectura_form": LecturaForm(moto=moto),
         "pregunta_km": pregunta_km(moto),
         "talleres_activos": Taller.objects.filter(activo=True).only("nombre"),
@@ -1607,4 +1610,5 @@ def vista_3d(request, pk):
     moto = _moto_de(request, pk)
     return render(request, "garaje/vista_3d.html", {"datos_3d": {
         "specs": moto.specs(), "color": moto.color, "piezas": {}, "linea": moto.nombre_completo, "placa": moto.placa,
-        "color_secundario": moto.color_secundario, "calcas": moto.calcas, "estilo": moto.estilo}})
+        "color_secundario": moto.color_secundario, "calcas": moto.calcas, "estilo": moto.estilo,
+                     "calcas_personalizadas": settings.CALCAS_PERSONALIZADAS}})

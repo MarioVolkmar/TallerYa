@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Etiquetar 3D · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto mt-8">
+  <p class="etiqueta">Solo administradores</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Etiquetar <span class="text-lava">modelos 3D</span></h1>
+  <p class="text-suave mt-2">Elige un modelo, di qué pieza es cada parte y su acabado. Cada moto que etiquetas mejora las sugerencias de la siguiente.</p>
+  <ul class="et3d-lista mt-6">
+    {% for m in lista %}
+    <li><a class="tarjeta et3d-fila" href="{% url 'garaje:etiquetar_3d' m.modelo %}">
+      <span class="et3d-nombre">{{ m.modelo }}</span>
+      {% if m.local %}<span class="et3d-chip">Tripo sin convertir</span>{% endif %}
+      {% if m.hecho %}<span class="et3d-chip et3d-chip-ok">Etiquetado</span>{% endif %}
+    </a></li>
+    {% empty %}
+    <li class="text-suave">No hay modelos GLB.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

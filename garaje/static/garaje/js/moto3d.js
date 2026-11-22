@@ -31,6 +31,8 @@ const ETIQUETA = { ok: "Al día", pronto: "Pronto", vencido: "Toca ya", desconoc
 
 const contenedor = document.getElementById("visor");
 const datos = JSON.parse(document.getElementById("datos-moto").textContent);
+// (settings.CALCAS_PERSONALIZADAS: false apaga las calcas que pega el usuario; las de fábrica quedan)
+const CALCAS_PROPIAS = datos.calcas_personalizadas !== false;
 const ficha = document.getElementById("visor-ficha");
 const cargando = document.getElementById("visor-cargando");
 
@@ -230,6 +232,12 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   function girarRuedas(avance) {
     for (const r of moto.ruedas) r.pivote.rotation.z -= avance / r.R;
   }
+  // Al llegar, cada rueda rueda hasta quedar EXACTAMENTE en su ángulo 0 (pedido del usuario, 21-nov-2026): el giro sale de
+  // lo que falta por recorrer, así que frena con la moto y termina en su posición original, nunca torcida (en «salir» y en
+  // otra «entrar» ya no arrastra el ángulo de antes).
+  function ruedasHacia(falta) {
+    for (const r of moto.ruedas) r.pivote.rotation.z = falta / r.R;
+  }
   const pataAbajo = new THREE.Quaternion();
   function moverPata(abajo) {      // 0 = recogida, 1 = puesta
     if (!moto.pata) return;
@@ -274,7 +282,8 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       luces[1].emissiveIntensity = baseLuces.stop;
       terminado = p >= 1;
     }
-    girarRuedas(x - xAnterior);
+    if (anim.fase === "entrar") ruedasHacia(baseX - x);
+    else girarRuedas(x - xAnterior);
     xAnterior = x;
     raiz.position.set(x, y, 0);
     // El giro es sobre el centro de la moto: se sube lo que baja la rueda de apoyo (trasera en el caballito,
@@ -284,6 +293,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     renderer.shadowMap.needsUpdate = true;
     if (terminado) {
       const fin = anim.alTerminar;
+      if (anim.fase === "entrar") ruedasHacia(0);
       if (anim.fase === "entrar") controles.autoRotate = true;
       anim.fase = null;
       fin?.();
@@ -353,8 +363,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
   const posStop = lentesStop.length ? promedio(lentesStop.map((l) => l.pos)) : moto.anclas?.stop?.clone() ?? extremoDe(moto.M.stop, -1);
   const dirStop = lentesStop.length ? promedio(lentesStop.map((l) => l.dir)).normalize() : V(-1, 0, 0);
   // Hacia dónde alumbra un faro: su normal llevada al piso (el haz cae unos 2,6 m adelante)
+  // (modelo completo: las micas de Tripo miran en V hacia afuera; el haz se lleva casi al frente, como en la moto real)
   const haciaPiso = (pos, dir) => {
-    const plano = V(dir.x, 0, dir.z);
+    const plano = V(dir.x, 0, moto.raiz.userData.modeloCompleto ? dir.z * 0.25 : dir.z);
     if (plano.lengthSq() < 1e-4) plano.set(1, 0, 0);
     return plano.normalize().multiplyScalar(2.6).add(V(0, -pos.y, 0)).normalize();
   };
@@ -470,13 +481,19 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     sol.color.copy(SOL).lerp(LUNA, k);
     contraluz.intensity = mezcla(0.55, 0.18, k);
     contorno.intensity = mezcla(contornoDia, contornoDia * 0.35, k);
-    baseLuces.luz = e ? mezcla(2.6, 11, k) : mezcla(1.1, 0, k);
-    baseLuces.stop = e ? mezcla(1.5, 7, k) : mezcla(0.7, 0, k);
+    // (modelo completo: apagada, la mica se ve clara —sin el brillo de día de la genérica— y encendida brilla más fuerte;
+    // el reflector cromado del faro se prende con la tira LED y el stop tiñe el piso de atrás más lejos)
+    const comp = !!moto.raiz.userData.modeloCompleto;
+    baseLuces.luz = e ? mezcla(comp ? 4.5 : 2.6, comp ? 14 : 11, k) : mezcla(comp ? 0.1 : 1.1, 0, k);
+    baseLuces.stop = e ? mezcla(comp ? 3.4 : 1.5, comp ? 10 : 7, k) : mezcla(comp ? 0.12 : 0.7, 0, k);
+    if (moto.M.luz_reflector) moto.M.luz_reflector.emissiveIntensity = comp && e ? mezcla(0.7, 3.2, k) : 0;
+    rojoTras.distance = comp ? 1.9 : 1.3;
     if (!anim.fase) { moto.M.luz.emissiveIntensity = baseLuces.luz; moto.M.stop.emissiveIntensity = baseLuces.stop; }
     // (soloEncendida: pantalla con dibujo, que apagada no muestra nada; la genérica deja un brillo tenue de día)
-    moto.M.pantalla.emissiveIntensity = e ? mezcla(1, 3, k) : moto.M.pantalla.userData.soloEncendida ? 0 : mezcla(0.35, 0, k);
+    // (modelo completo: la pantalla es la zona del tablero de Tripo marcada «tacómetro»; apagada queda negra, encendida brilla)
+    moto.M.pantalla.emissiveIntensity = e ? mezcla(comp ? 1.6 : 1, 3, k) : moto.M.pantalla.userData.soloEncendida || comp ? 0 : mezcla(0.35, 0, k);
     haz.intensity = e ? mezcla(2.5, 26, k) : 0;
-    rojoTras.intensity = e ? 2.4 * k : 0;
+    rojoTras.intensity = e ? (comp ? 3 : 2.4) * k : 0;
     direccionales.forEach((m, i) => { m.emissiveIntensity = brilloDireccional[i] * mezcla(1, e ? 1.3 : 0, k); });
     // Neón inferior (accesorio LED): solo con la moto encendida y de noche; apagada no deja luz (ni de día)
     const led = moto.accesorios.led?.userData.led;
@@ -516,7 +533,7 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     const desde = (performance.now() - vivo.t0) / 1000;
     // Saludo: las direccionales parpadean tres veces al encender
     const parpadeo = desde < 2.1 && Math.floor(desde / 0.35) % 2 === 0;
-    direccionales.forEach((m, i) => { m.emissiveIntensity = parpadeo ? 3.2 : brilloDireccional[i] * (vivo.noche ? 0.5 : 1); });
+    direccionales.forEach((m, i) => { m.emissiveIntensity = parpadeo ? (moto.raiz.userData.modeloCompleto ? 6 : 3.2) : brilloDireccional[i] * (vivo.noche ? 0.5 : 1); });
     // (el ámbar de cada direccional brilla en su lente mientras parpadea; de día apenas se nota)
     for (const sp of halosAmbar) { sp.visible = parpadeo && transicion.k > 0.01; sp.material.opacity = 0.9 * transicion.k; }
     if (reducido) return desde < 2.2;
@@ -1006,7 +1023,10 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       };
       geos.push(conCalca(s.malla));
       // Franjas y detalles pegados sobre la carrocería: la calca también pasa por encima de ellos (como un sticker real)
-      for (const detalle of detallesBajoCalca()) {
+      // (modelo completo: el costado de Tripo viene en varias piezas, p. ej. panel negro y tapa brillante; la calca sigue
+      // por las piezas vecinas con zona en vez de cortarse en la costura)
+      const vecinas = moto.raiz.userData.modeloCompleto ? mallasCarroceria().filter((m) => m !== s.malla) : [];
+      for (const detalle of [...detallesBajoCalca(), ...vecinas]) {
         const g = conCalca(detalle);
         if (g.attributes.position.count) geos.push(g); else g.dispose();
       }
@@ -1130,11 +1150,14 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     const y = c.en ? c.en[1] : centro.y + (c.altura || 0) * t.y / 2, x = c.en ? c.en[0] : centro.x + (c.posicion || 0) * t.x / 2;
     const disparos = c.cara === "frente" ? [[V(caja.max.x + 0.4, y, 0), V(-1, 0, 0)]]
       : [[V(x, y, caja.max.z + 0.4), V(0, 0, -1)], [V(x, y, caja.min.z - 0.4), V(0, 0, 1)]];
+    // (modelo completo con «en»: la zona puede venir en varias piezas de Tripo; vale la primera que toque el rayo)
+    const blancos = [malla];
+    if (c.en && moto.raiz.userData.modeloCompleto) moto.raiz.traverse((o) => { if (o.isMesh && o.visible && o !== malla && o.userData.zonas?.some((zz) => c.zona.includes(zz))) blancos.push(o); });
     for (const [origen, dir] of disparos) {
       rayo.set(origen, dir);
-      const golpe = rayo.intersectObject(malla, false)[0];
+      const golpe = rayo.intersectObjects(blancos, false)[0];
       if (!golpe) continue;
-      const normal = golpe.face.normal.clone().transformDirection(malla.matrixWorld);
+      const normal = golpe.face.normal.clone().transformDirection(golpe.object.matrixWorld);
       if (normal.dot(dir) > 0) normal.negate();
       const local = moto.raiz.worldToLocal(golpe.point.clone());
       const nl = normal.transformDirection(moto.raiz.matrixWorld.clone().invert());
@@ -1152,7 +1175,9 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     moto.raiz.updateMatrixWorld(true);
     const aLocal = moto.raiz.matrixWorld.clone().invert();
     // (más hondas que las propias: van sobre carenados y tanques muy curvos, que se salían de la caja de proyección)
-    return geometriasCon(ubicada, ancho, alto, Math.min(0.3, Math.max(0.14, ancho * 0.9))).map((g) => {
+    // (modelo completo: caja de 5 cm, porque Tripo deja superficies internas detrás del panel que salían como calca doble)
+    const hondo = moto.raiz.userData.modeloCompleto ? 0.05 : Math.min(0.3, Math.max(0.14, ancho * 0.9));
+    return geometriasCon(ubicada, ancho, alto, hondo).map((g) => {
       const uv = g.attributes.uv;
       for (let i = 0; i < uv.count; i++) uv.setXY(i, r.u0 + uv.getX(i) * (r.u1 - r.u0), r.v0 + uv.getY(i) * (r.v1 - r.v0));
       g.applyMatrix4(aLocal);
@@ -1316,7 +1341,14 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     moto.M.chasisVisto?.color.set(estilo.chasis || moto.M.chasisVisto.userData.fabrica);
     moto.M.asiento.color.set(estilo.asiento || COLOR_ASIENTO);
     const rin = ["radios", "aleacion", "estrella"].includes(estilo.rin) ? estilo.rin : moto.rinFabrica;
-    for (const g of [moto.piezas.llanta_del, moto.piezas.llanta_tras]) {
+    // (modelo completo: la rueda queda tal cual viene del GLB, sin estilos de rin; «Rines y detalles» solo le cambia el
+    // color: de fábrica, el material del GLB; con un color elegido, el de los rines)
+    if (moto.raiz.userData.modeloCompleto) {
+      for (const g of [moto.piezas.llanta_del, moto.piezas.llanta_tras]) g.traverse((o) => {
+        if (o.isMesh && (o.userData.rin || o.userData.aro) && o.userData.glbMat) o.material = rinesDeFabrica ? o.userData.glbMat : moto.M.rin;
+      });
+    }
+    for (const g of moto.raiz.userData.modeloCompleto ? [] : [moto.piezas.llanta_del, moto.piezas.llanta_tras]) {
       g.userData.armarRin?.(rin);
       g.traverse((o) => { if (o.userData.rin) o.visible = o.userData.rin === rin; });
       g.traverse((o) => {
@@ -1355,7 +1387,14 @@ async function iniciar(lecturaCache = Promise.resolve()) {
     // color de fábrica (Duke naranja, NS rojo, MT-03 cian; aro plateado en los de radios) y la cinta del rin el suyo
     // (CR4). Con un color elegido —el negro también: es otra muestra, #15181a—, todo estilo de rin toma ese color.
     const deFabrica = String(cfg.color_secundario).toLowerCase() === SECUNDARIO_FABRICA;
-    aplicarEstilo(cfg.estilo, deFabrica);
+    // (modelo completo, 21-nov-2026: solo color de la moto, rines, sillín y acabado de la pintura; sin calcas mientras el
+    // GLB no traiga las suyas. Lo guardado de otras opciones se ignora: no se borra, por si la moto vuelve a la genérica)
+    const completo = !!moto.raiz.userData.modeloCompleto;
+    const est = cfg.estilo || {};
+    aplicarEstilo(completo ? { acabado: est.acabado, asiento: est.asiento } : est, deFabrica);
+    // (calcas personalizadas apagadas en settings.CALCAS_PERSONALIZADAS, 21-nov-2026: no se dibujan, pero lo guardado
+    // queda intacto; las de fábrica siguen con sus interruptores)
+    if (!CALCAS_PROPIAS || (completo && !moto.raiz.userData.calcasModelo)) cfg = { ...cfg, calcas: [] };
     moto.M.rin.color.set(deFabrica && moto.rinColor != null ? moto.rinColor : cfg.color_secundario);
     moto.M.cinta?.color.set(deFabrica ? moto.M.cinta.userData.fabrica : cfg.color_secundario);
     if (moto.M.acento) moto.M.acento.color.set(cfg.color_secundario);
@@ -1502,6 +1541,11 @@ async function iniciar(lecturaCache = Promise.resolve()) {
       const hex = (c) => (c == null ? null : "#" + new THREE.Color(c).getHexString());
       const rin = ["radios", "aleacion", "estrella"].includes(estilo.rin) ? estilo.rin : moto.rinFabrica;
       return { accesorios: Object.keys(moto.accesorios), espejos: Object.keys(moto.espejos || {}), rinFabrica: moto.rinFabrica, tipo: datos.specs.tipo,
+        estiloRin: !moto.raiz.userData.modeloCompleto, // (modelo completo: sin cambio de estilo de rin, solo de color)
+        modeloCompleto: !!moto.raiz.userData.modeloCompleto,
+        // (pestaña Calcas: si hay calcas de fábrica o, con las personalizadas encendidas, si el modelo las admite)
+        calcas: !!(moto.raiz.userData.calcasFabrica || []).length || (CALCAS_PROPIAS && (!moto.raiz.userData.modeloCompleto || !!moto.raiz.userData.calcasModelo)),
+        calcasPropias: CALCAS_PROPIAS,
         secundarioFabrica: SECUNDARIO_FABRICA,
         colorRinFabrica: hex(rin === "radios" ? moto.M.metal.color : moto.rinColor ?? moto.M.cinta?.userData.fabrica ?? SECUNDARIO_FABRICA),
         colorChasisFabrica: hex(moto.M.chasisVisto?.userData.fabrica) };

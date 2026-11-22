@@ -1,0 +1,1551 @@
+{
+ "entradas": [
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_2",
+   "pieza": "tapa_lateral",
+   "acabado": "pintura",
+   "pos": [
+    0.633,
+    0.379,
+    0.01
+   ],
+   "tam": [
+    0.49,
+    0.298,
+    0.261
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_9",
+   "pieza": "otra",
+   "acabado": "motor",
+   "pos": [
+    0.356,
+    0.462,
+    0.047
+   ],
+   "tam": [
+    0.417,
+    0.238,
+    0.19
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_5",
+   "pieza": "otra",
+   "acabado": "motor",
+   "pos": [
+    0.765,
+    0.388,
+    0.072
+   ],
+   "tam": [
+    0.224,
+    0.287,
+    0.2
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_25",
+   "pieza": "asiento",
+   "acabado": "vinilo",
+   "pos": [
+    0.368,
+    0.651,
+    0.004
+   ],
+   "tam": [
+    0.394,
+    0.155,
+    0.197
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_4",
+   "pieza": "carenado",
+   "acabado": "pintura",
+   "pos": [
+    0.765,
+    0.651,
+    0.004
+   ],
+   "tam": [
+    0.26,
+    0.14,
+    0.233
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_26",
+   "pieza": "otra",
+   "acabado": "motor",
+   "pos": [
+    0.279,
+    0.653,
+    0.104
+   ],
+   "tam": [
+    0.36,
+    0.159,
+    0.134
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_6",
+   "pieza": "espejo",
+   "acabado": "plastico_brillo",
+   "pos": [
+    0.674,
+    0.87,
+    0.123
+   ],
+   "tam": [
+    0.15,
+    0.16,
+    0.294
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_28",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.301,
+    0.496,
+    0.003
+   ],
+   "tam": [
+    0.265,
+    0.145,
+    0.152
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_1",
+   "pieza": "llanta_tras",
+   "acabado": "caucho",
+   "pos": [
+    0.185,
+    0.239,
+    0.004
+   ],
+   "tam": [
+    0.287,
+    0.285,
+    0.07
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_24",
+   "pieza": "cvt",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.291,
+    0.316,
+    0.22
+   ],
+   "tam": [
+    0.339,
+    0.186,
+    0.087
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_23",
+   "pieza": "otra",
+   "acabado": "motor",
+   "pos": [
+    0.41,
+    0.43,
+    0.206
+   ],
+   "tam": [
+    0.314,
+    0.261,
+    0.061
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_15",
+   "pieza": "otra",
+   "acabado": "motor",
+   "pos": [
+    0.223,
+    0.65,
+    0.056
+   ],
+   "tam": [
+    0.211,
+    0.154,
+    0.153
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_3",
+   "pieza": "llanta_del",
+   "acabado": "caucho",
+   "pos": [
+    0.868,
+    0.231,
+    0.005
+   ],
+   "tam": [
+    0.264,
+    0.275,
+    0.059
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_33",
+   "pieza": "carenado",
+   "acabado": "pintura",
+   "pos": [
+    0.265,
+    0.682,
+    0.141
+   ],
+   "tam": [
+    0.28,
+    0.123,
+    0.11
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_42",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.637,
+    0.419,
+    0.067
+   ],
+   "tam": [
+    0.151,
+    0.195,
+    0.12
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_10",
+   "pieza": "guardabarros_tras",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.08,
+    0.48,
+    0.004
+   ],
+   "tam": [
+    0.16,
+    0.168,
+    0.124
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_45",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.627,
+    0.401,
+    0.078
+   ],
+   "tam": [
+    0.129,
+    0.18,
+    0.118
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_16",
+   "pieza": "carenado",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.763,
+    0.721,
+    0.002
+   ],
+   "tam": [
+    0.185,
+    0.088,
+    0.16
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_0",
+   "pieza": "basura",
+   "acabado": "oculta",
+   "pos": [
+    0.523,
+    0.003,
+    0.0
+   ],
+   "tam": [
+    0.912,
+    0.003,
+    0.815
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_8",
+   "pieza": "motor",
+   "acabado": "aluminio",
+   "pos": [
+    0.39,
+    0.289,
+    0.016
+   ],
+   "tam": [
+    0.159,
+    0.145,
+    0.107
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_27",
+   "pieza": "rin_tras",
+   "acabado": "aluminio",
+   "pos": [
+    0.186,
+    0.237,
+    0.002
+   ],
+   "tam": [
+    0.199,
+    0.201,
+    0.061
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_12",
+   "pieza": "otra",
+   "acabado": "pintura",
+   "pos": [
+    0.646,
+    0.887,
+    0.271
+   ],
+   "tam": [
+    0.093,
+    0.139,
+    0.168
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_11",
+   "pieza": "escape",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.183,
+    0.358,
+    0.327
+   ],
+   "tam": [
+    0.254,
+    0.16,
+    0.05
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_38",
+   "pieza": "otra",
+   "acabado": "motor",
+   "pos": [
+    0.533,
+    0.387,
+    0.234
+   ],
+   "tam": [
+    0.29,
+    0.127,
+    0.053
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_34",
+   "pieza": "escape",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.341,
+    0.335,
+    0.148
+   ],
+   "tam": [
+    0.175,
+    0.135,
+    0.072
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_19",
+   "pieza": "escape",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.157,
+    0.37,
+    0.251
+   ],
+   "tam": [
+    0.19,
+    0.127,
+    0.066
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_29",
+   "pieza": "rin_tras",
+   "acabado": "aluminio",
+   "pos": [
+    0.185,
+    0.245,
+    0.037
+   ],
+   "tam": [
+    0.161,
+    0.157,
+    0.059
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_30",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.229,
+    0.266,
+    0.177
+   ],
+   "tam": [
+    0.171,
+    0.085,
+    0.093
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_48",
+   "pieza": "frente",
+   "acabado": "pintura",
+   "pos": [
+    0.822,
+    0.631,
+    0.13
+   ],
+   "tam": [
+    0.132,
+    0.104,
+    0.093
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_32",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.735,
+    0.34,
+    0.037
+   ],
+   "tam": [
+    0.056,
+    0.189,
+    0.114
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_21",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.866,
+    0.419,
+    0.004
+   ],
+   "tam": [
+    0.21,
+    0.064,
+    0.09
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_47",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.546,
+    0.497,
+    0.002
+   ],
+   "tam": [
+    0.14,
+    0.052,
+    0.164
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_56",
+   "pieza": "frente",
+   "acabado": "pintura",
+   "pos": [
+    0.823,
+    0.632,
+    0.121
+   ],
+   "tam": [
+    0.128,
+    0.102,
+    0.091
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_17",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.425,
+    0.203,
+    0.026
+   ],
+   "tam": [
+    0.121,
+    0.06,
+    0.152
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_36",
+   "pieza": "visor",
+   "acabado": "mica_faro",
+   "pos": [
+    0.716,
+    0.865,
+    0.002
+   ],
+   "tam": [
+    0.089,
+    0.091,
+    0.115
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_35",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.278,
+    0.274,
+    0.272
+   ],
+   "tam": [
+    0.297,
+    0.074,
+    0.041
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_40",
+   "pieza": "motor",
+   "acabado": "aluminio",
+   "pos": [
+    0.307,
+    0.289,
+    0.128
+   ],
+   "tam": [
+    0.252,
+    0.136,
+    0.026
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_7",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "pos": [
+    0.818,
+    0.37,
+    0.102
+   ],
+   "tam": [
+    0.122,
+    0.197,
+    0.032
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_20",
+   "pieza": "radiador",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.375,
+    0.316,
+    0.289
+   ],
+   "tam": [
+    0.135,
+    0.123,
+    0.031
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_39",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "pos": [
+    0.83,
+    0.357,
+    0.103
+   ],
+   "tam": [
+    0.1,
+    0.179,
+    0.029
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_54",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.732,
+    0.355,
+    0.072
+   ],
+   "tam": [
+    0.036,
+    0.135,
+    0.091
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_43",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "pos": [
+    0.183,
+    0.237,
+    0.069
+   ],
+   "tam": [
+    0.091,
+    0.098,
+    0.042
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_51",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "pos": [
+    0.254,
+    0.17,
+    0.081
+   ],
+   "tam": [
+    0.17,
+    0.057,
+    0.037
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_18",
+   "pieza": "disco_del",
+   "acabado": "aluminio",
+   "pos": [
+    0.811,
+    0.312,
+    0.083
+   ],
+   "tam": [
+    0.07,
+    0.104,
+    0.044
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_41",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.841,
+    0.363,
+    0.092
+   ],
+   "tam": [
+    0.076,
+    0.106,
+    0.039
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_58",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "pos": [
+    0.182,
+    0.25,
+    0.071
+   ],
+   "tam": [
+    0.088,
+    0.086,
+    0.041
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_50",
+   "pieza": "escape",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.252,
+    0.352,
+    0.214
+   ],
+   "tam": [
+    0.064,
+    0.056,
+    0.075
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_14",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.84,
+    0.364,
+    0.106
+   ],
+   "tam": [
+    0.076,
+    0.106,
+    0.033
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_53",
+   "pieza": "disco_del",
+   "acabado": "aluminio",
+   "pos": [
+    0.667,
+    0.83,
+    0.318
+   ],
+   "tam": [
+    0.057,
+    0.05,
+    0.093
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_55",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "pos": [
+    0.769,
+    0.482,
+    0.005
+   ],
+   "tam": [
+    0.054,
+    0.047,
+    0.102
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_62",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.644,
+    0.522,
+    0.007
+   ],
+   "tam": [
+    0.077,
+    0.032,
+    0.097
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_65",
+   "pieza": "guardabarros_tras",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.069,
+    0.493,
+    0.002
+   ],
+   "tam": [
+    0.064,
+    0.076,
+    0.048
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_44",
+   "pieza": "escape",
+   "acabado": "aluminio",
+   "pos": [
+    0.33,
+    0.191,
+    0.136
+   ],
+   "tam": [
+    0.099,
+    0.048,
+    0.045
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_37",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.718,
+    0.274,
+    0.044
+   ],
+   "tam": [
+    0.021,
+    0.109,
+    0.092
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_70",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.444,
+    0.33,
+    0.078
+   ],
+   "tam": [
+    0.032,
+    0.075,
+    0.089
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_49",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.755,
+    0.437,
+    0.008
+   ],
+   "tam": [
+    0.041,
+    0.074,
+    0.066
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_31",
+   "pieza": "disco_del",
+   "acabado": "aluminio",
+   "pos": [
+    0.867,
+    0.225,
+    0.067
+   ],
+   "tam": [
+    0.115,
+    0.116,
+    0.014
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_13",
+   "pieza": "amortiguador",
+   "acabado": "aluminio",
+   "pos": [
+    0.201,
+    0.454,
+    0.131
+   ],
+   "tam": [
+    0.037,
+    0.15,
+    0.032
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_22",
+   "pieza": "amortiguador",
+   "acabado": "aluminio",
+   "pos": [
+    0.202,
+    0.454,
+    0.125
+   ],
+   "tam": [
+    0.036,
+    0.152,
+    0.032
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_64",
+   "pieza": "motor",
+   "acabado": "motor",
+   "pos": [
+    0.318,
+    0.357,
+    0.093
+   ],
+   "tam": [
+    0.227,
+    0.046,
+    0.016
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_52",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.656,
+    0.842,
+    0.33
+   ],
+   "tam": [
+    0.049,
+    0.036,
+    0.086
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_46",
+   "pieza": "portaplaca",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.118,
+    0.58,
+    0.003
+   ],
+   "tam": [
+    0.047,
+    0.047,
+    0.068
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_74",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.441,
+    0.33,
+    0.238
+   ],
+   "tam": [
+    0.034,
+    0.092,
+    0.047
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_67",
+   "pieza": "pisadera",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.461,
+    0.208,
+    0.105
+   ],
+   "tam": [
+    0.095,
+    0.036,
+    0.04
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_69",
+   "pieza": "freno_tras",
+   "acabado": "aluminio",
+   "pos": [
+    0.18,
+    0.258,
+    0.124
+   ],
+   "tam": [
+    0.064,
+    0.098,
+    0.02
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_66",
+   "pieza": "escape",
+   "acabado": "aluminio",
+   "pos": [
+    0.263,
+    0.321,
+    0.238
+   ],
+   "tam": [
+    0.061,
+    0.068,
+    0.029
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_73",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "pos": [
+    0.798,
+    0.468,
+    0.228
+   ],
+   "tam": [
+    0.054,
+    0.046,
+    0.035
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_72",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.196,
+    0.586,
+    0.105
+   ],
+   "tam": [
+    0.067,
+    0.027,
+    0.046
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_68",
+   "pieza": "disco_del",
+   "acabado": "aluminio",
+   "pos": [
+    0.684,
+    0.821,
+    0.314
+   ],
+   "tam": [
+    0.024,
+    0.037,
+    0.091
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_59",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "pos": [
+    0.122,
+    0.648,
+    0.116
+   ],
+   "tam": [
+    0.043,
+    0.024,
+    0.071
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_57",
+   "pieza": "radiador",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.372,
+    0.317,
+    0.278
+   ],
+   "tam": [
+    0.065,
+    0.053,
+    0.018
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_63",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "pos": [
+    0.812,
+    0.49,
+    0.107
+   ],
+   "tam": [
+    0.056,
+    0.061,
+    0.017
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_60",
+   "pieza": "horquilla",
+   "acabado": "cromo",
+   "pos": [
+    0.812,
+    0.491,
+    0.097
+   ],
+   "tam": [
+    0.056,
+    0.059,
+    0.017
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_61",
+   "pieza": "direccional",
+   "acabado": "mica_ambar",
+   "pos": [
+    0.128,
+    0.649,
+    0.112
+   ],
+   "tam": [
+    0.03,
+    0.024,
+    0.066
+   ]
+  },
+  {
+   "modelo": "modelo-3d-despiece-aerox155",
+   "parte": "tripo_part_71",
+   "pieza": "otra",
+   "acabado": "plastico_mate",
+   "pos": [
+    0.158,
+    0.29,
+    0.162
+   ],
+   "tam": [
+    0.039,
+    0.016,
+    0.068
+   ]
+  }
+ ],
+ "frases": [
+  {
+   "texto": "plasticos y carenaje lateral moto",
+   "pieza": "tapa_lateral",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "tapas laterales principales color moto principal",
+   "pieza": "tapa_lateral",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "direccional",
+   "pieza": "direccional",
+   "acabado": "mica_ambar"
+  },
+  {
+   "texto": "gato lateral",
+   "pieza": "pata",
+   "acabado": "chasis"
+  },
+  {
+   "texto": "tapas plastico brillante",
+   "pieza": "tapa_lateral",
+   "acabado": "plastico_brillo"
+  },
+  {
+   "texto": "posapie metalico",
+   "pieza": "posapies",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "tapas carenaje piso plastico mate",
+   "pieza": "tapa_lateral",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "plasticos moto",
+   "pieza": "otra",
+   "acabado": "motor"
+  },
+  {
+   "texto": "plasticos brillantes",
+   "pieza": "otra",
+   "acabado": "plastico_brillo"
+  },
+  {
+   "texto": "platicos mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "plastico color principal moto",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "sillin moto",
+   "pieza": "asiento",
+   "acabado": "vinilo"
+  },
+  {
+   "texto": "carenaje frontal color principal moto",
+   "pieza": "carenado",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "luz placa",
+   "pieza": "portaplaca",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "tapa lateral color principal moto",
+   "pieza": "tapa_lateral",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "tacometro y retrovisor",
+   "pieza": "espejo",
+   "acabado": "plastico_brillo"
+  },
+  {
+   "texto": "plasticos mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "tacometro",
+   "pieza": "tablero",
+   "acabado": "plastico_brillo"
+  },
+  {
+   "texto": "espejo reflectante",
+   "pieza": "espejo",
+   "acabado": "plastico_brillo"
+  },
+  {
+   "texto": "fondo baul plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "llanta trasera caucho",
+   "pieza": "llanta_tras",
+   "acabado": "caucho"
+  },
+  {
+   "texto": "plastico mate tapas de la caja cvt",
+   "pieza": "cvt",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "plastico brillante",
+   "pieza": "otra",
+   "acabado": "plastico_brillo"
+  },
+  {
+   "texto": "stop moto",
+   "pieza": "stop",
+   "acabado": "mica_roja"
+  },
+  {
+   "texto": "llanta delantera caucho",
+   "pieza": "llanta_del",
+   "acabado": "caucho"
+  },
+  {
+   "texto": "carenaje moto color principal moto",
+   "pieza": "carenado",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "plasticos mate plasticos moto",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "cola guardafango trasero plastico mate",
+   "pieza": "guardabarros_tras",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "carenaje frontal plastico mate",
+   "pieza": "carenado",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "quitar",
+   "pieza": "basura",
+   "acabado": "oculta"
+  },
+  {
+   "texto": "motor aluminio",
+   "pieza": "motor",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "rin trasero",
+   "pieza": "rin_tras",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "color negro mate comando retrovisor y acelerador",
+   "pieza": "espejo",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "protector mofle plastico mate",
+   "pieza": "escape",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "posapies metalico",
+   "pieza": "posapies",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "soporte mofle negro",
+   "pieza": "escape",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "mofle negro",
+   "pieza": "escape",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "tijera moto automatica negro",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "farola",
+   "pieza": "frente",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "parte del caneraje frontal color principal moto",
+   "pieza": "otra",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "guardafango delantero color principal o negro",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "parte del carenaje frontal pintra principal",
+   "pieza": "carenado",
+   "acabado": "pintura"
+  },
+  {
+   "texto": "fondo moto plastico mate o negro",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "parabrisas",
+   "pieza": "visor",
+   "acabado": "mica_faro"
+  },
+  {
+   "texto": "protectores mofre plastico mate",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "suspension delantera",
+   "pieza": "horquilla",
+   "acabado": "cromo"
+  },
+  {
+   "texto": "rejilla radiador plastico mate",
+   "pieza": "radiador",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "freno trasero aluminio",
+   "pieza": "freno_tras",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "guaya freno trasero",
+   "pieza": "freno_tras",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "caliper freno delantero",
+   "pieza": "disco_del",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "guardafango delantero plastico mate",
+   "pieza": "guardabarros_del",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "freno trasero",
+   "pieza": "freno_tras",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "leva freno",
+   "pieza": "disco_del",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "horquilla moto",
+   "pieza": "horquilla",
+   "acabado": "cromo"
+  },
+  {
+   "texto": "cola guardabarros trasero plastico mate",
+   "pieza": "guardabarros_tras",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "mofle silenciador",
+   "pieza": "escape",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "sobra o no importa",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "disco de freno delantero aluminio",
+   "pieza": "disco_del",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "amortiguador trasero",
+   "pieza": "amortiguador",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "motor",
+   "pieza": "motor",
+   "acabado": "motor"
+  },
+  {
+   "texto": "negro mate comando y cabrilla",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "porta placa plastico mate",
+   "pieza": "portaplaca",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "piso moto negro",
+   "pieza": "pisadera",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "escape",
+   "pieza": "escape",
+   "acabado": "aluminio"
+  },
+  {
+   "texto": "plastico transparente por donde sale la luz de la direccional",
+   "pieza": "direccional",
+   "acabado": "mica_ambar"
+  },
+  {
+   "texto": "tijera trasera negro",
+   "pieza": "otra",
+   "acabado": "plastico_mate"
+  },
+  {
+   "texto": "gato",
+   "pieza": "pata",
+   "acabado": "chasis"
+  },
+  {
+   "texto": "soporte lateral",
+   "pieza": "pata",
+   "acabado": "chasis"
+  }
+ ]
+}

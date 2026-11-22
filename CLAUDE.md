@@ -7,7 +7,7 @@ Django (Python) para talleres de motos en Medellín. Todo en español (código, 
 - Tailwind va compilado en `talleres/static/talleres/css/tw.css` (no hay CDN): tras usar clases de Tailwind nuevas, correr `npm run css` (config en `tailwind/`)
 - Apps: `talleres` (directorio, portada), `cuentas` (login, Google, roles, Plus), `cupones`, `foro`, `notificaciones`, `garaje` (motos, plan de mantenimiento, 3D, despiece)
 - Despiece: `garaje/diagramas.py` (dibujos SVG propios), `despiece_fichas.py`, `despiece_glosario.py`, `despiece_mapas/*.json`, `static/garaje/js/despiece.js`; importador `manage.py importar_despiece`
-- 3D: `garaje/static/garaje/js/moto3d.js` (2200 líneas: leer por rangos)
+- 3D: `garaje/static/garaje/js/moto3d.js` (2200 líneas: leer por rangos) · **Regla del usuario para modelos de Tripo:** la geometría de Tripo NO se cambia; solo se permite poner la placa, arreglar piezas flotando y corregir errores puntuales que el usuario señale (nada de llantas, rines, farolas ni piezas propias o del visor encima)
 - Python: `venv/Scripts/python.exe` · servidor: preview `tallerya` (puerto 8001)
 - Blender 5.3 sin ventana para procesar GLB (importar, limpiar, simplificar, materiales PBR, exportar): `"/c/Program Files/Blender Foundation/Blender 5.3/blender.exe" -b --factory-startup --python script.py -- args` (scripts en el scratchpad o en la carpeta de la herramienta; salida a log) · validar y optimizar GLB: `npx gltf-transform validate|inspect|weld|simplify|quantize archivo.glb` (dev en package.json; meshopt aún no: el visor no tiene el decodificador)
 - Solo local, nunca al repo ni a servicios externos: `despiece_local/`, `manual_despiece/`, `planos_a_generar/`, `media/`, `privado/`, `db.sqlite3`

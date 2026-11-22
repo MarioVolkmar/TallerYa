@@ -32,3 +32,42 @@ Capturas: `final_lateral.png`, `final_tres_cuartos.png` y `final_luces.png` (noc
 - Personalizar: no se probó en vivo con rojo vivo ni el secundario (rin.* va al secundario por prefijo, pintura.* al principal).
 - Revisión en 375 px no hecha (solo 1280). Placa: `incl` calculada por la pendiente del portaplaca, sin revisar de cerca.
 - Las partes pequeñas sin identificar (13, 35, 39, 47, 53, 54, 61, 63, 66, 68, 69) van juntas en `oscuro.piezas`.
+
+# Ronda 2 (21-nov): correcciones del usuario, `aerox155_tripo3.glb?v=6`
+
+## Ruedas de Tripo que giran tal cual (sin llanta torneada)
+Antes el visor cambiaba la llanta de cada GLB por una suya (`tornearLlanta` en `glb.js`). Ahora un GLB puede marcar sus ruedas
+y el visor las hace girar con la geometría de Tripo, sin reemplazarla. Los GLB sin la marca siguen como antes (Eco Deluxe,
+XR 190L y las demás no cambian).
+
+**Cómo marcar una rueda (para la futura skill):**
+- Cada pieza que gira con la rueda (llanta, rin, disco o corona/tambor) lleva `extras.rueda: "del" | "tras"` y `extras.eje: [x, y]`.
+  El freno (mordaza), la horquilla y el basculante NO llevan la marca: quedan fijos.
+- La **traslación del nodo** es el centro del eje `[eje_x, eje_y, z_medio]`: es el pivote. `glbio.escribir` acepta ahora
+  `centro` por nodo (opcional; sin él usa el centro de la caja como siempre) y `final.py` lo pone en los nodos con `rueda`.
+- El centro se calcula con **ajuste de círculo** (mínimos cuadrados) a la banda de rodadura en el plano xy (`centro_rueda` en
+  `armar.py`), no con la caja de Tripo. Comprobado en el visor: al girar 0, 1,1 y 2,3 rad el centro de la llanta queda fijo a ±1 mm.
+- En el visor (`glb.js`): con `rueda` no se tornea ni se labra la llanta; la pieza cuelga del `pivoteRueda` de `llanta_<rueda>`
+  y el pivote se lleva a la traslación del nodo. La animación de giro de `moto3d.js` no cambió.
+- Si Tripo trae llanta y rin juntos, se separan con `cortar(m, None, None, s=radio - r0)` (corte por cilindro partiendo los
+  triángulos del borde, sin dientes). La llanta ya no se diezma al 0,2 sino al 0,6, porque ahora se ve.
+
+## Las otras correcciones
+- **Plásticos negros**: bajos y pisaderas (parte 12 bajo y = 0,45 m, cortada por plano), franja de pisadera (32), tapa del túnel
+  (42) y escudo interior (37, 40) pasan a `plastico`. Pintura: frente, escudo exterior, túnel, tapas laterales, colín y guardabarros.
+- **Tonos parejos**: todas las piezas `pintura.*` comparten un solo material (sin `acabado` propio); los plásticos también.
+- **Translúcidos**: solo `vidrio.*` (micas) y el visor (`vidrio_oscuro.visor`, antes `oscuro.visera` opaco). Comprobado en el
+  visor: ninguna otra malla queda `transparent`.
+- **Placa**: la parte 62 (que iba como «reflector» naranja) es el soporte de la placa que modeló Tripo; ahora es parte del
+  portaplaca y la placa (17 × 12 cm) va sobre su cara trasera, con el plano medido (incl −0,60 rad).
+- **Tablero**: sobre el carenado frontal, debajo del visor (entre su borde de atrás y 7 cm hacia adelante), punto y normal medidos.
+- **Bordes**: el corte llanta/rin delantero ya no es por triángulo.
+
+## Verificado
+- `npx gltf-transform validate`: sin errores ni avisos. 1,49 MB, 111 mil triángulos, 66 nodos.
+- Personalizar con rojo: solo la carrocería pintada; ruedas, plásticos y negro quedan iguales. Rayos X muestra los internos.
+- 375 px: sin desborde. Eco Deluxe (/garaje/60/) y XR 190L (/garaje/38/) se ven igual (siguen con la llanta torneada).
+- Capturas: `arreglo_lateral.png`, `arreglo_tres_cuartos.png`, `arreglo_luces.png`. `capturar.py` acepta ahora `PRE="js"` (pasos antes de capturar, p. ej. Rayos X).
+
+## Pendiente
+- Faros poco vivos; borde serrado de las micas de Tripo en los faros (no alcanzó la hora).

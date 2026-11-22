@@ -10,7 +10,7 @@ args = sys.argv[sys.argv.index("--") + 1:]
 ENTRADA, SALIDA, INFORME = args[0], args[1], args[2]
 
 # Razón de Decimate por prefijo de material o nombre (1 = no se toca). Llantas y rayos: el visor las tornea o son finas.
-RAZON = {"caucho.llanta": 0.2, "rin": 0.55, "metal.disco": 0.6, "luz": 1.0, "vidrio": 0.8, "cromo.reflector": 0.8, "stop": 0.8, "ambar": 1.0,
+RAZON = {"caucho.llanta": 0.6, "rin": 0.55, "metal.disco": 0.6, "luz": 1.0, "vidrio": 0.8, "cromo.reflector": 0.8, "stop": 0.8, "ambar": 1.0,
          "reflector": 1.0, "pintura": 0.42, "asiento": 0.35, "negro_brillo": 0.5, "chasis": 0.4, "plastico": 0.35, "motor": 0.35,
          "metal": 0.45, "oscuro": 0.4, "carter": 0.4, "caucho": 0.5}
 SUAVE = {"pintura": 18, "plastico": 8, "asiento": 4, "negro_brillo": 3, "oscuro.visera": 3, "carter": 2}

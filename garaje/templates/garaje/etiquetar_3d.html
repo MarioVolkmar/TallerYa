@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Etiquetar {{ modelo }} · TallerYa{% endblock %}
+{% block chat_ayuda %}{% endblock %}
+{% block content %}
+{% url 'garaje:etiquetar_3d_indice' as url_indice %}
+<div class="et3d et3d-app max-w-5xl mx-auto">
+  <div class="et3d-top">
+    {% include "parciales/volver.html" with url=url_indice texto="Modelos" clase="" %}
+    <h1 class="titulo et3d-titulo">Etiquetar <span class="text-lava">{{ modelo }}</span></h1>
+  </div>
+  <div class="et3d-cuerpo">
+    <div class="et3d-visor" id="et3d-visor">
+      <p class="et3d-cargando" id="et3d-cargando">Cargando el modelo…</p>
+      <svg class="et3d-lazo" id="et3d-lazo" aria-hidden="true"><polygon points=""></polygon></svg>
+      <p class="et3d-leyenda" id="et3d-leyenda"><span class="et3d-pt et3d-pt-ok"></span>hecha <span class="et3d-pt et3d-pt-nom"></span>con nombre <span class="et3d-pt et3d-pt-pend"></span>pendiente <span class="et3d-pt et3d-pt-act"></span>esta</p>
+      <div class="et3d-tip" id="et3d-tip" hidden></div>
+      <div class="et3d-pincel" id="et3d-pincel" hidden aria-hidden="true"></div>
+      <div class="et3d-vistas" role="group" aria-label="Vista">
+        <button type="button" class="btn btn-borde" data-vista="lado">Lado</button>
+        <button type="button" class="btn btn-borde" data-vista="frente">Frente</button>
+        <button type="button" class="btn btn-borde" data-vista="atras">Atrás</button>
+        <button type="button" class="btn btn-borde" id="et3d-sola" aria-pressed="false" aria-label="Ver solo esta parte">Solo esta</button>
+        <button type="button" class="btn btn-borde" id="et3d-progreso" aria-pressed="true" aria-label="Marcar las partes ya hechas">Progreso</button>
+      </div>
+    </div>
+    <div class="et3d-panel tarjeta">
+      <div class="et3d-cab">
+        <div class="et3d-avance"><span id="et3d-barra"></span></div>
+        <p class="et3d-cuenta"><span id="et3d-num">0</span> de <span id="et3d-total">0</span> confirmadas<span id="et3d-nom"></span></p>
+        <p class="et3d-parte" id="et3d-parte">Parte</p>
+        <p class="et3d-motivo" id="et3d-motivo"></p>
+      </div>
+      <div class="et3d-tabs" role="tablist" aria-label="Secciones">
+        <button type="button" role="tab" aria-selected="true" aria-controls="et3d-t-nombre" data-tab="nombre">Nombre</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="et3d-t-pintar" data-tab="pintar">Pintar</button>
+      </div>
+      <div class="et3d-cuerpo-panel">
+        <section id="et3d-t-nombre" role="tabpanel">
+          <label class="campo-label" for="et3d-texto">¿De qué color o material es? <span class="et3d-sub">(el nombre de la pieza es opcional)</span></label>
+          <input class="campo" id="et3d-texto" type="text" enterkeyhint="next" autocomplete="off" autocapitalize="none" placeholder="Ej.: plástico negro mate, pintura principal, cromo">
+          <p class="et3d-deduccion" id="et3d-deduccion" aria-live="polite"></p>
+          <details class="et3d-avanzado">
+            <summary>Ajustar pieza y acabado (opcional)</summary>
+            <label class="campo-label" for="et3d-pieza">Pieza</label>
+            <select class="campo" id="et3d-pieza">{% for k, t in datos.piezas %}<option value="{{ k }}">{{ t }}</option>{% endfor %}</select>
+            <p class="campo-label mt-3" id="et3d-acabado-t">Acabado</p>
+            <div class="et3d-acabados" id="et3d-acabado" role="radiogroup" aria-labelledby="et3d-acabado-t">
+              {% for k, t in datos.acabados %}<button type="button" role="radio" aria-checked="false" class="et3d-acabado et3d-ac-{{ k }}" data-acabado="{{ k }}">{{ t }}</button>{% endfor %}
+            </div>
+          </details>
+        </section>
+        <section id="et3d-t-pintar" role="tabpanel" hidden>
+          <div class="et3d-pintura">
+            <button type="button" class="btn btn-borde et3d-pintar" id="et3d-pintar" aria-pressed="false">Pintar encima</button>
+            <div class="et3d-pintura-op" id="et3d-pintura-op" hidden>
+              <p class="et3d-rotulo">Herramienta</p>
+              <div class="et3d-fila-bt" role="radiogroup" aria-label="Herramienta">
+                <button type="button" role="radio" aria-checked="true" class="et3d-bt" data-herr="pincel" title="Pinta con círculo">Pincel</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-herr="lapiz" title="Línea delgada para bordes">Lápiz</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-herr="relleno" title="Llena dentro de un borde cerrado">Rellenar</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-herr="lazo" title="Encierra con una línea y pinta lo de adentro">Lazo</button>
+              </div>
+              <p class="et3d-rotulo">Zona <span class="et3d-sub">(un color por cada cosa distinta)</span></p>
+              <div class="et3d-fila-bt" role="radiogroup" aria-label="Zona">
+                <button type="button" role="radio" aria-checked="true" class="et3d-grupo et3d-g1" data-grupo="1" aria-label="Zona 1">1</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g2" data-grupo="2" aria-label="Zona 2">2</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g3" data-grupo="3" aria-label="Zona 3">3</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g4" data-grupo="4" aria-label="Zona 4">4</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g5" data-grupo="5" aria-label="Zona 5">5</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g6" data-grupo="6" aria-label="Zona 6">6</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g7" data-grupo="7" aria-label="Zona 7">7</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g8" data-grupo="8" aria-label="Zona 8">8</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-g0 et3d-ancho" data-grupo="0">Borrar</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-grupo et3d-gr et3d-ancho" data-grupo="-1">Lo sin pintar</button>
+              </div>
+              <label class="campo-label" for="et3d-zona-texto" id="et3d-zona-t">¿Qué es la zona 1?</label>
+              <input class="campo" id="et3d-zona-texto" type="text" autocomplete="off" autocapitalize="none" placeholder="Ej.: mica roja">
+              <p class="et3d-deduccion" id="et3d-zona-deduccion"></p>
+              <p class="et3d-rotulo">Grosor del pincel</p>
+              <div class="et3d-fila-bt" role="radiogroup" aria-label="Grosor del pincel">
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-grosor="0.004">Mínimo</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-grosor="0.008">Muy fino</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-grosor="0.015">Fino</button>
+                <button type="button" role="radio" aria-checked="true" class="et3d-bt" data-grosor="0.03">Medio</button>
+                <button type="button" role="radio" aria-checked="false" class="et3d-bt" data-grosor="0.07">Grueso</button>
+              </div>
+              <div class="et3d-fila-bt et3d-acc">
+                <button type="button" class="et3d-bt" id="et3d-deshacer" disabled title="Ctrl+Z">↶ Deshacer</button>
+                <button type="button" class="et3d-bt" id="et3d-rehacer" disabled title="Ctrl+Y">↷ Rehacer</button>
+                <button type="button" class="et3d-bt" id="et3d-limpiar-zonas">Limpiar todo</button>
+              </div>
+              <label class="et3d-proteger"><input type="checkbox" id="et3d-proteger" checked> Proteger otras zonas</label>
+              <details class="et3d-ayuda-det">
+                <summary>¿Cómo se usa?</summary>
+                <p class="et3d-ayuda">Un dedo pinta; dos dedos mueven la cámara. Mouse: izquierdo pinta, derecho gira, rueda apretada arrastra, rueda acerca. Rellenar: toca dentro de un borde cerrado (si se riega, el borde tiene un hueco). Lazo: encierra con una línea y pinta lo de adentro. «Borrar» quita pintura aunque esté protegida.</p>
+                <button type="button" class="et3d-bt" id="et3d-mover" aria-pressed="false">Dos dedos: girar (táctil)</button>
+              </details>
+            </div>
+          </div>
+        </section>
+      </div>
+      <div class="et3d-pie">
+        <div class="et3d-puntos-barra" title="Puntos de guardado: foto de todo lo hecho (partes, nombres y pintado) en este aparato, para volver si algo sale mal">
+          <button type="button" class="et3d-bt" id="et3d-punto-nuevo">+ Punto</button>
+          <select class="et3d-sel" id="et3d-puntos" aria-label="Puntos guardados"></select>
+          <button type="button" class="et3d-bt" id="et3d-punto-volver" disabled>Volver</button>
+          <button type="button" class="et3d-bt" id="et3d-punto-borrar" disabled aria-label="Borrar punto">✕</button>
+        </div>
+        <div class="et3d-pasos">
+          <button type="button" class="btn btn-borde" id="et3d-anterior">Anterior</button>
+          <button type="button" class="btn btn-lava" id="et3d-confirmar">Confirmar y seguir</button>
+          <button type="button" class="btn btn-borde et3d-guardar" id="et3d-guardar">Guardar</button>
+        </div>
+        <p class="et3d-estado" id="et3d-estado" role="status"></p>
+      </div>
+    </div>
+  </div>
+</div>
+{{ datos|json_script:"et3d-datos" }}
+{% include "garaje/_importmap_3d.html" %}
+<script type="module" src="{% static 'garaje/js/etiquetar3d.js' %}" data-glb="{% url 'garaje:etiquetar_3d_glb' modelo %}" data-guardar="{% url 'garaje:etiquetar_3d_guardar' modelo %}"></script>
+{% endblock %}

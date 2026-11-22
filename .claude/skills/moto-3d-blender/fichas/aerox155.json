@@ -1,0 +1,360 @@
+{
+ "moto": "aerox155",
+ "entrada": "C:/Users/volkm/Downloads/modelo-3d-despiece-aerox155.glb",
+ "etiquetas": "garaje/etiquetas_3d/modelo-3d-despiece-aerox155.json",
+ "salida": "garaje/static/garaje/modelos/aerox155_tripo5.glb",
+ "fotos": "FOTOS_MODELADO_TRIPO/yamaha_aerox_155/referencia",
+ "distancia_ejes": 1.35,
+ "ruedas": {
+  "tras": {
+   "llanta": [
+    1
+   ],
+   "rin": [
+    27,
+    29
+   ]
+  },
+  "del": {
+   "llanta": [
+    3
+   ],
+   "rin_corte_r": 0.098,
+   "disco": [
+    31
+   ]
+  }
+ },
+ "luces": [
+  {
+   "tipo": "faro",
+   "de": [
+    48,
+    0
+   ],
+   "recorte": {
+    "contra": [
+     4,
+     16,
+     2,
+     5,
+     48,
+     56
+    ],
+    "tira": 0.02,
+    "contorno": [
+     [
+      -0.1,
+      -0.15
+     ],
+     [
+      1.15,
+      -0.15
+     ],
+     [
+      1.15,
+      1.03
+     ],
+     [
+      0.42,
+      1.03
+     ],
+     [
+      0.11,
+      0.66
+     ],
+     [
+      0.03,
+      0.37
+     ],
+     [
+      -0.03,
+      0.0
+     ]
+    ]
+   }
+  },
+  {
+   "tipo": "faro",
+   "de": [
+    56,
+    0
+   ],
+   "recorte": {
+    "contra": [
+     4,
+     16,
+     2,
+     5,
+     48,
+     56
+    ],
+    "tira": 0.02,
+    "contorno": [
+     [
+      -0.1,
+      -0.15
+     ],
+     [
+      1.15,
+      -0.15
+     ],
+     [
+      1.15,
+      1.03
+     ],
+     [
+      0.42,
+      1.03
+     ],
+     [
+      0.11,
+      0.66
+     ],
+     [
+      0.03,
+      0.37
+     ],
+     [
+      -0.03,
+      0.0
+     ]
+    ]
+   }
+  },
+  {
+   "tipo": "stop",
+   "de": [
+    15,
+    2
+   ]
+  },
+  {
+   "tipo": "direccional",
+   "de": [
+    73,
+    0
+   ],
+   "cara": [
+    0.6,
+    -0.5,
+    -0.6
+   ]
+  },
+  {
+   "tipo": "direccional",
+   "de": [
+    2,
+    1
+   ]
+  },
+  {
+   "tipo": "direccional",
+   "de": [
+    59,
+    2
+   ]
+  },
+  {
+   "tipo": "direccional",
+   "de": [
+    61,
+    2
+   ]
+  }
+ ],
+ "placa": {
+  "parte": 46
+ },
+ "internos_de": "garaje/static/garaje/modelos/aerox155_tripo3.glb",
+ "forzar": {
+  "12": {
+   "0": "espejo/plastico_mate",
+   "5": "espejo/cromo"
+  },
+  "19": {
+   "0": "escape/@oscuro"
+  },
+  "34": {
+   "0": "escape/@oscuro"
+  },
+  "50": {
+   "0": "escape/@oscuro"
+  },
+  "51": {
+   "0": "freno_tras/@oscuro"
+  },
+  "53": {
+   "0": "palanca/aluminio"
+  },
+  "68": {
+   "0": "palanca/aluminio"
+  },
+  "59": {
+   "0": "direccional/plastico_brillo"
+  },
+  "61": {
+   "0": "direccional/plastico_brillo"
+  },
+  "6": {
+   "5": "espejo/cromo"
+  },
+  "18": {
+   "0": "caliper/aluminio"
+  }
+ },
+ "notas_forzar": {
+  "12": "parte sin texto: espejo izquierdo por posición, negro mate; su zona 5 es el espejo reflectante (cromo)",
+  "19/34/50": "mofle y soportes «negro»: metal oscuro, no plástico",
+  "51": "guaya del freno: negra",
+  "53/68": "levas de freno (la página las dedujo como disco)",
+  "59/61": "lo que no es la mica de la direccional trasera es su carcasa negra",
+  "6.5": "espejo reflectante = cromo",
+  "18": "caliper delantero (la página lo dedujo como disco)",
+  "placa": "placa colombiana al 78 % (18,3 × 10,5 cm, valor por defecto) sobre la parte 46, «porta placa»",
+  "faro.recorte": "borde de arriba recto contra el carenado (V de la foto); contorno de abajo y de afuera de farola.jpg (u: 0 afuera, 1 centro; v: 0 arriba, 1 abajo), sin carcasa negra: lo de mica que sobra pasa a pintura (arriba) o plástico mate (afuera); tira LED de 2 cm arriba y reflector cromado debajo",
+  "forzar_cara.4": "panel del frente bajo el manubrio que mira hacia atrás: plástico negro mate (señalado por el usuario)",
+  "simplificar": "con bordes fijos (sin grietas entre mica y carenado) pesaba 1,52 MB: error 0,0018"
+ },
+ "forzar_cara": {
+  "4": {
+   "0": {
+    "cara": [
+     -1,
+     0,
+     0
+    ],
+    "umbral": 0.15,
+    "como": "carenado/plastico_mate",
+    "nota": "interior del frente bajo el manubrio (mira atrás)"
+   }
+  }
+ },
+ "simplificar": {
+  "ratio": 0.25,
+  "error": 0.0018
+ },
+ "calcas_zonas": {
+  "plastico.piezas": [
+   "panel"
+  ],
+  "negro_brillo.piezas": [
+   "panel"
+  ],
+  "negro_brillo.tapa_lateral": [
+   "panel"
+  ]
+ },
+ "calcas_fabrica_nota": "Ubicadas sobre lateral_der_foto_1280.jpg (eje trasero px 335, delantero 930 = 1,35 m; piso px 650). Dibujadas, no recortadas de la foto: sin el emblema de la marca.",
+ "calcas_fabrica": [
+  {
+   "id": "nombre",
+   "nombre": "Nombre aerox",
+   "tipo": "texto",
+   "texto": "aerox",
+   "fuente": "yamaha_script",
+   "zona": [
+    "panel"
+   ],
+   "cara": "lado",
+   "en": [
+    -0.255,
+    0.647
+   ],
+   "ancho": 0.2,
+   "giro": 8,
+   "color": "#eef1f4",
+   "color2": "#14181a"
+  },
+  {
+   "id": "filete",
+   "nombre": "Filete del costado",
+   "tipo": "franja",
+   "forma": "linea",
+   "zona": [
+    "panel"
+   ],
+   "cara": "lado",
+   "en": [
+    0.045,
+    0.5
+   ],
+   "ancho": 0.4,
+   "giro": -21,
+   "color": "#35c4ef",
+   "color2": "#35c4ef"
+  },
+  {
+   "id": "filete_cola",
+   "nombre": "Filete de la cola",
+   "tipo": "franja",
+   "forma": "linea",
+   "zona": [
+    "lateral"
+   ],
+   "cara": "lado",
+   "en": [
+    -0.425,
+    0.772
+   ],
+   "ancho": 0.28,
+   "giro": -17,
+   "color": "#35c4ef",
+   "color2": "#35c4ef"
+  },
+  {
+   "id": "rejilla",
+   "nombre": "Rayas del frente",
+   "tipo": "franja",
+   "forma": "rayas",
+   "rayas": 3,
+   "zona": [
+    "panel"
+   ],
+   "cara": "lado",
+   "en": [
+    0.346,
+    0.59
+   ],
+   "ancho": 0.08,
+   "giro": 0,
+   "color": "#35c4ef",
+   "color2": "#35c4ef"
+  },
+  {
+   "id": "insignia",
+   "nombre": "Insignia del escudo",
+   "tipo": "franja",
+   "forma": "insignia",
+   "zona": [
+    "lateral"
+   ],
+   "cara": "lado",
+   "en": [
+    0.505,
+    0.617
+   ],
+   "ancho": 0.045,
+   "color": "#c9ced3",
+   "color2": "#20262b"
+  },
+  {
+   "id": "abs",
+   "nombre": "ABS",
+   "tipo": "texto",
+   "texto": "ABS",
+   "fuente": "yamaha",
+   "zona": [
+    "guardabarros"
+   ],
+   "cara": "lado",
+   "en": [
+    0.676,
+    0.495
+   ],
+   "ancho": 0.045,
+   "color": "#c9ced3",
+   "color2": "#14181a"
+  }
+ ]
+}

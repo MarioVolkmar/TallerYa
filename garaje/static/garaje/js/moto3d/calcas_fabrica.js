@@ -343,6 +343,16 @@ function dibujarForma(ctx, c, y0, col) {
       poli([[x + H * 0.2, H * 0.3], [x + H * 0.2 + largo, H * 0.3], [x + largo, H * 0.7], [x, H * 0.7]], col.p);
     }
     poli([[W * 0.62 + H * 0.2, H * 0.3], [W - 16, H * 0.3], [W - 16 - H * 0.2, H * 0.7], [W * 0.62, H * 0.7]], col.p);
+  } else if (c.forma === "linea") {
+    // Línea fina recta con las puntas en bisel (filetes de los modelos completos, p. ej. los cian de la Aerox)
+    const g = H * 0.16 * (c.grueso || 1), b = H * 0.3;
+    poli([[16 + b, H / 2 - g / 2], [W - 16, H / 2 - g / 2], [W - 16 - b, H / 2 + g / 2], [16, H / 2 + g / 2]], col.p);
+  } else if (c.forma === "insignia") {
+    // Insignia redonda lisa: aro en el color principal y centro en el secundario (forma propia: sin el emblema de la marca)
+    ctx.fillStyle = col.p; ctx.beginPath(); ctx.arc(W / 2, H / 2, H * 0.44, 0, 2 * Math.PI); ctx.fill();
+    ctx.fillStyle = col.s; ctx.beginPath(); ctx.arc(W / 2, H / 2, H * 0.33, 0, 2 * Math.PI); ctx.fill();
+    ctx.strokeStyle = col.p; ctx.lineWidth = H * 0.05; ctx.beginPath(); ctx.arc(W / 2, H / 2, H * 0.18, 0, 2 * Math.PI); ctx.stroke();
+    usado = H * 0.92;
   } else if (c.forma === "barra") {
     // Barra fina inclinada, con la punta trasera cortada en diagonal (c.grueso la engruesa: 1 = la fina de siempre)
     const g = 74 * (c.grueso || 1);

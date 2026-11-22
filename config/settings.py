@@ -210,6 +210,10 @@ LOGGING = {
 TALLERYA_WHATSAPP = os.environ.get("TALLERYA_WHATSAPP", "573000000000")
 PLUS_PRECIO_MENSUAL = int(os.environ.get("PLUS_PRECIO_MENSUAL", "9900"))
 PLUS_NEQUI = os.environ.get("PLUS_NEQUI", "300 000 0000")
+# Calcas personalizadas (las que el usuario pega en Personalizar → Calcas → Personalizadas). Apagadas desde el 21-nov-2026
+# por pedido del usuario: se ocultan la subpestaña y el color de las de fábrica, y el visor no las dibuja. No se borra nada
+# (código ni calcas guardadas). Reactivar: CALCAS_PERSONALIZADAS = True (o la variable de entorno en "1").
+CALCAS_PERSONALIZADAS = env_bool("CALCAS_PERSONALIZADAS", False)
 # Chispa (la mascota) en estados vacíos y páginas 404/500. Ponlo en False para quitarla de todo el sitio.
 CHISPA_EN_VACIOS = env_bool("CHISPA_EN_VACIOS", True)
 PLUS_DIAS = 30

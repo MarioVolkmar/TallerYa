@@ -43,6 +43,14 @@
 .guia-advertencia .guia-icono { background: var(--vencido); }
 .cajon-pestanas button:hover { color: var(--c-titulo); }
 .cajon-pestanas button[aria-selected="true"] { background: var(--crema); color: var(--carbon); }
+/* Modelo completo (GLB de Tripo con etiquetas): solo color, acabado, rines y sillín; sin Estilo ni calcas mientras el
+   modelo no traiga las suyas. Con una sola pestaña, la barra sobra */
+.cajon.modelo-completo .solo-generica, .cajon.sin-calcas .con-calcas { display: none !important; }
+.cajon.modelo-completo.sin-calcas .cajon-pestanas { display: none; }
+/* (settings.CALCAS_PERSONALIZADAS apagado: solo las de fábrica, sin subpestañas) */
+.cajon.sin-calcas-propias .calcas-subpestanas, .cajon.sin-calcas-propias #p-contador, .cajon.sin-calcas-propias #sub-panel-propias, .cajon.sin-calcas-propias #p-fab-editor { display: none !important; }
+/* (sin el botón Color, el interruptor es la fila entera: toque de 44 px) */
+.cajon.sin-calcas-propias #p-fabrica .calca-interruptor { flex: 1; min-height: 44px; margin-top: 0; }
 .pestana-cuenta { font-weight: 400; font-size: 0.84rem; margin-left: .15rem; }
 .cajon-ayuda { font-size: 0.87rem; color: var(--c-ayuda); margin: -.35rem 0 .7rem; line-height: 1.4; }
 .cajon-estado.sin-guardar { color: var(--pronto); }
@@ -1016,6 +1024,54 @@ summary.agenda-titulo::-webkit-details-marker { display: none; }
 .hv-papel-vencido { color: var(--vencido); background: color-mix(in srgb, var(--vencido) 14%, transparent); }
 .cert-vencido { color: #a3200f; background: #fbe0db; }
 
+/* ---------- Etiquetar 3D (solo staff: /garaje/etiquetar-3d/) ---------- */
+.et3d-lista { display: grid; gap: .6rem; list-style: none; padding: 0; }
+.et3d-fila { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; padding: .9rem 1rem; min-height: 44px; }
+.et3d-nombre { font-weight: 700; overflow-wrap: anywhere; }
+.et3d-chip { font-size: .75rem; padding: .15rem .5rem; border: 1px solid var(--borde); border-radius: 999px; color: var(--crema-2); }
+.et3d-chip-ok { border-color: var(--lava); color: var(--lava-2); }
+/* Página de etiquetado: ocupa justo la pantalla (sin scroll de página); el panel de la derecha tiene pestañas y su propio desplazamiento */
+html:has(.et3d-app), html:has(.et3d-app) body { overflow: hidden; }
+.et3d-app { height: var(--et3d-alto, calc(100dvh - 4.5rem)); display: flex; flex-direction: column; gap: .4rem; padding-top: .4rem; }
+.et3d-top { display: flex; align-items: center; gap: .75rem; flex: none; }
+.et3d-titulo { font-size: 1.15rem; margin: 0; overflow-wrap: anywhere; }
+.et3d-cuerpo { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(0, 32%) minmax(0, 1fr); gap: .5rem; }
+@media (min-width: 900px) { .et3d-cuerpo { grid-template-columns: 1fr 400px; grid-template-rows: minmax(0, 1fr); } }
+.et3d-visor { position: relative; min-height: 0; border-radius: 12px; overflow: hidden; background: #e9e6df; touch-action: none; }
+.et3d-visor canvas { display: block; width: 100%; height: 100%; }
+.et3d-cargando { position: absolute; inset: 0; display: grid; place-items: center; color: #333; margin: 0; }
+.et3d-vistas { position: absolute; left: .4rem; right: .4rem; bottom: .4rem; display: flex; gap: .3rem; }
+.et3d-vistas .btn { min-height: 44px; padding: .3rem .55rem; font-size: .78rem; background: rgba(17, 21, 23, .85); }
+.et3d-vistas .btn[aria-pressed="true"] { border-color: var(--lava); color: var(--lava-2); }
+.et3d-panel { padding: .6rem .75rem; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+.et3d-cab { flex: none; }
+.et3d-cab .et3d-cuenta, .et3d-cab .et3d-motivo { display: inline; margin: 0 .5rem 0 0; }
+.et3d-cab .et3d-parte { margin: .25rem 0 0; font-size: 1rem; }
+.et3d-tabs { flex: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: .3rem; margin: .4rem 0; }
+.et3d-tabs button { min-height: 44px; border: 1px solid var(--borde); border-radius: 8px; background: transparent; color: var(--crema-2); font-weight: 700; }
+.et3d-tabs button[aria-selected="true"] { border-color: var(--lava); color: var(--lava-2); box-shadow: 0 0 0 1px var(--lava) inset; }
+.et3d-cuerpo-panel { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-bottom: .4rem; }
+.et3d-pie { flex: none; padding-top: .4rem; border-top: 1px solid var(--borde); }
+.et3d-avance { height: 6px; background: var(--pizarra-2); border-radius: 3px; overflow: hidden; }
+.et3d-avance span { display: block; height: 100%; width: 0; background: var(--lava); transition: width .2s; }
+.et3d-cuenta { font-size: .85rem; color: var(--crema-2); margin: .4rem 0 0; }
+.et3d-parte { font-weight: 700; font-size: 1.1rem; margin: .5rem 0 0; overflow-wrap: anywhere; }
+.et3d-motivo { font-size: .85rem; color: var(--crema-2); margin: .1rem 0 .7rem; }
+.et3d-panel select.campo { width: 100%; min-height: 44px; }
+.et3d-acabados { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; margin-top: .3rem; }
+.et3d-acabado { min-height: 44px; padding: .35rem .5rem; border: 1px solid var(--borde); border-radius: 8px; background: var(--pizarra); color: var(--crema); font-size: .85rem; text-align: left; display: flex; align-items: center; gap: .45rem; }
+.et3d-acabado::before { content: ""; flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--muestra, #888); border: 1px solid rgba(255, 255, 255, .25); }
+.et3d-acabado[aria-checked="true"] { border-color: var(--lava); box-shadow: 0 0 0 2px var(--lava) inset; }
+.et3d-ac-pintura { --muestra: #2f6fd6; } .et3d-ac-pintura_secundaria { --muestra: #e8e4da; } .et3d-ac-plastico_mate { --muestra: #2a2d2f; }
+.et3d-ac-plastico_brillo { --muestra: #0c0e0f; } .et3d-ac-cromo { --muestra: #e4e8ea; } .et3d-ac-aluminio { --muestra: #b9bec1; }
+.et3d-ac-caucho { --muestra: #161616; } .et3d-ac-vinilo { --muestra: #4a3a30; } .et3d-ac-mica_faro { --muestra: #cfe6f2; }
+.et3d-ac-mica_ambar { --muestra: #ff9a1f; } .et3d-ac-mica_roja { --muestra: #d0262b; } .et3d-ac-motor { --muestra: #6b6f73; }
+.et3d-ac-chasis { --muestra: #3b3f42; } .et3d-ac-oculta { --muestra: transparent; }
+.et3d-pasos { display: grid; grid-template-columns: 1fr 2fr 1fr; gap: .4rem; margin: 0; }
+.et3d-pasos .btn, .et3d-guardar { min-height: 48px; }
+.et3d-guardar { width: 100%; }
+.et3d-estado { font-size: .8rem; color: var(--crema-2); min-height: 1.1em; margin: .25rem 0 0; }
+
 /* ---- Enviar diagnóstico y ficha pública (piloto, paso 4) ---- */
 .diag-enviar-fila { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.1rem; }
 .enviar-error { margin-top: 1rem; padding: .7rem .9rem; border: 1.5px solid var(--lava, #f2611d); border-radius: 10px; font-weight: 600; }
@@ -1044,3 +1100,67 @@ summary.agenda-titulo::-webkit-details-marker { display: none; }
 .et3d-deduccion { font-size: .85rem; color: var(--gris, #6b6b6b); margin: .35rem 0 .75rem; min-height: 1.2em; }
 .et3d-avanzado { margin-top: .75rem; }
 .et3d-avanzado summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-size: .9rem; }
+
+/* Etiquetado 3D: pintar zonas encima de la parte */
+.et3d-pintura { margin: .5rem 0 .75rem; }
+.et3d-pintura .btn { min-height: 44px; }
+.et3d-ayuda { font-size: .85rem; margin: .5rem 0; }
+.et3d-grupos, .et3d-grosor { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0; }
+.et3d-grupo { min-height: 44px; padding: 0 .8rem; border: 2px solid transparent; border-radius: 999px; font-weight: 700; color: #111; }
+.et3d-grupo[aria-checked="true"] { border-color: #fff; box-shadow: 0 0 0 2px #111; }
+.et3d-g1 { background: #19c3e6; } .et3d-g2 { background: #e619b4; } .et3d-g3 { background: #f2d21d; } .et3d-g4 { background: #3ec23e; } .et3d-g5 { background: #ff7a00; } .et3d-g6 { background: #8a4dff; color: #fff; } .et3d-g7 { background: #e02020; color: #fff; } .et3d-g8 { background: #0a3d91; color: #fff; }
+.et3d-g0 { background: #ddd; } .et3d-gr { background: #bfbfbf; border-style: dashed; }
+.et3d-grosor [aria-checked="true"] { border-color: var(--lava, #f2611d); }
+.et3d-proteger { display: flex; gap: .5rem; align-items: center; min-height: 44px; font-size: .9rem; }
+.et3d-proteger input { width: 22px; height: 22px; }
+.et3d-puntos { margin: .75rem 0; }
+.et3d-puntos .campo { margin: .4rem 0; min-height: 44px; }
+.et3d-lazo { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.et3d-lazo polygon { fill: rgba(242, 97, 29, .18); stroke: #f2611d; stroke-width: 2.5; stroke-dasharray: 6 4; }
+.et3d-pincel { position: absolute; border: 2px solid #f2611d; background: rgba(242, 97, 29, .15); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 2; }
+html:has(.et3d-app) footer, html:has(.et3d-app) .barra-inferior { display: none; }
+html:has(.et3d-app) body { height: 100dvh; }
+html:has(.et3d-app) #contenido { padding-bottom: 0; min-height: 0; }
+
+/* Etiquetado 3D: menú más compacto, con rótulos claros */
+.et3d-rotulo { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--crema-2); margin: .6rem 0 .25rem; }
+.et3d-sub { text-transform: none; letter-spacing: 0; opacity: .8; }
+.et3d-fila-bt { display: flex; flex-wrap: wrap; gap: .3rem; }
+.et3d-bt { min-height: 40px; padding: 0 .6rem; border: 1px solid var(--borde); border-radius: 8px; background: var(--pizarra); color: var(--crema); font-size: .8rem; font-weight: 600; }
+.et3d-bt[aria-checked="true"], .et3d-bt[aria-pressed="true"] { border-color: var(--lava); color: var(--lava-2); box-shadow: 0 0 0 1px var(--lava) inset; }
+.et3d-bt:disabled { opacity: .4; }
+.et3d-fila-bt .et3d-grupo { min-height: 40px; min-width: 40px; padding: 0; border-radius: 50%; font-size: .9rem; }
+.et3d-fila-bt .et3d-grupo.et3d-ancho { border-radius: 999px; padding: 0 .7rem; font-size: .8rem; }
+.et3d-acc { margin-top: .5rem; }
+.et3d-ayuda-det { margin-top: .4rem; font-size: .85rem; }
+.et3d-ayuda-det summary { cursor: pointer; min-height: 40px; display: flex; align-items: center; }
+.et3d-pintar { width: 100%; min-height: 48px; font-size: 1rem; }
+.btn.et3d-pintar[aria-pressed="true"] { background: var(--lava) !important; border-color: var(--lava) !important; color: #fff !important; position: sticky; top: 0; z-index: 2; }
+.et3d-leyenda { position: absolute; top: .4rem; left: .5rem; margin: 0; font-size: .72rem; color: #333; background: rgba(255, 255, 255, .8); border-radius: 999px; padding: .15rem .55rem; pointer-events: none; display: flex; align-items: center; gap: .3rem; }
+.et3d-leyenda[hidden] { display: none; }
+.et3d-pt { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-left: .25rem; }
+.et3d-pt-ok { background: #4fae6a; } .et3d-pt-nom { background: #6fa8dc; } .et3d-pt-pend { background: #8d949c; border: 1px solid #999; } .et3d-pt-act { background: #f2611d; }
+.et3d-vistas .btn[aria-pressed="true"] { border-color: var(--lava); color: var(--lava-2); }
+html:has(.et3d-app) .et3d-cab .et3d-motivo { display: none; }
+.et3d-tip { position: absolute; z-index: 3; max-width: 220px; padding: .3rem .55rem; border-radius: 8px; background: rgba(17, 21, 23, .92); color: #fff; font-size: .78rem; line-height: 1.3; pointer-events: none; }
+.et3d-tip[hidden] { display: none; }
+.et3d-tabs { grid-template-columns: repeat(2, 1fr); }
+.et3d-puntos-barra { display: flex; gap: .3rem; align-items: center; margin-bottom: .4rem; }
+.et3d-sel { flex: 1; min-width: 0; min-height: 40px; border: 1px solid var(--borde); border-radius: 8px; background: var(--pizarra); color: var(--crema); font-size: .8rem; padding: 0 .4rem; }
+.et3d-puntos-barra .et3d-bt { flex: none; }
+
+/* Panel de etiquetado: sin el salto de «tarjeta» al pasar el mouse, y controles más pequeños y ordenados */
+.et3d-panel.tarjeta, .et3d-panel.tarjeta:hover { transform: none; box-shadow: none; transition: none; }
+.et3d-panel .btn:hover { transform: none; }
+.et3d-tabs button { min-height: 38px; font-size: .85rem; }
+.et3d-bt { min-height: 34px; padding: 0 .55rem; font-size: .76rem; }
+.et3d-fila-bt .et3d-grupo { min-height: 34px; min-width: 34px; font-size: .8rem; }
+.et3d-fila-bt .et3d-grupo.et3d-ancho { font-size: .74rem; padding: 0 .6rem; }
+.et3d-sel { min-height: 34px; font-size: .76rem; }
+.et3d-pintar { min-height: 42px; font-size: .9rem; }
+.et3d-pasos .btn { min-height: 42px; font-size: .85rem; padding: 0 .4rem; }
+.et3d-rotulo { margin: .45rem 0 .2rem; font-size: .68rem; }
+.et3d-ayuda-det summary { min-height: 34px; }
+.et3d-proteger { min-height: 34px; font-size: .82rem; }
+.et3d-panel .campo { min-height: 40px; }
+.et3d-panel #et3d-texto { min-height: 44px; font-size: .95rem; }

@@ -4,6 +4,7 @@ from . import despiece_publico as dp, views
 from .vista_diagnostico import despiece_publico, diagnostico
 from .vista_bienvenida import bienvenida, bienvenida_listo, bienvenida_plan, bienvenida_saltar
 from .vista_gastos import gastos_moto
+from . import vista_etiquetar_3d as et3d
 from .vista_ficha_diagnostico import enviar as diagnostico_enviar, ficha as ficha_diagnostico
 from .vista_tareas import tarea
 from .vista_servicio_taller import servicio_taller
@@ -16,6 +17,10 @@ app_name = "garaje"
 urlpatterns = [
     path("garaje/", views.garaje, name="garaje"),
     path("garaje/agregar/", views.agregar, name="agregar"),
+    path("garaje/etiquetar-3d/", et3d.indice, name="etiquetar_3d_indice"),  # solo staff
+    path("garaje/etiquetar-3d/<str:modelo>/", et3d.pagina, name="etiquetar_3d"),
+    path("garaje/etiquetar-3d/<str:modelo>/modelo.glb", et3d.glb, name="etiquetar_3d_glb"),
+    path("garaje/etiquetar-3d/<str:modelo>/guardar/", et3d.guardar, name="etiquetar_3d_guardar"),
     path("bienvenida/", bienvenida, name="bienvenida"),
     path("bienvenida/saltar/", bienvenida_saltar, name="bienvenida_saltar"),
     path("bienvenida/<int:pk>/", bienvenida_plan, name="bienvenida_plan"),

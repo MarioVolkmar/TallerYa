@@ -24,6 +24,14 @@ for n in g["nodes"]:
 faltan = [k for k in orden if k not in geo]
 assert not faltan, faltan
 nodos = [dict(geo[k], name=k, extras=extras[k]) for k in orden]
+# Ruedas marcadas (extras.rueda): la traslación del nodo es el centro del eje (pivote del giro en el visor)
+for nd in nodos:
+    if nd["extras"].get("rueda"):
+        e = nd["extras"]["eje"]; z = nd["pos"][:, 2]
+        nd["centro"] = [e[0], e[1], float((z.min() + z.max()) / 2)]
 _, viejos = glbio.mallas(INTERNOS)
 nodos += [m for m in viejos if m["extras"].get("interno")]
 glbio.escribir(SALIDA, nodos, "TallerYa: Aerox 155 desde Tripo despiezado (método Eco Deluxe): piezas con nombre, acabado por material, luces separadas; geometría limpiada en Blender")
+# Modo «modelo completo» en el visor (extras de la escena): el GLB se muestra tal cual, sin piezas genéricas encima
+import subprocess
+subprocess.run([sys.executable, "-I", os.path.join(os.path.dirname(__file__), "..", "comun", "marcar_completo.py"), SALIDA], check=True)

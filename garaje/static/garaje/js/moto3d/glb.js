@@ -8,7 +8,7 @@ import * as THREE from "three";
 const MODELOS = { nmax: "../../modelos/nmax155.glb?v=19" };
 // Modelo realista por defecto de cada línea: malla base generada con IA, aligerada y partida en piezas con nombre
 // (skill moto-3d-tripo; mismo formato que el piloto)
-const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=16", aerox: "../../modelos/aerox155_tripo3.glb?v=4", "xr[ _-]*190": "../../modelos/xr190l_tripo4.glb?v=7", "eco[ _-]*deluxe": "../../modelos/ecodeluxe100_tripo.glb?v=5", "fz[ _-]*25": "../../modelos/fz25_tripo.glb?v=1" };
+const MODELOS_TRIPO = { nmax: "../../modelos/nmax155_tripo.glb?v=24", nkd: "../../modelos/nkd125_tripo.glb?v=11", "boxer[ _-]*ct[ _-]*100": "../../modelos/boxer100_tripo.glb?v=4", "xtz[ _-]*150": "../../modelos/xtz150_tripo.glb?v=8", "xtz[ _-]*125": "../../modelos/xtz125_tripo.glb?v=5", "mt[ _-]*0?3(?!\d)": "../../modelos/mt03_tripo.glb?v=16", aerox: "../../modelos/aerox155_tripo5.glb?v=10", "xr[ _-]*190": "../../modelos/xr190l_tripo4.glb?v=8", "eco[ _-]*deluxe": "../../modelos/ecodeluxe100_tripo.glb?v=6", "fz[ _-]*25": "../../modelos/fz25_tripo.glb?v=1" };
 
 const ACCESORIOS_GLB = ["baul", "led"];
 
@@ -47,7 +47,7 @@ async function leerGlb(url) {
     for (let i = 0; i < a.count; i++) for (let j = 0; j < c; j++) out[i * c + j] = Math.max(arr[i * stride + j] / escala, -1);
     return new THREE.BufferAttribute(out, c);
   };
-  return g.nodes.map((n) => {
+  const nodos = g.nodes.map((n) => {
     const pr = g.meshes[n.mesh].primitives[0];
     const geo = new THREE.BufferGeometry();
     geo.setAttribute("position", atributo(pr.attributes.POSITION));
@@ -56,6 +56,9 @@ async function leerGlb(url) {
     geo.computeBoundingSphere();
     return { nombre: n.name, material: n.name.split(".")[0], geo, t: n.translation || [0, 0, 0], s: n.scale || [1, 1, 1], extras: n.extras || {} };
   });
+  // (extras de la escena, p. ej. {modelo_completo: true})
+  nodos.escena = g.scenes?.[g.scene || 0]?.extras || {};
+  return nodos;
 }
 
 // Lleva la placa procedural (con su lámina del número) al portaplaca del GLB: centro c en coordenadas de la moto,
@@ -328,6 +331,10 @@ function tornearLlanta(n) {
 export async function montarGlb(moto, url) {
   const nodos = await leerGlb(url);
   const M = moto.M;
+  // Modo «modelo completo» (extras.modelo_completo en la escena, 21-nov-2026): el GLB se muestra tal cual. El visor solo
+  // gira las ruedas, enciende las luces del GLB, pinta según Personalizar y aplica Rayos X (y pone la placa): sin pata, espejos,
+  // escape, farola ni accesorios genéricos, y sin tornear, labrar ni reemplazar llantas. Los GLB sin la marca siguen igual.
+  const completo = !!nodos.escena.modelo_completo;
   const manubrioProc = manubrioProcedural(moto); // (antes de que el GLB vacíe los espejos de fábrica)
   const ajustes = [];
   // Lo que se conserva de la moto procedural: piezas de mantenimiento, accesorios, espejos, placa, pata y escape
@@ -359,6 +366,10 @@ export async function montarGlb(moto, url) {
   M.dorado ??= new THREE.MeshStandardMaterial({ color: 0xc9a23a, roughness: 0.3, metalness: 0.85 });
   M.faro ??= new THREE.MeshPhysicalMaterial({ color: 0x3a4146, roughness: 0.12, metalness: 0.9, clearcoat: 1, clearcoatRoughness: 0.03 });
   M.disco ??= new THREE.MeshStandardMaterial({ color: 0xb9bec1, roughness: 0.34, metalness: 0.6 });
+  // Reflector del faro (modelo completo, 21-nov-2026): apagado se ve como la parábola cromada detrás de la mica clara;
+  // al encender brilla como la luz baja (moto3d.js le sube el emisivo junto con la tira LED de M.luz)
+  M.luz_reflector ??= new THREE.MeshPhysicalMaterial({ color: 0xe1e5e8, roughness: 0.2, metalness: 0.7, clearcoat: 1, clearcoatRoughness: 0.04,
+    emissive: 0xfff3d6, emissiveIntensity: 0 });
   // Direccional de mica transparente con bombillo ámbar (va dentro de la unidad del stop): apagada se ve clara y solo
   // se pone ámbar cuando parpadea (userData.direccional la suma al saludo de «Encender»)
   M.mica_dir ??= new THREE.MeshPhysicalMaterial({ color: 0xe3e7e9, roughness: 0.1, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.03,
@@ -388,7 +399,10 @@ export async function montarGlb(moto, url) {
       // (plástico blanco con tono de fábrica: sigue al color secundario de Personalizar; con el de serie conserva su tono)
       if (n.material === "blanco" && n.extras.tono) { mat.userData.fabrica = mat.color.getHex(); (M.secundarios ??= []).push(mat); }
     }
-    if (n.material === "caucho" && n.extras.eje && /llanta/.test(n.nombre)) {
+    // (extras.rueda "del" | "tras", 21-nov-2026: rueda de Tripo que gira tal cual, sin llanta torneada ni labrado. El nodo
+    // lleva su traslación en el centro del eje, que hace de pivote; llanta, rin y disco o corona llevan la misma marca.
+    // Los GLB viejos, sin la marca, siguen con el torneado de abajo.)
+    if (!completo && n.material === "caucho" && n.extras.eje && !n.extras.rueda && /llanta/.test(n.nombre)) {
       M.caucho_labrado ??= Object.assign(M.caucho.clone(), { bumpMap: texturaLabrado(), bumpScale: 2.2 });
       if (!tornearLlanta(n)) labrarLlanta(n);
       mat = M.caucho_labrado;
@@ -413,14 +427,18 @@ export async function montarGlb(moto, url) {
     if (n.extras.interno) { malla.userData.interno = true; malla.visible = false; malla.castShadow = false; }
     let destino = moto.raiz;
     const ex = n.extras;
-    if (ex.pieza && moto.piezas[ex.pieza]) {
-      const g = moto.piezas[ex.pieza];
+    const piezaDe = ex.rueda ? "llanta_" + ex.rueda : ex.pieza;
+    if (piezaDe && moto.piezas[piezaDe]) {
+      const g = moto.piezas[piezaDe];
       destino = g.userData.pivoteRueda || g;
-      // (extras.eje [x, y]: centro real de la rueda del GLB; el pivote se lleva ahí para que gire sin cabecear)
-      if (ex.eje && destino !== g && !vaciados.has(destino)) { destino.position.x = ex.eje[0]; destino.position.y = ex.eje[1]; }
+      // (extras.eje [x, y]: centro real de la rueda del GLB; el pivote se lleva ahí para que gire sin cabecear.
+      // Con extras.rueda el centro es la traslación del nodo.)
+      const eje = ex.rueda ? n.t : ex.eje;
+      if (eje && destino !== g && !vaciados.has(destino)) { destino.position.x = eje[0]; destino.position.y = eje[1]; }
       vaciar(destino, true);
       if (ex.rin) malla.userData.rin = moto.rinFabrica;
-      if (ex.aro) malla.userData.aro = true; // (aro aparte: queda con cualquier estilo de rin y Personalizar le cambia el color)
+      if (ex.aro) malla.userData.aro = true;
+      if (completo && (ex.rin || ex.aro)) malla.userData.glbMat = malla.material; // (para volver al rin de fábrica) // (aro aparte: queda con cualquier estilo de rin y Personalizar le cambia el color)
       // (las ruedas giran sobre un pivote en su centro: la malla del GLB está en coordenadas de la moto)
       if (destino !== g) { destino.updateMatrixWorld(true); moto.raiz.updateMatrixWorld(true); }
     } else if (ex.padre) {
@@ -444,9 +462,12 @@ export async function montarGlb(moto, url) {
     if (ex.zonas) { malla.userData.zonas = ex.zonas; moto.raiz.userData.glbZonas = true; }
     // (extras.doble: pieza que Tripo dejó como lámina abierta, p. ej. llanta o guardabarros: por dentro se veía hueca)
     if (ex.doble) malla.material.side = THREE.DoubleSide;
+    // (modelo completo: las caras de Tripo vienen abiertas o con la normal al revés; con una sola cara la llanta trasera
+    // se veía con huecos. Se dibujan las dos caras: no cambia la geometría)
+    if (completo) malla.material.side = THREE.DoubleSide;
     // (extras.calcas_fabrica: las calcas de fábrica de este modelo, ya ubicadas sobre él con "en: [x, y]")
     if (ex.calcas_fabrica) moto.raiz.userData.calcasFabrica = ex.calcas_fabrica;
-    for (const p of [].concat(ex.pantalla || [])) ponerPantalla(moto, p);
+    if (!completo) for (const p of [].concat(ex.pantalla || [])) ponerPantalla(moto, p);
     // (extras.sin ["accesorios.parabrisas", "espejos.puntas"…]: opciones de Personalizar que este modelo no ofrece,
     // porque la pieza genérica desentona con él. Se quitan de la moto: el visor y el cajón ya no las ven.)
     for (const ruta of ex.sin || []) {
@@ -457,9 +478,9 @@ export async function montarGlb(moto, url) {
       g.traverse((o) => { if (o.isMesh) ocultar(o); });
       delete moto[grupo][clave];
     }
-    if (ex.manubrio && manubrioProc) ajustes.push(() => alManubrio(moto, manubrioProc, ex.manubrio,
+    if (ex.manubrio && manubrioProc && !completo) ajustes.push(() => alManubrio(moto, manubrioProc, ex.manubrio,
       [...Object.entries(moto.espejos || {}).filter(([k]) => k !== "fabrica").map(([, g]) => g), moto.accesorios?.cubremanos]));
-    for (const a of ex.acomodar || []) ajustes.push(() => acomodar(moto, a));
+    if (!completo) for (const a of ex.acomodar || []) ajustes.push(() => acomodar(moto, a));
     // La malla está en coordenadas de la raíz: si el destino es un grupo movido, se compensa su transformación
     if (destino !== moto.raiz) {
       moto.raiz.updateMatrixWorld(true);
@@ -475,8 +496,9 @@ export async function montarGlb(moto, url) {
   }
   // Con modelo realista, Personalizar → Accesorios ofrece solo baúl y luz LED, en todas las motos (decisión del usuario,
   // 19-nov-2026): parabrisas, cubremanos, exploradoras, sliders, escape deportivo y protector genéricos desentonan.
+  if (completo) quitarGenericas(moto, ocultar, vaciar, lamparas);
   for (const clave of Object.keys(moto.accesorios || {})) {
-    if (ACCESORIOS_GLB.includes(clave)) continue;
+    if (ACCESORIOS_GLB.includes(clave) && !completo) continue;
     const g = moto.accesorios[clave];
     g.visible = false;
     g.traverse((o) => { if (o.isMesh) ocultar(o); });
@@ -485,7 +507,7 @@ export async function montarGlb(moto, url) {
   if (moto.anclas?.lamparas) moto.anclas.lamparas = moto.anclas.lamparas.filter((l) => !l.accesorio || ACCESORIOS_GLB.includes(l.accesorio));
   for (const f of ajustes) f();
   // Las lámparas del GLB reemplazan a las de la moto genérica del mismo tipo (que ya no se ven)
-  if (lamparas.length && moto.anclas) {
+  if (lamparas.length && moto.anclas && !completo) {
     const tipos = new Set(lamparas.map((l) => l.tipo));
     moto.anclas.lamparas = [...(moto.anclas.lamparas || []).filter((l) => !tipos.has(l.tipo)), ...lamparas];
   }
@@ -496,5 +518,27 @@ export async function montarGlb(moto, url) {
     g.traverse((o) => { if (o.isMesh && !o.userData.glb) { o.userData.interno = true; o.visible = false; } });
   }
   moto.raiz.userData.glb = url;
+  moto.raiz.userData.modeloCompleto = completo;
+  // (modelo completo: Personalizar ofrece calcas solo si el GLB trae las suyas, extras.calcas de la escena; ver la skill)
+  moto.raiz.userData.calcasModelo = completo && !!nodos.escena.calcas;
   return true;
+}
+
+// Modelo completo: fuera todo lo procedural que se veía encima del GLB. Lo que el GLB no reemplazó (espejos de fábrica,
+// escape, visor) se vacía; los otros estilos de espejos y los accesorios salen de la moto (Personalizar ya no los ofrece);
+// la pata se oculta y las luces son solo las del GLB. La placa sí se pone (excepción permitida por el usuario, 21-nov-2026).
+// La geometría del GLB no se agrega, reemplaza, recorta ni tornea.
+function quitarGenericas(moto, ocultar, vaciar, lamparas) {
+  const fuera = (g) => { if (!g) return; g.visible = false; g.userData.oculto = true; g.traverse((o) => { if (o.isMesh) ocultar(o); }); };
+  for (const [clave, g] of Object.entries(moto.espejos || {})) {
+    if (clave === "fabrica") vaciar(g, false);
+    else { fuera(g); delete moto.espejos[clave]; }
+  }
+  if (moto.escapeFabrica) vaciar(moto.escapeFabrica, false);
+  fuera(moto.pata);
+  if (moto.visoresFabrica) {
+    for (const v of moto.visoresFabrica) if (!v.userData.glb) fuera(v);
+    moto.visoresFabrica.splice(0, moto.visoresFabrica.length, ...moto.visoresFabrica.filter((v) => v.userData.glb));
+  }
+  if (moto.anclas) moto.anclas.lamparas = [...lamparas];
 }
