@@ -22,4 +22,6 @@ def marcar_vista(usuario):
 
 def destino(usuario, por_defecto):
     """A dónde mandar a alguien que acaba de entrar o registrarse si no pidió una página concreta."""
+    if getattr(usuario, "mecanico_domicilio", None) and not getattr(usuario, "taller", None):
+        return reverse("domicilio:panel")  # el mecánico a domicilio entra a su panel
     return reverse("garaje:bienvenida") if pendiente(usuario) else por_defecto

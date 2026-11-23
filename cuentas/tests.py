@@ -181,10 +181,37 @@ class RolesTests(TestCase):
         self.client.force_login(self.admin)
         self.assertContains(self.client.get(reverse("talleres:inicio")), 'class="nav-plus nav-consola')  # cabecera corta del admin
 
+    def test_mi_cuenta_del_admin_es_limpia(self):
+        self.client.force_login(self.admin)
+        r = self.client.get(reverse("cuentas:mi_cuenta"))
+        self.assertTemplateUsed(r, "cuentas/mi_cuenta_admin.html")
+        self.assertContains(r, "Tu rol")
+        self.assertContains(r, "Administrador")
+        self.assertContains(r, "seccion=bitacora")
+        self.assertContains(r, "Seguridad")
+        self.assertNotContains(r, "no tiene un celular")
+        self.assertNotContains(r, "Admin técnico</a>\n    </div>")  # solo el superusuario lo ve
+        self.admin.is_superuser = True
+        self.admin.save()
+        r = self.client.get(reverse("cuentas:mi_cuenta"))
+        self.assertContains(r, "Superusuario")
+        self.assertContains(r, reverse("admin:index"))
+
     def test_crear_cuenta_pregunta_el_tipo(self):
         r = self.client.get(reverse("cuentas:registro"))
         self.assertContains(r, "Soy motero")
-        self.assertContains(r, "Tengo un taller")
+        self.assertContains(r, "Soy aliado")
+
+    def test_aliado_ofrece_proveedores_solo_con_el_interruptor_encendido(self):
+        from consola.ajustes import invalidar
+        from consola.models import Ajuste
+        url = reverse("cuentas:registro") + "?tipo=aliado"
+        Ajuste.objects.update_or_create(clave="proveedores_registro", defaults={"valor": True})
+        invalidar()
+        self.assertContains(self.client.get(url), reverse("proveedores:unete"))
+        Ajuste.objects.filter(clave="proveedores_registro").update(valor=False)
+        invalidar()
+        self.assertNotContains(self.client.get(url), reverse("proveedores:unete"))
 
     def test_administracion_solo_para_administradores(self):
         url = reverse("cuentas:administracion")

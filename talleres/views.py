@@ -1,9 +1,10 @@
 import re
 
+from consola.ajustes import ajuste
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.http import Http404, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.db.models import Q
 from django.urls import reverse
@@ -44,7 +45,7 @@ def _preparar_tarjetas(talleres, usuario=None):
              .values("taller").annotate(prom=Avg("estrellas"), n=Count("id"))}
     con_cupon = set(Cupon.objects.disponibles().filter(taller__in=ids).values_list("taller", flat=True))
     favoritos = _favoritos_de(usuario, ids)
-    from domicilio.models import TallerDomicilio  # «Va a domicilio» (una consulta para todas las tarjetas)
+    from domicilio.models import TallerDomicilio  # «Servicio a domicilio» (una consulta para todas las tarjetas)
     a_domicilio = set(TallerDomicilio.objects.filter(activo=True, taller__in=ids).values_list("taller", flat=True))
     for t in talleres:
         t.va_domicilio = t.pk in a_domicilio
@@ -57,7 +58,7 @@ def _preparar_tarjetas(talleres, usuario=None):
         servicios = list(t.servicios.all())
         t.servicios_vista, t.servicios_mas = servicios[:3], max(0, len(servicios) - 3)
         marcas = [m.nombre for m in t.marcas.all()]
-        t.marcas_vista, t.marcas_mas = marcas[:3], max(0, len(marcas) - 3)
+        t.marcas_vista, t.marcas_mas = (["Multimarca"], 0) if t.multimarca else (marcas[:3], max(0, len(marcas) - 3))
         palabras = [p for p in t.nombre.split() if p.lower() not in PALABRAS_MENORES] or [t.nombre]
         t.iniciales = "".join(p[0] for p in palabras[:2]).upper()
         t.tono = (t.pk * 47) % 360
@@ -121,10 +122,11 @@ def _comunidad_portada():
     preguntas = list(Pregunta.objects.filter(visible=True, rodada__isnull=True)
                      .annotate(n_resp=Count("respuestas", filter=Q(respuestas__visible=True)))
                      .order_by("-creado")[:3])
-    from tramites.models import CentroCDA, TarifaSoat
+    from proveedores.models import Proveedor
+    from tramites.models import TarifaSoat
     soat = TarifaSoat.objects.filter(anio=timezone.localdate().year).order_by("valor").values_list("valor", flat=True).first()
     return {"rodadas_portada": rodadas, "preguntas_portada": preguntas,
-            "soat_desde": soat, "cda_total": CentroCDA.objects.filter(activo=True).count()}
+            "soat_desde": soat, "cda_total": Proveedor.objects.publicados("cda").count()}
 
 
 ORDENES = {"recomendados": "Recomendados", "calificacion": "Mejor calificados", "resenas": "Más reseñas",
@@ -158,10 +160,10 @@ def directorio(request, fijos=None, seo=None):
     if f.get("servicio", "").isdigit():
         talleres = talleres.filter(servicios__id=f["servicio"])
     if f.get("marca", "").isdigit():
-        talleres = talleres.filter(marcas__id=f["marca"])
+        talleres = talleres.filter(Q(multimarca=True) | Q(pk__in=Taller.marcas.through.objects.filter(marca_id=f["marca"]).values("taller_id")))
     if f.get("verificados"):
         talleres = talleres.filter(verificado=True)
-    if f.get("domicilio"):  # «Va a domicilio»: el mismo criterio de /mecanicos/ (TallerDomicilio activo; el taller ya es activo)
+    if f.get("domicilio"):  # «Servicio a domicilio»: el mismo criterio de /mecanicos/ (TallerDomicilio activo; el taller ya es activo)
         talleres = talleres.filter(domicilio__activo=True)
     solo_favoritos = bool(f.get("favoritos")) and request.user.is_authenticated
     if solo_favoritos:
@@ -200,13 +202,13 @@ def directorio(request, fijos=None, seo=None):
         if f.get(clave, "").isdigit() and (obj := modelo.objects.filter(pk=f[clave]).first()):
             activos.append({"nombre": str(obj), "quitar": "?" + sin(clave)})
     for clave, nombre in (("favoritos", "Mis favoritos"), ("verificados", "Solo verificados"), ("cupon", "Con cupón"),
-                          ("domicilio", "Va a domicilio")):
+                          ("domicilio", "Servicio a domicilio")):
         if f.get(clave) and (clave != "favoritos" or solo_favoritos):
             activos.append({"nombre": nombre, "quitar": "?" + sin(clave)})
 
     activos_todos = Taller.objects.filter(activo=True)
     # Mediana de precios en Medellín del servicio elegido (solo si lo publicaron 3 o más talleres)
-    referencia = precios_ref.medianas_medellin(int(f["servicio"])) if f.get("servicio", "").isdigit() else []
+    referencia = precios_ref.medianas_medellin(int(f["servicio"])) if ajuste("precio_tipico") and f.get("servicio", "").isdigit() else []
     for r in referencia:
         r["desde_txt"], r["hasta_txt"] = pesos(r["desde"]), pesos(r["hasta"])
     return render(request, "talleres/directorio.html", {
@@ -223,7 +225,7 @@ def directorio(request, fijos=None, seo=None):
         "stats": {
             **activos_todos.order_by().aggregate(total=Count("pk"), verificados=Count("pk", filter=Q(verificado=True))),
             "cupones": Cupon.objects.disponibles().filter(taller__activo=True).values("taller").distinct().count(),
-        },
+        } if ajuste("cifras_directorio") else None,
         "barrios": Barrio.objects.filter(talleres__activo=True).distinct(),
         "servicios": Servicio.objects.filter(talleres__activo=True).distinct(),
         "marcas": Marca.objects.filter(talleres__activo=True).distinct(),
@@ -374,10 +376,10 @@ def detalle(request, slug):
     cupones = Cupon.objects.disponibles().con_nota_taller().filter(Q(taller=taller) | Q(taller__isnull=True))
     equipo = perfil.equipo_limpio(taller.equipo)
     especialidades = perfil.especialidades_texto(taller.especialidades)
-    marcas = list(taller.marcas.all())
+    marcas = [] if taller.multimarca else list(taller.marcas.all())
     compromisos = perfil.compromisos_lista(taller)
     # Numeración de las secciones según las que existan, para que siempre sea 01, 02, 03…
-    nombres = (["equipo"] if equipo else []) + (["trabajo"] if especialidades or marcas or compromisos else [])         + (["cupones"] if cupones else []) + ["resenas", "ubicacion"]
+    nombres = (["equipo"] if equipo else []) + (["trabajo"] if especialidades or marcas or taller.multimarca or compromisos else [])         + (["cupones"] if cupones else []) + ["resenas", "ubicacion"]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
     lugar = f"{taller.barrio.nombre}, {taller.barrio.ciudad}"
     servicios_txt = ", ".join(x.nombre.lower() for x in list(taller.servicios.all())[:4])
@@ -465,6 +467,7 @@ def editar_perfil(request):
     return render(request, "talleres/editar_perfil.html", {
         "form": form, "equipo": equipo, "completitud": _completitud(taller),
         "taller": taller, "fotos": taller.fotos.all(), "maximo": FotoTaller.MAXIMO,
+        "url_alternar": reverse("talleres:alternar_precios"), "url_precios": reverse("talleres:precios"),
         "videos": taller.fotos.exclude(video="").count(), "maximo_videos": FotoTaller.MAXIMO_VIDEOS,
     })
 
@@ -610,6 +613,8 @@ def panel(request):
     return render(request, "talleres/panel.html", {
         "taller": taller,
         "precios_por_confirmar": _precios.necesita_confirmar(taller),
+        "sin_ubicacion": not (taller.latitud and taller.ubicacion_exacta),
+        "n_precios": taller.precios.count(),
         "resumen": resumen_taller(taller, hoy),
         "perfil": Perfil.de(request.user),
         "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
@@ -1052,8 +1057,8 @@ def franjas(request, slug):
 @login_required
 def agenda_taller(request):
     """El taller define su horario por días (hasta dos turnos), la duración de la franja y el cupo."""
+    import json
     from .forms import AgendaForm, leer_turnos
-    from .models import DIAS_SEMANA
     taller = _taller_de(request)
     if not taller:
         return redirect("cuentas:mi_cuenta")
@@ -1069,17 +1074,16 @@ def agenda_taller(request):
                 agenda.guardar_turnos(taller, turnos)
                 messages.success(request, "Guardamos tu agenda y tu horario.")
                 return redirect("talleres:agenda")
-    por_dia = agenda.turnos_por_dia(taller)
-    dias = []
-    for dia, nombre in DIAS_SEMANA:
-        t = por_dia.get(dia, [])
-
-        def valor(n, campo, dia=dia, t=t):
-            if request.method == "POST":
-                return request.POST.get(f"d{dia}_{n}_{campo}", "")
-            return getattr(t[n - 1], campo).strftime("%H:%M") if len(t) >= n else ""
-        dias.append({"dia": dia, "nombre": nombre, "turnos": [(n, valor(n, "abre"), valor(n, "cierra")) for n in (1, 2)]})
-    return render(request, "talleres/agenda.html", {"taller": taller, "form": form, "dias": dias, "errores": errores})
+    if request.method == "POST":
+        filas_json = request.POST.get("turnos_json", "[]")
+    else:
+        grupos = {}
+        for dia, ts in agenda.turnos_por_dia(taller).items():
+            for t in ts:
+                grupos.setdefault((t.abre.strftime("%H:%M"), t.cierra.strftime("%H:%M")), []).append(dia)
+        filas = [{"dias": sorted(d), "abre": a, "cierra": c} for (a, c), d in sorted(grupos.items(), key=lambda g: min(g[1]))]
+        filas_json = json.dumps(filas or [{"dias": [0, 1, 2, 3, 4, 5], "abre": "08:00", "cierra": "18:00"}])
+    return render(request, "talleres/agenda.html", {"taller": taller, "form": form, "filas_json": filas_json, "errores": errores})
 
 
 @login_required
@@ -1101,17 +1105,39 @@ def precios_taller(request):
         messages.success(request, "Guardamos tus precios de referencia.")
         return redirect("talleres:precios")
     from . import precios as _precios
+    import json
     return render(request, "talleres/precios.html", {"taller": taller, "formset": formset,
+                                                     "grupos": _precios.agrupar_formset(formset),
+                                                     "servicios": formset.empty_form.fields["servicio"].queryset,
+                                                     "medianas": json.dumps(_precios.medianas_por_clave() if ajuste("precio_tipico") else {}),
+                                                     "precio_tipico": ajuste("precio_tipico"),
+                                                     "url_alternar": reverse("talleres:alternar_precios"),
                                                      "confirmado": _precios.fecha_confirmacion(taller),
                                                      "por_confirmar": _precios.necesita_confirmar(taller),
                                                      "sin_servicios": not taller.servicios.exists()})
+
+
+@login_required
+@require_POST
+def alternar_precios(request):
+    """Interruptor rápido del panel: mostrar u ocultar los precios de mano de obra en la página pública."""
+    taller = _taller_de(request)
+    if not taller:
+        return redirect("cuentas:mi_cuenta")
+    taller.mostrar_precios = request.POST.get("valor") == "1"
+    taller.save(update_fields=["mostrar_precios"])
+    if request.headers.get("x-requested-with") == "fetch":  # interruptor sin recargar: sin mensaje ni redirección
+        return HttpResponse(status=204)
+    messages.success(request, "Tus precios ahora se ven en tu perfil." if taller.mostrar_precios
+                     else "Ocultamos tus precios: tu perfil dice «Cotiza por WhatsApp».")
+    return redirect("talleres:panel")
 
 
 def emergencias(request):
     """Flujo "¿Te varaste?": el motero elige qué le pasó y ve quién lo atiende, abiertos ahora primero. La cercanía se
     calcula en el navegador con su ubicación (nunca se envía al servidor); si no la da, elige su barrio."""
     from . import emergencias as em
-    from .models import Grua
+    from proveedores.models import Proveedor
     ahora = timezone.localtime()
     necesito = request.GET.get("necesito")
     necesito = necesito if necesito in em.OPCIONES else None
@@ -1129,9 +1155,9 @@ def emergencias(request):
         grupos[t.abierto].append(t)
     gruas = []
     if necesito in em.CON_GRUAS:
-        gruas = em.ordenar_gruas(list(Grua.objects.filter(activo=True)), barrio.ciudad if barrio else None, ahora)
+        gruas = em.ordenar_gruas(list(Proveedor.objects.publicados("grua")), barrio.ciudad if barrio else None, ahora)
         for g in gruas:
-            g.tarifa_txt = pesos(g.tarifa_desde) if g.tarifa_desde else ""
+            g.tarifa_txt = pesos(g.precio_desde) if g.precio_desde else ""
     moto = None
     perfil = getattr(request.user, "motociclista", None) if request.user.is_authenticated else None
     if perfil:

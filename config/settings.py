@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     "ayuda",
     "consola",
     "domicilio",
+    "proveedores",  # grúas, CDA, SOAT y demás proveedores de servicios (no talleres)
     "metricas",  # medición de uso propia; quitar esta línea y el middleware la apaga del todo
     "domiciliarios",  # TallerYa Ruta (plan para domiciliarios); visible solo con DOMICILIARIOS_ACTIVO
     "cotizador",  # piloto del cotizador de repuestos (apagado con COTIZADOR_ACTIVO=0; ver cotizador/README.md)
@@ -80,6 +81,7 @@ MIDDLEWARE = [
 ]
 
 # Medición de uso propia (metricas/): encendida salvo METRICAS_ACTIVAS=0. Apagada al correr las pruebas.
+GEOCODIFICAR_ACTIVO = env_bool("GEOCODIFICAR_ACTIVO", sys.argv[1:2] != ["test"])  # dirección → coordenadas (Nominatim)
 METRICAS_ACTIVAS = env_bool("METRICAS_ACTIVAS", sys.argv[1:2] != ["test"])
 
 # Piloto: oculta foro, rodadas, suscripciones (Plus) y referidos (enlaces, avisos y URLs responden 404), sin borrar código.

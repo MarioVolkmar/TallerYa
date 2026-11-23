@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib import admin
 
-from .models import CIUDADES, Barrio, Grua, FotoTaller, HorarioTaller, Marca, Resena, Servicio, SolicitudCita, Taller
+from .models import Barrio, FotoTaller, HorarioTaller, Marca, Resena, Servicio, SolicitudCita, Taller
 
 admin.site.register([Barrio, Servicio, Marca])
 
@@ -78,32 +78,3 @@ class EventoDiarioAdmin(admin.ModelAdmin):
     list_filter = ("tipo",)
     date_hierarchy = "fecha"
     raw_id_fields = ("taller",)
-
-
-class GruaForm(forms.ModelForm):
-    """Cobertura como casillas de municipios (se guarda como lista)."""
-    municipios = forms.MultipleChoiceField(choices=[(c, c) for c in CIUDADES], required=False,
-                                           widget=forms.CheckboxSelectMultiple, label="Zona de cobertura")
-
-    class Meta:
-        model = Grua
-        fields = "__all__"
-
-    def clean(self):
-        datos = super().clean()
-        if not datos.get("abierto_24h") and bool(datos.get("abre")) != bool(datos.get("cierra")):
-            self.add_error("cierra", "Pon la hora de apertura y la de cierre, o marca 24 horas.")
-        return datos
-
-
-@admin.register(Grua)
-class GruaAdmin(admin.ModelAdmin):
-    form = GruaForm
-    list_display = ("nombre", "telefono", "abierto_24h", "vehiculo", "tarifa_desde", "activo", "demo")
-    list_filter = ("activo", "demo", "abierto_24h", "vehiculo")
-    search_fields = ("nombre", "telefono")
-    fieldsets = (
-        (None, {"fields": ("nombre", "telefono", "whatsapp", "vehiculo", "tarifa_desde", "activo", "demo")}),
-        ("Cobertura y horario", {"fields": ("municipios", "abierto_24h", "abre", "cierra")}),
-        ("Ubicación (para ordenar por cercanía)", {"fields": ("latitud", "longitud"), "classes": ("collapse",)}),
-    )

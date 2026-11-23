@@ -2,21 +2,13 @@ from django.contrib import admin, messages
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .models import CentroCDA, PedidoSoat, TarifaSoat
+from .models import PedidoSoat, TarifaSoat
 
 
 @admin.register(TarifaSoat)
 class TarifaSoatAdmin(admin.ModelAdmin):
     list_display = ("anio", "categoria", "valor", "fuente")
     list_filter = ("anio", "categoria")
-
-
-@admin.register(CentroCDA)
-class CentroCDAAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "municipio", "aliado", "precio_moto", "activo")
-    list_filter = ("municipio", "aliado", "activo")
-    search_fields = ("nombre", "direccion")
-    list_editable = ("aliado", "activo")
 
 
 def _accion(estado):

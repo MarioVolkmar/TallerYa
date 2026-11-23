@@ -1,7 +1,7 @@
 from django import forms
 
 from . import perfil
-from .models import CIUDADES, Barrio, PrecioServicio, Resena, SolicitudCita, Taller
+from .models import CIUDADES, Barrio, PrecioServicio, Resena, Servicio, SolicitudCita, Taller
 from .utils import normalizar_celular
 
 INPUT = "campo"
@@ -156,25 +156,28 @@ class PerfilTallerForm(EstiloMixin, forms.ModelForm):
 
     class Meta:
         model = Taller
-        fields = ["descripcion", "horario", "nivel_precio", "servicios", "marcas", "foto", "especialidades",
-                  "garantia_meses", "compromisos", "mostrar_precios"]
-        labels = {"descripcion": "Descripción corta", "foto": "Foto de portada",
-                  "mostrar_precios": "Mostrar en mi perfil los precios de mano de obra"}
+        fields = ["descripcion", "nivel_precio", "servicios", "marcas", "foto", "especialidades",
+                  "garantia_meses", "compromisos", "multimarca", "latitud", "longitud"]
+        labels = {"descripcion": "Descripción corta", "foto": "Foto de portada", "multimarca": "Multimarca"}
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 3, "maxlength": perfil.MAXIMO_DESCRIPCION,
                                                  "placeholder": "Ej: Taller familiar en Belén desde 2012. Motos de trabajo y scooters hasta 200 cc."}),
-            "horario": forms.TextInput(attrs={"placeholder": "Ej: Lun-Sáb 8am-6pm"}),
             "servicios": forms.CheckboxSelectMultiple,
             "marcas": forms.CheckboxSelectMultiple,
             "foto": forms.FileInput(attrs={"accept": "image/jpeg,image/png,image/webp"}),
+            "latitud": forms.HiddenInput, "longitud": forms.HiddenInput,
         }
+
+    def clean(self):
+        datos = super().clean()
+        for campo in ("latitud", "longitud"):  # si el formulario no los trae, no se borran las coordenadas
+            if campo not in self.data:
+                datos[campo] = getattr(self.instance, campo)
+        _validar_ubicacion(self, datos)
+        return datos
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Con agenda por turnos, el horario público se arma desde ella: así las franjas y lo que ve el motero nunca difieren.
-        if self.instance.pk and self.instance.horarios.exists():
-            self.fields["horario"].disabled = True
-            self.fields["horario"].help_text = "Se arma solo con los turnos de tu agenda. Para cambiarlo, edita «Agenda y horario»."
 
     def clean_foto(self):
         foto = self.cleaned_data.get("foto")
@@ -184,72 +187,117 @@ class PerfilTallerForm(EstiloMixin, forms.ModelForm):
 
 
 class MecanicoForm(EstiloMixin, forms.Form):
-    """Una persona del equipo («Quiénes te atienden»). Una fila vacía se ignora."""
+    """Una persona del equipo («Quiénes te atienden»). Rol de una lista corta y especialidad del catálogo de servicios
+    (o «Otra» con un texto corto). Una fila vacía se ignora."""
     nombre = forms.CharField(max_length=60, required=False, widget=forms.TextInput(attrs={"placeholder": "Ej: Jhon Fredy"}))
-    rol = forms.CharField(max_length=40, required=False, widget=forms.TextInput(attrs={"placeholder": "Ej: Jefe de taller"}))
+    rol = forms.ChoiceField(required=False, choices=[("", "Elige el rol")] + [(r, r) for r in perfil.ROLES])
     anios = forms.IntegerField(label="Años de experiencia", min_value=0, max_value=60, required=False)
-    especialidad = forms.CharField(max_length=60, required=False,
-                                   widget=forms.TextInput(attrs={"placeholder": "Ej: Inyección y carburación"}))
+    especialidad = forms.ChoiceField(required=False, label="Especialidad")
+    especialidad_otra = forms.CharField(max_length=40, required=False, widget=forms.TextInput(attrs={"placeholder": "¿En qué es bueno?"}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.servicios = {str(s.pk): s.nombre for s in Servicio.objects.all()}
+        self.fields["especialidad"].choices = ([("", "Elige la especialidad")] + list(self.servicios.items())
+                                               + [(perfil.OTRA, "Otra…")])
 
     def clean(self):
         datos = super().clean()
         if not datos.get("nombre", "").strip() and any(datos.get(c) for c in ("rol", "anios", "especialidad")):
             self.add_error("nombre", "Escribe el nombre o borra la fila.")
+        if datos.get("especialidad") == perfil.OTRA and not datos.get("especialidad_otra", "").strip():
+            self.add_error("especialidad_otra", "Escribe la especialidad o elige una de la lista.")
         return datos
 
 
 def equipo_formset(taller, data=None):
     """Formset del equipo: las personas guardadas más filas vacías (mínimo 3 filas, máximo perfil.MAXIMO_EQUIPO)."""
-    inicial = perfil.equipo_limpio(taller.equipo)
-    extra = max(3 - len(inicial), 1) if len(inicial) < perfil.MAXIMO_EQUIPO else 0
+    inicial = []
+    for m in perfil.equipo_limpio(taller.equipo):
+        m = dict(m, rol=m["rol"] if m["rol"] in perfil.ROLES else perfil.rol_cercano(m["rol"]))
+        if m["servicio"]:
+            m["especialidad"] = str(m["servicio"])
+        elif m["especialidad"]:
+            m["especialidad_otra"], m["especialidad"] = m["especialidad"], perfil.OTRA
+        inicial.append(m)
+    # Se dibujan todas las filas posibles; la plantilla esconde las vacías de más y el botón «+» las muestra
+    extra = max(perfil.MAXIMO_EQUIPO - len(inicial), 0)
     Formset = forms.formset_factory(MecanicoForm, extra=extra, max_num=perfil.MAXIMO_EQUIPO, validate_max=True)
-    return Formset(data, initial=inicial, prefix="equipo")
+    fs = Formset(data, initial=inicial, prefix="equipo")
+    fs.visibles = min(max(3, len(inicial) + 1), perfil.MAXIMO_EQUIPO)
+    return fs
 
 
 def equipo_de(formset):
     """Lista para Taller.equipo a partir de un formset válido (sin filas vacías)."""
-    return [{"nombre": f.cleaned_data["nombre"].strip(), "rol": f.cleaned_data.get("rol", "").strip(),
-             "anios": f.cleaned_data.get("anios") or None, "especialidad": f.cleaned_data.get("especialidad", "").strip()}
-            for f in formset.forms if f.cleaned_data.get("nombre", "").strip()]
+    salida = []
+    for f in formset.forms:
+        d = f.cleaned_data
+        if not d.get("nombre", "").strip():
+            continue
+        esp, servicio = d.get("especialidad", ""), None
+        if esp == perfil.OTRA:
+            texto = d["especialidad_otra"].strip()
+        elif esp in f.servicios:
+            texto, servicio = f.servicios[esp], int(esp)
+        else:
+            texto = ""
+        salida.append({"nombre": d["nombre"].strip(), "rol": d.get("rol", ""), "anios": d.get("anios") or None,
+                       "especialidad": texto, "servicio": servicio})
+    return salida
 
 
 class AgendaForm(EstiloMixin, forms.ModelForm):
-    """Agenda y emergencias. Los turnos por día se leen aparte (campos d<dia>_<n>_abre / _cierra)."""
+    """Agenda y emergencias. Los turnos por día se leen aparte (ver leer_turnos)."""
     CASILLAS = ["agenda_activa", "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio", "gasolina_domicilio"]
 
     class Meta:
         model = Taller
         fields = ["agenda_activa", "duracion_franja", "cupo_franja",
-                  "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio", "gasolina_domicilio",
-                  "latitud", "longitud"]
-        widgets = {"latitud": forms.HiddenInput, "longitud": forms.HiddenInput}
+                  "atiende_emergencias", "abierto_24h", "grua", "despinche_domicilio", "gasolina_domicilio"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for c in self.CASILLAS:
             self.fields[c].widget.attrs["class"] = ""
 
-    def clean(self):
-        datos = super().clean()
-        lat, lng = datos.get("latitud"), datos.get("longitud")
-        # Solo el Valle de Aburrá (aprox.): evita ubicaciones erradas
-        if lat is not None and lng is not None and not (5.9 <= lat <= 6.6 and -75.8 <= lng <= -75.2):
-            self.add_error(None, "La ubicación no parece del Valle de Aburrá. Vuelve a tomarla desde el taller.")
-        return datos
-        self.fields["cupo_franja"].widget.attrs.update({"min": 1, "max": 10})
+
+def _validar_ubicacion(form, datos):
+    """Solo el Valle de Aburrá (aprox.): evita ubicaciones erradas."""
+    lat, lng = datos.get("latitud"), datos.get("longitud")
+    if lat is not None and lng is not None and not (5.9 <= lat <= 6.6 and -75.8 <= lng <= -75.2):
+        form.add_error(None, "La ubicación no parece del Valle de Aburrá. Vuelve a tomarla desde el taller.")
 
 
 def leer_turnos(datos):
-    """Lee hasta dos turnos por día del formulario. Devuelve (turnos, errores)."""
+    """Lee los turnos (hasta dos por día). Vienen de `turnos_json` (filas con días y horas: la pantalla de agenda)
+    o de los campos d<dia>_<n>_abre / _cierra. Devuelve (turnos, errores)."""
+    import json
     from datetime import time
     from .models import DIAS_SEMANA
-    turnos, errores = [], []
+    crudos = {dia: [] for dia, _ in DIAS_SEMANA}
+    errores = []
+    if "turnos_json" in datos:
+        try:
+            filas = json.loads(datos.get("turnos_json") or "[]")
+            for f in filas:
+                for d in f["dias"]:
+                    crudos[int(d)].append((str(f["abre"]), str(f["cierra"])))
+        except (ValueError, KeyError, TypeError):
+            return [], ["No pudimos leer tu horario. Vuelve a elegirlo."]
+    else:
+        for dia, _ in DIAS_SEMANA:
+            for n in (1, 2):
+                abre, cierra = datos.get(f"d{dia}_{n}_abre", ""), datos.get(f"d{dia}_{n}_cierra", "")
+                if abre or cierra:
+                    crudos[dia].append((abre, cierra))
+    turnos = []
     for dia, nombre in DIAS_SEMANA:
         previos = []
-        for n in (1, 2):
-            abre, cierra = datos.get(f"d{dia}_{n}_abre", ""), datos.get(f"d{dia}_{n}_cierra", "")
-            if not abre and not cierra:
-                continue
+        if len(crudos[dia]) > 2:
+            errores.append(f"{nombre}: máximo dos turnos.")
+            continue
+        for abre, cierra in crudos[dia]:
             try:
                 a, c = time.fromisoformat(abre), time.fromisoformat(cierra)
             except ValueError:
@@ -269,8 +317,8 @@ class PrecioServicioForm(EstiloMixin, forms.ModelForm):
     class Meta:
         model = PrecioServicio
         fields = ["servicio", "cilindraje", "desde", "hasta"]
-        widgets = {"desde": forms.NumberInput(attrs={"min": 0, "step": 1000, "placeholder": "50000"}),
-                   "hasta": forms.NumberInput(attrs={"min": 0, "step": 1000, "placeholder": "100000"})}
+        widgets = {"desde": forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off", "placeholder": "50.000"}),
+                   "hasta": forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off", "placeholder": "100.000"})}
 
     def clean(self):
         datos = super().clean()
@@ -302,5 +350,5 @@ def precios_formset(taller):
             self.fields["servicio"].queryset = taller.servicios.all()
             self.fields["servicio"].empty_label = "Elige el servicio"
 
-    return forms.inlineformset_factory(Taller, PrecioServicio, form=Form, formset=_PreciosBase, extra=3,
+    return forms.inlineformset_factory(Taller, PrecioServicio, form=Form, formset=_PreciosBase, extra=0,
                                        can_delete=True, max_num=60)

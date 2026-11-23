@@ -1,4 +1,4 @@
-"""Sección «Mecánicos» de /consola/: aprobar, suspender y verificar perfiles de mecánicos a domicilio.
+"""Sección «Mecánicos» de /consola/: aprobar, pausar y verificar perfiles de mecánicos a domicilio.
 
 Usa el mismo mecanismo que las demás secciones (consola.acciones): permiso de administrador, POST y bitácora.
 Se registra desde DomicilioConfig.ready() y la sección se declara en consola/secciones.py (una línea).

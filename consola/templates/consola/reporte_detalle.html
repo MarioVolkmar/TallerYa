@@ -1,0 +1,12 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Reporte de {{ quien }}</h1>
+  <p class="cs-sub"><a href="{{ volver }}">{% icono "atras" 14 %} Volver</a> · <a href="{{ ficha }}">Ver ficha pública</a> · últimos 12 meses. No se guarda quién visita.</p>
+</header>
+{% if nota %}<p class="cs-peq" role="note">{{ nota }}</p>{% endif %}
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-reporte">
+  <caption class="sr-only">Reporte mensual de {{ quien }}</caption>
+  <thead><tr><th scope="col">Mes</th>{% for nombre, clave in columnas %}<th scope="col">{{ nombre }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for f in filas %}<tr><th scope="row">{{ f.mes }}</th>{% for nombre, clave in columnas %}<td>{{ f|get_item:clave }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  <tfoot><tr><th scope="row">Total</th>{% for nombre, clave in columnas %}<th>{{ total|get_item:clave }}</th>{% endfor %}</tr></tfoot>
+</table></div>

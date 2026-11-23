@@ -1,0 +1,22 @@
+{% load static %}{# Editor de precios: una tarjeta por servicio con una línea por cilindraje. Lo usan «Mis precios» del taller y del mecánico. #}
+<div class="mp" data-mis-precios data-prefijo="{{ formset.prefix }}">
+  {% for e in formset.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
+  <div data-tarjetas>
+    {% for g in grupos %}
+    <section class="mp-card" data-card data-servicio="{{ g.id }}" data-nombre="{{ g.nombre }}">
+      <h2 class="mp-card-titulo">{{ g.nombre }}</h2>
+      {% for form in g.forms %}{% include "talleres/_precio_fila.html" %}{% endfor %}
+      <button type="button" class="mp-mas" data-otro-cil>+ Otro cilindraje</button>
+    </section>
+    {% endfor %}
+  </div>
+  <p class="mp-vacio" data-vacio{% if grupos %} hidden{% endif %}>Aún no tienes precios. Agrega tu primer servicio.</p>
+  {% if servicios %}
+  <label class="mp-agregar"><span class="sr-only">Agregar servicio</span>
+    <select data-nuevo-servicio class="campo"><option value="">+ Agregar servicio</option>{% for s in servicios %}<option value="{{ s.pk }}">{{ s.nombre }}</option>{% endfor %}</select>
+  </label>
+  {% endif %}
+  <script type="application/json" data-medianas>{{ medianas|default:"{}"|safe }}</script>
+  <template data-fila-plantilla>{% include "talleres/_precio_fila.html" with form=formset.empty_form %}</template>
+</div>
+<script src="{% static 'talleres/js/mis-precios.js' %}" defer></script>

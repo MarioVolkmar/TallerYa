@@ -55,9 +55,15 @@ class MenuPorRolTests(Base):
             self.assertIn(texto, c)
         for texto in ("sub-garaje", "¿Te varaste?", "Mis insignias", "Consola"):
             self.assertNotIn(texto, c)
+        self.assertIn('aria-controls="sub-taller-mas"', c)  # lo de vez en cuando va en «Más»
+        for texto in (">Servicios<", ">Reseñas<", "Agenda y horario", "Precios de mano de obra", "Estadísticas", "Ver mi ficha pública"):
+            self.assertIn(texto, c)
         b = self.barra()
-        for texto in ("Panel", "Citas", "Validar", "Mi perfil"):
-            self.assertIn(texto, b)
+        for texto in ("Panel", "Citas", "Registrar", "Servicios", "Validar"):
+            self.assertIn(f"<span>{texto}</span>", b)
+        self.assertNotIn("<span>Agenda</span>", b)
+        self.assertEqual(b.count('class="bi-item'), 5)
+        self.assertIn("bi-accion", b)  # registrar servicio, destacado
 
     def test_visitante(self):
         c = self.cabecera()
@@ -79,7 +85,27 @@ class MenuPorRolTests(Base):
         c = self.cabecera()
         self.assertIn('class="nav-plus nav-consola', c)
         self.assertIn('aria-controls="sub-cuenta"', c)  # avatar con menú, con Consola dentro
-        self.assertEqual(self.barra(), "")  # el staff no lleva barra inferior
+        for texto in (">Aprobaciones", ">Usuarios", ">Moderación", ">Métricas"):
+            self.assertIn(texto, c)
+        self.assertNotIn('<span class="nav-separador"', c)  # Ver sitio y Admin técnico pasaron al menú del avatar
+        self.assertIn('class="av-item" title="El directorio', c)
+        b = self.barra(reverse("consola:inicio") + "?seccion=talleres")
+        for texto in ("Resumen", "Aprobar", "Usuarios", "Moderación", "Métricas"):
+            self.assertIn(f"<span>{texto}</span>", b)
+        self.assertEqual(b.count('class="bi-item'), 5)
+        # sin pendientes, Aprobaciones lleva a talleres y queda activa en esa sección
+        self.assertIn('?seccion=talleres" class="bi-item" aria-current="page"', b)
+
+    def test_aprobaciones_suma_pendientes_y_lleva_a_la_mayor(self):
+        from talleres.models import Barrio, Taller
+        barrio = Barrio.objects.first() or Barrio.objects.create(nombre="Laureles")
+        for i in range(2):
+            Taller.objects.create(nombre=f"Pend {i}", responsable="R", whatsapp=f"57300555222{i}",
+                                  direccion="Cra 1", barrio=barrio, activo=False)
+        self.client.force_login(self.admin)
+        b = self.barra(reverse("consola:inicio") + "?seccion=resumen")
+        self.assertIn('?seccion=talleres" class="bi-item"', b)
+        self.assertIn(f'aria-label="{Taller.objects.filter(activo=False).count()} pendientes"', b)
 
     def test_barra_inferior_motociclista(self):
         self.client.force_login(self.motero)
@@ -129,3 +155,49 @@ class DiagnosticoVisibleTests(Base):
     def test_accesos_fuera_del_menu(self):
         self.assertContains(self.client.get(reverse("talleres:inicio")), "data-diag-portada")
         self.assertContains(self.client.get(reverse("talleres:emergencias")), reverse("garaje:diagnostico"))
+
+
+class InsigniasTests(Base):
+    def test_citas_pendientes_en_el_menu_del_taller(self):
+        from talleres.models import SolicitudCita
+        taller = self.cuenta_taller.taller
+        import datetime
+        SolicitudCita.objects.create(taller=taller, nombre="Ana", telefono="573001112233", moto="Yamaha NMAX",
+                                     fecha_preferida=datetime.date.today())
+        self.client.force_login(self.cuenta_taller)
+        self.assertIn('class="nav-contador"', self.cabecera())
+        self.assertIn('class="bi-contador" aria-label="1 pendiente"', self.barra())
+
+    def test_motero_sin_insignias(self):
+        self.client.force_login(self.motero)
+        self.assertNotIn("contador\" aria-label", self.barra())
+
+
+class PiePorRolTests(Base):
+    def pie(self):
+        html = self.client.get(reverse("talleres:directorio")).content.decode()
+        return html[html.index("<footer"):html.index("</footer>")]
+
+    def test_sin_validar_cupon_ni_proximamente(self):
+        for usuario in (None, self.motero, self.cuenta_taller):
+            if usuario:
+                self.client.force_login(usuario)
+            p = self.pie()
+            self.assertNotIn("Validar un cupón", p)
+            self.assertNotIn("Próximamente", p)
+
+    def test_visitante_y_motero_ven_negocios_y_tramites(self):
+        p = self.pie()
+        for texto in ("Registra tu taller", "Ya tengo cuenta: entrar", "SOAT", "Para tu moto"):
+            self.assertIn(texto, p)
+        self.client.force_login(self.motero)
+        p = self.pie()
+        self.assertIn("Mi garaje", p)
+        self.assertNotIn("Ya tengo cuenta", p)
+
+    def test_taller_pie_corto(self):
+        self.client.force_login(self.cuenta_taller)
+        p = self.pie()
+        for texto in ("Registra tu taller", "SOAT", "Mi garaje", "Cupones<"):
+            self.assertNotIn(texto, p)
+        self.assertIn("Para tu moto", p)

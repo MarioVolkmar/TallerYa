@@ -1,4 +1,5 @@
 from urllib.parse import quote
+from consola.ajustes import ajuste
 from datetime import date, timedelta
 import hashlib
 import mimetypes
@@ -100,7 +101,10 @@ def agregar(request):
         km_actual = form.cleaned_data["km_actual"]
         tareas = _tareas_principales(form.instance)
         form.instance.km_inicial = form.instance.km_actual = km_actual
-        nuevos, errores = _leer_al_dia(request.POST, tareas, form.instance)
+        if request.POST.get("sin_datos"):  # atajo «No sé, agregar ya»: no registra nada, ignora lo marcado en la lista
+            nuevos, errores = [], {}
+        else:
+            nuevos, errores = _leer_al_dia(request.POST, tareas, form.instance)
         if errores:
             filas, mostrar_paso2 = _filas_al_dia(tareas, request.POST, errores), True
         else:
@@ -344,6 +348,8 @@ def _se_compra(clave, descripcion):
 
 def _url_domicilio(tarea, tipos):
     """Mecánicos a domicilio, filtrados por el servicio de la tarea si existe con el mismo nombre."""
+    if not ajuste("mecanicos_activo"):
+        return ""
     base = reverse("domicilio:listado")
     nombre = tarea.servicio.nombre if tarea.servicio_id else ""
     return f"{base}?servicio={tipos[nombre]}" if nombre in tipos else base
@@ -675,7 +681,7 @@ def detalle(request, pk):
         # Las láminas pesan cientos de KB: el visor las pide aparte (despiece_json) para no frenar la página ni el 3D.
         "piezas_despiece": (piezas_despiece := sorted(set(despiece.laminas.values_list("pieza", flat=True))) if despiece else []),
         # Piloto «Tips y fallas frecuentes» (None con FALLAS_FRECUENTES_ACTIVO apagado)
-        "fallas": fallas.para_moto(moto, plan, piezas_despiece, uso_severo=getattr(plan, "de_trabajo", False)),
+        "fallas": fallas.para_moto(moto, plan, piezas_despiece, uso_severo=getattr(plan, "de_trabajo", False) or getattr(plan, "por_uso_trabajo", False)),
     })
 
 

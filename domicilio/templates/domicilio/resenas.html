@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Reseñas · {{ m.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
+<div class="mt-8 md:mt-10">
+  {% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">Mis <span class="text-lava">reseñas</span></h1>
+  <section class="papel pt-caja mt-4">
+    {% if nota.n %}{% include "talleres/_calificacion.html" %}{% endif %}
+    <nav class="lt-filtros my-4" aria-label="Qué reseñas ver">
+      <a href="?ver=todas"{% if not solo_sin %} class="activo"{% endif %}>Todas <span>{{ nota.n }}</span></a>
+      <a href="?ver=sin_responder"{% if solo_sin %} class="activo"{% endif %}>Sin responder <span>{{ sin_responder }}</span></a>
+    </nav>
+    <ul class="pt-resenas">
+      {% for r in lista %}{% include "domicilio/_resena_item.html" %}
+      {% empty %}<li class="pt-vacio-chico">{% if solo_sin %}No tienes reseñas sin responder.{% else %}Aún no tienes reseñas. Los moteros que te contraten pueden calificarte desde tu ficha.{% endif %}</li>{% endfor %}
+    </ul>
+  </section>
+</div>
+{% endblock %}

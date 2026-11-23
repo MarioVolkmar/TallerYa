@@ -92,6 +92,9 @@ class MotoForm(EstiloMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        uso = self.fields["perfil_uso"]  # Django no pone mayúscula tras «¿» y deja «---------» como opción vacía
+        uso.label = "¿Cómo la usas?"
+        uso.choices = [("", "Elige una opción")] + [c for c in uso.choices if c[0]]
         lineas = LineaMoto.objects.filter(activo=True).select_related("marca")
         opciones = [("", "Elige tu moto")]
         for marca, grupo in groupby(lineas, key=lambda l: l.marca.nombre):

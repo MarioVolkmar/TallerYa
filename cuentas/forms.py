@@ -12,6 +12,7 @@ User = get_user_model()
 
 
 class RegistroForm(EstiloMixin, forms.Form):
+    domicilios = forms.BooleanField(label="Uso la moto para domicilios o mensajería", required=False)
     nombre = forms.CharField(max_length=120, widget=forms.TextInput(attrs={"autocomplete": "given-name"}))
     email = forms.EmailField(label="Correo", widget=forms.EmailInput(attrs={"autocomplete": "email"}))
     celular = forms.CharField(

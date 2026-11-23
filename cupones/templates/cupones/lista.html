@@ -15,14 +15,40 @@
 
 {% block content %}
 <div class="relative z-10 -mt-28 md:-mt-36">
+  {% if cupones or f.filtrando %}
+  <form method="get" class="papel cp-filtros" id="cp-filtros" aria-label="Filtrar descuentos">
+    {% if f.hay_domicilio or f.tipo %}
+    <div class="dir-chips" role="radiogroup" aria-label="Dónde se usa">
+      <label class="dir-chip"><input type="radio" name="tipo" value="" data-auto {% if not f.tipo %}checked{% endif %}><span>Todos</span></label>
+      <label class="dir-chip"><input type="radio" name="tipo" value="talleres" data-auto {% if f.tipo == "talleres" %}checked{% endif %}><span>Talleres</span></label>
+      <label class="dir-chip"><input type="radio" name="tipo" value="domicilio" data-auto {% if f.tipo == "domicilio" %}checked{% endif %}><span>A domicilio</span></label>
+    </div>
+    {% endif %}
+    <label class="cp-filtro"><span class="sr-only">Servicio</span>
+      <select name="servicio" class="campo" data-auto>
+        <option value="">Todos los servicios</option>
+        {% for n in f.servicios %}<option value="{{ n }}"{% if f.servicio == n %} selected{% endif %}>{{ n }}</option>{% endfor %}
+      </select></label>
+    <label class="cp-filtro"><span class="sr-only">Barrio o zona</span>
+      <select name="donde" class="campo" data-auto>
+        <option value="">Cualquier barrio o zona</option>
+        {% if f.barrios %}<optgroup label="Barrio del taller">{% for valor, texto in f.barrios %}<option value="{{ valor }}"{% if f.donde == valor %} selected{% endif %}>{{ texto }}</option>{% endfor %}</optgroup>{% endif %}
+        {% if f.zonas %}<optgroup label="Zona del mecánico a domicilio">{% for valor, texto in f.zonas %}<option value="{{ valor }}"{% if f.donde == valor %} selected{% endif %}>{{ texto }}</option>{% endfor %}</optgroup>{% endif %}
+      </select></label>
+    <noscript><button class="btn btn-borde text-xs px-4 py-2">Filtrar</button></noscript>
+    {% if f.filtrando %}<a href="{% url 'cupones:lista' %}" class="cp-limpiar">Quitar filtros</a>{% endif %}
+  </form>
+  {% endif %}
   <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
     {% for cupon in cupones %}
       {% include "cupones/_ticket.html" with con_boton=True %}
     {% empty %}
       <div class="papel p-8 md:col-span-2 lg:col-span-3 text-center">
         {% include "parciales/vacio.html" %}
+        {% if f.filtrando %}<p class="titulo text-2xl">Nada con esos filtros</p>
+        <p class="text-suave mt-2">Prueba con otro servicio o zona.</p>{% else %}
         <p class="titulo text-2xl">Pronto habrá cupones</p>
-        <p class="text-suave mt-2">Estamos preparando descuentos con los talleres aliados. Vuelve en unos días.</p>
+        <p class="text-suave mt-2">Estamos preparando descuentos con los talleres aliados. Vuelve en unos días.</p>{% endif %}
         <a href="{% url 'talleres:inicio' %}" class="btn btn-borde text-xs px-5 py-2 mt-5">Ver talleres</a>
       </div>
     {% endfor %}
@@ -75,7 +101,7 @@
       <p class="titulo text-lg mt-4">Muéstralo en el taller</p>
       <p class="text-suave text-sm mt-1.5">El taller valida el código y te aplica el descuento.</p>
     </li>
-{% if not oculta_social %}
+{% if referidos_activo %}
     <li class="paso-item">
       <span class="paso-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8zm0 0c2-4 6-4 6-1.5S15 8 12 8z"/></svg><span class="paso-num">4</span></span>
       <p class="titulo text-lg mt-4">Invita y gana</p>
@@ -84,4 +110,11 @@
 {% endif %}
   </ol>
 </section>
+<script>
+  // Los filtros se aplican solos al cambiarlos (como en el directorio)
+  (function () {
+    var form = document.getElementById("cp-filtros"); if (!form) return;
+    form.querySelectorAll("[data-auto]").forEach(function (c) { c.addEventListener("change", function () { form.submit(); }); });
+  })();
+</script>
 {% endblock %}

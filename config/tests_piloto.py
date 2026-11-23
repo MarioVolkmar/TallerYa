@@ -104,6 +104,16 @@ class ReporteConsolaTests(Base):
         self.assertEqual(filas["Taller Dos"]["vistas"], 0)
         self.assertEqual(r.context["total"]["vistas"], 7)
 
+    def test_reporte_de_un_taller_mes_a_mes_y_fuera_del_menu(self):
+        self.client.force_login(self.admin)
+        r = self.client.get(reverse("consola:inicio") + f"?seccion=reportes&taller={self.taller.pk}")
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(r.context["total"]["visita"], 7)
+        self.assertNotIn("reportes", [x.key for x, _ in r.context["secciones"]])
+        self.assertContains(self.client.get(reverse("consola:inicio") + "?seccion=talleres"), "Ver reporte")
+        self.assertEqual(self.client.get(reverse("consola:inicio") + "?seccion=reportes&taller=999999").status_code, 404)
+        self.assertEqual(self.client.get(reverse("consola:inicio") + "?seccion=reportes&mecanico=999999").status_code, 404)
+
     def test_mes_invalido_cae_en_el_actual_y_exige_admin(self):
         self.client.force_login(self.admin)
         self.assertEqual(self.client.get(reverse("consola:inicio") + "?seccion=reportes&mes=zzz").status_code, 200)
@@ -140,5 +150,4 @@ class MostrarPreciosTests(Base):
         self.assertTrue(Taller.objects.get(pk=self.taller.pk).mostrar_precios)
         self.client.post(url, {"valor": "0"})
         self.assertFalse(Taller.objects.get(pk=self.taller.pk).mostrar_precios)
-        from talleres.forms import PerfilTallerForm
-        self.assertIn("mostrar_precios", PerfilTallerForm().fields)
+        # el taller lo edita con el interruptor de su tarjeta de estado: ver talleres/tests_precios_ui.py

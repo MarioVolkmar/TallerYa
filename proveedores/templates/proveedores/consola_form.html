@@ -1,0 +1,12 @@
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">{% if proveedor %}Editar {{ proveedor.nombre }}{% else %}Nuevo proveedor{% endif %}</h1>
+  <p class="cs-sub">{% if proveedor %}{{ proveedor.get_origen_alta_display }} · {{ proveedor.get_estado_display }}{% if proveedor.aprobado_por_proveedor %} · aprobó su ficha el {{ proveedor.aprobado_por_proveedor|date:"d/m/Y" }}{% endif %}{% else %}Alta asistida: carga los datos que te dio el proveedor. Queda «Por revisar» y se genera un enlace para que él revise, corrija y apruebe por WhatsApp.{% endif %}</p>
+</header>
+<form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-3xl">
+  {% csrf_token %}
+  {% include "proveedores/_campos.html" %}
+  <div class="sm:col-span-2 flex gap-3">
+    <button class="cs-btn cs-btn-ok">{% if proveedor %}Guardar{% else %}Crear y generar enlace{% endif %}</button>
+    <a class="cs-btn" href="{% url 'consola:inicio' %}?seccion=proveedores">Cancelar</a>
+  </div>
+</form>

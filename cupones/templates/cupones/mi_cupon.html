@@ -23,12 +23,12 @@
     <!-- El tiquete con el código -->
     <div class="tiquete{% if codigo.canjeado or not codigo.cupon.vigente %} apagado{% endif %} mt-6">
       <div class="tiquete-cuerpo">
-        <p class="tiquete-etiqueta">{% if not codigo.canjeado and codigo.cupon.vigente %}Muestra este QR en el taller{% else %}Tu código{% endif %}</p>
+        <p class="tiquete-etiqueta">{% if not codigo.canjeado and codigo.cupon.vigente %}{% if codigo.cupon.mecanico %}Muéstraselo al mecánico{% else %}Muestra este QR en el taller{% endif %}{% else %}Tu código{% endif %}</p>
         {% if not codigo.canjeado and codigo.cupon.vigente %}
         <div class="tiquete-qr" id="qr-cupon" data-qr="{{ url_canje }}" role="img" aria-label="Código QR del cupón {{ codigo.codigo }}"></div>
         {% endif %}
         <p class="tiquete-codigo" id="codigo-cupon">{{ codigo.codigo }}</p>
-        <p class="tiquete-taller">{% if codigo.cupon.taller %}{{ codigo.cupon.taller }}{% else %}Todos los talleres aliados{% endif %}</p>
+        <p class="tiquete-taller">{% if codigo.cupon.taller %}{{ codigo.cupon.taller }}{% elif codigo.cupon.mecanico %}{{ codigo.cupon.mecanico }} · A domicilio{% else %}Todos los talleres aliados{% endif %}</p>
       </div>
       <div class="tiquete-talon">
         {% if not codigo.canjeado and codigo.cupon.vigente %}
@@ -46,7 +46,7 @@
     <div class="papel p-6 mt-6">
       {% if codigo.canjeado %}
         <p class="titulo text-xl">Ya usaste este cupón</p>
-        <p class="text-suave text-sm mt-1">Canjeado el {{ codigo.canjeado_en|date:"j \d\e F, g:i a"|lower }}{% if codigo.canjeado_taller %} en <a href="{{ codigo.canjeado_taller.get_absolute_url }}" class="servicio-taller">{{ codigo.canjeado_taller }}</a>{% endif %}.</p>
+        <p class="text-suave text-sm mt-1">Canjeado el {{ codigo.canjeado_en|date:"j \d\e F, g:i a"|lower }}{% if codigo.canjeado_taller %} en <a href="{{ codigo.canjeado_taller.get_absolute_url }}" class="servicio-taller">{{ codigo.canjeado_taller }}</a>{% elif codigo.canjeado_mecanico %} con <a href="{{ codigo.canjeado_mecanico.get_absolute_url }}" class="servicio-taller">{{ codigo.canjeado_mecanico }}</a>{% endif %}.</p>
       {% elif not codigo.cupon.vigente %}
         <p class="titulo text-xl">Este cupón ya venció</p>
         <p class="text-suave text-sm mt-1">Busca otro entre los cupones vigentes.</p>
@@ -63,6 +63,15 @@
             <a href="{{ codigo.cupon.taller.whatsapp_url }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">Escribir al taller</a>
             <a href="{{ codigo.cupon.taller.get_absolute_url }}" class="boton-seccion">Ver taller</a>
           </div>
+        {% elif codigo.cupon.mecanico %}
+          {% with mec=codigo.cupon.mecanico %}
+          <div class="cupon-lugar"><a href="{{ mec.get_absolute_url }}" class="servicio-taller">{{ mec }}</a></div>
+          <p class="text-suave text-sm mt-1">Es un mecánico a domicilio: pídele la visita desde su perfil en TallerYa y el descuento queda anotado solo. Si le escribes por WhatsApp, dale este código.</p>
+          <div class="flex flex-wrap gap-2 mt-4">
+            <a href="{{ mec.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5">Pedir la visita</a>
+            <a href="https://wa.me/{{ mec.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">WhatsApp</a>
+          </div>
+          {% endwith %}
         {% else %}
           <p class="text-suave text-sm mt-1">En cualquier taller aliado de TallerYa.</p>
           <a href="{% url 'talleres:inicio' %}" class="boton-seccion mt-4">Ver talleres</a>

@@ -70,7 +70,7 @@
         <p class="camino-nombre">Cotizar y resolverlo</p>
         <div class="flex flex-wrap gap-2 mt-2">
           <a href="{% url 'talleres:inicio' %}?servicio={{ t.tarea.servicio_id }}" class="tarea-accion tarea-accion-principal">Cotizar con un taller cercano</a>
-          <a href="{{ t.url_domicilio }}" class="tarea-accion">Pedir mecánico a domicilio</a>
+          {% if t.url_domicilio %}<a href="{{ t.url_domicilio }}" class="tarea-accion">Pedir mecánico a domicilio</a>{% endif %}
         </div>
       </div>
     </div>

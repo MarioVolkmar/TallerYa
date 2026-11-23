@@ -154,7 +154,12 @@
         <span class="chip-opcional">Opcional</span>
       </div>
       <p class="text-suave mt-2">¿Cuándo le hiciste mantenimiento por última vez a cada sistema? Con eso calculamos qué le toca a tu moto y cuándo.</p>
-      <div class="papel overflow-hidden mt-6" id="filas-al-dia" aria-live="polite">
+      <div class="atajo-sin-datos mt-5">
+        <p class="atajo-sin-datos-texto"><strong>¿No sabes cuándo fueron?</strong> Agrega la moto así y ajustas el plan después.</p>
+        <button class="btn btn-lava px-6 py-3 text-sm" name="sin_datos" value="1" formnovalidate>No sé, agregar ya</button>
+      </div>
+      <p class="etiqueta mt-6">O cuéntanos lo que sí recuerdas</p>
+      <div class="papel overflow-hidden mt-3" id="filas-al-dia" aria-live="polite">
         {% if filas %}{% include "garaje/_al_dia_filas.html" %}{% endif %}
       </div>
       <p class="text-xs text-suave mt-3">«Hace poco» lo registra con el kilometraje actual. Con una fecha aproximada estimamos el kilometraje. Siempre puedes corregirlo después en el plan.</p>

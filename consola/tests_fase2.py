@@ -25,7 +25,7 @@ def accion(clave, pk):
 
 
 class TalleresTests(Base):
-    def test_despublicar_sale_del_directorio_y_queda_en_bitacora(self):
+    def test_pausar_sale_del_directorio_y_queda_en_bitacora(self):
         self.taller.activo = True
         self.taller.save()
         self.assertContains(self.client.get(reverse("talleres:directorio")), "Motos Ya")
@@ -33,7 +33,7 @@ class TalleresTests(Base):
         self.assertTrue(r.json()["ok"])
         self.assertNotContains(self.client.get(reverse("talleres:directorio")), "Motos Ya")
         b = Bitacora.objects.get()
-        self.assertEqual(b.frase, f"Despublicó el taller #{self.taller.pk} (Motos Ya)")
+        self.assertEqual(b.frase, f"Pausó el taller #{self.taller.pk} (Motos Ya)")
         self.assertEqual(b.cambios[0]["antes"], "Sí")
 
     def test_listado_filtra_por_aprobar(self):

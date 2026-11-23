@@ -1,0 +1,22 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Enlace de revisión de {{ proveedor.nombre }}</h1>
+  <p class="cs-sub"><a href="{% url 'consola:inicio' %}?seccion=proveedores">{% icono "atras" 14 %} Volver a Proveedores</a></p>
+</header>
+<div class="max-w-2xl">
+{% if proveedor.origen_alta == "equipo" %}
+  <p>Este proveedor lo cargó el equipo con datos públicos: no tiene enlace de revisión.</p>
+{% elif proveedor.aprobado_por_proveedor %}
+  <p>Ya aprobó su ficha el {{ proveedor.aprobado_por_proveedor|date:"d/m/Y H:i" }}: no hace falta reenviar el enlace.</p>
+{% else %}
+  {% if proveedor.enlace_vencido %}<p class="cs-peq" role="note"><strong>El enlace venció</strong> (valen 30 días). Genera uno nuevo para enviarlo.</p>
+  {% else %}
+  <p>Mándale este enlace por WhatsApp. Con él revisa, corrige y aprueba su ficha sin cuenta ni contraseña (vale 30 días).</p>
+  <label class="cs-filtro cs-pv-enlace"><span class="cs-etq">Enlace de revisión</span>
+    <input class="cs-campo" type="text" readonly value="{{ url }}"></label>
+  <p class="cs-pv-botones">{% if wa %}<a class="cs-btn cs-btn-ok" href="{{ wa }}" target="_blank" rel="noopener">Enviar por WhatsApp</a>{% else %}<span class="cs-peq">No tiene WhatsApp: copia el enlace y envíalo por otro medio.</span>{% endif %}</p>
+  {% endif %}
+  {% url 'consola:accion' 'proveedores.renovar_enlace' proveedor.pk as a_ren %}
+  <div class="cs-pv-botones">{% include "consola/_boton_accion.html" with url=a_ren valor="1" texto="Generar enlace nuevo" icono="enlace" confirmar="El enlace anterior dejará de servir. ¿Generar uno nuevo?" %}</div>
+{% endif %}
+</div>

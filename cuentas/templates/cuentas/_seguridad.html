@@ -1,4 +1,4 @@
-{# Correo, contraseña y Google de la cuenta (Mi cuenta y panel del taller) #}
+{# Correo, contraseña y Google de la cuenta (Mi cuenta) #}
     <section class="papel p-6 seguridad" id="seguridad">
       <h2 class="titulo text-xl">Seguridad</h2>
       <ul class="seguridad-lista">
@@ -21,9 +21,4 @@
           {% else %}<span class="seguridad-estado">Pronto</span>{% endif %}
         </li>
       </ul>
-      {% if con_salir %}
-      <form method="post" action="{% url 'cuentas:salir' %}" class="seguridad-salir">{% csrf_token %}
-        <button class="pt-salir-boton"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3M10 17l5-5-5-5M15 12H4"/></svg>Cerrar sesión</button>
-      </form>
-      {% endif %}
     </section>

@@ -43,6 +43,8 @@
               <input type="checkbox" name="urgencias" value="1" data-auto {% if filtros.urgencias %}checked{% endif %}></label>
             <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/></svg>Solo verificados</span>
               <input type="checkbox" name="verificados" value="1" data-auto {% if filtros.verificados %}checked{% endif %}></label>
+            <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a2.5 2.5 0 0 0 0-5Z"/></svg>Con descuento</span>
+              <input type="checkbox" name="descuento" value="1" data-auto {% if filtros.descuento %}checked{% endif %}></label>
           </div>
           <fieldset class="dir-grupo">
             <legend class="dir-grupo-titulo">Quién va</legend>
@@ -67,7 +69,7 @@
         <div class="dir-barra">
           <p class="dir-mostrando">{% if pagina.paginator.count %}Mostrando <strong>{{ pagina.start_index }}–{{ pagina.end_index }}</strong> de <strong>{{ pagina.paginator.count }}</strong> resultado{{ pagina.paginator.count|pluralize }}{% else %}Sin resultados{% endif %}</p>
           {% if mi_perfil %}<a href="{% url 'domicilio:mi_perfil' %}" class="dom-cta-mecanico">Editar mi perfil de mecánico →</a>
-          {% elif mi_taller %}<a href="{% url 'domicilio:mi_taller' %}" class="dom-cta-mecanico">{% if mi_taller.domicilio.activo %}Editar mi servicio a domicilio →{% else %}¿Tu taller va a domicilio? Actívalo →{% endif %}</a>
+          {% elif mi_taller %}<a href="{% url 'domicilio:mi_taller' %}" class="dom-cta-mecanico">{% if mi_taller.domicilio.activo %}Editar mi servicio a domicilio →{% else %}¿Tu taller ofrece servicio a domicilio? Actívalo →{% endif %}</a>
           {% else %}<a href="{% url 'domicilio:registro' %}" class="dom-cta-mecanico">¿Eres mecánico a domicilio? Regístrate gratis →</a>{% endif %}
         </div>
         {% if filtros_activos %}

@@ -6,7 +6,7 @@
   <p class="etiqueta">Mecánico a domicilio</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">Solicitudes de <span class="text-lava">visita</span></h1>
   <p class="text-suave mt-2">Las que te piden desde tu perfil. Cotízalas aquí: el motero acepta con un toque y la visita queda confirmada.</p>
-  {% if puede_registrar %}<p class="mt-4"><a href="{% url 'garaje:servicio_mecanico' %}" class="boton-seccion">Registrar servicio con el código del dueño</a></p>{% endif %}
+  {% if puede_registrar %}<p class="mt-4"><a href="{% url 'garaje:servicio_mecanico' %}" class="boton-seccion">+ Registrar servicio</a></p>{% endif %}
   <nav class="vd-filtros" aria-label="Ver solicitudes">
     <a href="?" class="vd-filtro{% if not todas %} activa{% endif %}"{% if not todas %} aria-current="page"{% endif %}>Por atender</a>
     <a href="?ver=todas" class="vd-filtro{% if todas %} activa{% endif %}"{% if todas %} aria-current="page"{% endif %}>Todas</a>
@@ -23,6 +23,10 @@
       <p class="vd-que">{% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}{% if s.zona %} · {{ s.zona }}{% endif %}{% if s.cuando_texto %} · {{ s.cuando_texto }}{% endif %} · <span class="text-suave">{{ s.creado|timesince }}</span></p>
       {% if s.detalle %}<p class="vd-detalle">“{{ s.detalle }}”</p>{% endif %}
       {% if s.precio_texto %}<p class="vd-precio">{% if s.estado == "cotizada" %}Cotizaste{% else %}Precio{% endif %} <strong>{{ s.precio_texto }}</strong>{% if s.fecha_propuesta %} · {{ s.fecha_propuesta|date:"D j M"|lower }}{% if s.hora_propuesta %} {{ s.hora_propuesta|time:"g:i a" }}{% endif %}{% endif %}{% if s.estado == "cotizada" and s.cotizacion_vencida %} · <span class="vd-rechazo">venció</span>{% endif %}</p>{% endif %}
+      {% if s.codigo_cupon %}<p class="vd-descuento"><span class="vd-chip vd-confirmada">{% if s.codigo_cupon.canjeado %}Descuento usado{% else %}Trae descuento{% endif %}</span> {{ s.codigo_cupon.cupon.titulo }} <span class="text-suave">· {{ s.codigo_cupon.codigo }}</span></p>
+      {% elif s.estado == "pendiente" or s.estado == "cotizada" or s.estado == "confirmada" %}<details class="vd-codigo"><summary>¿Trae un código de descuento?</summary>
+        <form method="post" action="{% url 'domicilio:solicitud_descuento' s.pk %}">{% csrf_token %}<label class="sr-only" for="codigo-{{ s.pk }}">Código del descuento</label><input id="codigo-{{ s.pk }}" type="text" name="codigo" class="campo" maxlength="12" placeholder="TY-XXXXXX" autocapitalize="characters" autocomplete="off"><button class="boton-seccion">Anotar</button></form>
+        <p class="text-suave">Se usa al marcar la visita como atendida.</p></details>{% endif %}
       {% if s.rechazada and s.estado == "pendiente" %}<p class="vd-rechazo">No aceptó tu cotización: escríbele para acordar otra opción.</p>{% endif %}
       <div class="vd-botones">
         <a href="https://wa.me/{{ s.telefono }}" target="_blank" rel="noopener" class="boton-seccion">WhatsApp</a>

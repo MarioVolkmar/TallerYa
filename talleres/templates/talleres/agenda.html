@@ -5,64 +5,140 @@
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="pt mt-8 md:mt-10 tf">
   {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
-  <form method="post" class="papel pt-caja space-y-5">
+  <form method="post" class="papel pt-caja ag" id="ag-form">
     {% csrf_token %}
     <div>
       <p class="etiqueta">Agenda</p>
       <h1 class="titulo text-3xl mt-1">Agenda, horario y emergencias</h1>
-      <p class="text-sm text-suave mt-2">Con las reservas por franjas, el motero elige un horario libre y tú solo confirmas. El horario también sirve para mostrar si estás abierto ahora.</p>
     </div>
     {% for e in errores %}<p class="error">{{ e }}</p>{% endfor %}
     {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
-    <label class="tf-check">{{ form.agenda_activa }} <span><strong>Recibir reservas por franjas</strong><br><small class="text-suave">Si lo apagas, los moteros te piden cita con una fecha y tú acuerdas la hora.</small></span></label>
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <label class="campo-label">{{ form.duracion_franja.label }}{{ form.duracion_franja }}</label>
-      <label class="campo-label">{{ form.cupo_franja.label }}{{ form.cupo_franja }}{% for e in form.cupo_franja.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
-    </div>
-    <fieldset class="tf-horario">
-      <legend class="titulo text-xl">Horario de atención</legend>
-      <p class="text-sm text-suave">Deja vacío el día que no abres. Si cierras al mediodía, usa el segundo turno.</p>
-      {% for d in dias %}
-      <div class="tf-dia">
-        <strong>{{ d.nombre }}</strong>
-        {% for n, abre, cierra in d.turnos %}
-        <span class="tf-turno">
-          <input type="time" name="d{{ d.dia }}_{{ n }}_abre" value="{{ abre }}" class="campo" aria-label="{{ d.nombre }}, turno {{ n }}: abre">
-          <span aria-hidden="true">a</span>
-          <input type="time" name="d{{ d.dia }}_{{ n }}_cierra" value="{{ cierra }}" class="campo" aria-label="{{ d.nombre }}, turno {{ n }}: cierra">
-        </span>
-        {% endfor %}
+
+    <section class="ag-tarjeta ag-reservas" aria-labelledby="ag-t-reservas">
+      <label class="ag-sw">
+        <span><strong id="ag-t-reservas">Que los moteros reserven una hora libre</strong>
+          <small>Si lo apagas, te piden cita para un día y acuerdan la hora contigo por WhatsApp.</small></span>
+        {{ form.agenda_activa }}<i class="ag-tg" aria-hidden="true"></i>
+      </label>
+      <div class="ag-detalle">
+        <div class="ag-dos">
+          <label class="campo-label">Cada cita dura{{ form.duracion_franja }}</label>
+          <label class="campo-label">Motos que atiendes a la vez{{ form.cupo_franja }}{% for e in form.cupo_franja.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+        </div>
+        <div class="ag-previa" aria-live="polite"><small id="ag-previa-dia">Así lo ve el motero</small><div id="ag-previa-horas"></div></div>
       </div>
-      {% endfor %}
-    </fieldset>
-    <fieldset class="tf-horario" id="emergencias">
-      <legend class="titulo text-xl">Emergencias</legend>
-      <p class="text-sm text-suave">Si atiendes emergencias, sales en <a href="{% url 'talleres:emergencias' %}" class="underline">/emergencias</a> cuando estés abierto según tu horario.</p>
-      <label class="tf-check">{{ form.atiende_emergencias }} <span>{{ form.atiende_emergencias.label|capfirst }}</span></label>
-      <label class="tf-check">{{ form.abierto_24h }} <span>{{ form.abierto_24h.label|capfirst }}</span></label>
-      <label class="tf-check">{{ form.grua }} <span>{{ form.grua.label|capfirst }}</span></label>
-      <label class="tf-check">{{ form.despinche_domicilio }} <span>{{ form.despinche_domicilio.label|capfirst }}</span></label>
-      <label class="tf-check">{{ form.gasolina_domicilio }} <span>{{ form.gasolina_domicilio.label|capfirst }}</span></label>
-      {{ form.latitud }}{{ form.longitud }}
-      <p class="text-sm"><button type="button" class="boton-seccion" id="tomar-ubicacion">📍 Usar la ubicación actual del taller</button>
-        <span class="text-suave" id="ubicacion-estado">{% if form.instance.latitud %}Ubicación guardada.{% else %}Sin ubicación: te ordenamos por barrio.{% endif %}</span></p>
-      <p class="text-xs text-suave">Tómala estando en el local. Sirve para mostrarte a los moteros más cercanos.</p>
-    </fieldset>
-    <button class="btn btn-lava text-xs px-6 py-3">Guardar</button>
+    </section>
+
+    <section class="ag-tarjeta" aria-labelledby="ag-t-horario">
+      <h2 class="titulo text-xl" id="ag-t-horario">¿Cuándo abres?</h2>
+      <p class="ag-ayuda">Toca los días y elige la hora. Para cerrar al mediodía o abrir distinto el domingo, agrega otro horario.</p>
+      <input type="hidden" name="turnos_json" id="ag-json" value="{{ filas_json }}">
+      <div id="ag-filas"></div>
+      <button type="button" class="ag-mas" id="ag-agregar">+ Agregar otro horario</button>
+      <p class="ag-resumen" id="ag-resumen" aria-live="polite"></p>
+    </section>
+
+    <section class="ag-tarjeta" id="emergencias" aria-labelledby="ag-t-emerg">
+      <label class="ag-sw">
+        <span><strong id="ag-t-emerg">Atiendo emergencias</strong>
+          <small>Los motociclistas varados te ven en la página de <a href="{% url 'talleres:emergencias' %}" class="underline">Emergencias</a> mientras tu taller esté abierto (según tu horario).</small></span>
+        {{ form.atiende_emergencias }}<i class="ag-tg" aria-hidden="true"></i>
+      </label>
+      <div class="ag-detalle ag-chips">
+        <label class="ag-chip">{{ form.abierto_24h }}<span>Abierto 24 horas</span></label>
+        <label class="ag-chip">{{ form.grua }}<span>Tengo grúa</span></label>
+        <label class="ag-chip">{{ form.despinche_domicilio }}<span>Despinche a domicilio</span></label>
+        <label class="ag-chip">{{ form.gasolina_domicilio }}<span>Llevo gasolina a domicilio</span></label>
+      </div>
+    </section>
+
+    <div class="ag-fijo"><button class="btn btn-lava text-xs px-6 py-3">Guardar</button></div>
   </form>
 </div>
 <script>
   (function () {
-    var boton = document.getElementById("tomar-ubicacion"), estado = document.getElementById("ubicacion-estado");
-    if (!boton || !navigator.geolocation) { if (boton) boton.hidden = true; return; }
-    boton.addEventListener("click", function () {
-      estado.textContent = "Buscando…";
-      navigator.geolocation.getCurrentPosition(function (p) {
-        document.getElementById("id_latitud").value = p.coords.latitude.toFixed(6);
-        document.getElementById("id_longitud").value = p.coords.longitude.toFixed(6);
-        estado.textContent = "Listo. Guarda para aplicarla.";
-      }, function () { estado.textContent = "No pudimos tomar la ubicación."; }, {enableHighAccuracy: true, timeout: 10000});
+    // Horario: filas de días + hora de abrir y cerrar (un día puede estar en dos filas: turno partido)
+    var LETRAS = ["L", "M", "X", "J", "V", "S", "D"], NOMBRES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+        CORTOS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], MAX_FILAS = 5;
+    var caja = document.getElementById("ag-filas"), campo = document.getElementById("ag-json"), resumen = document.getElementById("ag-resumen");
+    var filas; try { filas = JSON.parse(campo.value); } catch (e) { filas = []; }
+    if (!filas.length) filas = [{dias: [0, 1, 2, 3, 4, 5], abre: "08:00", cierra: "18:00"}];
+
+    function min(h) { var p = h.split(":"); return +p[0] * 60 + +p[1]; }
+    function hh(m) { return String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0"); }
+    function bonita(h) { var m = min(h), x = Math.floor(m / 60); return (x % 12 || 12) + ":" + String(m % 60).padStart(2, "0") + (x < 12 ? " am" : " pm"); }
+    function corta(h) { var m = min(h), x = Math.floor(m / 60); return (x % 12 || 12) + (m % 60 ? ":" + String(m % 60).padStart(2, "0") : "") + (x < 12 ? "am" : "pm"); }
+    function opciones(actual) {
+      var lista = []; for (var m = 4 * 60; m <= 23 * 60 + 30; m += 30) lista.push(hh(m));
+      if (lista.indexOf(actual) < 0) { lista.push(actual); lista.sort(); }
+      return lista.map(function (h) { return '<option value="' + h + '"' + (h === actual ? " selected" : "") + ">" + bonita(h) + "</option>"; }).join("");
+    }
+    function grupos(dias) {
+      var o = dias.slice().sort(), g = [], i = null, p = null;
+      o.forEach(function (d) { if (i === null) { i = p = d; } else if (d === p + 1) { p = d; } else { g.push([i, p]); i = p = d; } });
+      if (i !== null) g.push([i, p]);
+      return g.map(function (x) { return x[1] - x[0] >= 2 ? CORTOS[x[0]] + "-" + CORTOS[x[1]] : x[0] === x[1] ? CORTOS[x[0]] : CORTOS[x[0]] + ", " + CORTOS[x[1]]; }).join(", ");
+    }
+    function problema() {
+      var por = {};
+      for (var i = 0; i < filas.length; i++) {
+        var f = filas[i]; if (!f.dias.length) continue;
+        if (min(f.cierra) <= min(f.abre)) return "Revisa el horario: el cierre debe ser después de la apertura.";
+        for (var k = 0; k < f.dias.length; k++) {
+          var d = f.dias[k]; por[d] = por[d] || [];
+          for (var j = 0; j < por[d].length; j++) if (min(f.abre) < por[d][j][1] && por[d][j][0] < min(f.cierra)) return NOMBRES[d] + ": dos horarios se cruzan.";
+          por[d].push([min(f.abre), min(f.cierra)]);
+          if (por[d].length > 2) return NOMBRES[d] + ": máximo dos turnos.";
+        }
+      }
+      return "";
+    }
+    function previa() {
+      var f = filas.filter(function (x) { return x.dias.length; })[0], dur = +document.getElementById("id_duracion_franja").value || 60, caja2 = document.getElementById("ag-previa-horas");
+      if (!f) { caja2.textContent = ""; return; }
+      var horas = [], m = min(f.abre); while (m + dur <= min(f.cierra)) { horas.push(m); m += dur; }
+      var dia = document.getElementById("ag-previa-dia"); dia.textContent = "Así lo ve el motero · " + NOMBRES[f.dias.slice().sort()[0]];
+      caja2.innerHTML = horas.slice(0, 5).map(function (x) { return '<span class="ag-franja">' + corta(hh(x)) + "</span>"; }).join("") + (horas.length > 5 ? '<span class="ag-franja ag-mas-horas">…</span>' : "");
+    }
+    function guardar() {
+      campo.value = JSON.stringify(filas.filter(function (f) { return f.dias.length; }));
+      var mal = problema();
+      resumen.className = "ag-resumen" + (mal ? " ag-mal" : "");
+      var partes = filas.filter(function (f) { return f.dias.length; }).map(function (f) { return grupos(f.dias) + " " + corta(f.abre) + "-" + corta(f.cierra); });
+      resumen.textContent = mal || (partes.length ? "Se verá así: " + partes.join(" · ") : "Elige al menos un día");
+      previa();
+    }
+    function pintar() {
+      caja.innerHTML = "";
+      filas.forEach(function (f, i) {
+        var div = document.createElement("div"); div.className = "ag-fila";
+        div.innerHTML = '<div class="ag-dias" role="group" aria-label="Días">' + LETRAS.map(function (l, d) {
+          var on = f.dias.indexOf(d) >= 0;
+          return '<button type="button" class="ag-dia' + (on ? " activo" : "") + '" data-d="' + d + '" aria-pressed="' + on + '" aria-label="' + NOMBRES[d] + '">' + l + "</button>";
+        }).join("") + "</div>" +
+          '<div class="ag-horas"><label><small>Abre</small><select class="campo" data-c="abre">' + opciones(f.abre) + "</select></label><span aria-hidden=\"true\">a</span>" +
+          '<label><small>Cierra</small><select class="campo" data-c="cierra">' + opciones(f.cierra) + "</select></label>" +
+          (filas.length > 1 ? '<button type="button" class="ag-quitar" aria-label="Quitar este horario">×</button>' : "") + "</div>";
+        div.querySelectorAll(".ag-dia").forEach(function (b) { b.addEventListener("click", function () {
+          var d = +b.dataset.d, k = f.dias.indexOf(d); if (k >= 0) f.dias.splice(k, 1); else f.dias.push(d); pintar();
+        }); });
+        div.querySelectorAll("select").forEach(function (s) { s.addEventListener("change", function () { f[s.dataset.c] = s.value; guardar(); }); });
+        var q = div.querySelector(".ag-quitar"); if (q) q.addEventListener("click", function () { filas.splice(i, 1); pintar(); });
+        caja.appendChild(div);
+      });
+      document.getElementById("ag-agregar").hidden = filas.length >= MAX_FILAS;
+      guardar();
+    }
+    document.getElementById("ag-agregar").addEventListener("click", function () {
+      var usados = [].concat.apply([], filas.map(function (f) { return f.dias; }));
+      var libres = [6, 5, 4, 3, 2, 1, 0].filter(function (d) { return usados.indexOf(d) < 0; });
+      filas.push({dias: libres.length ? [libres[0]] : [], abre: "09:00", cierra: "13:00"}); pintar();
     });
+    document.getElementById("id_duracion_franja").addEventListener("change", previa);
+    document.getElementById("ag-form").addEventListener("submit", function (e) {
+      if (problema()) { e.preventDefault(); resumen.scrollIntoView({block: "center"}); }
+    });
+    pintar();
   })();
 </script>
 {% endblock %}

@@ -1,15 +1,17 @@
-{# Cupón tipo boleta con la información del taller. Variables: cupon, con_boton (opcional) #}
+{# Cupón tipo boleta con la información del taller (o del mecánico a domicilio: «descuento»). Variables: cupon, con_boton (opcional) #}
 {% with t=cupon.taller %}
 <article class="papel ticket h-full">
   <div class="p-6 flex-1">
     <div class="flex items-start justify-between gap-3">
       {% if t %}
         <a href="{{ t.get_absolute_url }}" class="ticket-taller">{{ t }}</a>
+      {% elif cupon.mecanico %}
+        <a href="{{ cupon.mecanico.get_absolute_url }}" class="ticket-taller">{{ cupon.mecanico }}</a>
       {% else %}
         <span class="ticket-taller sin-enlace">Todos los talleres aliados</span>
       {% endif %}
       <span class="flex items-center gap-1.5 shrink-0">
-        {% if cupon.solo_plus %}<span class="insignia insignia-plus">Plus</span>{% endif %}{% if cupon.solo_domiciliarios %}<span class="insignia insignia-plus" title="Solo domiciliarios verificados de TallerYa Ruta">Domiciliarios</span>{% endif %}
+        {% if cupon.mecanico_id %}<span class="insignia ticket-domicilio">A domicilio</span>{% endif %}{% if cupon.solo_plus %}<span class="insignia insignia-plus">Plus</span>{% endif %}{% if cupon.solo_domiciliarios %}<span class="insignia insignia-plus" title="Solo domiciliarios verificados de TallerYa Ruta">Domiciliarios</span>{% endif %}
       </span>
     </div>
     <h3 class="titulo text-2xl md:text-[1.7rem] mt-3">{{ cupon.titulo }}</h3>
@@ -41,7 +43,7 @@
       <p class="{% if quedan <= 5 %}pocos{% endif %}">{% if quedan > 0 %}Quedan<br><strong>{{ quedan }} cupo{{ quedan|pluralize }}</strong>{% else %}Cupos<br><strong>Agotados</strong>{% endif %}</p>
       {% endwith %}{% endif %}
     </div>
-    {% if con_boton %}<a href="{{ cupon.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5 shrink-0">Obtener cupón</a>{% endif %}
+    {% if con_boton %}<a href="{{ cupon.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5 shrink-0">{% if cupon.mecanico_id %}Tomar descuento{% else %}Obtener cupón{% endif %}</a>{% endif %}
   </div>
 </article>
 {% endwith %}

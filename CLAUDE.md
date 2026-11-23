@@ -9,36 +9,31 @@ Django (Python) para talleres de motos en Medellín. Todo en español (código, 
 - Despiece: `garaje/diagramas.py` (dibujos SVG propios), `despiece_fichas.py`, `despiece_glosario.py`, `despiece_mapas/*.json`, `static/garaje/js/despiece.js`; importador `manage.py importar_despiece`
 - 3D: `garaje/static/garaje/js/moto3d.js` (2200 líneas: leer por rangos) · **Regla del usuario para modelos de Tripo:** la geometría de Tripo NO se cambia; solo se permite poner la placa, arreglar piezas flotando y corregir errores puntuales que el usuario señale (nada de llantas, rines, farolas ni piezas propias o del visor encima)
 - Python: `venv/Scripts/python.exe` · servidor: preview `tallerya` (puerto 8001)
-- Blender 5.3 sin ventana para procesar GLB (importar, limpiar, simplificar, materiales PBR, exportar): `"/c/Program Files/Blender Foundation/Blender 5.3/blender.exe" -b --factory-startup --python script.py -- args` (scripts en el scratchpad o en la carpeta de la herramienta; salida a log) · validar y optimizar GLB: `npx gltf-transform validate|inspect|weld|simplify|quantize archivo.glb` (dev en package.json; meshopt aún no: el visor no tiene el decodificador)
+- Blender 5.3 sin ventana: `"/c/Program Files/Blender Foundation/Blender 5.3/blender.exe" -b --factory-startup --python script.py -- args` (scripts en el scratchpad o en la carpeta de la herramienta; salida a log) · GLB: `npx gltf-transform validate|inspect|weld|simplify|quantize archivo.glb` (meshopt aún no: el visor no tiene el decodificador)
 - Solo local, nunca al repo ni a servicios externos: `despiece_local/`, `manual_despiece/`, `planos_a_generar/`, `media/`, `privado/`, `db.sqlite3`
 
 ## Pruebas
-Al correr `manage.py test` ya son rápidas por defecto (`config/test_runner.py`): hash MD5 de contraseñas, paralelo (un proceso por núcleo físico, máx. 6; `--parallel 1` lo apaga) y **plantilla de la base de pruebas**: la primera corrida migra como siempre (~30 s) y guarda una copia en `%TEMP%/tallerya_pruebas/`; las siguientes la copian en <1 s. Cambiar o agregar cualquier migración la regenera sola (hash de los archivos de migraciones). `PRUEBAS_SIN_PLANTILLA=1` obliga a migrar. Comandos (todos con `venv/Scripts/python.exe`):
-- **Rápida** (diaria / antes de commit): `manage.py test --exclude-tag=lenta -v 1` (777 pruebas; ~8 s de arranque + ~35-60 s según la carga de la máquina). Si solo cambió CSS/JS/plantillas/texto, ninguna.
-- **Completa** (antes de desplegar, o si cambian modelos/migraciones, `config/`, `templates/base.html` o código compartido): `manage.py test -v 1` (823 pruebas, incluye las `@tag("lenta")`: despiece, diagnóstico, demo completo).
-- **Focalizada**: `manage.py test garaje.tests.Clase -v 1` (~10 s de arranque fijo: imports y chequeos).
-- Tiempos por prueba: `TEST_TIMING=archivo.json manage.py test --parallel 1`. `--keepdb` no hace falta (la plantilla ya evita migrar).
-- Si otras sesiones tienen la CPU al 100 % (3D, otras pruebas), todo tarda el doble o más: no es una regresión.
-- **Cambios visuales** (plantillas, CSS, JS de interfaz, textos): antes de entregarlos, correr la skill `revisar-ux` (script en 1280 y 375 px + lista; sin bloqueantes propios).
-- **Velocidad**: los cambios que afecten la carga (JS, CSS, plantillas base, vistas con listas, 3D, despiece) se miden antes y después con la skill `optimizar-velocidad`.
-- Pruebas nuevas: usar `tempfile.mkdtemp()` para archivos (seguro en paralelo), datos de partida en `setUpTestData` (no en `setUp`) y `@tag("lenta")` si pasan de ~2 s.
+`manage.py test` ya es rápido (`config/test_runner.py`): MD5, paralelo (un proceso por núcleo físico, máx. 6; `--parallel 1` lo apaga) y plantilla de la base en `%TEMP%/tallerya_pruebas/` (la primera corrida migra ~30 s; luego <1 s; se regenera sola al cambiar migraciones; `PRUEBAS_SIN_PLANTILLA=1` obliga a migrar). Todo con `venv/Scripts/python.exe`:
+- **Rápida** (diaria / antes de commit): `manage.py test --exclude-tag=lenta -v 1` (777 pruebas; ~1 min). Si solo cambió CSS/JS/plantillas/texto, ninguna.
+- **Completa** (antes de desplegar, o si cambian modelos/migraciones, `config/`, `templates/base.html` o código compartido): `manage.py test -v 1` (823, incluye `@tag("lenta")`).
+- **Focalizada**: `manage.py test garaje.tests.Clase -v 1` (~10 s de arranque).
+- Tiempos por prueba: `TEST_TIMING=archivo.json manage.py test --parallel 1`. `--keepdb` no hace falta. Con la CPU al 100 % por otras sesiones todo tarda el doble: no es regresión.
+- **Cambios visuales** (plantillas, CSS, JS de interfaz, textos): antes de entregarlos, skill `revisar-ux` (1280 y 375 px; sin bloqueantes propios).
+- **Velocidad**: cambios que afecten la carga (JS, CSS, plantillas base, vistas con listas, 3D, despiece) se miden antes y después con `optimizar-velocidad`.
+- Pruebas nuevas: `tempfile.mkdtemp()` para archivos, datos de partida en `setUpTestData`, `@tag("lenta")` si pasan de ~2 s.
 
 ## Trabajar gastando pocos tokens (misma calidad)
-Cada resultado de herramienta se queda en el contexto y se vuelve a pagar en cada turno siguiente.
+Cada resultado de herramienta se queda en el contexto y se vuelve a pagar en cada turno.
 - **Leer poco**: Grep antes que Read; Read con `offset`/`limit` en archivos grandes; no releer un archivo ya leído ni tras editarlo.
-- **Salida corta**: limitar comandos (`| tail -20`, `| head -40`, `grep -c`, `-q`); pruebas con `-v 1`; nunca volcar JSON/SVG/HTML enteros, mostrar solo la parte relevante.
-- **PDF de catálogos y manuales** (`despiece_local/`, `manual_despiece/`): son las fuentes de la página, así que **solo se leen; nunca se editan, mueven ni borran**. Leer solo lo necesario: primero ubicar la página (índice o búsqueda) y luego `Read` con `pages` solo de esa lámina y su tabla. Nunca el PDF entero: cada página es una imagen cara.
-- **Imágenes = lo más caro** (~1.500 tokens c/u): para verificar texto o estructura usar `read_page`/`get_page_text`/`javascript_tool`, no capturas. Si hace falta ver: captura con `scale: 0.5` o `zoom` a la región; renders PNG de dibujos a ≤900 px de ancho o recortados a la zona cambiada. Una captura final como prueba, no una por iteración.
+- **Salida corta**: `| tail -20`, `| head -40`, `grep -c`, `-q`; pruebas con `-v 1`; nunca volcar JSON/SVG/HTML enteros. Salidas largas (pruebas, 3D, mediciones, builds) a un archivo del scratchpad y mostrar solo el resumen.
+- **PDF de catálogos y manuales** (`despiece_local/`, `manual_despiece/`): fuentes de la página; **solo se leen, nunca se editan, mueven ni borran**. Ubicar la página (índice o búsqueda) y `Read` con `pages` solo de esa lámina y su tabla; nunca el PDF entero.
+- **Imágenes = lo más caro** (~1.500 tokens c/u): para texto o estructura usar `read_page`/`get_page_text`/`javascript_tool`. Si hace falta ver: `scale: 0.5` o `zoom` a la región; PNG a ≤900 px o recortados. Una captura final como prueba, no una por iteración.
 - **Navegador**: no repetir `resize_window`; agrupar pasos en `browser_batch` sin capturas intermedias.
-- **Scripts repetidos**: si un script de verificación se usa más de 2 veces, guardarlo en el scratchpad y reutilizarlo en vez de reescribir heredocs.
-- **Búsqueda amplia**: delegar a un subagente `Explore` (modelo `haiku`) y recibir solo la conclusión.
-- **Sesiones cortas y enfocadas**: una tarea por sesión; al cambiar de tema, sesión nueva. Lo que deba persistir va a la memoria, no al historial.
-- **Tope de contexto por sesión: ~150 mil en tareas livianas** (vistas, plantillas, CSS, pruebas, informes, coordinación) **y ~250 mil en las pesadas** (3D, láminas del despiece, skills grandes, funciones nuevas con diseño), porque un relevo en esas obliga a releer skill y archivos (el 99 % del gasto es releer el historial en cada turno; línea base 19-nov: 231 mil por turno). Al llegar: escribir una nota de relevo (qué se hizo, qué falta, archivos) en el informe o la memoria y seguir en una sesión nueva.
-- **Aviso automático de contexto**: un hook (`.claude/herramientas/aviso_contexto.py`, en `.claude/settings.json`) avisa una vez al pasar ~150 mil tokens (tope de las livianas; las pesadas siguen) y otra a los 250 mil (tope de todas); no corta nada: termina el paso en curso, deja la nota de relevo y sigue en sesión nueva.
-- **Salidas largas a archivo**: registros de pruebas, 3D, mediciones y builds se guardan en el scratchpad y se muestra solo el resumen (`> log.txt; tail -15 log.txt`).
-- **Repartir trabajo entre sesiones**: una sesión nueva arranca en ~110 mil (contexto + relevo + skill) y ese arranque se recupera solo tras ~8-10 turnos, así que: una ronda más de la MISMA moto o tarea sigue en la misma sesión si está por debajo de ~180 mil; otra moto u otro tema, o una sesión por encima de ~180 mil, va a una sesión NUEVA con relevo corto (memoria y archivos). Mantener las memorias de relevo cortas (solo estado actual y trampas vigentes; el historial de rondas en un archivo aparte); SendMessage solo para aclaraciones de una o dos líneas. Al abrir sesión o agente, indicar siempre `model` según la tabla de abajo. Antes de mandar trabajo a una sesión existente, mirar su tamaño: si pasa de su tope (150 mil liviana, 250 mil pesada), abrir otra.
-- **Skills cortas**: el SKILL.md se carga entero en cada sesión que lo usa; dejar en él solo el flujo y las reglas, y mandar trampas, historiales y detalles a archivos aparte que se lean cuando haga falta.
-- **Encargos a otras sesiones cortos**: apuntar a archivos e informes en vez de pegar contexto.
+- **Scripts repetidos** más de 2 veces: guardarlos en el scratchpad.
+- **Búsqueda amplia**: subagente `Explore` (modelo `haiku`) y recibir solo la conclusión.
+- **Tope de contexto por sesión: ~250 mil en tareas livianas** (vistas, plantillas, CSS, pruebas, informes, coordinación) **y ~300 mil en las pesadas** (3D, láminas del despiece, skills grandes, funciones nuevas con diseño); **300 mil es el techo de todas** (decisión del usuario, 23-nov: con 150 mil las sesiones se cortaban a mitad de encargo y cada relevo repaga el arranque). Al llegar al tope: **terminar el encargo en curso** (y sus ajustes cortos), no aceptar encargos nuevos y, al terminar, escribir una nota de relevo (qué se hizo, qué falta, archivos) en el informe o la memoria; un relevo a mitad de encargo cuesta más que terminarlo. Al llegar al techo: solo el paso en curso y relevo. Un hook (`.claude/herramientas/aviso_contexto.py`) avisa una vez a ~250 mil y otra a 300 mil; no corta nada.
+- **Repartir entre sesiones**: una sesión nueva arranca en ~81 mil medidos el 23-nov (casi todo es el sistema y las herramientas; CLAUDE.md y memorias son ~4 mil), más la skill y el relevo que lea, y lo recupera tras ~8-10 turnos. Más rondas de la MISMA moto o tarea siguen en la misma sesión mientras esté bajo su tope; otro tema, o una sesión que pasó su tope, va a una sesión NUEVA con relevo corto (memoria y archivos), una tarea por sesión. Memorias de relevo cortas (estado actual y trampas vigentes; historial en archivo aparte), borradas al commitear su trabajo; SendMessage solo para aclaraciones o ajustes cortos. Al abrir sesión o agente indicar siempre `model` según la tabla; antes de mandar trabajo a una existente, mirar su tamaño.
+- **Skills cortas**: el SKILL.md se carga entero; solo flujo y reglas, trampas e historiales en archivos aparte. **Encargos a otras sesiones cortos** (~150-250 palabras; quedan en el contexto del coordinador para siempre): qué hacer, criterio de «listo», restricciones (qué no tocar, sin commit) y dónde leer el resto (archivos, memoria de relevo); no explicar lo que la sesión puede leer en el código. **Archivar** las sesiones terminadas (sin trabajo vivo) al cerrar cada tanda: la lista de sesiones vinculadas se repite en cada aviso.
 - Ejecutar sin narrar opciones descartadas; respuestas finales breves.
 
 ### Modelo según la tarea (no matar moscas a cañonazos)
@@ -49,15 +44,15 @@ Cada resultado de herramienta se queda en el contexto y se vuelve a pagar en cad
 | `opus` | 3D, láminas del despiece, funciones nuevas que piden diseño, errores difíciles |
 | `fable` | respaldo para 3D o láminas cuando opus no alcance (cupo semanal propio) |
 
-**Esfuerzo** (cuánto piensa antes de actuar; se elige con el modelo):
+**Esfuerzo** (se elige con el modelo):
 | Esfuerzo | Cuándo | Ejemplos |
 |---|---|---|
-| `low` | el resultado se sabe de antemano y es fácil de comprobar; un error no rompe nada | buscar, bajar archivos, correr pruebas, renombrar, mover textos, consultas de estado |
-| `medium` (por defecto) | trabajo conocido con pocas decisiones, dentro de un patrón que ya existe | plantilla o vista nueva igual a otras, arreglo de CSS o UX, fallas de una moto, informes |
+| `low` | resultado conocido y fácil de comprobar; un error no rompe nada | buscar, bajar archivos, correr pruebas, renombrar, mover textos, estado |
+| `medium` (por defecto) | trabajo conocido con pocas decisiones, dentro de un patrón existente | plantilla o vista igual a otras, arreglo de CSS o UX, fallas de una moto, informes |
 | `high` | varias piezas que encajan, decisiones de diseño o errores sin causa clara | función nueva, depurar, seguridad, optimizar velocidad, revisión mecánica |
-| `xhigh` / `max` | solo cuando `high` ya falló o el resultado debe ser fiel a una referencia exigente | 3D con IoU exigente, láminas fieles al plano, migraciones delicadas de datos |
+| `xhigh` / `max` | solo cuando `high` ya falló o debe ser fiel a una referencia exigente | 3D con IoU exigente, láminas fieles al plano, migraciones delicadas |
 
-Regla rápida: si cabe en una frase y se verifica en un comando, `low`; si hay que decidir entre opciones, `high`. Subir un nivel solo después de un intento fallido, no por si acaso. **Sesiones `opus`: siempre `medium`** (decisión del usuario, 19-nov: rinde bien); `high` solo si `medium` ya falló en esa tarea. Medir el consumo: `python -I .claude/herramientas/uso_tokens.py` (semana actual contra la línea base).
+Si cabe en una frase y se verifica en un comando, `low`; si hay que decidir entre opciones, `high`. Subir un nivel solo tras un intento fallido. **Sesiones `opus`: siempre `medium`** (decisión del usuario, 19-nov); `high` solo si `medium` ya falló. Medir consumo: `python -I .claude/herramientas/uso_tokens.py` (topes nuevos desde el 23-nov, comparar el 30-nov).
 
 ## Coordinación
 Puede haber varias sesiones a la vez en esta carpeta: no editar archivos que otra sesión está tocando (portada/entrar = sesión "Proyecto tallerYa"; dibujos del despiece = sesión de dibujos) sin avisar. No hacer commit sin que el usuario lo pida. Si una sesión deja relevo con pendientes, el coordinador lanza enseguida la que continúa (mismo modelo y esfuerzo), sin esperar a que se lo pidan.

@@ -1,0 +1,87 @@
+20:42:05 | INFO: Data are loaded, start creating Blender stuff
+20:42:05 | INFO: Blender create Mesh node caucho.llanta_tras
+20:42:05 | INFO: Blender create Mesh node rin.rin_tras
+20:42:05 | INFO: Blender create Mesh node caucho.llanta_del
+20:42:05 | INFO: Blender create Mesh node rin.rin_del
+20:42:05 | INFO: Blender create Mesh node metal.disco_del
+20:42:05 | INFO: Blender create Mesh node plastico.restos_rueda_del
+20:42:05 | INFO: Blender create Mesh node pintura.borde_faro_1
+20:42:05 | INFO: Blender create Mesh node luz_reflector.reflector_faro_1
+20:42:05 | INFO: Blender create Mesh node luz.faro_1
+20:42:05 | INFO: Blender create Mesh node pintura.borde_faro_2
+20:42:05 | INFO: Blender create Mesh node plastico.borde_faro_2
+20:42:05 | INFO: Blender create Mesh node luz_reflector.reflector_faro_2
+20:42:05 | INFO: Blender create Mesh node luz.faro_2
+20:42:05 | INFO: Blender create Mesh node stop.stop_1
+20:42:05 | INFO: Blender create Mesh node negro_brillo.carcasa_direccional_1
+20:42:05 | INFO: Blender create Mesh node ambar.direccional_1
+20:42:05 | INFO: Blender create Mesh node ambar.direccional_2
+20:42:05 | INFO: Blender create Mesh node ambar.direccional_3
+20:42:05 | INFO: Blender create Mesh node ambar.direccional_4
+20:42:05 | INFO: Blender create Mesh node plastico.soporte_placa
+20:42:05 | INFO: Blender create Mesh node asiento.asiento
+20:42:05 | INFO: Blender create Mesh node carter.motor
+20:42:05 | INFO: Blender create Mesh node chasis.basculante
+20:42:05 | INFO: Blender create Mesh node chasis.pata
+20:42:05 | INFO: Blender create Mesh node cromo.espejo
+20:42:05 | INFO: Blender create Mesh node cromo.horquilla
+20:42:05 | INFO: Blender create Mesh node metal.amortiguador
+20:42:05 | INFO: Blender create Mesh node metal.caliper
+20:42:05 | INFO: Blender create Mesh node metal.escape
+20:42:05 | INFO: Blender create Mesh node metal.freno_tras
+20:42:05 | INFO: Blender create Mesh node metal.palanca
+20:42:05 | INFO: Blender create Mesh node metal.posapies
+20:42:05 | INFO: Blender create Mesh node motor.motor
+20:42:05 | INFO: Blender create Mesh node negro_brillo.direccional
+20:42:05 | INFO: Blender create Mesh node negro_brillo.piezas
+20:42:05 | INFO: Blender create Mesh node negro_brillo.tapa_lateral
+20:42:05 | INFO: Blender create Mesh node oscuro.escape
+20:42:05 | INFO: Blender create Mesh node oscuro.freno_tras
+20:42:05 | INFO: Blender create Mesh node pantalla.tablero
+20:42:05 | INFO: Blender create Mesh node pintura.carenado
+20:42:05 | INFO: Blender create Mesh node pintura.guardabarros_del
+20:42:05 | INFO: Blender create Mesh node pintura.piezas
+20:42:05 | INFO: Blender create Mesh node pintura.tapa_lateral
+20:42:05 | INFO: Blender create Mesh node plastico.carenado
+20:42:05 | INFO: Blender create Mesh node plastico.cvt
+20:42:05 | INFO: Blender create Mesh node plastico.escape
+20:42:05 | INFO: Blender create Mesh node plastico.espejo
+20:42:05 | INFO: Blender create Mesh node plastico.guardabarros_del
+20:42:05 | INFO: Blender create Mesh node plastico.guardabarros_tras
+20:42:05 | INFO: Blender create Mesh node plastico.piezas
+20:42:05 | INFO: Blender create Mesh node plastico.pisadera
+20:42:05 | INFO: Blender create Mesh node plastico.portaplaca
+20:42:05 | INFO: Blender create Mesh node plastico.radiador
+20:42:05 | INFO: Blender create Mesh node plastico.tablero
+20:42:05 | INFO: Blender create Mesh node plastico.tapa_lateral
+20:42:05 | INFO: Blender create Mesh node vidrio_oscuro.visor
+20:42:05 | INFO: Blender create Mesh node aceiteVisible.aceite_nivel
+20:42:05 | INFO: Blender create Mesh node bateria.bat_cuerpo
+20:42:05 | INFO: Blender create Mesh node bujia.bujia_aislador
+20:42:05 | INFO: Blender create Mesh node carter.aceite_carter
+20:42:05 | INFO: Blender create Mesh node caucho.cvt_correa
+20:42:05 | INFO: Blender create Mesh node cromo.motor_piston
+20:42:05 | INFO: Blender create Mesh node metal.aceite_tapon
+20:42:05 | INFO: Blender create Mesh node metal.bat_bornes
+20:42:06 | INFO: Blender create Mesh node metal.bujia_rosca
+20:42:06 | INFO: Blender create Mesh node metal.cvt_polea_conducida
+20:42:06 | INFO: Blender create Mesh node metal.cvt_polea_motriz
+20:42:06 | INFO: Blender create Mesh node metal.motor_ciguenal
+20:42:06 | INFO: Blender create Mesh node motor.motor_cilindro
+20:42:06 | INFO: Blender create Mesh node oscuro.bujia_capuchon
+20:42:06 | INFO: Blender create Mesh node oscuro.filtro_caja
+20:42:06 | INFO: glTF import finished in 0.87s
+C:\dev\TallerYa\.claude\skills\moto-3d-blender\scripts\resumen.py:26: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m = bpy.data.materials.new(p); m.use_nodes = True; bs = m.node_tree.nodes["Principled BSDF"]
+C:\dev\TallerYa\.claude\skills\moto-3d-blender\scripts\resumen.py:42: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  w = bpy.data.worlds.new("w"); w.use_nodes = True; w.node_tree.nodes["Background"].inputs[0].default_value = (0.82, 0.84, 0.86, 1)
+00:15.375  render           | Saved: 'C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen_vistas\lateral_izq.png'
+00:17.031  render           | Saved: 'C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen_vistas\lateral_der.png'
+00:18.484  render           | Saved: 'C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen_vistas\frente.png'
+00:20.016  render           | Saved: 'C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen_vistas\atras.png'
+00:21.531  render           | Saved: 'C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen_vistas\tres_cuartos.png'
+00:23.109  render           | Saved: 'C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen_vistas\luces.png'
+resumen: C:\dev\TallerYa\informes_noche\aerox-3d-etiquetas\resumen.png
+Blender 5.3.0 (hash 02f0899d78e3 built 2026-11-10 01:33:43)
+
+Blender quit

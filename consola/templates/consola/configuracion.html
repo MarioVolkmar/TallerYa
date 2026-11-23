@@ -1,0 +1,37 @@
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Configuración</h1>
+  <p class="cs-sub">Prende o apaga módulos del sitio. El cambio se ve en la página al instante.</p>
+</header>
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Módulos del sitio</caption>
+  <thead><tr><th scope="col">Módulo</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
+  <tbody>
+  {% for m, activo, url in modulos %}
+  <tr>
+    <td><span class="cs-cuenta-nombre">{{ m.etiqueta }}</span><span class="cs-cuenta-correo">{{ m.descripcion }}</span></td>
+    <td>{% if activo %}<span class="cs-estado cs-est-vigente">Prendido</span>{% else %}<span class="cs-estado cs-off">Apagado</span>{% endif %}</td>
+    <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
+      {% if activo %}{% include "consola/_boton_accion.html" with url=url valor="0" texto="Apagar" icono="cerrar" confirmar="¿Apagar «"|add:m.etiqueta|add:"»? Dejará de verse en todo el sitio hasta que lo prendas de nuevo." %}
+      {% else %}{% include "consola/_boton_accion.html" with url=url valor="1" texto="Prender" icono="check" %}{% endif %}
+    {% include "consola/_menu_fin.html" %}</td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+
+<h2 class="cs-h1 cs-subtitulo">Presentación</h2>
+<p class="cs-sub">Detalles de cómo se ve el sitio; no son módulos.</p>
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Presentación</caption>
+  <thead><tr><th scope="col">Ajuste</th><th scope="col">Estado</th><th scope="col">Acción</th></tr></thead>
+  <tbody>
+  {% for m, activo, url in presentacion %}
+  <tr>
+    <td><span class="cs-cuenta-nombre">{{ m.etiqueta }}</span><span class="cs-cuenta-correo">{{ m.descripcion }}</span></td>
+    <td>{% if activo %}<span class="cs-estado cs-est-vigente">Prendido</span>{% else %}<span class="cs-estado cs-off">Apagado</span>{% endif %}</td>
+    <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
+      {% if activo %}{% include "consola/_boton_accion.html" with url=url valor="0" texto="Apagar" icono="cerrar" confirmar="¿Apagar «"|add:m.etiqueta|add:"»?" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=url valor="1" texto="Prender" icono="check" %}{% endif %}
+    {% include "consola/_menu_fin.html" %}</td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>

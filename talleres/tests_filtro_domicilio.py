@@ -1,4 +1,4 @@
-"""Filtro «Va a domicilio» del directorio (con búsqueda, orden, paginación y páginas SEO) e interruptor del taller."""
+"""Filtro «Servicio a domicilio» del directorio (con búsqueda, orden, paginación y páginas SEO) e interruptor del taller."""
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -42,8 +42,8 @@ class FiltroDomicilioTests(TestCase):
         self.assertNotIn("Delta Motos", todos)
         self.assertNotIn("Épsilon Motos", todos)  # inactivo: no sale aunque tenga domicilio activo
         self.assertEqual(r.context["pagina"].paginator.count, 12)
-        self.assertContains(r, "Va a domicilio")
-        self.assertEqual([f["nombre"] for f in r.context["filtros_activos"]], ["Va a domicilio"])
+        self.assertContains(r, "Servicio a domicilio")
+        self.assertEqual([f["nombre"] for f in r.context["filtros_activos"]], ["Servicio a domicilio"])
 
     def test_con_busqueda_orden_y_paginacion(self):
         r = self.client.get(reverse("talleres:directorio"), {"domicilio": 1, "q": "Motos", "orden": "nombre"})
@@ -82,11 +82,11 @@ class InterruptorTallerTests(TestCase):
         self.assertTrue(TallerDomicilio.objects.get(taller=self.taller).activo)
         TallerDomicilio.objects.get(taller=self.taller).zonas.add(Zona.objects.create(nombre="Zona de prueba única"))
         self.assertContains(self.client.get(reverse("talleres:panel")), 'aria-checked="true"')
-        self.assertContains(self.client.get(self.taller.get_absolute_url()), "También va a domicilio")
+        self.assertContains(self.client.get(self.taller.get_absolute_url()), "🛵 <strong>Servicio a domicilio</strong>", html=False)
         r = self.client.post(self.url, {"valor": "0"})
         self.assertRedirects(r, reverse("talleres:panel"))
         self.assertFalse(TallerDomicilio.objects.get(taller=self.taller).activo)
-        self.assertNotContains(self.client.get(self.taller.get_absolute_url()), "También va a domicilio")
+        self.assertNotContains(self.client.get(self.taller.get_absolute_url()), "🛵 <strong>Servicio a domicilio</strong>", html=False)
 
     def test_solo_post_y_solo_su_taller(self):
         self.assertEqual(self.client.get(self.url).status_code, 405)

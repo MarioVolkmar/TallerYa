@@ -33,6 +33,11 @@ def _domiciliarios_pendientes():
     return pendientes()
 
 
+def _proveedores_pendientes():
+    from proveedores.consola import pendientes
+    return pendientes()
+
+
 def _mecanicos_pendientes():
     from domicilio.consola import pendientes
     return pendientes()
@@ -46,6 +51,8 @@ class Seccion:
     vista: Optional[str] = None
     badge: Optional[Callable] = None
     descripcion: str = ""
+    superusuario: bool = False  # solo se ve y se abre con cuenta de superusuario
+    en_menu: bool = True  # False: se abre por enlace (p. ej. «Ver reporte» de cada taller), sin entrada en la barra lateral
 
     @property
     def lista(self):
@@ -58,13 +65,14 @@ class Seccion:
 
 SECCIONES = [
     Seccion("resumen", "Resumen", "tablero", descripcion="KPI, actividad reciente y lo que requiere atención."),
-    Seccion("usuarios", "Usuarios", "personas", "consola.vistas.usuarios.seccion"),
+    Seccion("usuarios", "Usuarios", "personas", "consola.vistas.usuarios.seccion", badge=_domiciliarios_pendientes,
+            descripcion="Cuentas y domiciliarios (TallerYa Ruta): las verificaciones por revisar se aprueban desde la ficha."),
     Seccion("talleres", "Talleres", "taller", "consola.vistas.talleres.seccion", badge=_talleres_pendientes,
             descripcion="Aprobar o rechazar registros de talleres. Mientras tanto: Administración › Talleres por aprobar."),
     Seccion("mecanicos", "Mecánicos a domicilio", "personas", "domicilio.consola.seccion", badge=_mecanicos_pendientes,
-            descripcion="Aprobar, suspender y verificar perfiles de mecánicos a domicilio."),
-    Seccion("domiciliarios", "Domiciliarios", "personas", "domiciliarios.consola.seccion", badge=_domiciliarios_pendientes,
-            descripcion="TallerYa Ruta: aprobar o rechazar verificaciones de domiciliarios (las fotos se borran al decidir)."),
+            descripcion="Aprobar, pausar y verificar perfiles de mecánicos a domicilio."),
+    Seccion("proveedores", "Proveedores", "camion", "proveedores.consola.seccion", badge=_proveedores_pendientes,
+            descripcion="Grúas, CDA, SOAT y demás proveedores de servicios: alta asistida, inscripciones y verificación."),
     Seccion("citas", "Citas y servicios", "calendario", "consola.vistas.citas.seccion", badge=_citas_pendientes,
             descripcion="Citas pedidas a los talleres y servicios registrados en la hoja de vida."),
     Seccion("plus", "Pagos y Plus", "estrella", badge=_plus_solicitadas,
@@ -73,11 +81,12 @@ SECCIONES = [
     Seccion("moderacion", "Moderación", "bandera", "consola.vistas.moderacion.seccion", badge=_reportes_foro,
             descripcion="Reportes del foro y reseñas de talleres."),
     Seccion("metricas", "Métricas", "grafica", "metricas.panel.seccion"),
-    Seccion("reportes", "Reportes", "grafica", "consola.vistas.reportes.seccion",
+    Seccion("reportes", "Reportes", "grafica", "consola.vistas.reportes.seccion", en_menu=False,
             descripcion="Vistas del perfil y clics en WhatsApp y llamar por taller, mes a mes."),
     Seccion("catalogos", "Catálogos", "lista", descripcion="Barrios, servicios, marcas y líneas de moto."),
     Seccion("notificaciones", "Notificaciones", "campana", descripcion="Notificaciones y correos enviados con su estado."),
-    Seccion("configuracion", "Configuración", "ajustes", descripcion="Valores clave/valor con valores por defecto en código."),
+    Seccion("configuracion", "Configuración", "ajustes", "consola.vistas.configuracion.seccion", superusuario=True,
+            descripcion="Prender y apagar módulos del sitio sin tocar archivos."),
     Seccion("bitacora", "Bitácora", "libro", "consola.vistas.bitacora.seccion"),
 ]
 POR_CLAVE = {s.key: s for s in SECCIONES}

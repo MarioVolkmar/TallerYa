@@ -1,0 +1,82 @@
+/* Registro de mecánico a domicilio (domicilio/registro.html). Reutiliza .rt-*, .rc-* y .rt-chip del registro de
+   taller (secciones/cuentas.css); aquí solo lo propio: selector de zonas, interruptor, bloque plegado y barra fija. */
+.rm .rt-cabeza { align-items: flex-start; }
+.rm-hecho { margin-left: auto; flex-shrink: 0; font-size: .72rem; font-weight: 700; color: #86dba6; padding: .2rem .6rem; border-radius: 999px;
+  background: rgba(134, 219, 166, .1); }
+.rm .rt-chip span { min-height: 2.5rem; }
+.rm-req { color: var(--lava-2); }
+
+/* Zonas: tres opciones tipo tarjeta (radio real escondido) y el panel de chips solo con «Elegir zonas» */
+.rm-seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .5rem; margin-top: .45rem; }
+.rm-op { position: relative; display: flex; align-items: flex-start; gap: .6rem; min-height: 3.6rem; padding: .7rem .8rem; border-radius: 12px; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, .12); background: rgba(0, 0, 0, .15); transition: border-color .2s, background .2s; }
+.rm-op input { position: absolute; opacity: 0; pointer-events: none; }
+.rm-op strong { display: block; font-size: .86rem; color: var(--crema); }
+.rm-op small { display: block; font-size: .72rem; color: #8d9496; }
+.rm-rad { flex-shrink: 0; width: 1.05rem; height: 1.05rem; margin-top: .1rem; border-radius: 999px; border: 2px solid #949b9d; transition: border .15s; }
+.rm-op:hover { border-color: rgba(227, 167, 47, .55); }
+.rm-op:has(input:checked) { border-color: var(--lava); background: rgba(242, 97, 29, .1); }
+.rm-op:has(input:checked) .rm-rad { border: 5px solid var(--lava); }
+.rm-op:has(input:focus-visible) { outline: 2px solid var(--mostaza); outline-offset: 2px; }
+.rm-panel { display: none; gap: .75rem; margin-top: .6rem; padding: .8rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .1); background: rgba(0, 0, 0, .18); }
+.rm-zonas:has(input[value="elegir"]:checked) .rm-panel,
+.rm-zonas:not(:has(input[name="zona_modo"]:checked)) .rm-panel:has(input:checked) { display: grid; }
+.rm-buscar { margin-top: 0 !important; height: 2.75rem; }
+.rm-grupo[hidden], .rm .rt-chip[hidden] { display: none; }
+.rm-grupo-cab { display: flex; align-items: center; justify-content: space-between; margin-bottom: .4rem; font-size: .7rem; font-weight: 800;
+  letter-spacing: .1em; text-transform: uppercase; color: #8d9496; }
+.rm-todas { min-height: 2rem; padding: 0 .5rem; font-size: .76rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--mostaza); border-radius: 8px; }
+.rm-todas:hover { background: rgba(227, 167, 47, .1); }
+.rm-nada { font-size: .8rem; color: #8d9496; }
+.rm-zonas.con-error .rm-op, .rm .rt-grupo.con-error .rt-chip span { border-color: rgba(255, 106, 80, .55); }
+
+/* «+ N más» de los servicios, con la misma forma de chip */
+.rm-mas { display: inline-flex; align-items: center; min-height: 2.5rem; padding: .4rem .9rem; border-radius: 999px; font-size: .8rem; font-weight: 700;
+  color: var(--mostaza); border: 1px solid rgba(227, 167, 47, .45); background: rgba(227, 167, 47, .06); }
+.rm-mas:hover { background: rgba(227, 167, 47, .08); }
+
+/* Tarifa: «$» en el lugar del ícono */
+.rm-pesos { font-weight: 800; font-size: .95rem; line-height: 1; }
+
+/* Urgencias: interruptor en línea (casilla real escondida) */
+.rm-sw { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.4rem; padding: .65rem .9rem;
+  border-radius: 12px; border: 1px solid rgba(255, 255, 255, .1); background: rgba(0, 0, 0, .12); cursor: pointer; }
+.rm-sw strong { display: block; font-size: .88rem; color: var(--crema); }
+.rm-sw small { display: block; font-size: .74rem; color: #8d9496; }
+.rm-sw input { position: absolute; opacity: 0; pointer-events: none; }
+.rm-tog { position: relative; flex-shrink: 0; width: 2.75rem; height: 1.55rem; border-radius: 999px; background: #3a4548; transition: background .2s; }
+.rm-tog::after { content: ""; position: absolute; top: .2rem; left: .2rem; width: 1.15rem; height: 1.15rem; border-radius: 999px; background: var(--crema); transition: transform .2s; }
+.rm-sw input:checked + .rm-tog { background: var(--lava); }
+.rm-sw input:checked + .rm-tog::after { transform: translateX(1.2rem); }
+.rm-sw input:focus-visible + .rm-tog { outline: 2px solid var(--mostaza); outline-offset: 2px; }
+
+/* Bloque plegado «Completa tu perfil (opcional)» */
+.rm-opcional { padding: 0; }
+.rm-opcional summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.6rem; padding: 1rem 1.4rem; cursor: pointer; list-style: none; }
+.rm-opcional summary::-webkit-details-marker { display: none; }
+.rm-opcional summary strong { font-size: .92rem; color: var(--crema); }
+.rm-opcional summary small { display: block; margin-top: .15rem; font-size: .76rem; color: #8d9496; }
+.rm-flecha { flex-shrink: 0; color: var(--mostaza); transition: transform .2s; }
+.rm-opcional[open] .rm-flecha { transform: rotate(180deg); }
+.rm-opcional-cuerpo { display: grid; gap: 1.1rem; padding: 0 1.4rem 1.4rem; }
+
+@media (max-width: 639px) {
+  .rm-seg { grid-template-columns: 1fr; }
+  .rm-op { min-height: 2.75rem; align-items: center; }
+  .rm-op small { display: inline; margin-left: .35rem; }
+  .rm-op strong { display: inline; }
+  .rm .rt-chip span { min-height: 2.75rem; }
+  .rm-mas { min-height: 2.75rem; }
+  .rm-todas { min-height: 2.75rem; }
+  .rm-opcional summary { padding: 1rem 1.1rem; }
+  .rm-opcional-cuerpo { padding: 0 1.1rem 1.1rem; }
+}
+/* Servicio a domicilio del taller (mi_taller.html): un solo interruptor con su estado; apagado, se oculta el resto */
+.rm-taller { display: grid; gap: 1.2rem; }
+.rm-resto { display: grid; gap: 1.1rem; }
+.rm-taller:has(#id_activo:not(:checked)) .rm-resto { display: none; }
+.rm-estado { flex-shrink: 0; margin-left: auto; font-size: .72rem; font-weight: 700; padding: .2rem .6rem; border-radius: 999px; }
+.rm-estado-on { color: #86dba6; background: rgba(134, 219, 166, .1); }
+.rm-estado-off { color: #949b9d; background: rgba(255, 255, 255, .06); }
+.rm-sw:has(input:checked) .rm-estado-off, .rm-sw:not(:has(input:checked)) .rm-estado-on { display: none; }
+.rm-sw:has(.rm-estado) > span:first-child { margin-right: auto; }

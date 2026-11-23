@@ -1,0 +1,36 @@
+{% load static %}
+{# Ubicación exacta del taller (Editar perfil). Necesita form con latitud/longitud y taller #}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<section id="ubicacion" class="papel p-6 md:p-8 space-y-3">
+  <h2 class="form-seccion">Ubicación</h2>
+  {{ form.latitud }}{{ form.longitud }}
+  <div class="ag-tarjeta ag-ubic">
+    <div>
+      <strong id="ubicacion-titulo">{% if form.instance.latitud and form.instance.ubicacion_exacta %}Exacta ✓{% elif form.instance.latitud %}Aproximada por tu dirección{% else %}Sin ubicación{% endif %}</strong>
+      <small>{{ taller.direccion }} · {{ taller.barrio.nombre }}</small>
+      <small>{% if form.instance.latitud and form.instance.ubicacion_exacta %}Así te mostramos primero a los moteros cercanos.{% else %}Estando en el taller, afínala para mostrarte primero a los moteros cercanos.{% endif %}</small>
+      <small id="ubicacion-estado" aria-live="polite"></small>
+    </div>
+    <button type="button" class="boton-seccion" id="tomar-ubicacion">📍 {% if form.instance.ubicacion_exacta and form.instance.latitud %}Volver a tomarla{% else %}Afinar con mi ubicación{% endif %}</button>
+  </div>
+</section>
+<script>
+  (function () {
+    // Ubicación
+    var boton = document.getElementById("tomar-ubicacion"), estado = document.getElementById("ubicacion-estado");
+    if (boton && !navigator.geolocation) boton.hidden = true;
+    if (boton && navigator.geolocation) boton.addEventListener("click", function () {
+      estado.textContent = "Buscando…";
+      navigator.geolocation.getCurrentPosition(function (p) {
+        document.getElementById("id_latitud").value = p.coords.latitude.toFixed(6);
+        document.getElementById("id_longitud").value = p.coords.longitude.toFixed(6);
+        document.getElementById("ubicacion-titulo").textContent = "Exacta ✓ (guarda para aplicarla)";
+        estado.textContent = "";
+      }, function (e) {
+        estado.textContent = e.code === 1 ? "Para tomarla, permite la ubicación: toca el candado junto a la dirección de la página, entra a Permisos y activa Ubicación; luego vuelve a intentar."
+          : "No pudimos tomarla ahora (sin señal de GPS o tardó demasiado). Acércate a una ventana o al exterior e intenta de nuevo.";
+      }, {enableHighAccuracy: true, timeout: 10000});
+    });
+
+  })();
+</script>

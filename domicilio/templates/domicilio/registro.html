@@ -2,55 +2,114 @@
 {% load static %}
 {% block title %}Regístrate como mecánico a domicilio · TallerYa{% endblock %}
 
-{% block hero %}
-<section class="hero relative overflow-hidden">
-  {% include "talleres/_paisaje.html" %}
-  <div class="contenido max-w-6xl mx-auto px-4 pt-12 pb-40 md:pt-20 md:pb-52">
-    <p class="etiqueta">Para mecánicos sin taller</p>
-    <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-4 max-w-2xl">¿Vas a donde está la moto? <span class="text-lava">Aparece gratis</span></h1>
-    <p class="mt-4 max-w-md text-lg text-suave">Los motociclistas de tu zona te encuentran y te escriben por WhatsApp. {{ pasos|length }} pasos cortos; revisamos cada perfil antes de publicarlo.</p>
-  </div>
-</section>
-{% endblock %}
-
 {% block content %}
 <link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
-<section class="papel relative z-10 -mt-28 md:-mt-36 p-5 sm:p-6 md:p-10 max-w-3xl mx-auto">
-  <ol class="dom-pasos-barra" aria-label="Pasos del registro">
-    {% for clave, titulo, campos in pasos %}<li data-ir-paso="{{ forloop.counter }}"><span>{{ forloop.counter }}</span>{{ titulo }}</li>{% endfor %}
-  </ol>
-  {% if nueva_cuenta %}<p class="text-sm text-suave mt-4">¿Ya tienes cuenta en TallerYa? <a href="{% url 'cuentas:entrar' %}?next={% url 'domicilio:registro' %}" class="boton-texto">Entra</a> y vuelve aquí.</p>{% endif %}
-  {% for e in form.non_field_errors %}<p class="error mt-3">{{ e }}</p>{% endfor %}
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/cuentas.css' %}">
+<link rel="stylesheet" href="{% static 'domicilio/css/registro.css' %}">
+{% url 'domicilio:registro' as volver %}
+<div class="rt mt-8 md:mt-12">
+  <aside class="rt-lado">
+    {% if nueva_cuenta %}{% include "cuentas/_registro_tipo.html" with activo="mecanico" %}{% endif %}
+    <p class="etiqueta mt-7">Para mecánicos sin taller</p>
+    <h1 class="titulo text-4xl md:text-5xl mt-3">Registra tu perfil <span class="text-lava">gratis</span></h1>
+    <p class="text-suave mt-3">Los motociclistas de tu zona te encuentran y te escriben por WhatsApp.</p>
+    <ol class="rt-despues">
+      <li><span>1</span><div><strong>Envías los datos</strong><small>Toma unos 4 minutos.</small></div></li>
+      <li><span>2</span><div><strong>Revisamos tu perfil</strong><small>Confirmamos tu identidad y que sabes del oficio.</small></div></li>
+      <li><span>3</span><div><strong>Apareces en el listado</strong><small>Los moteros te escriben y dejan reseñas.</small></div></li>
+    </ol>
+    {% if nueva_cuenta %}
+    {% if google_disponible %}
+    <div class="rt-google">
+      {% include "cuentas/_boton_google.html" with next=volver %}
+      <p class="rc-google-nota mt-3">Con Google creas la cuenta en un clic y luego llenas los datos de tu trabajo. Al continuar aceptas los <a href="{% url 'talleres:legal' 'terminos' %}" target="_blank" rel="noopener">Términos</a> y la <a href="{% url 'talleres:legal' 'privacidad' %}" target="_blank" rel="noopener">Política de privacidad</a>.</p>
+    </div>
+    {% endif %}
+    <p class="rt-entrar">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}?next={{ volver|urlencode }}">Entra aquí</a></p>
+    {% endif %}
+  </aside>
 
-  <form method="post" enctype="multipart/form-data" novalidate id="dom-registro" class="mt-4">
+  <form method="post" enctype="multipart/form-data" class="rt-form rm" novalidate data-registro-mecanico data-barra-form>
     {% csrf_token %}
-    {% for clave, titulo, campos in pasos %}
-    <fieldset class="dom-paso" data-paso="{{ forloop.counter }}">
-      <legend class="titulo text-2xl">{{ forloop.counter }} · {{ titulo }}</legend>
-      {% if clave == "trabajo" %}<p class="text-sm text-suave mt-1">Lo que verán los motociclistas en tu perfil.</p>
-      {% elif clave == "verificacion" %}<p class="text-sm text-suave mt-1">Con esto revisamos que eres tú y que sabes del oficio. La cédula y las referencias <strong>no se publican</strong>.</p>{% endif %}
-      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4">
-        {% include "domicilio/_campos.html" with form=campos %}
-        {% if clave == "verificacion" %}
-        <div class="sm:col-span-2">
-          <label class="campo-label">Fotos de trabajos que hayas hecho (opcional, hasta {{ maximo_trabajos }})
-            <input type="file" name="trabajos" accept="image/jpeg,image/png,image/webp" multiple></label>
-          <p class="text-xs text-suave mt-1.5">Motos que arreglaste, tu herramienta… Ayudan a que te aprobemos y te verifiquemos más rápido. JPG, PNG o WEBP de máximo 5 MB.</p>
+    {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+    {% if nueva_cuenta %}
+    <section class="papel rt-seccion" data-seccion>
+      <header class="rt-cabeza"><span class="rc-paso">1</span><div><h2 class="form-seccion">Tu cuenta</h2>
+        <p class="rt-sub">Con este correo entras a administrar tu perfil.</p></div><span class="rm-hecho" data-hecho hidden>Listo</span></header>
+      <div class="rc-rejilla">
+        {% include "cuentas/_campo_registro.html" with campo=cuenta.email clase="rc-ancho" %}
+        {% include "cuentas/_campo_registro.html" with campo=cuenta.password1 sin_ayuda=True %}
+        {% include "cuentas/_campo_registro.html" with campo=cuenta.password2 %}
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="papel rt-seccion" data-seccion>
+      <header class="rt-cabeza"><span class="rc-paso">{% if nueva_cuenta %}2{% else %}1{% endif %}</span><div><h2 class="form-seccion">Tu trabajo</h2>
+        <p class="rt-sub">Lo que verán los motociclistas en tu perfil.</p></div><span class="rm-hecho" data-hecho hidden>Listo</span></header>
+      <div class="rc-rejilla">
+        {% include "cuentas/_campo_registro.html" with campo=form.nombre %}
+        {% include "cuentas/_campo_registro.html" with campo=form.whatsapp %}
+      </div>
+
+      {% include "domicilio/_zonas_servicios.html" %}
+
+      <div class="rc-rejilla">
+        {% include "domicilio/_tarifa.html" %}
+        {% include "cuentas/_campo_registro.html" with campo=form.anios_experiencia icono="ninguno" %}
+      </div>
+      {% include "domicilio/_interruptor.html" with campo=form.urgencias titulo="Atiendo urgencias" texto="Salgo a atender motos varadas, también fuera de mi horario." %}
+    </section>
+
+    <section class="papel rt-seccion" data-seccion>
+      <header class="rt-cabeza"><span class="rc-paso">{% if nueva_cuenta %}3{% else %}2{% endif %}</span><div><h2 class="form-seccion">Verificación</h2>
+        <p class="rt-sub">Revisamos que eres tú antes de publicarte. La cédula no se publica.</p></div><span class="rm-hecho" data-hecho hidden>Listo</span></header>
+      {% include "cuentas/_campo_registro.html" with campo=form.cedula icono="ninguno" %}
+    </section>
+
+    <details class="papel rm-opcional"{% if abrir_opcional %} open{% endif %}>
+      <summary><span><strong>Completa tu perfil</strong> <span class="rc-opcional">(opcional)</span><small>Foto, fotos de trabajos, descripción, marcas, horario y referencias. Puedes hacerlo después.</small></span>
+        <svg class="rm-flecha" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="rm-opcional-cuerpo">
+        <div class="rc-campo{% if form.foto.errors %} con-error{% endif %}">
+          <span class="campo-label">Tu foto <span class="rc-opcional">(tu cara o tú trabajando)</span></span>
+          <label class="rt-foto" data-foto>
+            <input type="file" name="{{ form.foto.html_name }}" accept="image/jpeg,image/png,image/webp" aria-label="Tu foto">
+            <span class="rt-foto-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+            <span class="min-w-0"><strong>Sube tu foto</strong><small>JPG, PNG o WEBP · los perfiles con foto reciben más mensajes</small><em data-foto-nombre></em></span>
+          </label>
+          {% for e in form.foto.errors %}<p class="error">{{ e }}</p>{% endfor %}
         </div>
-        {% endif %}
+        <div class="rc-campo">
+          <span class="campo-label">Fotos de trabajos <span class="rc-opcional">(hasta {{ maximo_trabajos }})</span></span>
+          <label class="rt-foto" data-foto>
+            <input type="file" name="trabajos" accept="image/jpeg,image/png,image/webp" multiple aria-label="Fotos de trabajos">
+            <span class="rt-foto-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg></span>
+            <span class="min-w-0"><strong>Motos que arreglaste, tu herramienta</strong><small>JPG, PNG o WEBP de máximo 5 MB</small><em data-foto-nombre></em></span>
+          </label>
+        </div>
+        {% include "cuentas/_campo_registro.html" with campo=form.descripcion icono="ninguno" %}
+        <fieldset class="rt-grupo">
+          <legend class="campo-label">Marcas que mejor conoces</legend>
+          <div class="rt-chips" data-marcas><label class="rt-chip rt-chip-multi">{{ form.multimarca }}<span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Multimarca (todas)</span></label>{% for cb in form.marcas %}<label class="rt-chip">{{ cb.tag }}<span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>{{ cb.choice_label }}</span></label>{% endfor %}</div>
+        </fieldset>
+        {% include "cuentas/_horario.html" with campo=form.horario %}
+        {% include "cuentas/_campo_registro.html" with campo=form.referencias icono="ninguno" %}
       </div>
-      <div class="dom-paso-botones">
-        {% if not forloop.first %}<button type="button" class="btn btn-borde text-xs px-5 py-3" data-atras>← Atrás</button>{% endif %}
-        {% if forloop.last %}
-          <button class="btn btn-lava py-3.5 px-6 text-sm">Enviar mi perfil para revisión</button>
-        {% else %}
-          <button type="button" class="btn btn-lava py-3 px-6 text-sm" data-siguiente>Siguiente →</button>
-        {% endif %}
-      </div>
-      {% if forloop.last %}<p class="text-xs text-suave mt-4">Al publicarte aceptas que TallerYa solo te promociona: el acuerdo, el pago y la garantía de cada trabajo son entre tú y el motociclista.</p>{% endif %}
-    </fieldset>
-    {% endfor %}
+    </details>
+
+    <div class="papel rt-final" data-final>
+      {% if nueva_cuenta %}{% include "cuentas/_terminos.html" with campo=cuenta.acepto %}{% endif %}
+      <button class="btn btn-lava w-full py-3.5 text-sm">{% if nueva_cuenta %}Crear cuenta y enviar perfil{% else %}Enviar mi perfil para revisión{% endif %}</button>
+      <p class="rc-ayuda text-center !mt-0">TallerYa solo te promociona: el acuerdo, el pago y la garantía son entre tú y el motociclista. Te avisamos por correo cuando tu perfil quede publicado.</p>
+    </div>
+
+    {% include "cuentas/_barra_registro.html" %}
   </form>
-</section>
-<script src="{% static 'domicilio/js/pasos.js' %}" defer></script>
+</div>
+{% include "cuentas/_registro_js.html" %}
+{% include "cuentas/_horario_js.html" %}
+<script src="{% static 'talleres/js/barra_registro.js' %}" defer></script>
+<script src="{% static 'domicilio/js/registro.js' %}" defer></script>
+<script src="{% static 'talleres/js/multimarca.js' %}" defer></script>
 {% endblock %}

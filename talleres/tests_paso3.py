@@ -165,7 +165,7 @@ class ServicioRapidoYResenaTests(Base):
 
     def registrar(self, **extra):
         self.client.force_login(self.user)
-        datos = {"placa": "abc-12d", "km": "5400", "que": "Cambio de aceite", "costo": "45.000", **extra}
+        datos = {"placa": "abc-12d", "km": "5400", "otros": "Cambio de aceite", "costo": "45.000", **extra}
         return self.client.post(reverse("talleres:servicio_rapido"), datos)
 
     def test_crea_servicio_por_confirmar(self):
@@ -182,6 +182,44 @@ class ServicioRapidoYResenaTests(Base):
     def test_sin_taller_redirige(self):
         self.client.force_login(self.dueno)
         self.assertEqual(self.client.get(reverse("talleres:servicio_rapido")).status_code, 302)
+
+    def test_km_con_puntos_y_chips_del_plan(self):
+        from garaje import servicio_taller as st
+        tarea = st.tareas_de(self.moto)[0]
+        self.registrar(km="5.400", otros="", tareas=[tarea.pk])
+        s = ServicioTaller.objects.get()
+        self.assertEqual((s.km, list(s.tareas.all()), s.estado), (5400, [tarea], ServicioTaller.Estado.POR_CONFIRMAR))
+
+    def test_sin_trabajo_no_guarda(self):
+        self.registrar(otros="")
+        self.assertFalse(ServicioTaller.objects.exists())
+
+    def test_km_menor_pide_marcar_servicio_antiguo(self):
+        self.registrar(km="100")
+        self.assertFalse(ServicioTaller.objects.exists())
+        self.registrar(km="100", km_antiguo="on")
+        self.assertEqual(ServicioTaller.objects.get().km, 100)
+
+    def test_con_codigo_del_dueno_queda_verificado(self):
+        from garaje.models import CodigoServicio
+        from garaje.hoja_vida import generar_codigo
+        c = generar_codigo(self.moto)
+        self.registrar(placa="", codigo=c.codigo)
+        s = ServicioTaller.objects.get()
+        self.assertEqual((s.origen, s.estado), (ServicioTaller.Origen.CODIGO, ServicioTaller.Estado.VERIFICADO))
+        self.assertTrue(CodigoServicio.objects.get(pk=c.pk).usado)
+        self.registrar(placa="", codigo=c.codigo)  # ya usado
+        self.assertEqual(ServicioTaller.objects.count(), 1)
+
+    def test_consulta_en_vivo_de_la_placa(self):
+        self.client.force_login(self.user)
+        url = reverse("talleres:servicio_rapido_moto")
+        d = self.client.get(url, {"placa": "abc-12d"}).json()
+        self.assertEqual((d["estado"], d["km"]), ("ok", 5000))
+        self.assertEqual(self.client.get(url, {"placa": "ZZZ99Z"}).json()["estado"], "no_esta")
+        self.assertEqual(self.client.get(url, {"placa": "AB"}).json()["estado"], "corta")
+        self.client.force_login(self.dueno)
+        self.assertEqual(self.client.get(url, {"placa": "ABC12D"}).status_code, 403)
 
     def test_resena_verificada_solo_con_servicio_verificado(self):
         self.registrar()
@@ -276,3 +314,27 @@ class CorreoPreciosTests(Base):
         Taller.objects.filter(pk=self.taller.pk).update(precios_aviso_enviado=timezone.now() - timedelta(days=80))
         self.correr()
         self.assertEqual(len(mail.outbox), 2)
+
+
+class PanelPreciosTests(PreciosTests):
+    """Panel del taller: estado de precios, interruptor rápido y «Por hacer»."""
+
+    def test_panel_muestra_estado_e_interruptor(self):
+        self.client.force_login(self.user)
+        r = self.client.get(reverse("talleres:panel"))
+        self.assertContains(r, "visibles en tu perfil")
+        self.assertContains(r, "Servicio a domicilio") if r.context.get("mecanicos_activo") else None
+        self.assertContains(r, "Registrar servicio")
+        self.client.post(reverse("talleres:alternar_precios"), {"valor": "0"})
+        self.taller.refresh_from_db()
+        self.assertFalse(self.taller.mostrar_precios)
+        self.assertContains(self.client.get(reverse("talleres:panel")), "Cotiza por WhatsApp")
+        self.client.post(reverse("talleres:alternar_precios"), {"valor": "1"})
+        self.taller.refresh_from_db()
+        self.assertTrue(self.taller.mostrar_precios)
+
+    def test_panel_avisa_precios_por_vencer_y_exige_post(self):
+        self.envejecer(80)
+        self.client.force_login(self.user)
+        self.assertContains(self.client.get(reverse("talleres:panel")), "más de 2 meses")
+        self.assertEqual(self.client.get(reverse("talleres:alternar_precios")).status_code, 405)

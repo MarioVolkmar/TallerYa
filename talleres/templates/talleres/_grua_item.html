@@ -1,15 +1,15 @@
 <li class="papel em-taller" data-lat="{{ g.latitud|default_if_none:''|stringformat:'s' }}" data-lng="{{ g.longitud|default_if_none:''|stringformat:'s' }}">
   <div class="em-datos">
     <p class="em-nombre">{{ g.nombre }}{% if g.demo %} <span class="insignia">Demo</span>{% endif %}</p>
-    <p class="text-sm text-suave">🚚 Cubre {{ g.municipios|join:", "|default:"zona sin indicar" }} <span class="em-distancia"></span></p>
+    <p class="text-sm text-suave">🚚 Cubre {{ g.zonas|join:", "|default:"zona sin indicar" }} <span class="em-distancia"></span></p>
     <p class="em-insignias">
       {% if g.abierto_24h %}<span class="insignia">24 h</span>{% elif g.abre and g.cierra %}<span class="text-xs text-suave">🕒 {{ g.abre|time:"g:i a" }} a {{ g.cierra|time:"g:i a" }}</span>{% endif %}
-      <span class="insignia">{{ g.get_vehiculo_display }}</span>
-      {% if g.tarifa_desde %}<span class="text-xs text-suave">Desde {{ g.tarifa_txt }}</span>{% endif %}
+      {% if g.vehiculo_txt %}<span class="insignia">{{ g.vehiculo_txt }}</span>{% endif %}{% if g.verificado %}<span class="insignia">Verificada</span>{% endif %}
+      {% if g.precio_desde %}<span class="text-xs text-suave">Desde {{ g.tarifa_txt }}</span>{% endif %}
     </p>
   </div>
   <div class="em-botones">
-    <a href="tel:+{{ g.telefono }}" class="btn btn-lava em-boton"{% if not g.whatsapp %} style="grid-column:1/-1"{% endif %}>📞 Llamar</a>
-    {% if g.whatsapp %}<a href="https://wa.me/{{ g.whatsapp }}?text={{ mensaje_grua|urlencode:'' }}" data-wa="{{ g.whatsapp }}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp em-boton">WhatsApp</a>{% endif %}
+    <a href="tel:+{{ g.tel_numero }}" data-clic="{% url 'proveedores:clic' g.pk 'llamada' %}" class="btn btn-lava em-boton"{% if not g.wa_numero %} style="grid-column:1/-1"{% endif %}>📞 Llamar</a>
+    {% if g.wa_numero %}<a href="https://wa.me/{{ g.wa_numero }}?text={{ mensaje_grua|urlencode:'' }}" data-wa="{{ g.wa_numero }}" data-clic="{% url 'proveedores:clic' g.pk 'whatsapp' %}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp em-boton">WhatsApp</a>{% endif %}
   </div>
 </li>

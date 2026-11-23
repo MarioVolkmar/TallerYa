@@ -4,26 +4,27 @@
   <p class="cs-sub">{{ total }} cup{{ total|pluralize:"ón,ones" }}</p>
 </header>
 <form method="get" class="cs-filtros" role="search">
-  {% include "consola/_filtros_inicio.html" with clave="cupones" placeholder="Título o taller" %}
+  {% include "consola/_filtros_inicio.html" with clave="cupones" placeholder="Título, taller o mecánico" %}
   <label class="cs-filtro"><span class="cs-etq">Estado</span>{{ form.estado }}</label>
+  <label class="cs-filtro"><span class="cs-etq">De</span>{{ form.de }}</label>
   <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
 </form>
 {% if filas %}
 <div class="cs-tabla-caja"><table class="cs-tabla">
   <caption class="sr-only">Cupones</caption>
-  <thead><tr><th scope="col">Cupón</th><th scope="col">Estado</th><th scope="col">Códigos</th><th scope="col">Acciones</th></tr></thead>
+  <thead><tr><th scope="col">Cupón</th><th scope="col">Estado</th><th scope="col">Códigos</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
   <tbody>
   {% for c, est, analisis in filas %}{% url 'consola:accion' 'cupones.activo' c.pk as a_act %}{% url 'consola:accion' 'cupones.eliminar' c.pk as a_eli %}
   <tr>
     <td><span class="cs-cuenta-nombre">{{ c.titulo }}</span> <span class="cs-id">#{{ c.pk }}</span>
-      <span class="cs-cuenta-correo">{{ c.taller.nombre|default:"Todos los talleres aliados" }}{% if c.valido_hasta %} · hasta {{ c.valido_hasta|date:"j M Y" }}{% endif %}{% if c.solo_plus %} · Plus{% endif %}</span></td>
+      <span class="cs-cuenta-correo">{% if c.mecanico %}<a href="{{ c.mecanico.get_absolute_url }}">{{ c.mecanico.nombre }}</a> · Descuento a domicilio{% elif c.taller %}<a href="{{ c.taller.get_absolute_url }}">{{ c.taller.nombre }}</a>{% else %}Todos los talleres aliados{% endif %}{% if c.valido_hasta %} · hasta {{ c.valido_hasta|date:"j M Y" }}{% endif %}{% if c.solo_plus %} · Plus{% endif %}</span></td>
     <td><span class="cs-estado cs-est-{{ est.0 }}">{{ est.1 }}</span></td>
     <td>{{ c.n_codigos }}{% if c.cupo %} / {{ c.cupo }}{% endif %}<span class="cs-cuenta-correo">{{ c.n_canjes }} canjeado{{ c.n_canjes|pluralize }}</span></td>
-    <td><div class="cs-acciones-fila">
-      {% if c.activo %}{% include "consola/_boton_accion.html" with url=a_act valor="0" texto="Desactivar" confirmar="¿Desactivar el cupón? No se entregarán más códigos; los ya entregados siguen valiendo." %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_act valor="1" texto="Activar" clase="cs-btn-ok" %}{% endif %}
+    <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
+      {% if c.activo %}{% include "consola/_boton_accion.html" with url=a_act valor="0" texto="Desactivar" icono="cerrar" confirmar="¿Desactivar el cupón? No se entregarán más códigos; los ya entregados siguen valiendo." %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_act valor="1" texto="Activar" icono="check" %}{% endif %}
       {% include "consola/_eliminar_fila.html" with url=a_eli que="el cupón" %}
-    </div></td>
+    {% include "consola/_menu_fin.html" %}</td>
   </tr>
   {% endfor %}
   </tbody></table></div>

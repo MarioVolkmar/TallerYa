@@ -24,6 +24,7 @@ from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlencode
 
+from consola.ajustes import ajuste
 from django.conf import settings
 from django.urls import reverse
 
@@ -108,7 +109,7 @@ def es_uso_severo(falla):
 def para_moto(moto, plan, piezas_despiece=(), uso_severo=False):
     """Contexto de la sección para la página de la moto, o None (bandera apagada o sin nada que mostrar).
     uso_severo: la moto es «La uso para trabajar»; se marcan y ordenan primero cadena, frenos, llantas y clutch."""
-    if not settings.FALLAS_FRECUENTES_ACTIVO:
+    if not ajuste("fallas_activo"):
         return None
     datos = de_linea(moto.linea)
     tipo = getattr(moto.linea, "tipo", "") or "calle"
@@ -142,7 +143,7 @@ def para_moto(moto, plan, piezas_despiece=(), uso_severo=False):
             "url_diagnostico": f"{reverse('garaje:diagnostico')}?{urlencode({'moto': moto.pk, **dx})}" if dx else "",
             "url_taller": f"{reverse('talleres:directorio')}?servicio={talleres[f['taller']]}" if f.get("taller") in talleres else "",
             "url_domicilio": (f"{reverse('domicilio:listado')}?servicio={domicilio[f['domicilio']]}"
-                              if f.get("domicilio") in domicilio else ""),
+                              if f.get("domicilio") in domicilio and ajuste("mecanicos_activo") else ""),
         })
     # Primero lo que ya requiere atención en el plan, luego lo más grave
     orden = {"peligro": 0, "cuidado": 1, "molestia": 2}

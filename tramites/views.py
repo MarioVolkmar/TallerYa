@@ -18,7 +18,9 @@ from talleres.models import CIUDADES, Taller
 
 from . import pagos
 from .forms import PedidoSoatForm
-from .models import CentroCDA, PedidoSoat, TarifaSoat
+from proveedores.models import Proveedor
+
+from .models import PedidoSoat, TarifaSoat
 
 
 def _motos(request):
@@ -173,7 +175,7 @@ def tecnomecanica(request):
     motero, motos = _motos(request)
     moto = _elegida(request, motos)
     municipio = request.GET.get("municipio", "")
-    cdas = CentroCDA.objects.filter(activo=True)
+    cdas = Proveedor.objects.publicados("cda").order_by("-aliado", "-verificado", "nombre")
     from django.db.models import Count
     por_municipio = dict(cdas.values_list("municipio").annotate(n=Count("pk")))
     if municipio in CIUDADES:
@@ -185,7 +187,7 @@ def tecnomecanica(request):
     if moto:
         mensaje += f" {moto}" + (f", placa {moto.placa}" if moto.placa else "")
     for c in cdas:
-        numero = "".join(ch for ch in c.whatsapp if ch.isdigit())
+        numero = c.wa_numero
         c.whatsapp_url = f"https://wa.me/{numero}?text={quote(mensaje + '.')}" if numero else ""
         lugar = quote(f"{c.nombre}, {c.direccion}, {c.municipio}, Antioquia, Colombia")
         c.mapa_url = f"https://www.google.com/maps?q={lugar}&output=embed"   # sin clave de API

@@ -1,0 +1,32 @@
+{# Campos de la ficha de un proveedor. Variables: form, campos_por_categoria (opcional: muestra solo los propios de la categoría elegida) #}
+{% for field in form %}
+  <div class="{% if field.name in 'descripcion direccion foto autoriza zonas barrios campos' %}sm:col-span-2{% endif %}"{% if 'extra_' in field.name %} data-extra-wrap="{{ field.name|slice:'6:' }}"{% endif %}>
+    {% if field.name == "autoriza" %}
+      <label class="opcion items-start"><span>{{ field }}</span> <span class="text-sm">{{ field.label }}</span></label>
+    {% elif field.field.widget.allow_multiple_selected %}
+      <p class="campo-label mb-2">{{ field.label }}</p>
+      <div class="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-3 gap-2">{% for cb in field %}<label class="opcion">{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</div>
+    {% elif field.field.widget.input_type == "checkbox" %}
+      <label class="opcion">{{ field }} {{ field.label }}</label>
+    {% else %}
+      <label class="campo-label"{% if field.name == "precio_desde" %} data-precio-label{% endif %}><span>{{ field.label }}</span>{{ field }}</label>
+    {% endif %}
+    {% if field.help_text %}<p class="text-xs text-suave mt-1.5">{{ field.help_text }}</p>{% endif %}
+    {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}
+  </div>
+{% endfor %}
+{% for e in form.non_field_errors %}<p class="error sm:col-span-2">{{ e }}</p>{% endfor %}
+{% if campos_por_categoria and form.categoria %}{{ campos_por_categoria|json_script:"campos-por-categoria" }}
+<script>
+(function () {
+  var sel = document.getElementById("id_categoria"), datos = JSON.parse(document.getElementById("campos-por-categoria").textContent);
+  var etiqueta = document.querySelector("[data-precio-label] span");
+  function aplicar() {
+    var c = datos[sel.value] || {campos: [], precio: "Precio de referencia desde"};
+    document.querySelectorAll("[data-extra-wrap]").forEach(function (d) { d.hidden = c.campos.indexOf(d.dataset.extraWrap) < 0; });
+    if (etiqueta) etiqueta.textContent = c.precio + " (COP)";
+  }
+  sel.addEventListener("change", aplicar);
+  aplicar();
+})();
+</script>{% endif %}

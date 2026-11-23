@@ -38,7 +38,7 @@ def contexto(request):
     from django.conf import settings
     usuario = getattr(request, "user", None)
     perfil = getattr(usuario, "perfil", None) if usuario is not None and usuario.is_authenticated else None
-    return {"rol": rol, "rol_nombre": NOMBRES.get(rol, ""), "google_disponible": configurado(),
+    return {"rol": rol, "es_mecanico": rol == MECANICO or (rol == MOTERO and bool(getattr(usuario, "mecanico_domicilio", None))), "rol_nombre": NOMBRES.get(rol, ""), "google_disponible": configurado(),
             "contacto": getattr(settings, "CONTACTO", {}),
             # Aviso para confirmar el correo (solo cuentas nuevas sin verificar)
             "correo_pendiente": usuario.email if perfil and not perfil.correo_verificado else ""}

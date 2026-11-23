@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Revisa tu ficha · {{ proveedor.nombre }} · TallerYa{% endblock %}
+{% block content %}
+<section class="papel max-w-2xl mx-auto mt-8 md:mt-12 p-5 md:p-8">
+  <p class="etiqueta">{{ proveedor.categoria.icono }} Ficha de {{ proveedor.categoria.singular|lower }}</p>
+  <h1 class="titulo text-3xl mt-1">{{ proveedor.nombre }}</h1>
+  {% if vencida %}
+    <p class="mt-3">Este enlace venció (valen 30 días). Escríbenos por WhatsApp y te enviamos uno nuevo.</p>
+  {% elif aprobada %}
+    <p class="mt-3">Aprobaste tu ficha el {{ proveedor.aprobado_por_proveedor|date:"d/m/Y" }} a las {{ proveedor.aprobado_por_proveedor|date:"H:i" }}.
+      {% if proveedor.publicado %}Ya la ven los moteros en TallerYa.{% else %}El equipo de TallerYa la publica en breve.{% endif %}</p>
+    <p class="text-sm text-suave mt-2">¿Algo cambió? Escríbenos por WhatsApp y lo actualizamos.</p>
+  {% else %}
+    <p class="text-suave mt-2">Cargamos estos datos con lo que nos diste. Corrige lo que haga falta, marca la autorización y aprueba para que podamos publicarla. No necesitas cuenta ni contraseña.</p>
+    <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-6">
+      {% csrf_token %}
+      {% include "proveedores/_campos.html" %}
+      <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm">Guardar y aprobar</button>
+      <p class="text-xs text-suave sm:col-span-2">Si no marcas la autorización solo guardamos tus correcciones; la ficha no se publica.</p>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}

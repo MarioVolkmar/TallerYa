@@ -392,6 +392,14 @@ def calcular_plan(moto, hoy=None, tareas=None, intensivo=True):
         from domiciliarios.intensivo import perfil_de_trabajo, plan_intensivo
         if perfil := perfil_de_trabajo(moto):
             return plan_intensivo(moto, perfil.km_semana, hoy, tareas)
+        # «Trabajo o domicilios» en la moto: plan intensivo con el ritmo del perfil (o las lecturas reales), sin
+        # necesidad de ser domiciliario inscrito ni de que el módulo esté prendido (solo invita a Ruta)
+        if getattr(moto, "perfil_uso", "") == "trabajo":
+            from .kilometraje import KM_DIA_PERFIL
+            plan = plan_intensivo(moto, KM_DIA_PERFIL["trabajo"] * 7, hoy, tareas)
+            plan.de_trabajo = False  # no es de Ruta: sin franja de jornada ni chapa
+            plan.por_uso_trabajo = True
+            return plan
     hoy = hoy or timezone.localdate()
     specs = moto.specs()
     ritmo, estimado = ritmo_km(moto, hoy)

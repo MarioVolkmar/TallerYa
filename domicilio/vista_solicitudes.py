@@ -33,9 +33,11 @@ def guardar_solicitud(request, mecanico, servicio, zona, cuando, moto, detalle):
         telefono = ""
     if not nombre or not telefono:
         return None
+    from .vista_descuentos import codigo_disponible
     s = SolicitudVisita.objects.create(
         mecanico=mecanico, usuario=request.user if request.user.is_authenticated else None, nombre=nombre,
-        telefono=telefono, moto=moto, servicio=servicio, zona=zona, cuando=cuando[:10], detalle=detalle)
+        telefono=telefono, moto=moto, servicio=servicio, zona=zona, cuando=cuando[:10], detalle=detalle,
+        codigo_cupon=codigo_disponible(request.user, mecanico))  # su descuento de este mecánico queda anotado
     _notificar(mecanico.usuario, f"visita-nueva:{s.pk}", f"{nombre} te pidió una visita",
                f"{servicio or 'Diagnóstico'}{' · ' + moto if moto else ''}", reverse("domicilio:solicitudes"))
     return s
@@ -54,7 +56,7 @@ def solicitudes(request):
     if not mecanico:
         return redirect("domicilio:registro")
     todas = request.GET.get("ver") == "todas"
-    lista = mecanico.solicitudes.select_related("servicio", "zona")
+    lista = mecanico.solicitudes.select_related("servicio", "zona", "codigo_cupon", "codigo_cupon__cupon")
     if not todas:
         lista = lista.filter(estado__in=ABIERTAS)
     hoy = timezone.localdate()
@@ -83,11 +85,56 @@ def solicitud_estado(request, pk):
     if nuevo in (SolicitudVisita.Estado.CONFIRMADA, SolicitudVisita.Estado.ATENDIDA, SolicitudVisita.Estado.CANCELADA):
         s.estado = nuevo
         s.save(update_fields=["estado"])
+        if nuevo == SolicitudVisita.Estado.ATENDIDA:
+            _canjear_descuento(request, s)
+        elif nuevo == SolicitudVisita.Estado.CANCELADA and s.codigo_cupon_id and not s.codigo_cupon.canjeado:
+            s.codigo_cupon = None  # el código vuelve a quedar libre para otra visita
+            s.save(update_fields=["codigo_cupon"])
         if nuevo != SolicitudVisita.Estado.ATENDIDA:
             _notificar(s.usuario, f"visita-{nuevo}:{s.pk}", f"{s.mecanico.nombre}: visita {s.get_estado_display().lower()}",
                        "Mira los detalles", s.get_absolute_url())
         messages.success(request, f"Solicitud de {s.nombre}: {s.get_estado_display().lower()}.")
     return redirect(reverse("domicilio:solicitudes") + f"#visita-{s.pk}")
+
+
+def _canjear_descuento(request, s):
+    """Al marcar la visita «Atendida», el descuento anotado queda usado (cuenta en el reporte del mecánico)."""
+    if not s.codigo_cupon_id or s.codigo_cupon.canjeado:
+        return
+    from cupones.servicios import ErrorCanje, canjear_con_mecanico
+    try:
+        canjear_con_mecanico(s.codigo_cupon.codigo, s.mecanico, via="visita", usuario=request.user,
+                             ip=request.META.get("REMOTE_ADDR"))
+    except ErrorCanje as e:
+        messages.warning(request, f"El descuento {s.codigo_cupon.codigo} no se pudo validar: {e}")
+    else:
+        messages.info(request, f"Descuento validado: {s.codigo_cupon.cupon.titulo}.")
+
+
+@login_required
+@require_POST
+def solicitud_descuento(request, pk):
+    """El mecánico anota el código de descuento que le dio el motero (por WhatsApp o en persona) en la solicitud;
+    se valida que sea suyo y esté libre, y se usa al marcar la visita «Atendida»."""
+    mecanico, s = _del_mecanico(request, pk)
+    if s is None:
+        return redirect("domicilio:registro")
+    volver = reverse("domicilio:solicitudes") + f"#visita-{s.pk}"
+    if s.estado not in ABIERTAS:
+        return redirect(volver)
+    from cupones.servicios import ErrorCanje, revisar_para_mecanico
+    try:
+        codigo = revisar_para_mecanico(request.POST.get("codigo", ""), mecanico)
+    except ErrorCanje as e:
+        messages.error(request, str(e))
+        return redirect(volver)
+    if codigo.visitas.exclude(pk=s.pk).filter(estado__in=ABIERTAS).exists():
+        messages.error(request, "Ese descuento ya está anotado en otra visita.")
+        return redirect(volver)
+    s.codigo_cupon = codigo
+    s.save(update_fields=["codigo_cupon"])
+    messages.success(request, f"Anotamos el descuento «{codigo.cupon.titulo}»: se usa al marcar la visita atendida.")
+    return redirect(volver)
 
 
 @login_required
@@ -130,7 +177,8 @@ def solicitud_cotizar(request, pk):
 
 def visita_publica(request, token):
     """Página del motero: ve su solicitud y acepta o rechaza la cotización (no necesita cuenta)."""
-    s = get_object_or_404(SolicitudVisita.objects.select_related("mecanico", "servicio", "zona"), token=token)
+    s = get_object_or_404(SolicitudVisita.objects.select_related("mecanico", "servicio", "zona", "codigo_cupon__cupon"),
+                          token=token)
     pendiente = s.estado == SolicitudVisita.Estado.COTIZADA
     if request.method == "POST" and pendiente:
         dueno = s.mecanico.usuario

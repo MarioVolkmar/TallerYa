@@ -6,7 +6,8 @@ from django.http import Http404
 
 
 def activo():
-    return bool(getattr(settings, "DOMICILIARIOS_ACTIVO", False))
+    from consola.ajustes import ajuste
+    return ajuste("domiciliarios_activo")
 
 
 def requiere_bandera(vista):

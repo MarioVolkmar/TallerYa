@@ -102,7 +102,7 @@
             <span class="cupon-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a2 2 0 0 0 0 6v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-3a2 2 0 0 0 0-6V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg></span>
             <div class="min-w-0 flex-1">
               <p class="font-semibold truncate">{{ c.cupon.titulo }}</p>
-              <p class="servicio-detalle mt-1">{% if c.cupon.taller %}<a href="{{ c.cupon.taller.get_absolute_url }}" class="servicio-taller">{{ c.cupon.taller }}</a>{% else %}<span class="servicio-yo">Todos los talleres</span>{% endif %}{% if c.origen != "obtenido" %}<span>{{ c.get_origen_display }}</span>{% endif %}</p>
+              <p class="servicio-detalle mt-1">{% with tl=c.cupon.dueno %}{% if tl %}<a href="{{ tl.get_absolute_url }}" class="servicio-taller">{{ tl }}</a>{% if c.cupon.mecanico_id %} <span>A domicilio</span>{% endif %}{% else %}<span class="servicio-yo">Todos los talleres</span>{% endif %}{% endwith %}{% if c.origen != "obtenido" %}<span>{{ c.get_origen_display }}</span>{% endif %}</p>
             </div>
             <a href="{{ c.get_absolute_url }}" class="cupon-fila-codigo">{{ c.codigo }} →</a>
           </li>
@@ -113,7 +113,7 @@
             <span class="cupon-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9a2 2 0 0 0 0 6v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1v-3a2 2 0 0 0 0-6V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg></span>
             <div class="min-w-0 flex-1">
               <p class="font-semibold truncate">{{ c.cupon.titulo }}</p>
-              <p class="servicio-detalle mt-1">{% with tl=c.canjeado_taller|default:c.cupon.taller %}{% if tl %}<a href="{{ tl.get_absolute_url }}" class="servicio-taller">{{ tl }}</a>{% else %}<span class="servicio-yo">Todos los talleres</span>{% endif %}{% endwith %}</p>
+              <p class="servicio-detalle mt-1">{% with tl=c.canjeado_donde|default:c.cupon.dueno %}{% if tl %}<a href="{{ tl.get_absolute_url }}" class="servicio-taller">{{ tl }}</a>{% else %}<span class="servicio-yo">Todos los talleres</span>{% endif %}{% endwith %}</p>
             </div>
             <div class="flex items-center gap-2 shrink-0">
               <span class="cupon-fila-estado">{% if c.canjeado %}Usado · {{ c.canjeado_en|date:"j M" }}{% else %}Vencido{% endif %}</span>
@@ -140,7 +140,7 @@
     </section>
     {% endif %}
 
-{% if not oculta_social %}
+{% if foro_activo %}
     <section class="papel p-6 md:p-7">
       <div class="flex items-center justify-between gap-3">
         <h2 class="titulo text-2xl"><span class="numero">04</span>Mis preguntas</h2>
@@ -194,7 +194,7 @@
     {% if moto %}
     <!-- Mi actividad con talleres: tu relación con cada taller (lo que hiciste tú queda en la bitácora de cada moto) -->
     <section class="papel p-6 md:p-7 scroll-mt-24" id="actividad">
-      <h2 class="titulo text-2xl"><span class="numero">05</span>Mi actividad con talleres</h2>
+      <h2 class="titulo text-2xl"><span class="numero">{% if foro_activo %}05{% else %}04{% endif %}</span>Mi actividad con talleres</h2>
       {% with a=actividad %}
       {% if a.talleres %}
       <ul class="actividad-resumen" aria-label="Resumen">
@@ -324,7 +324,7 @@
 
   <aside class="space-y-6">
     {% if moto %}
-{% if not oculta_social %}
+{% if plus_activo %}
     <section class="papel p-6 md:p-7 relative overflow-hidden">
       <p class="etiqueta">TallerYa Plus</p>
       {% if suscripcion %}

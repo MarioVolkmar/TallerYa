@@ -50,7 +50,7 @@ def ordenar_gruas(gruas, municipio=None, ahora=None):
     orden = {True: 0, None: 1, False: 2}
     for g in gruas:
         g.abierto = grua_abierta(g, ahora)
-    return sorted(gruas, key=lambda g: (orden[g.abierto], bool(municipio) and municipio not in g.municipios))
+    return sorted(gruas, key=lambda g: (orden[g.abierto], bool(municipio) and municipio not in g.zonas))
 
 
 def mensaje_grua(moto=None):

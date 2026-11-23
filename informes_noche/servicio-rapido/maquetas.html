@@ -1,0 +1,58 @@
+<!doctype html><meta charset=utf-8><style>
+:root{--carbon:#111517;--pizarra:#1d2427;--p2:#252e31;--borde:#354044;--crema:#ede3cc;--c2:#c9bfa7;--lava:#f2611d;--l2:#ff9a3c;--ok:#86dba6;--mos:#e3a72f}
+*{box-sizing:border-box;margin:0}body{background:#0a0d0e;color:var(--crema);font:14px Inter,Arial,sans-serif;display:flex;gap:28px;padding:24px;width:1300px}
+.col{width:375px}.cap{font:700 15px Oswald,Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;color:var(--l2)}.sub{font-size:12px;color:var(--c2);margin-bottom:10px;min-height:48px}
+.ph{background:var(--carbon);border:2px solid var(--borde);border-radius:22px;height:760px;position:relative;overflow:hidden;padding:14px}
+.bar{height:34px;display:flex;align-items:center;font:700 12px Oswald,Impact;letter-spacing:.1em;color:var(--c2);margin-bottom:6px}
+.et{font:700 11px Oswald,Impact;letter-spacing:.16em;color:var(--mos);text-transform:uppercase;display:flex;gap:8px;align-items:center}.et:before{content:"";width:24px;height:2px;background:var(--lava)}
+h1{font:700 27px Oswald,Impact;text-transform:uppercase;margin:2px 0 10px}
+.card{background:linear-gradient(180deg,var(--p2),var(--pizarra));border:1px solid var(--borde);border-radius:18px;padding:14px;display:grid;gap:12px}
+label{font-size:12px;font-weight:700;display:block;margin-bottom:5px}
+.in{background:#101416;border:1px solid var(--borde);border-radius:12px;padding:11px 12px;color:var(--c2);min-height:44px}
+.placa{font:700 22px Oswald,Impact;letter-spacing:.2em;text-align:center;background:#f2c94c;color:#111;border-radius:10px;border:2px solid #111;padding:6px}
+.moto{display:flex;gap:10px;align-items:center;padding:9px 11px;border-radius:12px;background:rgba(134,219,166,.1);border:1px solid rgba(134,219,166,.45);font-size:13px}.moto b{display:block}.moto small{color:var(--c2)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}.ch{padding:9px 12px;border-radius:999px;border:1px solid var(--borde);font-size:13px;font-weight:700;color:var(--c2);min-height:40px;display:flex;align-items:center}.ch.on{border-color:var(--lava);background:rgba(242,97,29,.16);color:var(--crema)}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:linear-gradient(180deg,var(--l2),var(--lava));color:#111;font:700 14px Oswald,Impact;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:14px;border-radius:999px}
+.fijo{position:absolute;left:0;right:0;bottom:0;padding:12px 14px 16px;background:linear-gradient(180deg,transparent,var(--carbon) 30%)}
+.plg{border:1px dashed var(--borde);border-radius:12px;padding:11px 12px;font-size:13px;color:var(--c2);display:flex;justify-content:space-between;align-items:center;min-height:44px}.plg i{color:var(--lava);font-style:normal;font-weight:700}
+.nota{font-size:12px;color:var(--c2);text-align:center;margin-bottom:8px}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--borde);border-radius:999px;padding:3px;gap:3px}.seg div{text-align:center;padding:9px 4px;border-radius:999px;font-size:12px;font-weight:700;color:var(--c2)}.seg .on{background:var(--lava);color:#111}
+.step{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--c2)}.step b{width:20px;height:20px;border-radius:50%;background:var(--lava);color:#111;display:grid;place-items:center;font-size:11px}
+.sum{border-radius:12px;background:rgba(227,167,47,.1);border:1px solid rgba(227,167,47,.3);padding:10px 12px;font-size:12.5px}
+</style>
+<div class=col><div class=cap>A · Todo en una pantalla</div><div class=sub>Placa con formato y consulta en vivo, chips del plan de ESA moto, km y precio en una fila, código plegado, botón fijo abajo.</div>
+<div class=ph><div class=bar>‹ MI TALLER</div><div class=et>Servicio en 30 s</div><h1>Registrar servicio</h1>
+<div class=card>
+<div><label>Placa</label><div class=placa>ABC12D</div></div>
+<div class=moto><span style="font-size:22px">🏍</span><div><b>Yamaha NMAX 155</b><small>Última lectura: 12.400 km · dueño en TallerYa</small></div></div>
+<div><label>Qué se hizo</label><div class=chips><span class="ch on">✓ Aceite de motor</span><span class="ch on">✓ Filtro de aire</span><span class=ch>Correa CVT</span><span class=ch>Freno delantero</span><span class=ch>Freno trasero</span><span class=ch>Bujía</span><span class=ch>Llanta</span><span class=ch>+ Otro</span></div></div>
+<div class=dos><div><label>Kilometraje</label><div class=in>12.850 km</div></div><div><label>Cobrado (opcional)</label><div class=in>$ 85.000</div></div></div>
+<div class=plg><span>¿El dueño te dio su código?</span><i>Usarlo ›</i></div>
+</div>
+<div class=fijo><div class=nota>Le avisamos al dueño para que confirme y te califique.</div><div class=btn>Registrar servicio</div></div></div></div>
+
+<div class=col><div class=cap>B · Moto primero (por pasos)</div><div class=sub>Primero solo la placa. Al reconocer la moto se abre la tarjeta con chips, km y precio. Un paso a la vez.</div>
+<div class=ph><div class=bar>‹ MI TALLER</div><div class=et>Servicio en 30 s</div><h1>Registrar servicio</h1>
+<div class=card style="gap:10px"><div class=step><b>✓</b>Moto: ABC12D</div>
+<div class=moto style="background:var(--p2);border-color:var(--borde)"><span style="font-size:22px">🏍</span><div><b>Yamaha NMAX 155</b><small>12.400 km · cambiar placa</small></div></div>
+<div class=step><b>2</b>¿Qué se hizo?</div>
+<div class=chips><span class="ch on">✓ Aceite</span><span class=ch>Frenos</span><span class=ch>Kit de arrastre</span><span class=ch>Correa</span><span class=ch>Bujía</span><span class=ch>+ Otro</span></div>
+<div class=in>Detalle (opcional): cambio con filtro…</div>
+<div class=step><b>3</b>Km y valor</div>
+<div class=dos><div class=in>12.850 km</div><div class=in>$ 85.000</div></div>
+<div class=seg><div class=on>Confirma el dueño</div><div>Tengo su código</div></div>
+</div>
+<div class=fijo><div class=btn>Enviar al dueño</div></div></div></div>
+
+<div class=col><div class=cap>C · Con resumen y qué pasa después</div><div class=sub>Como A, pero el código es un selector claro de dos opciones y antes del botón un resumen de lo que va a pasar.</div>
+<div class=ph><div class=bar>‹ MI TALLER</div><div class=et>Servicio en 30 s</div><h1>Registrar servicio</h1>
+<div class=card style="gap:10px">
+<div class=dos style="grid-template-columns:1.3fr 1fr"><div><label>Placa</label><div class=placa style="font-size:18px">ABC12D</div></div><div><label>Km</label><div class=in>12.850</div></div></div>
+<div class=moto><span style="font-size:20px">🏍</span><div><b>Yamaha NMAX 155</b><small>Última visita registrada: 12.400 km</small></div></div>
+<div><label>Qué se hizo</label><div class=chips><span class="ch on">✓ Aceite</span><span class="ch on">✓ Pastillas del.</span><span class=ch>Kit arrastre</span><span class=ch>Llantas</span><span class=ch>Batería</span><span class=ch>+ Otro</span></div></div>
+<div><label>Cobrado (opcional)</label><div class=in>$ 85.000</div></div>
+<div><label>¿Cómo lo verifica el dueño?</label><div class=seg><div class=on>Le aviso y confirma</div><div>Me dio su código</div></div></div>
+<div class=sum><b>Al registrar:</b> aceite + pastillas quedan por confirmar. El dueño recibe un aviso, confirma y su plan se pone al día; ahí puede dejarte una reseña verificada.</div>
+</div>
+<div class=fijo><div class=btn>Registrar · 2 trabajos</div></div></div></div>

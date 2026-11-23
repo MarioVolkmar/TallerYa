@@ -1,0 +1,47 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Proveedores</h1>
+  <p class="cs-sub cs-pv-botones"><a class="cs-btn cs-btn-ok" href="{% url 'proveedores:nuevo' %}">+ Nuevo proveedor</a>
+    <a class="cs-btn" href="{% url 'proveedores:categoria_nueva' %}">+ Categoría</a></p>
+  <p class="cs-sub">{{ total }} proveedor{{ total|pluralize:"es" }}{% if pendientes_seccion %} · <strong>{{ pendientes_seccion }} por revisar</strong>{% endif %}
+    · Inscripción pública {% if proveedores_registro %}<a href="{% url 'proveedores:unete' %}">abierta</a>{% else %}apagada{% endif %}{% if request.user.is_superuser %} (<a href="?seccion=configuracion">cambiar</a>){% endif %}</p>
+</header>
+<form method="get" class="cs-filtros" role="search">
+  <input type="hidden" name="seccion" value="proveedores">{% if request.GET.por %}<input type="hidden" name="por" value="{{ por }}">{% endif %}
+  <label class="cs-filtro cs-filtro-ancho"><span class="cs-etq">Buscar</span>
+    <input type="search" name="q" value="{{ q }}" class="cs-campo" placeholder="Nombre, WhatsApp, contacto o municipio" maxlength="80"></label>
+  <label class="cs-filtro"><span class="cs-etq">Categoría</span>
+    <select name="categoria" class="cs-campo campo"><option value="">Todas</option>{% for c in categorias %}<option value="{{ c.slug }}"{% if categoria == c.slug %} selected{% endif %}>{{ c.icono }} {{ c.nombre }} ({{ c.n }})</option>{% endfor %}</select></label>
+  <label class="cs-filtro"><span class="cs-etq">Estado</span>
+    <select name="estado" class="cs-campo campo"><option value="">Todos</option>{% for clave, nombre in estados %}<option value="{{ clave }}"{% if estado == clave %} selected{% endif %}>{{ nombre }}</option>{% endfor %}</select></label>
+  <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
+</form>
+{% if filas %}
+<div class="cs-tabla-caja"><table class="cs-tabla">
+  <caption class="sr-only">Proveedores</caption>
+  <thead><tr><th scope="col">Proveedor</th><th scope="col">Categoría</th><th scope="col">Estado</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
+  <tbody>
+  {% for p, analisis in filas %}{% url 'consola:accion' 'proveedores.estado' p.pk as a_est %}{% url 'consola:accion' 'proveedores.verificar' p.pk as a_ver %}{% url 'consola:accion' 'proveedores.eliminar' p.pk as a_eli %}
+  <tr>
+    <td><a href="{% url 'proveedores:editar' p.pk %}" class="cs-cuenta-nombre">{{ p.nombre }}</a> <span class="cs-id">#{{ p.pk }}</span>{% if p.aliado %} <span class="cs-id">Aliado</span>{% endif %}{% if p.demo %} <span class="cs-id">Demo</span>{% endif %}
+      <span class="cs-cuenta-correo">{% if p.wa_numero %}WhatsApp {{ p.whatsapp }}{% elif p.telefono %}Tel. {{ p.telefono }}{% else %}Sin contacto{% endif %}{% if p.municipio %} · {{ p.municipio }}{% elif p.zonas %} · {{ p.zonas|join:", " }}{% endif %}</span>
+      {% if p.origen_alta != "equipo" %}<span class="cs-cuenta-correo">{{ p.get_origen_alta_display }} · {% if p.aprobado_por_proveedor %}aprobó su ficha el {{ p.aprobado_por_proveedor|date:"d/m H:i" }}{% else %}esperando que apruebe{% if p.enlace_vencido %} · <strong>enlace vencido</strong>{% endif %}{% endif %}</span>{% endif %}</td>
+    <td>{{ p.categoria.icono }} {{ p.categoria.singular }}</td>
+    <td>{% if p.estado == "publicado" %}<span class="cs-estado cs-ok">Publicado</span>{% elif p.estado == "por_revisar" %}<span class="cs-estado cs-pend">Por revisar</span>{% else %}<span class="cs-estado">Pausado</span>{% endif %}{% if p.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}
+      {% if p.estado == "por_revisar" and not p.falta_aprobacion %}{% include "consola/_boton_accion.html" with url=a_est valor="publicado" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" %}{% endif %}</td>
+    <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
+      <a class="cs-menu-item" href="{% url 'proveedores:editar' p.pk %}">{% icono "lapiz" 16 %} Editar</a>
+      {% if p.origen_alta != "equipo" and not p.aprobado_por_proveedor %}<a class="cs-menu-item" href="{% url 'proveedores:enlace' p.pk %}">{% icono "enlace" 16 %} Reenviar enlace</a>{% endif %}
+      {% if p.estado == "publicado" %}{% include "consola/_boton_accion.html" with url=a_est valor="pausado" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el proveedor? Deja de verse hasta que lo reactives." %}
+      {% elif p.estado == "pausado" %}{% include "consola/_boton_accion.html" with url=a_est valor="publicado" texto="Reactivar" icono="ojo" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_est valor="pausado" texto="Pausar" icono="ojo_no" %}{% endif %}
+      {% if p.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" icono="cerrar" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" icono="sello" %}{% endif %}
+      <a class="cs-menu-item" href="?seccion=proveedores&amp;reporte={{ p.pk }}">{% icono "grafica" 16 %} Ver reporte</a>
+      {% include "consola/_eliminar_fila.html" with url=a_eli que="el proveedor" %}
+    {% include "consola/_menu_fin.html" %}</td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% include "consola/_paginacion.html" %}
+{% else %}<p class="cs-vacio">No hay proveedores con esos filtros.</p>{% endif %}

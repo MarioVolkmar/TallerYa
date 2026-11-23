@@ -159,15 +159,48 @@ class FlujoVerificacionTests(Base):
         self.assertFalse(Verificacion.objects.exists())
         self.assertEqual(self.archivos(), [])
 
-    def test_cola_en_la_consola(self):
+    def test_verificacion_en_la_ficha_del_usuario(self):
         self.enviar()
         self.client.force_login(self.staff())
-        r = self.client.get(reverse("consola:inicio") + "?seccion=domiciliarios")
-        self.assertContains(r, "Ana Ruiz")
+        r = self.client.get(reverse("consola:inicio") + f"?seccion=usuarios&id={self.usuario.pk}")
         self.assertContains(r, "Por revisar")
+        self.assertContains(r, "ruta.aprobar")
         self.assertContains(r, "Placa en su garaje")
         self.assertContains(r, "ABC12D")
         self.assertContains(r, "/foto_moto/")
+
+    def test_etiqueta_y_filtro_de_domiciliarios_en_usuarios(self):
+        self.enviar()
+        otro = User.objects.create_user("otro@x.com", "otro@x.com", "x")
+        Motociclista.objects.create(nombre="Otro", celular="573001119999", usuario=otro)
+        self.client.force_login(self.staff())
+        url = reverse("consola:inicio")
+        r = self.client.get(url, {"seccion": "usuarios"})
+        self.assertContains(r, "Domiciliario")
+        self.assertContains(r, "por revisar")
+        for rol in ("domiciliario", "domiciliario_pendiente"):
+            r = self.client.get(url, {"seccion": "usuarios", "rol": rol})
+            self.assertContains(r, "a@x.com")
+            self.assertNotContains(r, "otro@x.com")
+        v = Verificacion.objects.get()
+        self.client.post(reverse("consola:accion", args=["ruta.aprobar", v.pk]))
+        r = self.client.get(url, {"seccion": "usuarios", "rol": "domiciliario_pendiente"})
+        self.assertNotContains(r, "a@x.com")
+        self.assertContains(self.client.get(url, {"seccion": "usuarios", "rol": "domiciliario"}), "a@x.com")
+
+    def test_ficha_de_no_domiciliario_sin_bloque(self):
+        otro = User.objects.create_user("otro@x.com", "otro@x.com", "x")
+        Motociclista.objects.create(nombre="Otro", celular="573001119999", usuario=otro)
+        self.client.force_login(self.staff())
+        r = self.client.get(reverse("consola:inicio"), {"seccion": "usuarios", "id": otro.pk})
+        self.assertNotContains(r, "verificaciones")
+
+    def test_badge_de_usuarios_cuenta_pendientes(self):
+        from consola import secciones
+        self.enviar()
+        with self.settings(DOMICILIARIOS_ACTIVO=True):
+            self.assertEqual(dict((s.key, n) for s, n in secciones.con_pendientes()[0])["usuarios"], 1)
+        self.assertNotIn("domiciliarios", secciones.POR_CLAVE)
 
 
 class PermisosFotosTests(Base):
@@ -198,7 +231,7 @@ class PermisosFotosTests(Base):
         self.assertEqual(self.client.get(reverse("domiciliarios:verificacion_foto", args=[self.v.pk, "otra"])).status_code, 302)
 
     def test_no_staff_no_entra_a_la_consola_ni_decide(self):
-        self.assertEqual(self.client.get(reverse("consola:inicio") + "?seccion=domiciliarios").status_code, 403)
+        self.assertEqual(self.client.get(reverse("consola:inicio") + "?seccion=usuarios").status_code, 403)
         self.assertEqual(self.client.post(reverse("consola:accion", args=["ruta.aprobar", self.v.pk])).status_code, 403)
         self.v.refresh_from_db()
         self.assertEqual(self.v.estado, Verificacion.Estado.PENDIENTE)
@@ -307,7 +340,7 @@ class RegistroEIntegracionTests(Base):
     def test_registro_como_domiciliario_activa_ruta(self):
         self.client.logout()
         r = self.client.get(reverse("cuentas:registro"))
-        self.assertContains(r, "Soy domiciliario")
+        self.assertContains(r, "Uso la moto para domicilios")
         datos = {"nombre": "Pedro", "email": "pedro@x.com", "celular": "3004445566",
                  "password1": "Clave-segura-2026", "password2": "Clave-segura-2026", "acepto": "on"}
         self.client.post(reverse("cuentas:registro") + "?tipo=domiciliario", datos)
@@ -397,3 +430,67 @@ class ChapasYModoEditarTests(Base):
         self.assertEqual(PerfilDomiciliario.objects.get(pk=self.perfil.pk).moto, otra)
         r = self.client.post(reverse("domiciliarios:moto_trabajo", args=[otra.pk]), {"valor": "0", "volver": "https://malo.com"})
         self.assertRedirects(r, otra.get_absolute_url(), fetch_redirect_response=False)  # nada de redirecciones abiertas
+
+
+class UsoTrabajoTests(Base):
+    """Moto con uso «Trabajo o domicilios»: plan intensivo sin ser domiciliario, e invitación discreta a Ruta."""
+
+    def _normal_vs_actual(self):
+        moto = Moto.objects.get(pk=self.moto.pk)
+        normal = {t.tarea.pk: t.tarea.intervalo_km for t in calcular_plan(moto, intensivo=False).tareas}
+        return moto, normal
+
+    def test_perfil_trabajo_da_plan_intensivo_sin_perfil_de_domiciliario(self):
+        self.perfil.delete()
+        Moto.objects.filter(pk=self.moto.pk).update(perfil_uso="trabajo")
+        moto, normal = self._normal_vs_actual()
+        plan = calcular_plan(moto)
+        self.assertTrue(plan.por_uso_trabajo)
+        self.assertFalse(plan.de_trabajo)
+        self.assertAlmostEqual(plan.km_por_dia, 70, delta=0.01)
+        aceite = [t for t in plan.tareas if t.intervalo_intensivo]
+        self.assertTrue(aceite)
+        self.assertTrue(all(t.tarea.intervalo_km < normal[t.tarea.pk] for t in aceite))
+
+    def test_otros_perfiles_siguen_con_plan_normal(self):
+        self.perfil.delete()
+        Moto.objects.filter(pk=self.moto.pk).update(perfil_uso="ciudad")
+        plan = calcular_plan(Moto.objects.get(pk=self.moto.pk))
+        self.assertFalse(getattr(plan, "por_uso_trabajo", False))
+        self.assertFalse(getattr(plan, "de_trabajo", False))
+
+    @override_settings(DOMICILIARIOS_ACTIVO=False)
+    def test_intensivo_aun_con_el_modulo_apagado_pero_sin_invitacion(self):
+        self.perfil.delete()
+        Moto.objects.filter(pk=self.moto.pk).update(perfil_uso="trabajo")
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertContains(r, "Plan con cambios más seguidos")
+        self.assertNotContains(r, "Únete a TallerYa Ruta")
+        self.assertNotContains(r, "dm-trabajo-switch")
+
+    def test_invitacion_visible_sin_perfil_de_domiciliario(self):
+        self.perfil.delete()
+        Moto.objects.filter(pk=self.moto.pk).update(perfil_uso="trabajo")
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertContains(r, "Plan con cambios más seguidos (~70 km/día)")
+        self.assertContains(r, "Únete a TallerYa Ruta gratis")
+        self.assertContains(r, reverse("domiciliarios:inicio"))
+        self.assertContains(r, "dm-trabajo-switch")
+        self.assertNotContains(r, "dm-invita")
+        self.assertNotContains(r, "plan-nota-trabajo")
+        self.assertNotContains(r, "data-dm-ruta")
+
+    def test_sin_invitacion_si_ya_es_domiciliario(self):
+        Moto.objects.filter(pk=self.moto.pk).update(perfil_uso="trabajo")
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertNotContains(r, "Únete a TallerYa Ruta")
+        self.assertContains(r, "data-dm-ruta")
+
+    def test_sin_invitacion_con_otro_uso(self):
+        self.perfil.delete()
+        Moto.objects.filter(pk=self.moto.pk).update(perfil_uso="ciudad")
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertNotContains(r, "Únete a TallerYa Ruta")
+        self.assertNotContains(r, "Plan con cambios más seguidos")
+        self.assertContains(r, "¿La usas para trabajar?")
+        self.assertContains(r, "Actívalo y adelantamos los cambios de aceite y piezas")

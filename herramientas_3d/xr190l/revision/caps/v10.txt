@@ -1,0 +1,20 @@
+IoU=0.8085 escala=1.6744 dx=2 dy=-10 solo_foto=36593 solo_render=18059
+IoU_sin_sombra=0.8543 IoU_relleno=0.9373
+  aletas           dE=  2.2 foto=[200, 17, 22] render=[194, 0, 24] px=5696
+  mascara          dE=  2.0 foto=[207, 33, 33] render=[208, 0, 29] px=2588
+  guardabarros_del dE=  3.7 foto=[205, 11, 18] render=[197, 8, 31] px=1764
+  colin            dE=  0.4 foto=[162, 12, 24] render=[163, 5, 22] px=557
+  tapa_lateral     dE=  2.9 foto=[196, 197, 202] render=[205, 205, 205] px=4140
+  tanque           dE=  1.6 foto=[85, 79, 85] render=[84, 78, 87] px=343
+  asiento          dE=  2.1 foto=[47, 49, 53] render=[42, 44, 51] px=1732
+  chasis           dE=  1.9 foto=[54, 55, 59] render=[49, 49, 52] px=2804
+  basculante       dE=  3.4 foto=[213, 212, 217] render=[215, 213, 212] px=2706
+  rines            dE=  1.5 foto=[184, 185, 190] render=[182, 183, 185] px=4213
+  motor            dE=  3.4 foto=[49, 50, 54] render=[57, 60, 64] px=8642
+  escape           dE=  1.9 foto=[57, 58, 63] render=[61, 63, 69] px=12596
+color_pct 100.0 (12/12)
+IoU=0.8543
+  espejos (arriba)   solo_foto=  2297 solo_render=  1136 IoU_si_perfecta=0.8664
+  rueda trasera      solo_foto=  4950 solo_render=  4798 IoU_si_perfecta=0.8884
+  rueda delantera    solo_foto=  5845 solo_render=  6706 IoU_si_perfecta=0.8983
+  resto              solo_foto=  7840 solo_render=  5732 IoU_si_perfecta=0.9025

@@ -1,5 +1,6 @@
 from urllib.parse import quote
 
+from consola.ajustes import ajuste
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
@@ -77,13 +78,18 @@ def registro(request):
     tipo = request.GET.get("tipo")
     if tipo == "domiciliario" and not ruta_activa():
         tipo = "motero"
+    if tipo == "mecanico" and not ajuste("mecanicos_activo"):
+        tipo = "motero"
+    if tipo == "aliado":  # segundo camino: elegir taller o mecánico a domicilio
+        return render(request, "cuentas/registro_elegir.html", {"aliado": True})
     if tipo == "taller":
         return _registro_taller(request)
     if tipo == "mecanico":  # alta por pasos propia (cuenta + perfil + verificación) en la app domicilio
         return redirect("domicilio:registro")
-    form = RegistroForm(request.POST or None)
+    form = RegistroForm(request.POST or None, initial={"domicilios": tipo == "domiciliario"})
     if request.method == "POST" and form.is_valid():
         d = form.cleaned_data
+        quiere_ruta = ruta_activa() and (tipo == "domiciliario" or d.get("domicilios"))
         with transaction.atomic():
             usuario = User.objects.create_user(
                 username=d["email"], email=d["email"], password=d["password1"], first_name=d["nombre"],
@@ -94,9 +100,9 @@ def registro(request):
             moto.usuario = usuario
             moto.save()
         login(request, usuario, backend="cuentas.backends.Backend")
-        registrar_evento(request, "registro", metodo="correo", tipo="domiciliario" if tipo == "domiciliario" else "motero")
+        registrar_evento(request, "registro", metodo="correo", tipo="domiciliario" if quiere_ruta else "motero")
         Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
-        if tipo == "domiciliario":
+        if quiere_ruta:
             activar_ruta(moto)
         correos.enviar_verificacion(request, usuario)
         messages.success(request, f"¡Bienvenido a TallerYa, {d['nombre']}! Te enviamos un enlace a {usuario.email} para confirmar tu correo.")
@@ -148,10 +154,12 @@ def historial_servicios(moto_perfil, limite=200):
                         "detalle": f"{m.moto} · {m.km:,} km".replace(",", "."), "lugar": m.donde,
                         "url": m.taller.get_absolute_url() if m.taller else "", "taller": m.taller})
     for c in (moto_perfil.codigos.filter(canjeado_en__isnull=False)
-              .select_related("cupon", "canjeado_taller", "canjeado_taller__barrio").order_by("-canjeado_en")[:limite]):
+              .select_related("cupon", "canjeado_taller", "canjeado_taller__barrio", "canjeado_mecanico")
+              .order_by("-canjeado_en")[:limite]):
+        donde = c.canjeado_taller or c.canjeado_mecanico
         eventos.append({"fecha": timezone.localtime(c.canjeado_en).date(), "tipo": "cupon", "titulo": c.cupon.titulo, "moto": "",
-                        "detalle": "Cupón canjeado", "lugar": str(c.canjeado_taller or ""),
-                        "url": c.canjeado_taller.get_absolute_url() if c.canjeado_taller else "", "taller": c.canjeado_taller})
+                        "detalle": "Descuento a domicilio usado" if c.canjeado_mecanico_id else "Cupón canjeado",
+                        "lugar": str(donde or ""), "url": donde.get_absolute_url() if donde else "", "taller": c.canjeado_taller})
     # Solo las citas pedidas con la sesión abierta. Antes también las anónimas con el mismo celular, pero el celular no
     # se verifica: quien registrara el número de otra persona veía sus citas (revisión de seguridad 17-nov-2026).
     for s in (SolicitudCita.objects.filter(usuario_id=moto_perfil.usuario_id).select_related("taller", "taller__barrio", "servicio")
@@ -231,14 +239,27 @@ def mi_cuenta(request):
     rol = roles.rol_de(request.user)
     if rol == roles.SIN_PERFIL:
         return redirect("cuentas:completar")
-    if rol == roles.MECANICO:  # el mecánico a domicilio maneja su perfil en /mecanicos/mi-perfil/
-        return redirect("domicilio:mi_perfil")
     moto = motociclista_de(request.user)
-    if hasattr(request.user, "taller") and not moto:  # el taller maneja todo (también su cuenta) desde el panel
-        return redirect("talleres:panel")
+    if rol == roles.ADMIN:
+        # administrador: cabecera, Seguridad y accesos a su trabajo (sin cupones, Plus, motos ni referidos)
+        return render(request, "cuentas/mi_cuenta_admin.html", {
+            "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
+            "perfil": Perfil.de(request.user),
+        })
+    if rol == roles.MECANICO or (hasattr(request.user, "taller") and not moto):
+        # taller y mecánico: página propia de cuenta (datos básicos + Seguridad); su trabajo está en su panel
+        es_taller = rol != roles.MECANICO
+        taller = request.user.taller if es_taller else None
+        return render(request, "cuentas/mi_cuenta_profesional.html", {
+            "taller": taller,
+            "mecanico": None if es_taller else request.user.mecanico_domicilio,
+            "responsable": request.user.first_name or (taller.responsable if taller else ""),
+            "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
+            "perfil": Perfil.de(request.user),
+        })
     contexto = {"moto": moto}
     if moto:
-        codigos = moto.codigos.select_related("cupon", "cupon__taller", "canjeado_taller")
+        codigos = moto.codigos.select_related("cupon", "cupon__taller", "cupon__mecanico", "canjeado_taller", "canjeado_mecanico")
         contexto.update({
             "disponibles": [c for c in codigos if not c.canjeado and c.cupon.vigente],
             "usados": [c for c in codigos if c.canjeado or not c.cupon.vigente][:50],
@@ -462,6 +483,9 @@ def google_volver(request):
         registrar_evento(request, "registro", metodo="google")
 
     if roles.rol_de(usuario) == roles.SIN_PERFIL:
+        if request.session.get("google_siguiente") == reverse("domicilio:registro") and ajuste("mecanicos_activo"):
+            request.session.pop("google_siguiente")  # venía del registro de mecánico: solo le faltan los datos del trabajo
+            return redirect("domicilio:registro")
         messages.success(request, f"¡Hola, {usuario.first_name or 'bienvenido'}! Cuéntanos cómo vas a usar TallerYa.")
         return redirect("cuentas:completar")
     messages.success(request, f"¡Hola de nuevo, {usuario.first_name or usuario.email}!")
@@ -490,6 +514,8 @@ def completar_perfil(request):
             messages.success(request, "¡Listo! Ya puedes agregar tu moto al garaje.")
             return redirect(request.session.pop("google_siguiente", "") or guia.destino(request.user, reverse("talleres:inicio")))
         return render(request, "cuentas/completar_motero.html", {"form": form})
+    if tipo == "aliado":
+        return render(request, "cuentas/registro_elegir.html", {"completar": True, "aliado": True})
     if tipo == "taller":
         negocio = RegistroTallerForm(request.POST or None, request.FILES or None)
         if request.method == "POST" and negocio.is_valid():
@@ -501,7 +527,7 @@ def completar_perfil(request):
             messages.success(request, "¡Recibimos tu taller! Lo revisaremos y lo publicaremos pronto.")
             return redirect("cuentas:mi_cuenta")
         return render(request, "cuentas/completar_taller.html", {"negocio": negocio})
-    if tipo == "mecanico":  # cuenta de Google sin rol: solo le falta el perfil de mecánico
+    if tipo == "mecanico" and ajuste("mecanicos_activo"):  # cuenta de Google sin rol: solo le falta el perfil de mecánico
         return redirect("domicilio:registro")
     return render(request, "cuentas/registro_elegir.html", {"completar": True})
 

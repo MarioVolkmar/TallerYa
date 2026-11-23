@@ -3,6 +3,7 @@ from urllib.parse import quote
 from django.contrib import messages
 from django.contrib.auth.views import redirect_to_login
 from django.core.cache import cache
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -10,6 +11,7 @@ from metricas.nucleo import registrar_evento
 
 from .forms import CanjeForm, ObtenerCuponForm
 from .models import CodigoCupon, Cupon, Motociclista
+from consola.ajustes import ajuste
 from .servicios import (CuponNoDisponible, ErrorCanje, RequierePlus, RequiereVerificacion, buscar_codigo, canjear, obtener_codigo,
                         obtener_codigo_para)
 
@@ -26,8 +28,43 @@ def _por_puntos(cupones, puntos):
     return lista
 
 
+def _filtros_lista(request, cupones):
+    """Filtros de la página de descuentos: tipo (talleres / a domicilio), servicio y barrio del taller o zona del
+    mecánico. Los servicios de talleres y mecánicos son listas distintas: se comparan por nombre."""
+    from domicilio.models import TipoServicio, Zona
+    from talleres.models import Barrio, Servicio
+    g = request.GET
+    tipo = g.get("tipo") if g.get("tipo") in ("talleres", "domicilio") else ""
+    servicio = g.get("servicio", "")[:80]
+    donde = g.get("donde", "")
+    if tipo == "talleres":
+        cupones = cupones.filter(mecanico__isnull=True)
+    elif tipo == "domicilio":
+        cupones = cupones.filter(mecanico__isnull=False)
+    nombres = sorted(set(Servicio.objects.values_list("nombre", flat=True)) | set(TipoServicio.objects.values_list("nombre", flat=True)))
+    if servicio in nombres:
+        cupones = cupones.filter(Q(taller__servicios__nombre=servicio) | Q(mecanico__servicios__nombre=servicio)).distinct()
+    else:
+        servicio = ""
+    barrios = list(Barrio.objects.filter(talleres__activo=True).distinct().order_by("ciudad", "nombre"))
+    zonas = list(Zona.objects.filter(mecanicos__estado="aprobado").distinct().order_by("orden", "nombre"))
+    clase, _, pk = donde.partition("-")
+    if clase == "b" and pk.isdigit():
+        cupones = cupones.filter(taller__barrio_id=int(pk))
+    elif clase == "z" and pk.isdigit():
+        cupones = cupones.filter(mecanico__zonas=int(pk))
+    else:
+        donde = ""
+    barrios = [(f"b-{b.pk}", b.nombre if b.ciudad == "Medellín" else f"{b.nombre} ({b.ciudad})") for b in barrios]
+    zonas = [(f"z-{z.pk}", z.nombre) for z in zonas]
+    return cupones, {"tipo": tipo, "servicio": servicio, "donde": donde, "servicios": nombres, "barrios": barrios,
+                     "zonas": zonas, "filtrando": bool(tipo or servicio or donde),
+                     "hay_domicilio": Cupon.objects.disponibles().filter(mecanico__isnull=False).exists()}
+
+
 def lista(request):
-    cupones = Cupon.objects.disponibles().con_nota_taller()
+    todos = Cupon.objects.disponibles().con_nota_taller()
+    cupones, filtros = _filtros_lista(request, todos)
     puntos = None
     if request.user.is_authenticated:
         from logros.reglas import puntos_disponibles
@@ -35,7 +72,8 @@ def lista(request):
     return render(request, "cupones/lista.html", {
         "cupones": cupones,
         # Los que también se pueden canjear con los puntos de las insignias, del más barato al más caro
-        "por_puntos": _por_puntos(cupones, puntos),
+        "por_puntos": _por_puntos(todos, puntos),
+        "f": filtros,
         "mis_puntos": puntos,
         "invitado": SESION_REF in request.session,
     })
@@ -64,7 +102,7 @@ def obtener(request, pk):
                 )
         except RequierePlus as e:
             messages.info(request, str(e))
-            return redirect("cuentas:plus")
+            return redirect("cuentas:plus" if ajuste("plus_activo") else "cupones:lista")
         except RequiereVerificacion as e:
             messages.info(request, str(e))
             return redirect("domiciliarios:verificacion")

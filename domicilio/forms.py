@@ -10,8 +10,21 @@ from .models import FotoTrabajo, MecanicoDomicilio, PrecioMecanico, ResenaMecani
 MAX_FOTO = 5 * 1024 * 1024  # antes de recortar; se guarda un JPEG de 480x480
 
 # Pasos del alta (registro.html los muestra uno a uno en el celular). El paso «cuenta» solo si no hay sesión.
-PASO_TRABAJO = ["nombre", "whatsapp", "zonas", "servicios", "anios_experiencia", "urgencias", "tarifa_visita"]
-PASO_VERIFICACION = ["cedula", "foto", "descripcion", "referencias", "horario", "marcas"]
+# Lo mínimo para publicar va a la vista; lo opcional, en el bloque plegado «Completa tu perfil».
+PASO_TRABAJO = ["nombre", "whatsapp", "zona_modo", "zonas", "servicios", "tarifa_visita", "anios_experiencia", "urgencias"]
+PASO_VERIFICACION = ["cedula"]
+PASO_OPCIONAL = ["foto", "descripcion", "marcas", "horario", "referencias"]
+
+# Atajos del selector de zonas: «Toda Medellín» = las zonas con ciudad Medellín; «Todo el Valle» = todas.
+ZONA_MEDELLIN, ZONA_VALLE, ZONA_ELEGIR = "medellin", "valle", "elegir"
+
+
+class PesosField(forms.IntegerField):
+    """Entero en pesos que acepta «$ 25.000» o «25,000» (el JS pone los puntos de miles al escribir)."""
+    def to_python(self, value):
+        if isinstance(value, str):
+            value = "".join(c for c in value if c.isdigit())
+        return super().to_python(value)
 
 
 def foto_trabajo(archivo):
@@ -30,28 +43,72 @@ def foto_trabajo(archivo):
     return ContentFile(salida.getvalue(), name="trabajo.jpg")
 
 
-class PerfilMecanicoForm(EstiloMixin, forms.ModelForm):
+class ZonasAtajoMixin(forms.Form):
+    """Selector de zonas del alta del mecánico y del servicio a domicilio del taller: tres atajos («Toda Medellín»,
+    «Todo el Valle», «Elegir zonas») más las casillas reales de `zonas` (se usan con «Elegir» o sin JS).
+    También trae la tarifa con «$» y puntos de miles."""
+    zona_modo = forms.ChoiceField(
+        label="¿Dónde atiendes?", required=False, widget=forms.RadioSelect,
+        choices=[(ZONA_MEDELLIN, "Toda Medellín"), (ZONA_VALLE, "Todo el Valle"), (ZONA_ELEGIR, "Elegir zonas")])
+    tarifa_visita = PesosField(
+        label="Tarifa de visita", required=False, min_value=0, max_value=2_000_000,
+        help_text="Orientativa: el precio final lo acuerdas con el cliente.",
+        widget=forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off", "placeholder": "25.000"}))
+
+    def iniciar_zonas(self):
+        if "zona_modo" in self.fields:
+            self.fields["zonas"].required = False  # se exige en limpiar_zonas(), según el atajo elegido
+            if self.instance.pk and not self.is_bound:
+                self.initial.setdefault("zona_modo", self.modo_de(set(self.instance.zonas.values_list("pk", flat=True))))
+
+    @staticmethod
+    def zonas_del_modo(modo):
+        from .models import Zona
+        if modo == ZONA_MEDELLIN:
+            return Zona.objects.filter(ciudad="Medellín")
+        return Zona.objects.all() if modo == ZONA_VALLE else None
+
+    @classmethod
+    def modo_de(cls, pks):
+        """El atajo que corresponde a unas zonas guardadas (para mostrarlo al editar)."""
+        for modo in (ZONA_MEDELLIN, ZONA_VALLE):
+            if pks and pks == set(cls.zonas_del_modo(modo).values_list("pk", flat=True)):
+                return modo
+        return ZONA_ELEGIR if pks else ""
+
+    def limpiar_zonas(self, datos, exigir=True):
+        if "zona_modo" not in self.fields:
+            return
+        atajo = self.zonas_del_modo(datos.get("zona_modo"))
+        if atajo is not None:
+            datos["zonas"] = atajo
+        elif exigir and not datos.get("zonas") and "zonas" not in self.errors:
+            self.add_error("zonas", "Elige dónde atiendes.")
+
+
+class PerfilMecanicoForm(ZonasAtajoMixin, EstiloMixin, forms.ModelForm):
     """Lo que el mecánico llena al registrarse y puede cambiar después. Estado y «verificado» solo los toca el equipo."""
     # Más largo que el campo del modelo: acepta «+57 300 123 4567» y clean_whatsapp lo deja en 573001234567
     whatsapp = forms.CharField(
         label="WhatsApp o celular", max_length=20,
-        help_text="10 dígitos, ej: 3001234567. Los motociclistas te escriben a este número.",
-        widget=forms.TextInput(attrs={"inputmode": "tel", "autocomplete": "tel", "placeholder": "3001234567"}))
+        help_text="Aquí te escriben los motociclistas.",
+        widget=forms.TextInput(attrs={"inputmode": "tel", "autocomplete": "tel", "placeholder": "300 123 4567"}))
     # No es campo del modelo: se guarda solo su huella HMAC y los 4 últimos dígitos (MecanicoDomicilio.poner_cedula)
     cedula = forms.CharField(
         label="Número de cédula", max_length=15, required=True,
-        help_text="Solo para verificar tu identidad: no se publica ni se guarda completo (solo los 4 últimos dígitos).",
+        help_text="No se publica ni se guarda completa (solo los 4 últimos dígitos).",
         widget=forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off", "placeholder": "1020304050"}))
+
 
     class Meta:
         model = MecanicoDomicilio
         fields = ["nombre", "whatsapp", "zonas", "servicios", "anios_experiencia", "urgencias", "tarifa_visita",
-                  "cedula", "foto", "descripcion", "referencias", "horario", "marcas"]
+                  "cedula", "foto", "descripcion", "referencias", "horario", "marcas", "multimarca"]
         labels = {"nombre": "Nombre visible", "foto": "Foto (tu cara o tú trabajando)",
                   "zonas": "¿Dónde atiendes?", "servicios": "¿Qué trabajos haces a domicilio?",
-                  "marcas": "Marcas que mejor conoces (opcional)", "tarifa_visita": "Tarifa de visita orientativa",
-                  "horario": "Horario (opcional)", "descripcion": "Cuéntale a los moteros tu experiencia",
-                  "referencias": "Referencias (opcional, ayudan a verificarte)"}
+                  "marcas": "Marcas que mejor conoces", "tarifa_visita": "Tarifa de visita orientativa",
+                  "horario": "Horario", "descripcion": "Cuéntale a los moteros tu experiencia",
+                  "referencias": "Referencias"}
         help_texts = {"whatsapp": "10 dígitos, ej: 3001234567. Los motociclistas te escriben a este número.",
                       "tarifa_visita": "En pesos, sin puntos. Es una referencia: el precio final lo acuerdas con el cliente."}
         widgets = {
@@ -73,13 +130,23 @@ class PerfilMecanicoForm(EstiloMixin, forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["anios_experiencia"].required = False
+        self.iniciar_zonas()
         if self.instance.pk and self.instance.cedula_ultimos:  # editar: la cédula ya está; solo se cambia si escribe otra
             self.fields["cedula"].required = False
             self.fields["cedula"].help_text = (f"Registrada (termina en {self.instance.cedula_ultimos}). "
                                                "Déjalo vacío para conservarla.")
 
+    def clean_anios_experiencia(self):
+        return self.cleaned_data.get("anios_experiencia") or 0  # opcional en el alta: vacío = 0
+
     def clean_whatsapp(self):
         return normalizar_celular(self.cleaned_data["whatsapp"])
+
+    def clean(self):
+        datos = super().clean()
+        self.limpiar_zonas(datos)
+        return datos
 
     def clean_cedula(self):
         valor = self.cleaned_data.get("cedula", "")
@@ -148,8 +215,8 @@ class PrecioMecanicoForm(EstiloMixin, forms.ModelForm):
     class Meta:
         model = PrecioMecanico
         fields = ["servicio", "cilindraje", "desde", "hasta"]
-        widgets = {"desde": forms.NumberInput(attrs={"min": 0, "step": 1000, "placeholder": "50000"}),
-                   "hasta": forms.NumberInput(attrs={"min": 0, "step": 1000, "placeholder": "100000"})}
+        widgets = {"desde": forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off", "placeholder": "50.000"}),
+                   "hasta": forms.TextInput(attrs={"inputmode": "numeric", "autocomplete": "off", "placeholder": "100.000"})}
 
     def clean(self):
         datos = super().clean()
@@ -170,7 +237,7 @@ def precios_formset(mecanico):
             self.fields["servicio"].queryset = mecanico.servicios.all()
             self.fields["servicio"].empty_label = "Elige el servicio"
 
-    return forms.inlineformset_factory(MecanicoDomicilio, PrecioMecanico, form=Form, formset=_PreciosBase, extra=3,
+    return forms.inlineformset_factory(MecanicoDomicilio, PrecioMecanico, form=Form, formset=_PreciosBase, extra=0,
                                        can_delete=True, max_num=40)
 
 
@@ -184,12 +251,12 @@ class ResenaMecanicoForm(EstiloMixin, forms.ModelForm):
         widgets = {"comentario": forms.Textarea(attrs={"rows": 3, "maxlength": 600})}
 
 
-class TallerDomicilioForm(EstiloMixin, forms.ModelForm):
+class TallerDomicilioForm(ZonasAtajoMixin, EstiloMixin, forms.ModelForm):
     """Lo que el taller llena para salir también en Mecánicos a domicilio."""
 
     class Meta:
         model = TallerDomicilio
-        fields = ["activo", "zonas", "servicios", "urgencias", "tarifa_visita"]
+        fields = ["activo", "zonas", "servicios", "urgencias", "tarifa_visita"]  # + zona_modo (ZonasAtajoMixin)
         labels = {"activo": "También atiendo a domicilio", "zonas": "¿A qué zonas vas?",
                   "servicios": "¿Qué trabajos haces a domicilio?", "tarifa_visita": "Tarifa de visita orientativa"}
         help_texts = {"tarifa_visita": "En pesos, sin puntos. Es una referencia: el precio final lo acuerdas con el cliente."}
@@ -198,8 +265,13 @@ class TallerDomicilioForm(EstiloMixin, forms.ModelForm):
             "tarifa_visita": forms.NumberInput(attrs={"min": 0, "step": 1000, "placeholder": "25000"}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.iniciar_zonas()
+
     def clean(self):
         datos = super().clean()
+        self.limpiar_zonas(datos, exigir=False)
         if datos.get("activo"):
             if not datos.get("zonas"):
                 self.add_error("zonas", "Elige al menos una zona para salir en el listado.")

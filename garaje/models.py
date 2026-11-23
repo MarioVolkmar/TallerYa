@@ -1017,6 +1017,7 @@ class FichaDiagnostico(models.Model):
     revisa = models.CharField(max_length=300, blank=True)
     piezas = models.JSONField(default=list, blank=True)
     enlace = models.CharField("enlace al diagnóstico", max_length=300, blank=True)
+    nota = models.CharField("explicación del motero", max_length=500, blank=True)
     destino = models.CharField(max_length=10, choices=Destino.choices)
     taller = models.ForeignKey(Taller, on_delete=models.SET_NULL, null=True, blank=True, related_name="fichas_diagnostico")
     mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", on_delete=models.SET_NULL, null=True, blank=True,

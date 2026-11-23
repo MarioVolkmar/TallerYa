@@ -69,9 +69,9 @@ TALLERES = [
             "equipo": [
                 {"nombre": "Jhon Fredy Ospina", "rol": "Jefe de taller", "anios": 20,
                  "especialidad": "Inyección electrónica y carburación"},
-                {"nombre": "Yésica Arango", "rol": "Técnica", "anios": 8,
+                {"nombre": "Yésica Arango", "rol": "Técnico", "anios": 8,
                  "especialidad": "Frenos, suspensión y kit de arrastre"},
-                {"nombre": "Mateo Cardona", "rol": "Técnico SENA", "anios": 4, "especialidad": "Scooters y transmisión CVT"},
+                {"nombre": "Mateo Cardona", "rol": "Técnico", "anios": 4, "especialidad": "Scooters y transmisión CVT"},
             ],
             "especialidades": ["inyeccion", "carburacion", "scooters", "trabajo", "frenos", "arrastre"],
             "garantia_meses": 1,

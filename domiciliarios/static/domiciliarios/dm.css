@@ -111,6 +111,17 @@
 .dm-interruptor-solo { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .8rem; padding: .2rem .1rem; border-bottom: 1px solid var(--borde); }
 .dm-interruptor-solo small { font-size: .8rem; flex: 1 1 14rem; padding-bottom: .5rem; }
 
+/* Tarjeta «Moto de trabajo» de la agenda: ícono, título y texto, interruptor a la derecha */
+.dm-trabajo { display: flex; align-items: center; gap: .9rem; padding: .85rem 1rem; }
+.dm-trabajo-icono { width: 44px; height: 44px; flex-shrink: 0; display: grid; place-items: center; border-radius: 12px; background: rgba(242, 97, 29, .14); color: var(--lava); }
+.dm-trabajo-datos { flex: 1 1 auto; min-width: 0; }
+.dm-trabajo-titulo { font-weight: 600; margin: 0; }
+.dm-trabajo-texto { font-size: .86rem; color: var(--crema-2); margin: .15rem 0 0; }
+.dm-trabajo-texto a { color: var(--mostaza, #e3a72f); text-decoration: underline; text-underline-offset: 3px; }
+.dm-trabajo-switch { flex-shrink: 0; margin: 0; }
+.dm-trabajo .dm-switch { min-width: 44px; min-height: 44px; }
+.dm-trabajo { --dm-bien: #3fbf6b; }
+
 /* Franja de la moto de trabajo, dentro de la agenda */
 .dm-franja { display: grid; grid-template-columns: 1fr; gap: .7rem; padding: .85rem 1rem; border-radius: 12px; background: var(--pizarra); border-left: 4px solid var(--lava); }
 .dm-franja-titulo { font-weight: 700; font-size: .95rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
@@ -250,3 +261,4 @@ a.dm-chapa-verif:hover { border-color: var(--lava); color: var(--crema); }
 a.dm-chapa-verif:focus-visible { outline: 2px solid var(--lava); outline-offset: 2px; }
 .dm-ficha-chapa { padding: 0 !important; border: 0 !important; background: none !important; }
 .dm-ficha-chapa .dm-chapa-verif { font-size: .8rem; padding: .42rem .75rem; }
+@media (max-width: 767px) { .dm-trabajo-texto a { display: inline-flex; align-items: center; min-height: 44px; } }

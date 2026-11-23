@@ -101,7 +101,7 @@ class EditarPerfilEstandarizadoTests(TestCase):
                  "equipo-TOTAL_FORMS": "3", "equipo-INITIAL_FORMS": "0", "equipo-MIN_NUM_FORMS": "0",
                  "equipo-MAX_NUM_FORMS": "6",
                  "equipo-0-nombre": "Carlos", "equipo-0-rol": "Jefe de taller", "equipo-0-anios": "12",
-                 "equipo-0-especialidad": "Frenos", "equipo-1-nombre": "", "equipo-2-nombre": ""}
+                 "equipo-0-especialidad": str(self.servicio.pk), "equipo-1-nombre": "", "equipo-2-nombre": ""}
         datos.update(extra)
         return datos
 
@@ -110,7 +110,7 @@ class EditarPerfilEstandarizadoTests(TestCase):
         self.assertContains(self.client.post(self.url, self._datos(), follow=True), "¡Perfil actualizado!")
         self.taller.refresh_from_db()
         self.assertEqual(self.taller.equipo, [{"nombre": "Carlos", "rol": "Jefe de taller", "anios": 12,
-                                               "especialidad": "Frenos"}])
+                                               "especialidad": self.servicio.nombre, "servicio": self.servicio.pk}])
         self.assertEqual((self.taller.especialidades, self.taller.garantia_meses, self.taller.compromisos),
                          (["frenos", "scooters"], 3, ["fotos", "presupuesto"]))
         self.assertGreater(self.client.get(self.url).context["completitud"]["pct"], antes)
@@ -122,6 +122,25 @@ class EditarPerfilEstandarizadoTests(TestCase):
         self.assertContains(r, "Escribe el nombre o borra la fila.")
         self.taller.refresh_from_db()
         self.assertEqual(self.taller.equipo, [])
+
+
+class EquipoCatalogoTests(EditarPerfilEstandarizadoTests):
+    def test_otra_pide_texto_y_lo_guarda(self):
+        r = self.client.post(self.url, self._datos(**{"equipo-0-especialidad": "otra"}))
+        self.assertContains(r, "Escribe la especialidad")
+        self.client.post(self.url, self._datos(**{"equipo-0-especialidad": "otra", "equipo-0-especialidad_otra": "Scooters"}))
+        self.taller.refresh_from_db()
+        self.assertEqual((self.taller.equipo[0]["especialidad"], self.taller.equipo[0]["servicio"]), ("Scooters", None))
+        self.assertContains(self.client.get(self.url), 'value="Scooters"')
+
+    def test_reglas_de_cercania(self):
+        from talleres import perfil
+        self.assertEqual(perfil.rol_cercano("Técnica SENA"), "Técnico")
+        self.assertEqual(perfil.rol_cercano("Dueño"), "Jefe de taller")
+        serv = [(1, "Frenos"), (2, "Suspensión"), (3, "Sincronización")]
+        self.assertEqual(perfil.servicio_cercano("Suspensiones y horquillas", serv), 2)
+        self.assertEqual(perfil.servicio_cercano("Inyección electrónica", serv), 3)
+        self.assertIsNone(perfil.servicio_cercano("Scooters y CVT", serv))
 
 
 class CompletarPerfilDemoTests(TestCase):

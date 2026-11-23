@@ -34,11 +34,12 @@ class Regla:
     exito: str = "Listo."   # mensaje para el aviso; mismo formato que la frase
     extras: dict = field(default_factory=dict)
     nombre: str = ""        # para el filtro de la bitácora: "Cambiar rol"
+    superusuario: bool = False  # solo el superusuario puede correrla
 
 
-def accion(clave, *, modelo, frase, campos, exito="Listo.", nombre=""):
+def accion(clave, *, modelo, frase, campos, exito="Listo.", nombre="", superusuario=False):
     def decorador(funcion):
-        ACCIONES[clave] = Regla(clave, modelo, frase, campos, funcion, exito, nombre=nombre or clave)
+        ACCIONES[clave] = Regla(clave, modelo, frase, campos, funcion, exito, nombre=nombre or clave, superusuario=superusuario)
         return funcion
     return decorador
 
@@ -93,7 +94,7 @@ def correr(regla, request, obj, ip=None):
 # ---------- Fábricas para los casos repetidos (una línea por acción en cada sección) ----------
 def interruptor(clave, *, modelo, campo, etiqueta, nombre, si, no, describe, antes_de=None, despues_de=None):
     """Acción que prende o apaga un campo booleano (POST valor=1/0).
-    si/no: verbos para la frase ("Publicó"/"Despublicó"); describe: "el taller #{pk} ({obj.nombre})"."""
+    si/no: verbos para la frase ("Reactivó"/"Pausó"); describe: "el taller #{pk} ({obj.nombre})"."""
     @accion(clave, modelo=modelo, nombre=nombre, campos={campo: (etiqueta, lambda o: getattr(o, campo))},
             frase="{verbo} " + describe, exito="{verbo} " + describe + ".")
     def _interruptor(request, obj):

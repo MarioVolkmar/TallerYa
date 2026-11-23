@@ -103,7 +103,7 @@
         <a href="{{ moto.get_absolute_url }}#plan" class="btn btn-borde dm-ancho">Ver la agenda completa</a>
       </section>
 
-      <a href="{% url 'domicilio:listado' %}?urgencias=1" class="papel dm-caja dm-varado-btn"><b>¿Te varaste?</b><span>Mecánicos que van a donde estás</span></a>
+      {% if mecanicos_activo %}<a href="{% url 'domicilio:listado' %}?urgencias=1" class="papel dm-caja dm-varado-btn"><b>¿Te varaste?</b><span>Mecánicos que van a donde estás</span></a>{% endif %}
 
       {% if aliados %}
       <section class="papel dm-caja">

@@ -3,6 +3,7 @@ personales del visitante)."""
 from datetime import date
 
 from django.db.models import Q, Sum
+from django.shortcuts import get_object_or_404
 
 from talleres.models import EventoDiario, Taller
 
@@ -30,7 +31,63 @@ def _mes_pedido(valor, opciones):
     return d if d in opciones else opciones[0]
 
 
+def _por_mes(hoy, filas_por_mes, columnas):
+    """12 meses (el más reciente primero) con las columnas pedidas; filas_por_mes: {(año, mes): {col: n}}."""
+    salida = []
+    for d in _meses(hoy):
+        datos = filas_por_mes.get((d.year, d.month), {})
+        salida.append({"mes": f"{MESES[d.month - 1].capitalize()} {d.year}", **{c: datos.get(c, 0) for c in columnas}})
+    return salida
+
+
+def _detalle_taller(request, pk):
+    taller = get_object_or_404(Taller, pk=pk if str(pk).isdigit() else 0)
+    desde = _meses(reloj.hoy())[-1]
+    acum = {}
+    for e in EventoDiario.objects.filter(taller=taller, fecha__gte=desde):
+        acum.setdefault((e.fecha.year, e.fecha.month), {})[e.tipo] = acum.get((e.fecha.year, e.fecha.month), {}).get(e.tipo, 0) + e.cantidad
+    filas = _por_mes(reloj.hoy(), acum, (T.VISITA, T.WHATSAPP, T.LLAMADA))
+    total = {c: sum(f[c] for f in filas) for c in (T.VISITA, T.WHATSAPP, T.LLAMADA)}
+    return "consola/reporte_detalle.html", {
+        "quien": taller.nombre, "ficha": taller.get_absolute_url(), "volver": "?seccion=talleres",
+        "columnas": [("Vistas del perfil", T.VISITA), ("Clics a WhatsApp", T.WHATSAPP), ("Clics a llamar", T.LLAMADA)],
+        "filas": filas, "total": total, "nota": "",
+    }
+
+
+def _detalle_mecanico(request, pk):
+    from django.db.models import Count
+    from domicilio.models import MecanicoDomicilio, ResenaMecanico, SolicitudVisita
+    m = get_object_or_404(MecanicoDomicilio, pk=pk if str(pk).isdigit() else 0)
+    desde = _meses(reloj.hoy())[-1]
+    acum = {}
+    from cupones.models import CodigoCupon
+    fuentes = ((SolicitudVisita.objects.filter(mecanico=m, creado__date__gte=desde), "creado", "solicitudes"),
+               (ResenaMecanico.objects.filter(mecanico=m, creado__date__gte=desde), "creado", "resenas"),
+               # Descuentos: tomados por moteros y usados con el mecánico (por dentro son cupones)
+               (CodigoCupon.objects.filter(cupon__mecanico=m, creado__date__gte=desde), "creado", "descuentos"),
+               (CodigoCupon.objects.filter(canjeado_mecanico=m, canjeado_en__date__gte=desde), "canjeado_en", "canjes"))
+    for qs, campo, col in fuentes:
+        for e in qs.values_list(campo, flat=True):
+            d = acum.setdefault((e.year, e.month), {})
+            d[col] = d.get(col, 0) + 1
+    cols = ("solicitudes", "resenas", "descuentos", "canjes")
+    filas = _por_mes(reloj.hoy(), acum, cols)
+    total = {c: sum(f[c] for f in filas) for c in cols}
+    return "consola/reporte_detalle.html", {
+        "quien": m.nombre, "ficha": m.get_absolute_url(), "volver": "?seccion=mecanicos",
+        "columnas": [("Solicitudes de visita", "solicitudes"), ("Reseñas nuevas", "resenas"),
+                     ("Descuentos tomados", "descuentos"), ("Descuentos usados", "canjes")],
+        "filas": filas, "total": total,
+        "nota": "Aún no se cuentan las vistas del perfil ni los clics a WhatsApp o llamar de los mecánicos; solo solicitudes, reseñas y descuentos.",
+    }
+
+
 def seccion(request):
+    if request.GET.get("taller"):
+        return _detalle_taller(request, request.GET["taller"])
+    if request.GET.get("mecanico"):
+        return _detalle_mecanico(request, request.GET["mecanico"])
     opciones = _meses(reloj.hoy())
     mes = _mes_pedido(request.GET.get("mes", ""), opciones)
     siguiente = date(mes.year + (mes.month == 12), mes.month % 12 + 1, 1)

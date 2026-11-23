@@ -7,5 +7,6 @@ app_name = "consola"
 urlpatterns = [
     path("consola/", views.consola, name="inicio"),
     path("consola/alta-taller/", alta_taller.alta, name="alta_taller"),
+    path("consola/ajuste/<str:clave>/", views.ajuste, name="ajuste"),
     path("consola/accion/<str:clave>/<int:pk>/", views.ejecutar, name="accion"),
 ]

@@ -3,7 +3,7 @@ import secrets
 import string
 
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+from django.db.models import Exists, OuterRef, Q
 from django.shortcuts import get_object_or_404
 
 from cuentas import roles
@@ -53,7 +53,24 @@ def motero_de(u):
     return Motociclista.objects.filter(usuario=u).first()
 
 
+def con_marca_domiciliario(qs):
+    """Anota es_domiciliario, dom_vigente y dom_pendiente (una subconsulta cada una, sin N+1)."""
+    from django.utils import timezone
+    from domiciliarios.models import PerfilDomiciliario, Verificacion
+    return qs.annotate(
+        dom_vigente=Exists(Verificacion.objects.filter(perfil__motociclista__usuario=OuterRef("pk"),
+                                                       estado=Verificacion.Estado.APROBADA,
+                                                       vence__gte=timezone.localdate())),
+        es_domiciliario=Exists(PerfilDomiciliario.objects.filter(motociclista__usuario=OuterRef("pk"))),
+        dom_pendiente=Exists(Verificacion.objects.filter(perfil__motociclista__usuario=OuterRef("pk"),
+                                                         estado=Verificacion.Estado.PENDIENTE)))
+
+
 def filtrar_por_rol(qs, rol):
+    if rol == "domiciliario":
+        return qs.filter(es_domiciliario=True)
+    if rol == "domiciliario_pendiente":
+        return qs.filter(dom_pendiente=True)
     sin_taller = Q(taller__isnull=True)
     return {
         roles.ADMIN: qs.filter(is_staff=True),
@@ -219,7 +236,7 @@ def seccion(request):
         return ficha(request, request.GET["id"])
     form = FiltroUsuarios(request.GET)
     datos = form.cleaned_data if form.is_valid() else {}
-    qs = User.objects.select_related("perfil", "taller", "motociclista").order_by("-date_joined")
+    qs = con_marca_domiciliario(User.objects.select_related("perfil", "taller", "motociclista")).order_by("-date_joined")
     if datos.get("q"):
         q = datos["q"]
         filtro = (Q(email__icontains=q) | Q(first_name__icontains=q) | Q(last_name__icontains=q)
@@ -232,7 +249,7 @@ def seccion(request):
         qs = qs.filter(is_active=datos["estado"] == "activa")
     datos_pagina = paginar(request, qs, "usuarios")
     return "consola/usuarios.html", {
-        "form": form, "filas": [(u, roles.rol_de(u)) for u in datos_pagina["pagina"]], "nombres_rol": NOMBRES_ROL,
+        "form": form, "filas": [(u, roles.rol_de(u), analizar_eliminacion(request, u)) for u in datos_pagina["pagina"]], "nombres_rol": NOMBRES_ROL,
         "ayuda_incompleto": AYUDA_INCOMPLETO, **datos_pagina,
     }
 
@@ -244,7 +261,11 @@ def ficha(request, pk):
     preguntas = Pregunta.objects.filter(autor=u).order_by("-pk")
     codigos = (CodigoCupon.objects.filter(motociclista=motero).select_related("cupon__taller").order_by("-creado")
                if motero else CodigoCupon.objects.none())
+    from domiciliarios.models import Verificacion
+    verificaciones = (Verificacion.objects.filter(perfil__motociclista__usuario=u)
+                      .select_related("perfil__motociclista__usuario", "moto", "revisado_por").order_by("-creado")[:10])
     return "consola/usuario_ficha.html", {
+        "verificaciones": verificaciones, "es_domiciliario": hasattr(motero, "domiciliario") if motero else False,
         "u": u, "rol_u": rol_actual(u), "nombres_rol": NOMBRES_ROL, "ayuda_incompleto": AYUDA_INCOMPLETO, "motero": motero, "taller_u": taller_de(u),
         "motos": motero.motos.select_related("linea__marca") if motero else [],
         "citas": citas[:8], "n_citas": citas.count(),

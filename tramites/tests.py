@@ -12,7 +12,9 @@ from garaje.models import LineaMoto, Moto
 from notificaciones.models import Notificacion
 from talleres.models import Marca
 
-from .models import CentroCDA, PedidoSoat, TarifaSoat
+from proveedores.models import Categoria, Proveedor
+
+from .models import PedidoSoat, TarifaSoat
 
 
 class TramitesTests(TestCase):
@@ -30,7 +32,7 @@ class TramitesTests(TestCase):
 
     def _vaciar(self):
         TarifaSoat.objects.all().delete()
-        CentroCDA.objects.all().delete()
+        Proveedor.objects.filter(categoria__slug="cda").delete()
 
     def test_categoria_por_cilindraje(self):
         C = TarifaSoat.Categoria
@@ -148,14 +150,17 @@ class TramitesTests(TestCase):
 
     def test_cda_aliado_primero_y_whatsapp_con_placa(self):
         self._vaciar()
-        CentroCDA.objects.create(nombre="CDA Norte", direccion="Cra 1", whatsapp="573001112233")
-        CentroCDA.objects.create(nombre="CDA Aliado", direccion="Cra 2", aliado=True, whatsapp="573004445566")
-        CentroCDA.objects.create(nombre="CDA Inactivo", direccion="Cra 3", activo=False)
+        cda = lambda nombre, **k: Proveedor.objects.create(categoria=Categoria.objects.get(slug="cda"), nombre=nombre,
+                                                           municipio="Medellín", origen_alta="equipo", **k)
+        cda("CDA Norte", direccion="Cra 1", whatsapp="573001112233", estado="publicado")
+        cda("CDA Aliado", direccion="Cra 2", aliado=True, whatsapp="3004445566", estado="publicado")
+        cda("CDA Inactivo", direccion="Cra 3", estado="pausado")
         self.client.force_login(self.usuario)
         h = self.client.get(reverse("tramites:tecnomecanica")).content.decode()
         self.assertLess(h.index("CDA Aliado"), h.index("CDA Norte"))
         self.assertNotIn("CDA Inactivo", h)
         self.assertIn("placa%20ABC12D", h)
+        self.assertIn("https://wa.me/573004445566?text=", h)  # número sin indicativo: se completa con 57
 
     def test_tecno_sin_cda_muestra_aviso(self):
         self._vaciar()

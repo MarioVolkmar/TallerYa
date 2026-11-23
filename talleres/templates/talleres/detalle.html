@@ -14,7 +14,7 @@
         <div class="flex flex-wrap gap-2">
           {% if taller.verificado %}<span class="insignia insignia-verificado">✔ Verificado</span>{% endif %}
           {% if taller.destacado %}<span class="insignia insignia-lava">Destacado</span>{% endif %}
-          {% with d=taller.domicilio %}{% if d.activo %}<a href="{% url 'domicilio:listado' %}?tipo=talleres" class="insignia insignia-dom" title="También atiende a domicilio">🛵 Va a domicilio</a>{% endif %}{% endwith %}
+          {% with d=taller.domicilio %}{% if d.activo and mecanicos_activo %}<a href="{% url 'domicilio:listado' %}?tipo=talleres" class="insignia insignia-dom" title="También atiende a domicilio">🛵 Servicio a domicilio</a>{% endif %}{% endwith %}
         </div>
         <h1 class="titulo text-4xl sm:text-5xl md:text-6xl mt-2 max-w-3xl">{{ taller.nombre }}</h1>
         <p class="perfil-datos">
@@ -23,7 +23,7 @@
           {% if estado_horario %}<span class="perfil-estado{% if estado_horario.abierto %} abierto{% endif %}">{{ estado_horario.texto }}</span>
           {% elif taller.horario %}<span>🕒 {{ taller.horario }}</span>{% endif %}
         </p>
-        {% with d=taller.domicilio %}{% if d.activo %}<p class="perfil-domicilio">🛵 <strong>También va a domicilio</strong>{% with zs=d.zonas.all %}{% if zs %}: {{ zs|join:", " }}{% endif %}{% endwith %}{% if d.tarifa_visita %} · visita desde {{ d.tarifa_texto }}{% endif %}{% if d.urgencias %} · atiende urgencias{% endif %}.</p>{% endif %}{% endwith %}
+        {% with d=taller.domicilio %}{% if d.activo %}<p class="perfil-domicilio">🛵 <strong>Servicio a domicilio</strong>{% with zt=d.zonas_texto %}{% if zt %} en {{ zt }}{% endif %}{% endwith %}{% if d.tarifa_visita %} · visita desde {{ d.tarifa_texto }}{% endif %}{% if d.urgencias %} · atiende urgencias{% endif %}.</p>{% endif %}{% endwith %}
       </div>
     </div>
     {% if taller.descripcion %}<p class="perfil-lema">{{ taller.descripcion|truncatechars:300 }}</p>{% endif %}
@@ -111,7 +111,7 @@
           <p class="font-semibold leading-tight">{{ m.nombre }}</p>
           {% if m.rol %}<p class="perfil-mecanico-rol">{{ m.rol }}</p>{% endif %}
           {% if m.anios %}<p class="text-sm text-suave mt-1">{{ m.anios }} año{{ m.anios|pluralize }} de experiencia</p>{% endif %}
-          {% if m.especialidad %}<p class="text-sm mt-1">{{ m.especialidad }}</p>{% endif %}
+          {% if m.especialidad %}<p class="text-sm mt-1">Especialista en {{ m.especialidad }}</p>{% endif %}
         </div>
       </div>
       {% endfor %}
@@ -119,16 +119,16 @@
   </section>
   {% endif %}
 
-  {% if especialidades or marcas or compromisos %}
+  {% if especialidades or marcas or taller.multimarca or compromisos %}
   <!-- Especialidades, marcas y cómo trabajamos -->
   <section>
     <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.trabajo }}</span>En qué es bueno y cómo trabaja</h2>
     <div class="separador mt-4 mb-6"></div>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
-      {% if especialidades or marcas %}
+      {% if especialidades or marcas or taller.multimarca %}
       <div class="papel p-6 space-y-5">
         {% if especialidades %}<div><h3 class="perfil-subtitulo">Especialidades</h3><div class="perfil-chips mt-3">{% for e in especialidades %}<span class="perfil-chip">{{ e }}</span>{% endfor %}</div></div>{% endif %}
-        {% if marcas %}<div><h3 class="perfil-subtitulo">Marcas que atiende</h3><div class="perfil-chips mt-3">{% for m in marcas %}<span class="perfil-chip perfil-chip-marca">{{ m.nombre }}</span>{% endfor %}</div></div>{% endif %}
+        {% if marcas or taller.multimarca %}<div><h3 class="perfil-subtitulo">Marcas que atiende</h3><div class="perfil-chips mt-3">{% if taller.multimarca %}<span class="perfil-chip perfil-chip-marca">Multimarca</span>{% endif %}{% for m in marcas %}<span class="perfil-chip perfil-chip-marca">{{ m.nombre }}</span>{% endfor %}</div></div>{% endif %}
       </div>
       {% endif %}
       {% if compromisos %}

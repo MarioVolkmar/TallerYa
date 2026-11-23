@@ -8,4 +8,4 @@ class ConsolaConfig(AppConfig):
 
     def ready(self):
         # Registra las acciones declaradas (@accion) de cada sección
-        from .vistas import citas, cupones, moderacion, talleres, usuarios  # noqa: F401
+        from .vistas import citas, configuracion, cupones, moderacion, talleres, usuarios  # noqa: F401

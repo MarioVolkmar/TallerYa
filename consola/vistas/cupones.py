@@ -32,12 +32,17 @@ def seccion(request):
     form = FiltroCupones(request.GET)
     datos = form.cleaned_data if form.is_valid() else {}
     hoy = reloj.hoy()
-    qs = (Cupon.objects.select_related("taller")
+    qs = (Cupon.objects.select_related("taller", "mecanico")
           .annotate(n_codigos=Count("codigos", distinct=True),
                     n_canjes=Count("codigos", filter=Q(codigos__canjeado_en__isnull=False), distinct=True))
           .order_by("-activo", "-pk"))
     if datos.get("q"):
-        qs = qs.filter(Q(titulo__icontains=datos["q"]) | Q(taller__nombre__icontains=datos["q"]))
+        qs = qs.filter(Q(titulo__icontains=datos["q"]) | Q(taller__nombre__icontains=datos["q"])
+                       | Q(mecanico__nombre__icontains=datos["q"]))
+    if datos.get("de") == "talleres":
+        qs = qs.filter(mecanico__isnull=True)
+    elif datos.get("de") == "mecanicos":
+        qs = qs.filter(mecanico__isnull=False)
     vigente = Q(valido_hasta__isnull=True) | Q(valido_hasta__gte=hoy)
     estado = datos.get("estado")
     if estado == "vigentes":

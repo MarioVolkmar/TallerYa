@@ -178,12 +178,20 @@ class PanelTallerTests(TestCase):
     def setUp(self):
         self.client.force_login(self.duenio)
 
-    def test_panel_muestra_citas_y_mi_cuenta_redirige(self):
+    def test_panel_muestra_citas_y_la_cuenta_vive_en_mi_cuenta(self):
         r = self.client.get(reverse("talleres:panel"))
         self.assertContains(r, "Camilo")
         self.assertContains(r, "https://wa.me/573005551234")
-        self.assertRedirects(self.client.get(reverse("cuentas:mi_cuenta")), reverse("talleres:panel"))
-        self.assertContains(r, 'id="seguridad"')  # la cuenta (correo, contraseña, Google) vive en el panel
+        self.assertNotContains(r, 'id="seguridad"')  # la Seguridad ya no está en el panel
+        cuenta = self.client.get(reverse("cuentas:mi_cuenta"))
+        self.assertEqual(cuenta.status_code, 200)
+        self.assertContains(cuenta, 'id="seguridad"')
+        self.assertContains(cuenta, "Cerrar sesión")
+        self.assertContains(cuenta, "data-instalar-app")
+        self.assertContains(cuenta, self.duenio.email)
+        self.assertNotContains(cuenta, "Datos de la cuenta")
+        self.assertContains(cuenta, reverse("talleres:editar_perfil"))
+        self.assertContains(r, f'href="{reverse("cuentas:mi_cuenta")}" class="av-item"')  # menú del avatar
 
     def test_cambiar_estado_solo_de_mis_citas(self):
         self.client.post(reverse("talleres:cita_estado", args=[self.cita.pk]), {"estado": "confirmada"})
@@ -358,7 +366,7 @@ class EstadisticasTallerTests(PanelTallerTests):
             r = self.client.get(url)
         propias = [q for q in consultas.captured_queries if "eventodiario" in q["sql"] or "codigocupon" in q["sql"] or "talleres_resena" in q["sql"]]
         self.assertEqual(len(propias), 3)  # eventos, canjes y reseñas: una consulta cada uno
-        self.assertLessEqual(len(consultas), 10)
+        self.assertLessEqual(len(consultas), 11)  # +1: insignia de citas pendientes del menú
         self.assertContains(r, "Visitas al perfil")
         self.assertContains(r, "Plus taller")
         self.assertContains(self.client.get(reverse("talleres:panel")), url)
@@ -429,6 +437,21 @@ class AgendaFranjasTests(PanelTallerTests):
         self.assertContains(r, "después de la de apertura")
         self.assertEqual(self.taller.horarios.count(), 3)
 
+    def test_agenda_guarda_filas_de_dias_y_horas(self):
+        import json
+        filas = [{"dias": [0, 1, 2], "abre": "08:00", "cierra": "12:00"},
+                 {"dias": [0], "abre": "14:00", "cierra": "18:00"}, {"dias": [6], "abre": "09:00", "cierra": "13:00"}]
+        r = self.client.post(reverse("talleres:agenda"), {"duracion_franja": 60, "cupo_franja": 1, "turnos_json": json.dumps(filas)})
+        self.assertRedirects(r, reverse("talleres:agenda"))
+        self.assertEqual(self.taller.horarios.count(), 5)
+        self.assertEqual(self.taller.horarios.filter(dia=0).count(), 2)
+        # La pantalla vuelve a mostrar lo guardado como filas
+        self.assertContains(self.client.get(reverse("talleres:agenda")), '&quot;dias&quot;: [0], &quot;abre&quot;: &quot;14:00&quot;')
+        cruzado = [{"dias": [0], "abre": "08:00", "cierra": "12:00"}, {"dias": [0], "abre": "11:00", "cierra": "13:00"}]
+        r = self.client.post(reverse("talleres:agenda"), {"duracion_franja": 60, "cupo_franja": 1, "turnos_json": json.dumps(cruzado)})
+        self.assertContains(r, "se cruzan")
+        self.assertEqual(self.taller.horarios.count(), 5)
+
     def test_recordatorio_del_dia_antes_es_idempotente(self):
         from django.contrib.auth import get_user_model
         from django.core.management import call_command
@@ -477,6 +500,10 @@ class PreciosReferenciaTests(TestCase):
         self._publicar(self.talleres[1], 60_000, 100_000)
         otro = Taller.objects.create(nombre="Bello", responsable="A", whatsapp="573001112299", direccion="X", barrio=self.bello, activo=True)
         self._publicar(otro, 10_000, 20_000)  # no es de Medellín: no cuenta
+        from consola.models import Ajuste
+        Ajuste.objects.create(clave="precio_tipico", valor=True)  # apagado por defecto: aquí se prende
+        self.addCleanup(__import__("django.core.cache", fromlist=["cache"]).cache.clear)
+        __import__("django.core.cache", fromlist=["cache"]).cache.clear()
         self.assertEqual(medianas_medellin(self.servicio.pk), [])
         self.assertNotContains(self.client.get(url), "data-mediana")
         self._publicar(self.talleres[2], 80_000, 150_000)
@@ -486,6 +513,15 @@ class PreciosReferenciaTests(TestCase):
         r = self.client.get(url)
         self.assertContains(r, "$60.000 a $100.000")
         self.assertContains(r, "referencia, no oferta")
+        self.assertNotContains(r, "mediana de")
+        # apagado en la consola: ni nota en el directorio ni referencia en el editor, y no se consulta
+        Ajuste.objects.filter(clave="precio_tipico").update(valor=False)
+        __import__("django.core.cache", fromlist=["cache"]).cache.clear()
+        self.assertNotContains(self.client.get(url), "data-mediana")
+        self.client.force_login(self.usuario)
+        r = self.client.get(reverse("talleres:precios"))
+        self.assertNotContains(r, "precio típico")
+        self.assertEqual(r.context["medianas"], "{}")
 
     def test_taller_publica_sus_rangos_y_se_ven_en_su_perfil(self):
         self.client.force_login(self.usuario)
@@ -552,12 +588,17 @@ class EmergenciasTests(TestCase):
         self.sin_horario.save()
         self.client.force_login(u)
         base = {"duracion_franja": 60, "cupo_franja": 1, "atiende_emergencias": "on", "despinche_domicilio": "on"}
-        self.client.post(reverse("talleres:agenda"), {**base, "latitud": "6.244203", "longitud": "-75.581212"})
+        self.client.post(reverse("talleres:agenda"), base)
         self.sin_horario.refresh_from_db()
         self.assertTrue(self.sin_horario.despinche_domicilio)
-        self.assertEqual(str(self.sin_horario.latitud), "6.244203")
-        r = self.client.post(reverse("talleres:agenda"), {**base, "latitud": "4.60", "longitud": "-74.08"})  # Bogotá
-        self.assertContains(r, "Valle de Aburrá")
+        # La ubicación se toma en Editar perfil, y solo se aceptan coordenadas del Valle de Aburrá
+        from .forms import PerfilTallerForm
+        mal = PerfilTallerForm({"latitud": "4.60", "longitud": "-74.08"}, instance=self.sin_horario)
+        mal.is_valid()
+        self.assertTrue(any("Valle de Aburrá" in e for e in mal.non_field_errors()))
+        bien = PerfilTallerForm({"latitud": "6.244203", "longitud": "-75.581212"}, instance=self.sin_horario)
+        bien.is_valid()
+        self.assertFalse(bien.non_field_errors())
 
 
 class RegistrarServicioTests(PanelTallerTests):
@@ -587,7 +628,10 @@ class GruasTeVarasteTests(TestCase):
 
     def setUp(self):
         from datetime import time
-        from .models import Grua
+        from proveedores.models import Categoria, Proveedor
+        cat = Categoria.objects.get(slug="grua")
+        grua = lambda nombre, **k: Proveedor.objects.create(categoria=cat, nombre=nombre, origen_alta="equipo",
+                                                            estado=k.pop("estado", "publicado"), **k)
         self.belen = Barrio.objects.get_or_create(nombre="Belén", ciudad="Medellín")[0]
         crear = lambda nombre, **k: Taller.objects.create(nombre=nombre, responsable="A", whatsapp="573001112233",
                                                           direccion="X", barrio=self.belen, activo=True,
@@ -595,12 +639,13 @@ class GruasTeVarasteTests(TestCase):
         crear("Taller Grua", grua=True)
         crear("Taller Despinche", despinche_domicilio=True)
         crear("Taller Gasolina", gasolina_domicilio=True)
-        self.g24 = Grua.objects.create(nombre="Grua Bello", telefono="570000000001", whatsapp="570000000001",
-                                       municipios=["Bello"], abierto_24h=True, tarifa_desde=90000)
-        self.gmed = Grua.objects.create(nombre="Grua Medellin", telefono="570000000002", whatsapp="570000000002",
-                                        municipios=["Medellín"], abierto_24h=True)
-        self.noche = Grua.objects.create(nombre="Grua Noche", telefono="570000000003", abre=time(20), cierra=time(4))
-        Grua.objects.create(nombre="Grua Inactiva", telefono="570000000004", activo=False)
+        self.g24 = grua("Grua Bello", telefono="570000000001", whatsapp="570000000001",
+                        zonas=["Bello"], abierto_24h=True, precio_desde=90000, extras={"vehiculo": "cama"})
+        self.gmed = grua("Grua Medellin", telefono="570000000002", whatsapp="570000000002",
+                         zonas=["Medellín"], abierto_24h=True)
+        self.noche = grua("Grua Noche", telefono="570000000003", abre=time(20), cierra=time(4))
+        grua("Grua Inactiva", telefono="570000000004", estado="pausado")
+        grua("Grua Por Revisar", telefono="570000000005", estado="por_revisar")
 
     def test_horario_de_grua_y_cierre_despues_de_medianoche(self):
         from datetime import datetime
@@ -635,6 +680,8 @@ class GruasTeVarasteTests(TestCase):
         nombres = [g.nombre for g in r.context["gruas"]]
         self.assertEqual(nombres[0], "Grua Medellin")
         self.assertNotIn("Grua Inactiva", nombres)
+        self.assertNotIn("Grua Por Revisar", nombres)
+        self.assertContains(r, "Cama (plataforma)")
         self.assertEqual([t.nombre for t in r.context["abiertos"]], ["Taller Grua"])
         self.assertContains(r, "Desde $90.000")
         self.assertContains(r, "tel:+570000000001")
@@ -657,19 +704,22 @@ class GruasTeVarasteTests(TestCase):
         from django.test.utils import CaptureQueriesContext
         with CaptureQueriesContext(connection) as c:
             self.client.get(reverse("talleres:emergencias"), {"necesito": "grua"})
-        propias = [q for q in c.captured_queries if "talleres_" in q["sql"]]
+        propias = [q for q in c.captured_queries if "talleres_" in q["sql"] or "proveedores_" in q["sql"]]
         self.assertLessEqual(len(propias), 5)  # talleres, horarios, barrios, grúas (+ menú del sitio)
 
-    def test_admin_alta_de_grua(self):
-        from .admin import GruaForm
-        f = GruaForm({"nombre": "Nueva", "telefono": "570000000009", "municipios": ["Bello", "Medellín"],
-                      "vehiculo": "cama", "activo": "on", "abre": "08:00"})
+    def test_alta_de_grua_en_el_formulario_de_proveedores(self):
+        from proveedores.forms import ProveedorForm
+        from proveedores.models import Categoria
+        cat = Categoria.objects.get(slug="grua").pk
+        f = ProveedorForm({"categoria": cat, "nombre": "Nueva", "telefono": "570000000009", "zonas": ["Bello", "Medellín"],
+                           "extra_vehiculo": "cama", "abre": "08:00"})
         self.assertFalse(f.is_valid())
         self.assertIn("cierra", f.errors)
-        f = GruaForm({"nombre": "Nueva", "telefono": "570000000009", "municipios": ["Bello"], "vehiculo": "cama",
-                      "activo": "on", "abierto_24h": "on"})
+        f = ProveedorForm({"categoria": cat, "nombre": "Nueva", "telefono": "570000000009", "zonas": ["Bello"],
+                           "extra_vehiculo": "cama", "abierto_24h": "on"})
         self.assertTrue(f.is_valid(), f.errors)
-        self.assertEqual(f.save().municipios, ["Bello"])
+        g = f.save()
+        self.assertEqual((g.zonas, g.vehiculo), (["Bello"], "cama"))
 
     def test_boton_elegido_se_deselecciona_y_sin_emojis(self):
         r = self.client.get(reverse("talleres:emergencias"), {"necesito": "pinchazo", "barrio": self.belen.pk})

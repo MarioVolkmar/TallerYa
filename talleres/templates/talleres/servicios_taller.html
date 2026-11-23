@@ -11,7 +11,8 @@
     <div class="pt-cifra pt-mostaza"><span>Por confirmar</span><strong>{{ resumen.por_confirmar }}</strong></div>
     <div class="pt-cifra pt-lava"><span>En total</span><strong>{{ resumen.servicios_total }}</strong></div>
   </section>
-  <a href="{% url 'talleres:registrar_servicio' %}" class="btn btn-lava sv-enviar">+ Moto sin cita</a>
+  <a href="{% url 'talleres:registrar_servicio' %}" class="btn btn-lava sv-enviar">+ Registrar servicio</a>
+  <p class="text-xs text-suave text-center">Las motos que vinieron con cita se registran desde la cita.</p>
   <section class="papel pt-caja">
     <ul class="sv-lista">
       {% for s in pagina %}
@@ -22,7 +23,7 @@
         <p><span class="pt-chip chip-{{ s.estado }}">{{ s.get_estado_display }}</span></p>
       </li>
       {% empty %}
-      <li class="pt-vacio"><p>Aún no has registrado servicios.</p><small>Al terminar una cita toca «Registrar servicio»: queda en la hoja de vida de la moto con tu sello y el dueño puede calificarte.</small></li>
+      <li class="pt-vacio"><p>Aún no has registrado servicios.</p><small>Toca «+ Registrar servicio» (o, si la moto vino con cita, hazlo desde la cita): queda en la hoja de vida de la moto con tu sello y el dueño puede calificarte.</small></li>
       {% endfor %}
     </ul>
     {% include "talleres/_paginas.html" %}

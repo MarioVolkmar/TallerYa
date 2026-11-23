@@ -1,4 +1,4 @@
-{% load static domiciliarios_tags %}{% ruta_activa as ruta_on %}{% if ruta_on %}
+{% load static domiciliarios_tags %}{% ruta_activa as ruta_on %}{% if ruta_on and mecanicos_activo %}
 {# Mecánicos a domicilio: acceso «¿Te varaste en ruta?» (TallerYa Ruta; nada con la bandera apagada) #}
 <link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
 <aside class="papel dm-varado" data-dm-varado>

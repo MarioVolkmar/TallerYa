@@ -45,6 +45,16 @@ class GarajeTests(TestCase):
         self.assertEqual((moto.km_inicial, moto.km_actual), (15000, 15000))
         self.assertEqual(moto.lecturas.count(), 1)
 
+    def test_agregar_moto_atajo_sin_datos_ignora_lo_marcado(self):
+        from garaje.models import Mantenimiento
+        r = self.client.post(reverse("garaje:agregar"), {
+            "linea_catalogo": str(self.nkd.pk), "modelo": 2022, "color": "#1f4fa8", "km_actual": 15000,
+            "sin_datos": "1", "estado_1": "km", "km_1": "999999",  # una respuesta inválida no bloquea el atajo
+        })
+        moto = Moto.objects.get()
+        self.assertRedirects(r, moto.get_absolute_url(), fetch_redirect_response=False)
+        self.assertEqual(Mantenimiento.objects.filter(moto=moto).count(), 0)
+
     def test_agregar_moto_fuera_del_catalogo_exige_datos(self):
         r = self.client.post(reverse("garaje:agregar"), {"linea_catalogo": "otra", "modelo": 2020, "color": "#1b1b1b", "km_actual": 0})
         self.assertContains(r, "Completa este dato")

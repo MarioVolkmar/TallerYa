@@ -142,12 +142,18 @@
       {% if pregunta_km %}
       <form method="post" action="{% url 'garaje:confirmar_km' moto.pk %}" class="km-pregunta" id="km-pregunta">
         {% csrf_token %}<input type="hidden" name="km" value="{{ pregunta_km.km }}">
-        <p class="km-pregunta-texto">¿Vas por unos <strong>{{ pregunta_km.km|intcomma }} km</strong>? <span>Lo calculamos con lo que recorres al día.</span></p>
-        <div class="km-pregunta-botones">
-          <button class="btn btn-lava px-4 py-3 text-xs" name="accion" value="si">Sí</button>
-          <a href="#form-km" class="btn-borde px-4 py-3 text-xs">Corregir</a>
-          <button class="km-pregunta-luego" name="accion" value="despues">Ahora no</button>
+        <div class="km-pregunta-tarjeta">
+          <span class="km-pregunta-icono" aria-hidden="true">
+            {# Velocímetro (Material Design Icons, licencia Apache 2.0) #}
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a3 3 0 0 1-3-3c0-1.12.61-2.1 1.5-2.61l9.71-5.62l-5.53 9.58c-.5.98-1.51 1.65-2.68 1.65m0-13c1.81 0 3.5.5 4.97 1.32l-2.1 1.21C14 5.19 13 5 12 5a8 8 0 0 0-8 8c0 2.21.89 4.21 2.34 5.65c.39.39.39 1.02 0 1.41s-1.03.39-1.42.01A9.97 9.97 0 0 1 2 13A10 10 0 0 1 12 3m10 10c0 2.76-1.12 5.26-2.93 7.07c-.39.38-1.02.38-1.41-.01a.996.996 0 0 1 0-1.41A7.95 7.95 0 0 0 20 13c0-1-.19-2-.54-2.9L20.67 8C21.5 9.5 22 11.18 22 13"/></svg>
+          </span>
+          <p class="km-pregunta-texto">¿Vas por unos <strong>{{ pregunta_km.km|intcomma }} km</strong>?<span class="km-pregunta-nota">Según lo que recorres al día</span></p>
+          <div class="km-pregunta-botones">
+            <button class="km-btn km-btn-si" name="accion" value="si">Sí</button>
+            <a href="#form-km" class="km-btn km-btn-corregir">Corregir</a>
+          </div>
         </div>
+        <button class="km-pregunta-luego" name="accion" value="despues">Ahora no</button>
       </form>
       {% endif %}
       <form method="post" action="{% url 'garaje:registrar_km' moto.pk %}" class="odometro-form" id="form-km" novalidate>

@@ -100,11 +100,12 @@ def generar_si_toca(request):
 
 def contexto(request):
     """Procesador de contexto: cantidad de notificaciones sin leer para la campanita."""
+    from consola.ajustes import sin_modulos_apagados
     usuario = getattr(request, "user", None)
     if not usuario or not usuario.is_authenticated:
         return {}
     generar_si_toca(request)
-    return {"notificaciones_sin_leer": Notificacion.objects.filter(usuario=usuario, leida=False).count(),
+    return {"notificaciones_sin_leer": sin_modulos_apagados(Notificacion.objects.filter(usuario=usuario, leida=False)).count(),
             "notificaciones_urgentes": contar_urgentes(usuario)}
 
 

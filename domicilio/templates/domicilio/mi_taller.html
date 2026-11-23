@@ -4,22 +4,29 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/cuentas.css' %}">
+<link rel="stylesheet" href="{% static 'domicilio/css/registro.css' %}">
 <section class="max-w-3xl mx-auto mt-8 md:mt-12">
   {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
   <p class="etiqueta mt-4">{{ taller.nombre }}</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">Servicio a <span class="text-lava">domicilio</span></h1>
-  <p class="text-suave mt-2">Si tu taller también va a donde está la moto, actívalo: sales con la etiqueta «Taller» en <a href="{% url 'domicilio:listado' %}" class="boton-texto">Mecánicos a domicilio</a> y con el distintivo «Va a domicilio» en tu ficha y en el directorio.</p>
-  <p class="dom-estado dom-estado-{% if servicio.activo and taller.activo %}aprobado{% elif servicio.activo %}pendiente{% else %}apagado{% endif %} mt-4">
-    {% if servicio.activo and taller.activo %}✔ Activo: sales en Mecánicos a domicilio.
-    {% elif servicio.activo %}Activo, pero tu taller aún está en revisión: saldrás cuando lo aprobemos.
-    {% else %}Apagado: no sales en Mecánicos a domicilio.{% endif %}
-  </p>
+  <p class="text-suave mt-2">Atiende motos donde estén. Al activarlo, tu taller aparece en <a href="{% url 'domicilio:listado' %}" class="boton-texto">Mecánicos a domicilio</a> y tu ficha muestra «Servicio a domicilio».</p>
 </section>
-<section class="papel p-5 sm:p-6 md:p-10 max-w-3xl mx-auto mt-6">
-  <form method="post" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
+<section class="papel rt-seccion max-w-3xl mx-auto mt-6">
+  <form method="post" class="rm rm-taller" novalidate data-servicio-taller>
     {% csrf_token %}
-    {% include "domicilio/_campos.html" with form=form %}
-    <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Guardar</button>
+    {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+    {% if taller.activo %}{% include "domicilio/_interruptor.html" with campo=form.activo titulo="Atiendo a domicilio" estado_on="Activo" estado_off="Apagado" %}
+    {% else %}{% include "domicilio/_interruptor.html" with campo=form.activo titulo="Atiendo a domicilio" texto="Saldrás cuando aprobemos tu taller." estado_on="En revisión" estado_off="Apagado" %}{% endif %}
+    <div class="rm-resto">
+      {% include "domicilio/_zonas_servicios.html" with titulo_zonas="¿A qué zonas vas?" %}
+      <div class="rc-rejilla">
+        {% include "domicilio/_tarifa.html" %}
+      </div>
+      {% include "domicilio/_interruptor.html" with campo=form.urgencias titulo="Atiendo urgencias" texto="Salgo a atender motos varadas, también fuera del horario." %}
+    </div>
+    <button class="btn btn-lava w-full py-3.5 text-sm">Guardar</button>
   </form>
 </section>
+<script src="{% static 'domicilio/js/registro.js' %}" defer></script>
 {% endblock %}

@@ -1,0 +1,12 @@
+{# Una reseña con su respuesta (panel y «Mis reseñas» del mecánico). Variable: r #}
+<li class="pt-resena" id="resena-{{ r.pk }}">
+  <p class="pt-resena-cabeza"><strong>{{ r.nombre }}</strong><span class="estrellas">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span><small>{{ r.creado|date:"j M"|lower }}</small></p>
+  <p class="pt-resena-texto">{{ r.comentario }}</p>
+  <details class="pt-responder">
+    <summary>{% if r.respuesta %}<span class="pt-respondida">✓ Respondiste</span> · Editar{% else %}Responder{% endif %}</summary>
+    <form method="post" action="{% url 'domicilio:responder_resena' r.pk %}">{% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+      <textarea name="respuesta" rows="3" maxlength="600" class="campo !mt-2" placeholder="Gracias por tu confianza…">{{ r.respuesta }}</textarea>
+      <button class="btn btn-lava text-xs px-4 py-2 mt-2">Publicar respuesta</button>
+    </form>
+  </details>
+</li>

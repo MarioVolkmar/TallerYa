@@ -1,15 +1,15 @@
 """Aviso de contexto grande (hook UserPromptSubmit/PostToolUse). Solo avisa; nunca bloquea.
 Uso: python -I .claude/herramientas/aviso_contexto.py   (JSON del hook por stdin)
-Umbrales: 150 mil (tope de tareas livianas) y 250 mil (tope de las pesadas: 3D, láminas, skills); una vez por umbral y sesión (marca en %TEMP%)."""
+Umbrales: 250 mil (tope de tareas livianas) y 300 mil (tope de las pesadas y techo duro de todas); una vez por umbral y sesión (marca en %TEMP%)."""
 import json, os, sys, tempfile
 
-U1, U2 = 150_000, 250_000
-TXT1 = ("Pasaste ~150 mil tokens de contexto: es el tope de las tareas LIVIANAS (vistas, plantillas, CSS, pruebas, "
-        "informes, coordinación). Si la tuya es liviana: termina el paso en curso (no dejes ediciones, generaciones ni "
-        "pruebas a medias), no empieces nada nuevo, escribe una nota de relevo en la memoria (qué hiciste, qué falta, "
-        "archivos, estado de las pruebas) y avisa para seguir en una sesión nueva. Si es PESADA (3D, láminas del "
-        "despiece, skills grandes, funciones nuevas que piden diseño), sigue hasta ~250 mil.")
-TXT2 = ("Pasaste ~250 mil tokens de contexto: es el tope de TODAS las tareas, también las pesadas. "
+U1, U2 = 250_000, 300_000
+TXT1 = ("Pasaste ~250 mil tokens de contexto: es el tope de las tareas LIVIANAS (vistas, plantillas, CSS, pruebas, "
+        "informes, coordinación). Si la tuya es liviana: TERMINA el encargo en curso (y los ajustes cortos de ese mismo "
+        "encargo), pero no aceptes encargos nuevos; al terminar, escribe una nota de relevo en la memoria (qué hiciste, "
+        "qué falta, archivos, estado de las pruebas) y avisa para seguir en una sesión nueva. Si es PESADA (3D, láminas "
+        "del despiece, skills grandes, funciones nuevas que piden diseño), sigue hasta ~300 mil.")
+TXT2 = ("Pasaste ~300 mil tokens de contexto: es el techo de TODAS las tareas, también las pesadas. "
         "Termina SOLO el paso en curso, no empieces nada más, escribe YA la nota de relevo en la memoria "
         "(qué hiciste, qué falta, archivos, estado de las pruebas) y pide al usuario seguir en una sesión nueva.")
 

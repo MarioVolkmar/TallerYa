@@ -42,6 +42,8 @@ class FiltroUsuarios(forms.Form):
     q = _texto("busqueda", "Buscar", requerido=False)
     rol = forms.ChoiceField(required=False, choices=[("", "Todos los roles"), ("admin", "Administrador"),
                                                      ("taller", "Taller"), ("motero", "Motero"),
+                                                     ("domiciliario", "Domiciliarios"),
+                                                     ("domiciliario_pendiente", "Domiciliarios por revisar"),
                                                      ("sin_perfil", "Registro incompleto")],
                             widget=forms.Select(attrs={"class": "cs-campo campo"}))
     estado = forms.ChoiceField(required=False, choices=[("", "Activas e inactivas"), ("activa", "Activas"),
@@ -72,6 +74,7 @@ class FiltroCupones(forms.Form):
     q = _texto("busqueda", "Buscar", requerido=False)
     estado = _opciones(("", "Todos"), ("vigentes", "Vigentes"), ("vencidos", "Vencidos"),
                        ("desactivados", "Desactivados"))
+    de = _opciones(("", "Todos"), ("talleres", "De talleres"), ("mecanicos", "De mecánicos a domicilio"))
 
 
 class FiltroCitas(forms.Form):

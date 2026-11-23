@@ -1,20 +1,30 @@
-"""Interruptor del piloto: con settings.PILOTO_OCULTAR_SOCIAL, foro, rodadas, Plus y referidos «no existen»:
-las URLs responden 404 y las plantillas no pintan enlaces ni avisos (variable `oculta_social`). El código queda intacto."""
-from django.conf import settings
+"""Módulos apagables desde /consola/ (Configuración): foro, Plus, referidos, mecánicos a domicilio, TallerYa Ruta…
+Apagado un módulo, sus URLs responden 404 y las plantillas no pintan enlaces ni avisos (variables `foro_activo`,
+`plus_activo`, `referidos_activo`, `mecanicos_activo`). El valor inicial sale del .env (consola/ajustes.py)."""
 from django.http import Http404
 
-PREFIJOS_OCULTOS = ("/foro/", "/plus/", "/r/", "/cuenta/regalo/")
+from consola.ajustes import ajuste, modulos_prefijos
 
 
 def contexto(request):
-    return {"oculta_social": bool(getattr(settings, "PILOTO_OCULTAR_SOCIAL", False))}
+    return {
+        "foro_activo": ajuste("foro_activo"),
+        "plus_activo": ajuste("plus_activo"),
+        "referidos_activo": ajuste("referidos_activo"),
+        "mecanicos_activo": ajuste("mecanicos_activo"),
+        "proveedores_registro": ajuste("proveedores_registro"),
+    }
 
 
 class OcultarSocial:
+    """Middleware: 404 en las rutas de los módulos apagados."""
+
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        if getattr(settings, "PILOTO_OCULTAR_SOCIAL", False) and (request.path + "/").startswith(PREFIJOS_OCULTOS):
-            raise Http404
+        ruta = request.path + "/"
+        for modulo, prefijos in modulos_prefijos():
+            if ruta.startswith(prefijos) and not ajuste(modulo.clave):
+                raise Http404
         return self.get_response(request)

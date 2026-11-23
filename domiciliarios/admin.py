@@ -26,7 +26,7 @@ class TallerAliadoAdmin(admin.ModelAdmin):
 
 @admin.register(Verificacion)
 class VerificacionAdmin(admin.ModelAdmin):
-    """Solo lectura del resultado: las fotos se revisan y deciden en /consola/?seccion=domiciliarios (las borra al decidir)."""
+    """Solo lectura del resultado: las fotos se revisan y deciden en la ficha del usuario en /consola/ (las borra al decidir)."""
     list_display = ("perfil", "plataforma", "estado", "vence", "renovaciones", "revisado_por", "creado")
     list_filter = ("estado", "plataforma")
     search_fields = ("perfil__motociclista__nombre", "perfil__motociclista__usuario__email")

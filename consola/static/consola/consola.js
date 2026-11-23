@@ -72,8 +72,8 @@
   // ---------- Acciones ----------
   function ocupado(boton, si) {
     if (!boton) return;
-    if (si) { boton.dataset.texto = boton.textContent; boton.setAttribute("aria-busy", "true"); boton.disabled = true; boton.textContent = "Guardando…"; }
-    else { boton.removeAttribute("aria-busy"); boton.disabled = false; if (boton.dataset.texto) boton.textContent = boton.dataset.texto; }
+    if (si) { boton._html = boton.innerHTML; boton.setAttribute("aria-busy", "true"); boton.disabled = true; boton.textContent = "Guardando…"; }
+    else { boton.removeAttribute("aria-busy"); boton.disabled = false; if (boton._html != null) boton.innerHTML = boton._html; }
   }
 
   raiz.addEventListener("submit", async (ev) => {
@@ -99,25 +99,91 @@
     }
   });
 
-  // ---------- Filtros: elegir en un desplegable filtra de una vez (conserva la búsqueda escrita; la URL lo refleja) ----------
-  raiz.querySelectorAll("form.cs-filtros select").forEach((sel) => sel.addEventListener("change", () => {
-    const ayuda = sel.closest("label").querySelector("[data-ayuda-rol]");
-    if (ayuda) ayuda.hidden = sel.value !== "sin_perfil";
-    sel.form.requestSubmit();
-  }));
-  // URL limpia (?seccion=usuarios&rol=motero): los campos vacíos no viajan
-  raiz.querySelectorAll("form.cs-filtros").forEach((f) => f.addEventListener("submit", () => {
-    f.querySelectorAll("[name]").forEach((c) => { if (!c.value) c.disabled = true; });
-  }));
-  window.addEventListener("pageshow", () => raiz.querySelectorAll("form.cs-filtros [disabled]").forEach((c) => { c.disabled = false; }));
+  // ---------- Filtros: elegir en un desplegable filtra de una vez (delegado: sigue vivo al cambiar el contenido) ----------
+  raiz.addEventListener("change", (ev) => {
+    const el = ev.target;
+    if (el.matches("form.cs-filtros select")) {
+      const ayuda = el.closest("label").querySelector("[data-ayuda-rol]");
+      if (ayuda) ayuda.hidden = el.value !== "sin_perfil";
+      el.form.requestSubmit();
+    } else if (el.matches("[data-navegar]")) {
+      navegar("?seccion=" + encodeURIComponent(el.value));
+    } else if (el.matches("[data-rol]")) {
+      const soloTaller = raiz.querySelector("[data-solo-taller]");
+      if (soloTaller) soloTaller.hidden = el.value !== "taller";
+    }
+  });
+  // Filtros por GET: URL limpia (los campos vacíos no viajan) y sin recargar la página
+  raiz.addEventListener("submit", (ev) => {
+    const f = ev.target;
+    if (!f.matches("form.cs-filtros, form.cs-movil")) return;
+    ev.preventDefault();
+    const q = new URLSearchParams();
+    new FormData(f).forEach((v, k) => { if (v !== "" && typeof v === "string") q.append(k, v); });
+    navegar("?" + q.toString());
+  });
 
-  // ---------- Navegación, rol y tema ----------
-  const movil = raiz.querySelector("[data-navegar]");
-  if (movil) movil.addEventListener("change", () => { location.href = "?seccion=" + encodeURIComponent(movil.value); });
-
-  const rol = raiz.querySelector("[data-rol]");
-  const soloTaller = raiz.querySelector("[data-solo-taller]");
-  if (rol && soloTaller) rol.addEventListener("change", () => { soloTaller.hidden = rol.value !== "taller"; });
+  // ---------- Navegación sin recargar: pide la página, cambia solo el contenido y la URL (atrás funciona) ----------
+  const principal = raiz.querySelector(".cs-principal");
+  let pedido = null;
+  function mismaPagina(a) {
+    if (a.target && a.target !== "_self") return false;
+    if (a.hasAttribute("download") || a.hasAttribute("data-completo")) return false;
+    const u = new URL(a.href, location.href);
+    return u.origin === location.origin && u.pathname === location.pathname && u.search !== "";
+  }
+  async function navegar(destino, opciones) {
+    const empujar = !(opciones && opciones.sinHistorial);
+    const url = new URL(destino, location.href);
+    if (pedido) pedido.abort();
+    pedido = new AbortController();
+    principal.setAttribute("aria-busy", "true");
+    try {
+      const r = await fetch(url.href, { credentials: "same-origin", signal: pedido.signal,
+        headers: { "X-Requested-With": "fetch" } });
+      const final = new URL(r.url);
+      if (!r.ok || final.pathname !== location.pathname) throw new Error("respuesta no válida");
+      const doc = new DOMParser().parseFromString(await r.text(), "text/html");
+      const nuevo = doc.querySelector(".cs-principal");
+      if (!nuevo || !doc.getElementById("consola")) throw new Error("sin contenido");
+      principal.innerHTML = nuevo.innerHTML;
+      if (window.TallerYaControles) window.TallerYaControles.mejorarTodo(principal); // desplegables propios en el contenido nuevo
+      const nav = raiz.querySelector(".cs-nav"), navN = doc.querySelector(".cs-nav");
+      if (nav && navN) nav.innerHTML = navN.innerHTML;
+      const sel = raiz.querySelector("[data-navegar]"), selN = doc.querySelector("[data-navegar]");
+      if (sel && selN) sel.innerHTML = selN.innerHTML;
+      const et = raiz.querySelector(".cs-movil-label"), etN = doc.querySelector(".cs-movil-label");
+      if (et && etN) et.innerHTML = etN.innerHTML;
+      document.title = doc.title;
+      if (empujar) history.pushState({ consola: true }, "", final.pathname + final.search + url.hash);
+      const ancla = url.hash && document.getElementById(url.hash.slice(1));
+      if (ancla) ancla.scrollIntoView(); else window.scrollTo(0, 0);
+      const h1 = principal.querySelector("h1");
+      if (h1) { h1.setAttribute("tabindex", "-1"); h1.focus({ preventScroll: true }); }
+    } catch (e) {
+      if (e.name === "AbortError") return;
+      location.href = url.href; // si algo falla, recarga normal
+      return;
+    } finally {
+      principal.removeAttribute("aria-busy");
+    }
+  }
+  raiz.addEventListener("click", (ev) => {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    const a = ev.target.closest("a[href]");
+    if (!a || !mismaPagina(a)) return;
+    ev.preventDefault();
+    if (sucio && !a.closest(".cs-principal form") && !confirm("¿Descartar lo que escribiste?")) return;
+    sucio = false;
+    navegar(a.href);
+  });
+  // Formularios de alta y edición (Nuevo proveedor, + Categoría, alta de taller): si hay algo escrito, se pregunta
+  // antes de salir a otra sección; al guardar no.
+  let sucio = false;
+  raiz.addEventListener("input", (ev) => { if (ev.target.closest(".cs-principal form[method=post]")) sucio = true; });
+  raiz.addEventListener("submit", () => { sucio = false; }, true);
+  window.addEventListener("popstate", () => navegar(location.href, { sinHistorial: true }));
+  history.replaceState({ consola: true }, "", location.href);
 
   // Tema: hay un botón en la barra lateral y otro en el desplegable del celular; el texto visible dice a qué tema pasa
   raiz.querySelectorAll("[data-tema]").forEach((b) => b.addEventListener("click", () => {
@@ -125,4 +191,48 @@
     document.documentElement.dataset.consolaTema = nuevo;
     try { localStorage.setItem("consola-tema", nuevo); } catch (e) { /* */ }
   }));
+
+  // ---------- Menú «⋯» de acciones por fila ----------
+  function cerrarMenus(salvo, devolverFoco) {
+    raiz.querySelectorAll("details[data-menu][open]").forEach((m) => {
+      if (m === salvo) return;
+      m.open = false;
+      if (devolverFoco) m.querySelector("summary").focus();
+    });
+  }
+  raiz.addEventListener("toggle", (ev) => {
+    const m = ev.target;
+    if (!m.matches || !m.matches("details[data-menu]") || !m.open) return;
+    cerrarMenus(m);
+    // La lista va fija a la pantalla (la caja de la tabla desplaza y recortaría un menú absoluto).
+    const lista = m.querySelector(".cs-menu-lista");
+    const colocar = () => {
+      const sb = m.querySelector("summary").getBoundingClientRect();
+      lista.style.position = "fixed"; lista.style.maxHeight = ""; lista.style.top = "0px"; lista.style.right = "auto";
+      const w = lista.offsetWidth, h = lista.offsetHeight;
+      let left = Math.min(Math.max(8, sb.right - w), window.innerWidth - w - 8);
+      let top = sb.bottom + 4;
+      if (top + h > window.innerHeight - 8) top = Math.max(8, sb.top - h - 4);
+      lista.style.left = left + "px"; lista.style.top = top + "px";
+    };
+    colocar();
+    m._colocar = colocar;
+    const primero = lista.querySelector("button, input, a, [tabindex]");
+    if (primero && document.activeElement === m.querySelector("summary") && ev.isTrusted && m._teclado) primero.focus();
+  }, true);
+  raiz.addEventListener("keydown", (ev) => {
+    const m = ev.target.closest && ev.target.closest("details[data-menu]");
+    if (!m) return;
+    if (ev.key === "Escape" && m.open) { ev.preventDefault(); m.open = false; m.querySelector("summary").focus(); return; }
+    const items = [...m.querySelectorAll(".cs-menu-lista button, .cs-menu-lista input, .cs-menu-lista a")];
+    if (ev.target.matches("summary")) { m._teclado = ev.key === "Enter" || ev.key === " " || ev.key === "ArrowDown"; if (ev.key === "ArrowDown" && !m.open) { ev.preventDefault(); m.open = true; } if (m.open && ev.key === "ArrowDown" && items[0]) { ev.preventDefault(); items[0].focus(); } return; }
+    const i = items.indexOf(ev.target);
+    if (ev.key === "ArrowDown" && i > -1) { ev.preventDefault(); items[(i + 1) % items.length].focus(); }
+    if (ev.key === "ArrowUp" && i > -1) { ev.preventDefault(); (i === 0 ? m.querySelector("summary") : items[i - 1]).focus(); }
+    if (ev.key === "Tab" && !ev.shiftKey && i === items.length - 1) m.open = false;
+  });
+  document.addEventListener("click", (ev) => { if (!ev.target.closest("details[data-menu]")) cerrarMenus(null); });
+  // Al desplazar o cambiar el tamaño, el menú abierto se cierra (queda fijo y se desalinearía).
+  window.addEventListener("resize", () => cerrarMenus(null));
+  window.addEventListener("scroll", () => cerrarMenus(null), true);
 })();

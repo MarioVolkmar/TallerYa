@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}{% if cupon %}Editar cupón{% else %}Nuevo cupón{% endif %} · TallerYa{% endblock %}
+{# También lo usa el mecánico a domicilio (domicilio/vista_descuentos.py) con descuento=True: «descuento» en vez de «cupón» #}
+{% block title %}{% if cupon %}Editar{% else %}Nuevo{% endif %} {% if descuento %}descuento{% else %}cupón{% endif %} · TallerYa{% endblock %}
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 md:mt-10">
-  {% url 'talleres:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi taller" %}
-  <h1 class="titulo text-4xl md:text-5xl mt-4">{% if cupon %}Editar <span class="text-lava">cupón</span>{% else %}Nuevo <span class="text-lava">cupón</span>{% endif %}</h1>
-  <p class="text-suave mt-2">Los moteros lo obtienen gratis en tu página. Cuando vengan, te muestran su QR y tú lo validas.</p>
+  {% if descuento %}{% url 'domicilio:descuentos' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mis descuentos" %}{% else %}{% url 'talleres:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi taller" %}{% endif %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">{% if cupon %}Editar{% else %}Nuevo{% endif %} <span class="text-lava">{% if descuento %}descuento{% else %}cupón{% endif %}</span></h1>
+  <p class="text-suave mt-2">{% if descuento %}Los moteros lo toman gratis en tu ficha. Al pedirte la visita por TallerYa queda anotado y se valida solo cuando marcas la visita como atendida.{% else %}Los moteros lo obtienen gratis en tu página. Cuando vengan, te muestran su QR y tú lo validas.{% endif %}</p>
   <div class="cf mt-6">
     <form method="post" class="papel cf-form" novalidate>
       {% csrf_token %}
@@ -14,31 +15,31 @@
         {% include "cuentas/_campo_registro.html" with campo=form.titulo clase="rc-ancho" icono="ninguno" %}
         {% include "cuentas/_campo_registro.html" with campo=form.valido_hasta icono="ninguno" %}
         {% include "cuentas/_campo_registro.html" with campo=form.cupo icono="ninguno" %}
-        <p class="rc-ayuda rc-ancho cf-ayuda">Si dejas la fecha vacía, el cupón no vence. Si dejas la cantidad vacía, no tiene límite.</p>
+        <p class="rc-ayuda rc-ancho cf-ayuda">Si dejas la fecha vacía, el {% if descuento %}descuento{% else %}cupón{% endif %} no vence. Si dejas la cantidad vacía, no tiene límite.</p>
         {% include "cuentas/_campo_registro.html" with campo=form.condiciones clase="rc-ancho" icono="ninguno" %}
-        <label class="cf-plus rc-ancho">
+        {% if form.solo_plus %}<label class="cf-plus rc-ancho">
           <input type="checkbox" name="{{ form.solo_plus.html_name }}" id="{{ form.solo_plus.id_for_label }}"{% if form.solo_plus.value %} checked{% endif %}>
           <span class="cf-plus-caja" aria-hidden="true"></span>
           <span><strong>Solo para suscriptores Plus <span class="insignia insignia-plus">Plus</span></strong><small>Solo los moteros con TallerYa Plus podrán obtenerlo. Úsalo para tus mejores descuentos.</small></span>
-        </label>
+        </label>{% endif %}
       </div>
-      <button class="btn btn-lava w-full py-3.5 text-sm">{% if cupon %}Guardar cambios{% else %}Publicar cupón{% endif %}</button>
+      <button class="btn btn-lava w-full py-3.5 text-sm">{% if cupon %}Guardar cambios{% elif descuento %}Publicar descuento{% else %}Publicar cupón{% endif %}</button>
     </form>
     <aside class="cf-vista" aria-label="Así se verá">
       <p class="cf-vista-etiqueta">Así se verá</p>
       <div class="cf-ticket">
-        <p class="cf-ticket-taller">{{ taller.nombre }} <span class="insignia insignia-plus" data-vista-plus{% if not form.solo_plus.value %} hidden{% endif %}>Plus</span></p>
+        <p class="cf-ticket-taller">{% if descuento %}{{ m.nombre }} · A domicilio{% else %}{{ taller.nombre }}{% endif %} <span class="insignia insignia-plus" data-vista-plus{% if not form.solo_plus.value %} hidden{% endif %}>Plus</span></p>
         <p class="cf-ticket-titulo" data-vista="titulo">{{ form.titulo.value|default:"15% de descuento en cambio de aceite" }}</p>
         <p class="cf-ticket-cond" data-vista="condiciones">{{ form.condiciones.value|default:"" }}</p>
         <div class="cf-ticket-corte" aria-hidden="true"></div>
         <div class="cf-ticket-pie">
           <div class="cf-ticket-datos">
             <span data-vista="valido_hasta">{% if form.valido_hasta.value %}Válido hasta {{ form.valido_hasta.value }}{% else %}Sin fecha de vencimiento{% endif %}</span>
-            <span data-vista="cupo">{% if form.cupo.value %}{{ form.cupo.value }} cupones disponibles{% else %}Cupones ilimitados{% endif %}</span>
+            <span data-vista="cupo">{% if form.cupo.value %}{{ form.cupo.value }} {% if descuento %}disponibles{% else %}cupones disponibles{% endif %}{% elif descuento %}Sin límite{% else %}Cupones ilimitados{% endif %}</span>
           </div>
           <div class="cf-ticket-qr" id="cf-qr" aria-hidden="true"></div>
         </div>
-        <p class="cf-ticket-nota">Cada motero recibe su propio QR al obtener el cupón.</p>
+        <p class="cf-ticket-nota">{% if descuento %}Cada motero recibe su propio código al tomar el descuento.{% else %}Cada motero recibe su propio QR al obtener el cupón.{% endif %}</p>
       </div>
     </aside>
   </div>
@@ -63,7 +64,8 @@
     var plus = document.getElementById("id_solo_plus"), chapa = document.querySelector("[data-vista-plus]");
     if (plus && chapa) plus.addEventListener("change", function () { chapa.hidden = !plus.checked; });
     enlazar("id_condiciones", "condiciones");
-    enlazar("id_cupo", "cupo", function (v) { return +v > 0 ? v + " cupones disponibles" : "Cupones ilimitados"; });
+    var desc = {% if descuento %}true{% else %}false{% endif %};
+    enlazar("id_cupo", "cupo", function (v) { return +v > 0 ? v + (desc ? " disponibles" : " cupones disponibles") : (desc ? "Sin límite" : "Cupones ilimitados"); });
     enlazar("id_valido_hasta", "valido_hasta", function (v) {
       if (!v) return "Sin fecha de vencimiento";
       var p = v.split("-"); return "Válido hasta el " + +p[2] + "/" + +p[1] + "/" + p[0];

@@ -5,9 +5,10 @@
     <span class="dom-foto dom-foto-taller" aria-hidden="true">{% if d.taller.foto %}<img src="{{ d.taller.foto.url }}" alt="" loading="lazy" width="72" height="72">{% else %}<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>{% endif %}</span>
     <div class="min-w-0">
       <div class="dom-chapas">
-        <span class="tc-chapa dom-chapa-taller" title="Taller del directorio que también va a domicilio">Taller</span>
+        <span class="tc-chapa dom-chapa-taller" title="Taller del directorio con servicio a domicilio">Taller</span>
         {% if d.verificado %}<span class="tc-chapa tc-chapa-verif" title="Verificado por TallerYa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Verificado</span>{% endif %}
         {% if d.urgencias %}<span class="tc-chapa tc-chapa-lava">Urgencias</span>{% endif %}
+        {% if d.tiene_descuento %}<span class="tc-chapa dom-chapa-descuento">Descuento</span>{% endif %}
       </div>
       <h3 class="tc-nombre">{{ d.nombre }}</h3>
       <p class="tc-ubic"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg><span>Taller en {{ d.taller.barrio }} · va a {{ d.zonas_vista|join:", " }}{% if d.zonas_mas %} y {{ d.zonas_mas }} más{% endif %}</span></p>

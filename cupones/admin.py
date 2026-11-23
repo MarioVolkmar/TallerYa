@@ -10,18 +10,18 @@ class CuponAdmin(admin.ModelAdmin):
     list_display = ("titulo", "donde", "valido_hasta", "cupo", "emitidos", "canjeados", "activo", "publico", "solo_plus", "regalo_mensual", "premio_referido", "puntos_logros")
     list_filter = ("activo", "publico", "solo_plus", "regalo_mensual", "premio_referido", "taller")
     list_editable = ("activo",)
-    search_fields = ("titulo", "taller__nombre")
-    autocomplete_fields = ("taller",)
+    search_fields = ("titulo", "taller__nombre", "mecanico__nombre")
+    autocomplete_fields = ("taller", "mecanico")
 
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related("taller").annotate(
+        return super().get_queryset(request).select_related("taller", "mecanico").annotate(
             _emitidos=Count("codigos"),
             _canjeados=Count("codigos", filter=Q(codigos__canjeado_en__isnull=False)),
         )
 
-    @admin.display(description="Taller")
+    @admin.display(description="Taller o mecánico")
     def donde(self, obj):
-        return obj.taller or "Todos los talleres"
+        return obj.taller or (f"{obj.mecanico} (a domicilio)" if obj.mecanico_id else "Todos los talleres")
 
     @admin.display(description="Entregados", ordering="_emitidos")
     def emitidos(self, obj):
@@ -34,12 +34,12 @@ class CuponAdmin(admin.ModelAdmin):
 
 @admin.register(CodigoCupon)
 class CodigoCuponAdmin(admin.ModelAdmin):
-    list_display = ("codigo", "cupon", "motociclista", "origen", "creado", "canjeado_en", "canjeado_taller")
+    list_display = ("codigo", "cupon", "motociclista", "origen", "creado", "canjeado_en", "canjeado_taller", "canjeado_mecanico")
     list_filter = ("origen", ("canjeado_en", admin.EmptyFieldListFilter), "cupon")
     search_fields = ("codigo", "motociclista__celular", "motociclista__nombre")
     readonly_fields = ("codigo", "creado")
     raw_id_fields = ("motociclista", "referido")
-    list_select_related = ("cupon", "cupon__taller", "motociclista", "canjeado_taller")
+    list_select_related = ("cupon", "cupon__taller", "motociclista", "canjeado_taller", "canjeado_mecanico")
 
 
 class ReferidoInline(admin.TabularInline):

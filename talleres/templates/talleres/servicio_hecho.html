@@ -9,7 +9,7 @@
   {% else %}{% url 'talleres:registrar_servicio' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Buscar otra moto" %}{% endif %}
   <section class="papel pt-caja sv">
     <div>
-      <p class="etiqueta">{% if etiqueta %}{{ etiqueta }}{% elif cita %}Cita de {{ cita.nombre }} · {{ cita.fecha_preferida|date:"j M"|lower }}{% else %}Moto sin cita{% endif %}</p>
+      <p class="etiqueta">{% if etiqueta %}{{ etiqueta }}{% elif cita %}Cita de {{ cita.nombre }} · {{ cita.fecha_preferida|date:"j M"|lower }}{% else %}Moto en el taller{% endif %}</p>
       <h1 class="titulo text-3xl mt-1">¿Qué se le hizo?</h1>
     </div>
     {% if sin_moto %}

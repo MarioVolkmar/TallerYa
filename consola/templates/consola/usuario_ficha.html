@@ -70,6 +70,14 @@
     </div>
   </section>
 
+  {% if es_domiciliario %}
+  <section class="cs-tarjeta cs-ancha" aria-labelledby="t-ruta">
+    <h2 class="cs-h3" id="t-ruta">Domiciliario · verificaciones <span class="cs-cuenta-n">{{ verificaciones|length }}</span></h2>
+    <p class="cs-peq">TallerYa Ruta. Compara las 3 placas; las fotos se borran al decidir.</p>
+    {% include "domiciliarios/_consola_verificaciones.html" %}
+  </section>
+  {% endif %}
+
   {# ---------- Todo lo de esta persona ---------- #}
   <section class="cs-tarjeta" aria-labelledby="t-motos">
     <h2 class="cs-h3" id="t-motos">Motos {% if motero %}<span class="cs-cuenta-n">{{ motos|length }}</span>{% endif %}</h2>

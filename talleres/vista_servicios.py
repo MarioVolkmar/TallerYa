@@ -150,60 +150,116 @@ def servicios_taller(request):
         "taller": taller, "pagina": pagina, "resumen": st.resumen_taller(taller)})
 
 
-def _form_rapido():
-    from django import forms
+BUSQUEDAS_VIVAS_HORA = 90  # la consulta en vivo de la placa mientras se escribe (aparte de los registros)
 
-    from garaje.forms import MAX_KM, leer_pesos
-    from .forms import EstiloMixin
 
-    class ServicioRapidoForm(EstiloMixin, forms.Form):
-        placa = forms.CharField(label="Placa", max_length=8, widget=forms.TextInput(
-            attrs={"autocapitalize": "characters", "autocomplete": "off", "placeholder": "ABC12D", "autofocus": True}))
-        km = forms.IntegerField(label="Kilometraje", min_value=0, max_value=MAX_KM,
-                                widget=forms.NumberInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 12500"}))
-        que = forms.CharField(label="Qué se hizo", max_length=200,
-                              widget=forms.TextInput(attrs={"placeholder": "Ej: cambio de aceite y filtro"}))
-        costo = forms.CharField(label="Precio cobrado (opcional)", required=False, max_length=20,
-                                widget=forms.TextInput(attrs={"inputmode": "numeric", "placeholder": "Ej: 85.000"}))
+def _pesos(n):
+    return f"{n:,}".replace(",", ".")
 
-        def clean_placa(self):
-            from garaje import servicio_taller as st
-            return st.normalizar_placa(self.cleaned_data["placa"])
 
-        def clean_costo(self):
-            return leer_pesos(self.cleaned_data.get("costo"))
+@login_required
+def servicio_rapido_moto(request):
+    """Consulta en vivo mientras el taller escribe la placa: qué moto es y qué trabajos tiene su plan.
+    Solo dice lo que ya mostraba el registro por placa; con tope por taller para que no sirva de rastreo."""
+    from django.http import JsonResponse
 
-    return ServicioRapidoForm
+    from cuentas import limites
+    from garaje import servicio_taller as st
+    taller = _taller_de(request)
+    if not taller:
+        return JsonResponse({"estado": "sin_taller"}, status=403)
+    placa = st.normalizar_placa(request.GET.get("placa", ""))
+    if len(placa) < 5:
+        return JsonResponse({"estado": "corta"})
+    clave = f"placa-vivo:{taller.pk}"
+    if limites.superado(clave, BUSQUEDAS_VIVAS_HORA):
+        return JsonResponse({"estado": "tope"})
+    limites.sumar(clave, 3600)
+    motos = st.buscar_por_placa(placa)
+    if not motos:
+        return JsonResponse({"estado": "no_esta"})
+    moto = motos[0]
+    return JsonResponse({"estado": "ok", "moto": str(moto), "km": moto.km_actual,
+                         "tareas": [{"id": t.pk, "nombre": t.nombre} for t in st.tareas_de(moto)[:10]]})
 
 
 @login_required
 def servicio_rapido(request):
-    """Servicio en 30 segundos desde el celular: placa, km, qué se hizo y precio. Va a la hoja de vida del motero
-    (cuando él lo confirma) y le abre una reseña verificada."""
+    """Servicio en 30 segundos: placa, qué se hizo (chips del plan de esa moto y/o texto), km y precio.
+    Con el código del dueño queda verificado de una vez; por placa, el dueño lo confirma (y puede calificar)."""
+    import re
+
     from cuentas import limites
     from cuentas.limites import ip_cliente
-    from garaje import servicio_taller as st
+    from garaje import hoja_vida, servicio_taller as st
+    from garaje.forms_servicio_taller import ServicioHechoForm
     from garaje.models import ServicioTaller
     taller = _taller_de(request)
     if not taller:
         return redirect("cuentas:mi_cuenta")
-    form = _form_rapido()(request.POST or None)
-    if request.method == "POST":
+    post = request.method == "POST"
+    data = request.POST.copy() if post else None
+    if post:
+        data["km"] = re.sub(r"\D", "", data.get("km", ""))  # el campo muestra puntos de miles
+        if not data.get("fecha"):
+            data["fecha"] = timezone.localdate().isoformat()  # va plegada en «Más detalles»: hoy por defecto
+    placa = st.normalizar_placa((data or {}).get("placa", ""))
+    codigo = hoja_vida.normalizar((data or {}).get("codigo", ""))[:12]
+    moto, origen, error_placa, error_codigo = None, ServicioTaller.Origen.PLACA, "", ""
+    if post and codigo:
+        clave_cod, clave_ip = f"codigo-taller:{taller.pk}", f"codigo-ip:{ip_cliente(request)}"
+        if limites.superado(clave_cod, CODIGOS_FALLIDOS_HORA) or limites.superado(clave_ip, CODIGOS_FALLIDOS_HORA):
+            error_codigo = "Demasiados códigos no válidos en la última hora. Intenta más tarde o usa la placa."
+        elif obj := hoja_vida.buscar_codigo(codigo):
+            moto, origen = obj.moto, ServicioTaller.Origen.CODIGO
+        else:
+            limites.sumar(clave_cod, 3600)
+            limites.sumar(clave_ip, 3600)
+            error_codigo = "El código no es válido o ya caducó. Pídele al dueño uno nuevo o quítalo y usa la placa."
+    elif post:
         clave = f"placa-taller:{taller.pk}"
         if limites.superado(clave, BUSQUEDAS_PLACA_HORA):
-            form.add_error(None, "Hiciste muchas búsquedas por placa. Intenta en un rato.")
-        elif form.is_valid():
+            error_placa = "Hiciste muchas búsquedas por placa. Intenta en un rato."
+        elif len(placa) < 5:
+            error_placa = "Escribe la placa de la moto."
+        else:
             limites.sumar(clave, 3600)
-            d = form.cleaned_data
-            motos = st.buscar_por_placa(d["placa"])
-            if not motos:
-                form.add_error("placa", "No hay una moto con esa placa en TallerYa. Pídele al motero que la registre en su garaje (es gratis).")
-            elif d["km"] < motos[0].km_actual:
-                form.add_error("km", f"Es menor que el kilometraje actual ({motos[0].km_actual:,} km). Revísalo.".replace(",", "."))
+            motos = st.buscar_por_placa(placa)
+            if motos:
+                moto = motos[0]
             else:
-                s = st.crear(taller, motos[0], origen=ServicioTaller.Origen.PLACA, fecha=timezone.localdate(), km=d["km"],
-                             tareas=[], otros=d["que"], costo=d["costo"], registrado_por=request.user, ip=ip_cliente(request))
-                messages.success(request, f"Listo: {motos[0]} ({d['placa']}). Le pedimos al dueño que lo confirme; "
-                                          "al confirmarlo queda en su hoja de vida y puede dejarte una reseña verificada.")
-                return redirect("talleres:servicio_rapido")
-    return render(request, "talleres/servicio_rapido.html", {"taller": taller, "form": form})
+                error_placa = (f"No hay una moto con placa {placa} en TallerYa. Pídele al dueño que la registre en su "
+                               "garaje (es gratis) o que te dé el código de su moto.")
+    tareas = st.tareas_de(moto) if moto else []
+    form = ServicioHechoForm(data, request.FILES or None, moto=moto, tareas=tareas)
+    km = form.fields["km"].widget  # texto (no number) para mostrar los puntos de miles
+    km.input_type = "text"
+    km.attrs.update({"inputmode": "numeric", "placeholder": "Ej: 12.500", "autocomplete": "off"})
+    km.attrs.pop("min", None), km.attrs.pop("max", None)
+    form.fields["otros"].required = False
+    form.fields["otros"].label = "Otro trabajo (opcional)"
+    form.fields["otros"].widget.attrs["aria-label"] = "Otro trabajo (opcional)"
+    form.fields["otros"].widget.attrs["placeholder"] = "Ej: ajuste de clutch, cambio de bombillo"
+    if moto and post and form.is_valid():
+        with transaction.atomic():
+            if origen == ServicioTaller.Origen.CODIGO and not _gastar_codigo(codigo, moto):
+                error_codigo = "El código ya caducó o se usó. Pídele al dueño uno nuevo."
+            else:
+                s = st.crear(taller, moto, origen=origen, registrado_por=request.user, ip=ip_cliente(request),
+                             **form.datos())
+        if not error_codigo:
+            if s.estado == ServicioTaller.Estado.VERIFICADO:
+                messages.success(request, f"Listo: {moto} quedó verificada en su hoja de vida. Le avisamos al dueño "
+                                          "y lo invitamos a calificarte.")
+            else:
+                messages.success(request, f"Listo: {moto} ({moto.placa.upper()}). Le avisamos al dueño para que confirme; "
+                                          "al confirmar queda en su hoja de vida y puede dejarte una reseña verificada.")
+            return redirect("talleres:servicio_rapido")
+    return render(request, "talleres/servicio_rapido.html", {
+        "taller": taller, "form": form, "moto": moto, "placa": placa, "codigo": codigo,
+        "error_placa": error_placa, "error_codigo": error_codigo,
+        "km_antiguo": "km_antiguo" in form.fields,
+        "detalles_abiertos": bool(form.errors.get("notas") or form.errors.get("fecha") or form.errors.get("foto")),
+        "codigo_abierto": bool(codigo or error_codigo),
+        "tareas_url": reverse("talleres:servicio_rapido_moto"),
+    })

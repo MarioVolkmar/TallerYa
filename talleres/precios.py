@@ -33,6 +33,29 @@ def medianas_medellin(servicio_id=None):
     return resultado
 
 
+def agrupar_formset(formset):
+    """Formularios del formset agrupados por servicio, para la pantalla «Mis precios» (una tarjeta por servicio).
+    Devuelve [{"id", "nombre", "forms"}] en el orden en que aparece cada servicio; los formularios sin servicio
+    (extra vacíos) no se muestran: la pantalla agrega filas nuevas con JavaScript."""
+    nombres = {str(s.pk): s.nombre for s in formset.empty_form.fields["servicio"].queryset}
+    grupos = {}
+    for f in formset.forms:
+        sid = str(f["servicio"].value() or "")
+        if not sid and not f.errors and not f.instance.pk:
+            continue
+        grupos.setdefault(sid, {"id": sid, "nombre": nombres.get(sid, "Elige el servicio"), "forms": []})["forms"].append(f)
+    return list(grupos.values())
+
+
+def medianas_por_clave(servicio_ids=None):
+    """{servicio_id: {cilindraje_clave: [desde, hasta]}} con la mediana del sector, para sugerir una referencia."""
+    clave = {nombre: c for c, nombre in CILINDRAJES}
+    salida = {}
+    for m in medianas_medellin():
+        salida.setdefault(str(m["servicio_id"]), {})[clave.get(m["cilindraje"], "")] = [m["desde"], m["hasta"]]
+    return salida
+
+
 # Recordatorio: los precios de mano de obra se confirman cada 2-3 meses (a los 75 días se avisa).
 DIAS_RECORDATORIO = 75
 

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Editar mi perfil · TallerYa{% endblock %}
 {% block content %}
 {% url 'cuentas:mi_cuenta' as url_cuenta %}{% include "parciales/volver.html" with url=url_cuenta texto="Mi cuenta" clase="mt-8" %}
@@ -9,7 +10,7 @@
     {% if taller.activo %}<a href="{{ taller.get_absolute_url }}" class="boton-seccion" target="_blank" rel="noopener">Ver cómo lo ven los moteros →</a>{% endif %}
   </div>
   <p class="text-suave mt-2">Un perfil completo, con fotos de tu local y tus trabajos, genera más confianza y más citas.</p>
-  <p class="text-sm mt-2">🛵 ¿También atiendes a domicilio? <a href="{% url 'domicilio:mi_taller' %}" class="boton-texto">Actívalo aquí</a> y sales en Mecánicos a domicilio.</p>
+  {% if mecanicos_activo %}<p class="text-sm mt-2">🛵 ¿También atiendes a domicilio? <a href="{% url 'domicilio:mi_taller' %}" class="boton-texto">Actívalo aquí</a> y sales en Mecánicos a domicilio.</p>{% endif %}
   <div class="pt-completo{% if completitud.pct == 100 %} listo{% endif %} mt-5">
     <span class="pt-completo-fila"><span>Perfil completo</span><strong>{{ completitud.pct }}%</strong></span>
     <span class="pt-barra"><span style="width: {{ completitud.pct }}%"></span></span>
@@ -28,8 +29,12 @@
         <p class="text-xs text-suave">Una o dos frases: desde cuándo trabajan y en qué motos. El equipo, las especialidades y la garantía van abajo, cada una en su lugar.</p>
         {% for e in form.descripcion.errors %}<p class="error">{{ e }}</p>{% endfor %}
       </div>
-      <label class="campo-label">Horario{{ form.horario }}</label>
-      {% for e in form.horario.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      <div class="perfil-horario">
+        <p class="campo-label">Horario</p>
+        <p class="text-sm mt-1">{% if taller.horario %}🕒 {{ taller.horario }}{% else %}<span class="text-suave">Aún no pones tu horario.</span>{% endif %}
+        </p>
+        <a href="{% url 'talleres:agenda' %}" class="boton-texto inline-flex items-center" style="min-height:44px">Cambiar horario</a>
+      </div>
       <div>
         <p class="campo-label">Foto de portada</p>
         <div class="flex flex-wrap items-center gap-4 mt-2">
@@ -41,23 +46,45 @@
       </div>
     </section>
 
+    {% include "talleres/_ubicacion.html" %}
+
     <section class="papel p-6 md:p-8">
       <h2 class="form-seccion">Quiénes atienden</h2>
       <p class="text-sm text-suave mt-2">Hasta 6 personas. Los moteros confían más cuando saben quién les va a revisar la moto. Deja vacía una fila para quitarla.</p>
       {{ equipo.management_form }}
       {% for e in equipo.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
-      <div class="space-y-3 mt-4">
+      <div class="space-y-3 mt-4" id="equipo-filas">
         {% for f in equipo %}
-        <div class="equipo-fila">
-          <label class="campo-label">Nombre{{ f.nombre }}</label>
+        <div class="equipo-fila"{% if forloop.counter > equipo.visibles and not f.has_changed and not f.errors %} hidden data-equipo-extra{% endif %}>
+          <label class="campo-label equipo-nombre">Nombre{{ f.nombre }}</label>
           <label class="campo-label">Rol{{ f.rol }}</label>
-          <label class="campo-label">Años{{ f.anios }}</label>
-          <label class="campo-label">Especialidad{{ f.especialidad }}</label>
+          <label class="campo-label equipo-anios">Años de experiencia{{ f.anios }}</label>
+          <label class="campo-label equipo-esp">Especialidad{{ f.especialidad }}</label>
+          <label class="campo-label equipo-otra" hidden>¿Cuál?{{ f.especialidad_otra }}</label>
         </div>
         {% for campo in f %}{% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}{% endfor %}
         {% endfor %}
       </div>
-      {% if equipo.total_form_count < 6 %}<p class="text-xs text-suave mt-2">¿Son más? Guarda y aparece otra fila.</p>{% endif %}
+      {% if equipo.total_form_count > equipo.visibles %}<button type="button" class="btn btn-borde text-xs px-4 py-2 mt-3" id="equipo-mas" style="min-height:44px">+ Agregar otra persona</button>{% endif %}
+      <script>
+        (function () {
+          var b = document.getElementById("equipo-mas"); if (!b) return;
+          b.addEventListener("click", function () {
+            var f = document.querySelector("#equipo-filas [data-equipo-extra][hidden]"); if (!f) return;
+            f.hidden = false; var i = f.querySelector("input"); if (i) i.focus();
+            if (!document.querySelector("#equipo-filas [data-equipo-extra][hidden]")) b.hidden = true;
+          });
+        })();
+        (function () {
+          // «Otra» en la especialidad habilita el texto corto
+          document.querySelectorAll("#equipo-filas .equipo-fila").forEach(function (fila) {
+            var sel = fila.querySelector(".equipo-esp select"), otra = fila.querySelector(".equipo-otra");
+            if (!sel || !otra) return;
+            function ver() { otra.hidden = sel.value !== "otra"; }
+            sel.addEventListener("change", ver); ver();
+          });
+        })();
+      </script>
     </section>
 
     <section class="papel p-6 md:p-8">
@@ -74,11 +101,10 @@
       <h2 class="form-seccion">Servicios que ofreces</h2>
       <div class="perfil-checks mt-4">{% for c in form.servicios %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
       {% for e in form.servicios.errors %}<p class="error">{{ e }}</p>{% endfor %}
-      <p class="text-sm text-suave mt-3">Los precios «desde» por cilindraje se publican en <a href="{% url 'talleres:precios' %}" class="text-lava underline">Precios de referencia</a> (solo mano de obra, sin repuestos).</p>
-      <label class="perfil-check mt-3">{{ form.mostrar_precios }}<span>{{ form.mostrar_precios.label }}</span></label>
-      <p class="text-xs text-suave mt-1">Apagado, tu perfil dice «Cotiza por WhatsApp» y los moteros te escriben para pedir el precio.</p>
+      <h2 class="form-seccion mt-7">Precios de mano de obra</h2>
+      <div class="mt-3">{% include "parciales/estado_precios.html" with mostrar=taller.mostrar_precios n=taller.precios.count url_alternar=url_alternar url_editar=url_precios sujeto="perfil" editar=True %}</div>
       <h2 class="form-seccion mt-7">Marcas que trabajas</h2>
-      <div class="perfil-checks mt-4">{% for c in form.marcas %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+      <div class="perfil-checks mt-4" data-marcas><label class="perfil-check perfil-check-multi">{{ form.multimarca }}<span>Multimarca (todas)</span></label>{% for c in form.marcas %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
     </section>
 
     <section class="papel p-6 md:p-8">
@@ -133,4 +159,5 @@
     });
   });
 </script>
+<script src="{% static 'talleres/js/multimarca.js' %}" defer></script>
 {% endblock %}

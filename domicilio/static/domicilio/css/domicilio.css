@@ -75,6 +75,7 @@
 /* Tarjeta de taller en el listado mixto */
 .dom-foto-taller { background: #2c3539; color: var(--mostaza); border-radius: 18px; }
 .dom-chapa-taller { background: #2c3539; color: var(--mostaza); border: 1px solid rgba(227, 167, 47, .5); }
+.dom-chapa-descuento { background: rgba(227, 167, 47, .14); color: var(--mostaza); border: 1px solid rgba(227, 167, 47, .5); }
 @media (max-width: 480px) { .dom-pasos-barra li { font-size: 0; gap: 0; justify-content: center; } .dom-pasos-barra li span { font-size: .75rem; } }
 
 /* Ficha: sello «Verificado por TallerYa» (desplegable junto al nombre) */
@@ -112,3 +113,8 @@
 .dom-visita-fila { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .6rem; margin-top: .9rem; padding: .65rem .9rem; border-radius: 10px;
   background: rgba(227, 167, 47, .08); border: 1px dashed rgba(227, 167, 47, .35); font-size: .95rem; }
 .dom-visita-fila strong { color: var(--mostaza); }
+
+/* Panel del mecánico: solicitudes recientes (tarjeta compacta, como las citas del taller) */
+.dm-solicitud { display: grid; grid-template-columns: minmax(0, 1fr); gap: .5rem; padding: .8rem .9rem; border-radius: 14px; background: #181f21; border: 1px solid rgba(255, 255, 255, .06); }
+.dm-solicitud .pt-tarea-btn { justify-self: start; }
+.ficha-mi-descuento { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .6rem; padding: .7rem .9rem; border-radius: 12px; font-size: .85rem; color: var(--crema-2); background: rgba(227, 167, 47, .08); border: 1px solid rgba(227, 167, 47, .35); }

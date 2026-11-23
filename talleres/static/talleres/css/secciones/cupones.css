@@ -91,3 +91,9 @@
 .cp-accion { flex-shrink: 0; padding: .35rem .9rem; border-radius: 999px; background: var(--lava); color: #1a0a05; font-size: .78rem; font-weight: 700; text-decoration: none; }
 .cp-falta { flex-shrink: 0; font-size: .76rem; color: #8d9496; }
 .cp-vacio { margin-top: 1.1rem; padding: .9rem 1rem; border-radius: 12px; border: 1px dashed rgba(255, 255, 255, .12); font-size: .85rem; color: #9ba2a4; }
+/* Filtros de la página de descuentos: tipo (talleres / a domicilio), servicio y barrio o zona */
+.cp-filtros { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem .8rem; padding: .9rem 1rem; margin-bottom: 1.5rem; }
+.cp-filtro { flex: 1 1 12rem; min-width: 0; }
+.cp-filtro .campo { width: 100%; }
+.cp-limpiar { font-size: .8rem; font-weight: 700; color: var(--mostaza); min-height: 44px; display: inline-flex; align-items: center; }
+.cp-filtros .dir-chip span { min-height: 2.75rem; display: inline-flex; align-items: center; }

@@ -7,5 +7,5 @@ class DomicilioConfig(AppConfig):
     verbose_name = "Mecánicos a domicilio"
 
     def ready(self):
-        # Registra las acciones de la consola (aprobar, suspender, verificar): consola.acciones las busca por clave
+        # Registra las acciones de la consola (aprobar, pausar, verificar): consola.acciones las busca por clave
         from . import consola  # noqa: F401

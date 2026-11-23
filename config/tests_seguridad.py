@@ -34,6 +34,7 @@ PUBLICAS = {
     "cuenta/recuperar/listo/", "cuenta/registro/", "cupones/", "diagnostico/", "emergencias/", "foro/", "foro/rodadas/",
     "manifest.webmanifest", "noticias/", "plus/", "robots.txt", "sin-conexion/", "sitemap.xml", "soat/", "sw.js",
     "talleres/", "tecnomecanica/", "unete/",  # autoregistro de talleres (paso 3 del piloto)
+    "proveedores/unete/",  # «Soy proveedor» (apagable en Consola › Configuración)
 }
 
 

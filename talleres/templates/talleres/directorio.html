@@ -13,11 +13,11 @@
       <p class="text-suave mt-2 max-w-xl">{{ seo_pagina.intro }}</p>{% else %}<h1 class="titulo text-4xl md:text-5xl mt-3">Talleres de <span class="text-lava">confianza</span></h1>
       <p class="text-suave mt-2 max-w-xl">Compara reseñas, servicios y precios, guarda tus favoritos y pide tu cita por WhatsApp.</p>{% endif %}
     </div>
-    <div class="dir-stats">
+    {% if stats %}<div class="dir-stats">
       <div class="dir-stat dir-stat-lava"><strong>{{ stats.total }}</strong><span>Talleres</span></div>
       <div class="dir-stat dir-stat-verde"><strong>{{ stats.verificados }}</strong><span>Verificados</span></div>
       <div class="dir-stat dir-stat-mostaza"><strong>{{ stats.cupones }}</strong><span>Con cupón</span></div>
-    </div>
+    </div>{% endif %}
   </header>
 
   <form method="get" class="dir-form" role="search" id="dir-form">
@@ -45,9 +45,9 @@
               <input type="checkbox" name="verificados" value="1" data-auto {% if filtros.verificados %}checked{% endif %}></label>
             <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a2.5 2.5 0 0 0 0-5Z"/><path d="M14 5v14" stroke-dasharray="2 2.5"/></svg>Con cupón disponible</span>
               <input type="checkbox" name="cupon" value="1" data-auto {% if filtros.cupon %}checked{% endif %}></label>
-            <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8Z"/></svg>Va a domicilio</span>
+            <label class="dir-switch"><span class="dir-switch-texto"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8Z"/></svg>Servicio a domicilio</span>
               <input type="checkbox" name="domicilio" value="1" data-auto {% if filtros.domicilio %}checked{% endif %}></label>
-            {% if filtros.domicilio %}<p class="text-xs text-suave">También hay mecánicos independientes que van a domicilio: <a href="{% url 'domicilio:listado' %}" class="boton-texto">ver mecánicos</a>.</p>{% endif %}
+            {% if filtros.domicilio and mecanicos_activo %}<p class="text-xs text-suave">También hay mecánicos independientes que van a domicilio: <a href="{% url 'domicilio:listado' %}" class="boton-texto">ver mecánicos</a>.</p>{% endif %}
           </div>
           <fieldset class="dir-grupo">
             <legend class="dir-grupo-titulo">Servicio</legend>
@@ -81,7 +81,7 @@
         {% endif %}
         {% for r in referencia %}
         <p class="dir-nota tf-mediana" data-mediana><strong>{{ r.servicio }}{% if r.cilindraje %} · {{ r.cilindraje }}{% endif %} en Medellín:</strong>
-          {{ r.desde_txt }} a {{ r.hasta_txt }} <small>(mediana de lo que publican {{ r.talleres }} talleres; referencia, no oferta)</small></p>
+          {{ r.desde_txt }} a {{ r.hasta_txt }} <small>(precio típico según {{ r.talleres }} talleres; referencia, no oferta)</small></p>
         {% endfor %}
         {% if orden == "precio" %}<p class="dir-nota">El rango de precios lo indica cada taller; los que aún no lo han indicado salen al final.</p>{% endif %}
 

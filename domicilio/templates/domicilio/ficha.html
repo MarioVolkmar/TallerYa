@@ -85,6 +85,12 @@
       </div>
     </div>
     {% endif %}
+    {% if not m.mostrar_precios and m.publicado %}
+    <div class="perfil-cotiza mt-5">
+      <p><strong>Cotiza por WhatsApp</strong><br><span class="text-sm text-suave">Cuéntale tu moto y lo que necesita; el mecánico te responde con el precio.</span></p>
+      <a href="{{ m.whatsapp_url }}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp text-sm px-6 py-3 mt-3">Cotizar por WhatsApp</a>
+    </div>
+    {% endif %}
   </section>
 
   {% if fotos %}
@@ -109,7 +115,7 @@
       <div class="papel p-6 space-y-5">
         {% if m.anios_experiencia %}<div><h3 class="perfil-subtitulo">Experiencia</h3><p class="mt-2"><strong class="text-2xl">{{ m.anios_experiencia }}</strong> año{{ m.anios_experiencia|pluralize }} reparando motos</p></div>{% endif %}
         {% if especialidades %}<div><h3 class="perfil-subtitulo">Especialidades</h3><div class="perfil-chips mt-3">{% for e in especialidades %}<span class="perfil-chip">{{ e }}</span>{% endfor %}</div></div>{% endif %}
-        {% if marcas %}<div><h3 class="perfil-subtitulo">Marcas que mejor conoce</h3><div class="perfil-chips mt-3">{% for x in marcas %}<span class="perfil-chip perfil-chip-marca">{{ x.nombre|capfirst }}</span>{% endfor %}</div></div>{% endif %}
+        {% if marcas or m.multimarca %}<div><h3 class="perfil-subtitulo">Marcas que mejor conoce</h3><div class="perfil-chips mt-3">{% if m.multimarca %}<span class="perfil-chip perfil-chip-marca">Multimarca</span>{% endif %}{% for x in marcas %}<span class="perfil-chip perfil-chip-marca">{{ x.nombre|capfirst }}</span>{% endfor %}</div></div>{% endif %}
       </div>
       {% if compromisos or herramientas %}
       <div class="papel p-6 space-y-5">
@@ -120,6 +126,17 @@
         {% if herramientas %}<div><h3 class="perfil-subtitulo">Herramientas y equipo que lleva</h3><div class="perfil-chips mt-3">{% for h in herramientas %}<span class="perfil-chip">🧰 {{ h|capfirst }}</span>{% endfor %}</div></div>{% endif %}
       </div>
       {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if descuentos %}
+  <!-- Descuentos (por dentro son cupones de TallerYa) -->
+  <section id="descuentos">
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.descuentos }}</span>Descuentos si lo pides por TallerYa</h2>
+    <div class="separador mt-4 mb-6"></div>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {% for cupon in descuentos %}{% include "cupones/_ticket.html" with con_boton=True %}{% endfor %}
     </div>
   </section>
   {% endif %}
@@ -174,6 +191,7 @@
 <!-- Ventana: solicitar visita (arma el mensaje de WhatsApp; TallerYa no guarda nada) -->
 <dialog id="dialogo-visita" class="dialogo-eliminar dialogo-registrar" aria-labelledby="dialogo-visita-titulo">
   <form method="post" action="{% url 'domicilio:visita' m.slug %}" target="_blank" class="space-y-4">{% csrf_token %}
+    {% if mi_descuento %}<p class="ficha-mi-descuento"><span class="insignia ticket-domicilio">Tu descuento</span> {{ mi_descuento.cupon.titulo }}: queda anotado en tu solicitud ({{ mi_descuento.codigo }}).</p>{% endif %}
     <div class="flex items-start justify-between gap-3 dialogo-cabeza">
       <p class="titulo text-2xl" id="dialogo-visita-titulo">Solicitar visita de <span class="text-lava">{{ m.nombre }}</span></p>
       <button type="button" class="dialogo-cerrar" data-cerrar aria-label="Cerrar">×</button>

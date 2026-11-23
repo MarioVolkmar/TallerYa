@@ -1,0 +1,7 @@
+{# Interruptor en línea (casilla real escondida). Parámetros: campo, titulo, texto; opcional estado_on / estado_off (chapa al lado) #}
+<label class="rm-sw">
+  <span><strong>{{ titulo }}</strong>{% if texto %}<small>{{ texto }}</small>{% endif %}</span>
+  {% if estado_on %}<span class="rm-estado rm-estado-on">{{ estado_on }}</span><span class="rm-estado rm-estado-off">{{ estado_off }}</span>{% endif %}
+  <input type="checkbox" name="{{ campo.html_name }}" id="{{ campo.id_for_label }}" role="switch"{% if campo.value %} checked{% endif %}>
+  <span class="rm-tog" aria-hidden="true"></span>
+</label>

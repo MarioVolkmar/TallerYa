@@ -1,6 +1,6 @@
 """Ganchos del piloto en las plantillas de garaje. Con COTIZADOR_ACTIVO apagado no pintan nada."""
 from django import template
-from django.conf import settings
+from consola.ajustes import ajuste
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import format_html
@@ -10,7 +10,7 @@ register = template.Library()
 
 @register.simple_tag
 def cotizador_script():
-    if not settings.COTIZADOR_ACTIVO:
+    if not ajuste("cotizador_activo"):
         return ""
     return format_html(
         '<link rel="stylesheet" href="{}"><script src="{}" defer data-url-parte="{}" data-url-codigo="{}"></script>',
@@ -21,7 +21,7 @@ def cotizador_script():
 
 @register.simple_tag
 def cotizador_boton(codigo):
-    if not settings.COTIZADOR_ACTIVO or not codigo:
+    if not ajuste("cotizador_activo") or not codigo:
         return ""
     return format_html('<button type="button" class="accion-copiar cotizador-boton" data-cotizar-codigo="{}">'
                        'Cotizar</button>', codigo)

@@ -111,6 +111,8 @@ html[data-consola-tema="claro"] .cs-tema-oscuro { display: none !important; }
 .cs-cabeza { margin-bottom: 1.25rem; }
 .cs-ficha-cabeza { display: flex; gap: 1rem; align-items: center; }
 .cs-h1 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.05; }
+.cs-subtitulo { margin-top: 2.5rem; padding-top: .25rem; }
+.cs-subtitulo + .cs-sub { margin-bottom: 1rem; }
 .cs-h3 { font-family: "Oswald", sans-serif; text-transform: uppercase; font-weight: 600; font-size: 1.1rem; letter-spacing: .02em; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; }
 .cs-h4 { font-weight: 700; margin: .75rem 0 .25rem; font-size: .9rem; }
 .cs-sub { color: var(--cs-suave); margin-top: .25rem; }
@@ -170,6 +172,7 @@ html[data-consola-tema="claro"] .cs-tema-oscuro { display: none !important; }
 .cs-rol-taller { color: #6cc4ff; }
 .cs-rol-motero { color: var(--cs-ok); }
 .cs-rol-sin_perfil { color: var(--cs-suave); }
+.cs-rol-domiciliario { color: var(--cs-acento); display: inline-block; margin-left: .5rem; }
 html[data-consola-tema="claro"] .cs-rol-taller { color: #0b5f99; }
 .cs-estado { font-weight: 700; font-size: .85rem; }
 .cs-ok { color: var(--cs-ok); }
@@ -294,3 +297,72 @@ html[data-consola-tema="claro"] .cs-cita-pendiente { color: #8a5a00; }
 .cs-oculto { background: var(--cs-papel-2); }
 .cs-cita { margin: .35rem 0; padding: .4rem .7rem; border-left: 3px solid var(--cs-borde); color: var(--cs-texto); font-size: .9rem; }
 @media (max-width: 700px) { .cs-cancelar { flex-wrap: wrap; } .cs-campo-chico { width: 100%; } }
+
+/* Etiquetas de domiciliario (misma píldora que el rol) */
+.cs-rol-dom-ok { color: var(--cs-ok); }
+.cs-rol-dom-pend { color: var(--mostaza, #e3a72f); }
+.cs-rol-dom-no { color: var(--cs-suave); }
+html[data-consola-tema="claro"] .cs-rol-dom-pend { color: #8a5a00; }
+.cs-rol svg { vertical-align: -2px; }
+.cs-rol-domiciliario, .cs-rol-dom-ok, .cs-rol-dom-pend, .cs-rol-dom-no { margin-left: .5rem; }
+
+/* Menú «⋯» de acciones por fila */
+.cs-menu { position: relative; display: inline-block; }
+.cs-menu > summary { list-style: none; cursor: pointer; width: 2.75rem; height: 2.75rem; display: inline-flex; align-items: center; justify-content: center;
+  border: 1.5px solid var(--cs-borde); border-radius: 8px; color: var(--cs-texto); background: transparent; }
+.cs-menu > summary::-webkit-details-marker { display: none; }
+.cs-menu > summary:hover, .cs-menu[open] > summary { background: var(--cs-papel-2); }
+.cs-menu > summary:focus-visible { outline: 2px solid var(--cs-acento); outline-offset: 2px; }
+.cs-menu-lista { position: fixed; right: 0; top: 0; z-index: 30; min-width: 14rem; max-width: min(18rem, calc(100vw - 1.5rem));
+  background: var(--cs-papel-2); border: 1.5px solid var(--cs-borde); border-radius: 10px; padding: .3rem; box-shadow: 0 8px 24px rgba(0,0,0,.35); }
+.cs-menu-lista form { margin: 0; display: block; }
+.cs-menu-lista .cs-menu-item, .cs-menu-lista .cs-btn { display: flex; width: 100%; align-items: center; justify-content: flex-start; gap: .6rem; min-height: 2.75rem; padding: .4rem .7rem;
+  background: transparent; border: 0; box-shadow: none; border-radius: 6px; color: var(--cs-texto) !important; font: inherit; font-size: .9rem; font-weight: 600; text-align: left; cursor: pointer; text-transform: none; letter-spacing: 0; }
+.cs-menu-lista .cs-btn:hover, .cs-menu-lista .cs-btn:focus-visible { background: var(--cs-borde); }
+.cs-menu-lista .cs-btn svg { flex: none; }
+.cs-menu-lista .cs-btn-peligro { color: var(--cs-peligro) !important; background: transparent; }
+.cs-menu-sep { border: 0; border-top: 1px solid var(--cs-borde); margin: .3rem 0; }
+.cs-menu-lista .cs-no-borra { display: block; padding: .5rem .7rem; border: 0; cursor: default; }
+.cs-menu-lista .cs-menu-cancelar { padding: .4rem .5rem; display: flex; flex-direction: column; gap: .4rem; }
+.cs-menu-lista .cs-menu-cancelar .cs-campo-chico { width: 100%; }
+.cs-col-acc { width: 1%; white-space: nowrap; text-align: right; }
+@media (max-width: 700px) {
+  .cs-tabla th, .cs-tabla td { padding-left: .45rem; padding-right: .45rem; }
+  .cs-tabla th.cs-col-acc, .cs-tabla td.cs-col-acc { padding-left: .25rem; }
+}
+.cs-rol-dom-ok, .cs-rol-dom-pend { display: inline-flex; align-items: center; gap: .3rem; }
+.cs-rol-dom-ok svg, .cs-rol-dom-pend svg { vertical-align: 0; flex: none; }
+
+/* Usuarios: etiquetas compactas y sello de domiciliario */
+.cs-tabla .cs-rol { padding: 0 .5rem; font-size: .74rem; line-height: 1.35; white-space: nowrap; }
+.cs-rol-fila { display: inline-flex; align-items: center; gap: .35rem; white-space: nowrap; }
+.cs-sello { display: inline-flex; align-items: center; justify-content: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; border: 1px solid currentColor; flex: none; }
+.cs-sello svg { vertical-align: 0; }
+.cs-sello-ok { color: var(--cs-ok); }
+.cs-sello-pend { color: var(--mostaza, #e3a72f); }
+.cs-sello-no { color: var(--cs-suave); }
+html[data-consola-tema="claro"] .cs-sello-pend { color: #8a5a00; }
+.cs-menu-lista a.cs-menu-item { color: inherit; text-decoration: none; border-radius: .4rem; }
+.cs-menu-lista a.cs-menu-item:hover, .cs-menu-lista a.cs-menu-item:focus-visible { background: var(--cs-borde); }
+
+/* Píldora «✓ Aprobar» bajo el estado «Por revisar» (área táctil de 44 px sin agrandar la píldora) */
+.cs-form-linea:has(> .cs-pildora-aprobar) { display: flex; }
+.cs-btn.cs-pildora-aprobar { position: relative; display: flex; width: fit-content; align-items: center; gap: .25rem; min-height: 0; margin-top: .3rem; padding: 2px 10px;
+  font-size: 12px; font-weight: 700; line-height: 1.4; border-radius: 999px; background: transparent; color: var(--cs-ok); border: 1px solid var(--cs-ok); }
+.cs-btn.cs-pildora-aprobar::after { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 44px; transform: translateY(-50%); }
+.cs-btn.cs-pildora-aprobar:hover, .cs-btn.cs-pildora-aprobar:focus-visible { background: var(--cs-ok); color: var(--cs-papel, #fff); }
+
+/* Sello «Verificado» sin texto, pegado al estado */
+.cs-sello-chico { display: inline-flex; vertical-align: middle; margin-left: .3rem; color: var(--cs-ok); }
+.cs-sello-chico svg { display: block; }
+.cs-tabla .cs-rol-dom-ok, .cs-tabla .cs-rol-dom-pend, .cs-tabla .cs-rol-dom-no { margin-left: 0; display: inline-flex; align-items: center; gap: .3rem; }
+.cs-tabla .cs-rol-dom-ok svg, .cs-tabla .cs-rol-dom-pend svg, .cs-tabla .cs-rol-dom-no svg { vertical-align: 0; flex: none; }
+
+/* Desplegables propios (controles.js): opción marcada en naranja suave */
+.cs-principal .selector-opcion[aria-selected="true"] { background: rgba(242, 97, 29, .14); }
+.cs-principal .selector-opcion.activa[aria-selected="true"] { background: rgba(242, 97, 29, .22); }
+
+/* Proveedores (proveedores/templates/proveedores/consola_*.html) */
+.cs-pv-botones { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.cs-pv-enlace { display: block; margin-top: .75rem; }
+.cs-pv-enlace .cs-campo { width: 100%; }

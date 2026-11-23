@@ -1,0 +1,11 @@
+{# Tarjeta de un taller o mecánico en «Envíalo a quien la revise». Espera o (con valor_enviar, sub_enviar, chips_enviar) y principal #}
+<button name="destino" value="{{ o.valor_enviar }}" class="enviar-opcion{% if principal %} es-principal{% endif %}">
+  <span class="enviar-foto" aria-hidden="true">{% if o.foto %}<img src="{{ o.foto.url }}" alt="" loading="lazy">{% else %}{{ o.iniciales }}{% endif %}</span>
+  <span class="enviar-cuerpo">
+    <span class="enviar-nombre">{{ o.nombre }}{% if o.es_destacado %} <small class="enviar-sello">Destacado</small>{% endif %}{% if o.verificado %} <small>verificado</small>{% endif %}</span>
+    <span class="enviar-nota">{% if o.n_resenas %}<span class="tc-estrellas" aria-hidden="true"><span style="width: {{ o.estrellas_pct }}%">★★★★★</span>★★★★★</span> <b>{{ o.prom|floatformat:1 }}</b> <span class="enviar-n">({{ o.n_resenas }} reseña{{ o.n_resenas|pluralize }})</span>{% else %}<span class="enviar-n">Sin reseñas todavía</span>{% endif %}</span>
+    <span class="enviar-sub">{{ o.sub_enviar }}</span>
+    <span class="enviar-chips">{% if o.atiende %}<span class="enviar-chip es-sistema">Atiende {{ res.sistema|lower }}</span>{% endif %}{% for c in o.chips_enviar %}<span class="enviar-chip">{{ c }}</span>{% endfor %}</span>
+  </span>
+  <span class="enviar-ir">WhatsApp →</span>
+</button>

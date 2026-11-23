@@ -69,6 +69,7 @@ class Taller(models.Model):
     horario = models.CharField(max_length=120, blank=True, help_text="Ej: Lun-Sáb 8am-6pm")
     servicios = models.ManyToManyField(Servicio, related_name="talleres")
     marcas = models.ManyToManyField(Marca, related_name="talleres", blank=True)
+    multimarca = models.BooleanField("Multimarca", default=False, help_text="Atiende todas las marcas: en la ficha dice «Multimarca» y el filtro por marca lo incluye siempre.")
     foto = models.ImageField(upload_to="talleres/", blank=True)
     verificado = models.BooleanField(default=False)
     activo = models.BooleanField(default=False, help_text="Visible en el directorio")
@@ -117,6 +118,8 @@ class Taller(models.Model):
     # Ubicación del local (la pone el taller) para ordenar por cercanía en /emergencias; la del motero nunca se guarda
     latitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    # True si las coordenadas son del local (GPS tomado allí o dirección encontrada); False si son del barrio o no hay
+    ubicacion_exacta = models.BooleanField(default=False)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -126,7 +129,20 @@ class Taller(models.Model):
     def __str__(self):
         return self.nombre
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        d = self.__dict__
+        self._ubic0 = (d.get("direccion"), d.get("barrio_id"), d.get("latitud"), d.get("longitud"))
+
     def save(self, *args, **kwargs):
+        # Dirección o barrio nuevos (y coordenadas no tocadas a mano): se calculan las coordenadas
+        direccion0, barrio0, lat0, lng0 = getattr(self, "_ubic0", (None,) * 4)
+        if (self.pk is None or direccion0 != self.direccion or barrio0 != self.barrio_id) and (self.latitud, self.longitud) == (lat0, lng0):
+            from .geocodificar import completar_ubicacion
+            if completar_ubicacion(self) and kwargs.get("update_fields"):
+                kwargs["update_fields"] = {*kwargs["update_fields"], "latitud", "longitud", "ubicacion_exacta"}
+        elif (self.latitud, self.longitud) != (lat0, lng0) and not getattr(self, "_geo_auto", False):
+            self.ubicacion_exacta = self.latitud is not None  # las puso una persona (GPS o mapa)
         if not self.slug:
             base = slugify(self.nombre) or "taller"
             slug, n = base, 2
@@ -134,6 +150,8 @@ class Taller(models.Model):
                 slug, n = f"{base}-{n}", n + 1
             self.slug = slug
         super().save(*args, **kwargs)
+        self._ubic0 = (self.direccion, self.barrio_id, self.latitud, self.longitud)
+        self._geo_auto = False
 
     LARGO_PIN = 6
 
@@ -405,34 +423,3 @@ class PrecioServicio(models.Model):
         return f"{self.taller} · {self.servicio} {self.cilindraje}: {self.desde}–{self.hasta}"
 
 
-class Grua(models.Model):
-    """Empresa de grúa que no es taller (los talleres con grúa usan Taller.grua). Modelo aparte para no mezclarla
-    con el directorio, los cupones ni las reseñas de talleres; se da de alta desde el admin."""
-    class Vehiculo(models.TextChoices):
-        PLANCHON = "planchon", "Planchón"
-        CAMA = "cama", "Cama (plataforma)"
-        AMBOS = "ambos", "Planchón y cama"
-
-    nombre = models.CharField(max_length=120)
-    telefono = models.CharField(max_length=20, help_text="Con indicativo, solo números. Ej: 573001234567")
-    whatsapp = models.CharField(max_length=20, blank=True, help_text="Vacío si no atiende por WhatsApp")
-    municipios = models.JSONField("zona de cobertura", default=list, blank=True,
-                                  help_text="Municipios del Valle de Aburrá que cubre")
-    abierto_24h = models.BooleanField("24 horas", default=False)
-    abre = models.TimeField(null=True, blank=True, help_text="Horario diario si no es 24 h")
-    cierra = models.TimeField(null=True, blank=True, help_text="Puede ser después de medianoche (ej. 02:00)")
-    tarifa_desde = models.PositiveIntegerField("tarifa base desde (COP)", null=True, blank=True)
-    vehiculo = models.CharField("lleva motos en", max_length=10, choices=Vehiculo.choices, default=Vehiculo.PLANCHON)
-    latitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
-    activo = models.BooleanField(default=True)
-    demo = models.BooleanField(default=False, help_text="Dato de muestra: no es una empresa real")
-    creado = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["-abierto_24h", "nombre"]
-        verbose_name = "grúa"
-        verbose_name_plural = "grúas"
-
-    def __str__(self):
-        return self.nombre

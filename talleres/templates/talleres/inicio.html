@@ -142,7 +142,7 @@
   <div class="ib-rapidos">
     <span class="ib-rapidos-titulo">Lo más buscado</span>
     {% for s in servicios_rapidos %}<a href="{% url 'talleres:directorio' %}?servicio={{ s.id }}">{{ s }}</a>{% endfor %}
-    <a href="{% url 'domicilio:listado' %}" title="Mecánicos sin taller que van a donde está tu moto">🛵 Mecánico a domicilio</a>{# acceso discreto (sesión mecánicos a domicilio) #}
+{% if mecanicos_activo %}    <a href="{% url 'domicilio:listado' %}" title="Mecánicos sin taller que van a donde está tu moto">🛵 Mecánico a domicilio</a>{# acceso discreto (sesión mecánicos a domicilio) #}{% endif %}
   </div>
 </form>
 
@@ -191,7 +191,7 @@
 </section>
 
 {# Comunidad: próximas rodadas y lo último del foro #}
-{% if not oculta_social %}
+{% if foro_activo %}
 <section class="mt-16">
   <div class="flex items-end justify-between gap-4 mb-6">
     <h2 class="titulo text-3xl md:text-4xl"><span class="numero">03</span>Comunidad</h2>
@@ -245,12 +245,12 @@
 </section>
 {% endif %}
 
-{% include "noticias/_noticiero.html" with numero="04" %}
+{% if foro_activo %}{% include "noticias/_noticiero.html" with numero="04" %}{% else %}{% include "noticias/_noticiero.html" with numero="03" %}{% endif %}
 
 {# Invitación a registrar taller: solo para visitantes sin sesión (los moteros y talleres ya tienen su cuenta) #}
 {% if not user.is_authenticated %}
 <section class="mt-16 papel p-6 md:p-10 relative overflow-hidden inicio-taller">
-  <span class="numero-fantasma !text-[9rem] !bottom-[-2.5rem]" aria-hidden="true">05</span>
+  <span class="numero-fantasma !text-[9rem] !bottom-[-2.5rem]" aria-hidden="true">{% if foro_activo %}05{% else %}04{% endif %}</span>
   <div class="relative inicio-taller-rejilla">
     <div>
       <p class="etiqueta">¿Tienes un taller?</p>

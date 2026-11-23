@@ -1,0 +1,6 @@
+{# Tarifa de visita con «$» y puntos de miles (registro.js). Parámetro: form #}
+<div class="rc-campo{% if form.tarifa_visita.errors %} con-error{% endif %}">
+  <div class="rc-etiqueta"><label class="campo-label" for="{{ form.tarifa_visita.id_for_label }}">Tarifa de visita <span class="rc-opcional">(opcional)</span></label></div>
+  <div class="rc-control"><span class="rc-icono rm-pesos" aria-hidden="true">$</span>{{ form.tarifa_visita }}</div>
+  {% for e in form.tarifa_visita.errors %}<p class="error">{{ e }}</p>{% empty %}<p class="rc-ayuda">{{ form.tarifa_visita.help_text }}</p>{% endfor %}
+</div>

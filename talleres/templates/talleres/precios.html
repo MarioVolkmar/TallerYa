@@ -5,36 +5,25 @@
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="pt mt-8 md:mt-10 tf">
   {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
-  <form method="post" class="papel pt-caja space-y-4">
+  <form method="post" class="papel pt-caja mp-form">
     {% csrf_token %}{{ formset.management_form }}
     <div>
       <p class="etiqueta">Precios de referencia</p>
       <h1 class="titulo text-3xl mt-1">Mis precios</h1>
-      <p class="text-sm text-suave mt-2">Publica un rango "desde–hasta" por servicio, en pesos. Solo mano de obra (sin repuestos). Se muestra en tu perfil como «precio de referencia, confirmado el» día que los guardas o confirmas, solo si TallerYa tiene activada la opción de mostrar precios.
-        Cuando 3 o más talleres de Medellín publican el mismo servicio, mostramos la mediana en el directorio (sin decir quién cobra qué).</p>
+      <p class="text-sm text-suave mt-2">Rangos de mano de obra, sin repuestos.</p>
     </div>
-    {% if confirmado %}
-    <div class="tf-confirmar">
-      <p class="text-sm">Precios de referencia, confirmados el <strong>{{ confirmado|date:"d/m/Y" }}</strong>.{% if por_confirmar %} <strong>Llevan más de 2 meses: confírmalos o actualízalos.</strong>{% endif %}</p>
-      <button name="siguen_vigentes" value="1" class="btn btn-borde text-xs px-4 py-3 mt-2" formnovalidate>Siguen vigentes</button>
-    </div>
-    {% endif %}
+    {% include "parciales/estado_precios.html" with mostrar=taller.mostrar_precios n=taller.precios.count url_alternar=url_alternar sujeto="perfil" confirmado=confirmado por_confirmar=por_confirmar siguen=True %}
+    <details class="mp-como">
+      <summary>¿Cómo se usan?</summary>
+      <ul>
+        <li>Se muestran en tu perfil como «precio de referencia» con la fecha en que los guardas o confirmas.</li>
+        <li>Solo se ven si «Mostrar precios en mi perfil» está encendido; apagado, tu perfil dice «Cotiza por WhatsApp».</li>
+        {% if precio_tipico %}<li>Tus precios también ayudan a calcular el precio típico de cada servicio en Medellín. Se muestra sin decir quién cobra qué, y solo si hay 3 talleres o más.</li>{% endif %}
+      </ul>
+    </details>
     {% if sin_servicios %}<p class="error">Primero elige tus servicios en <a href="{% url 'talleres:editar_perfil' %}" class="underline">tu perfil</a>.</p>{% endif %}
-    {% for e in formset.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
-    {% for form in formset %}
-    <div class="tf-precio-fila">
-      {{ form.id }}
-      <label class="campo-label">Servicio{{ form.servicio }}</label>
-      <label class="campo-label">Cilindraje{{ form.cilindraje }}</label>
-      <label class="campo-label">Desde{{ form.desde }}</label>
-      <label class="campo-label">Hasta{{ form.hasta }}</label>
-      {% if form.instance.pk %}<label class="tf-borrar">{{ form.DELETE }} Quitar</label>{% endif %}
-      {% for campo in form %}{% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}{% endfor %}
-      {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
-    </div>
-    {% endfor %}
-    <p class="text-xs text-suave">¿Necesitas más filas? Guarda y aparecerán otras tres.</p>
-    <button class="btn btn-lava text-xs px-6 py-3">Guardar precios</button>
+    {% include "talleres/_mis_precios_editor.html" %}
+    <div class="mp-fijo"><button class="btn btn-lava text-xs px-6 py-3">Guardar precios</button></div>
   </form>
 </div>
 {% endblock %}

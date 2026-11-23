@@ -40,3 +40,17 @@
     });
   });
 </script>
+<script>
+  // Panel izquierdo: si es más alto que la pantalla, baja con la página hasta verse completo y ahí se queda fijo
+  // (con top negativo en el "sticky"); si cabe, se queda arriba como siempre.
+  (function () {
+    var lado = document.querySelector(".rt-lado"); if (!lado) return;
+    function ajustar() {
+      var arriba = 88, abajo = 24;
+      lado.style.top = Math.min(arriba, window.innerHeight - lado.offsetHeight - abajo) + "px";
+    }
+    ajustar();
+    window.addEventListener("resize", ajustar);
+    if (window.ResizeObserver) new ResizeObserver(ajustar).observe(lado);  // la animación o Google pueden cambiar su alto
+  })();
+</script>

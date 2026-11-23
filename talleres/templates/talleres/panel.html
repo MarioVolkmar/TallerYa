@@ -3,7 +3,6 @@
 {% block title %}Mi taller · TallerYa{% endblock %}
 {% block content %}
 <div class="pt mt-8 md:mt-10">
-  {% if precios_por_confirmar %}<p class="papel p-3 mb-3 text-sm">Tus precios de mano de obra llevan más de 2 meses sin confirmarse. <a class="underline" href="{% url 'talleres:precios' %}">Confirmarlos o actualizarlos</a></p>{% endif %}
   <section class="papel pt-cabeza">
     <button type="button" class="cuenta-avatar pt-avatar" id="abrir-avatar" title="Cambiar avatar" aria-haspopup="dialog" aria-controls="avatar">
       {% avatar user 64 %}
@@ -14,26 +13,44 @@
       <p class="etiqueta">Mi taller</p>
       <h1 class="titulo text-3xl md:text-4xl mt-1">{{ taller.nombre }}</h1>
       <p class="pt-estado">{{ taller.barrio }} · {% if taller.activo %}<span class="pt-ok"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Publicado{% if taller.verificado %} y verificado{% endif %}</span>{% else %}<span class="pt-revision">En revisión: lo publicaremos pronto</span>{% endif %}</p>
-      <div class="pt-acciones">
-        <a href="{{ taller.get_absolute_url }}" class="btn btn-borde text-xs px-4 py-2">Ver mi página</a>
-        <a href="{% url 'talleres:editar_perfil' %}" class="btn btn-borde text-xs px-4 py-2">Editar perfil y fotos</a>
-        <a href="{% url 'talleres:estadisticas' %}" class="btn btn-borde text-xs px-4 py-2">Estadísticas del mes</a>
-        <a href="{% url 'talleres:agenda' %}" class="btn btn-borde text-xs px-4 py-2">Agenda y horario</a>
-        <a href="{% url 'talleres:servicio_rapido' %}" class="btn btn-lava text-xs px-4 py-2">Registrar servicio (30 s)</a>
-        <a href="{% url 'talleres:precios' %}" class="btn btn-borde text-xs px-4 py-2">Mis precios{% if precios_por_confirmar %} · confirmar{% endif %}</a>
-        {% with d=taller.domicilio %}<form method="post" action="{% url 'domicilio:alternar_taller' %}" class="pt-domicilio">{% csrf_token %}
-          <input type="hidden" name="valor" value="{% if d.activo %}0{% else %}1{% endif %}">
-          <button type="submit" class="btn btn-borde text-xs px-4 py-2 pt-domicilio-btn" role="switch" aria-checked="{% if d.activo %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Va a domicilio</button>
-          {% if d.activo %}<a href="{% url 'domicilio:mi_taller' %}" class="pt-domicilio-zonas">{% with zs=d.zonas.all %}{% if zs %}{{ zs|length }} zona{{ zs|length|pluralize }}{% else %}Elegir zonas{% endif %}{% endwith %}</a>{% endif %}
-        </form>{% endwith %}
-        <a href="{% url 'talleres:servicios_taller' %}" class="btn btn-borde text-xs px-4 py-2">Servicios registrados</a>
-      </div>
     </div>
-    <a href="{% url 'talleres:editar_perfil' %}" class="pt-completo{% if completitud.pct == 100 %} listo{% endif %}">
-      <span class="pt-completo-fila"><span>Perfil completo</span><strong>{{ completitud.pct }}%</strong></span>
-      <span class="pt-barra"><span style="width: {{ completitud.pct }}%"></span></span>
-      {% if completitud.faltan %}<span class="pt-faltan">Te falta: {{ completitud.faltan|join:", "|lower }}</span>{% else %}<span class="pt-faltan">¡Tu perfil está completo!</span>{% endif %}
-    </a>
+    <div class="pt-principal">
+      <a href="{% url 'talleres:servicio_rapido' %}" class="btn btn-lava pt-registrar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Registrar servicio</a>
+      {% if mecanicos_activo %}{% with d=taller.domicilio %}<form method="post" action="{% url 'domicilio:alternar_taller' %}" class="pt-interruptor">{% csrf_token %}
+        <input type="hidden" name="valor" value="{% if d.activo %}0{% else %}1{% endif %}">
+        <button type="submit" class="pt-interruptor-btn" role="switch" aria-checked="{% if d.activo %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Servicio a domicilio</button>
+        {% if d.activo %}<a href="{% url 'domicilio:mi_taller' %}" class="pt-domicilio-zonas">{% with zs=d.zonas.all %}{% if zs %}{{ zs|length }} zona{{ zs|length|pluralize }}{% else %}Elegir zonas{% endif %}{% endwith %}</a>{% endif %}
+      </form>{% endwith %}{% endif %}
+    </div>
+  </section>
+
+  <nav class="pt-accesos" aria-label="Accesos del taller">
+    <a href="{{ taller.get_absolute_url }}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Mi página</a>
+    <a href="{% url 'talleres:editar_perfil' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Perfil</a>
+    <a href="{% url 'talleres:agenda' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agenda</a>
+    <a href="{% url 'talleres:precios' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M16 7.5C15 6.5 13.7 6 12 6c-2 0-3.5 1-3.5 2.5S10 11 12 11.5s3.5 1 3.5 2.5S14 17 12 17c-1.700 0-3-.5-4-1.5"/></svg>Precios</a>
+    <a href="{% url 'talleres:servicios_taller' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 6.5a4 4 0 0 0 5 5L10 21l-4-4 9.500-9.500z"/></svg>Servicios</a>
+    <a href="{% url 'talleres:estadisticas' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Estadísticas</a>
+  </nav>
+
+  <section class="papel pt-hacer" aria-labelledby="pt-hacer-t">
+    <h2 class="etiqueta" id="pt-hacer-t">Por hacer</h2>
+    <ul class="pt-tareas">
+      {% if n_pendientes %}<li class="pt-tarea urgente"><span><strong>{{ n_pendientes }} cita{{ n_pendientes|pluralize }}</strong> por confirmar</span><a href="#citas" class="pt-tarea-btn">Responder</a></li>{% endif %}
+      {% if precios_por_confirmar %}<li class="pt-tarea urgente"><span>Tus precios de mano de obra llevan más de 2 meses sin confirmarse</span><a href="{% url 'talleres:precios' %}" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
+      {% if sin_ubicacion %}<li class="pt-tarea"><span>Confirma la ubicación exacta de tu taller</span><a href="{% url 'talleres:editar_perfil' %}#ubicacion" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
+      {% if sin_responder %}<li class="pt-tarea"><span><strong>{{ sin_responder }} reseña{{ sin_responder|pluralize }}</strong> sin responder</span><a href="#resenas" class="pt-tarea-btn">Responder</a></li>{% endif %}
+      {% if completitud.pct < 100 %}<li class="pt-tarea"><span>Perfil al {{ completitud.pct }}%{% if completitud.faltan %}: te falta {{ completitud.faltan|join:", "|lower }}{% endif %}</span><a href="{% url 'talleres:editar_perfil' %}" class="pt-tarea-btn">Completar</a></li>{% endif %}
+      {% if not n_pendientes and not precios_por_confirmar and not sin_ubicacion and not sin_responder and completitud.pct == 100 %}<li class="pt-tarea listo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Todo al día: citas, precios, reseñas y perfil.</li>{% endif %}
+    </ul>
+    <form method="post" action="{% url 'talleres:alternar_precios' %}" class="pt-precios">{% csrf_token %}
+      <input type="hidden" name="valor" value="{% if taller.mostrar_precios %}0{% else %}1{% endif %}">
+      <p class="pt-precios-estado"><strong>Tus precios:</strong> {% if not n_precios %}aún no has cargado precios{% elif taller.mostrar_precios %}visibles en tu perfil{% else %}ocultos: tu perfil dice «Cotiza por WhatsApp»{% endif %}</p>
+      <div class="pt-precios-acciones">
+        {% if n_precios %}<button type="submit" class="pt-interruptor-btn" role="switch" aria-checked="{% if taller.mostrar_precios %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Mostrar precios en mi perfil</button>{% endif %}
+        <a href="{% url 'talleres:precios' %}" class="pt-tarea-btn">{% if n_precios %}Editar precios{% else %}Armar mi tabla{% endif %}</a>
+      </div>
+    </form>
   </section>
 
   <section class="pt-cifras" aria-label="Resumen">
@@ -100,8 +117,6 @@
         <a href="{% url 'talleres:cupon_nuevo' %}" class="pt-nuevo-cupon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Crear cupón</a>
       </section>
 
-
-      {% include "cuentas/_seguridad.html" with con_salir=True %}
     </div>
   </div>
 </div>

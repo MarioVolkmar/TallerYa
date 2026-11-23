@@ -63,6 +63,29 @@ class EnviarTests(FichaBase):
         self.assertContains(r, "Don Pedro")
         self.assertContains(r, 'content="noindex"')
 
+    def test_orden_especialista_verificado_nota_y_destacado_limitado(self):
+        from types import SimpleNamespace as N
+        from .vista_ficha_diagnostico import ordenar
+        mk = lambda pk, nombre, esp=(), ver=False, prom=None, n=0: N(pk=pk, nombre=nombre, especialidades=list(esp), verificado=ver, prom=prom, n_resenas=n)
+        lista = [mk(1, "Zeta", ver=True, prom=5, n=40), mk(2, "Beta", ["frenos"]), mk(3, "Alfa", ver=True, prom=4.9, n=1),
+                 mk(4, "Pro1"), mk(5, "Pro2"), mk(6, "Pro3"), mk(7, "Omega", ["frenos"], True, 4.5, 10)]
+        r = ordenar(lista, "Frenos", {4, 5, 6})
+        self.assertEqual([c.nombre for c in r], ["Pro1", "Pro2", "Omega", "Beta", "Zeta", "Alfa", "Pro3"])
+        self.assertEqual([c.es_destacado for c in r], [True, True] + [False] * 5)
+        # sin destacados: la nota con muchas reseñas pesa más que 4,9 con una sola
+        self.assertEqual([c.nombre for c in ordenar(lista[:1] + lista[2:3], "", set())], ["Zeta", "Alfa"])
+
+    def test_pagina_ordena_por_nota_y_muestra_estrellas(self):
+        from talleres.models import Resena
+        b = Barrio.objects.get(nombre="Belén")
+        otro = Taller.objects.create(nombre="Aaa Taller", responsable="A", whatsapp="573001110000", direccion="Y", barrio=b, activo=True)
+        otro.servicios.add(self.servicio)
+        Resena.objects.create(taller=self.taller, nombre="X", estrellas=5, comentario="Muy bien")
+        r = self.client.get(f"{self.url}?t=cvt&s=fuga&que=gasolina")
+        nombres = [t.nombre for t in r.context["talleres"]]
+        self.assertEqual(nombres, ["Taller Uno", "Aaa Taller"])
+        self.assertContains(r, "1 reseña")
+
     def test_consulta_invalida_es_404(self):
         self.assertEqual(self.client.get(f"{self.url}?t=cvt&s=nada").status_code, 404)
         self.assertEqual(self.client.get(self.url).status_code, 404)
@@ -195,3 +218,33 @@ class ConMotoTests(FichaBase):
         r = self.client.get(reverse("garaje:diagnostico") + "?t=cvt&s=fuga&que=gasolina")
         self.assertContains(r, "Enviar a un taller o a un mecánico a domicilio")
         self.assertContains(r, reverse("garaje:diagnostico_enviar"))
+
+
+class NotaTests(FichaBase):
+    def test_nota_es_opcional(self):
+        self.enviar({"destino": f"t:{self.taller.pk}"})
+        self.assertEqual(FichaDiagnostico.objects.get().nota, "")
+
+    def test_nota_se_guarda_y_aparece_en_ficha_y_whatsapp(self):
+        r = self.enviar({"destino": f"t:{self.taller.pk}", "nota": "Suena al frenar en bajada, desde hace una semana"})
+        f = FichaDiagnostico.objects.get()
+        self.assertEqual(f.nota, "Suena al frenar en bajada, desde hace una semana")
+        self.assertIn("Nota del motero: Suena al frenar", self.texto_wa(r))
+        self.assertContains(self.client.get(f.get_absolute_url()), "Suena al frenar en bajada")
+
+    def test_nota_sin_html_y_escapada(self):
+        self.enviar({"destino": f"t:{self.taller.pk}", "nota": "<script>alert(1)</script>ruido &lt;b&gt;"})
+        f = FichaDiagnostico.objects.get()
+        self.assertNotIn("<script>", f.nota)
+        html = self.client.get(f.get_absolute_url()).content.decode()
+        self.assertNotIn("<script>alert", html)
+
+    def test_nota_con_tope_y_recortada_en_whatsapp(self):
+        r = self.enviar({"destino": f"t:{self.taller.pk}", "nota": "ruido " * 200})
+        self.assertEqual(len(FichaDiagnostico.objects.get().nota), 500)
+        linea = [x for x in self.texto_wa(r).split("\n") if x.startswith("Nota del motero")][0]
+        self.assertLessEqual(len(linea), 190)
+        self.assertTrue(linea.endswith("…"))
+
+    def test_formulario_muestra_caja_con_ejemplo(self):
+        self.assertContains(self.client.get(f"{self.url}?t=cvt&s=fuga&que=gasolina"), 'name="nota"')

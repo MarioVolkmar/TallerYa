@@ -275,6 +275,7 @@ input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
 .menu-panel a:hover { background: rgba(255, 255, 255, .05); }
 /* Plus */
 .insignia-plus { background: linear-gradient(90deg, var(--mostaza), #f6cb63); color: #1c1305; }
+.ticket-domicilio { background: #252e31; color: var(--mostaza); border: 1px solid rgba(227, 167, 47, .5); }
 .ticket.bloqueado .ticket-cuerpo { opacity: .55; }
 /* Foro */
 .pregunta-fila { transition: background .15s ease; }
@@ -365,8 +366,10 @@ input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
 .miga { display: flex; flex-wrap: wrap; align-items: center; gap: .55rem; font-family: "Oswald", sans-serif; text-transform: uppercase;
   letter-spacing: .2em; font-size: .84rem; }
 /* Botón de volver, igual en todo el sitio (templates/parciales/volver.html) */
-.volver { display: inline-flex; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .2em; font-size: .84rem; line-height: 1.2; align-items: center; gap: .35rem; padding: .3rem .75rem .3rem .55rem; border-radius: 999px; color: var(--crema);
+.volver { display: inline-flex; justify-self: start; align-self: flex-start; width: fit-content; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .2em; font-size: .84rem; line-height: 1.2; align-items: center; gap: .35rem; padding: .3rem .75rem .3rem .55rem; border-radius: 999px; color: var(--crema);
   background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .08); transition: background .15s ease, color .15s ease; }
+[data-marcas] input:disabled + span { opacity: .4; }
+.perfil-check-multi span { font-weight: 800; }
 .volver:hover { background: var(--crema); color: var(--carbon); }
 /* Mismo botón del sitio (.btn), en papel oscuro con la sombra desplazada */
 .barra-datos { gap: .5rem; font-size: .8rem; padding: .7rem 1.25rem; color: var(--crema);
@@ -1115,6 +1118,10 @@ a.ticket-taller:hover { color: var(--lava-2); }
   .pie-grid > * { flex: 1 1 9rem; }
   .pie-grid > .pie-marca { flex: 1.6 1 16rem; }
 }
+/* Contacto bajo la marca */
+.pie-marca .pie-contacto { margin-top: 1.1rem; }
+/* Insignias de pendientes en el menú (citas, solicitudes, aprobaciones) */
+.nav-contador { display: inline-grid; place-items: center; min-width: 1.15rem; height: 1.15rem; margin-left: .35rem; padding: 0 .3rem; border-radius: 999px; background: #c2410c; color: #fff; font: 700 .68rem/1 system-ui, sans-serif; letter-spacing: 0; vertical-align: .15em; }
 .pie-pronto { font-style: normal; font-size: .72rem; padding: .05rem .45rem; border-radius: 999px; background: rgba(255, 255, 255, .06); color: #8d958f; white-space: nowrap; }
 /* Poner al día el plan (paso 2 al agregar moto) */
 .pasos-alta { display: flex; flex-wrap: wrap; gap: .5rem 1.2rem; font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .1em; font-size: .78rem; color: #8d958f; }
@@ -1545,6 +1552,9 @@ summary.agenda-titulo { list-style: none; cursor: pointer; margin-bottom: 0; wid
 .visor-fotos-flecha.der { right: .5rem; }
 .perfil-check span { display: inline-block; padding: .45rem .9rem; border-radius: 999px; font-size: .85rem; border: 1px solid rgba(255, 255, 255, .14); color: var(--crema-2); transition: all .15s ease; }
 .perfil-check input:checked + span { background: var(--lava); border-color: var(--lava); color: #1a0d05; font-weight: 700; }
+.perfil-check { cursor: pointer; }
+.perfil-check input { position: absolute; opacity: 0; pointer-events: none; }
+.perfil-check input:focus-visible + span { outline: 2px solid var(--mostaza); outline-offset: 2px; }
 /* Ficha de la pieza: dos acciones iguales en una fila */
 .ficha-pieza-acciones { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: 1rem; }
 .ficha-pieza-acciones .btn { justify-content: center; text-align: center; padding-left: .5rem; padding-right: .5rem; }
@@ -1886,8 +1896,7 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(242, 97, 29, .18);
 @media (max-width: 767px) {
   /* Pie de página: los grupos de enlaces en dos columnas (la mitad de largo) */
   .pie-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.75rem 1.25rem; }
-  .pie-grid > .pie-marca, .pie-grid > :has(.pie-contacto) { grid-column: 1 / -1; }
-  .pie-grid > :has(.pie-contacto) { order: 9; }
+  .pie-grid > .pie-marca { grid-column: 1 / -1; }
   /* contacto al final: las listas cortas quedan en pareja */
   .pie-lista { gap: 0; }
   .pie-lista a, .pie-lista li > span { display: inline-flex; align-items: center; min-height: 2.5rem; }
@@ -3050,10 +3059,6 @@ button.diag-pieza:hover .diag-pieza-ver svg { transform: translateX(4px); }
 .diag-esq-lista button.cand .dg-ref { background: var(--lava); border-color: var(--lava); color: var(--carbon); }
 .diag-esq-lista button:hover, .diag-esq-lista button.activa, .diag-esq-lista button:focus-visible { background: rgba(242, 97, 29, .14); color: var(--crema); outline: none; }
 .diag-despiece-fuera .guia { pointer-events: auto; }
-.pt-acciones .btn { justify-content: center; text-align: center; white-space: nowrap; }
-@media (max-width: 640px) {
-  .pt-acciones .btn { white-space: normal; }
-}
 /* Enlaces de la cabecera de las cajas del taller ("Ir al foro", "Historial (4)"): píldora con flecha */
 .pt-enlace { display: inline-flex; align-items: center; gap: .35rem; flex-shrink: 0; padding: .38rem .8rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .03);
   font-family: "Oswald", sans-serif; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: #c9c2b2; transition: border-color .2s, color .2s, background .2s; }
@@ -3633,6 +3638,11 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 .bi-item:hover, .bi-item:focus-visible { color: var(--crema); }
 .bi-item[aria-current="page"] { color: var(--lava-2); }
 .bi-item[aria-current="page"]::before { content: ""; position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: var(--lava); }
+.bi-contador { position: absolute; top: .35rem; left: calc(50% + .45rem); min-width: 1.1rem; height: 1.1rem; padding: 0 .28rem; display: grid; place-items: center; border-radius: 999px; background: #c2410c; color: #fff; font: 700 .64rem/1 system-ui, sans-serif; box-shadow: 0 0 0 2px #111517; }
+/* Acción principal del taller (Registrar servicio): icono lleno en lava */
+.bi-item.bi-accion { color: var(--crema); }
+.bi-item.bi-accion svg { padding: 5px; border-radius: 999px; background: var(--lava); color: #fff; box-sizing: content-box; margin-top: -4px; box-shadow: 0 4px 12px rgba(242, 97, 29, .4); }
+.bi-item.bi-accion[aria-current="page"] { color: var(--lava-2); }
 .bi-item.bi-emergencia { color: #ff9a8a; }
 .bi-item.bi-emergencia svg { padding: 2px; border-radius: 8px; background: rgba(239, 68, 68, .18); box-sizing: content-box; }
 .bi-item.bi-emergencia[aria-current="page"] { color: #fff; }
@@ -3698,6 +3708,12 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 .vd-detalle { font-style: italic; }
 .vd-precio { font-size: .85rem; color: #8ec8ff; }
 .vd-precio strong { color: var(--crema); }
+.vd-descuento { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; font-size: .85rem; color: var(--crema-2); }
+.vd-codigo { font-size: .82rem; }
+.vd-codigo summary { cursor: pointer; color: var(--mostaza); font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
+.vd-codigo form { display: flex; gap: .5rem; margin-top: .2rem; max-width: 22rem; }
+.vd-codigo .campo { flex: 1; min-width: 0; text-transform: uppercase; }
+.vd-codigo p { margin-top: .3rem; font-size: .74rem; }
 .vd-rechazo { font-size: .8rem; color: #ff8a70; }
 .vd-chip { flex-shrink: 0; font-size: .72rem; font-weight: 700; padding: .2rem .65rem; border-radius: 999px; background: rgba(255, 255, 255, .07); color: var(--crema-2); }
 .vd-pendiente { background: rgba(227, 167, 47, .14); color: var(--mostaza); }
@@ -3706,3 +3722,109 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 .vd-botones { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .3rem; }
 .vd-form { display: contents; }
 .vd-vacio { padding: 1.2rem; margin-top: 1.2rem; color: var(--crema-2); }
+
+/* Paneles de aliados (taller y mecánico a domicilio): cabecera, accesos, «Por hacer», precios y cifras */
+.pt-cabeza { display: grid; gap: 1.2rem; padding: 1.4rem; }
+.pt-estado { margin-top: .35rem; font-size: .85rem; color: #9ba2a4; }
+.pt-ok { display: inline-flex; align-items: center; gap: .3rem; color: #86dba6; font-weight: 600; }
+.pt-revision { color: var(--mostaza); font-weight: 600; }
+.pt-completo-fila { display: flex; justify-content: space-between; font-size: .78rem; color: #9ba2a4; }
+.pt-barra { height: 7px; border-radius: 999px; background: #2b3437; overflow: hidden; }
+.pt-faltan { font-size: .74rem; color: #8d9496; line-height: 1.4; }
+@media (min-width: 900px) {
+  .pt-cabeza { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; padding: 1.4rem 1.7rem; }
+}
+.pt-cifras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+@media (min-width: 768px) {
+  .pt-cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+.pt-cifra { --c: var(--crema); display: grid; gap: .1rem; padding: .9rem 1rem; border-radius: 16px; background: #1c2326; border: 1px solid rgba(255, 255, 255, .06); transition: border-color .2s; }
+a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); }
+.pt-lava { --c: var(--lava-2); }
+.pt-mostaza { --c: var(--mostaza); }
+.pt-rosa { --c: #ff8a8e; }
+.pt-verde { --c: #86dba6; }
+.pt-switch { width: 2rem; height: 1.1rem; border-radius: 1rem; background: var(--borde); position: relative; flex-shrink: 0; transition: background .2s; }
+.pt-switch::after { content: ""; position: absolute; top: .15rem; left: .15rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--crema); transition: transform .2s; }
+.pt-interruptor-btn[aria-checked="true"] .pt-switch { background: #3fbf6b; }
+.pt-interruptor-btn[aria-checked="true"] .pt-switch::after { transform: translateX(.9rem); }
+.pt-domicilio-zonas { font-size: .78rem; color: var(--lava-2); text-decoration: underline; text-underline-offset: 3px; }
+/* Panel del taller: acción principal, accesos en fila, «Por hacer» y precios */
+.pt-principal { display: grid; gap: .5rem; justify-items: stretch; align-content: center; min-width: 0; }
+.pt-registrar { width: 100%; justify-content: center; min-height: 48px; gap: .5rem; font-size: .95rem; padding: .6rem 1.4rem; }
+.pt-registrar small { font-size: .7rem; opacity: .75; font-weight: 600; }
+@media (min-width: 900px) { .pt-principal { width: 17rem; } }
+.pt-interruptor { display: flex; align-items: center; justify-content: space-between; gap: .3rem 1rem; padding: 0 .3rem; border-top: 1px solid var(--borde); }
+.pt-interruptor-btn { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: 0 .2rem; background: none; border: 0; color: var(--crema); font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; text-align: left; }
+.pt-interruptor-btn:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 2px; border-radius: 8px; }
+/* Accesos: cuadrícula que se acomoda sola; en celular, mosaicos de 2 columnas con el ícono arriba */
+.pt-accesos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; margin: .8rem 0; }
+@media (min-width: 640px) { .pt-accesos { grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); } }
+.pt-acceso { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: .3rem; min-height: 64px; padding: .5rem .6rem; border: 1px solid var(--borde); border-radius: 16px; font-size: .74rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--crema); line-height: 1.15; transition: border-color .2s, color .2s; }
+@media (min-width: 640px) { .pt-acceso { flex-direction: row; min-height: 48px; gap: .5rem; padding: 0 .8rem; border-radius: 999px; } }
+.pt-acceso:hover, .pt-acceso:focus-visible { border-color: var(--lava); color: var(--lava-2); outline: none; }
+.pt-hacer { display: grid; gap: .7rem; padding: 1.1rem 1.3rem; margin-bottom: .9rem; }
+.pt-tareas { display: grid; gap: .5rem; }
+.pt-tarea { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .6rem .8rem; border-radius: 12px; background: #1c2326; font-size: .9rem; }
+.pt-tarea.urgente { background: rgba(227, 167, 47, .1); border: 1px solid rgba(227, 167, 47, .35); }
+.pt-tarea.urgente strong { color: var(--mostaza); }
+.pt-tarea.listo { justify-content: flex-start; gap: .5rem; color: #86dba6; }
+.pt-tarea-btn { flex: none; display: inline-grid; place-items: center; min-height: 44px; padding: 0 1rem; border-radius: 999px; background: var(--mostaza); color: #1a1204; font-size: .78rem; font-weight: 700; }
+.pt-precios .pt-tarea-btn, .pt-tarea:not(.urgente) .pt-tarea-btn { background: transparent; border: 1px solid var(--borde); color: var(--crema); }
+.pt-tarea-btn:hover { filter: brightness(1.1); }
+.pt-precios { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem; padding-top: .7rem; border-top: 1px solid var(--borde); }
+.pt-precios-estado { font-size: .88rem; }
+.pt-precios-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1rem; }
+@media (max-width: 640px) { .pt-tarea { flex-direction: column; align-items: stretch; } .pt-tarea.listo { flex-direction: row; } .pt-tarea-btn { width: 100%; } .pt-precios-acciones { width: 100%; } }
+.pt-avatar-fijo { align-self: start; justify-self: start; display: inline-flex; border-radius: 50%; overflow: hidden; }
+
+/* Barra fija de avance de los registros (parcial cuentas/_barra_registro.html + talleres/js/barra_registro.js): muy discreta; pasa a lava solo al completar */
+.rb-barra { position: sticky; bottom: .5rem; z-index: 20; display: flex; align-items: center; gap: .8rem; min-height: 2.75rem; padding: .3rem .4rem .3rem .8rem; border-radius: 10px;
+  background: rgba(22, 28, 30, .55); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border-top: 1px solid rgba(255, 255, 255, .06); transition: opacity .2s, transform .2s; }
+.rb-barra.oculta { opacity: 0; transform: translateY(1rem); pointer-events: none; }
+.rb-barra[hidden] { display: none; }
+.rb-texto { flex: 1; min-width: 0; display: grid; gap: .3rem; }
+.rb-texto strong { font-size: .8rem; font-weight: 400; line-height: 1.2; color: #9ba2a4; }
+.rb-linea { display: block; height: 2px; border-radius: 9px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+.rb-linea i { display: block; height: 100%; width: 0; background: #7d8587; transition: width .3s, background .3s; }
+.rb-btn { position: relative; flex-shrink: 0; min-height: 1.9rem; padding: 0 .8rem; font-size: .75rem; font-weight: 600; border-radius: 8px; cursor: pointer;
+  background: transparent; color: #b4baba; border: 1px solid rgba(255, 255, 255, .16); }
+.rb-btn::after { content: ""; position: absolute; inset: -.5rem -.3rem; }  /* zona de toque de 44 px sin agrandar el botón */
+.rb-barra.listo .rb-linea i { background: var(--lava); }
+.rb-barra.listo .rb-btn { background: var(--lava); border-color: var(--lava); color: #fff; }
+@media (max-width: 1023px) {
+  body.con-barra-inferior .rb-barra { bottom: calc(var(--alto-barra) + .5rem + env(safe-area-inset-bottom)); }
+  /* Chispa sube por encima de la barra mientras esta se ve */
+  html body.con-barra-inferior:has(.rb-barra:not([hidden]):not(.oculta)) .cc { bottom: calc(var(--alto-barra) + 3.9rem + env(safe-area-inset-bottom)); }
+}
+/* Cupones y descuentos (panel del taller y del mecánico a domicilio): lista y formulario con vista previa */
+.pt-cupones, .pt-foro { display: grid; gap: .5rem; }
+.pt-cupones li svg { flex-shrink: 0; margin-top: .15rem; color: var(--mostaza); }
+.pt-cupon-datos { min-width: 0; flex: 1; }
+.pt-cupon-titulo { font-weight: 700; font-size: .88rem; color: var(--crema); }
+.pt-cupon-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; margin-top: .25rem; font-size: .72rem; color: #8d9496; }
+.pt-cupon-botones { display: flex; gap: .3rem; }
+.pt-nuevo-cupon { display: flex; align-items: center; justify-content: center; gap: .4rem; margin-top: .8rem; padding: .7rem; border-radius: 12px;
+  border: 1.5px dashed rgba(227, 167, 47, .45); color: var(--mostaza); font-size: .84rem; font-weight: 700; transition: background .2s, border-color .2s; }
+.pt-nuevo-cupon:hover { background: rgba(227, 167, 47, .08); border-color: var(--mostaza); }
+/* Crear / editar cupón */
+.cf { display: grid; gap: 1.2rem; align-items: start; }
+.cf-form { padding: 1.4rem; display: grid; gap: 1.1rem; }
+.cf-vista-etiqueta { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #8d9496; margin-bottom: .5rem; }
+.cf-ticket { border-radius: 18px; background: #1c2326; border: 1px solid rgba(227, 167, 47, .3); padding: 1.1rem 1.2rem; }
+.cf-ticket-taller { font-size: .72rem; font-weight: 700; color: var(--mostaza); }
+.cf-ticket-titulo { margin-top: .3rem; font-family: "Oswald", sans-serif; font-size: 1.4rem; line-height: 1.15; color: var(--crema); word-break: break-word; }
+.cf-ticket-cond { margin-top: .4rem; font-size: .76rem; color: #9ba2a4; }
+.cf-ticket-cond:empty { display: none; }
+.cf-ticket-corte { margin: .9rem -1.2rem; border-top: 2px dashed rgba(255, 255, 255, .12); }
+.cf-ticket-pie { display: flex; align-items: center; justify-content: space-between; gap: .6rem; font-size: .76rem; color: #9ba2a4; }
+.cf-ticket-qr { width: 2.6rem; height: 2.6rem; display: grid; place-items: center; border-radius: 8px; background: #fff; color: #14191b; font-size: .6rem; font-weight: 800; }
+@media (min-width: 900px) {
+  .cf { grid-template-columns: minmax(0, 1fr) 17rem; }
+  .cf-vista { position: sticky; top: 5.5rem; }
+}
+.cf-ayuda { margin-top: -.4rem; }
+.cf-ticket-datos { display: grid; gap: .15rem; min-width: 0; }
+.cf-ticket-qr { width: 3.6rem; height: 3.6rem; flex-shrink: 0; padding: .2rem; border-radius: 8px; background: #fff; }
+.cf-ticket-qr svg { display: block; width: 100%; height: 100%; }
+.cf-ticket-nota { margin-top: .7rem; font-size: .7rem; color: #8d9496; }

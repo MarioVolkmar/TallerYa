@@ -1,0 +1,104 @@
+<script>
+  // Horario: filas de días + horas. Se guarda en el campo oculto como texto ("Lun-Sáb 8am-6pm · Dom 9am-1pm").
+  (function () {
+    var caja = document.querySelector("[data-horario]"); if (!caja) return;
+    var campo = caja.querySelector("#id_horario"), filas = caja.querySelector(".hz-filas"), pop = caja.querySelector(".hz-pop");
+    var resumen = caja.querySelector(".hz-resumen");
+    var CORTOS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], LETRAS = ["L", "M", "M", "J", "V", "S", "D"];
+    var HORAS = []; for (var m = 5 * 60; m <= 22 * 60; m += 30) HORAS.push(m);
+    var estado = [];
+
+    function texto12(min) {  // 510 -> "8:30am"
+      var h = Math.floor(min / 60), mm = min % 60, sufijo = h < 12 ? "am" : "pm", h12 = h % 12 || 12;
+      return h12 + (mm ? ":" + String(mm).padStart(2, "0") : "") + sufijo;
+    }
+    function bonita(min) {  // 510 -> "8:30 a. m."
+      var h = Math.floor(min / 60), mm = min % 60;
+      return (h % 12 || 12) + ":" + String(mm).padStart(2, "0") + (h < 12 ? " a. m." : " p. m.");
+    }
+    function leerHora(t) {  // "8:30am" -> 510
+      var r = /^(\d{1,2})(?::(\d{2}))?\s*(am|pm)$/i.exec(t.trim()); if (!r) return null;
+      var h = +r[1] % 12 + (r[3].toLowerCase() === "pm" ? 12 : 0); return h * 60 + (+r[2] || 0);
+    }
+    function textoDias(dias) {  // [0,1,2,3,4,5] -> "Lun-Sáb"; [0,2,4] -> "Lun, Mié, Vie"
+      var orden = dias.slice().sort(), grupos = [], ini = null, prev = null;
+      orden.forEach(function (d) { if (ini === null) { ini = prev = d; } else if (d === prev + 1) { prev = d; } else { grupos.push([ini, prev]); ini = prev = d; } });
+      if (ini !== null) grupos.push([ini, prev]);
+      return grupos.map(function (g) { return g[1] - g[0] >= 2 ? CORTOS[g[0]] + "-" + CORTOS[g[1]] : g[0] === g[1] ? CORTOS[g[0]] : CORTOS[g[0]] + ", " + CORTOS[g[1]]; }).join(", ");
+    }
+    function leerTexto(v) {  // lo que ya había en el campo (si viene de un error de validación)
+      var salida = [];
+      (v || "").split("·").forEach(function (parte) {
+        var r = /^\s*(.+?)\s+(\S+)\s*-\s*(\S+)\s*$/.exec(parte); if (!r) return;
+        var desde = leerHora(r[2]), hasta = leerHora(r[3]), dias = [];
+        r[1].split(",").forEach(function (trozo) {
+          var ab = trozo.trim().split("-").map(function (x) { return CORTOS.indexOf(x.trim()); });
+          if (ab.length === 2 && ab[0] >= 0 && ab[1] >= ab[0]) { for (var d = ab[0]; d <= ab[1]; d++) dias.push(d); }
+          else if (ab.length === 1 && ab[0] >= 0) dias.push(ab[0]);
+        });
+        if (dias.length && desde !== null && hasta !== null) salida.push({ dias: dias, desde: desde, hasta: hasta });
+      });
+      return salida;
+    }
+    function guardar() {
+      var partes = estado.filter(function (f) { return f.dias.length; }).map(function (f) { return textoDias(f.dias) + " " + texto12(f.desde) + "-" + texto12(f.hasta); });
+      campo.value = partes.join(" · ");
+      resumen.textContent = campo.value ? "Se verá así: " + campo.value : "Elige al menos un día";
+    }
+    function pintar() {
+      filas.innerHTML = "";
+      estado.forEach(function (fila, i) {
+        var div = document.createElement("div"); div.className = "hz-fila";
+        var dias = '<div class="hz-dias" role="group" aria-label="Días">' + LETRAS.map(function (l, d) {
+          return '<button type="button" class="hz-dia' + (fila.dias.indexOf(d) >= 0 ? ' activo' : '') + '" data-dia="' + d + '" aria-pressed="' + (fila.dias.indexOf(d) >= 0) + '" title="' + CORTOS[d] + '">' + l + '</button>';
+        }).join("") + '</div>';
+        var reloj = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+        var horas = '<div class="hz-horas"><button type="button" class="hz-hora" data-cual="desde" aria-haspopup="listbox"><small>Abre</small>' + reloj + bonita(fila.desde) + '</button>' +
+          '<span class="hz-a">a</span><button type="button" class="hz-hora" data-cual="hasta" aria-haspopup="listbox"><small>Cierra</small>' + reloj + bonita(fila.hasta) + '</button></div>';
+        var quitar = estado.length > 1 ? '<button type="button" class="hz-quitar" aria-label="Quitar este horario" title="Quitar">×</button>' : "";
+        div.innerHTML = dias + horas + quitar;
+        div.querySelectorAll(".hz-dia").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var d = +b.dataset.dia, k = fila.dias.indexOf(d);
+            if (k >= 0) fila.dias.splice(k, 1); else {
+              estado.forEach(function (otra) { var j = otra.dias.indexOf(d); if (otra !== fila && j >= 0) otra.dias.splice(j, 1); });  // un día va en una sola fila
+              fila.dias.push(d);
+            }
+            pintar();
+          });
+        });
+        div.querySelectorAll(".hz-hora").forEach(function (b) { b.addEventListener("click", function (e) { e.stopPropagation(); abrir(b, fila, b.dataset.cual); }); });
+        var q = div.querySelector(".hz-quitar"); if (q) q.addEventListener("click", function () { estado.splice(i, 1); pintar(); });
+        filas.appendChild(div);
+      });
+      caja.querySelector(".hz-agregar").hidden = estado.length >= 3;
+      guardar();
+    }
+    function abrir(boton, fila, cual) {
+      var actual = fila[cual];
+      pop.innerHTML = '<p class="hz-pop-titulo">' + (cual === "desde" ? "Hora de apertura" : "Hora de cierre") + '</p><div class="hz-pop-rejilla">' + HORAS.map(function (m) {
+        var mal = cual === "hasta" ? m <= fila.desde : m >= fila.hasta;
+        return '<button type="button" role="option" class="hz-pop-hora' + (m === actual ? ' activo' : '') + '" data-min="' + m + '"' + (mal ? ' disabled' : '') + ' aria-selected="' + (m === actual) + '">' + bonita(m).replace(" a. m.", "<small>am</small>").replace(" p. m.", "<small>pm</small>") + '</button>';
+      }).join("") + '</div>';
+      var r = boton.getBoundingClientRect(), base = caja.getBoundingClientRect();
+      pop.style.top = (r.bottom - base.top + 6) + "px";
+      pop.style.left = Math.max(0, Math.min(r.left - base.left, base.width - 300)) + "px";
+      pop.hidden = false;
+      var sel = pop.querySelector(".activo"); if (sel) sel.scrollIntoView({ block: "nearest" });
+      pop.querySelectorAll(".hz-pop-hora").forEach(function (h) {
+        h.addEventListener("click", function () { fila[cual] = +h.dataset.min; pop.hidden = true; pintar(); });
+      });
+    }
+    document.addEventListener("click", function (e) { if (!pop.hidden && !pop.contains(e.target)) pop.hidden = true; });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") pop.hidden = true; });
+    caja.querySelector(".hz-agregar").addEventListener("click", function () {
+      var usados = [].concat.apply([], estado.map(function (f) { return f.dias; }));
+      var libre = [6, 5, 4, 3, 2, 1, 0].filter(function (d) { return usados.indexOf(d) < 0; });
+      estado.push({ dias: libre.length ? [libre[libre.length - 1] === undefined ? 6 : libre[0]] : [], desde: 9 * 60, hasta: 13 * 60 });
+      pintar();
+    });
+    estado = leerTexto(campo.value);
+    if (!estado.length) estado = [{ dias: [0, 1, 2, 3, 4, 5], desde: 8 * 60, hasta: 18 * 60 }];
+    pintar();
+  })();
+</script>

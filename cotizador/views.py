@@ -2,7 +2,7 @@
 Con COTIZADOR_ACTIVO apagado responden 404, como si la app no existiera."""
 from functools import wraps
 
-from django.conf import settings
+from consola.ajustes import ajuste
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_GET
@@ -19,7 +19,7 @@ MAX_POR_HORA_IP = 80        # varias personas pueden compartir IP (wifi de un ta
 def solo_activo(vista):
     @wraps(vista)
     def envuelta(request, *args, **kwargs):
-        if not settings.COTIZADOR_ACTIVO:
+        if not ajuste("cotizador_activo"):
             raise Http404
         return vista(request, *args, **kwargs)
     return envuelta

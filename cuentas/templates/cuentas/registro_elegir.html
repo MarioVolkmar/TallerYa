@@ -1,74 +1,78 @@
 {% extends "base.html" %}
 {% block title %}Crear cuenta · TallerYa{% endblock %}
-{% block content %}{% load domiciliarios_tags %}{% ruta_activa as ruta_on %}
-<div class="max-w-4xl mx-auto mt-12">
-  {% if completar %}
-  <p class="etiqueta">Un paso más</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">¿Cómo vas a usar <span class="text-lava">TallerYa</span>?</h1>
-  <p class="text-suave mt-2">Elige el tipo de cuenta para terminar.</p>
-  {% else %}
-  <p class="etiqueta">Únete gratis</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">Crea tu <span class="text-lava">cuenta</span></h1>
-  <p class="text-suave mt-2">¿Cómo vas a usar TallerYa?</p>
-  {% if google_disponible %}<div class="max-w-sm mt-5">{% include "cuentas/_boton_google.html" %}<p class="text-xs text-suave -mt-2">Con Google creas la cuenta y luego eliges si eres motero, taller o mecánico.</p></div>{% endif %}
-  {% endif %}
-
-  <div class="grid grid-cols-1 gap-6 md:grid-cols-3 mt-8{% if ruta_on %} lg:grid-cols-4 {% endif %}">
-    <a href="?tipo=motero{% if request.GET.next %}&next={{ request.GET.next|urlencode }}{% endif %}" class="papel tarjeta tipo-cuenta">
-      <span class="tipo-cuenta-icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3.5"/><circle cx="18.5" cy="17" r="3.5"/><path d="M5.5 17h4l3-6h4l2 6M12.5 11 11 7H8M15 7h3l1.5 4"/></svg>
-      </span>
-      <span class="titulo text-3xl">Soy motero</span>
-      <ul class="tipo-cuenta-lista">
-        <li>Tu moto en 3D y su plan de mantenimiento</li>
-        <li>Cupones de talleres en un solo lugar</li>
-        <li>Pregunta y responde en el foro</li>
-      </ul>
-      <span class="ver titulo text-sm tracking-widest">Crear cuenta de motero <span aria-hidden="true">→</span></span>
-    </a>
-
-    {% if ruta_on %}
-    <a href="?tipo=domiciliario{% if request.GET.next %}&next={{ request.GET.next|urlencode }}{% endif %}" class="papel tarjeta tipo-cuenta" data-tipo-domiciliario>
-      <span class="tipo-cuenta-icono" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="9" height="8" rx="1"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M9 18h6M12 7h4l3 8"/></svg>
-      </span>
-      <span class="titulo text-3xl">Soy domiciliario</span>
-      <ul class="tipo-cuenta-lista">
-        <li>Mantenimiento en días, según tus km</li>
-        <li>Cierre de jornada: cuánto te queda</li>
-        <li>Pico y placa: aviso la noche antes</li>
-      </ul>
-      <span class="ver titulo text-sm tracking-widest">Crear cuenta de domiciliario <span aria-hidden="true">→</span></span>
-    </a>
-    {% endif %}
-
+{% block content %}
+<div class="{% if aliado %}max-w-5xl{% else %}max-w-3xl{% endif %} mx-auto mt-12">
+  {% if aliado %}
+  <p class="etiqueta">Soy aliado</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">¿Qué <span class="text-lava">ofreces</span>?</h1>
+  <p class="text-suave mt-2">Elige tu tipo de negocio para continuar.</p>
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 {% if mecanicos_activo and proveedores_registro %}lg:grid-cols-3{% endif %} mt-8">
     <a href="?tipo=taller" class="papel tarjeta tipo-cuenta">
       <span class="tipo-cuenta-icono" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>
       </span>
-      <span class="titulo text-3xl">Tengo un taller</span>
+      <span class="titulo text-3xl">Taller</span>
       <ul class="tipo-cuenta-lista">
         <li>Aparece en el directorio de Medellín</li>
         <li>Recibe citas por WhatsApp y reseñas</li>
-        <li>Valida cupones y responde con insignia de taller</li>
+        <li>Valida cupones y responde con insignia</li>
       </ul>
       <span class="ver titulo text-sm tracking-widest">Registrar mi taller <span aria-hidden="true">→</span></span>
     </a>
-
-    <a href="{% url 'domicilio:registro' %}" class="papel tarjeta tipo-cuenta">
+    {% if mecanicos_activo %}<a href="{% url 'domicilio:registro' %}" class="papel tarjeta tipo-cuenta">
       <span class="tipo-cuenta-icono" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0 5 5L21 12.6a6 6 0 0 1-7.7 1.6L6.6 21a2.1 2.1 0 0 1-3-3l6.8-6.7a6 6 0 0 1 1.6-7.7z"/></svg>
       </span>
-      <span class="titulo text-3xl">Soy mecánico a domicilio</span>
+      <span class="titulo text-3xl">Mecánico a domicilio</span>
       <ul class="tipo-cuenta-lista">
         <li>Sin taller propio: vas a donde está la moto</li>
         <li>Te escriben por WhatsApp desde tu zona</li>
         <li>Perfil gratis, revisado por TallerYa</li>
       </ul>
       <span class="ver titulo text-sm tracking-widest">Crear perfil de mecánico <span aria-hidden="true">→</span></span>
+    </a>{% endif %}
+    {% if proveedores_registro %}<a href="{% url 'proveedores:unete' %}" class="papel tarjeta tipo-cuenta">
+      <span class="tipo-cuenta-icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="13" height="7" rx="1"/><path d="M15 11h4l3 3v2h-7"/><circle cx="7" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+      </span>
+      <span class="titulo text-3xl">Grúa, CDA u otro servicio</span>
+      <ul class="tipo-cuenta-lista">
+        <li>Sin cuenta: confirmas por un enlace</li>
+        <li>Los moteros te encuentran cuando te necesitan</li>
+        <li>Perfil gratis, revisado por TallerYa</li>
+      </ul>
+      <span class="ver titulo text-sm tracking-widest">Inscribir mi servicio <span aria-hidden="true">→</span></span>
+    </a>{% endif %}
+  </div>
+  <p class="text-sm text-suave mt-6"><a href="{% if completar %}{% url 'cuentas:completar' %}{% else %}{% url 'cuentas:registro' %}{% endif %}" class="boton-texto">← Volver</a></p>
+  {% else %}
+  {% if completar %}
+  <p class="etiqueta">Un paso más</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">¿Cómo vas a usar <span class="text-lava">TallerYa</span>?</h1>
+  {% else %}
+  <p class="etiqueta">Únete gratis</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Crea tu <span class="text-lava">cuenta</span></h1>
+  {% if google_disponible %}<div class="max-w-sm mt-5">{% include "cuentas/_boton_google.html" %}<p class="text-xs text-suave mt-3">Con Google creas la cuenta y luego eliges cómo usar TallerYa.</p></div>{% endif %}
+  {% endif %}
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-2 mt-8">
+    <a href="?tipo=motero{% if request.GET.next %}&next={{ request.GET.next|urlencode }}{% endif %}" class="papel tarjeta tipo-cuenta">
+      <span class="tipo-cuenta-icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3.5"/><circle cx="18.5" cy="17" r="3.5"/><path d="M5.5 17h4l3-6h4l2 6M12.5 11 11 7H8M15 7h3l1.5 4"/></svg>
+      </span>
+      <span class="titulo text-3xl">Soy motero</span>
+      <span class="text-suave">Cuida tu moto, recibe avisos y cupones</span>
+      <span class="ver titulo text-sm tracking-widest">Continuar <span aria-hidden="true">→</span></span>
+    </a>
+    <a href="?tipo=aliado" class="papel tarjeta tipo-cuenta">
+      <span class="tipo-cuenta-icono" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/><path d="M3 21h18"/></svg>
+      </span>
+      <span class="titulo text-3xl">Soy aliado</span>
+      <span class="text-suave">Talleres, mecánicos, grúas y CDA: recibe clientes</span>
+      <span class="ver titulo text-sm tracking-widest">Continuar <span aria-hidden="true">→</span></span>
     </a>
   </div>
-  <p class="text-sm text-suave mt-6">¿Ya eres motero y también trabajas a domicilio? Entra y activa tu perfil en <a href="{% url 'domicilio:registro' %}" class="boton-texto">Mecánicos a domicilio</a>.</p>
-  {% if not completar %}<p class="text-sm text-suave mt-2">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}" class="boton-texto">Entra aquí</a></p>{% endif %}
+  {% if not completar %}<p class="text-sm text-suave mt-6">¿Ya tienes cuenta? <a href="{% url 'cuentas:entrar' %}" class="boton-texto">Entra aquí</a></p>{% endif %}
+  {% endif %}
 </div>
 {% endblock %}

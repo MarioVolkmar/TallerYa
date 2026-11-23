@@ -32,6 +32,52 @@ COMPROMISOS = [
 COMPROMISOS_DICT = {c: (t, i) for c, t, i in COMPROMISOS}
 
 MAXIMO_EQUIPO = 6
+ROLES = ["Jefe de taller", "Técnico", "Ayudante", "Otro"]
+OTRA = "otra"  # valor del select de especialidad cuando no está en el catálogo de servicios
+
+# Texto libre antiguo → servicio más cercano (palabra clave sin tildes → inicio del nombre del servicio)
+_CLAVES_SERVICIO = [
+    ("aceite", "cambio de aceite"), ("freno", "frenos"), ("suspens", "suspension"), ("horquilla", "suspension"),
+    ("amortigua", "suspension"), ("llanta", "llantas"), ("neumatic", "llantas"), ("electric", "sistema electrico"),
+    ("escaner", "sistema electrico"), ("latoner", "latoneria"), ("pintura", "latoneria"), ("tecnico-mec", "revision"),
+    ("tecnomec", "revision"), ("tecnico mec", "revision"), ("arrastre", "kit de arrastre"), ("sincroniz", "sincroniz"),
+    ("inyeccion", "sincroniz"), ("carburacion", "sincroniz"), ("afinacion", "sincroniz"), ("mantenimiento", "mantenimiento"),
+]
+
+
+def _sin_tildes(t):
+    import unicodedata
+    return unicodedata.normalize("NFKD", str(t).lower()).encode("ascii", "ignore").decode()
+
+
+def servicio_cercano(texto, servicios):
+    """id del servicio que mejor describe un texto libre, o None si no hay coincidencia clara.
+    `servicios`: iterable de (id, nombre). Si el texto nombra varias cosas, gana la primera que aparezca."""
+    t = _sin_tildes(texto)
+    nombres = [(i, _sin_tildes(n)) for i, n in servicios]
+    for n in nombres:  # nombre exacto
+        if t.strip() == n[1]:
+            return n[0]
+    hallazgos = sorted((t.find(c), prefijo) for c, prefijo in _CLAVES_SERVICIO if c in t)
+    for _, prefijo in hallazgos:
+        for i, n in nombres:
+            if n.startswith(prefijo):
+                return i
+    return None
+
+
+def rol_cercano(texto):
+    """Rol de la lista corta más parecido a un texto libre (si no se reconoce, «Otro»)."""
+    t = _sin_tildes(texto)
+    if not t.strip():
+        return ""
+    if any(k in t for k in ("jefe", "duen", "propiet", "gerente", "administr")):
+        return "Jefe de taller"
+    if any(k in t for k in ("ayudante", "aprendiz", "auxiliar")):
+        return "Ayudante"
+    if any(k in t for k in ("tecnic", "mecanic", "sena")):
+        return "Técnico"
+    return "Otro"
 MAXIMO_DESCRIPCION = 300
 
 
@@ -43,7 +89,8 @@ def equipo_limpio(equipo):
             anios = m.get("anios")
             salida.append({"nombre": str(m["nombre"]).strip(), "rol": str(m.get("rol", "")).strip(),
                            "anios": anios if isinstance(anios, int) and anios > 0 else None,
-                           "especialidad": str(m.get("especialidad", "")).strip()})
+                           "especialidad": str(m.get("especialidad", "")).strip(),
+                           "servicio": m["servicio"] if isinstance(m.get("servicio"), int) else None})
     return salida[:MAXIMO_EQUIPO]
 
 

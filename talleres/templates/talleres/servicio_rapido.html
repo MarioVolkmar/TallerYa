@@ -1,22 +1,69 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Registrar servicio · {{ taller.nombre }} · TallerYa{% endblock %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="max-w-md mx-auto mt-6 md:mt-10 px-0">
   {% url 'talleres:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi taller" %}
-  <form method="post" class="papel p-5 space-y-4" novalidate>
+  <form method="post" enctype="multipart/form-data" class="papel sr" id="sr" data-url="{{ tareas_url }}" novalidate>
     {% csrf_token %}
     <div>
-      <p class="etiqueta">Servicio en 30 segundos</p>
+      <p class="etiqueta">Listo en menos de un minuto</p>
       <h1 class="titulo text-3xl mt-1">Registrar servicio</h1>
-      <p class="text-sm text-suave mt-2">Queda en la hoja de vida de la moto cuando el dueño lo confirma, y él puede calificarte con reseña verificada.</p>
     </div>
     {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
-    {% for field in form %}
-      <div><label class="campo-label">{{ field.label }}{{ field }}</label>
-      {% for e in field.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
-    {% endfor %}
-    <button class="btn btn-lava w-full py-3.5 text-sm">Registrar servicio</button>
-    <a class="btn btn-borde w-full py-3 text-xs" href="{% url 'talleres:registrar_servicio' %}">Con código del dueño o varias tareas: registro completo</a>
+
+    <div>
+      <label class="campo-label" for="sr-placa">Placa</label>
+      <input id="sr-placa" name="placa" value="{{ placa }}" class="campo sr-placa" maxlength="8" placeholder="ABC12D"
+             autocomplete="off" autocapitalize="characters" spellcheck="false"{% if not placa and not codigo %} autofocus{% endif %}>
+      {% if error_placa %}<p class="error">{{ error_placa }}</p>{% endif %}
+      <p id="sr-moto" class="sr-moto" hidden aria-live="polite"></p>
+      {% if moto %}<p class="sr-moto sr-moto-ok" id="sr-moto-srv"><strong>{{ moto }}</strong><small>Última lectura: {{ moto.km_actual }} km</small></p>{% endif %}
+    </div>
+
+    <fieldset class="sr-que">
+      <legend class="campo-label">Qué se hizo</legend>
+      <div id="sr-chips" class="sr-chips">{% for c in form.tareas %}<label class="sr-chip"><input type="checkbox" name="tareas" value="{{ c.data.value }}"{% if c.data.selected %} checked{% endif %}><span>{{ c.data.label }}</span></label>{% endfor %}</div>
+      <p id="sr-sinplan" class="text-xs text-suave"{% if moto %} hidden{% endif %}>Escribe la placa y salen los trabajos del plan de esa moto.</p>
+      {% for e in form.tareas.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      {{ form.otros }}
+      {% for e in form.otros.errors %}<p class="error">{{ e }}</p>{% endfor %}
+    </fieldset>
+
+    <div class="sr-dos">
+      <div><label class="campo-label" for="{{ form.km.id_for_label }}">Kilometraje</label>{{ form.km }}
+        <p id="sr-km-aviso" class="sr-aviso" hidden></p>{% for e in form.km.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+      <div><label class="campo-label" for="{{ form.costo.id_for_label }}">Cobrado (opcional)</label><span class="sr-pesos">{{ form.costo }}</span>
+        {% for e in form.costo.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+    </div>
+    {% if km_antiguo %}<label class="sr-check">{{ form.km_antiguo }}<span>Es un servicio antiguo: guardarlo con ese kilometraje</span></label>{% endif %}
+
+    <details class="sr-plegable"{% if detalles_abiertos %} open{% endif %}>
+      <summary>Más detalles <small>fecha, nota o foto</small></summary>
+      <div class="sr-detalles">
+        <div><label class="campo-label" for="{{ form.fecha.id_for_label }}">Fecha del servicio</label>{{ form.fecha }}{% for e in form.fecha.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+        <div><label class="campo-label" for="{{ form.notas.id_for_label }}">{{ form.notas.label }}</label>{{ form.notas }}{% for e in form.notas.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+        <div><label class="campo-label" for="{{ form.foto.id_for_label }}">{{ form.foto.label }}</label>{{ form.foto }}{% for e in form.foto.errors %}<p class="error">{{ e }}</p>{% endfor %}</div>
+      </div>
+    </details>
+
+    <details class="sr-plegable sr-codigo"{% if codigo_abierto %} open{% endif %}>
+      <summary>¿El dueño te dio su código? <small>queda verificado al instante</small></summary>
+      <div class="sr-detalles">
+        <label class="campo-label" for="sr-codigo">Código de la moto (o el de su QR)</label>
+        <input id="sr-codigo" name="codigo" value="{{ codigo }}" class="campo sr-placa" maxlength="12" placeholder="K7P2QM" autocomplete="off" autocapitalize="characters">
+        <p class="text-xs text-suave">Con el código no hace falta que el dueño confirme. Si lo usas, no necesitas escribir la placa.</p>
+        {% if error_codigo %}<p class="error">{{ error_codigo }}</p>{% endif %}
+      </div>
+    </details>
+
+    <div class="sr-fijo">
+      <p id="sr-despues" class="sr-despues">Le avisamos al dueño para que confirme y te califique.</p>
+      <button class="btn btn-lava w-full py-3.5 text-sm" id="sr-enviar">Registrar servicio</button>
+    </div>
   </form>
+  <p class="text-center mt-4"><a class="pt-enlace text-xs" href="{% url 'talleres:registrar_servicio' %}">Buscar la moto con código o QR, sin escribir placa</a></p>
 </div>
+<script src="{% static 'talleres/js/servicio_rapido.js' %}" defer></script>
 {% endblock %}

@@ -27,3 +27,29 @@ class Bitacora(models.Model):
 
     def __str__(self):
         return f"{self.creado:%Y-%m-%d %H:%M} · {self.actor_nombre}: {self.frase}"
+
+
+class Ajuste(models.Model):
+    """Un interruptor de la consola. Sin fila vale el valor inicial de código (ver consola/ajustes.py)."""
+
+    clave = models.CharField(max_length=60, unique=True)
+    valor = models.JSONField(default=bool)
+
+    class Meta:
+        verbose_name = "ajuste"
+        verbose_name_plural = "ajustes"
+
+    def __str__(self):
+        from .ajustes import POR_CLAVE
+        modulo = POR_CLAVE.get(self.clave)
+        return modulo.etiqueta if modulo else self.clave
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        from .ajustes import invalidar
+        invalidar()
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        from .ajustes import invalidar
+        invalidar()

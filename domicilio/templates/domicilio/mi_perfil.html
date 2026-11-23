@@ -4,75 +4,124 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
-<section class="max-w-3xl mx-auto mt-8 md:mt-12">
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/cuentas.css' %}">
+<link rel="stylesheet" href="{% static 'domicilio/css/registro.css' %}">
+{% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" clase="mt-8" %}
+<div class="max-w-3xl mx-auto mt-4">
   <p class="etiqueta">Mecánico a domicilio</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">Mi <span class="text-lava">perfil</span></h1>
-
+  <div class="flex flex-wrap items-end justify-between gap-3 mt-3">
+    <h1 class="titulo text-4xl md:text-5xl">Tu <span class="text-lava">perfil</span></h1>
+    {% if m.estado == "aprobado" %}<a href="{{ m.get_absolute_url }}" class="boton-seccion" target="_blank" rel="noopener">Ver cómo lo ven los moteros →</a>{% endif %}
+  </div>
+  <p class="mt-2"><a href="{% url 'domicilio:resenas' %}" class="pt-enlace">Mis reseñas ({{ n_resenas }})</a></p>
+  <p class="text-suave mt-2">Un perfil completo, con foto, zonas claras y trabajos terminados, genera más confianza y más solicitudes.</p>
   <div class="dom-estado-caja dom-estado-{{ m.estado }} mt-5">
-    <p class="dom-estado-titulo">
-      {% if m.estado == "aprobado" %}✔ Publicado{% if m.verificado %} · Verificado{% endif %}
-      {% elif m.estado == "pendiente" %}⏳ En revisión
-      {% else %}⛔ Suspendido{% endif %}
-    </p>
+    <p class="dom-estado-titulo">{% if m.estado == "pendiente" %}⏳ En revisión{% elif m.estado == "suspendido" %}⛔ Suspendido{% else %}✔ Publicado{% endif %}</p>
     <p class="text-sm mt-1">
-      {% if m.estado == "aprobado" %}Sales en <a href="{% url 'domicilio:listado' %}" class="boton-texto">Mecánicos a domicilio</a> · {{ n_resenas }} reseña{{ n_resenas|pluralize }}.{% if not m.verificado %} Completa lo que falta abajo para ganar la insignia «Verificado».{% endif %}
-      {% elif m.estado == "pendiente" %}Todavía no sales en el listado. El equipo revisa los perfiles en 1 o 2 días hábiles{% if faltan_obligatorios %}, pero antes te falta: <strong>{{ faltan_obligatorios|join:", " }}</strong>{% endif %}. Te avisamos cuando quede publicado.
-      {% else %}No apareces en el listado. Escríbenos si crees que es un error.{% endif %}
+      {% if m.estado == "pendiente" %}Todavía no sales en el listado. El equipo revisa los perfiles en 1 o 2 días hábiles{% if faltan_obligatorios %}, pero antes te falta: <strong>{{ faltan_obligatorios|join:", " }}</strong>{% endif %}. Te avisamos cuando quede publicado.
+      {% elif m.estado == "suspendido" %}No apareces en el listado. Escríbenos si crees que es un error.{% else %}Apareces en el listado de Mecánicos a domicilio{% if m.verificado %} con el sello de verificado{% endif %}.{% endif %}
     </p>
     {% if m.nota_al_mecanico %}<p class="dom-nota-equipo mt-3"><strong>Mensaje del equipo:</strong> {{ m.nota_al_mecanico }}</p>{% endif %}
-    <a href="{{ m.get_absolute_url }}" class="boton-texto text-sm mt-2 inline-block">Ver cómo se ve mi perfil →</a>
+  </div>
+  {% widthratio hechos total_pasos 100 as pct %}
+  <div class="pt-completo{% if pct == "100" %} listo{% endif %} mt-5">
+    <span class="pt-completo-fila"><span>Perfil completo</span><strong>{{ pct }}%</strong></span>
+    <span class="pt-barra"><span style="width: {{ pct }}%"></span></span>
+    {% if faltan %}<span class="pt-faltan">Te falta: {{ faltan|join:", "|lower }}</span>{% else %}<span class="pt-faltan">¡Tu perfil está completo!</span>{% endif %}
   </div>
 
-  <div class="papel p-5 md:p-6 mt-5">
-    <div class="flex items-baseline justify-between gap-3">
-      <h2 class="titulo text-xl">Tu perfil al {% widthratio hechos total_pasos 100 %}%</h2>
-      <span class="text-sm text-suave">{{ hechos }} de {{ total_pasos }}</span>
-    </div>
-    <div class="dom-progreso mt-2" aria-hidden="true"><span style="width: {% widthratio hechos total_pasos 100 %}%"></span></div>
-    <ul class="dom-lista-pasos mt-4">
-      {% for texto, hecho, obligatorio in pasos %}
-      <li class="{% if hecho %}hecho{% endif %}"><span class="dom-check" aria-hidden="true">{% if hecho %}✔{% else %}·{% endif %}</span>{{ texto }}{% if obligatorio and not hecho %} <em>(obligatorio)</em>{% endif %}<span class="sr-only">{% if hecho %} — listo{% else %} — falta{% endif %}</span></li>
-      {% endfor %}
-    </ul>
-  </div>
-  <div class="flex flex-wrap gap-3 mt-5">
-    <a href="{% url 'domicilio:solicitudes' %}" class="btn btn-lava text-xs px-4 py-2">📅 Solicitudes{% if n_solicitudes %} ({{ n_solicitudes }}){% endif %}</a>
-    <a href="{% url 'domicilio:mis_precios' %}" class="btn btn-borde text-xs px-4 py-2">💲 Mis precios{% if n_precios %} ({{ n_precios }}){% endif %}</a>
-    <a href="#resenas" class="btn btn-borde text-xs px-4 py-2">★ Mis reseñas ({{ resenas|length }})</a>
-  </div>
-</section>
-
-<section class="papel p-5 sm:p-6 md:p-10 max-w-3xl mx-auto mt-6">
-  <h2 class="titulo text-2xl mb-4">Editar mi perfil</h2>
-  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2" novalidate>
+  <form method="post" enctype="multipart/form-data" class="mt-6 space-y-6 rm" novalidate data-servicio-taller>
     {% csrf_token %}
-    {% include "domicilio/_campos.html" with form=form %}
-    <div class="sm:col-span-2">
-      <p class="campo-label">Fotos de trabajos ({{ fotos|length }} de {{ maximo_trabajos }})</p>
-      {% if fotos %}<div class="dom-trabajos mt-2">{% for f in fotos %}<figure><img src="{{ f.imagen.url }}" alt="Trabajo {{ forloop.counter }}" loading="lazy" width="120" height="90"><button type="submit" form="borrar-{{ f.pk }}" class="dom-trabajo-borrar" aria-label="Borrar foto {{ forloop.counter }}">×</button></figure>{% endfor %}</div>{% endif %}
-      {% if fotos|length < maximo_trabajos %}<input type="file" name="trabajos" accept="image/jpeg,image/png,image/webp" multiple class="mt-2">
-      <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP de máximo 5 MB. Se muestran en tu perfil público.</p>{% endif %}
-    </div>
-    <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm mt-2">Guardar cambios</button>
+    {% for e in form.non_field_errors %}<div class="mensaje mensaje-error text-sm">{{ e }}</div>{% endfor %}
+
+    <section class="papel p-6 md:p-8 space-y-5">
+      <h2 class="form-seccion">Presentación</h2>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <label class="campo-label">{{ form.nombre.label }}{{ form.nombre }}{% for e in form.nombre.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+        <label class="campo-label">{{ form.whatsapp.label }}{{ form.whatsapp }}{% for e in form.whatsapp.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+      </div>
+      <div>
+        <label class="campo-label">{{ form.descripcion.label }}{{ form.descripcion }}</label>
+        <p class="contador-texto" data-contador-de="{{ form.descripcion.id_for_label }}">{{ m.descripcion|length }} / 600</p>
+        <p class="text-xs text-suave">Cuánto llevas en esto, en qué motos y qué haces mejor.</p>
+        {% for e in form.descripcion.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+      {% include "cuentas/_horario.html" with campo=form.horario %}
+      <div>
+        <p class="campo-label">Foto tuya</p>
+        <div class="flex flex-wrap items-center gap-4 mt-2">
+          {% if m.foto %}<img src="{{ m.foto.url }}" alt="" class="w-20 h-20 object-cover rounded-xl">{% endif %}
+          <label class="doc-subir">{{ form.foto }}<span class="doc-subir-texto" data-vacio="{% if m.foto %}Cambiar foto{% else %}Subir foto{% endif %}">{% if m.foto %}Cambiar foto{% else %}Subir foto{% endif %}</span></label>
+        </div>
+        <p class="text-xs text-suave mt-1.5">Tu cara o tú trabajando · JPG, PNG o WEBP · máximo 5 MB.</p>
+        {% for e in form.foto.errors %}<p class="error">{{ e }}</p>{% endfor %}
+      </div>
+    </section>
+
+    <section class="papel p-6 md:p-8 space-y-5 scroll-mt-24" id="zonas">
+      <h2 class="form-seccion">Dónde atiendes</h2>
+      {% include "domicilio/_zonas_servicios.html" with titulo_zonas="Zonas a las que vas" %}
+      <div class="rc-rejilla">
+        {% include "domicilio/_tarifa.html" %}
+        <label class="campo-label">{{ form.anios_experiencia.label }}{{ form.anios_experiencia }}</label>
+      </div>
+      {% include "domicilio/_interruptor.html" with campo=form.urgencias titulo="Atiendo urgencias" texto="Salgo a atender motos varadas, también fuera de mi horario." %}
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">Especialidades</h2>
+      <p class="text-sm text-suave mt-2">Marca solo en lo que de verdad eres fuerte (mejor 3 a 5).</p>
+      <div class="perfil-checks mt-4">{% for c in form.especialidades %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+      <h2 class="form-seccion mt-7">Garantía y cómo trabajas</h2>
+      <label class="campo-label mt-4 max-w-xs">{{ form.garantia_meses.label }}{{ form.garantia_meses }}</label>
+      <div class="perfil-checks mt-4">{% for c in form.compromisos %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+      <h2 class="form-seccion mt-7">Herramientas</h2>
+      <label class="campo-label mt-3">{{ form.herramientas.label }}{{ form.herramientas }}</label>
+      <h2 class="form-seccion mt-7">Precios de mano de obra</h2>
+      <div class="mt-3">{% include "parciales/estado_precios.html" with mostrar=m.mostrar_precios n=n_precios url_alternar=url_alternar url_editar=url_precios sujeto="ficha" editar=True %}</div>
+      <h2 class="form-seccion mt-7">Marcas que trabajas</h2>
+      <div class="perfil-checks mt-4" data-marcas><label class="perfil-check perfil-check-multi">{{ form.multimarca }}<span>Multimarca (todas)</span></label>{% for c in form.marcas %}<label class="perfil-check">{{ c.tag }}<span>{{ c.choice_label }}</span></label>{% endfor %}</div>
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <h2 class="form-seccion">Verificación</h2>
+      <p class="text-sm text-suave mt-2">Revisamos que eres tú antes de publicarte. La cédula no se publica.</p>
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4">
+        <label class="campo-label">{{ form.cedula.label }}{{ form.cedula }}<span class="text-xs text-suave block mt-1.5">{{ form.cedula.help_text }}</span>{% for e in form.cedula.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+        <label class="campo-label">{{ form.referencias.label }}{{ form.referencias }}{% for e in form.referencias.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+      </div>
+    </section>
+
+    <section class="papel p-6 md:p-8">
+      <div class="flex flex-wrap items-center gap-2"><h2 class="form-seccion">Fotos de trabajos</h2><span class="chip-opcional">{{ fotos|length }} de {{ maximo_trabajos }}</span></div>
+      <p class="text-sm text-suave mt-2">Motos que arreglaste y tu herramienta. Salen en tu ficha.</p>
+      {% if fotos %}<div class="dom-trabajos mt-3">{% for f in fotos %}<figure><img src="{{ f.imagen.url }}" alt="Trabajo {{ forloop.counter }}" loading="lazy" width="120" height="90"><button type="submit" form="borrar-{{ f.pk }}" class="dom-trabajo-borrar" aria-label="Borrar foto {{ forloop.counter }}">×</button></figure>{% endfor %}</div>{% endif %}
+      {% if fotos|length < maximo_trabajos %}
+      <label class="doc-subir mt-4"><input type="file" name="trabajos" accept="image/jpeg,image/png,image/webp" multiple><span class="doc-subir-texto" data-vacio="Agregar fotos (puedes elegir varias)">Agregar fotos (puedes elegir varias)</span></label>
+      <p class="text-xs text-suave mt-1.5">JPG, PNG o WEBP · máximo 5 MB cada una.</p>{% endif %}
+    </section>
+
+    <button class="btn btn-lava w-full py-3.5 text-sm">Guardar perfil</button>
   </form>
   {% for f in fotos %}<form method="post" action="{% url 'domicilio:borrar_trabajo' f.pk %}" id="borrar-{{ f.pk }}" hidden>{% csrf_token %}</form>{% endfor %}
-</section>
+</div>
 
-<section class="papel p-5 sm:p-6 md:p-10 max-w-3xl mx-auto mt-6" id="resenas">
-  <h2 class="titulo text-2xl mb-4">Mis reseñas</h2>
-  {% for r in resenas %}
-  <div class="perfil-resena">
-    <span class="perfil-resena-inicial" aria-hidden="true">{{ r.nombre|first|upper }}</span>
-    <div class="min-w-0 flex-1">
-      <p class="font-semibold">{{ r.nombre }} <span class="estrellas text-sm ml-1">{% for _ in "x"|rjust:r.estrellas %}★{% endfor %}</span> <span class="text-xs text-suave">· {{ r.creado|date:"j M Y"|lower }}</span></p>
-      <p class="text-sm text-suave mt-0.5">{{ r.comentario }}</p>
-      <form method="post" action="{% url 'domicilio:responder_resena' r.pk %}" class="mt-2 space-y-2">{% csrf_token %}
-        <label class="campo-label">{% if r.respuesta %}Tu respuesta (bórrala para quitarla){% else %}Responder (se publica en tu ficha){% endif %}
-          <textarea name="respuesta" rows="2" maxlength="600" class="campo">{{ r.respuesta }}</textarea></label>
-        <button class="boton-seccion">{% if r.respuesta %}Actualizar respuesta{% else %}Publicar respuesta{% endif %}</button>
-      </form>
-    </div>
-  </div>
-  {% empty %}<p class="text-suave text-sm">Aún no tienes reseñas. Pídele a tus clientes que te califiquen en tu ficha.</p>{% endfor %}
-</section>
+
+<script>
+  document.querySelectorAll("[data-contador-de]").forEach(function (c) {
+    var campo = document.getElementById(c.dataset.contadorDe); if (!campo) return;
+    var pintar = function () { c.textContent = campo.value.length + " / " + (campo.maxLength > 0 ? campo.maxLength : 600); };
+    campo.addEventListener("input", pintar); pintar();
+  });
+  document.querySelectorAll(".doc-subir input[type=file]").forEach(function (input) {
+    input.addEventListener("change", function () {
+      var texto = input.parentElement.querySelector(".doc-subir-texto"), n = input.files.length;
+      texto.textContent = n === 0 ? texto.dataset.vacio : n === 1 ? input.files[0].name : n + " fotos elegidas";
+      input.parentElement.classList.toggle("con-archivo", n > 0);
+    });
+  });
+</script>
+{% include "cuentas/_horario_js.html" %}
+<script src="{% static 'domicilio/js/registro.js' %}" defer></script>
+<script src="{% static 'talleres/js/multimarca.js' %}" defer></script>
 {% endblock %}

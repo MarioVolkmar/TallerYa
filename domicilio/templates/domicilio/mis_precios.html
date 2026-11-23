@@ -5,29 +5,26 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
 <div class="pt mt-8 md:mt-10 tf">
-  {% url 'domicilio:mi_perfil' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi perfil" %}
-  <form method="post" class="papel pt-caja space-y-4">
+  {% url 'domicilio:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi panel" %}
+  <form method="post" class="papel pt-caja mp-form">
     {% csrf_token %}{{ formset.management_form }}
     <div>
       <p class="etiqueta">Precios de referencia</p>
       <h1 class="titulo text-3xl mt-1">Mis precios</h1>
-      <p class="text-sm text-suave mt-2">Publica un rango «desde–hasta» por servicio, en pesos, sin contar la visita (esa va en tu perfil{% if m.tarifa_visita %}: hoy {{ m.tarifa_texto }}{% endif %}). Se muestra en tu ficha como referencia, no como cotización.</p>
+      <p class="text-sm text-suave mt-2">Rangos de mano de obra, sin repuestos ni visita.</p>
     </div>
-    {% for e in formset.non_form_errors %}<p class="error">{{ e }}</p>{% endfor %}
-    {% for form in formset %}
-    <div class="tf-precio-fila">
-      {{ form.id }}
-      <label class="campo-label">Servicio{{ form.servicio }}</label>
-      <label class="campo-label">Cilindraje{{ form.cilindraje }}</label>
-      <label class="campo-label">Desde{{ form.desde }}</label>
-      <label class="campo-label">Hasta{{ form.hasta }}</label>
-      {% if form.instance.pk %}<label class="tf-borrar">{{ form.DELETE }} Quitar</label>{% endif %}
-      {% for campo in form %}{% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}{% endfor %}
-      {% for e in form.non_field_errors %}<p class="error">{{ e }}</p>{% endfor %}
-    </div>
-    {% endfor %}
-    <p class="text-xs text-suave">¿Necesitas más filas? Guarda y aparecerán otras tres.</p>
-    <button class="btn btn-lava text-xs px-6 py-3">Guardar precios</button>
+    {% include "parciales/estado_precios.html" with mostrar=m.mostrar_precios n=m.precios.count url_alternar=url_alternar sujeto="ficha" confirmado=confirmado por_confirmar=por_confirmar siguen=True %}
+    <details class="mp-como">
+      <summary>¿Cómo se usan?</summary>
+      <ul>
+        <li>Se muestran en tu ficha como referencia, no como cotización.</li>
+        <li>La visita no va aquí: se publica en tu perfil{% if m.tarifa_visita %} (hoy {{ m.tarifa_texto }}){% endif %}.</li>
+        <li>Apagado el interruptor, tu ficha invita a cotizar contigo por WhatsApp.</li>
+      </ul>
+    </details>
+    {% if sin_servicios %}<p class="error">Primero elige tus servicios en <a href="{% url 'domicilio:mi_perfil' %}" class="underline">tu perfil</a>.</p>{% endif %}
+    {% include "talleres/_mis_precios_editor.html" %}
+    <div class="mp-fijo"><button class="btn btn-lava text-xs px-6 py-3">Guardar precios</button></div>
   </form>
 </div>
 {% endblock %}

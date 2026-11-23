@@ -193,11 +193,13 @@ class RegistroYEdicionTests(Base):
         self.client.force_login(self.otro)
         self.assertRedirects(self.client.get(reverse("domicilio:mi_perfil")), reverse("domicilio:registro"))
 
-    def test_mi_perfil_requiere_sesion_y_mi_cuenta_redirige(self):
+    def test_mi_perfil_requiere_sesion_y_mi_cuenta_es_la_del_mecanico(self):
         r = self.client.get(reverse("domicilio:mi_perfil"))
         self.assertIn(reverse("cuentas:entrar"), r["Location"])
         self.client.force_login(self.dueno)
-        self.assertRedirects(self.client.get(reverse("cuentas:mi_cuenta")), reverse("domicilio:mi_perfil"))
+        cuenta = self.client.get(reverse("cuentas:mi_cuenta"))
+        self.assertContains(cuenta, 'id="seguridad"')
+        self.assertContains(cuenta, reverse("domicilio:mi_perfil"))
 
     def test_csrf(self):
         from django.test import Client
@@ -253,6 +255,7 @@ class VelocidadTests(Base):
         return len(c)
 
     def test_listado_no_crece_con_mecanicos(self):
+        self.consultas()  # calienta la caché de ajustes (una consulta única)
         antes = self.consultas()
         for i in range(8):
             self.crear(f"Extra {i}", zona=self.envigado, servicio=self.llantas)
@@ -295,11 +298,63 @@ class AltaYVerificacionTests(Base):
 
     def test_registro_muestra_pasos(self):
         r = self.client.get(reverse("domicilio:registro"))
-        self.assertEqual([p[0] for p in r.context["pasos"]], ["cuenta", "trabajo", "verificacion"])
-        self.assertContains(r, "domicilio/js/pasos.js")
+        self.assertEqual([p[0] for p in r.context["pasos"]], ["cuenta", "trabajo", "verificacion", "opcional"])
+        self.assertContains(r, "rt-seccion")  # secciones como el registro de taller, sin pasos por JS
         self.client.force_login(self.otro)  # con sesión no se pide la cuenta
         r = self.client.get(reverse("domicilio:registro"))
-        self.assertEqual([p[0] for p in r.context["pasos"]], ["trabajo", "verificacion"])
+        self.assertEqual([p[0] for p in r.context["pasos"]], ["trabajo", "verificacion", "opcional"])
+
+    def registrar(self, **cambios):
+        self.client.force_login(self.otro)
+        datos = {k: v for k, v in {**self.datos(), **cambios}.items() if v is not None}
+        return self.client.post(reverse("domicilio:registro"), datos)
+
+    def test_zonas_toda_medellin_guarda_solo_las_comunas(self):
+        self.assertRedirects(self.registrar(zona_modo="medellin", zonas=None), reverse("domicilio:mi_perfil"))
+        m = MecanicoDomicilio.objects.get(usuario=self.otro)
+        self.assertEqual(set(m.zonas.all()), set(Zona.objects.filter(ciudad="Medellín")))
+        self.assertGreater(m.zonas.count(), 10)
+
+    def test_zonas_todo_el_valle_guarda_todas_aunque_marque_algunas(self):
+        self.registrar(zona_modo="valle")
+        self.assertEqual(MecanicoDomicilio.objects.get(usuario=self.otro).zonas.count(), Zona.objects.count())
+
+    def test_zonas_elegir_guarda_las_marcadas_y_sin_ninguna_avisa(self):
+        self.registrar(zona_modo="elegir")
+        self.assertEqual(list(MecanicoDomicilio.objects.get(usuario=self.otro).zonas.all()), [self.robledo])
+        MecanicoDomicilio.objects.filter(usuario=self.otro).delete()
+        for modo in ("elegir", None):  # sin atajo y sin zonas tampoco pasa
+            r = self.registrar(zona_modo=modo, zonas=None)
+            self.assertEqual(r.status_code, 200)
+            self.assertEqual(r.context["form"].errors["zonas"], ["Elige dónde atiendes."])
+
+    def test_selector_de_zonas_agrupado(self):
+        r = self.client.get(reverse("domicilio:registro"))
+        medellin, valle = [g[2] for g in r.context["grupos_zonas"]]
+        self.assertEqual(len(medellin) + len(valle), Zona.objects.count())
+        self.assertContains(r, 'name="zona_modo"', count=3)
+        self.assertContains(r, f"Medellín y {len(valle)} municipios")
+
+    def test_alta_solo_con_lo_minimo(self):
+        r = self.registrar(anios_experiencia="")  # sin foto, descripción, marcas, horario, referencias ni años
+        self.assertRedirects(r, reverse("domicilio:mi_perfil"))
+        m = MecanicoDomicilio.objects.get(usuario=self.otro)
+        self.assertEqual((m.anios_experiencia, m.descripcion, m.horario, m.marcas.count()), (0, "", "", 0))
+
+    def test_tarifa_con_puntos_de_miles(self):
+        self.registrar(tarifa_visita="$ 25.000")
+        self.assertEqual(MecanicoDomicilio.objects.get(usuario=self.otro).tarifa_visita, 25000)
+
+    def test_bloque_opcional_plegado_se_abre_si_trae_datos(self):
+        self.client.force_login(self.otro)
+        self.assertNotContains(self.client.get(reverse("domicilio:registro")), 'rm-opcional" open')
+        r = self.client.post(reverse("domicilio:registro"), {**self.datos(cedula=""), "horario": "Lun-Sáb"})
+        self.assertContains(r, 'rm-opcional" open')  # vuelve con error y no esconde lo que escribió
+
+    def test_editar_perfil_sigue_con_la_lista_de_zonas(self):
+        from .forms import EdicionMecanicoForm
+        self.assertIn("zona_modo", EdicionMecanicoForm().fields)
+        self.assertFalse(EdicionMecanicoForm().fields["zonas"].required)  # con los atajos de zona_modo
 
     def test_fotos_de_trabajos_validadas_y_maximo(self):
         self.client.force_login(self.otro)
@@ -353,12 +408,12 @@ class AltaYVerificacionTests(Base):
         self.assertEqual(self.aprobado.cedula_ultimos, "5432")
 
     def test_eleccion_de_rol_ofrece_mecanico(self):
-        self.assertContains(self.client.get(reverse("cuentas:registro")), reverse("domicilio:registro"))
+        self.assertContains(self.client.get(reverse("cuentas:registro") + "?tipo=aliado"), reverse("domicilio:registro"))
         self.assertRedirects(self.client.get(reverse("cuentas:registro") + "?tipo=mecanico"),
                              reverse("domicilio:registro"), fetch_redirect_response=False)
         sin_rol = User.objects.create_user("g@prueba.com", "g@prueba.com", "clave-segura-123")
         self.client.force_login(sin_rol)
-        self.assertContains(self.client.get(reverse("cuentas:completar")), "Soy mecánico a domicilio")
+        self.assertContains(self.client.get(reverse("cuentas:completar") + "?tipo=aliado"), "Mecánico a domicilio")
         self.assertRedirects(self.client.get(reverse("cuentas:completar") + "?tipo=mecanico"),
                              reverse("domicilio:registro"), fetch_redirect_response=False)
         self.assertEqual(self.client.get(reverse("domicilio:registro")).status_code, 200)
@@ -385,6 +440,29 @@ class TallerDomicilioTests(Base):
 
     def nombres(self, **params):
         return [x.nombre for x in self.client.get(reverse("domicilio:listado"), params).context["pagina"]]
+
+    def test_mi_taller_atajo_de_zonas_y_tarifa_con_puntos(self):
+        self.activar(zona_modo="valle", zonas=[], tarifa_visita="$ 30.000")
+        d = TallerDomicilio.objects.get(taller=self.taller)
+        self.assertEqual((d.zonas.count(), d.tarifa_visita), (Zona.objects.count(), 30000))
+        self.assertEqual(d.zonas_texto, "todo el Valle de Aburrá")
+        self.assertContains(self.client.get(self.taller.get_absolute_url()), "Servicio a domicilio</strong> en todo el Valle de Aburrá")
+        self.activar(zona_modo="medellin", zonas=[])
+        self.assertEqual(TallerDomicilio.objects.get(taller=self.taller).zonas_texto, "toda Medellín")
+        r = self.client.get(reverse("domicilio:mi_taller"))
+        self.assertEqual(r.context["form"].initial["zona_modo"], "medellin")  # al volver, el atajo queda marcado
+
+    def test_mi_taller_un_solo_interruptor_y_texto_nuevo(self):
+        self.client.force_login(self.cuenta_taller)
+        r = self.client.get(reverse("domicilio:mi_taller"))
+        self.assertContains(r, 'name="activo"', count=1)
+        self.assertContains(r, "rm-estado-off")
+        self.assertContains(r, "Atiende motos donde estén")
+        self.assertNotContains(r, "dom-estado")  # sin el aviso suelto de estado
+        self.assertContains(r, 'name="zona_modo"', count=3)
+        # Apagado se guarda sin pedir zonas ni servicios
+        r = self.client.post(reverse("domicilio:mi_taller"), {"zona_modo": "elegir"})
+        self.assertRedirects(r, reverse("domicilio:mi_taller"))
 
     def test_activar_y_sale_en_listado_mixto(self):
         self.assertRedirects(self.activar(), reverse("domicilio:mi_taller"))
@@ -415,8 +493,8 @@ class TallerDomicilioTests(Base):
 
     def test_distintivo_en_ficha_y_directorio(self):
         self.activar()
-        self.assertContains(self.client.get(self.taller.get_absolute_url()), "Va a domicilio")
-        self.assertNotContains(self.client.get(self.otro_taller.get_absolute_url()), "Va a domicilio")
+        self.assertContains(self.client.get(self.taller.get_absolute_url()), "Servicio a domicilio")
+        self.assertNotContains(self.client.get(self.otro_taller.get_absolute_url()), "Servicio a domicilio")
         self.assertContains(self.client.get(reverse("talleres:directorio")), "tc-chapa-dom", count=1)
 
     def test_solo_su_propio_taller_y_csrf(self):
@@ -618,6 +696,7 @@ class PreciosYRespuestasTests(Base):
         from .models import PrecioMecanico
         self.aprobado.servicios.add(self.llantas)
         self.aprobado.tarifa_visita = 25000
+        self.aprobado.mostrar_precios = True
         self.aprobado.save()
         PrecioMecanico.objects.create(mecanico=self.aprobado, servicio=self.frenos, cilindraje="baja", desde=35000, hasta=60000)
         PrecioMecanico.objects.create(mecanico=self.aprobado, servicio=self.frenos, cilindraje="media", desde=50000, hasta=80000)
@@ -626,6 +705,35 @@ class PreciosYRespuestasTests(Base):
                       "$35.000", "$50.000", "Visita a domicilio", "desde $25.000", "También hace:", "Llantas y despinche"):
             self.assertContains(r, texto)
         self.assertNotContains(r, "Más de 400 cc")  # solo las columnas usadas
+
+    def test_precios_ocultos_invita_a_cotizar(self):
+        from .models import PrecioMecanico
+        PrecioMecanico.objects.create(mecanico=self.aprobado, servicio=self.frenos, cilindraje="baja", desde=35000, hasta=60000)
+        r = self.client.get(self.aprobado.get_absolute_url())
+        self.assertContains(r, "Cotizar por WhatsApp")
+        self.assertContains(r, "Servicios a domicilio")
+        self.assertNotContains(r, "$35.000")
+
+    def test_mis_precios_interruptor_mostrar(self):
+        """El interruptor de «Mis precios» guarda al instante (fetch, 204) y la pantalla trae el editor por tarjetas."""
+        self.client.force_login(self.dueno)
+        r = self.client.get(reverse("domicilio:mis_precios"))
+        self.assertContains(r, "data-mis-precios")
+        self.assertContains(r, "¿Cómo se usan?")
+        url = reverse("domicilio:alternar_precios")
+        r = self.client.post(url, {"valor": "1"}, headers={"x-requested-with": "fetch"})
+        self.assertEqual(r.status_code, 204)
+        self.aprobado.refresh_from_db()
+        self.assertTrue(self.aprobado.mostrar_precios)
+        self.client.post(url, {"valor": "0"}, headers={"x-requested-with": "fetch"})
+        self.aprobado.refresh_from_db()
+        self.assertFalse(self.aprobado.mostrar_precios)
+
+    def test_multimarca_en_la_ficha(self):
+        self.assertNotContains(self.client.get(self.aprobado.get_absolute_url()), "Multimarca")
+        self.aprobado.multimarca = True
+        self.aprobado.save()
+        self.assertContains(self.client.get(self.aprobado.get_absolute_url()), "Multimarca")
 
     def test_sin_precios_muestra_servicios(self):
         r = self.client.get(self.aprobado.get_absolute_url())
@@ -670,7 +778,17 @@ class PreciosYRespuestasTests(Base):
         self.client.force_login(self.dueno)
         r = self.client.get(reverse("domicilio:mi_perfil"))
         self.assertContains(r, reverse("domicilio:mis_precios"))
-        self.assertContains(r, "Mis reseñas")
+        self.assertContains(r, reverse("domicilio:resenas"))
+
+    def test_panel_y_pagina_de_resenas(self):
+        ResenaMecanico.objects.create(mecanico=self.aprobado, usuario=self.otro, nombre="Ana", estrellas=5, comentario="Muy bien")
+        self.client.force_login(self.dueno)
+        self.assertContains(self.client.get(reverse("domicilio:panel")), "Muy bien")
+        r = self.client.get(reverse("domicilio:resenas") + "?ver=sin_responder")
+        self.assertContains(r, "Muy bien")
+        self.client.post(reverse("domicilio:responder_resena", args=[1]), {"respuesta": "Gracias", "volver": "https://malo.com/"})
+        r = self.client.get(reverse("domicilio:resenas") + "?ver=sin_responder")
+        self.assertEqual(self.client.get(reverse("domicilio:resenas")).status_code, 200)
 
 
 class SolicitudVisitaTests(Base):
@@ -735,3 +853,48 @@ class SolicitudVisitaTests(Base):
         self.client.force_login(self.otro)
         self.assertEqual(self.cotizar(s).status_code, 404)
         self.assertEqual(self.client.post(reverse("domicilio:solicitud_estado", args=[s.pk]), {"estado": "cancelada"}).status_code, 404)
+
+
+class PanelMecanicoTests(Base):
+    """Panel «Mi panel» del mecánico: por hacer, precios con interruptor, menú y entrada directa."""
+
+    def setUp(self):
+        super().setUp()
+        self.client.force_login(self.dueno)
+
+    def test_panel_con_por_hacer_y_accesos(self):
+        from .models import SolicitudVisita
+        SolicitudVisita.objects.create(mecanico=self.aprobado, nombre="Luis", telefono="573001112233", moto="NMAX", servicio=self.frenos)
+        r = self.client.get(reverse("domicilio:panel"))
+        for texto in ("Mi panel", "Responder solicitudes", "Por hacer", "1 solicitud</strong> por cotizar", "Mi ficha",
+                      "Perfil", "Reporte", "aún no has cargado precios", "Armar mi tabla"):
+            self.assertContains(r, texto)
+
+    def test_interruptor_de_precios(self):
+        from .models import PrecioMecanico
+        PrecioMecanico.objects.create(mecanico=self.aprobado, servicio=self.frenos, cilindraje="baja", desde=35000, hasta=60000)
+        r = self.client.get(reverse("domicilio:panel"))
+        self.assertContains(r, "ocultos: tu ficha dice")
+        self.assertContains(r, "Mostrar precios en mi perfil")
+        self.client.post(reverse("domicilio:alternar_precios"), {"valor": "1"})
+        self.aprobado.refresh_from_db()
+        self.assertTrue(self.aprobado.mostrar_precios)
+        self.assertContains(self.client.get(reverse("domicilio:panel")), "visibles en tu ficha")
+
+    def test_solo_el_propio_perfil_y_sin_perfil(self):
+        self.client.force_login(self.otro)  # sin perfil de mecánico
+        self.assertRedirects(self.client.get(reverse("domicilio:panel")), reverse("domicilio:registro"))
+        self.assertEqual(self.client.post(reverse("domicilio:alternar_precios"), {"valor": "1"}).status_code, 404)
+        self.client.logout()
+        self.assertEqual(self.client.get(reverse("domicilio:panel")).status_code, 302)
+
+    def test_pausado_y_en_revision_avisan(self):
+        self.aprobado.estado = MecanicoDomicilio.Estado.SUSPENDIDO
+        self.aprobado.save()
+        self.assertContains(self.client.get(reverse("domicilio:panel")), "pausado")
+
+    def test_menu_y_entrada_al_panel(self):
+        r = self.client.get(reverse("domicilio:panel"))
+        self.assertContains(r, 'class="av-item" aria-current="page">Mi panel')
+        r = self.client.post(reverse("cuentas:entrar"), {"username": "mec@prueba.com", "password": "clave-segura-123"})
+        self.assertRedirects(r, reverse("domicilio:panel"), fetch_redirect_response=False)

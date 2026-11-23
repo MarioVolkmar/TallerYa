@@ -29,17 +29,18 @@
         <input type="file" name="fotos" accept="image/jpeg,image/png,image/webp" multiple>
         <span class="text-xs text-suave">Del daño, del tablero o de la pieza. JPG, PNG o WebP de hasta 5 MB.</span>
       </label>
+      <label class="enviar-campo">
+        <span class="enviar-etiqueta">Cuéntale más (opcional)</span>
+        <textarea name="nota" rows="3" maxlength="{{ max_nota }}" placeholder="Ej: suena al frenar en bajada, desde hace una semana" data-contador="nota-cuenta">{{ nota }}</textarea>
+        <span class="text-xs text-suave"><span id="nota-cuenta">{{ nota|length }}</span>/{{ max_nota }} caracteres. Solo texto; no pongas teléfono ni placa.</span>
+      </label>
     </div>
 
     <h2 class="titulo text-xl mt-8">Talleres</h2>
     {% if talleres %}
     <ul class="enviar-lista">
       {% for t in talleres %}
-      <li><button name="destino" value="t:{{ t.pk }}" class="enviar-opcion">
-        <span class="enviar-nombre">{{ t.nombre }}{% if t.verificado %} <small>verificado</small>{% endif %}</span>
-        <span class="enviar-sub">{% if t.barrio %}{{ t.barrio }}{% else %}Taller{% endif %}</span>
-        <span class="enviar-ir">WhatsApp →</span>
-      </button></li>
+      <li>{% include "garaje/_enviar_opcion.html" with o=t principal=forloop.first %}</li>
       {% endfor %}
     </ul>
     {% else %}<p class="text-sm text-suave mt-2">Aún no hay talleres con WhatsApp para este servicio.</p>{% endif %}
@@ -48,14 +49,16 @@
     {% if mecanicos %}
     <ul class="enviar-lista">
       {% for m in mecanicos %}
-      <li><button name="destino" value="m:{{ m.pk }}" class="enviar-opcion">
-        <span class="enviar-nombre">{{ m.nombre }}{% if m.verificado %} <small>verificado</small>{% endif %}</span>
-        <span class="enviar-sub">{% if m.urgencias %}Atiende urgencias{% else %}A domicilio{% endif %}{% if m.tarifa_visita %} · visita desde ${{ m.tarifa_visita|floatformat:"0g" }}{% endif %}</span>
-        <span class="enviar-ir">WhatsApp →</span>
-      </button></li>
+      <li>{% include "garaje/_enviar_opcion.html" with o=m principal=forloop.first %}</li>
       {% endfor %}
     </ul>
     {% else %}<p class="text-sm text-suave mt-2">Aún no hay mecánicos a domicilio publicados.</p>{% endif %}
   </form>
 </div>
+<script>
+(function () {
+  var t = document.querySelector('textarea[name="nota"]'), c = document.getElementById('nota-cuenta');
+  if (t && c) t.addEventListener('input', function () { c.textContent = t.value.length; });
+})();
+</script>
 {% endblock %}

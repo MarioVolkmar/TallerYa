@@ -10,10 +10,10 @@ from talleres.models import Taller
 
 from .. import secciones
 from ..acciones import registrar
-from ..permisos import solo_admin
+from ..permisos import pagina_de_consola
 
 
-@solo_admin
+@pagina_de_consola
 def alta(request):
     form = AltaAsistidaForm(request.POST or None, request.FILES or None)
     if request.method == "POST" and form.is_valid():
@@ -29,6 +29,7 @@ def alta(request):
         messages.success(request, f"Taller creado sin publicar. Envíale este enlace para que revise y apruebe: {enlace}")
         return redirect(reverse("consola:inicio") + "?seccion=talleres&estado=por_aprobar")
     filas, total = secciones.con_pendientes()
+    filas = [(s, n) for s, n in filas if s.en_menu and s.lista]  # mismo menú que consola.views
     return render(request, "consola/consola.html", {
         "seccion": secciones.POR_CLAVE["talleres"], "secciones": filas, "total_pendientes": total,
         "plantilla": "consola/alta_taller.html", "pendientes_seccion": 0, "form": form,

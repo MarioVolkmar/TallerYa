@@ -38,31 +38,6 @@ class TarifaSoat(models.Model):
         return cls.Categoria.DE_100_A_200 if cilindraje <= 200 else cls.Categoria.MAS_200
 
 
-class CentroCDA(models.Model):
-    """Centro de diagnóstico automotor (revisión técnico-mecánica). Solo se muestran los que el equipo carga."""
-    nombre = models.CharField(max_length=120)
-    municipio = models.CharField(max_length=40, choices=[(c, c) for c in CIUDADES], default="Medellín")
-    direccion = models.CharField("dirección", max_length=160)
-    telefono = models.CharField("teléfono", max_length=20, blank=True)
-    whatsapp = models.CharField(max_length=15, blank=True, help_text="Solo números, con indicativo (57...)")
-    sitio_web = models.URLField(blank=True)
-    horario = models.CharField(max_length=120, blank=True)
-    precio_moto = models.PositiveIntegerField("precio para motos (COP)", null=True, blank=True,
-                                              help_text="Déjalo vacío si el CDA no lo ha confirmado")
-    precio_fuente = models.CharField("de dónde sale el precio", max_length=200, blank=True)
-    aliado = models.BooleanField(default=False, help_text="Aliado de TallerYa: sale primero y con su beneficio")
-    beneficio = models.CharField(max_length=120, blank=True, help_text="Ej.: 10% menos mostrando TallerYa")
-    activo = models.BooleanField(default=True)
-
-    class Meta:
-        ordering = ["-aliado", "nombre"]
-        verbose_name = "CDA (técnico-mecánica)"
-        verbose_name_plural = "CDA (técnico-mecánica)"
-
-    def __str__(self):
-        return self.nombre
-
-
 def _ruta_pedido(instancia, nombre):
     # Nombre aleatorio: no revela la placa ni el nombre original del archivo.
     from pathlib import Path

@@ -1,0 +1,28 @@
+{% comment %}Zonas (3 atajos + chips con buscador) y servicios en chips (6 a la vista). Parámetros: form, grupos_zonas, titulo_zonas.
+   Estilos en domicilio/css/registro.css y comportamiento en domicilio/js/registro.js.{% endcomment %}
+<fieldset class="rt-grupo rm-zonas{% if form.zonas.errors %} con-error{% endif %}" data-zonas>
+  <legend class="campo-label">{{ titulo_zonas|default:'¿Dónde atiendes?' }}</legend>
+  <div class="rm-seg">
+    {% for r in form.zona_modo %}
+    <label class="rm-op">{{ r.tag }}<span class="rm-rad" aria-hidden="true"></span>
+      <span><strong>{{ r.choice_label }}</strong><small{% if r.data.value == "elegir" %} data-zonas-cuenta{% endif %}>{% if r.data.value == "medellin" %}Comunas y corregimientos{% elif r.data.value == "valle" %}Medellín y {{ grupos_zonas.1.2|length }} municipios{% else %}Comunas o municipios{% endif %}</small></span></label>
+    {% endfor %}
+  </div>
+  <div class="rm-panel" data-zonas-panel>
+    <input type="search" class="campo rm-buscar" placeholder="Busca tu comuna o municipio" aria-label="Buscar comuna o municipio" data-zonas-buscar hidden>
+    {% for grupo, es_medellin, chips in grupos_zonas %}
+    <div class="rm-grupo" data-grupo>
+      <div class="rm-grupo-cab"><span>{{ grupo }}</span><button type="button" class="rm-todas" data-todas hidden>{% if es_medellin %}Todas{% else %}Todos{% endif %}</button></div>
+      <div class="rt-chips">{% for cb in chips %}<label class="rt-chip" data-chip>{{ cb.tag }}<span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>{{ cb.choice_label }}</span></label>{% endfor %}</div>
+    </div>
+    {% endfor %}
+    <p class="rm-nada" data-zonas-nada hidden>No encontramos esa zona.</p>
+  </div>
+  {% for e in form.zonas.errors %}<p class="error">{{ e }}</p>{% endfor %}
+</fieldset>
+
+<fieldset class="rt-grupo{% if form.servicios.errors %} con-error{% endif %}" data-servicios>
+  <legend class="campo-label">¿Qué trabajos haces?</legend>
+  <div class="rt-chips">{% for cb in form.servicios %}<label class="rt-chip{% if forloop.counter > 6 %} rm-extra{% endif %}" data-chip>{{ cb.tag }}<span><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>{{ cb.choice_label }}</span></label>{% endfor %}<button type="button" class="rm-mas" data-ver-mas hidden></button></div>
+  {% for e in form.servicios.errors %}<p class="error">{{ e }}</p>{% endfor %}
+</fieldset>

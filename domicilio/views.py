@@ -29,9 +29,10 @@ from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
 from talleres import perfil as perfil_taller
+from talleres import precios as perfil_precios
 
 from talleres.models import Resena
-from .forms import PASO_TRABAJO, PASO_VERIFICACION, EdicionMecanicoForm, PerfilMecanicoForm, ResenaMecanicoForm, TallerDomicilioForm, foto_trabajo
+from .forms import PASO_OPCIONAL, PASO_TRABAJO, PASO_VERIFICACION, EdicionMecanicoForm, PerfilMecanicoForm, ResenaMecanicoForm, TallerDomicilioForm, foto_trabajo
 from .models import FotoTrabajo, MecanicoDomicilio, MecanicoFavorito, ResenaMecanico, TallerDomicilio, TipoServicio, Zona
 
 User = get_user_model()
@@ -84,6 +85,12 @@ def listado(request):
     zona = Zona.objects.filter(pk=f["zona"]).first() if f.get("zona", "").isdigit() else None
     servicio = TipoServicio.objects.filter(pk=f["servicio"]).first() if f.get("servicio", "").isdigit() else None
 
+    from cupones.models import Cupon
+    con_cupon = Cupon.objects.disponibles().filter(Q(mecanico__isnull=False) | Q(taller__isnull=False))
+    desc_mecanicos = set(con_cupon.values_list("mecanico", flat=True)) - {None}
+    desc_talleres = set(con_cupon.values_list("taller", flat=True)) - {None}
+    solo_descuento = bool(f.get("descuento"))
+
     mecanicos = []
     if tipo != "talleres":
         qs = MecanicoDomicilio.objects.publicados().prefetch_related("zonas", "servicios")
@@ -100,9 +107,13 @@ def listado(request):
             qs = qs.filter(urgencias=True)
         if f.get("verificados"):
             qs = qs.filter(verificado=True)
+        if solo_descuento:
+            qs = qs.filter(pk__in=desc_mecanicos)
         mecanicos = list(_con_nota(qs))
     talleres = ([] if tipo == "independientes" else
                 _talleres_con_domicilio(q, zona, servicio, f.get("urgencias"), f.get("verificados")))
+    if solo_descuento:
+        talleres = [d for d in talleres if d.taller_id in desc_talleres]
     # Un solo orden para todos: verificados primero, luego nota y número de reseñas
     todos = sorted(mecanicos + talleres,
                    key=lambda x: (not x.verificado, -(x.prom or 0), -x.n_resenas, x.nombre.lower()))
@@ -110,6 +121,7 @@ def listado(request):
     pagina = Paginator(todos, POR_PAGINA).get_page(f.get("pagina"))
     for m in pagina:
         m.estrellas_pct = round((m.prom or 0) * 20)
+        m.tiene_descuento = (m.taller_id in desc_talleres) if getattr(m, "es_taller", False) else (m.pk in desc_mecanicos)
         servicios = list(m.servicios.all())
         m.servicios_vista, m.servicios_mas = servicios[:4], max(len(servicios) - 4, 0)
         zonas = list(m.zonas.all())
@@ -131,7 +143,7 @@ def listado(request):
     if tipo in ("independientes", "talleres"):
         activos.append({"nombre": "Solo independientes" if tipo == "independientes" else "Solo talleres",
                         "quitar": "?" + sin("tipo")})
-    for clave, nombre in (("urgencias", "Atiende urgencias"), ("verificados", "Solo verificados")):
+    for clave, nombre in (("urgencias", "Atiende urgencias"), ("verificados", "Solo verificados"), ("descuento", "Con descuento")):
         if f.get(clave):
             activos.append({"nombre": nombre, "quitar": "?" + sin(clave)})
 
@@ -203,14 +215,18 @@ def ficha(request, slug):
     zonas = list(mecanico.zonas.all())
     especialidades = perfil_taller.especialidades_texto(mecanico.especialidades)
     compromisos = perfil_taller.compromisos_lista(mecanico)
-    marcas = list(mecanico.marcas.all())
+    marcas = [] if mecanico.multimarca else list(mecanico.marcas.all())
     herramientas = mecanico.herramientas_lista
     verificaciones = _verificaciones(mecanico, fotos)
     from talleres.views import _tabla_precios  # misma tabla «Precios desde» del taller (PrecioMecanico tiene sus campos)
-    tabla_precios = _tabla_precios(mecanico)
+    # Como el taller: sin precios públicos la tabla no se manda y todos los servicios van como chips
+    tabla_precios = _tabla_precios(mecanico) if mecanico.mostrar_precios else {"columnas": [], "filas": []}
     con_precio = {f["pk"] for f in tabla_precios["filas"]}
-    nombres = [n for n, hay in (("trabajo", especialidades or marcas or compromisos or herramientas or mecanico.anios_experiencia),
-                                ("resenas", True), ("cobertura", True)) if hay]
+    from cupones.models import Cupon
+    from .vista_descuentos import codigo_disponible
+    descuentos = list(Cupon.objects.disponibles().filter(mecanico=mecanico)) if mecanico.publicado else []
+    nombres = [n for n, hay in (("trabajo", especialidades or marcas or mecanico.multimarca or compromisos or herramientas or mecanico.anios_experiencia),
+                                ("descuentos", descuentos), ("resenas", True), ("cobertura", True)) if hay]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
     medellin = [z for z in zonas if z.ciudad == "Medellín"]
     return render(request, "domicilio/ficha.html", {
@@ -225,6 +241,7 @@ def ficha(request, slug):
         "otros_servicios": [s for s in mecanico.servicios.all() if s.pk not in con_precio],
         "es_favorito": request.user.is_authenticated and MecanicoFavorito.objects.filter(
             usuario=request.user, mecanico=mecanico).exists(),
+        "descuentos": descuentos, "mi_descuento": codigo_disponible(request.user, mecanico),
     })
 
 
@@ -262,10 +279,15 @@ def visita(request, slug):
     for etiqueta, valor in (("Servicio", servicio), ("Zona", zona), ("Moto", moto), ("Cuándo", cuando), ("Detalle", detalle)):
         if valor:
             lineas.append(f"{etiqueta}: {valor}")
+    from .vista_descuentos import codigo_disponible
+    descuento = codigo_disponible(request.user, mecanico)
     if request.method == "POST":
         from .vista_solicitudes import guardar_solicitud
         if solicitud := guardar_solicitud(request, mecanico, servicio, zona, g.get("cuando", ""), moto, detalle):
+            descuento = solicitud.codigo_cupon
             lineas.append(f"Mi solicitud en TallerYa: {request.build_absolute_uri(solicitud.get_absolute_url())}")
+    if descuento:
+        lineas.append(f"Tengo tu descuento de TallerYa: {descuento.cupon.titulo} (código {descuento.codigo})")
     return redirect(f"https://wa.me/{mecanico.whatsapp}?text={quote(chr(10).join(lineas))}")
 
 
@@ -334,10 +356,21 @@ def registro(request):
     pasos = ([("cuenta", "Tu cuenta", list(cuenta))] if nueva_cuenta else []) + [
         ("trabajo", "Tu trabajo", perfil.campos(PASO_TRABAJO)),
         ("verificacion", "Verificación", perfil.campos(PASO_VERIFICACION)),
+        ("opcional", "Completa tu perfil", perfil.campos(PASO_OPCIONAL)),
     ]
+    grupos_zonas = _grupos_zonas(perfil)
+    # El bloque plegado se abre si al reenviar trae algo escrito o con error (para no esconder lo que llenó)
+    abrir_opcional = perfil.is_bound and any(perfil[n].errors or perfil[n].value() for n in PASO_OPCIONAL)
     return render(request, "domicilio/registro.html", {
         "cuenta": cuenta, "form": perfil, "nueva_cuenta": nueva_cuenta, "pasos": pasos,
-        "maximo_trabajos": FotoTrabajo.MAXIMO})
+        "grupos_zonas": grupos_zonas, "abrir_opcional": abrir_opcional, "maximo_trabajos": FotoTrabajo.MAXIMO})
+
+
+def _grupos_zonas(form):
+    """Chips de zonas agrupados (domicilio/_zonas_servicios.html): comunas de Medellín y municipios del Valle de Aburrá."""
+    zonas = list(form["zonas"])
+    medellin = [cb for cb in zonas if cb.data["value"].instance.ciudad == "Medellín"]
+    return [("Medellín", True, medellin), ("Valle de Aburrá", False, [cb for cb in zonas if cb not in medellin])]
 
 
 def _guardar_trabajos(mecanico, archivos):
@@ -351,6 +384,76 @@ def _guardar_trabajos(mecanico, archivos):
         else:
             rechazadas += 1
     return rechazadas
+
+
+@login_required
+def panel(request):
+    """«Mi panel» del mecánico a domicilio: acción principal, por hacer, accesos, precios y cifras del mes."""
+    mecanico = _perfil_de(request.user)
+    if not mecanico:
+        return redirect("domicilio:registro")
+    from datetime import timedelta
+    hoy = timezone.localdate()
+    inicio_mes = hoy.replace(day=1)
+    solicitudes = mecanico.solicitudes
+    resenas = mecanico.resenas.filter(visible=True)
+    pasos = mecanico.pasos()
+    hechos = sum(h for _, h, _ in pasos)
+    return render(request, "domicilio/panel.html", {
+        "m": mecanico,
+        "n_por_cotizar": solicitudes.filter(estado="pendiente").count(),
+        "n_por_cerrar": solicitudes.filter(estado="confirmada", fecha_propuesta__lte=hoy).count(),
+        "n_abiertas": solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"]).count(),
+        "sin_responder": resenas.filter(respuesta="").count(),
+        "nota": resenas.aggregate(prom=Avg("estrellas"), n=Count("id")),
+        "pct": round(100 * hechos / len(pasos)),
+        "faltan": [t for t, hecho, _ in pasos if not hecho][:3],
+        "faltan_obligatorios": [t for t, hecho, obligatorio in pasos if obligatorio and not hecho],
+        "n_precios": mecanico.precios.count(),
+        "precios_por_confirmar": perfil_precios.necesita_confirmar(mecanico),
+        "descuentos_activos": mecanico.cupones.vigentes().count(),
+        "canjes_mes": mecanico.canjes.filter(canjeado_en__date__gte=inicio_mes).count(),
+        "mes": {
+            "solicitudes": solicitudes.filter(creado__date__gte=inicio_mes).count(),
+            "atendidas": solicitudes.filter(estado="atendida", creado__date__gte=inicio_mes).count(),
+            "resenas": resenas.filter(creado__date__gte=inicio_mes).count(),
+        },
+        "favoritos": mecanico.favoritos.count(),
+        "recientes": list(solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"])
+                          .select_related("servicio", "zona")[:4]),
+        "resenas_recientes": list(resenas[:3]),
+        "tiene_garaje": hasattr(request.user, "motociclista"),
+    })
+
+
+@login_required
+@require_POST
+def alternar_precios(request):
+    """Interruptor del panel: mostrar u ocultar los precios en la ficha pública. Solo el propio perfil."""
+    mecanico = _perfil_de(request.user)
+    if not mecanico:
+        raise Http404
+    mecanico.mostrar_precios = request.POST.get("valor") == "1"
+    mecanico.save(update_fields=["mostrar_precios"])
+    if request.headers.get("x-requested-with") == "fetch":  # interruptor sin recargar: sin mensaje ni redirección
+        from django.http import HttpResponse
+        return HttpResponse(status=204)
+    messages.success(request, "Tus precios ahora se ven en tu ficha." if mecanico.mostrar_precios
+                     else "Ocultamos tus precios: tu ficha dice «Cotiza por WhatsApp».")
+    return redirect("domicilio:panel")
+
+
+@login_required
+@require_POST
+def alternar_urgencias(request):
+    """Interruptor del panel: salir o no a atender motos varadas. Solo el propio perfil."""
+    mecanico = _perfil_de(request.user)
+    if not mecanico:
+        raise Http404
+    mecanico.urgencias = request.POST.get("valor") == "1"
+    mecanico.save(update_fields=["urgencias"])
+    messages.success(request, "Ahora atiendes urgencias." if mecanico.urgencias else "Dejaste de atender urgencias.")
+    return redirect("domicilio:panel")
 
 
 @login_required
@@ -370,6 +473,8 @@ def mi_perfil(request):
     return render(request, "domicilio/mi_perfil.html", {
         "m": mecanico, "form": form, "pasos": pasos,
         "faltan_obligatorios": [t for t, hecho, obligatorio in pasos if obligatorio and not hecho],
+        "faltan": [t for t, hecho, _ in pasos if not hecho][:3], "grupos_zonas": _grupos_zonas(form),
+        "url_alternar": reverse("domicilio:alternar_precios"), "url_precios": reverse("domicilio:mis_precios"),
         "hechos": sum(h for _, h, _ in pasos), "total_pasos": len(pasos),
         "n_resenas": mecanico.resenas.filter(visible=True).count(),
         "fotos": mecanico.fotos_trabajo.all(), "maximo_trabajos": FotoTrabajo.MAXIMO,
@@ -387,11 +492,23 @@ def mis_precios(request):
         return redirect("domicilio:registro")
     Formset = precios_formset(mecanico)
     formset = Formset(request.POST or None, instance=mecanico, queryset=mecanico.precios.select_related("servicio"))
+    from talleres import precios as _precios
+    if request.method == "POST" and request.POST.get("siguen_vigentes"):
+        _precios.confirmar_vigentes(mecanico)
+        messages.success(request, "Listo: confirmaste que tus precios siguen vigentes.")
+        return redirect("domicilio:mis_precios")
     if request.method == "POST" and formset.is_valid():
         formset.save()
-        messages.success(request, "Guardamos tus precios de referencia.")
+        messages.success(request, "Guardamos tus precios de referencia." if mecanico.mostrar_precios
+                         else "Guardamos tus precios; tu ficha dice «Cotiza por WhatsApp» hasta que decidas mostrarlos.")
         return redirect("domicilio:mis_precios")
-    return render(request, "domicilio/mis_precios.html", {"m": mecanico, "formset": formset})
+    from talleres.precios import agrupar_formset
+    return render(request, "domicilio/mis_precios.html", {
+        "m": mecanico, "formset": formset, "grupos": agrupar_formset(formset), "medianas": "{}",
+        "servicios": formset.empty_form.fields["servicio"].queryset,
+        "url_alternar": reverse("domicilio:alternar_precios"),
+        "confirmado": _precios.fecha_confirmacion(mecanico), "por_confirmar": _precios.necesita_confirmar(mecanico),
+        "sin_servicios": not mecanico.servicios.exists()})
 
 
 @login_required
@@ -404,7 +521,26 @@ def responder_resena(request, pk):
     resena.respondida_en = timezone.now() if texto else None
     resena.save(update_fields=["respuesta", "respondida_en"])
     messages.success(request, "Respuesta publicada en tu perfil." if texto else "Quitamos tu respuesta.")
-    return redirect(reverse("domicilio:mi_perfil") + "#resenas")
+    volver = request.POST.get("volver", "")
+    if not url_has_allowed_host_and_scheme(volver, allowed_hosts={request.get_host()}, require_https=request.is_secure()):
+        volver = reverse("domicilio:panel") + "#resenas"
+    return redirect(volver)
+
+
+@login_required
+def resenas(request):
+    """Todas las reseñas del mecánico, con filtro «sin responder» (como «Mis reseñas» del taller)."""
+    mecanico = _perfil_de(request.user)
+    if not mecanico:
+        return redirect("domicilio:registro")
+    todas = mecanico.resenas.filter(visible=True)
+    sin_responder = todas.filter(respuesta="").count()
+    solo_sin = request.GET.get("ver") == "sin_responder"
+    nota = todas.aggregate(prom=Avg("estrellas"), n=Count("id"))
+    nota["pct"] = round((nota["prom"] or 0) * 20)
+    return render(request, "domicilio/resenas.html", {
+        "m": mecanico, "nota": nota, "sin_responder": sin_responder, "solo_sin": solo_sin,
+        "lista": todas.filter(respuesta="") if solo_sin else todas})
 
 
 @login_required
@@ -421,7 +557,7 @@ def borrar_trabajo(request, pk):
 @login_required
 @require_POST
 def alternar_taller(request):
-    """Interruptor del panel del taller: prende o apaga «Va a domicilio» sin salir del panel. Solo su propio taller."""
+    """Interruptor del panel del taller: prende o apaga «Servicio a domicilio» sin salir del panel. Solo su propio taller."""
     taller = getattr(request.user, "taller", None)
     if not taller:
         raise Http404
@@ -429,12 +565,12 @@ def alternar_taller(request):
     servicio.activo = request.POST.get("valor") == "1"
     servicio.save(update_fields=["activo", "actualizado"])
     if not servicio.activo:
-        messages.success(request, "Apagado: ya no sales como «Va a domicilio».")
+        messages.success(request, "Apagado: ya no ofreces servicio a domicilio.")
     elif not servicio.zonas.exists():
-        messages.success(request, "¡Listo! Ya sales como «Va a domicilio». Elige las zonas que cubres para que te encuentren.")
+        messages.success(request, "¡Listo! Ya ofreces servicio a domicilio. Elige las zonas que cubres para que te encuentren.")
         return redirect("domicilio:mi_taller")
     else:
-        messages.success(request, "¡Listo! Ya sales como «Va a domicilio» en el directorio y en Mecánicos a domicilio.")
+        messages.success(request, "¡Listo! Ya ofreces servicio a domicilio en el directorio y en Mecánicos a domicilio.")
     return redirect("talleres:panel")
 
 
@@ -457,4 +593,5 @@ def mi_taller(request):
             texto = "Guardado. Saldrás en Mecánicos a domicilio cuando aprobemos tu taller."
         messages.success(request, texto)
         return redirect("domicilio:mi_taller")
-    return render(request, "domicilio/mi_taller.html", {"taller": taller, "form": form, "servicio": servicio})
+    return render(request, "domicilio/mi_taller.html", {"taller": taller, "form": form, "servicio": servicio,
+                                                        "grupos_zonas": _grupos_zonas(form)})

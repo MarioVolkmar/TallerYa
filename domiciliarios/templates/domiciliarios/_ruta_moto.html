@@ -1,6 +1,6 @@
-{% load static %}{% if mostrar %}
-<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261119d">
-{% if de_trabajo %}
+{% load static %}{% if mostrar or por_uso %}
+<link rel="stylesheet" href="{% static 'domiciliarios/dm.css' %}?v=20261123c">
+{% if mostrar and de_trabajo %}
 {# Franja compacta junto a la agenda: lo del día y el cierre de jornada. El detalle vive en Mi ruta. #}
 <section class="dm-franja" id="mi-ruta" aria-label="TallerYa Ruta" data-dm-ruta>
   <div class="dm-franja-datos">
@@ -30,10 +30,19 @@
   </form>
 </section>
 {% else %}
-<form method="post" action="{% url 'domiciliarios:moto_trabajo' moto.pk %}" class="dm-interruptor-solo" data-dm-aviso>{% csrf_token %}
-  <input type="hidden" name="valor" value="1">
-  <button type="submit" class="dm-switch dm-switch-chico" role="switch" aria-checked="false"><span aria-hidden="true"></span>La uso para trabajar</button>
-  <small class="text-suave">¿Domicilios o mensajería? Agenda con plan intensivo y cierre de jornada, gratis.</small>
-</form>
+{# Una tarjeta como las de mantenimiento: ícono, título y texto; a la derecha el interruptor (solo con Ruta prendida) #}
+<section class="papel dm-trabajo" id="dm-trabajo" aria-label="Moto de trabajo">
+  <span class="dm-trabajo-icono" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="16.5" r="3"/><circle cx="18.5" cy="16.5" r="3"/><path d="M9 9h5l2.5 7.5M14 9l-1.5-3H10M9 9l3 7.5h6.5"/></svg></span>
+  <div class="dm-trabajo-datos">
+    <p class="dm-trabajo-titulo">{% if por_uso %}Moto de trabajo{% else %}¿La usas para trabajar?{% endif %}</p>
+    <p class="dm-trabajo-texto">{% if por_uso %}Plan con cambios más seguidos{% if km_dia %} (~{{ km_dia }} km/día){% endif %}.{% if invitar %} ¿Haces domicilios? <a href="{% url 'domiciliarios:inicio' %}">Únete a TallerYa Ruta gratis</a>{% endif %}{% else %}Actívalo y adelantamos los cambios de aceite y piezas{% endif %}</p>
+  </div>
+  {% if mostrar %}
+  <form method="post" action="{% url 'domiciliarios:moto_trabajo' moto.pk %}" class="dm-trabajo-switch" data-dm-aviso>{% csrf_token %}
+    <input type="hidden" name="valor" value="1">
+    <button type="submit" class="dm-switch dm-switch-chico" role="switch" aria-checked="false" aria-label="La uso para trabajar"><span aria-hidden="true"></span></button>
+  </form>
+  {% endif %}
+</section>
 {% endif %}
 {% endif %}

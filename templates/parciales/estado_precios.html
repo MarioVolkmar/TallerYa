@@ -1,0 +1,18 @@
+{# Tarjeta de estado de precios (panel de precios y perfil, taller y mecánico). Uso: {% include "parciales/estado_precios.html" with mostrar=... n=... url_alternar=... url_editar=... sujeto="perfil" editar=True confirmado=fecha por_confirmar=bool siguen=True %} #}
+{% load static %}
+{% with suj=sujeto|default:"perfil" %}
+<div class="ep" data-estado-precios data-url="{{ url_alternar }}" data-t-on="Visibles" data-r-on="en tu {{ suj }}" data-t-off="Ocultos" data-r-off="tu {{ suj }} dice «Cotiza por WhatsApp»">
+  <div class="ep-texto">
+    <p class="ep-estado" data-estado-texto>
+      {% if not n %}<strong>Sin precios</strong> <span>· aún no has cargado precios</span>
+      {% else %}<strong data-estado-titulo>{% if mostrar %}Visibles{% else %}Ocultos{% endif %}</strong> <span data-estado-resto>· {% if mostrar %}en tu {{ suj }}{% else %}tu {{ suj }} dice «Cotiza por WhatsApp»{% endif %}</span>{% endif %}
+    </p>
+    {% if confirmado and n %}<p class="ep-conf">Confirmados el {{ confirmado|date:"j \d\e F"|lower }}{% if por_confirmar %} · llevan más de 2 meses{% endif %}{% if siguen %}{% if por_confirmar %}<button name="siguen_vigentes" value="1" class="pt-tarea-btn ep-vigentes" formnovalidate>Siguen vigentes</button>{% else %}<button name="siguen_vigentes" value="1" class="ep-link ep-vigentes-link" formnovalidate>Siguen vigentes</button>{% endif %}{% endif %}</p>{% endif %}
+  </div>
+  <div class="ep-acciones">
+    {% if n %}<button type="button" class="pt-interruptor-btn" role="switch" data-interruptor aria-checked="{% if mostrar %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Mostrar en mi {{ suj }}</button>{% endif %}
+    {% if editar %}<a href="{{ url_editar }}" class="pt-tarea-btn">{% if n %}Editar precios{% else %}Armar mi tabla{% endif %}</a>{% endif %}
+  </div>
+</div>
+{% endwith %}
+<script src="{% static 'talleres/js/estado-precios.js' %}" defer></script>

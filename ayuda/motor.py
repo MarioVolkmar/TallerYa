@@ -148,6 +148,12 @@ def _rellenar(texto, ctx):
     return texto.replace("{moto}", ctx["moto_nombre"]).replace("{nombre}", ctx["nombre"] or "")
 
 
+def _sin_precio_tipico(textos):
+    """Apagado en la consola «Mostrar precio típico por servicio»: se quitan las frases que lo mencionan."""
+    from consola.ajustes import ajuste
+    return textos if ajuste("precio_tipico") else [t for t in textos if "precio típico" not in t.lower()]
+
+
 def _forma(p, ctx, fuente="faq"):
     acciones = []
     for a in p.get("acciones", []):
@@ -164,7 +170,7 @@ def _forma(p, ctx, fuente="faq"):
         "fuente": fuente,
         "id": p.get("id"),
         "pregunta": p["pregunta"],
-        "respuesta": [_rellenar(t, ctx) for t in p["respuesta"]],
+        "respuesta": [_rellenar(t, ctx) for t in _sin_precio_tipico(p["respuesta"])],
         "acciones": acciones,
         "relacionadas": relacionadas,
     }

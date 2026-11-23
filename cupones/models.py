@@ -62,15 +62,16 @@ class CuponQuerySet(models.QuerySet):
     def disponibles(self):
         """Cupones que se muestran en la lista (incluye los de Plus, que piden suscripción al obtenerlos).
         Los de domiciliarios verificados solo existen con DOMICILIARIOS_ACTIVO (apagada, no se ven)."""
-        from django.conf import settings
-        qs = self if getattr(settings, "DOMICILIARIOS_ACTIVO", False) else self.filter(solo_domiciliarios=False)
+        from domiciliarios.bandera import activo
+        qs = self if activo() else self.filter(solo_domiciliarios=False)
         return (
             qs.vigentes()
             .filter(publico=True, regalo_mensual=False)
             .filter(Q(taller__isnull=True) | Q(taller__activo=True))
+            .filter(Q(mecanico__isnull=True) | Q(mecanico__estado="aprobado"))
             .annotate(num_emitidos=Count("codigos"))
             .filter(Q(cupo__isnull=True) | Q(cupo__gt=F("num_emitidos")))
-            .select_related("taller", "taller__barrio")
+            .select_related("taller", "taller__barrio", "mecanico")
         )
 
     def con_nota_taller(self):
@@ -86,6 +87,11 @@ class Cupon(models.Model):
     taller = models.ForeignKey(
         Taller, on_delete=models.CASCADE, null=True, blank=True, related_name="cupones",
         help_text="Déjalo vacío si el cupón vale en cualquier taller aliado.",
+    )
+    # Descuento de un mecánico a domicilio (en la interfaz se llama «descuento»). Nunca taller y mecánico a la vez.
+    mecanico = models.ForeignKey(
+        "domicilio.MecanicoDomicilio", on_delete=models.CASCADE, null=True, blank=True, related_name="cupones",
+        verbose_name="mecánico a domicilio", help_text="Solo para descuentos de un mecánico a domicilio (sin taller).",
     )
     titulo = models.CharField(max_length=120, help_text="Ej: 15% de descuento en cambio de aceite")
     condiciones = models.TextField(blank=True, help_text="Ej: No acumulable. Válido de lunes a viernes.")
@@ -122,9 +128,23 @@ class Cupon(models.Model):
         ordering = ["-creado"]
         verbose_name = "cupón"
         verbose_name_plural = "cupones"
+        constraints = [
+            models.CheckConstraint(condition=Q(taller__isnull=True) | Q(mecanico__isnull=True),
+                                   name="cupon_de_taller_o_mecanico"),
+        ]
 
     def __str__(self):
-        return f"{self.titulo} · {self.taller or 'Todos los talleres'}"
+        return f"{self.titulo} · {self.taller or self.mecanico or 'Todos los talleres'}"
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.taller_id and self.mecanico_id:
+            raise ValidationError("Un cupón es de un taller o de un mecánico a domicilio, no de los dos.")
+
+    @property
+    def dueno(self):
+        """Taller o mecánico que da el cupón (None = cualquier taller aliado)."""
+        return self.taller or self.mecanico
 
     def get_absolute_url(self):
         return reverse("cupones:obtener", args=[self.pk])
@@ -188,8 +208,12 @@ class CodigoCupon(models.Model):
     # Bitácora del canje: quién lo hizo (cuenta del taller, si entró con ella), cómo y desde qué IP
     canjeado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                      related_name="+", editable=False)
+    canjeado_mecanico = models.ForeignKey(
+        "domicilio.MecanicoDomicilio", on_delete=models.SET_NULL, null=True, blank=True, related_name="canjes",
+    )
     canje_via = models.CharField(max_length=8, blank=True, editable=False,
-                                 choices=[("cuenta", "Cuenta del taller"), ("pin", "PIN del taller")])
+                                 choices=[("cuenta", "Cuenta del taller"), ("pin", "PIN del taller"),
+                                          ("visita", "Visita a domicilio"), ("codigo", "Código del mecánico")])
     canje_ip = models.GenericIPAddressField(null=True, blank=True, editable=False)
 
     class Meta:
@@ -223,4 +247,11 @@ class CodigoCupon(models.Model):
         return self.canjeado_en is not None
 
     def valido_en(self, taller):
-        return self.cupon.taller_id in (None, taller.pk)
+        return self.cupon.mecanico_id is None and self.cupon.taller_id in (None, taller.pk)
+
+    def valido_con_mecanico(self, mecanico):
+        return self.cupon.mecanico_id == mecanico.pk
+
+    @property
+    def canjeado_donde(self):
+        return self.canjeado_taller or self.canjeado_mecanico

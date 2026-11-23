@@ -1,0 +1,12 @@
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">{% if categoria_obj %}Editar la categoría {{ categoria_obj.nombre }}{% else %}Nueva categoría de proveedores{% endif %}</h1>
+  <p class="cs-sub">Ej.: Lavaderos, Parqueaderos. Todos los proveedores ya tienen nombre, WhatsApp, zonas, horario, foto y precio de referencia; marca campos propios solo si hacen falta.</p>
+</header>
+<form method="post" class="grid grid-cols-1 gap-4 sm:grid-cols-2 max-w-3xl">
+  {% csrf_token %}
+  {% include "proveedores/_campos.html" %}
+  <div class="sm:col-span-2 flex gap-3">
+    <button class="cs-btn cs-btn-ok">Guardar categoría</button>
+    <a class="cs-btn" href="{% url 'consola:inicio' %}?seccion=proveedores">Cancelar</a>
+  </div>
+</form>

@@ -282,3 +282,11 @@ button.boton-google { cursor: pointer; }
 @media (max-width: 480px) {
   .rc-tipo:has(> a:nth-child(3)) a { flex-direction: column; gap: .2rem; font-size: .68rem; }
 }
+/* Subselector de aliado (taller / mecánico / grúa): tarjetas pequeñas con ícono y una línea que explica */
+.rc-subtipo { display: grid; gap: .45rem; margin-top: .6rem; }
+.rc-subtipo a { display: flex; align-items: center; gap: .65rem; min-height: 2.75rem; padding: .5rem .7rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .1); color: var(--crema-2); transition: border-color .2s, background .2s; }
+.rc-subtipo a:hover { border-color: rgba(255, 255, 255, .25); }
+.rc-subtipo a.activo { border-color: var(--lava-2); background: rgba(242, 97, 29, .1); }
+.rc-sub-ico { display: grid; place-items: center; flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 8px; background: rgba(242, 97, 29, .12); color: var(--lava-2); }
+.rc-subtipo b { display: block; font-size: .86rem; font-weight: 600; color: var(--crema); line-height: 1.2; }
+.rc-subtipo small { display: block; font-size: .74rem; color: #8d9496; line-height: 1.3; }

@@ -68,6 +68,7 @@ class MecanicoDomicilio(models.Model):
     zonas = models.ManyToManyField(Zona, related_name="mecanicos", verbose_name="zonas donde atiende")
     servicios = models.ManyToManyField(TipoServicio, related_name="mecanicos", verbose_name="servicios que ofrece")
     marcas = models.ManyToManyField("talleres.Marca", related_name="mecanicos_domicilio", blank=True)
+    multimarca = models.BooleanField("Multimarca", default=False, help_text="Atiende todas las marcas: la ficha dice «Multimarca».")
     anios_experiencia = models.PositiveSmallIntegerField("años de experiencia", default=0,
                                                          validators=[MaxValueValidator(60)])
     horario = models.CharField(max_length=120, blank=True, help_text="Ej: Lun-Sáb 7am-6pm")
@@ -86,6 +87,9 @@ class MecanicoDomicilio(models.Model):
                                     help_text="Separadas por comas. Ej: escáner, multímetro, compresor, gato de moto")
     estado = models.CharField(max_length=12, choices=Estado.choices, default=Estado.PENDIENTE, db_index=True)
     verificado = models.BooleanField(default=False, help_text="TallerYa revisó su identidad y experiencia")
+    mostrar_precios = models.BooleanField(
+        "mostrar precios de referencia", default=False,
+        help_text="Si está apagado, la ficha dice «Cotiza por WhatsApp» en vez de la tabla de precios (como en los talleres).")
     notas_admin = models.TextField("notas internas", blank=True, help_text="Solo las ve el equipo de TallerYa")
     nota_al_mecanico = models.CharField("mensaje para el mecánico", max_length=240, blank=True,
                                         help_text="Lo ve el mecánico en «Mi perfil» (p. ej. qué le falta para aprobarlo)")
@@ -225,6 +229,19 @@ class TallerDomicilio(models.Model):
         from talleres.utils import pesos
         return pesos(self.tarifa_visita) if self.tarifa_visita else ""
 
+    @property
+    def zonas_texto(self):
+        """«Todo el Valle de Aburrá», «Toda Medellín» o la lista de zonas (los atajos del formulario guardan todas)."""
+        zonas = set(self.zonas.all())
+        if not zonas:
+            return ""
+        todas = set(Zona.objects.all())
+        if zonas == todas:
+            return "todo el Valle de Aburrá"
+        if zonas == {z for z in todas if z.ciudad == "Medellín"}:
+            return "toda Medellín"
+        return ", ".join(str(z) for z in sorted(zonas, key=lambda z: (z.orden, z.nombre)))
+
 
 class PrecioMecanico(models.Model):
     """Rango «desde–hasta» que el mecánico publica por servicio y cilindraje, como talleres.PrecioServicio
@@ -313,6 +330,9 @@ class SolicitudVisita(models.Model):
     cotizacion_vence = models.DateField(null=True, blank=True)
     nota = models.CharField("nota del mecánico", max_length=200, blank=True)
     rechazada = models.BooleanField("el motero no aceptó la cotización", default=False)
+    # Descuento de TallerYa que el motero trae a la visita: queda canjeado cuando el mecánico la marca «Atendida»
+    codigo_cupon = models.ForeignKey("cupones.CodigoCupon", on_delete=models.SET_NULL, null=True, blank=True,
+                                     related_name="visitas", verbose_name="descuento")
     token = models.CharField(max_length=32, unique=True, editable=False)
     creado = models.DateTimeField(auto_now_add=True)
 

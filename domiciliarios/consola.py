@@ -1,13 +1,10 @@
-"""Sección «Domiciliarios» de /consola/: cola de verificaciones para aprobar o rechazar con motivo.
+"""Acciones de /consola/ para verificar domiciliarios (se usan desde la ficha del usuario en Usuarios).
 
 Mismo mecanismo que Usuarios, Bitácora y Mecánicos (consola.acciones): solo administradores, POST y bitácora.
-Se registra desde DomiciliariosConfig.ready() y se declara en consola/secciones.py (una línea).
+Se registra desde DomiciliariosConfig.ready(); el contador de pendientes es el badge de Usuarios.
 Las fotos se ven por domiciliarios:verificacion_foto (staff o dueño) y se borran al decidir.
 """
-from django.db.models import Case, IntegerField, Q, Value, When
-
 from consola.acciones import ErrorAccion, accion
-from consola.paginacion import paginar
 
 from . import verificacion as verif
 from .models import Verificacion
@@ -44,17 +41,3 @@ def _rechazar(request, obj):
 def pendientes():
     from .bandera import activo
     return Verificacion.objects.filter(estado=Verificacion.Estado.PENDIENTE).count() if activo() else 0
-
-
-def seccion(request):
-    qs = Verificacion.objects.select_related("perfil__motociclista__usuario", "moto", "revisado_por")
-    q = request.GET.get("q", "").strip()[:80]
-    if q:
-        qs = qs.filter(Q(perfil__motociclista__nombre__icontains=q) | Q(perfil__motociclista__usuario__email__icontains=q))
-    estado = request.GET.get("estado", "")
-    if estado in ESTADOS:
-        qs = qs.filter(estado=estado)
-    qs = qs.annotate(prioridad=Case(When(estado=Verificacion.Estado.PENDIENTE, then=Value(0)), default=Value(1),
-                                    output_field=IntegerField())).order_by("prioridad", "creado" if not estado else "-creado")
-    return "domiciliarios/consola_ruta.html", {"q": q, "estado": estado, "estados": ESTADOS.items(),
-                                               **paginar(request, qs, "talleres")}

@@ -12,28 +12,30 @@
 {% if filas %}
 <div class="cs-tabla-caja"><table class="cs-tabla">
   <caption class="sr-only">Talleres</caption>
-  <thead><tr><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col">Citas</th><th scope="col">Acciones</th></tr></thead>
+  <thead><tr><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col">Citas</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
   <tbody>
   {% for t, analisis in filas %}{% url 'consola:accion' 'talleres.publicar' t.pk as a_pub %}{% url 'consola:accion' 'talleres.verificar' t.pk as a_ver %}{% url 'consola:accion' 'talleres.eliminar' t.pk as a_eli %}{% url 'consola:accion' 'talleres.precios' t.pk as a_pre %}
   <tr>
     <td><a href="{{ t.get_absolute_url }}" class="cs-cuenta-nombre">{{ t.nombre }}</a> <span class="cs-id">#{{ t.pk }}</span>
       <span class="cs-cuenta-correo">{{ t.barrio }}{% if t.usuario %} · <a href="?seccion=usuarios&amp;id={{ t.usuario_id }}">{{ t.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span></td>
-    <td>{% if t.activo %}<span class="cs-estado cs-ok">Publicado</span>{% else %}<span class="cs-estado cs-pend">Por aprobar</span>{% endif %}
+    <td>{% if t.activo %}<span class="cs-estado cs-ok">Publicado</span>{% if t.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}{% else %}<span class="cs-estado cs-pend">Por aprobar</span>
+      {% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" %}{% endif %}
       {% if t.pendiente_de_revision or t.token_revision %}<span class="cs-cuenta-correo">{{ t.get_origen_alta_display }} · {% if t.aprobado_por_taller %}el taller aprobó el {{ t.aprobado_por_taller|date:"d/m H:i" }}{% else %}esperando que el taller apruebe{% endif %}</span>
       <span class="cs-cuenta-correo">Enlace: /ficha/{{ t.token_revision }}/{% if not t.aprobado_por_taller and t.enlace_vencido %} · <strong>vencido</strong>{% endif %}</span>{% endif %}
       {% if t.n_precios_viejos %}<span class="cs-cuenta-correo">Precios sin confirmar hace +{{ dias_precios }} días</span>{% endif %}
-      {% if t.verificado %}<span class="cs-rol cs-rol-motero">Verificado</span>{% endif %}</td>
+</td>
     <td>{{ t.n_citas }}</td>
-    <td><div class="cs-acciones-fila">
-      {% if t.activo %}{% include "consola/_boton_accion.html" with url=a_pub valor="0" texto="Despublicar" confirmar="¿Despublicar el taller? Deja de salir en el directorio." %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Publicar" clase="cs-btn-ok" %}{% endif %}
-      {% if t.token_revision and not t.aprobado_por_taller %}{% url 'consola:accion' 'talleres.renovar_enlace' t.pk as a_ren %}{% include "consola/_boton_accion.html" with url=a_ren valor="1" texto="Renovar enlace" %}{% endif %}
-      {% if t.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" %}{% endif %}
-      {% if t.mostrar_precios %}{% include "consola/_boton_accion.html" with url=a_pre valor="0" texto="Ocultar precios" %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_pre valor="1" texto="Mostrar precios" %}{% endif %}
+    <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
+      <a class="cs-menu-item" href="?seccion=reportes&amp;taller={{ t.pk }}">{% icono "grafica" 16 %} Ver reporte</a>
+      {% if t.activo %}{% include "consola/_boton_accion.html" with url=a_pub valor="0" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el taller? Deja de salir en el directorio hasta que lo reactives." %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Reactivar" icono="ojo" %}{% endif %}
+      {% if t.token_revision and not t.aprobado_por_taller %}{% url 'consola:accion' 'talleres.renovar_enlace' t.pk as a_ren %}{% include "consola/_boton_accion.html" with url=a_ren valor="1" texto="Renovar enlace" icono="enlace" %}{% endif %}
+      {% if t.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" icono="cerrar" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" icono="sello" %}{% endif %}
+      {% if t.mostrar_precios %}{% include "consola/_boton_accion.html" with url=a_pre valor="0" texto="Ocultar precios" icono="ojo_no" %}
+      {% else %}{% include "consola/_boton_accion.html" with url=a_pre valor="1" texto="Mostrar precios" icono="dinero" %}{% endif %}
       {% include "consola/_eliminar_fila.html" with url=a_eli que="el taller" %}
-    </div></td>
+    {% include "consola/_menu_fin.html" %}</td>
   </tr>
   {% endfor %}
   </tbody></table></div>

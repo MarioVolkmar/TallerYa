@@ -106,13 +106,17 @@ def _url(base, ruta, fecha=None):
 
 
 def sitemap_xml(request):
+    from consola.ajustes import ajuste
     from foro.models import Pregunta, Rodada
     base = request.build_absolute_uri("/").rstrip("/")
     u = [_url(base, reverse(n)) for n in (
-        "talleres:inicio", "talleres:directorio", "talleres:emergencias", "foro:lista", "foro:rodadas", "cupones:lista")]
+        "talleres:inicio", "talleres:directorio", "talleres:emergencias", "cupones:lista")]
+    if ajuste("foro_activo"):
+        u += [_url(base, reverse(n)) for n in ("foro:lista", "foro:rodadas")]
     from domicilio.models import MecanicoDomicilio
-    u.append(_url(base, reverse("domicilio:listado")))
-    u += [_url(base, m.get_absolute_url()) for m in MecanicoDomicilio.objects.publicados().only("slug")]
+    if ajuste("mecanicos_activo"):
+        u.append(_url(base, reverse("domicilio:listado")))
+        u += [_url(base, m.get_absolute_url()) for m in MecanicoDomicilio.objects.publicados().only("slug")]
     talleres = list(Taller.objects.filter(activo=True).select_related("barrio").prefetch_related("servicios"))
     barrios, servicios, combos = set(), set(), set()
     for t in talleres:
@@ -124,10 +128,11 @@ def sitemap_xml(request):
     u += [_url(base, reverse("talleres:barrio", args=[x])) for x in sorted(barrios)]
     u += [_url(base, reverse("talleres:servicio", args=[x])) for x in sorted(servicios)]
     u += [_url(base, reverse("talleres:servicio_barrio", args=[a, b])) for a, b in sorted(combos)]
-    for p in Pregunta.objects.filter(visible=True).only("id", "titulo", "ultima_actividad"):
-        u.append(_url(base, p.get_absolute_url(), p.ultima_actividad))
-    for r in Rodada.objects.filter(pregunta__visible=True).select_related("pregunta"):
-        u.append(_url(base, r.get_absolute_url()))
+    if ajuste("foro_activo"):
+        for p in Pregunta.objects.filter(visible=True).only("id", "titulo", "ultima_actividad"):
+            u.append(_url(base, p.get_absolute_url(), p.ultima_actividad))
+        for r in Rodada.objects.filter(pregunta__visible=True).select_related("pregunta"):
+            u.append(_url(base, r.get_absolute_url()))
     from garaje import despiece_publico as dp  # despiece público: índice, cada moto y cada sistema
     u.append(_url(base, reverse("garaje:despiece_indice")))
     for d in dp.despieces():

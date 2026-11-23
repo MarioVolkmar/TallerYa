@@ -1,4 +1,4 @@
-"""Sección Talleres: aprobar/publicar, despublicar, verificar y eliminar con eliminación segura."""
+"""Sección Talleres: aprobar, pausar/reactivar, verificar y eliminar con eliminación segura."""
 from django.db.models import Count, Q
 
 from talleres.models import Taller
@@ -29,7 +29,7 @@ def _exigir_aprobacion(request, taller, valor):
 
 
 interruptor("talleres.publicar", modelo=Taller, campo="activo", etiqueta="Publicado en el directorio",
-            nombre="Publicar o despublicar taller", si="Publicó", no="Despublicó",
+            nombre="Pausar o reactivar taller", si="Reactivó", no="Pausó",
             describe="el taller #{pk} ({obj.nombre})", antes_de=_exigir_aprobacion, despues_de=_avisar_publicado)
 interruptor("talleres.verificar", modelo=Taller, campo="verificado", etiqueta="Verificado",
             nombre="Verificar taller", si="Verificó", no="Quitó la verificación",

@@ -3,9 +3,6 @@
    Si una clase de aquí pasa a usarse en otra sección, muévela a tallerya.css. */
 /* Editar perfil */
 .perfil-checks { display: flex; flex-wrap: wrap; gap: .5rem; }
-.perfil-check { cursor: pointer; }
-.perfil-check input { position: absolute; opacity: 0; pointer-events: none; }
-.perfil-check input:focus-visible + span { outline: 2px solid var(--mostaza); outline-offset: 2px; }
 .editar-galeria { display: grid; grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); gap: .6rem; }
 .editar-galeria-foto { position: relative; aspect-ratio: 1; border-radius: 12px; overflow: hidden; }
 .editar-galeria-foto img { width: 100%; height: 100%; object-fit: cover; }
@@ -82,27 +79,6 @@
   .inicio-taller-rejilla { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 2.5rem; }
   .inicio-taller .rtm { height: 16rem; }
 }
-.pt-cabeza { display: grid; gap: 1.2rem; padding: 1.4rem; }
-.pt-estado { margin-top: .35rem; font-size: .85rem; color: #9ba2a4; }
-.pt-ok { display: inline-flex; align-items: center; gap: .3rem; color: #86dba6; font-weight: 600; }
-.pt-revision { color: var(--mostaza); font-weight: 600; }
-.pt-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .8rem; margin-top: .9rem; }
-.pt-completo-fila { display: flex; justify-content: space-between; font-size: .78rem; color: #9ba2a4; }
-.pt-barra { height: 7px; border-radius: 999px; background: #2b3437; overflow: hidden; }
-.pt-faltan { font-size: .74rem; color: #8d9496; line-height: 1.4; }
-@media (min-width: 900px) {
-  .pt-cabeza { grid-template-columns: auto minmax(0, 1fr) 17rem; align-items: start; padding: 1.7rem; }
-}
-.pt-cifras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
-@media (min-width: 768px) {
-  .pt-cifras { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-.pt-cifra { --c: var(--crema); display: grid; gap: .1rem; padding: .9rem 1rem; border-radius: 16px; background: #1c2326; border: 1px solid rgba(255, 255, 255, .06); transition: border-color .2s; }
-a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); }
-.pt-lava { --c: var(--lava-2); }
-.pt-mostaza { --c: var(--mostaza); }
-.pt-rosa { --c: #ff8a8e; }
-.pt-verde { --c: #86dba6; }
 .pt-rejilla { display: grid; gap: 1.1rem; align-items: start; }
 @media (min-width: 1024px) {
   .pt-rejilla { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); }
@@ -140,35 +116,10 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .pt-responder summary { margin-top: .35rem; font-size: .76rem; font-weight: 700; color: var(--mostaza); cursor: pointer; list-style: none; }
 .pt-responder summary::-webkit-details-marker { display: none; }
 .pt-respondida { color: #86dba6; }
-.pt-cupones, .pt-foro { display: grid; gap: .5rem; }
-.pt-cupones li svg { flex-shrink: 0; margin-top: .15rem; color: var(--mostaza); }
 .pt-foro a:hover { background: rgba(227, 167, 47, .08); }
 /* Panel del taller: avatar editable, botón de cuenta y cerrar sesión */
-.pt-avatar { align-self: start; }
+.pt-avatar { align-self: start; justify-self: start; }
 .pt-boton-icono { display: inline-flex; align-items: center; gap: .4rem; }
-.pt-cupon-datos { min-width: 0; flex: 1; }
-.pt-cupon-titulo { font-weight: 700; font-size: .88rem; color: var(--crema); }
-.pt-cupon-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; margin-top: .25rem; font-size: .72rem; color: #8d9496; }
-.pt-cupon-botones { display: flex; gap: .3rem; }
-.pt-nuevo-cupon { display: flex; align-items: center; justify-content: center; gap: .4rem; margin-top: .8rem; padding: .7rem; border-radius: 12px;
-  border: 1.5px dashed rgba(227, 167, 47, .45); color: var(--mostaza); font-size: .84rem; font-weight: 700; transition: background .2s, border-color .2s; }
-.pt-nuevo-cupon:hover { background: rgba(227, 167, 47, .08); border-color: var(--mostaza); }
-/* Crear / editar cupón */
-.cf { display: grid; gap: 1.2rem; align-items: start; }
-.cf-form { padding: 1.4rem; display: grid; gap: 1.1rem; }
-.cf-vista-etiqueta { font-size: .66rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #8d9496; margin-bottom: .5rem; }
-.cf-ticket { border-radius: 18px; background: #1c2326; border: 1px solid rgba(227, 167, 47, .3); padding: 1.1rem 1.2rem; }
-.cf-ticket-taller { font-size: .72rem; font-weight: 700; color: var(--mostaza); }
-.cf-ticket-titulo { margin-top: .3rem; font-family: "Oswald", sans-serif; font-size: 1.4rem; line-height: 1.15; color: var(--crema); word-break: break-word; }
-.cf-ticket-cond { margin-top: .4rem; font-size: .76rem; color: #9ba2a4; }
-.cf-ticket-cond:empty { display: none; }
-.cf-ticket-corte { margin: .9rem -1.2rem; border-top: 2px dashed rgba(255, 255, 255, .12); }
-.cf-ticket-pie { display: flex; align-items: center; justify-content: space-between; gap: .6rem; font-size: .76rem; color: #9ba2a4; }
-.cf-ticket-qr { width: 2.6rem; height: 2.6rem; display: grid; place-items: center; border-radius: 8px; background: #fff; color: #14191b; font-size: .6rem; font-weight: 800; }
-@media (min-width: 900px) {
-  .cf { grid-template-columns: minmax(0, 1fr) 17rem; }
-  .cf-vista { position: sticky; top: 5.5rem; }
-}
 .it-revision { margin-top: .8rem; display: inline-block; padding: .5rem .8rem; border-radius: 12px; font-size: .85rem; color: var(--mostaza); background: rgba(227, 167, 47, .1); border: 1px solid rgba(227, 167, 47, .35); }
 .it-citas { display: grid; gap: .55rem; }
 .it-citas .pt-cita { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; }
@@ -242,11 +193,6 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .lr-barra { height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .07); overflow: hidden; }
 .lr-barra span { display: block; height: 100%; background: var(--mostaza); }
 .lr-reparto small { text-align: right; }
-.cf-ayuda { margin-top: -.4rem; }
-.cf-ticket-datos { display: grid; gap: .15rem; min-width: 0; }
-.cf-ticket-qr { width: 3.6rem; height: 3.6rem; flex-shrink: 0; padding: .2rem; border-radius: 8px; background: #fff; }
-.cf-ticket-qr svg { display: block; width: 100%; height: 100%; }
-.cf-ticket-nota { margin-top: .7rem; font-size: .7rem; color: #8d9496; }
 /* Cancelar cita: advertencia */
 .cn-aviso { display: flex; gap: .7rem; padding: .85rem 1rem; border-radius: 14px; background: rgba(255, 106, 80, .08); border: 1px solid rgba(255, 106, 80, .35); color: #ff8a70; }
 .cn-aviso svg { flex-shrink: 0; margin-top: .1rem; }
@@ -330,11 +276,6 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 @media (max-width: 760px) {
   .cm-columnas { grid-template-columns: 1fr; }
 }
-/* Panel del taller: botones de acciones del mismo ancho (rejilla) */
-.pt-acciones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; }
-@media (max-width: 640px) {
-  .pt-acciones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 /* Portada: trámites de tu moto */
 .tp-rejilla { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
 .tp-dato { align-self: flex-start; padding: .2rem .65rem; border-radius: 999px; background: rgba(232, 169, 42, .12); color: var(--mostaza, #e8a92a); font-size: .76rem; font-weight: 700; }
@@ -374,21 +315,18 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .perfil-mecanico-inicial { display: grid; place-items: center; flex-shrink: 0; width: 2.8rem; height: 2.8rem; border-radius: 50%; background: rgba(242, 97, 29, .16); color: var(--lava-2); font-family: "Oswald", sans-serif; font-size: 1.2rem; }
 .perfil-mecanico-rol { font-family: "Oswald", sans-serif; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; color: var(--lava-2); margin-top: .2rem; }
 /* Editar perfil: equipo e indicador */
-.equipo-fila { display: grid; grid-template-columns: 1.3fr 1fr .6fr 1.3fr; gap: .6rem; }
+.equipo-fila[hidden] { display: none; }
+.equipo-fila { display: grid; grid-template-columns: 1.3fr 1fr .7fr 1.3fr; gap: .6rem; }
+.equipo-fila .equipo-otra:not([hidden]) { grid-column: 1 / -1; }
 @media (max-width: 640px) {
-  .equipo-fila { grid-template-columns: 1fr 1fr; padding-bottom: .9rem; border-bottom: 1px solid rgba(255, 255, 255, .06); }
+  /* Cada persona, una tarjeta pequeña */
+  .equipo-fila { grid-template-columns: 1.5fr 1fr; padding: .8rem; border: 1px solid rgba(255, 255, 255, .08); border-radius: .6rem; background: rgba(255, 255, 255, .02); }
+  .equipo-fila .equipo-nombre, .equipo-fila .equipo-esp { grid-column: 1 / -1; }
 }
 .contador-texto { font-size: .75rem; color: var(--crema-2); text-align: right; margin-top: .25rem; }
 /* Talleres que también van a domicilio (app domicilio) */
 .tc-chapa-dom { background: var(--mostaza); color: #2a1d02; }
 /* Panel del taller: interruptor «Va a domicilio» (un toque, sin salir del panel) */
-.pt-domicilio { display: inline-flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
-.pt-domicilio-btn { display: inline-flex; align-items: center; gap: .5rem; }
-.pt-switch { width: 2rem; height: 1.1rem; border-radius: 1rem; background: var(--borde); position: relative; flex-shrink: 0; transition: background .2s; }
-.pt-switch::after { content: ""; position: absolute; top: .15rem; left: .15rem; width: .8rem; height: .8rem; border-radius: 50%; background: var(--crema); transition: transform .2s; }
-.pt-domicilio-btn[aria-checked="true"] .pt-switch { background: #3fbf6b; }
-.pt-domicilio-btn[aria-checked="true"] .pt-switch::after { transform: translateX(.9rem); }
-.pt-domicilio-zonas { font-size: .78rem; color: var(--lava-2); text-decoration: underline; text-underline-offset: 3px; }
 .tp-diag { grid-column: 1 / -1; }
 
 /* Cotización del taller en la cita (_dialogo_cotizar.html, _cita_item.html y cita_publica.html) */
@@ -398,3 +336,4 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 /* Paso 3: confirmar precios y fichas de alta sin cuenta */
 .tf-confirmar { border: 1px solid var(--linea, #d9d4c8); border-radius: 12px; padding: .75rem 1rem; }
 .sello-verificada { display: inline-block; font-size: .7rem; font-weight: 700; color: #1f7a4a; border: 1px solid currentColor; border-radius: 999px; padding: 0 .5rem; white-space: nowrap; }
+

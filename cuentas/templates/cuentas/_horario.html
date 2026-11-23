@@ -1,0 +1,14 @@
+{# Horario por filas de días y horas (registro de taller y de mecánico). Parámetros: campo, clase. Va con _horario_js.html #}
+<div class="rc-campo {{ clase }}{% if campo.errors %} con-error{% endif %}">
+  <div class="rc-etiqueta"><span class="campo-label">Horario <span class="rc-opcional">(opcional)</span></span><span class="rc-pista">Días y horas de atención</span></div>
+  <div class="hz" data-horario>
+    <input type="hidden" name="{{ campo.html_name }}" id="id_horario" value="{{ campo.value|default:'' }}">
+    <div class="hz-filas"></div>
+    <div class="hz-pie">
+      <button type="button" class="hz-agregar"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar otro horario</button>
+      <span class="hz-resumen" aria-live="polite"></span>
+    </div>
+    <div class="hz-pop" hidden role="listbox" aria-label="Elige la hora"></div>
+  </div>
+  {% for e in campo.errors %}<p class="error">{{ e }}</p>{% endfor %}
+</div>

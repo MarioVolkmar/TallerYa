@@ -60,3 +60,20 @@ class CuponTallerForm(EstiloMixin, forms.ModelForm):
         if fecha and fecha < timezone.localdate():
             raise forms.ValidationError("La fecha ya pasó. Elige una fecha de hoy en adelante.")
         return fecha
+
+
+class DescuentoMecanicoForm(CuponTallerForm):
+    """Lo mismo para el mecánico a domicilio (en la interfaz, «descuento»; sin «solo Plus», que está oculto en el piloto)."""
+
+    class Meta(CuponTallerForm.Meta):
+        fields = ["titulo", "condiciones", "valido_hasta", "cupo"]
+        labels = {**CuponTallerForm.Meta.labels, "cupo": "¿Para cuántos moteros?"}
+        widgets = {**CuponTallerForm.Meta.widgets,
+                   "titulo": forms.TextInput(attrs={"placeholder": "10% en cambio de aceite si lo pides por TallerYa"})}
+
+
+class ValidarCodigoForm(EstiloMixin, forms.Form):
+    codigo = forms.CharField(
+        label="Código del descuento", max_length=12,
+        widget=forms.TextInput(attrs={"placeholder": "TY-XXXXXX", "autocapitalize": "characters", "autocomplete": "off"}),
+    )

@@ -48,11 +48,17 @@ def ruta_portada(context):
 
 @register.inclusion_tag("domiciliarios/_ruta_moto.html", takes_context=True)
 def ruta_moto(context, moto, plan):
-    if not activo():
+    prendido = activo()
+    por_uso = bool(getattr(plan, "por_uso_trabajo", False))  # uso «Trabajo o domicilios», sin ser de Ruta
+    if not prendido and not por_uso:
         return {"mostrar": False}
-    datos = {"mostrar": True, "moto": moto, "request": context.get("request"),
-             "csrf_token": context.get("csrf_token"), "de_trabajo": bool(getattr(plan, "de_trabajo", False))}
+    datos = {"mostrar": prendido, "por_uso": por_uso, "moto": moto, "request": context.get("request"),
+             "csrf_token": context.get("csrf_token"),
+             "de_trabajo": prendido and bool(getattr(plan, "de_trabajo", False)),
+             "km_dia": round(plan.km_por_dia) if plan.km_por_dia else None}
     if not datos["de_trabajo"]:
+        # La tarjeta invita a Ruta solo con el módulo prendido y si no tiene perfil de domiciliario
+        datos["invitar"] = prendido and por_uso and _perfil(context) is None
         return datos
     from garaje import pico_placa
     from ..models import verificacion_vigente
@@ -61,7 +67,6 @@ def ruta_moto(context, moto, plan):
     datos.update({
         "pyp": pico_placa.resumen(moto, hoy),
         "manana_pyp": pico_placa.tiene_pico_placa(moto, hoy + timedelta(days=1))[0] if moto.placa else False,
-        "km_dia": round(plan.km_por_dia) if plan.km_por_dia else None,
         "verificado": (vigente := verificacion_vigente(perfil, hoy) if perfil else None),
         "verif_pendiente": bool(perfil) and not vigente and perfil.verificaciones.filter(estado="pendiente").exists(),
         "jornada_hoy": perfil.jornadas.filter(fecha=hoy).exists() if perfil else False,

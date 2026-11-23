@@ -92,7 +92,7 @@
     </a>
     {% endif %}
 
-{% if not oculta_social %}
+{% if foro_activo %}
     <section class="papel pt-caja">
       <header class="pt-caja-cabeza"><h2 class="titulo text-xl">Preguntas para ti</h2><a href="{% url 'foro:lista' %}" class="pt-enlace">Ir al foro</a></header>
       <ul class="pt-foro">
