@@ -108,10 +108,9 @@
 
   {% if numeros.trabajo %}
   <!-- En qué es bueno y cómo trabaja -->
-  <section>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.trabajo }}</span>En qué es bueno y cómo trabaja</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
+  <details class="seccion-pleg" id="trabajo" data-pleg="trabajo" open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.trabajo titulo="En qué es bueno y cómo trabaja" %}
+    <div class="seccion-cuerpo-pleg grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
       <div class="papel p-6 space-y-5">
         {% if m.anios_experiencia %}<div><h3 class="perfil-subtitulo">Experiencia</h3><p class="mt-2"><strong class="text-2xl">{{ m.anios_experiencia }}</strong> año{{ m.anios_experiencia|pluralize }} reparando motos</p></div>{% endif %}
         {% if especialidades %}<div><h3 class="perfil-subtitulo">Especialidades</h3><div class="perfil-chips mt-3">{% for e in especialidades %}<span class="perfil-chip">{{ e }}</span>{% endfor %}</div></div>{% endif %}
@@ -127,27 +126,24 @@
       </div>
       {% endif %}
     </div>
-  </section>
+  </details>
   {% endif %}
 
   {% if descuentos %}
   <!-- Cupones (por dentro son cupones de TallerYa) -->
-  <section id="descuentos">
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.descuentos }}</span>Cupones si lo pides por TallerYa</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <details class="seccion-pleg" id="descuentos" data-pleg="cupones" open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.descuentos titulo="Cupones si lo pides por TallerYa" dato=datos_pleg.descuentos %}
+    <div class="seccion-cuerpo-pleg grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {% for cupon in descuentos %}{% include "cupones/_ticket.html" with con_boton=True %}{% endfor %}
     </div>
-  </section>
+  </details>
   {% endif %}
 
   <!-- Reseñas -->
-  <section id="resenas">
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.resenas }}</span>Reseñas</h2>
-      {% if m.publicado and not es_dueno %}{% if user.is_authenticated %}<button type="button" class="boton-seccion" data-abrir="dialogo-resena">★ {% if mi_resena %}Editar mi reseña{% else %}Escribir reseña{% endif %}</button>{% else %}<a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}%23resenas" class="boton-seccion">★ Entra para calificar</a>{% endif %}{% endif %}
-    </div>
-    <div class="separador mt-4 mb-6"></div>
+  <details class="seccion-pleg" id="resenas" data-pleg="resenas" data-movil-cerrada open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.resenas titulo="Reseñas" dato=datos_pleg.resenas %}
+    <div class="seccion-cuerpo-pleg">
+    {% if m.publicado and not es_dueno %}<div class="seccion-acciones">{% if user.is_authenticated %}<button type="button" class="boton-seccion" data-abrir="dialogo-resena">★ {% if mi_resena %}Editar mi reseña{% else %}Escribir reseña{% endif %}</button>{% else %}<a href="{% url 'cuentas:entrar' %}?next={{ request.path|urlencode }}%23resenas" class="boton-seccion">★ Entra para calificar</a>{% endif %}</div>{% endif %}
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3 items-start">
       <div class="papel p-6 perfil-puntaje">
         <p class="perfil-puntaje-numero">{% if nota.prom %}{{ nota.prom|floatformat:1 }}{% else %}–{% endif %}</p>
@@ -170,13 +166,13 @@
         {% empty %}<p class="text-suave text-sm">Aún no hay reseñas.{% if m.publicado and not es_dueno %} ¿Te atendió? Sé el primero en calificarlo.{% endif %}</p>{% endfor %}
       </div>
     </div>
-  </section>
+    </div>
+  </details>
 
   <!-- Zona de cobertura (en vez del mapa del taller: no tiene local, va a donde está la moto) -->
-  <section id="cobertura">
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.cobertura }}</span>Zona de cobertura</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="papel p-6 md:p-8 space-y-5">
+  <details class="seccion-pleg" id="cobertura" data-pleg="cobertura" open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.cobertura titulo="Zona de cobertura" %}
+    <div class="seccion-cuerpo-pleg papel p-6 md:p-8 space-y-5">
       {% if zonas_medellin %}<div><h3 class="perfil-subtitulo">Medellín</h3><ul class="dom-zonas mt-3">{% for z in zonas_medellin %}<li>📍 {{ z.nombre }}</li>{% endfor %}</ul></div>{% endif %}
       {% if zonas_municipios %}<div><h3 class="perfil-subtitulo">Valle de Aburrá</h3><ul class="dom-zonas mt-3">{% for z in zonas_municipios %}<li>📍 {{ z }}</li>{% endfor %}</ul></div>{% endif %}
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 text-suave">
@@ -184,8 +180,9 @@
         <p class="flex gap-2.5"><span aria-hidden="true">🚨</span><span>{% if m.urgencias %}Sale a atender motos varadas, también fuera de su horario{% else %}No atiende urgencias: mejor con cita{% endif %}</span></p>
       </div>
     </div>
-  </section>
+  </details>
 </div>
+<script src="{% static 'talleres/js/secciones-pleg.js' %}" defer></script>
 
 {% if m.publicado %}
 <!-- Ventana: solicitar visita (arma el mensaje de WhatsApp; TallerYa no guarda nada) -->

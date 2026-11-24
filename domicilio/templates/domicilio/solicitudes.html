@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Solicitudes de visita · {{ m.nombre }} · TallerYa{% endblock %}
 {% block content %}
-<div class="mt-8 md:mt-10">
+{% load static %}<link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
+<div class="mt-8 md:mt-10 vd-pagina">
   {% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" %}
   <h1 class="titulo text-4xl md:text-5xl mt-4">Solicitudes de <span class="text-lava">visita</span></h1>
   <div class="lt-barra">
@@ -11,44 +12,12 @@
     </nav>
   </div>
   <section class="papel pt-caja mt-4">
-  {% if lista %}
-  <ul class="vd-lista">
-    {% for s in lista %}
-    <li class="vd-item" id="visita-{{ s.pk }}">
-      <div class="vd-cabeza">
-        <p class="vd-quien">{{ s.nombre }}{% if s.moto %} <span>· {{ s.moto }}</span>{% endif %}</p>
-        <span class="vd-chip vd-{{ s.estado }}">{{ s.get_estado_display }}</span>
-      </div>
-      <p class="vd-que">{% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}{% if s.zona %} · {{ s.zona }}{% endif %}{% if s.cuando_texto %} · {{ s.cuando_texto }}{% endif %} · <span class="text-suave">{{ s.creado|timesince }}</span></p>
-      {% if s.detalle %}<p class="vd-detalle">“{{ s.detalle }}”</p>{% endif %}
-      {% if s.precio_texto %}<p class="vd-precio">{% if s.estado == "cotizada" %}Cotizaste{% else %}Precio{% endif %} <strong>{{ s.precio_texto }}</strong>{% if s.fecha_propuesta %} · {{ s.fecha_propuesta|date:"D j M"|lower }}{% if s.hora_propuesta %} {{ s.hora_propuesta|time:"g:i a" }}{% endif %}{% endif %}{% if s.estado == "cotizada" and s.cotizacion_vencida %} · <span class="vd-rechazo">venció</span>{% endif %}</p>{% endif %}
-      {% if s.codigo_cupon %}<p class="vd-descuento"><span class="vd-chip vd-confirmada">{% if s.codigo_cupon.canjeado %}Cupón usado{% else %}Trae cupón{% endif %}</span> {{ s.codigo_cupon.cupon.titulo }} <span class="text-suave">· {{ s.codigo_cupon.codigo }}</span></p>
-      {% elif s.estado == "pendiente" or s.estado == "cotizada" or s.estado == "confirmada" %}<details class="vd-codigo"><summary>¿Trae un código de cupón?</summary>
-        <form method="post" action="{% url 'domicilio:solicitud_descuento' s.pk %}">{% csrf_token %}<label class="sr-only" for="codigo-{{ s.pk }}">Código del cupón</label><input id="codigo-{{ s.pk }}" type="text" name="codigo" class="campo" maxlength="12" placeholder="TY-XXXXXX" autocapitalize="characters" autocomplete="off"><button class="boton-seccion">Anotar</button></form>
-        <p class="text-suave">Se usa al marcar la visita como atendida.</p></details>{% endif %}
-      {% if s.rechazada and s.estado == "pendiente" %}<p class="vd-rechazo">No aceptó tu cotización: escríbele para acordar otra opción.</p>{% endif %}
-      <div class="vd-botones">
-        <a href="https://wa.me/{{ s.telefono }}" target="_blank" rel="noopener" class="boton-seccion">WhatsApp</a>
-        {% if s.estado == "pendiente" or s.estado == "cotizada" %}
-        <button type="button" class="btn btn-lava text-xs px-5 py-2" data-cotizar="{% url 'domicilio:solicitud_cotizar' s.pk %}" data-nombre="{{ s.nombre }}" data-que="{% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}" data-fecha="{{ s.fecha_propuesta|default:hoy|date:'Y-m-d' }}" data-hora="{{ s.hora_propuesta|time:'H:i' }}">{% if s.estado == "cotizada" %}Cambiar cotización{% else %}Cotizar{% endif %}</button>
-        {% endif %}
-        {% if puede_registrar and s.estado == "confirmada" or puede_registrar and s.estado == "atendida" %}
-        {% if s.servicio_registrado %}<span class="vd-chip vd-atendida">Servicio en su hoja de vida</span>
-        {% else %}<a href="{% url 'garaje:servicio_visita' s.pk %}" class="btn btn-lava text-xs px-5 py-2">Registrar servicio</a>{% endif %}
-        {% endif %}
-        <form method="post" action="{% url 'domicilio:solicitud_estado' s.pk %}" class="vd-form">{% csrf_token %}
-          {% if s.estado == "pendiente" %}<button name="estado" value="confirmada" class="boton-seccion">Confirmar sin cotizar</button>{% endif %}
-          {% if s.estado == "confirmada" %}<button name="estado" value="atendida" class="boton-seccion">Marcar atendida</button>{% endif %}
-          {% if s.estado != "cancelada" and s.estado != "atendida" %}<button name="estado" value="cancelada" class="boton-texto">Cancelar</button>{% endif %}
-        </form>
-      </div>
-    </li>
-    {% endfor %}
+  <ul class="pt-citas">
+    {% for t in tarjetas %}{% include "talleres/_solicitud.html" %}
+    {% empty %}<li class="pt-vacio"><p>{% if todas %}Aún no te han pedido visitas desde TallerYa.{% else %}No tienes solicitudes por atender.{% endif %}</p><small>Cuando un motero te pida una visita desde tu perfil, aparece aquí y te llega un aviso.</small></li>{% endfor %}
   </ul>
-  {% else %}
-  <ul class="vd-lista"><li class="pt-vacio"><p>{% if todas %}Aún no te han pedido visitas desde TallerYa.{% else %}No tienes solicitudes por atender.{% endif %}</p><small>Cuando un motero te pida una visita desde tu perfil, aparece aquí y te llega un aviso.</small></li></ul>
-  {% endif %}
   </section>
 </div>
 {% include "talleres/_dialogo_cotizar.html" %}
+{% include "talleres/_dialogo_cancelar.html" with sustantivo="visita" %}
 {% endblock %}

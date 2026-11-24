@@ -14,7 +14,7 @@
   </div>
   <section class="papel pt-caja mt-4">
     <ul class="pt-citas">
-      {% for c in pagina %}{% include "talleres/_cita_item.html" %}
+      {% for t in tarjetas %}{% include "talleres/_solicitud.html" %}
       {% empty %}<li class="pt-vacio"><p>No hay citas {% if q %}que coincidan con «{{ q }}»{% else %}en esta lista{% endif %}.</p></li>{% endfor %}
     </ul>
     {% include "talleres/_paginas.html" %}

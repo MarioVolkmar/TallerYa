@@ -1,0 +1,41 @@
+{% load humanize %}{# Tarjeta única de solicitud (cita del taller o visita del mecánico) con sus acciones. Variable: t (talleres/negocio.py) #}
+<li class="pt-cita estado-{{ t.estado }} scroll-mt-24" id="{{ t.id }}"{% if t.con_detalle %} data-cita-detalle="{{ t.pk }}" title="Ver detalle"{% endif %}>
+  <div class="pt-cita-fecha"><strong>{{ t.fecha|date:"j" }}</strong><span>{{ t.fecha|date:"M"|lower }}</span></div>
+  <div class="pt-cita-datos">
+    <p class="pt-cita-quien">{{ t.nombre }}{% if t.moto %} <span>· {{ t.moto }}</span>{% endif %}</p>
+    <p class="pt-cita-estado"><span class="pt-chip chip-{{ t.chip }}">{{ t.estado_texto }}</span>{% if t.registrado %} <span class="pt-chip chip-atendida">Servicio en su hoja de vida</span>{% endif %}</p>
+    <p class="pt-cita-que">{{ t.que }}{% if t.lugar %} · {{ t.lugar }}{% endif %} · <span class="pt-hace">{{ t.creado|naturaltime }}</span>{% if t.vencida %} · <span class="pt-vencida">la fecha ya pasó</span>{% endif %}</p>
+    {% if t.detalle %}<p class="pt-cita-detalle">“{{ t.detalle }}”</p>{% endif %}
+    {% if t.precio %}<p class="pt-propuesta">{% if t.estado_texto == "Cotizada" %}Cotizaste{% else %}Precio acordado:{% endif %} <strong>{{ t.precio }}</strong>{% if t.incluye %} · {{ t.incluye }}{% endif %}{% if t.fecha_hora %} · {{ t.fecha_hora.fecha|date:"D j M"|lower }}{% if t.fecha_hora.hora %} {{ t.fecha_hora.hora|time:"g:i a" }}{% endif %}{% endif %}{% if t.precio_vencio %} · <span class="pt-vencida">venció</span>{% endif %}</p>{% endif %}
+    {% if t.propuesta %}<p class="pt-propuesta">Propusiste <strong>{{ t.propuesta.fecha|date:"l j M"|lower }}{% if t.propuesta.hora %} · {{ t.propuesta.hora|time:"g:i a" }}{% endif %}</strong>. Esperando que {{ t.nombre }} la acepte.</p>{% endif %}
+    {% if t.motivo %}<p class="pt-cita-detalle">Motivo: {{ t.motivo }}</p>{% endif %}
+    {% if t.rechazo %}<p class="pt-rechazo">{{ t.rechazo }}</p>{% endif %}
+    {% if t.cupon %}<p class="pt-cita-cupon"><span class="pt-chip chip-confirmada">{% if t.cupon.usado %}Cupón usado{% else %}Trae cupón{% endif %}</span> {{ t.cupon.titulo }} <span class="text-suave">· {{ t.cupon.codigo }}</span></p>
+    {% elif t.cupon_anotar %}<details class="pt-cita-cupon-anotar"><summary>¿Trae un código de cupón?</summary>
+      <form method="post" action="{{ t.cupon_anotar }}">{% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}"><label class="sr-only" for="codigo-{{ t.id }}">Código del cupón</label><input id="codigo-{{ t.id }}" type="text" name="codigo" class="campo" maxlength="12" placeholder="TY-XXXXXX" autocapitalize="characters" autocomplete="off"><button class="pt-boton">Anotar</button></form>
+      <p class="text-suave">Se usa al marcar la {{ t.sustantivo }} como atendida.</p></details>{% endif %}
+  </div>
+  <div class="pt-cita-lado">
+    <div class="pt-cita-botones">
+      {% if t.whatsapp_url %}<a href="{{ t.whatsapp_url }}" target="_blank" rel="noopener" class="pt-wa" title="Escribirle por WhatsApp" aria-label="Escribir a {{ t.nombre }} por WhatsApp"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></svg></a>{% endif %}
+      <form method="post" action="{{ t.form }}" class="pt-cita-form">{% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
+        {% for b in t.botones %}
+        {% if b.tipo == "cotizar" %}<button type="button" class="pt-boton pt-boton-lava pt-b2" data-cotizar="{{ b.url }}" data-nombre="{{ b.nombre }}" data-que="{{ b.que }}" data-fecha="{{ b.fecha|date:'Y-m-d' }}" data-hora="{{ b.hora|time:'H:i' }}">{{ b.texto }}</button>
+        {% elif b.tipo == "estado" %}<button name="estado" value="{{ b.valor }}" class="pt-boton pt-boton-{{ b.clase }} pt-b1">{{ b.texto }}</button>
+        {% else %}<a href="{{ b.url }}" class="pt-boton pt-boton-{{ b.clase }} pt-b1">{{ b.texto }}</a>{% endif %}
+        {% endfor %}
+        {% if t.menu %}
+        <details class="pt-mas"><summary aria-label="Más acciones de {{ t.nombre }}">⋯</summary><div class="pt-mas-menu">
+        {% for b in t.menu %}
+        {% if b.tipo == "reprogramar" %}<button type="button" class="pt-menu-item" data-reprogramar="{{ b.url }}" data-nombre="{{ b.nombre }}" data-fecha="{{ b.fecha|date:'Y-m-d' }}">{{ b.texto }}</button>
+        {% elif b.tipo == "cotizar" %}<button type="button" class="pt-menu-item" data-cotizar="{{ b.url }}" data-nombre="{{ b.nombre }}" data-que="{{ b.que }}" data-fecha="{{ b.fecha|date:'Y-m-d' }}" data-hora="{{ b.hora|time:'H:i' }}">{{ b.texto }}</button>
+        {% elif b.tipo == "estado" %}<button name="estado" value="{{ b.valor }}" class="pt-menu-item">{{ b.texto }}</button>
+        {% elif b.tipo == "cancelar" %}<button type="button" class="pt-menu-item" data-cancelar="{{ b.url }}" data-nombre="{{ b.nombre }}" data-fecha="{{ b.fecha|date:'l j \d\e F'|lower }}" data-confirmada="{% if b.confirmada %}1{% endif %}">Cancelar</button>{% endif %}
+        {% endfor %}
+        </div></details>
+        {% elif t.reabrir %}<button name="estado" value="pendiente" class="pt-boton">Reabrir</button>{% endif %}
+      </form>
+    </div>
+  </div>
+</li>
+{% if t.con_detalle %}{% include "talleres/_cita_detalle.html" with c=t.obj %}{% endif %}

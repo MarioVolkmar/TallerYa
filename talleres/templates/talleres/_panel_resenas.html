@@ -1,0 +1,9 @@
+{# Caja «Reseñas» del panel del negocio (taller o mecánico). Variables: resenas, nota, sin_responder, url_todas, vacio #}
+<section class="papel pt-caja scroll-mt-24" id="resenas">
+  <header class="pt-caja-cabeza"><h2 class="titulo text-xl">Reseñas</h2>{% if nota.n %}{% include "talleres/_calificacion.html" %}{% endif %}</header>
+  <ul class="pt-resenas">
+    {% for r in resenas %}{% include "talleres/_resena_item.html" %}
+    {% empty %}<li class="pt-vacio-chico">{{ vacio }}</li>{% endfor %}
+  </ul>
+  {% if nota.n > resenas|length %}<a href="{{ url_todas }}" class="pt-ver-todas">Ver las {{ nota.n }} reseñas{% if sin_responder %} · {{ sin_responder }} sin responder{% endif %} →</a>{% endif %}
+</section>

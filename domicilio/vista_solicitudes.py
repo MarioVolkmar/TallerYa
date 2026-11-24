@@ -11,7 +11,8 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from talleres.utils import normalizar_celular
-from talleres.views import _entero_pesos, _hora_texto
+from talleres.negocio import estado_texto
+from talleres.views import _entero_pesos, _hora_texto, _volver
 
 from .models import SolicitudVisita
 
@@ -59,18 +60,9 @@ def solicitudes(request):
     lista = mecanico.solicitudes.select_related("servicio", "zona", "codigo_cupon", "codigo_cupon__cupon")
     if not todas:
         lista = lista.filter(estado__in=ABIERTAS)
-    hoy = timezone.localdate()
-    from .views import CUANDO
-    lista = list(lista[:60])
-    # Las que ya tienen su servicio en la hoja de vida de la moto (garaje.vista_servicio_mecanico)
-    con_servicio = set(mecanico.servicios_hechos.exclude(estado="rechazado").filter(solicitud__isnull=False)
-                       .values_list("solicitud_id", flat=True))
-    for s in lista:
-        s.cuando_texto = dict(CUANDO).get(s.cuando, "")
-        s.servicio_registrado = s.pk in con_servicio
+    from talleres import negocio
     return render(request, "domicilio/solicitudes.html", {
-        "puede_registrar": mecanico.estado == mecanico.Estado.APROBADO,
-        "m": mecanico, "lista": lista, "todas": todas, "hoy": hoy,
+        "m": mecanico, "tarjetas": negocio.tarjetas(lista[:60], mecanico, request), "todas": todas, "hoy": timezone.localdate(),
         "horas": [f"{h:02d}:{m:02d}" for h in range(6, 21) for m in (0, 30)],
     })
 
@@ -91,10 +83,11 @@ def solicitud_estado(request, pk):
             s.codigo_cupon = None  # el código vuelve a quedar libre para otra visita
             s.save(update_fields=["codigo_cupon"])
         if nuevo != SolicitudVisita.Estado.ATENDIDA:
-            _notificar(s.usuario, f"visita-{nuevo}:{s.pk}", f"{s.mecanico.nombre}: visita {s.get_estado_display().lower()}",
-                       "Mira los detalles", s.get_absolute_url())
-        messages.success(request, f"Solicitud de {s.nombre}: {s.get_estado_display().lower()}.")
-    return redirect(reverse("domicilio:solicitudes") + f"#visita-{s.pk}")
+            motivo = request.POST.get("motivo", "").strip()[:200] if nuevo == SolicitudVisita.Estado.CANCELADA else ""
+            _notificar(s.usuario, f"visita-{nuevo}:{s.pk}", f"{s.mecanico.nombre}: visita {estado_texto(s).lower()}",
+                       motivo or "Mira los detalles", s.get_absolute_url())
+        messages.success(request, f"Solicitud de {s.nombre}: {estado_texto(s).lower()}.")
+    return redirect(_volver(request, reverse("domicilio:solicitudes")).split("#")[0] + f"#visita-{s.pk}")
 
 
 def _canjear_descuento(request, s):
@@ -119,7 +112,7 @@ def solicitud_descuento(request, pk):
     mecanico, s = _del_mecanico(request, pk)
     if s is None:
         return redirect("domicilio:registro")
-    volver = reverse("domicilio:solicitudes") + f"#visita-{s.pk}"
+    volver = _volver(request, reverse("domicilio:solicitudes")).split("#")[0] + f"#visita-{s.pk}"
     if s.estado not in ABIERTAS:
         return redirect(volver)
     from cupones.servicios import ErrorCanje, revisar_para_mecanico
@@ -143,7 +136,7 @@ def solicitud_cotizar(request, pk):
     mecanico, s = _del_mecanico(request, pk)
     if s is None:
         return redirect("domicilio:registro")
-    volver = reverse("domicilio:solicitudes") + f"#visita-{s.pk}"
+    volver = _volver(request, reverse("domicilio:solicitudes")).split("#")[0] + f"#visita-{s.pk}"
     desde, hasta = _entero_pesos(request.POST.get("desde")), _entero_pesos(request.POST.get("hasta"))
     if not desde or not hasta or desde > hasta:
         messages.error(request, "Escribe el precio desde y hasta (el «hasta» no puede ser menor). Si es fijo, pon el mismo en los dos.")

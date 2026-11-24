@@ -40,6 +40,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<script src="{% static 'talleres/js/secciones-pleg.js' %}" defer></script>
 <div class="relative z-10 -mt-8 md:-mt-10 space-y-10">
 {% tarjeta_push "motero" una_vez=True %}
 
@@ -81,17 +82,16 @@
   </section>
 
   <!-- Ubicación -->
-  <section>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.ubicacion }}</span>Ubicación</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="papel p-6 md:p-8">
+  <details class="seccion-pleg" id="ubicacion" data-pleg="ubicacion" open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.ubicacion titulo="Ubicación" dato=taller.barrio %}
+    <div class="seccion-cuerpo-pleg papel p-6 md:p-8">
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 text-suave">
         <p class="flex gap-2.5"><span aria-hidden="true">📍</span><span>{{ taller.direccion }}, {{ taller.barrio }}</span></p>
         {% if taller.horario %}<p class="flex gap-2.5"><span aria-hidden="true">🕒</span><span>{{ taller.horario }}</span></p>{% endif %}
       </div>
       {% include "parciales/mapa_taller.html" %}
     </div>
-  </section>
+  </details>
 
   {% if fotos or taller.foto %}
   <!-- Fotos: franja de una fila -->
@@ -114,10 +114,9 @@
 
   {% if equipo %}
   <!-- Quiénes te atienden -->
-  <section>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.equipo }}</span>Quiénes te atienden</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="perfil-equipo">
+  <details class="seccion-pleg" id="equipo" data-pleg="equipo" data-movil-cerrada open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.equipo titulo="Quiénes te atienden" dato=datos_pleg.equipo %}
+    <div class="seccion-cuerpo-pleg perfil-equipo">
       {% for m in equipo %}
       <div class="papel perfil-mecanico">
         <span class="perfil-mecanico-inicial" aria-hidden="true">{{ m.nombre|first|upper }}</span>
@@ -130,15 +129,14 @@
       </div>
       {% endfor %}
     </div>
-  </section>
+  </details>
   {% endif %}
 
   {% if especialidades or marcas or taller.multimarca or compromisos %}
   <!-- Especialidades, marcas y cómo trabajamos -->
-  <section>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.trabajo }}</span>En qué es bueno y cómo trabaja</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
+  <details class="seccion-pleg" id="trabajo" data-pleg="trabajo" open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.trabajo titulo="En qué es bueno y cómo trabaja" %}
+    <div class="seccion-cuerpo-pleg grid grid-cols-1 gap-6 md:grid-cols-2 items-start">
       {% if especialidades or marcas or taller.multimarca %}
       <div class="papel p-6 space-y-5">
         {% if especialidades %}<div><h3 class="perfil-subtitulo">Especialidades</h3><div class="perfil-chips mt-3">{% for e in especialidades %}<span class="perfil-chip">{{ e }}</span>{% endfor %}</div></div>{% endif %}
@@ -154,26 +152,23 @@
       </div>
       {% endif %}
     </div>
-  </section>
+  </details>
   {% endif %}
 
   {% if cupones %}
-  <section>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.cupones }}</span>Cupones disponibles</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <details class="seccion-pleg" id="cupones" data-pleg="cupones" open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.cupones titulo="Cupones disponibles" dato=datos_pleg.cupones %}
+    <div class="seccion-cuerpo-pleg grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {% for cupon in cupones %}{% include "cupones/_ticket.html" with con_boton=True %}{% endfor %}
     </div>
-  </section>
+  </details>
   {% endif %}
 
   <!-- Reseñas -->
-  <section id="resenas">
-    <div class="flex flex-wrap items-center justify-between gap-3">
-      <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.resenas }}</span>Reseñas</h2>
-      <button type="button" class="boton-seccion" data-abrir="dialogo-resena">★ Escribir reseña</button>
-    </div>
-    <div class="separador mt-4 mb-6"></div>
+  <details class="seccion-pleg" id="resenas" data-pleg="resenas" data-movil-cerrada open>
+    {% include "parciales/seccion_resumen.html" with numero=numeros.resenas titulo="Reseñas" dato=datos_pleg.resenas %}
+    <div class="seccion-cuerpo-pleg">
+    <div class="seccion-acciones"><button type="button" class="boton-seccion" data-abrir="dialogo-resena">★ Escribir reseña</button></div>
     <div class="grid grid-cols-1 gap-6 md:grid-cols-3 items-start">
       <div class="papel p-6 perfil-puntaje">
         {% with c=taller.calificacion %}
@@ -198,7 +193,8 @@
         {% empty %}<p class="text-suave text-sm">Aún no hay reseñas. ¡Sé el primero!</p>{% endfor %}
       </div>
     </div>
-  </section>
+    </div>
+  </details>
 
 </div>
 

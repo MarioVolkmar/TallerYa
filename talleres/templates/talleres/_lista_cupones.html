@@ -1,0 +1,18 @@
+{% load negocio %}{# Lista de cupones del negocio (taller o mecánico) con ventana de detalle. Variables: cupones (negocio.cupones_con_cifras), nombre_negocio, url_nuevo_cupon, vacio #}
+<ul class="pt-cupones">
+  {% for cu in cupones %}
+  <li class="pt-cupon{% if not cu.activo %} pausado{% endif %}" data-cupon-detalle="{{ cu.pk }}" title="Ver cupón">
+    <div class="pt-cupon-datos">
+      <p class="pt-cupon-titulo">{{ cu.titulo }}{% if cu.solo_plus %} <span class="insignia insignia-plus">Plus</span>{% endif %}</p>
+      <p class="pt-cupon-meta">{% if not cu.activo %}<span class="pt-chip chip-atendida">Pausado</span>{% elif not cu.vigente %}<span class="pt-chip chip-cancelada">Vencido</span>{% else %}<span class="pt-chip chip-confirmada">Activo</span>{% endif %}
+        {{ cu.entregados }} entregado{{ cu.entregados|pluralize }} · {{ cu.canjeados }} canjeado{{ cu.canjeados|pluralize }}{% if cu.cupo %} · quedan {{ cu.restantes }}{% endif %}{% if cu.valido_hasta %} · hasta el {{ cu.valido_hasta|date:"j M"|lower }}{% endif %}</p>
+    </div>
+    <div class="pt-cupon-botones">
+      <a href="{{ cu|url_cupon:'editar' }}" class="pt-boton">Editar</a>
+      <form method="post" action="{{ cu|url_cupon:'pausar' }}">{% csrf_token %}<button class="pt-boton">{% if cu.activo %}Pausar{% else %}Activar{% endif %}</button></form>
+    </div>
+  </li>
+  {% include "talleres/_cupon_detalle.html" %}
+  {% empty %}<li class="pt-vacio-chico">{{ vacio }}</li>{% endfor %}
+</ul>
+<a href="{{ url_nuevo_cupon }}" class="pt-nuevo-cupon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Crear cupón</a>

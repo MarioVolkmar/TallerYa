@@ -1,4 +1,4 @@
-{# Contenido de la ventana de detalle de una cita (se copia a la ventana al tocar la cita). Variable: c #}
+{% load negocio %}{# Contenido de la ventana de detalle de una cita (se copia a la ventana al tocar la cita). Variable: c #}
 <template id="cita-detalle-{{ c.pk }}">
   <div class="cd-cabeza">
     <div class="pt-cita-fecha cd-fecha"><strong>{{ c.fecha_preferida|date:"j" }}</strong><span>{{ c.fecha_preferida|date:"M"|lower }}</span></div>
@@ -6,7 +6,7 @@
       <p class="titulo text-2xl">{{ c.nombre }}</p>
       <p class="cd-sub">{{ c.fecha_preferida|date:"l j \d\e F"|lower }}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %}</p>
     </div>
-    <span class="pt-chip chip-{{ c.estado }}">{{ c.get_estado_display }}</span>
+    <span class="pt-chip chip-{{ c|estado_chip }}">{{ c|estado_ui }}</span>
   </div>
   <dl class="cd-datos">
     <div><dt>Moto</dt><dd>{{ c.moto }}</dd></div>

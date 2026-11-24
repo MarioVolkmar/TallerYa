@@ -32,6 +32,15 @@ class DetalleRediseñoTests(TestCase):
         super().tearDownClass()
         shutil.rmtree(MEDIOS, ignore_errors=True)
 
+    def test_secciones_numeradas_son_plegables_con_dato_en_el_resumen(self):
+        taller = demo_talleres.cargar()[0]
+        html = self.client.get(taller.get_absolute_url()).content.decode()
+        for clave in ("ubicacion", "resenas"):
+            self.assertRegex(html, rf'<details class="seccion-pleg" id="{clave}" data-pleg="{clave}"[^>]* open>')
+        self.assertRegex(html, r'id="resenas" data-pleg="resenas" data-movil-cerrada')
+        self.assertRegex(html, r'<summary class="seccion-resumen"><h2[^>]*><span class="numero">\d\d</span>Reseñas</h2><span class="seccion-dato">[^<]*(reseña|Sin reseñas)')
+        self.assertIn("secciones-pleg.js", html)
+
     def test_orden_secciones_sin_fotos_duplicadas_ni_leyendas_en_miniaturas(self):
         taller = demo_talleres.cargar()[0]
         Taller.objects.filter(pk=taller.pk).update(mostrar_precios=True)

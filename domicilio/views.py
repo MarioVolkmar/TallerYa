@@ -28,6 +28,7 @@ from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 
+from talleres import negocio
 from talleres import perfil as perfil_taller
 from talleres import precios as perfil_precios
 
@@ -238,6 +239,8 @@ def ficha(request, slug):
         "zonas_municipios": [z for z in zonas if z.ciudad != "Medellín"],
         "especialidades": especialidades, "compromisos": compromisos, "marcas": marcas, "herramientas": herramientas,
         "verificaciones": verificaciones, "numeros": numeros,
+        "datos_pleg": {"descuentos": negocio.dato_cantidad(len(descuentos), "cupón", "cupones"),
+                       "resenas": negocio.dato_resenas(nota["prom"], nota["n"])},
         "servicios": list(mecanico.servicios.all()), "cuando": CUANDO, "tabla_precios": tabla_precios,
         "otros_servicios": [s for s in mecanico.servicios.all() if s.pk not in con_precio],
         "es_favorito": request.user.is_authenticated and MecanicoFavorito.objects.filter(
@@ -389,6 +392,50 @@ def _guardar_trabajos(mecanico, archivos):
     return rechazadas
 
 
+def _tareas_panel(m, pasos, hoy, resenas):
+    """«Por hacer» del mecánico: lo propio (estado del perfil, cédula, cupones vencidos, precios ocultos) más lo común."""
+    from django.utils.html import format_html
+    t, tarea = [], negocio.tarea
+    u_perfil, u_id = reverse("domicilio:mi_perfil"), reverse("domicilio:identidad")
+    nota = f". {m.nota_al_mecanico}" if m.nota_al_mecanico else ""
+    if m.estado == "suspendido":
+        t.append(tarea(format_html("Tu perfil está <strong>pausado</strong>: no apareces en el listado{}", nota), u_perfil, "Revisar", True))
+    elif m.estado == "rechazado":
+        t.append(tarea(format_html("Tu perfil <strong>no fue aprobado</strong>: {}", m.motivo_rechazo), u_perfil, "Corregir", True))
+    elif m.estado == "pendiente":
+        oblig = [x for x, hecho, obligatorio in pasos if obligatorio and not hecho]
+        t.append(tarea(format_html("Tu perfil está <strong>en revisión</strong>{}{}",
+                                   f"; antes te falta: {', '.join(oblig).lower()}" if oblig else "", nota), u_perfil, "Revisar", True))
+    ident = estado_identidad(m)
+    if ident == "pendiente":
+        t.append(tarea(format_html("<strong>Verifica tu identidad</strong> con la foto de tu cédula y gana la insignia «Verificado»"), u_id, "Verificar", True))
+    elif ident == "rechazada":
+        t.append(tarea(format_html("No pudimos <strong>verificar tu identidad</strong>: {}", m.identidad.motivo), u_id, "Corregir", True))
+    elif ident == "enviada":
+        t.append(tarea(format_html("Tu <strong>identidad está en revisión</strong>: te avisamos cuando la revisemos"), u_id, "Ver"))
+    elif ident == "aprobada_heredada":
+        t.append(tarea(format_html("Respalda tu insignia «Verificado» con la <strong>foto de tu cédula</strong>"), u_id, "Respaldar"))
+    u_sol = reverse("domicilio:solicitudes")
+    comunes = negocio.tareas_comunes(
+        por_responder=m.solicitudes.filter(estado="pendiente").count(), palabra=("solicitud", "solicitudes"), que="por cotizar",
+        url_solicitudes=u_sol, boton="Cotizar", precios_por_confirmar=perfil_precios.necesita_confirmar(m),
+        url_precios=reverse("domicilio:mis_precios"), sin_responder=resenas.filter(respuesta="").count(),
+        url_resenas=reverse("domicilio:resenas"))
+    por_cerrar = m.solicitudes.filter(estado="confirmada", fecha_propuesta__lte=hoy).count()
+    if por_cerrar:
+        s = "s" if por_cerrar != 1 else ""
+        comunes.insert(1 if comunes and comunes[0]["boton"] == "Cotizar" else 0,
+                       tarea(format_html("<strong>{} visita{}</strong> confirmada{} por cerrar", por_cerrar, s, s), u_sol, "Ver", True))
+    t += comunes
+    vencidos = m.cupones.filter(activo=True).exclude(pk__in=m.cupones.vigentes()).count()
+    if vencidos:
+        t.append(tarea(format_html("<strong>{} {}</strong> vencido{}", vencidos, "cupón" if vencidos == 1 else "cupones",
+                                   "s" if vencidos != 1 else ""), reverse("domicilio:descuentos"), "Renovar"))
+    if m.precios.exists() and not m.mostrar_precios:
+        t.append(tarea(format_html("Tus precios están <strong>ocultos</strong> en tu ficha"), reverse("domicilio:mis_precios"), "Mostrar"))
+    return t
+
+
 @login_required
 def panel(request):
     """«Mi panel» del mecánico a domicilio: acción principal, por hacer, accesos, precios y cifras del mes."""
@@ -406,12 +453,20 @@ def panel(request):
     ini_ant, fin_ant = mes_anterior(hoy)
     n_mes = solicitudes.filter(creado__date__gte=inicio_mes).count()
     n_atendidas = solicitudes.filter(estado="atendida", creado__date__gte=inicio_mes).count()
-    nota = resenas.aggregate(prom=Avg("estrellas"), n=Count("id"))
+    nota = negocio.nota(resenas)
     url_sol = reverse("domicilio:solicitudes") + "?ver=todas"
+    faltan = [t for t, hecho, _ in pasos if not hecho]
     return render(request, "domicilio/panel.html", {
         "m": mecanico,
-        "identidad_estado": estado_identidad(mecanico),
-        "n_descuentos_vencidos": mecanico.cupones.filter(activo=True).exclude(pk__in=mecanico.cupones.vigentes()).count(),
+        # «Por hacer» (talleres/_por_hacer.html, igual que el del taller)
+        "tareas": _tareas_panel(mecanico, pasos, hoy, resenas), "pct": round(100 * hechos / len(pasos)),
+        "faltan_cortos": faltan_cortos(faltan), "url_perfil": reverse("domicilio:mi_perfil"),
+        "todo_al_dia": "solicitudes", "palabra_perfil": "ficha",
+        "url_alternar_precios": reverse("domicilio:alternar_precios"), "mostrar_precios": mecanico.mostrar_precios,
+        "url_precios": reverse("domicilio:mis_precios"), "url_validar": reverse("domicilio:descuentos") + "#validar",
+        "url_ver_cupones": reverse("domicilio:descuentos"), "url_nuevo_cupon": reverse("domicilio:descuento_nuevo"),
+        "cupones_activos": mecanico.cupones.vigentes().count(),
+        "cupones": negocio.cupones_con_cifras(mecanico.cupones.all())[:8], "nombre_negocio": mecanico.nombre,
         "franja": franja([
             ("Solicitudes del mes", n_mes, solicitudes.filter(creado__date__range=(ini_ant, fin_ant)).count(), "mes pasado",
              "", url_sol, "lava", "Comparte tu ficha para recibir solicitudes de visita."),
@@ -422,19 +477,10 @@ def panel(request):
              "Pídeles a tus clientes que te califiquen en tu ficha."),
             ("Te guardaron", mecanico.favoritos.count(), None, "", "moteros", "", "rosa", ""),
         ]),
-        "precios_ocultos": bool(mecanico.precios.exists() and not mecanico.mostrar_precios),
-        "n_por_cotizar": solicitudes.filter(estado="pendiente").count(),
-        "n_por_cerrar": solicitudes.filter(estado="confirmada", fecha_propuesta__lte=hoy).count(),
         "n_abiertas": solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"]).count(),
         "sin_responder": resenas.filter(respuesta="").count(),
-        "nota": resenas.aggregate(prom=Avg("estrellas"), n=Count("id")),
-        "pct": round(100 * hechos / len(pasos)),
-        "faltan": [t for t, hecho, _ in pasos if not hecho][:3],
-        "faltan_cortos": faltan_cortos([t for t, hecho, _ in pasos if not hecho]),
-        "faltan_obligatorios": [t for t, hecho, obligatorio in pasos if obligatorio and not hecho],
+        "nota": nota,
         "n_precios": mecanico.precios.count(),
-        "precios_por_confirmar": perfil_precios.necesita_confirmar(mecanico),
-        "descuentos_activos": mecanico.cupones.vigentes().count(),
         "canjes_mes": mecanico.canjes.filter(canjeado_en__date__gte=inicio_mes).count(),
         "mes": {
             "solicitudes": solicitudes.filter(creado__date__gte=inicio_mes).count(),
@@ -442,9 +488,9 @@ def panel(request):
             "resenas": resenas.filter(creado__date__gte=inicio_mes).count(),
         },
         "favoritos": mecanico.favoritos.count(),
-        "recientes": list(solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"])
-                          .select_related("servicio", "zona")[:4]),
-        "resenas_recientes": list(resenas[:3]),
+        "recientes": negocio.tarjetas(solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"])
+                                      .select_related("servicio", "zona", "codigo_cupon__cupon")[:4], mecanico, request),
+        "resenas": negocio.resenas_panel(resenas),
         "tiene_garaje": hasattr(request.user, "motociclista"),
     })
 
@@ -561,21 +607,10 @@ def resenas(request):
     mecanico = _perfil_de(request.user)
     if not mecanico:
         return redirect("domicilio:registro")
-    todas = mecanico.resenas.filter(visible=True)
-    sin_responder = todas.filter(respuesta="").count()
-    filtro = request.GET.get("ver", "todas")
-    lista = todas.filter(respuesta="") if filtro == "sin_responder" else todas
-    estrellas = request.GET.get("estrellas", "")
-    if estrellas in {"1", "2", "3", "4", "5"}:
-        lista = lista.filter(estrellas=int(estrellas))
-    por_estrella = {r["estrellas"]: r["n"] for r in todas.values("estrellas").annotate(n=Count("id"))}
-    nota = todas.aggregate(prom=Avg("estrellas"), n=Count("id"))
-    nota["pct"] = round((nota["prom"] or 0) * 20)
-    return render(request, "domicilio/resenas.html", {
-        "m": mecanico, "nota": nota, "sin_responder": sin_responder, "filtro": filtro, "estrellas": estrellas,
-        "reparto": [(e, por_estrella.get(e, 0), round(por_estrella.get(e, 0) * 100 / nota["n"]) if nota["n"] else 0)
-                    for e in (5, 4, 3, 2, 1)],
-        "lista": lista.order_by("-creado")})
+    return render(request, "talleres/resenas_negocio.html", {
+        "nombre": mecanico.nombre, "url_panel": reverse("domicilio:panel"), "texto_panel": "Mi panel",
+        "vacio": "Aún no tienes reseñas. Los moteros que te contraten pueden calificarte desde tu ficha.",
+        **negocio.contexto_resenas(request, mecanico.resenas.filter(visible=True))})
 
 
 @login_required

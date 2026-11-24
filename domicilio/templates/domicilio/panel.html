@@ -37,74 +37,23 @@
     {% if tiene_garaje %}<a href="{% url 'garaje:garaje' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="16" r="3"/><circle cx="18" cy="16" r="3"/><path d="M6 16h4l3-6h3l2 6M13 10l-2-3H8"/></svg>Mi garaje</a>{% endif %}
   </nav>
 
-  <section class="papel pt-hacer" aria-labelledby="pt-hacer-t">
-    <h2 class="etiqueta" id="pt-hacer-t">Por hacer</h2>
-    <ul class="pt-tareas">
-      {% if m.estado == "suspendido" %}<li class="pt-tarea urgente"><span>Tu perfil está <strong>pausado</strong>: no apareces en el listado{% if m.nota_al_mecanico %}. {{ m.nota_al_mecanico }}{% endif %}</span><a href="{% url 'domicilio:mi_perfil' %}" class="pt-tarea-btn">Revisar</a></li>{% endif %}
-      {% if m.estado == "rechazado" %}<li class="pt-tarea urgente"><span>Tu perfil <strong>no fue aprobado</strong>: {{ m.motivo_rechazo }}</span><a href="{% url 'domicilio:mi_perfil' %}" class="pt-tarea-btn">Corregir</a></li>{% endif %}
-      {% if m.estado == "pendiente" %}<li class="pt-tarea urgente"><span>Tu perfil está <strong>en revisión</strong>{% if faltan_obligatorios %}; antes te falta: {{ faltan_obligatorios|join:", "|lower }}{% endif %}{% if m.nota_al_mecanico %}. {{ m.nota_al_mecanico }}{% endif %}</span><a href="{% url 'domicilio:mi_perfil' %}" class="pt-tarea-btn">Revisar</a></li>{% endif %}
-      {% if identidad_estado == "pendiente" %}<li class="pt-tarea urgente"><span><strong>Verifica tu identidad</strong> con la foto de tu cédula y gana la insignia «Verificado»</span><a href="{% url 'domicilio:identidad' %}" class="pt-tarea-btn">Verificar</a></li>{% endif %}
-      {% if identidad_estado == "rechazada" %}<li class="pt-tarea urgente"><span>No pudimos <strong>verificar tu identidad</strong>: {{ m.identidad.motivo }}</span><a href="{% url 'domicilio:identidad' %}" class="pt-tarea-btn">Corregir</a></li>{% endif %}
-      {% if identidad_estado == "enviada" %}<li class="pt-tarea"><span>Tu <strong>identidad está en revisión</strong>: te avisamos cuando la revisemos</span><a href="{% url 'domicilio:identidad' %}" class="pt-tarea-btn">Ver</a></li>{% endif %}
-      {% if identidad_estado == "aprobada_heredada" %}<li class="pt-tarea"><span>Respalda tu insignia «Verificado» con la <strong>foto de tu cédula</strong></span><a href="{% url 'domicilio:identidad' %}" class="pt-tarea-btn">Respaldar</a></li>{% endif %}
-      {% if n_por_cotizar %}<li class="pt-tarea urgente"><span><strong>{{ n_por_cotizar }} solicitud{{ n_por_cotizar|pluralize:"es" }}</strong> por cotizar</span><a href="{% url 'domicilio:solicitudes' %}" class="pt-tarea-btn">Cotizar</a></li>{% endif %}
-      {% if n_por_cerrar %}<li class="pt-tarea urgente"><span><strong>{{ n_por_cerrar }} visita{{ n_por_cerrar|pluralize }}</strong> confirmada{{ n_por_cerrar|pluralize }} por cerrar</span><a href="{% url 'domicilio:solicitudes' %}" class="pt-tarea-btn">Ver</a></li>{% endif %}
-      {% if precios_por_confirmar %}<li class="pt-tarea urgente"><span>Tus precios de mano de obra llevan más de 2 meses sin confirmarse</span><a href="{% url 'domicilio:mis_precios' %}" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
-      {% if sin_responder %}<li class="pt-tarea"><span><strong>{{ sin_responder }} reseña{{ sin_responder|pluralize }}</strong> sin responder</span><a href="{% url 'domicilio:resenas' %}" class="pt-tarea-btn">Responder</a></li>{% endif %}
-      {% if n_descuentos_vencidos %}<li class="pt-tarea"><span><strong>{{ n_descuentos_vencidos }} {% if n_descuentos_vencidos == 1 %}cupón{% else %}cupones{% endif %}</strong> vencido{{ n_descuentos_vencidos|pluralize }}</span><a href="{% url 'domicilio:descuentos' %}" class="pt-tarea-btn">Renovar</a></li>{% endif %}
-      {% if precios_ocultos %}<li class="pt-tarea"><span>Tus precios están <strong>ocultos</strong> en tu ficha</span><a href="{% url 'domicilio:mis_precios' %}" class="pt-tarea-btn">Mostrar</a></li>{% endif %}
-      {% if pct < 100 %}{% url 'domicilio:mi_perfil' as u_perfil %}{% include "talleres/_fila_perfil.html" with faltan=faltan_cortos url=u_perfil %}{% endif %}
-      {% if m.estado == "aprobado" and identidad_estado != "pendiente" and identidad_estado != "rechazada" and not n_por_cotizar and not n_por_cerrar and not precios_por_confirmar and not sin_responder and not n_descuentos_vencidos and not precios_ocultos and pct == 100 %}<li class="pt-tarea listo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Todo al día: solicitudes, precios, reseñas y perfil.</li>{% endif %}
-    </ul>
-    <form method="post" action="{% url 'domicilio:alternar_precios' %}" class="pt-fila {% if n_precios %}ok{% else %}falta{% endif %}">{% csrf_token %}
-      <input type="hidden" name="valor" value="{% if m.mostrar_precios %}0{% else %}1{% endif %}">
-      <span class="pt-fila-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6.5C16 5 14.2 4 12 4c-2.8 0-5 1.3-5 3.5 0 5 10 2.5 10 7.5 0 2.2-2.2 3.5-5 3.5-2.2 0-4-1-5-2.5"/></svg></span>
-      <div class="pt-fila-texto">
-        <h3 class="pt-fila-titulo">Tus precios</h3>
-        <p class="pt-fila-estado">{% if not n_precios %}Pendiente: aún no has cargado precios{% elif m.mostrar_precios %}visibles en tu ficha{% else %}ocultos: tu ficha dice «Cotiza por WhatsApp»{% endif %}</p>
-        {% if n_precios %}<button type="submit" class="pt-interruptor-btn" role="switch" aria-checked="{% if m.mostrar_precios %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Mostrar precios en mi perfil</button>{% endif %}
-      </div>
-      <div class="pt-fila-acciones"><a href="{% url 'domicilio:mis_precios' %}" class="pt-fila-principal{% if n_precios %} suave{% endif %}">{% if n_precios %}Editar precios{% else %}Armar mi tabla{% endif %}</a></div>
-    </form>
-    {% url 'domicilio:descuentos' as u_cup %}{% url 'domicilio:descuento_nuevo' as u_nuevo %}
-    {% include "talleres/_fila_cupones.html" with activos=descuentos_activos url_validar=u_cup|add:"#validar" url_ver=u_cup url_nuevo=u_nuevo %}
-  </section>
+  {% include "talleres/_por_hacer.html" %}
 
   {% include "talleres/_franja_cifras.html" with id_franja="reporte" %}
 
   <div class="pt-rejilla">
-    <section class="papel pt-caja scroll-mt-24" id="solicitudes">
-      <header class="pt-caja-cabeza">
-        <h2 class="titulo text-xl">Solicitudes de visita</h2>
-        <a href="{% url 'domicilio:solicitudes' %}?ver=todas" class="pt-enlace">Historial</a>
-      </header>
-      <ul class="pt-citas">
-        {% for s in recientes %}
-        <li class="pt-cita dm-solicitud">
-          <p class="pt-cita-quien">{{ s.nombre }}{% if s.moto %} · {{ s.moto }}{% endif %} <span class="pt-chip chip-{{ s.estado }}">{{ s.get_estado_display }}</span></p>
-          <p class="pt-cita-que">{% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}{% if s.zona %} · {{ s.zona }}{% endif %} · {{ s.creado|timesince }}</p>
-          <a href="{% url 'domicilio:solicitudes' %}#visita-{{ s.pk }}" class="pt-tarea-btn">{% if s.estado == "pendiente" %}Cotizar{% else %}Ver{% endif %}</a>
-        </li>
-        {% empty %}
-        <li class="pt-vacio">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-          <p>No tienes solicitudes por atender.</p>
-          <small>Los moteros te piden la visita desde tu ficha. Compártela para recibir más.</small>
-        </li>
-        {% endfor %}
-      </ul>
-      {% if n_abiertas > recientes|length %}<a href="{% url 'domicilio:solicitudes' %}" class="pt-ver-todas">Ver las {{ n_abiertas }} solicitudes por atender →</a>{% endif %}
-    </section>
+    {% url 'domicilio:solicitudes' as u_sol %}
+    {% include "talleres/_panel_solicitudes.html" with id_caja="solicitudes" titulo="Solicitudes de visita" url_historial=u_sol|add:"?ver=todas" tarjetas=recientes url_todas=u_sol plural="solicitudes" vacio="No tienes solicitudes por atender." vacio_sub="Los moteros te piden la visita desde tu ficha. Compártela para recibir más." %}
 
-    <section class="papel pt-caja scroll-mt-24" id="resenas">
-      <header class="pt-caja-cabeza"><h2 class="titulo text-xl">Reseñas</h2>{% if nota.n %}{% include "talleres/_calificacion.html" %}{% endif %}</header>
-      <ul class="pt-resenas">
-        {% for r in resenas_recientes %}{% include "domicilio/_resena_item.html" %}
-        {% empty %}<li class="pt-vacio-chico">Aún no tienes reseñas. Los moteros que te contraten pueden calificarte desde tu ficha.</li>{% endfor %}
-      </ul>
-      {% if nota.n > resenas_recientes|length %}<a href="{% url 'domicilio:resenas' %}" class="pt-ver-todas">Ver las {{ nota.n }} reseñas{% if sin_responder %} · {{ sin_responder }} sin responder{% endif %} →</a>{% endif %}
-    </section>
+    <div class="pt-lado">
+      {% url 'domicilio:resenas' as u_res %}
+      {% include "talleres/_panel_resenas.html" with url_todas=u_res vacio="Aún no tienes reseñas. Los moteros que te contraten pueden calificarte desde tu ficha." %}
+      {% include "talleres/_panel_cupones.html" %}
+    </div>
   </div>
 </div>
+{% include "talleres/_dialogo_cotizar.html" %}
+{% include "talleres/_dialogo_cupon.html" %}
+{% include "talleres/_dialogo_cancelar.html" with sustantivo="visita" %}
 {% include "cuentas/_avatar_dialogo.html" %}
 {% endblock %}

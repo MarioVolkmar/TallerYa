@@ -19,6 +19,7 @@
     var dialogo = document.getElementById("dialogo-reprogramar"); if (!dialogo) return;
     var form = dialogo.querySelector("form");
     document.querySelectorAll("[data-reprogramar]").forEach(function (b) {
+      b.addEventListener("click", function () { var d = b.closest("details"); if (d) d.open = false; });
       b.addEventListener("click", function () {
         form.action = b.dataset.reprogramar;
         dialogo.querySelector("[data-rp-nombre]").textContent = b.dataset.nombre;

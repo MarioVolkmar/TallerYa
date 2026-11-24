@@ -1,0 +1,21 @@
+{# «Por hacer» del panel del negocio (taller o mecánico). Variables: tareas (negocio.tarea), pct, faltan_cortos, url_perfil, todo_al_dia, palabra_perfil; precios: url_alternar_precios, mostrar_precios, n_precios, url_precios; cupones: cupones_activos, url_validar, url_ver_cupones, url_nuevo_cupon #}
+<section class="papel pt-hacer" aria-labelledby="pt-hacer-t">
+  <h2 class="etiqueta" id="pt-hacer-t">Por hacer</h2>
+  <ul class="pt-tareas">
+    {% for t in tareas %}<li class="pt-tarea{% if t.urgente %} urgente{% endif %}"><span>{{ t.texto }}</span><a href="{{ t.url }}" class="pt-tarea-btn">{{ t.boton }}</a></li>
+    {% endfor %}
+    {% if pct < 100 %}{% include "talleres/_fila_perfil.html" with faltan=faltan_cortos url=url_perfil %}{% endif %}
+    {% if not tareas and pct == 100 %}<li class="pt-tarea listo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Todo al día: {{ todo_al_dia }}, precios, reseñas y perfil.</li>{% endif %}
+  </ul>
+  <form method="post" action="{{ url_alternar_precios }}" class="pt-fila {% if n_precios %}ok{% else %}falta{% endif %}">{% csrf_token %}
+    <input type="hidden" name="valor" value="{% if mostrar_precios %}0{% else %}1{% endif %}">
+    <span class="pt-fila-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 6.5C16 5 14.2 4 12 4c-2.8 0-5 1.3-5 3.5 0 5 10 2.5 10 7.5 0 2.2-2.2 3.5-5 3.5-2.2 0-4-1-5-2.5"/></svg></span>
+    <div class="pt-fila-texto">
+      <h3 class="pt-fila-titulo">Tus precios</h3>
+      <p class="pt-fila-estado">{% if not n_precios %}Pendiente: aún no has cargado precios{% elif mostrar_precios %}visibles en tu {{ palabra_perfil }}{% else %}ocultos: tu {{ palabra_perfil }} dice «Cotiza por WhatsApp»{% endif %}</p>
+      {% if n_precios %}<button type="submit" class="pt-interruptor-btn" role="switch" aria-checked="{% if mostrar_precios %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Mostrar precios en mi perfil</button>{% endif %}
+    </div>
+    <div class="pt-fila-acciones"><a href="{{ url_precios }}" class="pt-fila-principal{% if n_precios %} suave{% endif %}">{% if n_precios %}Editar precios{% else %}Armar mi tabla{% endif %}</a></div>
+  </form>
+  {% include "talleres/_fila_cupones.html" with activos=cupones_activos url_ver=url_ver_cupones url_nuevo=url_nuevo_cupon %}
+</section>

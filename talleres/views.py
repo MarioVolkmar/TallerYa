@@ -22,7 +22,7 @@ from django.views.decorators.http import require_POST
 from metricas.nucleo import registrar_evento, termino_busqueda
 
 from .forms import PerfilTallerForm, RegistroTallerForm, equipo_de, equipo_formset, ResenaForm, SolicitudCitaForm
-from . import agenda, estadisticas, perfil, subidas
+from . import agenda, estadisticas, negocio, perfil, subidas
 from . import seo as seo_
 from . import precios as precios_ref
 from .models import Barrio, EventoDiario, FotoTaller, Marca, Resena, Servicio, SolicitudCita, Taller, TallerFavorito
@@ -414,6 +414,12 @@ def detalle(request, slug):
         "compromisos": compromisos,
         "cupones": cupones,
         "numeros": numeros,
+        "datos_pleg": {
+            "ubicacion": taller.barrio.nombre,
+            "equipo": negocio.dato_cantidad(len(equipo), "persona", "personas"),
+            "cupones": negocio.dato_cantidad(len(cupones), "cupón", "cupones"),
+            "resenas": negocio.dato_resenas(taller.calificacion, len(resenas)),
+        },
         "cita_form": cita_form,
         "resena_form": resena_form,
         "abrir": abrir,
@@ -574,13 +580,9 @@ def _whatsapp_cita(cita, taller, request=None):
 ORDEN_CITAS = {SolicitudCita.Estado.PENDIENTE: 0, SolicitudCita.Estado.REPROGRAMADA: 1, SolicitudCita.Estado.CONFIRMADA: 2,
                SolicitudCita.Estado.ATENDIDA: 3, SolicitudCita.Estado.CANCELADA: 4}
 ABIERTAS = [SolicitudCita.Estado.PENDIENTE, SolicitudCita.Estado.REPROGRAMADA, SolicitudCita.Estado.CONFIRMADA]
-CITAS_PANEL, RESENAS_PANEL = 6, 4
+CITAS_PANEL = 6
 
 
-def _nota(resenas):
-    nota = resenas.aggregate(prom=Avg("estrellas"), n=Count("id"))
-    nota["pct"] = round((nota["prom"] or 0) * 20)
-    return nota
 
 
 @login_required
@@ -606,13 +608,10 @@ def panel(request):
         return redirect("cuentas:mi_cuenta")
     hoy = timezone.localdate()
     citas = list(taller.solicitudes.select_related("servicio")[:60])
-    for c in citas:
-        c.whatsapp_url = _whatsapp_cita(c, taller, request)
-        c.vencida = c.estado == SolicitudCita.Estado.PENDIENTE and c.fecha_preferida < hoy
     citas.sort(key=lambda c: (ORDEN_CITAS[c.estado], c.fecha_preferida))
     abiertas = [c for c in citas if c.estado in ABIERTAS]
     resenas = taller.resenas.filter(visible=True)
-    nota = _nota(resenas)
+    nota = negocio.nota(resenas)
     from cuentas.avatares import PREDISENADOS, svg_predisenado
     from cuentas.models import Perfil
     from garaje.servicio_taller import resumen_taller
@@ -620,8 +619,23 @@ def panel(request):
     from .panel_cifras import faltan_cortos, franja
     resumen = resumen_taller(taller, hoy)
     canjes_mes = CodigoCupon.objects.filter(canjeado_taller=taller, canjeado_en__date__gte=hoy.replace(day=1)).count()
+    completitud = _completitud(taller)
+    sin_responder = resenas.filter(respuesta="").count()
+    tareas = negocio.tareas_comunes(
+        por_responder=sum(c.estado == SolicitudCita.Estado.PENDIENTE for c in citas), url_solicitudes="#citas",
+        precios_por_confirmar=_precios.necesita_confirmar(taller), url_precios=reverse("talleres:precios"),
+        sin_responder=sin_responder, url_resenas="#resenas")
+    if not (taller.latitud and taller.ubicacion_exacta):
+        tareas.insert(len(tareas) - bool(sin_responder), negocio.tarea("Confirma la ubicación exacta de tu taller",
+                                                                     reverse("talleres:editar_perfil") + "#ubicacion", "Confirmar"))
     return render(request, "talleres/panel.html", {
         "taller": taller,
+        # «Por hacer» (talleres/_por_hacer.html, igual que el del mecánico)
+        "tareas": tareas, "pct": completitud["pct"], "faltan_cortos": faltan_cortos(completitud["faltan"]),
+        "url_perfil": reverse("talleres:editar_perfil"), "todo_al_dia": "citas", "palabra_perfil": "perfil",
+        "url_alternar_precios": reverse("talleres:alternar_precios"), "mostrar_precios": taller.mostrar_precios,
+        "url_precios": reverse("talleres:precios"), "url_validar": reverse("cupones:canjear"), "url_ver_cupones": "#cupones",
+        "url_nuevo_cupon": reverse("talleres:cupon_nuevo"),
         "franja": franja([
             ("Citas esta semana", resumen["citas_semana"], resumen["citas_semana_ant"], "semana pasada", "",
              reverse("talleres:citas_taller") + "?estado=proximas", "lava", "Comparte tu página para recibir citas."),
@@ -632,29 +646,23 @@ def panel(request):
             ("Cupones canjeados", canjes_mes, None, "", "este mes", "#cupones", "verde", "Crea un cupón para atraer moteros."),
             ("Te guardaron", taller.favoritos.count(), None, "", "moteros", "", "rosa", ""),
         ]),
-        "precios_por_confirmar": _precios.necesita_confirmar(taller),
-        "sin_ubicacion": not (taller.latitud and taller.ubicacion_exacta),
         "n_precios": taller.precios.count(),
         "resumen": resumen,
         "perfil": Perfil.de(request.user),
         "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
-        "completitud": _completitud(taller),
-        "faltan_cortos": faltan_cortos(_completitud(taller)["faltan"]),
-        "citas": abiertas[:CITAS_PANEL],
+        "citas": negocio.tarjetas(abiertas[:CITAS_PANEL], taller, request),
         "n_abiertas": len(abiertas),
         "n_pendientes": sum(c.estado == SolicitudCita.Estado.PENDIENTE for c in citas),
         "n_citas_total": len(citas),
         # Primero las que faltan por responder; el resto está en la página de reseñas
-        "resenas": sorted(resenas.order_by("-creado")[:20], key=lambda r: bool(r.respuesta))[:RESENAS_PANEL],
-        "sin_responder": resenas.filter(respuesta="").count(),
+        "resenas": negocio.resenas_panel(resenas),
+        "sin_responder": sin_responder,
         "nota": nota,
         "favoritos": taller.favoritos.count(),
         "canjes_mes": canjes_mes,
         "cupones_activos": taller.cupones.vigentes().count(),
-        "cupones": taller.cupones.annotate(entregados=Count("codigos", distinct=True),
-                                           canjeados=Count("codigos", filter=Q(codigos__canjeado_en__isnull=False), distinct=True),
-                                           num_emitidos=F("entregados"))  # Cupon.restantes lo reutiliza sin consultar
-                   .order_by("-activo", "-creado")[:8],
+        "cupones": negocio.cupones_con_cifras(taller.cupones.all())[:8], "nombre_negocio": taller.nombre,
+        "url_pin": reverse("talleres:pin_canje"),
         "estados": SolicitudCita.Estado,
         "hoy": timezone.localdate(),
         "horas": [f"{h:02d}:{m:02d}" for h in range(6, 21) for m in (0, 30)],
@@ -990,11 +998,8 @@ def citas_taller(request):
     if q := request.GET.get("q", "").strip():
         citas = citas.filter(Q(nombre__icontains=q) | Q(moto__icontains=q) | Q(telefono__icontains=q))
     pagina = Paginator(citas, 15).get_page(request.GET.get("pagina"))
-    for c in pagina:
-        c.whatsapp_url = _whatsapp_cita(c, taller, request)
-        c.vencida = c.estado == SolicitudCita.Estado.PENDIENTE and c.fecha_preferida < hoy
     return render(request, "talleres/citas_taller.html", {
-        "taller": taller, "pagina": pagina, "filtro": filtro, "q": q,
+        "taller": taller, "pagina": pagina, "tarjetas": negocio.tarjetas(pagina, taller, request), "filtro": filtro, "q": q,
         "filtros": [(clave, nombre, conteos.get(clave, 0)) for clave, nombre in FILTROS_CITAS],
         "hoy": hoy, "horas": [f"{h:02d}:{m:02d}" for h in range(6, 21) for m in (0, 30)],
     })
@@ -1006,19 +1011,10 @@ def resenas_taller(request):
     taller = _taller_de(request)
     if not taller:
         return redirect("cuentas:mi_cuenta")
-    todas = taller.resenas.filter(visible=True)
-    filtro = request.GET.get("ver", "todas")
-    resenas = todas.filter(respuesta="") if filtro == "sin_responder" else todas
-    estrellas = request.GET.get("estrellas", "")
-    if estrellas in {"1", "2", "3", "4", "5"}:
-        resenas = resenas.filter(estrellas=int(estrellas))
-    reparto = {r["estrellas"]: r["n"] for r in todas.values("estrellas").annotate(n=Count("id"))}
-    nota = _nota(todas)
-    return render(request, "talleres/resenas_taller.html", {
-        "taller": taller, "pagina": Paginator(resenas.order_by("-creado"), 10).get_page(request.GET.get("pagina")),
-        "filtro": filtro, "estrellas": estrellas, "nota": nota, "sin_responder": todas.filter(respuesta="").count(),
-        "reparto": [(e, reparto.get(e, 0), round(reparto.get(e, 0) * 100 / nota["n"]) if nota["n"] else 0) for e in (5, 4, 3, 2, 1)],
-    })
+    return render(request, "talleres/resenas_negocio.html", {
+        "nombre": taller.nombre, "url_panel": reverse("talleres:panel"), "texto_panel": "Mi taller",
+        "vacio": "Aún no tienes reseñas. Pídeles a tus clientes que te califiquen en tu página.",
+        **negocio.contexto_resenas(request, taller.resenas.filter(visible=True))})
 
 
 class _RedireccionContacto(HttpResponseRedirect):

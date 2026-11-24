@@ -1,0 +1,18 @@
+{# Caja «Solicitudes» del panel del negocio (taller o mecánico). Variables: id_caja, titulo, url_historial, n_total, tarjetas, n_abiertas, plural, vacio, vacio_sub #}
+<section class="papel pt-caja scroll-mt-24" id="{{ id_caja }}">
+  <header class="pt-caja-cabeza">
+    <h2 class="titulo text-xl">{{ titulo }}</h2>
+    <a href="{{ url_historial }}" class="pt-enlace">Historial{% if n_total %} ({{ n_total }}){% endif %}</a>
+  </header>
+  <ul class="pt-citas">
+    {% for t in tarjetas %}{% include "talleres/_solicitud.html" %}
+    {% empty %}
+    <li class="pt-vacio">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+      <p>{{ vacio }}</p>
+      <small>{{ vacio_sub }}</small>
+    </li>
+    {% endfor %}
+  </ul>
+  {% if n_abiertas > tarjetas|length %}<a href="{{ url_todas }}" class="pt-ver-todas">Ver las {{ n_abiertas }} {{ plural }} por atender →</a>{% endif %}
+</section>

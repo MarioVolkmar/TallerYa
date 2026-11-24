@@ -96,8 +96,22 @@
   .pt-cita { grid-template-columns: auto minmax(0, 1fr) auto; }
   .pt-cita-lado { grid-column: auto; flex-direction: column; align-items: flex-end; border-top: 0; padding-top: 0; }
 }
-.pt-cita-botones { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
-.pt-cita-form { display: flex; flex-wrap: wrap; gap: .3rem; }
+.pt-cita-botones { display: flex; flex-wrap: nowrap; align-items: center; gap: .4rem; width: 100%; }
+.pt-cita-form { display: contents; }
+.pt-cita-estado { margin-top: .35rem; }
+.pt-cita-botones .pt-boton { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; white-space: nowrap; }
+.pt-cita-botones .pt-b1 { order: 1; flex: 1 1 auto; }
+.pt-cita-botones .pt-b2 { order: 2; }
+.pt-cita-botones .pt-boton:not(.pt-b1):not(.pt-b2) { order: 2; }
+.pt-cita-botones .pt-wa { order: 3; width: 44px; height: 44px; flex: none; }
+.pt-mas { order: 4; position: relative; margin-left: auto; }
+.pt-mas summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .15); color: var(--crema-2); font-size: 1.1rem; line-height: 1; }
+.pt-mas summary::-webkit-details-marker { display: none; }
+.pt-mas[open] summary { border-color: var(--crema-2); color: var(--crema); }
+.pt-mas-menu { position: absolute; right: 0; bottom: calc(100% + .3rem); z-index: 5; min-width: 11rem; display: grid; padding: .3rem; border-radius: 14px; background: #1f272a; border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 10px 24px rgba(0, 0, 0, .45); }
+.pt-menu-item { text-align: left; min-height: 44px; padding: 0 .8rem; border-radius: 10px; font-size: .8rem; font-weight: 600; color: var(--crema-2); }
+.pt-menu-item:hover { background: rgba(255, 255, 255, .06); color: var(--crema); }
+@media (min-width: 640px) { .pt-cita-botones { width: auto; } .pt-cita-botones .pt-b1 { flex: none; } }
 .pt-boton { font-size: .72rem; font-weight: 700; padding: .38rem .7rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .15); color: var(--crema-2); transition: background .2s, color .2s, border-color .2s; }
 .pt-boton:hover { border-color: var(--crema-2); color: var(--crema); }
 .pt-boton-ok { background: rgba(134, 219, 166, .14); border-color: rgba(134, 219, 166, .45); color: #86dba6; }
@@ -329,7 +343,7 @@
 /* Panel del taller: interruptor «Va a domicilio» (un toque, sin salir del panel) */
 .tp-diag { grid-column: 1 / -1; }
 
-/* Cotización del taller en la cita (_dialogo_cotizar.html, _cita_item.html y cita_publica.html) */
+/* Cotización en la solicitud (_dialogo_cotizar.html, _solicitud.html y cita_publica.html) */
 .pt-boton-lava { color: #ff9a6a; border-color: rgba(242, 97, 29, .5); }
 .pt-boton-lava:hover { background: var(--lava); color: #fff; border-color: var(--lava); }
 
@@ -363,8 +377,6 @@ a.pt-fr:hover, a.pt-fr:focus-visible { border-color: color-mix(in srgb, var(--c,
 .pt-hacer .pt-fila-texto { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .9rem; }
 .pt-hacer .pt-fila-texto > * { margin: 0; }
 .pt-hacer .pt-fila-acciones { flex-direction: row; align-items: center; gap: .5rem; }
-.pt-hacer .pt-precios { padding: .35rem .5rem .35rem .8rem; border: 1px solid var(--borde); border-radius: 12px; background: #1c2326; }
-.pt-hacer .pt-precios-estado { font-size: .86rem; }
 .pt-fila-mini { color: var(--mostaza); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 .pt-perfil .pt-perfil-texto { flex: 1; min-width: 0; display: grid; gap: .35rem; font-size: .88rem; }
 .pt-perfil small { font-size: .78rem; color: #9ba2a4; }
@@ -374,9 +386,6 @@ a.pt-fr:hover, a.pt-fr:focus-visible { border-color: color-mix(in srgb, var(--c,
   .pt-hacer .pt-tarea { flex-direction: row; align-items: center; gap: .6rem; padding: .35rem .4rem .35rem .7rem; font-size: .86rem; line-height: 1.25; }
   .pt-hacer .pt-tarea.listo { flex-direction: row; }
   .pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal { width: auto; min-height: 44px; padding: 0 .85rem; }
-  .pt-hacer .pt-precios { align-items: center; padding: .4rem .5rem .5rem .7rem; }
-  .pt-hacer .pt-precios-acciones { width: 100%; justify-content: space-between; flex-wrap: nowrap; gap: .5rem; }
-  .pt-hacer .pt-precios-acciones .pt-interruptor-btn { font-size: .8rem; min-width: 0; }
   .pt-hacer .pt-fila { grid-template-columns: auto 1fr auto; padding: .45rem .4rem .45rem .6rem; }
   .pt-hacer .pt-fila-acciones { grid-column: auto; }
   .pt-hacer .pt-fila-acciones > * { flex: none; }
@@ -385,7 +394,7 @@ a.pt-fr:hover, a.pt-fr:focus-visible { border-color: color-mix(in srgb, var(--c,
 }
 @media (min-width: 641px) {
   .pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal { min-height: 34px; padding: 0 .9rem; }
-  .pt-hacer .pt-tarea, .pt-hacer .pt-fila, .pt-hacer .pt-precios { padding-top: .3rem; padding-bottom: .3rem; }
+  .pt-hacer .pt-tarea, .pt-hacer .pt-fila { padding-top: .3rem; padding-bottom: .3rem; }
   .pt-hacer .pt-interruptor-btn { min-height: 34px; }
 }
 @media (min-width: 641px) {
@@ -394,3 +403,12 @@ a.pt-fr:hover, a.pt-fr:focus-visible { border-color: color-mix(in srgb, var(--c,
   .pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal, .pt-hacer .pt-interruptor-btn { min-height: 32px; }
   .pt-hacer .pt-tarea:not(.urgente) .pt-tarea-btn { font-size: .74rem; padding: 0 .8rem; }
 }
+
+/* Tarjeta de solicitud (_solicitud.html): «hace X» y cupón que trae el motero */
+.pt-hace { color: #9ba2a4; }
+.pt-cita-cupon { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; font-size: .82rem; }
+.pt-cita-cupon-anotar { font-size: .82rem; }
+.pt-cita-cupon-anotar summary { cursor: pointer; color: var(--mostaza); font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
+.pt-cita-cupon-anotar form { display: flex; gap: .5rem; margin-top: .2rem; max-width: 22rem; }
+.pt-cita-cupon-anotar .campo { flex: 1; min-width: 0; text-transform: uppercase; }
+.pt-cita-cupon-anotar p { margin-top: .3rem; font-size: .74rem; }

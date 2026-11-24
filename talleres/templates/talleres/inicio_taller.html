@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load negocio %}
 {% block title %}{{ taller.nombre }} · TallerYa{% endblock %}
 {% block content %}
 <!-- Portada del taller: saludo, resumen de hoy y la semana -->
@@ -51,7 +52,7 @@
         {% for c in citas %}
         <li class="pt-cita estado-{{ c.estado }}" data-cita-detalle="{{ c.pk }}" title="Ver detalle">
           <div class="pt-cita-fecha"><strong>{{ c.fecha_preferida|date:"j" }}</strong><span>{{ c.fecha_preferida|date:"M"|lower }}</span></div>
-          <div class="pt-cita-datos"><p class="pt-cita-quien">{{ c.nombre }} <span>· {{ c.moto }}</span></p><p class="pt-cita-que">{% if c.servicio %}{{ c.servicio }}{% else %}Servicio por definir{% endif %} · <span class="pt-chip chip-{{ c.estado }}">{{ c.get_estado_display }}</span></p></div>
+          <div class="pt-cita-datos"><p class="pt-cita-quien">{{ c.nombre }} <span>· {{ c.moto }}</span></p><p class="pt-cita-que">{% if c.servicio %}{{ c.servicio }}{% else %}Servicio por definir{% endif %} · <span class="pt-chip chip-{{ c|estado_chip }}">{{ c|estado_ui }}</span></p></div>
           {% include "talleres/_cita_detalle.html" %}
           {% if c.whatsapp_url %}<a href="{{ c.whatsapp_url }}" target="_blank" rel="noopener" class="pt-wa" aria-label="Escribir a {{ c.nombre }} por WhatsApp"><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></svg></a>{% endif %}
         </li>

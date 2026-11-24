@@ -2393,6 +2393,7 @@ a, button, summary, label { -webkit-tap-highlight-color: rgba(242, 97, 29, .18);
 .pt-cita-fecha span { font-size: .66rem; text-transform: uppercase; letter-spacing: .1em; color: #8d9496; }
 .pt-cita-quien span { font-weight: 400; color: #9ba2a4; }
 .pt-chip { font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; padding: .25rem .6rem; border-radius: 999px; }
+.chip-cotizada { background: rgba(242, 97, 29, .14); color: #ff9a6a; }
 .chip-pendiente { background: rgba(227, 167, 47, .14); color: var(--mostaza); }
 .chip-confirmada { background: rgba(134, 219, 166, .14); color: #86dba6; }
 .chip-atendida { background: rgba(255, 255, 255, .07); color: #9ba2a4; }
@@ -3714,34 +3715,8 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 .cp-aviso { font-size: .78rem; color: #a59d8d; }
 
 /* Solicitudes de visita del mecánico a domicilio (domicilio/solicitudes.html) */
-.vd-filtros { display: flex; gap: .5rem; margin-top: 1.4rem; }
-.vd-filtro { display: inline-flex; align-items: center; min-height: 40px; padding: .4rem 1rem; border-radius: 999px; border: 1px solid var(--borde); color: var(--crema-2); font-weight: 600; font-size: .85rem; }
-.vd-filtro.activa { background: var(--crema); color: var(--carbon); border-color: var(--crema); }
-.vd-lista { display: grid; gap: .8rem; margin: 1.2rem 0 3rem; }
-.vd-item { padding: 1rem 1.1rem; display: grid; gap: .45rem; scroll-margin-top: 6rem; }
-.vd-cabeza { display: flex; justify-content: space-between; align-items: center; gap: .6rem; }
-.vd-quien { font-weight: 700; color: var(--crema); }
-.vd-quien span { font-weight: 400; color: var(--crema-2); }
-.vd-que, .vd-detalle { font-size: .85rem; color: var(--crema-2); }
-.vd-detalle { font-style: italic; }
-.vd-precio { font-size: .85rem; color: #8ec8ff; }
-.vd-precio strong { color: var(--crema); }
-.vd-descuento { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .5rem; font-size: .85rem; color: var(--crema-2); }
-.vd-codigo { font-size: .82rem; }
-.vd-codigo summary { cursor: pointer; color: var(--mostaza); font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
-.vd-codigo form { display: flex; gap: .5rem; margin-top: .2rem; max-width: 22rem; }
-.vd-codigo .campo { flex: 1; min-width: 0; text-transform: uppercase; }
-.vd-codigo p { margin-top: .3rem; font-size: .74rem; }
-.vd-rechazo { font-size: .8rem; color: #ff8a70; }
-.vd-chip { flex-shrink: 0; font-size: .72rem; font-weight: 700; padding: .2rem .65rem; border-radius: 999px; background: rgba(255, 255, 255, .07); color: var(--crema-2); }
-.vd-pendiente { background: rgba(227, 167, 47, .14); color: var(--mostaza); }
-.vd-cotizada { background: rgba(142, 200, 255, .12); color: #8ec8ff; }
-.vd-confirmada, .vd-atendida { background: rgba(134, 219, 166, .12); color: #86dba6; }
-.vd-botones { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .3rem; }
-.vd-form { display: contents; }
-.pt-caja .vd-lista { margin: 0; }
-.pt-caja .vd-item { background: rgba(0, 0, 0, .18); border-radius: 14px; }
-.vd-vacio { padding: 1.2rem; margin-top: 1.2rem; color: var(--crema-2); }
+.vd-pagina { padding-bottom: 6rem; }
+.pt-cita-lado .pt-chip { white-space: nowrap; }
 
 /* Paneles de aliados (taller y mecánico a domicilio): cabecera, accesos, «Por hacer», precios y cifras */
 .pt-cabeza { display: grid; gap: 1.2rem; padding: 1.4rem; }
@@ -3791,12 +3766,9 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .pt-tarea.urgente strong { color: var(--mostaza); }
 .pt-tarea.listo { justify-content: flex-start; gap: .5rem; color: #86dba6; }
 .pt-tarea-btn { flex: none; display: inline-grid; place-items: center; min-height: 44px; padding: 0 1rem; border-radius: 999px; background: var(--mostaza); color: #1a1204; font-size: .78rem; font-weight: 700; }
-.pt-precios .pt-tarea-btn, .pt-tarea:not(.urgente) .pt-tarea-btn { background: transparent; border: 1px solid var(--borde); color: var(--crema); }
+.pt-tarea:not(.urgente) .pt-tarea-btn { background: transparent; border: 1px solid var(--borde); color: var(--crema); }
 .pt-tarea-btn:hover { filter: brightness(1.1); }
-.pt-precios { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .4rem 1rem; padding-top: .7rem; border-top: 1px solid var(--borde); }
-.pt-precios-estado { font-size: .88rem; }
-.pt-precios-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1rem; }
-@media (max-width: 640px) { .pt-tarea { flex-direction: column; align-items: stretch; } .pt-tarea.listo { flex-direction: row; } .pt-tarea-btn { width: 100%; } .pt-precios-acciones { width: 100%; } }
+@media (max-width: 640px) { .pt-tarea { flex-direction: column; align-items: stretch; } .pt-tarea.listo { flex-direction: row; } .pt-tarea-btn { width: 100%; } }
 .pt-avatar-fijo { align-self: start; justify-self: start; display: inline-flex; border-radius: 50%; overflow: hidden; }
 
 /* Barra fija de avance de los registros (parcial cuentas/_barra_registro.html + talleres/js/barra_registro.js): muy discreta; pasa a lava solo al completar */
@@ -3880,7 +3852,7 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 /* Móvil: toques de 44 px (revisión celular 375/360). Botones y chips crecen; los enlaces de texto en línea amplían
    su zona de toque con ::after (sin mover el diseño). */
 @media (max-width: 640px) {
-  .volver, .boton-seccion, .moto-acceso, .vd-filtro, .lt-filtros a, .seguridad-accion, .seguridad-estado,
+  .volver, .boton-seccion, .moto-acceso, .lt-filtros a, .seguridad-accion, .seguridad-estado,
   .aviso-correo-boton, .doc-abrir, .ib-emergencia, .ticket-taller, .pt-boton, .rb-btn, .instalar-boton { min-height: 44px; }
   .volver, .lt-filtros a, .seguridad-estado, .aviso-correo-boton, .doc-abrir, .pt-boton, .rb-btn, .instalar-boton { display: inline-flex; align-items: center; justify-content: center; }
   .lt-filtros a { padding-block: .5rem; }
@@ -3893,6 +3865,8 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
   .pt-enlace, .pt-domicilio-zonas, .perfil-nota, .boton-texto, .insignia-dom, .dm-link, .dom-cta-mecanico { position: relative; }
   .pt-enlace::after, .pt-domicilio-zonas::after, .perfil-nota::after, .boton-texto::after, .insignia-dom::after,
   .dm-link::after, .dom-cta-mecanico::after { content: ""; position: absolute; inset: -.6rem -.3rem; }
+  header .pt-enlace { min-height: 44px; }
+  header .pt-enlace::after { content: "→"; position: static; inset: auto; }
 }
 @media (max-width: 640px) {
   .btn, .visor-modo button, .visor-boton, .ib-rapidos a, .paginar-boton, .rc-tipo a, button.perfil-chip, .tr-cc input { min-height: 44px; }
@@ -3912,3 +3886,18 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .perfil-chip { display: inline-flex; align-items: center; line-height: 1.25; }
 /* Páginas con hero que sube el contenido (-mt): si antes hay un aviso o mensaje, el contenido ya no se monta encima */
 main > .aviso-correo ~ div.relative.z-10, main > .mensaje ~ div.relative.z-10 { margin-top: 1.5rem; }
+/* Secciones plegables de las fichas públicas (taller y mecánico): <details class="seccion-pleg"> */
+.seccion-pleg > summary { list-style: none; }
+.seccion-pleg > summary::-webkit-details-marker { display: none; }
+.seccion-resumen { display: flex; align-items: center; gap: .75rem; min-height: 44px; cursor: pointer; border-radius: 10px; }
+.seccion-resumen .titulo { flex: 1 1 auto; min-width: 0; }
+.seccion-resumen:hover .titulo { color: var(--lava-2); }
+.seccion-resumen:focus-visible { outline: 2px solid var(--mostaza); outline-offset: 4px; }
+.seccion-dato { flex: none; font-size: .85rem; color: var(--crema-2); white-space: nowrap; }
+.seccion-chevron { flex: none; width: .6rem; height: .6rem; margin: 0 .35rem; border-right: .16rem solid var(--mostaza); border-bottom: .16rem solid var(--mostaza); transform: rotate(45deg) translate(-2px, -2px); transition: transform .2s ease; }
+.seccion-pleg[open] > .seccion-resumen .seccion-chevron { transform: rotate(-135deg) translate(-2px, -2px); }
+.seccion-pleg > .seccion-cuerpo-pleg { margin-top: 1rem; }
+.seccion-pleg > .seccion-cuerpo-pleg > .separador:first-child { margin-top: 0; }
+.seccion-acciones { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
+@media (max-width: 480px) { .seccion-dato { max-width: 8.5rem; white-space: normal; text-align: right; line-height: 1.2; } }
+@media (prefers-reduced-motion: reduce) { .seccion-chevron { transition: none; } }

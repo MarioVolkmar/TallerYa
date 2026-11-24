@@ -1,10 +1,8 @@
 {% extends "base.html" %}
-{% load static %}
-{% block title %}Reseñas · {{ m.nombre }} · TallerYa{% endblock %}
+{% block title %}Reseñas · {{ nombre }} · TallerYa{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
 <div class="mt-8 md:mt-10">
-  {% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" %}
+  {% include "parciales/volver.html" with url=url_panel texto=texto_panel %}
   <h1 class="titulo text-4xl md:text-5xl mt-4">Mis <span class="text-lava">reseñas</span></h1>
   <div class="lr">
     {% include "talleres/_resenas_resumen.html" %}
@@ -14,9 +12,10 @@
         <a href="?ver=sin_responder{% if estrellas %}&amp;estrellas={{ estrellas }}{% endif %}"{% if filtro == "sin_responder" %} class="activo"{% endif %}>Sin responder <span>{{ sin_responder }}</span></a>
       </nav>
       <ul class="pt-resenas">
-        {% for r in lista %}{% include "domicilio/_resena_item.html" %}
-        {% empty %}<li class="pt-vacio-chico">{% if filtro == "sin_responder" %}No tienes reseñas sin responder.{% elif nota.n %}No hay reseñas en esta lista.{% else %}Aún no tienes reseñas. Los moteros que te contraten pueden calificarte desde tu ficha.{% endif %}</li>{% endfor %}
+        {% for r in pagina %}{% include "talleres/_resena_item.html" %}
+        {% empty %}<li class="pt-vacio-chico">{% if filtro == "sin_responder" %}No tienes reseñas sin responder.{% elif nota.n %}No hay reseñas en esta lista.{% else %}{{ vacio }}{% endif %}</li>{% endfor %}
       </ul>
+      {% include "talleres/_paginas.html" %}
     </section>
   </div>
 </div>

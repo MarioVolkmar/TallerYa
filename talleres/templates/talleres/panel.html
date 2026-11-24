@@ -34,85 +34,19 @@
     <a href="{% url 'talleres:estadisticas' %}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Estadísticas</a>
   </nav>
 
-  <section class="papel pt-hacer" aria-labelledby="pt-hacer-t">
-    <h2 class="etiqueta" id="pt-hacer-t">Por hacer</h2>
-    <ul class="pt-tareas">
-      {% if n_pendientes %}<li class="pt-tarea urgente"><span><strong>{{ n_pendientes }} cita{{ n_pendientes|pluralize }}</strong> por confirmar</span><a href="#citas" class="pt-tarea-btn">Responder</a></li>{% endif %}
-      {% if precios_por_confirmar %}<li class="pt-tarea urgente"><span>Tus precios de mano de obra llevan más de 2 meses sin confirmarse</span><a href="{% url 'talleres:precios' %}" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
-      {% if sin_ubicacion %}<li class="pt-tarea"><span>Confirma la ubicación exacta de tu taller</span><a href="{% url 'talleres:editar_perfil' %}#ubicacion" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
-      {% if sin_responder %}<li class="pt-tarea"><span><strong>{{ sin_responder }} reseña{{ sin_responder|pluralize }}</strong> sin responder</span><a href="#resenas" class="pt-tarea-btn">Responder</a></li>{% endif %}
-      {% if completitud.pct < 100 %}{% url 'talleres:editar_perfil' as u_perfil %}{% include "talleres/_fila_perfil.html" with pct=completitud.pct faltan=faltan_cortos url=u_perfil %}{% endif %}
-      {% if not n_pendientes and not precios_por_confirmar and not sin_ubicacion and not sin_responder and completitud.pct == 100 %}<li class="pt-tarea listo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Todo al día: citas, precios, reseñas y perfil.</li>{% endif %}
-    </ul>
-    <form method="post" action="{% url 'talleres:alternar_precios' %}" class="pt-precios">{% csrf_token %}
-      <input type="hidden" name="valor" value="{% if taller.mostrar_precios %}0{% else %}1{% endif %}">
-      <p class="pt-precios-estado"><strong>Tus precios:</strong> {% if not n_precios %}aún no has cargado precios{% elif taller.mostrar_precios %}visibles en tu perfil{% else %}ocultos: tu perfil dice «Cotiza por WhatsApp»{% endif %}</p>
-      <div class="pt-precios-acciones">
-        {% if n_precios %}<button type="submit" class="pt-interruptor-btn" role="switch" aria-checked="{% if taller.mostrar_precios %}true{% else %}false{% endif %}"><span class="pt-switch" aria-hidden="true"></span>Mostrar precios en mi perfil</button>{% endif %}
-        <a href="{% url 'talleres:precios' %}" class="pt-tarea-btn">{% if n_precios %}Editar precios{% else %}Armar mi tabla{% endif %}</a>
-      </div>
-    </form>
-    {% url 'talleres:cupon_nuevo' as u_nuevo %}{% url 'cupones:canjear' as u_validar %}
-    {% include "talleres/_fila_cupones.html" with activos=cupones_activos url_validar=u_validar url_ver="#cupones" url_nuevo=u_nuevo %}
-  </section>
+  {% include "talleres/_por_hacer.html" %}
 
   {% include "talleres/_franja_cifras.html" %}
 
   <div class="pt-rejilla">
-    <section class="papel pt-caja scroll-mt-24" id="citas">
-      <header class="pt-caja-cabeza">
-        <h2 class="titulo text-xl">Solicitudes de cita</h2>
-        <a href="{% url 'talleres:citas_taller' %}" class="pt-enlace">Historial ({{ n_citas_total }})</a>
-      </header>
-      <ul class="pt-citas">
-        {% for c in citas %}
-        {% include "talleres/_cita_item.html" %}
-        {% empty %}
-        <li class="pt-vacio">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-          <p>No tienes citas por atender.</p>
-          <small>Los moteros te piden cita desde tu página. Compártela para recibir más.</small>
-        </li>
-        {% endfor %}
-      </ul>
-      {% if n_abiertas > citas|length %}<a href="{% url 'talleres:citas_taller' %}" class="pt-ver-todas">Ver las {{ n_abiertas }} citas por atender →</a>{% endif %}
-    </section>
+    {% url 'talleres:citas_taller' as u_hist %}
+    {% include "talleres/_panel_solicitudes.html" with id_caja="citas" titulo="Solicitudes de cita" url_historial=u_hist n_total=n_citas_total tarjetas=citas url_todas=u_hist plural="citas" vacio="No tienes citas por atender." vacio_sub="Los moteros te piden cita desde tu página. Compártela para recibir más." %}
 
     <div class="pt-lado">
-      <section class="papel pt-caja scroll-mt-24" id="resenas">
-        <header class="pt-caja-cabeza"><h2 class="titulo text-xl">Reseñas</h2>{% if nota.n %}{% include "talleres/_calificacion.html" %}{% endif %}</header>
-        <ul class="pt-resenas">
-          {% for r in resenas %}
-          {% include "talleres/_resena_item.html" %}
-          {% empty %}<li class="pt-vacio-chico">Aún no tienes reseñas. Pídeles a tus clientes que te califiquen en tu página.</li>{% endfor %}
-        </ul>
-        {% if nota.n > resenas|length %}<a href="{% url 'talleres:resenas_taller' %}" class="pt-ver-todas">Ver las {{ nota.n }} reseñas{% if sin_responder %} · {{ sin_responder }} sin responder{% endif %} →</a>{% endif %}
-      </section>
+      {% url 'talleres:resenas_taller' as u_res %}
+      {% include "talleres/_panel_resenas.html" with url_todas=u_res vacio="Aún no tienes reseñas. Pídeles a tus clientes que te califiquen en tu página." %}
 
-      <section class="papel pt-caja scroll-mt-24" id="cupones">
-        <header class="pt-caja-cabeza">
-          <h2 class="titulo text-xl">Mis cupones</h2>
-          <a href="{% url 'cupones:canjear' %}" class="btn btn-lava text-xs px-4 py-2 pt-boton-icono"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><rect x="8" y="8" width="3" height="3"/><rect x="13" y="8" width="3" height="3"/><rect x="8" y="13" width="3" height="3"/><path d="M13 13h3v3"/></svg>Validar</a>
-          <a href="{% url 'talleres:pin_canje' %}" class="btn btn-borde text-xs px-4 py-2">PIN</a>
-        </header>
-        <ul class="pt-cupones">
-          {% for cu in cupones %}
-          <li class="pt-cupon{% if not cu.activo %} pausado{% endif %}" data-cupon-detalle="{{ cu.pk }}" title="Ver cupón">
-            <div class="pt-cupon-datos">
-              <p class="pt-cupon-titulo">{{ cu.titulo }}{% if cu.solo_plus %} <span class="insignia insignia-plus">Plus</span>{% endif %}</p>
-              <p class="pt-cupon-meta">{% if not cu.activo %}<span class="pt-chip chip-atendida">Pausado</span>{% elif not cu.vigente %}<span class="pt-chip chip-cancelada">Vencido</span>{% else %}<span class="pt-chip chip-confirmada">Activo</span>{% endif %}
-                {{ cu.entregados }} entregado{{ cu.entregados|pluralize }} · {{ cu.canjeados }} canjeado{{ cu.canjeados|pluralize }}{% if cu.cupo %} · cupo {{ cu.cupo }}{% endif %}{% if cu.valido_hasta %} · hasta el {{ cu.valido_hasta|date:"j M"|lower }}{% endif %}</p>
-            </div>
-            <div class="pt-cupon-botones">
-              <a href="{% url 'talleres:cupon_editar' cu.pk %}" class="pt-boton">Editar</a>
-              <form method="post" action="{% url 'talleres:cupon_pausar' cu.pk %}">{% csrf_token %}<button class="pt-boton">{% if cu.activo %}Pausar{% else %}Activar{% endif %}</button></form>
-            </div>
-          </li>
-          {% include "talleres/_cupon_detalle.html" %}
-          {% empty %}<li class="pt-vacio-chico">Aún no tienes cupones. Crea uno para atraer moteros: aparece en tu página y en la lista de cupones de TallerYa.</li>{% endfor %}
-        </ul>
-        <a href="{% url 'talleres:cupon_nuevo' %}" class="pt-nuevo-cupon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Crear cupón</a>
-      </section>
+      {% include "talleres/_panel_cupones.html" %}
 
     </div>
   </div>

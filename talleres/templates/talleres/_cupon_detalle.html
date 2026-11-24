@@ -1,7 +1,7 @@
-{# Contenido de la ventana de detalle de un cupón del taller. Variables: cu (con entregados y canjeados), taller #}
+{% load negocio %}{# Ventana de detalle de un cupón del negocio. Variables: cu (con entregados y canjeados), nombre_negocio #}
 <template id="cupon-detalle-{{ cu.pk }}">
   <div class="cu-cabeza">
-    <p class="cu-taller">{{ taller.nombre }}</p>
+    <p class="cu-taller">{{ nombre_negocio }}</p>
     <p class="titulo text-3xl cu-titulo">{{ cu.titulo }}</p>
     <p class="pt-cupon-meta">{% if not cu.activo %}<span class="pt-chip chip-atendida">Pausado</span>{% elif not cu.vigente %}<span class="pt-chip chip-cancelada">Vencido</span>{% else %}<span class="pt-chip chip-confirmada">Activo</span>{% endif %}
       {% if cu.valido_hasta %}Válido hasta el {{ cu.valido_hasta|date:"j \d\e F"|lower }}{% else %}Sin fecha de vencimiento{% endif %}</p>
@@ -25,7 +25,7 @@
     </ul>
   </div>
   <div class="cu-acciones">
-    <a href="{% url 'talleres:cupon_editar' cu.pk %}" class="btn btn-borde text-xs px-5 py-2.5">Editar cupón</a>
+    <a href="{{ cu|url_cupon:'editar' }}" class="btn btn-borde text-xs px-5 py-2.5">Editar cupón</a>
     <button type="button" class="btn btn-lava text-xs px-5 py-2.5" data-imprimir>Imprimir QR</button>
   </div>
 </template>

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Mis cupones · Mecánico a domicilio · TallerYa{% endblock %}
+{% block title %}Mis cupones · Mecánico a domicilio · TallerYa{% include "talleres/_dialogo_cupon.html" %}
+{% endblock %}
 {# Por dentro son cupones (cupones.Cupon con mecanico); para el motero y el mecánico se llaman «descuentos». Misma lista que «Mis cupones» del panel del taller #}
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
@@ -17,24 +18,7 @@
       </header>
       <p class="text-sm text-suave mt-2">El motero lo toma gratis en tu ficha y en la página de cupones de TallerYa. Si te pide la visita por TallerYa, el cupón queda anotado en la solicitud y se valida solo cuando la marcas como atendida.</p>
       {% if not publicado %}<p class="text-sm mt-3"><strong>Ojo:</strong> tus cupones se verán cuando aprobemos tu perfil.</p>{% endif %}
-      <ul class="pt-cupones mt-4">
-        {% for cu in cupones %}
-        <li class="pt-cupon{% if not cu.activo %} pausado{% endif %}">
-          <div class="pt-cupon-datos">
-            <p class="pt-cupon-titulo">{{ cu.titulo }}</p>
-            <p class="pt-cupon-meta">{% if not cu.activo %}<span class="pt-chip chip-atendida">Pausado</span>{% elif not cu.vigente %}<span class="pt-chip chip-cancelada">Vencido</span>{% else %}<span class="pt-chip chip-confirmada">Activo</span>{% endif %}
-              <span>{{ cu.entregados }} tomado{{ cu.entregados|pluralize }} · {{ cu.canjeados }} usado{{ cu.canjeados|pluralize }}</span>
-              {% if cu.valido_hasta %}<span>Hasta {{ cu.valido_hasta|date:"j M"|lower }}</span>{% endif %}
-              {% if cu.cupo %}<span>Quedan {{ cu.restantes }}</span>{% endif %}</p>
-          </div>
-          <div class="pt-cupon-botones">
-            <a href="{% url 'domicilio:descuento_editar' cu.pk %}" class="pt-boton">Editar</a>
-            <form method="post" action="{% url 'domicilio:descuento_pausar' cu.pk %}">{% csrf_token %}<button class="pt-boton">{% if cu.activo %}Pausar{% else %}Activar{% endif %}</button></form>
-          </div>
-        </li>
-        {% empty %}<li class="pt-vacio-chico">Aún no tienes cupones. Ej: «10% en cambio de aceite si lo pides por TallerYa». Sale en tu ficha y en la página de cupones.</li>{% endfor %}
-      </ul>
-      <a href="{% url 'domicilio:descuento_nuevo' %}" class="pt-nuevo-cupon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Crear cupón</a>
+      <div class="mt-4">{% include "talleres/_lista_cupones.html" with nombre_negocio=m.nombre vacio="Aún no tienes cupones. Ej: «10% en cambio de aceite si lo pides por TallerYa». Sale en tu ficha y en la página de cupones." %}</div>
     </section>
 
     <div class="pt-lado">
@@ -57,4 +41,5 @@
     </div>
   </div>
 </div>
+{% include "talleres/_dialogo_cupon.html" %}
 {% endblock %}

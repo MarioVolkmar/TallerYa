@@ -1,30 +1,31 @@
-<!-- Cancelar cita: confirmación con advertencia -->
+{# Cancelar una cita o visita: confirmación con advertencia. Opcional: sustantivo («cita» por defecto) #}{% with sus=sustantivo|default:"cita" %}
 <dialog class="papel rp-dialogo" id="dialogo-cancelar" aria-labelledby="cn-titulo">
   <form method="post" class="rp-form">
     {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}"><input type="hidden" name="estado" value="cancelada">
-    <div class="rp-cabeza"><p class="titulo text-2xl" id="cn-titulo">¿Cancelar la cita?</p><button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
-    <p class="rp-sub">Vas a cancelar la cita de <strong data-cn-nombre></strong> del <strong data-cn-fecha></strong>.</p>
+    <div class="rp-cabeza"><p class="titulo text-2xl" id="cn-titulo">¿Cancelar la {{ sus }}?</p><button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
+    <p class="rp-sub">Vas a cancelar la {{ sus }} de <strong data-cn-nombre></strong> del <strong data-cn-fecha></strong>.</p>
     <div class="cn-aviso">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/></svg>
       <ul>
         <li>Le avisaremos al motero por WhatsApp y en TallerYa.</li>
-        <li data-cn-confirmada>Ya le habías confirmado esta cita: cancelarla a última hora le daña el día y puede terminar en una mala reseña.</li>
-        <li>Cancelar seguido hace que los moteros confíen menos en tu taller. Si es posible, mejor <strong>reprográmala</strong>.</li>
+        <li data-cn-confirmada>Ya le habías confirmado esta {{ sus }}: cancelarla a última hora le daña el día y puede terminar en una mala reseña.</li>
+        <li>Cancelar seguido hace que los moteros confíen menos en ti. Si es posible, mejor <strong>reprográmala</strong>.</li>
       </ul>
     </div>
     <label class="campo-label">Motivo para el motero <span class="rc-opcional">(recomendado)</span>
       <input type="text" name="motivo" class="campo" maxlength="200" placeholder="Se nos enfermó el mecánico, qué pena contigo"></label>
     <div class="cn-botones">
       <button type="button" class="btn btn-borde py-3 text-sm" data-cerrar>No, mantener</button>
-      <button class="btn cn-confirmar py-3 text-sm">Sí, cancelar cita</button>
+      <button class="btn cn-confirmar py-3 text-sm">Sí, cancelar {{ sus }}</button>
     </div>
   </form>
-</dialog>
+</dialog>{% endwith %}
 <script>
   (function () {
     var dialogo = document.getElementById("dialogo-cancelar"); if (!dialogo) return;
     var form = dialogo.querySelector("form");
     document.querySelectorAll("[data-cancelar]").forEach(function (b) {
+      b.addEventListener("click", function () { var d = b.closest("details"); if (d) d.open = false; });
       b.addEventListener("click", function () {
         form.action = b.dataset.cancelar;
         dialogo.querySelector("[data-cn-nombre]").textContent = b.dataset.nombre;

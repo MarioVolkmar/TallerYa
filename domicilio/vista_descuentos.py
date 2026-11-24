@@ -3,7 +3,8 @@ cupones.Cupon con `mecanico`), validar el código que le muestra un motero y ver
 de precios del panel (la fila de accesos se queda en 6)."""
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, F, Q
+from django.db.models import Q
+from django.urls import reverse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
@@ -40,13 +41,11 @@ def descuentos(request):
             messages.success(request, f"Cupón validado: {codigo.cupon.titulo} para {codigo.motociclista.nombre}.")
             return redirect("domicilio:descuentos")
     inicio_mes = timezone.localdate().replace(day=1)
-    lista = (mecanico.cupones.annotate(entregados=Count("codigos", distinct=True),
-                                       canjeados=Count("codigos", filter=Q(codigos__canjeado_en__isnull=False), distinct=True),
-                                       num_emitidos=F("entregados"))
-             .order_by("-activo", "-creado"))
+    from talleres.negocio import cupones_con_cifras
+    lista = cupones_con_cifras(mecanico.cupones.all())
     canjes = mecanico.canjes.select_related("cupon", "motociclista").order_by("-canjeado_en")
     return render(request, "domicilio/descuentos.html", {
-        "m": mecanico, "form": form, "cupones": lista, "canjes": canjes[:8],
+        "m": mecanico, "form": form, "cupones": lista, "url_nuevo_cupon": reverse("domicilio:descuento_nuevo"), "canjes": canjes[:8],
         "canjes_mes": canjes.filter(canjeado_en__date__gte=inicio_mes).count(),
         "publicado": mecanico.estado == mecanico.Estado.APROBADO,
     })
