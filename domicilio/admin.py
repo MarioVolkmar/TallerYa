@@ -46,10 +46,9 @@ class PrecioInline(admin.TabularInline):
 class MecanicoDomicilioAdmin(admin.ModelAdmin):
     list_display = ("nombre", "whatsapp", "estado", "verificado", "urgencias", "anios_experiencia", "creado")
     list_filter = ("estado", "verificado", "urgencias", "zonas", "servicios")
-    list_editable = ("verificado",)
     search_fields = ("nombre", "whatsapp", "usuario__email", "descripcion")
     filter_horizontal = ("zonas", "servicios", "marcas")
-    readonly_fields = ("slug", "creado", "actualizado", "cedula", "verificacion")
+    readonly_fields = ("slug", "creado", "actualizado", "cedula", "verificacion", "verificado")  # la insignia solo se otorga aprobando la identidad en la consola
     raw_id_fields = ("usuario",)
     inlines = [FotoTrabajoInline, PrecioInline, ResenaInline]
     actions = ["aprobar", "suspender", "volver_a_pendiente"]

@@ -49,10 +49,10 @@
 
   // --- Push ---
   const caja = document.getElementById("push-caja");
-  if (!caja) return;
-  const boton = caja.querySelector("[data-push]");
-  const nota = caja.querySelector("[data-push-nota]");
+  const tarjeta = document.querySelector("[data-push-tarjeta]");
+  if (!caja && !tarjeta) return;
   const soporta = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  const MSG_LISTO = "Listo: te avisaremos de SOAT, técnico-mecánica, pico y placa, citas y visitas.";
   let clave = "", activa = false;
 
   const b64 = (s) => {
@@ -64,39 +64,80 @@
     method: "POST", credentials: "same-origin",
     headers: { "Content-Type": "application/json", "X-CSRFToken": csrf() }, body: JSON.stringify(cuerpo),
   });
-  function pintar() {
-    boton.textContent = activa ? "Desactivar avisos en este celular" : "Activar avisos en este celular";
-  }
   async function actual() {
     const reg = await navigator.serviceWorker.ready;
     return { reg, sub: await reg.pushManager.getSubscription() };
+  }
+  // Pide el permiso (solo desde un toque de la persona) y registra el celular; devuelve true si quedó activo.
+  async function activar(url) {
+    const permiso = await Notification.requestPermission();
+    if (permiso !== "granted") return false;
+    const { reg, sub } = await actual();
+    const nueva = sub || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(clave) });
+    return (await post(url, nueva.toJSON())).ok;
+  }
+  async function estado(url) {
+    const est = await fetch(url, { credentials: "same-origin" }).then((r) => r.json()).catch(() => null);
+    if (!est || !est.disponible) return null;
+    clave = est.clave;
+    const { sub } = await actual();
+    activa = !!sub && est.activa;
+    return est;
+  }
+
+  // Tarjeta discreta (después del registro, en el panel o tras pedir una cita o visita): nunca pide permiso al cargar.
+  async function iniciarTarjeta() {
+    if (leer("push-tarjeta-no") === "1") return;
+    const texto = tarjeta.querySelector("[data-push-texto]");
+    const activarBtn = tarjeta.querySelector("[data-push-activar]");
+    tarjeta.querySelector("[data-push-descartar]").addEventListener("click", () => { tarjeta.hidden = true; guardar("push-tarjeta-no", "1"); });
+    if (!soporta) {
+      if (esIOS && !instalada) { // iPhone sin instalar: Safari solo permite avisos desde la app instalada
+        texto.textContent = "Instala la app para recibir avisos: toca Compartir y luego «Agregar a inicio».";
+        activarBtn.hidden = true; tarjeta.hidden = false;
+      }
+      return;
+    }
+    if (Notification.permission === "denied" || !(await estado(tarjeta.dataset.estado)) || activa) return;
+    tarjeta.hidden = false;
+    activarBtn.addEventListener("click", async () => {
+      activarBtn.disabled = true;
+      try {
+        if (await activar(tarjeta.dataset.suscribir)) {
+          texto.textContent = MSG_LISTO; activarBtn.hidden = true;
+          tarjeta.querySelector("[data-push-descartar]").textContent = "Cerrar";
+        } else texto.textContent = "No se activaron los avisos. Puedes hacerlo luego desde la campanita.";
+      } catch (_) { texto.textContent = "No se pudo activar. Intenta de nuevo."; }
+      finally { activarBtn.disabled = false; }
+    });
+  }
+  if (tarjeta) iniciarTarjeta();
+  if (!caja) return;
+
+  const boton = caja.querySelector("[data-push]");
+  const nota = caja.querySelector("[data-push-nota]");
+  function pintar() {
+    boton.textContent = activa ? "Desactivar avisos en este celular" : "Activar avisos en este celular";
   }
   async function iniciar() {
     if (!soporta) {
       if (esIOS && !instalada) { caja.hidden = false; boton.hidden = true; nota.textContent = "En iPhone, instala TallerYa (Compartir → Agregar a inicio) para recibir avisos."; }
       return;
     }
-    const est = await fetch(caja.dataset.estado, { credentials: "same-origin" }).then((r) => r.json()).catch(() => null);
-    if (!est || !est.disponible) return;
-    clave = est.clave;
-    const { sub } = await actual();
-    activa = !!sub && est.activa;
+    if (!(await estado(caja.dataset.estado))) return;
     if (Notification.permission === "denied") { caja.hidden = false; boton.hidden = true; nota.textContent = "Bloqueaste los avisos en el navegador; actívalos desde los ajustes del sitio."; return; }
     caja.hidden = false; pintar();
   }
   boton.addEventListener("click", async () => {
     boton.disabled = true;
     try {
-      const { reg, sub } = await actual();
       if (activa) {
+        const { sub } = await actual();
         if (sub) { await post(caja.dataset.desactivar, { endpoint: sub.endpoint }); await sub.unsubscribe(); }
         activa = false; nota.textContent = "";
       } else {
-        const permiso = await Notification.requestPermission();
-        if (permiso !== "granted") { nota.textContent = "No se activaron los avisos."; return; }
-        const nueva = sub || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(clave) });
-        const r = await post(caja.dataset.suscribir, nueva.toJSON());
-        activa = r.ok; nota.textContent = r.ok ? "Listo: te avisaremos de SOAT, técnico-mecánica, pico y placa y mantenimiento." : "No se pudo activar.";
+        const ok = await activar(caja.dataset.suscribir);
+        activa = ok; nota.textContent = ok ? MSG_LISTO : "No se activaron los avisos.";
       }
       pintar();
     } catch (_) { nota.textContent = "No se pudo cambiar el aviso. Intenta de nuevo."; }

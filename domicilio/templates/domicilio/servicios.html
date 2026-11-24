@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Servicios registrados · Mecánico a domicilio · TallerYa{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
+<link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
+<div class="mt-8 md:mt-10 sv">
+  {% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">Servicios <span class="text-lava">registrados</span></h1>
+  {% url 'garaje:servicio_mecanico' as url_reg %}{% include "talleres/_servicios_cabecera.html" with url_registrar=url_reg nota="Las visitas atendidas se registran desde la visita: queda en la hoja de vida de la moto con tu sello." %}
+
+  {% if sin_registrar %}
+  <section class="papel pt-caja" aria-labelledby="sv-pend">
+    <h2 class="etiqueta" id="sv-pend">Visitas atendidas sin registrar</h2>
+    <ul class="sv-lista">
+      {% for v in sin_registrar %}
+      <li class="sv-item">
+        <div class="pt-cita-fecha"><strong>{{ v.creado|date:"j" }}</strong><span>{{ v.creado|date:"M"|lower }}</span></div>
+        <p class="pt-cita-quien">{{ v.nombre }}{% if v.moto %} <span>· {{ v.moto }}</span>{% endif %}</p>
+        <p class="sv-que">{% if v.servicio %}{{ v.servicio }}{% else %}Diagnóstico{% endif %}</p>
+        <p><a href="{% url 'garaje:servicio_visita' v.pk %}" class="pt-tarea-btn">Registrar</a></p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <section class="papel pt-caja">
+    <ul class="sv-lista">
+      {% for s in pagina %}
+      <li class="sv-item">
+        <div class="pt-cita-fecha"><strong>{{ s.fecha|date:"j" }}</strong><span>{{ s.fecha|date:"M"|lower }}</span></div>
+        <p class="pt-cita-quien">{{ s.moto }}{% if s.solicitud %} <span>· {{ s.solicitud.nombre }}</span>{% endif %}</p>
+        <p class="sv-que">{{ s.resumen }} · {{ s.km }} km{% if s.costo %} · ${{ s.costo }}{% endif %}</p>
+        <p><span class="pt-chip chip-{{ s.estado }}">{{ s.get_estado_display }}</span></p>
+      </li>
+      {% empty %}
+      <li class="pt-vacio">
+        <p>Aún no has registrado servicios.</p>
+        <small>Registra cada trabajo con el código o el QR del dueño: queda verificado en la hoja de vida de su moto, con tu sello, y el motero puede calificarte.</small>
+      </li>
+      {% endfor %}
+    </ul>
+    {% include "talleres/_paginas.html" %}
+  </section>
+</div>
+{% endblock %}

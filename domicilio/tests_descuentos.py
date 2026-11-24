@@ -60,7 +60,7 @@ class ModeloYListasTests(DescuentosBase):
 
     def test_ficha_del_mecanico_muestra_sus_descuentos(self):
         r = self.client.get(self.aprobado.get_absolute_url())
-        self.assertContains(r, "Descuentos si lo pides por TallerYa")
+        self.assertContains(r, "Cupones si lo pides por TallerYa")
         self.assertContains(r, "10% en frenos")
         self.assertNotContains(r, "Despinche gratis")
 
@@ -89,7 +89,7 @@ class PanelDelMecanicoTests(DescuentosBase):
 
     def test_panel_lleva_a_mis_descuentos_sin_alargar_los_accesos(self):
         r = self.client.get(reverse("domicilio:panel"))
-        self.assertContains(r, "Tus descuentos:")
+        self.assertContains(r, "Tus cupones")
         self.assertContains(r, reverse("domicilio:descuentos"))
         self.assertEqual(r.content.decode().count('class="pt-acceso"'), 6)
 
@@ -123,7 +123,7 @@ class PanelDelMecanicoTests(DescuentosBase):
         for cupon in (self.de_otro, self.del_taller):
             codigo = self.codigo(cupon)
             r = self.client.post(reverse("domicilio:descuentos"), {"codigo": codigo.codigo})
-            self.assertContains(r, "no es de tus descuentos")
+            self.assertContains(r, "no es de tus cupones")
             codigo.refresh_from_db()
             self.assertFalse(codigo.canjeado)
 
@@ -151,14 +151,14 @@ class VisitaConDescuentoTests(DescuentosBase):
     def test_el_descuento_del_motero_queda_anotado_y_se_usa_al_atender(self):
         codigo = self.codigo()
         self.client.force_login(self.motero)
-        self.assertContains(self.client.get(self.aprobado.get_absolute_url()), "Tu descuento")
+        self.assertContains(self.client.get(self.aprobado.get_absolute_url()), "Tu cupón")
         r = self.pedir()
         self.assertIn(codigo.codigo, r["Location"])  # va en el mensaje de WhatsApp
         s = SolicitudVisita.objects.get()
         self.assertEqual(s.codigo_cupon, codigo)
-        self.assertContains(self.client.get(s.get_absolute_url()), "Tu descuento")
+        self.assertContains(self.client.get(s.get_absolute_url()), "Tu cupón")
         self.client.force_login(self.dueno)
-        self.assertContains(self.client.get(reverse("domicilio:solicitudes")), "Trae descuento")
+        self.assertContains(self.client.get(reverse("domicilio:solicitudes")), "Trae cupón")
         self.estado(s, "confirmada")
         codigo.refresh_from_db()
         self.assertFalse(codigo.canjeado)

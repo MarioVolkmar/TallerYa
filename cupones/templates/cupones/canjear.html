@@ -11,7 +11,7 @@
   {% if resultado %}
   <section class="papel exito p-6 mt-6">
     <p class="titulo text-2xl">✔ Cupón validado</p>
-    <p class="text-sm text-suave mt-1">{% if resultado.repetido %}Ya lo habías validado hace un momento: no se volvió a marcar.{% else %}Aplica el descuento al motero: el cupón ya quedó marcado como usado y le avisamos.{% endif %}</p>
+    <p class="text-sm text-suave mt-1">{% if resultado.repetido %}Ya lo habías validado hace un momento: no se volvió a marcar.{% else %}Aplica el cupón al motero: el cupón ya quedó marcado como usado y le avisamos.{% endif %}</p>
     <p class="mt-2"><strong>{{ resultado.cupon.titulo }}</strong></p>
     <p class="text-sm text-suave mt-1">Cliente: {{ resultado.motociclista.nombre }} · {{ resultado.motociclista.celular_oculto }} · Código {{ resultado.codigo }}</p>
     {% if resultado.cupon.condiciones %}<p class="text-xs text-suave mt-3">Condiciones: {{ resultado.cupon.condiciones }}</p>{% endif %}

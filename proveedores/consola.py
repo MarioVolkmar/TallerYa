@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 
 from consola import reloj
-from consola.acciones import ErrorAccion, accion, eliminador, interruptor
+from consola.acciones import ErrorAccion, accion, eliminador, interruptor, motivo_de
 from consola.eliminacion import Dependencia, analizar
 from consola.paginacion import paginar
 
@@ -26,13 +26,26 @@ def pendientes():
         frase="Cambió el estado del proveedor #{obj.pk} ({obj.nombre})", exito="Listo: {obj.nombre} quedó «{estado}».")
 def _estado(request, obj):
     nuevo = request.POST.get("valor", "")
-    if nuevo not in ESTADOS:
+    if nuevo not in ESTADOS or nuevo == E.RECHAZADO:  # rechazar va por su acción, con motivo
         raise ErrorAccion("Estado no válido.")
     if nuevo == E.PUBLICADO and obj.falta_aprobacion:
         raise ErrorAccion("El proveedor aún no aprobó su ficha (Ley 1581). Reenvíale el enlace de revisión.")
     obj.estado = nuevo
-    obj.save(update_fields=["estado", "actualizado"])
+    obj.motivo_rechazo = ""
+    obj.save(update_fields=["estado", "motivo_rechazo", "actualizado"])
     return {"ctx": {"estado": ESTADOS[nuevo]}}
+
+
+@accion("proveedores.rechazar", modelo=Proveedor, nombre="Rechazar proveedor",
+        campos={"estado": ("Estado", lambda o: o.get_estado_display()), "motivo_rechazo": ("Motivo", lambda o: o.motivo_rechazo)},
+        frase="Rechazó al proveedor #{obj.pk} ({obj.nombre}). Motivo: {obj.motivo_rechazo}",
+        exito="Listo: {obj.nombre} quedó rechazado. El motivo se ve en su enlace de revisión.")
+def _rechazar(request, obj):
+    if obj.estado == E.RECHAZADO:
+        raise ErrorAccion("Ese proveedor ya está rechazado.")
+    obj.estado = E.RECHAZADO
+    obj.motivo_rechazo = motivo_de(request)
+    obj.save(update_fields=["estado", "motivo_rechazo", "actualizado"])
 
 
 interruptor("proveedores.verificar", modelo=Proveedor, campo="verificado", etiqueta="Verificado",

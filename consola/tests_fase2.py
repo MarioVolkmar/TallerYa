@@ -116,14 +116,29 @@ class ModeracionTests(Base):
     def test_reportes_ocultar_y_revisar(self):
         r = self.client.get(INICIO, {"seccion": "moderacion"})
         self.assertContains(r, "Reporte #%d" % self.reporte.pk)
-        self.post("foro.respuesta_visible", self.respuesta.pk, valor="0")
-        self.post("foro.reporte_revisado", self.reporte.pk)
+        self.post("foro.respuesta_visible", self.respuesta.pk, valor="0", motivo="Es publicidad")
         self.respuesta.refresh_from_db()
+        self.reporte.refresh_from_db()
         self.assertFalse(self.respuesta.visible)
+        self.assertTrue(self.reporte.revisado)  # ocultar cierra el reporte
         frases = list(Bitacora.objects.order_by("pk").values_list("frase", flat=True))
-        self.assertEqual(frases, [f"Ocultó la respuesta #{self.respuesta.pk} del foro",
-                                  f"Marcó como revisado el reporte #{self.reporte.pk} del foro"])
+        self.assertEqual(frases, [f"Ocultó la respuesta #{self.respuesta.pk} del foro. Motivo: Es publicidad"])
         self.assertContains(self.client.get(INICIO, {"seccion": "moderacion"}), "No hay reportes sin revisar")
+        ya = self.client.get(INICIO, {"seccion": "moderacion", "reporte": "revisados"})
+        self.assertContains(ya, "Reporte #%d" % self.reporte.pk)
+
+    def test_ocultar_exige_motivo_y_avisa_al_autor(self):
+        r = self.post("foro.respuesta_visible", self.respuesta.pk, valor="0")
+        self.assertEqual(r.status_code, 400)
+        self.respuesta.refresh_from_db()
+        self.assertTrue(self.respuesta.visible)
+        self.assertFalse(self.motero.notificaciones.exists())
+        self.post("foro.respuesta_visible", self.respuesta.pk, valor="0", motivo="Lenguaje ofensivo")
+        n = self.motero.notificaciones.get()
+        self.assertIn("Ocultamos tu respuesta", n.titulo)
+        self.assertIn("Lenguaje ofensivo", n.texto)
+        bit = Bitacora.objects.get()
+        self.assertEqual([c["etiqueta"] for c in bit.cambios], ["Reportes cerrados", "Visible"])
 
     def test_reporte_sobre_pregunta_se_muestra(self):
         otro = Reporte.objects.create(usuario=self.admin, pregunta=self.pregunta, motivo="Publicidad")
@@ -132,19 +147,22 @@ class ModeracionTests(Base):
         self.assertContains(r, "¿Aceite NKD?")
 
     def test_resena_ocultar_y_eliminar(self):
-        self.post("resenas.visible", self.resena.pk, valor="0")
+        self.post("resenas.visible", self.resena.pk, valor="0", motivo="Insultos al taller")
         self.resena.refresh_from_db()
         self.assertFalse(self.resena.visible)
         r = self.client.get(INICIO, {"seccion": "moderacion", "tipo": "resenas", "estado": "ocultas"})
         self.assertContains(r, "Malísimo")
-        self.assertTrue(self.post("resenas.eliminar", self.resena.pk).json()["ok"])
+        self.assertEqual(self.post("resenas.eliminar", self.resena.pk).status_code, 400)  # sin motivo
+        self.assertTrue(self.post("resenas.eliminar", self.resena.pk, motivo="Información falsa").json()["ok"])
         self.assertFalse(Resena.objects.filter(pk=self.resena.pk).exists())
 
     def test_eliminar_pregunta_avisa_respuestas(self):
         r = self.client.get(INICIO, {"seccion": "moderacion", "tipo": "preguntas"})
         self.assertContains(r, "Tiene 1 respuesta: se borran.")
-        self.assertTrue(self.post("foro.pregunta_eliminar", self.pregunta.pk).json()["ok"])
+        self.assertTrue(self.post("foro.pregunta_eliminar", self.pregunta.pk, motivo="Publicidad repetida").json()["ok"])
         self.assertFalse(Respuesta.objects.filter(pk=self.respuesta.pk).exists())
+        self.assertIn("Publicidad repetida", self.motero.notificaciones.get().texto)
+        self.assertIn("Motivo: Publicidad repetida", Bitacora.objects.get().frase)
 
     def test_no_admin_no_modera(self):
         self.client.force_login(self.motero)

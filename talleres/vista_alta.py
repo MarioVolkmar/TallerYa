@@ -37,6 +37,8 @@ def autoregistro(request):
             taller.save()
             form.save_m2m()
             limites.sumar(f"alta-taller:{ip}", 3600)
+            from notificaciones.servicios import avisar_admins
+            avisar_admins(f"registro-taller:{taller.pk}", "Taller nuevo por revisar", taller.nombre)
             return redirect("talleres:alta_enviada", token=taller.token_revision)
     return _sin_indexar(render(request, "talleres/autoregistro.html", {
         "form": form, "barrios_por_ciudad": RegistroTallerForm.barrios_por_ciudad()}))

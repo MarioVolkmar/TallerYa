@@ -37,7 +37,7 @@ def descuentos(request):
         else:
             from metricas.nucleo import registrar_evento
             registrar_evento(request, "cupon_canjeado", con_sesion=True, mecanico=True)
-            messages.success(request, f"Descuento validado: {codigo.cupon.titulo} para {codigo.motociclista.nombre}.")
+            messages.success(request, f"Cupón validado: {codigo.cupon.titulo} para {codigo.motociclista.nombre}.")
             return redirect("domicilio:descuentos")
     inicio_mes = timezone.localdate().replace(day=1)
     lista = (mecanico.cupones.annotate(entregados=Count("codigos", distinct=True),
@@ -66,11 +66,11 @@ def descuento_form(request, pk=None):
             nuevo.publico, nuevo.premio_referido, nuevo.regalo_mensual, nuevo.solo_plus = True, False, False, False
         nuevo.save()
         if cupon:
-            messages.success(request, "Descuento actualizado.")
+            messages.success(request, "Cupón actualizado.")
         elif mecanico.estado == mecanico.Estado.APROBADO:
-            messages.success(request, "Descuento publicado: ya aparece en tu ficha y en la página de descuentos.")
+            messages.success(request, "Cupón publicado: ya aparece en tu ficha y en la página de cupones.")
         else:
-            messages.success(request, "Descuento guardado: se verá en tu ficha cuando aprobemos tu perfil.")
+            messages.success(request, "Cupón guardado: se verá en tu ficha cuando aprobemos tu perfil.")
         return redirect("domicilio:descuentos")
     return render(request, "talleres/cupon_form.html", {"form": form, "cupon": cupon, "m": mecanico, "descuento": True})
 
@@ -84,8 +84,8 @@ def descuento_pausar(request, pk):
         return redirect("domicilio:registro")
     cupon.activo = not cupon.activo
     cupon.save(update_fields=["activo"])
-    messages.success(request, "Descuento activado." if cupon.activo
-                     else "Descuento pausado: ya no se entrega (los que ya tienen los moteros siguen sirviendo hasta su fecha).")
+    messages.success(request, "Cupón activado." if cupon.activo
+                     else "Cupón pausado: ya no se entrega (los que ya tienen los moteros siguen sirviendo hasta su fecha).")
     return redirect("domicilio:descuentos")
 
 

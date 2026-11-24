@@ -1,5 +1,5 @@
-{% load consola %}{# Botón de acción de la consola. Parámetros: url, texto, icono (opcional, para el menú «⋯»), valor (opcional), confirmar (opcional), clase (opcional). #}
-<form method="post" action="{{ url }}" data-accion {% if confirmar %}data-confirmar="{{ confirmar }}"{% endif %} class="cs-form-linea">
+{% load consola %}{# Botón de acción de la consola. Parámetros: url, texto, icono (opcional, para el menú «⋯»), valor (opcional), confirmar (opcional), motivo (opcional: título del diálogo que pide el motivo y lo manda como «motivo»), clase (opcional). #}
+<form method="post" action="{{ url }}" data-accion {% if confirmar %}data-confirmar="{{ confirmar }}"{% endif %}{% if motivo %} data-motivo="{{ motivo }}"{% endif %} class="cs-form-linea">
   {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
   {% if valor != None and valor != "" %}<input type="hidden" name="valor" value="{{ valor }}">{% endif %}
   <button class="cs-btn cs-btn-chico {{ clase|default:'cs-btn-sec' }}">{% if icono %}{% icono icono 16 %}{% endif %}{{ texto }}</button>

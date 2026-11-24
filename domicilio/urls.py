@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views, vista_descuentos as vd, vista_solicitudes as vs
+from . import views, vista_identidad as vi, vista_descuentos as vd, vista_servicios as vsv, vista_solicitudes as vs
 
 app_name = "domicilio"
 
@@ -10,11 +10,14 @@ urlpatterns = [
     path("mecanicos/mi-panel/", views.panel, name="panel"),
     path("mecanicos/mi-panel/precios/", views.alternar_precios, name="alternar_precios"),
     path("mecanicos/mi-panel/urgencias/", views.alternar_urgencias, name="alternar_urgencias"),
+    path("mecanicos/mi-panel/identidad/", vi.identidad, name="identidad"),
+    path("mecanicos/identidad/<int:pk>/<str:campo>/", vi.identidad_foto, name="identidad_foto"),
     path("mecanicos/mi-perfil/", views.mi_perfil, name="mi_perfil"),
     path("mecanicos/mi-perfil/fotos/<int:pk>/borrar/", views.borrar_trabajo, name="borrar_trabajo"),
     path("mecanicos/mi-perfil/precios/", views.mis_precios, name="mis_precios"),
     path("mecanicos/mi-perfil/resenas/<int:pk>/responder/", views.responder_resena, name="responder_resena"),
     path("mecanicos/mi-panel/resenas/", views.resenas, name="resenas"),
+    path("mecanicos/mi-panel/servicios/", vsv.servicios, name="servicios"),
     path("mecanicos/mi-panel/descuentos/", vd.descuentos, name="descuentos"),
     path("mecanicos/mi-panel/descuentos/nuevo/", vd.descuento_form, name="descuento_nuevo"),
     path("mecanicos/mi-panel/descuentos/<int:pk>/", vd.descuento_form, name="descuento_editar"),

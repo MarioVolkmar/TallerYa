@@ -43,7 +43,7 @@
       <p class="{% if quedan <= 5 %}pocos{% endif %}">{% if quedan > 0 %}Quedan<br><strong>{{ quedan }} cupo{{ quedan|pluralize }}</strong>{% else %}Cupos<br><strong>Agotados</strong>{% endif %}</p>
       {% endwith %}{% endif %}
     </div>
-    {% if con_boton %}<a href="{{ cupon.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5 shrink-0">{% if cupon.mecanico_id %}Tomar descuento{% else %}Obtener cupón{% endif %}</a>{% endif %}
+    {% if con_boton %}<a href="{{ cupon.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5 shrink-0">{% if cupon.mecanico_id %}Tomar cupón{% else %}Obtener cupón{% endif %}</a>{% endif %}
   </div>
 </article>
 {% endwith %}

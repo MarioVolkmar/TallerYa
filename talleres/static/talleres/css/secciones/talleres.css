@@ -96,8 +96,8 @@
   .pt-cita { grid-template-columns: auto minmax(0, 1fr) auto; }
   .pt-cita-lado { grid-column: auto; flex-direction: column; align-items: flex-end; border-top: 0; padding-top: 0; }
 }
-.pt-cita-botones { display: flex; align-items: center; gap: .4rem; }
-.pt-cita-form { display: flex; gap: .3rem; }
+.pt-cita-botones { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+.pt-cita-form { display: flex; flex-wrap: wrap; gap: .3rem; }
 .pt-boton { font-size: .72rem; font-weight: 700; padding: .38rem .7rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .15); color: var(--crema-2); transition: background .2s, color .2s, border-color .2s; }
 .pt-boton:hover { border-color: var(--crema-2); color: var(--crema); }
 .pt-boton-ok { background: rgba(134, 219, 166, .14); border-color: rgba(134, 219, 166, .45); color: #86dba6; }
@@ -337,3 +337,60 @@
 .tf-confirmar { border: 1px solid var(--linea, #d9d4c8); border-radius: 12px; padding: .75rem 1rem; }
 .sello-verificada { display: inline-block; font-size: .7rem; font-weight: 700; color: #1f7a4a; border: 1px solid currentColor; border-radius: 999px; padding: 0 .5rem; white-space: nowrap; }
 
+
+/* Franja compacta de cifras de los paneles de aliados (talleres/_franja_cifras.html) */
+.pt-franja { display: grid; gap: .5rem; margin-bottom: .9rem; }
+.pt-franja-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(6.4rem, 1fr)); gap: .5rem; }
+.pt-fr { display: grid; align-content: start; gap: .05rem; min-height: 100%; padding: .65rem .75rem; border-radius: 14px; background: #1c2326; border: 1px solid rgba(255, 255, 255, .06); transition: border-color .2s; }
+a.pt-fr:hover, a.pt-fr:focus-visible { border-color: color-mix(in srgb, var(--c, var(--crema)) 50%, transparent); outline: none; }
+.pt-fr strong { font-family: "Oswald", sans-serif; font-size: 1.6rem; line-height: 1.05; color: var(--c, var(--crema)); }
+.pt-fr span { font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8d9496; line-height: 1.2; }
+.pt-fr small { font-size: .72rem; color: #8d9496; }
+.pt-fr .pt-tend.sube { color: #86dba6; font-weight: 700; }
+.pt-fr .pt-tend.baja { color: #ff8a70; font-weight: 700; }
+.pt-consejo { display: flex; align-items: center; gap: .5rem; font-size: .82rem; color: #9ba2a4; padding: 0 .2rem; }
+.pt-consejo svg { flex: none; color: var(--mostaza); }
+/* «Por hacer» compacto: filas bajas de una línea en escritorio, un solo botón principal por fila */
+.pt-hacer { gap: .45rem; padding: .9rem 1.1rem; }
+.pt-hacer .pt-tareas { gap: .4rem; }
+.pt-hacer .pt-tarea { padding: .35rem .5rem .35rem .8rem; }
+.pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal { min-height: 40px; }
+.pt-hacer .pt-fila { margin-top: 0; padding: .45rem .5rem .45rem .7rem; gap: .6rem; }
+.pt-hacer .pt-fila-ico { width: 32px; height: 32px; }
+.pt-hacer .pt-fila-ico svg { width: 17px; height: 17px; }
+.pt-hacer .pt-fila-titulo { font-size: .92rem; line-height: 1.2; }
+.pt-hacer .pt-fila-estado { font-size: .8rem; }
+.pt-hacer .pt-fila-texto { display: flex; flex-wrap: wrap; align-items: center; gap: 0 .9rem; }
+.pt-hacer .pt-fila-texto > * { margin: 0; }
+.pt-hacer .pt-fila-acciones { flex-direction: row; align-items: center; gap: .5rem; }
+.pt-hacer .pt-precios { padding: .35rem .5rem .35rem .8rem; border: 1px solid var(--borde); border-radius: 12px; background: #1c2326; }
+.pt-hacer .pt-precios-estado { font-size: .86rem; }
+.pt-fila-mini { color: var(--mostaza); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.pt-perfil .pt-perfil-texto { flex: 1; min-width: 0; display: grid; gap: .35rem; font-size: .88rem; }
+.pt-perfil small { font-size: .78rem; color: #9ba2a4; }
+.pt-perfil .pt-barra-fina { height: 4px; max-width: 16rem; }
+@media (max-width: 640px) {
+  .pt-hacer { padding: .8rem; }
+  .pt-hacer .pt-tarea { flex-direction: row; align-items: center; gap: .6rem; padding: .35rem .4rem .35rem .7rem; font-size: .86rem; line-height: 1.25; }
+  .pt-hacer .pt-tarea.listo { flex-direction: row; }
+  .pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal { width: auto; min-height: 44px; padding: 0 .85rem; }
+  .pt-hacer .pt-precios { align-items: center; padding: .4rem .5rem .5rem .7rem; }
+  .pt-hacer .pt-precios-acciones { width: 100%; justify-content: space-between; flex-wrap: nowrap; gap: .5rem; }
+  .pt-hacer .pt-precios-acciones .pt-interruptor-btn { font-size: .8rem; min-width: 0; }
+  .pt-hacer .pt-fila { grid-template-columns: auto 1fr auto; padding: .45rem .4rem .45rem .6rem; }
+  .pt-hacer .pt-fila-acciones { grid-column: auto; }
+  .pt-hacer .pt-fila-acciones > * { flex: none; }
+  .pt-hacer .pt-fila-mini { display: inline-flex; align-items: center; min-height: 44px; }
+}
+}
+@media (min-width: 641px) {
+  .pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal { min-height: 34px; padding: 0 .9rem; }
+  .pt-hacer .pt-tarea, .pt-hacer .pt-fila, .pt-hacer .pt-precios { padding-top: .3rem; padding-bottom: .3rem; }
+  .pt-hacer .pt-interruptor-btn { min-height: 34px; }
+}
+@media (min-width: 641px) {
+  .pt-hacer { padding: .7rem 1rem; gap: .35rem; }
+  .pt-hacer .pt-tareas { gap: .35rem; }
+  .pt-hacer .pt-tarea-btn, .pt-hacer .pt-fila-principal, .pt-hacer .pt-interruptor-btn { min-height: 32px; }
+  .pt-hacer .pt-tarea:not(.urgente) .pt-tarea-btn { font-size: .74rem; padding: 0 .8rem; }
+}

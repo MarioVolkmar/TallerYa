@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{% load push %}
 {% block title %}Tu visita con {{ s.mecanico.nombre }} · TallerYa{% endblock %}
 {% block content %}
 <div class="max-w-lg mx-auto mt-10">
   <p class="etiqueta">Tu visita a domicilio</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">{{ s.mecanico.nombre }}</h1>
+  {% if user == s.usuario %}{% tarjeta_push "motero" %}{% endif %}
   <section class="papel cp mt-6">
     <p class="cp-quien">{{ s.nombre }}{% if s.moto %} · {{ s.moto }}{% endif %} · {% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}{% if s.zona %} · {{ s.zona }}{% endif %}</p>
     {% if pendiente %}
@@ -36,7 +38,7 @@
     {% else %}
     <p class="cp-estado">{% if s.rechazada %}Le avisamos al mecánico que no aceptaste la cotización. Te escribirá si tiene otra opción.{% else %}Tu solicitud está pendiente: el mecánico te enviará la cotización.{% endif %}</p>
     {% endif %}
-    {% if s.codigo_cupon %}<p class="cp-nota">Tu descuento: <strong>{{ s.codigo_cupon.cupon.titulo }}</strong> · {{ s.codigo_cupon.codigo }}{% if s.codigo_cupon.canjeado %} (ya usado){% else %}. Queda aplicado cuando el mecánico termine la visita.{% endif %}</p>{% endif %}
+    {% if s.codigo_cupon %}<p class="cp-nota">Tu cupón: <strong>{{ s.codigo_cupon.cupon.titulo }}</strong> · {{ s.codigo_cupon.codigo }}{% if s.codigo_cupon.canjeado %} (ya usado){% else %}. Queda aplicado cuando el mecánico termine la visita.{% endif %}</p>{% endif %}
     <a href="https://wa.me/{{ s.mecanico.whatsapp }}" target="_blank" rel="noopener" class="cp-wa">Escribir al mecánico por WhatsApp</a>
   </section>
 </div>

@@ -8,9 +8,9 @@
 
   <section class="entrar-caja papel">
     {% include "cuentas/_registro_tipo.html" with activo=tipo_registro|default:"motero" %}
-    <h1 class="titulo text-4xl md:text-5xl mt-6">Crea tu <span class="text-lava">cuenta</span></h1>
-    <p class="text-suave mt-2">Tu garaje, tus cupones y los avisos de tu moto, gratis.</p>
-    <div class="mt-6">{% include "cuentas/_boton_google.html" %}</div>
+    <h1 class="titulo text-3xl md:text-5xl mt-4 md:mt-6">Crea tu <span class="text-lava">cuenta</span></h1>
+    <p class="text-suave mt-2 rc-lead">Tu garaje, tus cupones y los avisos de tu moto, gratis.</p>
+    <div class="mt-4 md:mt-6">{% include "cuentas/_boton_google.html" %}</div>
     {% if google_disponible %}<p class="rc-google-nota">Al continuar con Google aceptas los <a href="{% url 'talleres:legal' 'terminos' %}" target="_blank" rel="noopener">Términos</a> y la <a href="{% url 'talleres:legal' 'privacidad' %}" target="_blank" rel="noopener">Política de privacidad</a>.</p>{% endif %}
     <form method="post" class="rc-form" novalidate data-barra-form>
       {% csrf_token %}

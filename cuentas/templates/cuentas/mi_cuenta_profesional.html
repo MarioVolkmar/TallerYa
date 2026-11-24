@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load avatares %}
+{% load avatares push %}
 {% block title %}Mi cuenta · TallerYa{% endblock %}
 {% block content %}
 {# Mi cuenta del taller y del mecánico a domicilio: cabecera como la del motociclista, datos de la cuenta y Seguridad #}
@@ -21,6 +21,7 @@
   <form method="post" action="{% url 'cuentas:salir' %}">{% csrf_token %}<button class="btn btn-borde text-xs px-5 py-2.5">Cerrar sesión</button></form>
 </div>
 
+{% if taller %}{% tarjeta_push "taller" %}{% else %}{% tarjeta_push "mecanico" %}{% endif %}
 <div class="grid gap-6 mt-8 lg:grid-cols-2 items-start">
   {% include "cuentas/_seguridad.html" %}
   <div class="grid gap-6">

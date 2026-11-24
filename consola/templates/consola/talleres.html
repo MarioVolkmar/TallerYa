@@ -10,25 +10,26 @@
   <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
 </form>
 {% if filas %}
-<div class="cs-tabla-caja"><table class="cs-tabla">
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-tarjetas">
   <caption class="sr-only">Talleres</caption>
   <thead><tr><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col">Citas</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
   <tbody>
-  {% for t, analisis in filas %}{% url 'consola:accion' 'talleres.publicar' t.pk as a_pub %}{% url 'consola:accion' 'talleres.verificar' t.pk as a_ver %}{% url 'consola:accion' 'talleres.eliminar' t.pk as a_eli %}{% url 'consola:accion' 'talleres.precios' t.pk as a_pre %}
+  {% for t, analisis in filas %}{% url 'consola:accion' 'talleres.publicar' t.pk as a_pub %}{% url 'consola:accion' 'talleres.verificar' t.pk as a_ver %}{% url 'consola:accion' 'talleres.eliminar' t.pk as a_eli %}{% url 'consola:accion' 'talleres.precios' t.pk as a_pre %}{% url 'consola:accion' 'talleres.rechazar' t.pk as a_rec %}
   <tr>
     <td><a href="{{ t.get_absolute_url }}" class="cs-cuenta-nombre">{{ t.nombre }}</a> <span class="cs-id">#{{ t.pk }}</span>
       <span class="cs-cuenta-correo">{{ t.barrio }}{% if t.usuario %} · <a href="?seccion=usuarios&amp;id={{ t.usuario_id }}">{{ t.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span></td>
-    <td>{% if t.activo %}<span class="cs-estado cs-ok">Publicado</span>{% if t.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}{% else %}<span class="cs-estado cs-pend">Por aprobar</span>
-      {% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" %}{% endif %}
+    <td>{% if t.activo %}<span class="cs-estado cs-ok">Publicado</span>{% if t.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}{% elif t.motivo_rechazo %}<span class="cs-estado cs-off">Rechazado</span><span class="cs-cuenta-correo">{{ t.motivo_rechazo }}</span>{% else %}<span class="cs-estado cs-pend">Por aprobar</span>
+      {% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" confirmar="¿Aprobar el taller "|add:t.nombre|add:"? Se publica en el directorio y se le avisa." %}{% endif %}
       {% if t.pendiente_de_revision or t.token_revision %}<span class="cs-cuenta-correo">{{ t.get_origen_alta_display }} · {% if t.aprobado_por_taller %}el taller aprobó el {{ t.aprobado_por_taller|date:"d/m H:i" }}{% else %}esperando que el taller apruebe{% endif %}</span>
       <span class="cs-cuenta-correo">Enlace: /ficha/{{ t.token_revision }}/{% if not t.aprobado_por_taller and t.enlace_vencido %} · <strong>vencido</strong>{% endif %}</span>{% endif %}
       {% if t.n_precios_viejos %}<span class="cs-cuenta-correo">Precios sin confirmar hace +{{ dias_precios }} días</span>{% endif %}
 </td>
-    <td>{{ t.n_citas }}</td>
+    <td data-etq="Citas">{{ t.n_citas }}</td>
     <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
       <a class="cs-menu-item" href="?seccion=reportes&amp;taller={{ t.pk }}">{% icono "grafica" 16 %} Ver reporte</a>
       {% if t.activo %}{% include "consola/_boton_accion.html" with url=a_pub valor="0" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el taller? Deja de salir en el directorio hasta que lo reactives." %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_pub valor="1" texto="Reactivar" icono="ojo" %}{% endif %}
+      {% else %}{% if not t.motivo_rechazo %}{% include "consola/_boton_accion.html" with url=a_rec texto="Rechazar" icono="cerrar" motivo="Rechazar "|add:t.nombre %}{% endif %}
+        {% include "consola/_boton_accion.html" with url=a_pub valor="1" texto=t.motivo_rechazo|yesno:"Aprobar de todos modos,Reactivar" icono="ojo" confirmar="¿Publicar el taller "|add:t.nombre|add:"? Aparece en el directorio y se le avisa." %}{% endif %}
       {% if t.token_revision and not t.aprobado_por_taller %}{% url 'consola:accion' 'talleres.renovar_enlace' t.pk as a_ren %}{% include "consola/_boton_accion.html" with url=a_ren valor="1" texto="Renovar enlace" icono="enlace" %}{% endif %}
       {% if t.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" icono="cerrar" %}
       {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" icono="sello" %}{% endif %}

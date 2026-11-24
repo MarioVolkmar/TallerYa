@@ -90,20 +90,34 @@ html[data-consola-tema="claro"] .cs-quien-rol { color: var(--cs-acento); }
 html[data-consola-tema="claro"] .cs-tema-claro { display: inline-flex !important; }
 html[data-consola-tema="claro"] .cs-tema-oscuro { display: none !important; }
 
-/* Celular: desplegable en lugar de la barra */
+/* Celular: «Estás en» + hoja de secciones en lugar de la barra lateral */
 .cs-movil { display: none; }
+.cs-hoja { display: none; }
 @media (max-width: 860px) {
   .consola { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
   .cs-lateral { display: none; }
   .cs-movil {
-    display: block; background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; padding: .75rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; background: var(--cs-papel); border: 1px solid var(--cs-borde);
+    border-radius: 12px; padding: .6rem .75rem;
   }
-  .cs-movil-cabeza { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .45rem; }
-  .cs-movil-cabeza .cs-tema { margin-top: 0; }
-  .cs-movil-label { display: block; font-size: .85rem; color: var(--cs-suave); }
-  .cs-movil-label strong { color: var(--mostaza, #e3a72f); }
-  html[data-consola-tema="claro"] .cs-movil-label strong { color: #8a5a00; }
-  .cs-movil-fila { display: flex; gap: .5rem; }
+  .cs-movil-donde { flex: 1 1 4.5rem; min-width: 0; margin: 0; font-size: .8rem; color: var(--cs-suave); line-height: 1.25; }
+  .cs-movil-donde strong { display: block; font-size: 1.05rem; color: var(--cs-texto); }
+  .cs-movil .cs-btn { min-height: 44px; white-space: nowrap; font-size: .85rem; padding-inline: .6rem; }
+  .cs-movil { gap: .5rem; }
+  .cs-movil-pend { flex: 1 1 100%; display: flex; align-items: center; min-height: 44px; padding: 0 .8rem; border-radius: 10px; font-weight: 700;
+    color: var(--mostaza, #e3a72f); background: var(--cs-papel-2); text-decoration: none; }
+  html[data-consola-tema="claro"] .cs-movil-pend { color: #8a5a00; }
+  .cs-hoja[open] { display: block; position: fixed; inset: auto 0 0 0; margin: 0; width: 100%; max-width: none; max-height: 85vh; overflow-y: auto;
+    border-radius: 16px 16px 0 0; padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom)); }
+  .cs-hoja-cabeza { display: flex; align-items: center; justify-content: space-between; margin-bottom: .5rem; }
+  .cs-hoja-cabeza .cs-btn { min-height: 44px; }
+  .cs-hoja-lista { display: flex; flex-direction: column; }
+  .cs-hoja .cs-hoja-item { display: flex; align-items: center; gap: .75rem; min-height: 52px; padding: 0 .5rem; border-bottom: 1px solid var(--cs-borde);
+    color: var(--cs-texto); text-decoration: none; font-weight: 600; }
+  .cs-hoja .cs-hoja-item[aria-current="page"] { color: var(--cs-acento); }
+  .cs-hoja-item .cs-nav-label { flex: 1; }
+  .cs-movil .cs-tema-ico { min-width: 44px; padding: 0 .6rem; justify-content: center; }
+  .consola { padding-bottom: 5rem; }  /* nada queda tapado por la barra inferior */
 }
 
 /* ---------- Contenido ---------- */
@@ -221,6 +235,8 @@ span.cs-pag[aria-hidden="true"] { opacity: .35; }
 .cs-dialogo::backdrop { background: rgba(0, 0, 0, .6); }
 .cs-dialogo p { margin-bottom: 1rem; }
 .cs-dialogo .cs-acciones-fila { justify-content: flex-end; }
+.cs-dialogo .cs-campo { width: 100%; margin: .25rem 0 1rem; }
+.cs-error-motivo { color: var(--cs-peligro); font-weight: 600; font-size: .88rem; margin: -.5rem 0 1rem; }
 .cs-dialogo { --cs-acento: var(--lava, #f2611d); --cs-acento-texto: #111517; --cs-texto: var(--crema, #ede3cc); --cs-borde: var(--borde, #354044); --cs-peligro: #ff5a3c; --cs-papel-2: #252e31; }
 .cs-clave { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
 .cs-clave code { font-size: 1.2rem; letter-spacing: .08em; padding: .3rem .6rem; background: #111517; border-radius: 6px; user-select: all; }
@@ -347,6 +363,11 @@ html[data-consola-tema="claro"] .cs-sello-pend { color: #8a5a00; }
 
 /* Píldora «✓ Aprobar» bajo el estado «Por revisar» (área táctil de 44 px sin agrandar la píldora) */
 .cs-form-linea:has(> .cs-pildora-aprobar) { display: flex; }
+.cs-pestanas { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 1rem; }
+.cs-pestana { display: inline-flex; align-items: center; gap: .35rem; min-height: 44px; padding: 0 .9rem; border: 1px solid var(--cs-borde); border-radius: 999px; color: var(--cs-texto); text-decoration: none; font-weight: 600; }
+.cs-pestana[aria-current="page"] { background: var(--cs-acento); color: var(--cs-acento-texto); border-color: var(--cs-acento); }
+.cs-decidir { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin-top: .5rem; }
+.cs-decidir .cs-btn { min-height: 44px; padding-inline: 1rem; margin-top: 0; }
 .cs-btn.cs-pildora-aprobar { position: relative; display: flex; width: fit-content; align-items: center; gap: .25rem; min-height: 0; margin-top: .3rem; padding: 2px 10px;
   font-size: 12px; font-weight: 700; line-height: 1.4; border-radius: 999px; background: transparent; color: var(--cs-ok); border: 1px solid var(--cs-ok); }
 .cs-btn.cs-pildora-aprobar::after { content: ""; position: absolute; left: -6px; right: -6px; top: 50%; height: 44px; transform: translateY(-50%); }
@@ -366,3 +387,45 @@ html[data-consola-tema="claro"] .cs-sello-pend { color: #8a5a00; }
 .cs-pv-botones { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
 .cs-pv-enlace { display: block; margin-top: .75rem; }
 .cs-pv-enlace .cs-campo { width: 100%; }
+
+/* ---------- Celular: las tablas de lista pasan a tarjetas (sin scroll lateral) ---------- */
+@media (max-width: 700px) {
+  .cs-tabla-caja { overflow: visible; background: transparent; border: 0; }
+  .cs-tabla-tarjetas, .cs-tabla-tarjetas tbody, .cs-tabla-tarjetas tr, .cs-tabla-tarjetas td { display: block; width: 100%; }
+  .cs-tabla-tarjetas thead { display: none; }
+  .cs-tabla-tarjetas tbody tr {
+    margin: 0 0 .75rem; padding: .9rem 1rem; background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px;
+  }
+  .cs-tabla-tarjetas tbody tr:hover { background: var(--cs-papel); }
+  .cs-tabla-tarjetas td { padding: .2rem 0; border: 0; overflow-wrap: anywhere; }
+  .cs-tabla-tarjetas td + td { margin-top: .35rem; }
+  .cs-tabla-tarjetas td.cs-col-acc { width: 100%; padding: .5rem 0 0; text-align: left; white-space: normal; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+  .cs-tabla-tarjetas td.cs-col-acc .cs-btn:not(.cs-pildora-aprobar), .cs-tabla-tarjetas td.cs-col-acc .cs-menu > summary { min-height: 44px; }
+  .cs-tabla-tarjetas td[data-etq]::before { content: attr(data-etq) ": "; font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--cs-suave); font-weight: 700; }
+  /* Matriz de retención: es una cuadrícula; se aprieta para que quepa */
+  .cs-tabla.mt-ret th, .cs-tabla.mt-ret td { padding: .3rem .1rem; font-size: .68rem; text-align: center; }
+  .cs-tabla.mt-ret th[scope="row"] { text-align: left; padding-left: .3rem; white-space: nowrap; }
+}
+
+/* Celular: enlaces y paginación con zona de toque de 44 px */
+@media (max-width: 700px) {
+  .cs-tabla-tarjetas td a, .cs-moderacion a, .cs-tabla a.cs-cuenta-nombre { display: inline-flex; align-items: center; min-height: 44px; }
+  .cs-tabla-tarjetas .cs-cuenta-nombre { font-size: 1.05rem; }
+  .cs-pag, .cs-principal .cs-paginacion a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; min-width: 44px; }
+  .cs-tabla-reporte a { display: inline-flex; align-items: center; min-height: 44px; }
+}
+
+/* Ficha de revisión de «Por aprobar» */
+.cs-rev-fotos { display: flex; gap: .5rem; overflow-x: auto; max-width: 100%; margin-bottom: 1rem; }
+.cs-rev-fotos img { height: 9rem; width: auto; max-width: none; border-radius: 10px; border: 1px solid var(--cs-borde); }
+.cs-rev-datos { display: grid; margin: 0 0 1.25rem; background: var(--cs-papel); border: 1px solid var(--cs-borde); border-radius: 12px; padding: .5rem 1rem; }
+.cs-rev-datos > div { padding: .55rem 0; border-bottom: 1px solid var(--cs-borde); }
+.cs-rev-datos > div:last-child { border-bottom: 0; }
+.cs-rev-datos dt { font-size: .75rem; text-transform: uppercase; letter-spacing: .07em; color: var(--cs-suave); font-weight: 700; }
+.cs-rev-datos dd { margin: .1rem 0 0; overflow-wrap: anywhere; }
+.cs-rev-lista { margin-bottom: 1.25rem; padding: 1rem; border: 1px dashed var(--cs-borde); border-radius: 12px; }
+.cs-rev-lista ul { margin: .5rem 0 0; padding-left: 1.2rem; list-style: disc; }
+.cs-rev-lista li { margin: .25rem 0; }
+.cs-rev-decidir { margin-bottom: 4rem; }
+.cs-volver { display: inline-flex; align-items: center; min-height: 44px; }
+@media (min-width: 701px) { .cs-rev-datos > div { display: grid; grid-template-columns: 12rem 1fr; gap: 1rem; } }

@@ -106,9 +106,9 @@ def _canjear_descuento(request, s):
         canjear_con_mecanico(s.codigo_cupon.codigo, s.mecanico, via="visita", usuario=request.user,
                              ip=request.META.get("REMOTE_ADDR"))
     except ErrorCanje as e:
-        messages.warning(request, f"El descuento {s.codigo_cupon.codigo} no se pudo validar: {e}")
+        messages.warning(request, f"El cupón {s.codigo_cupon.codigo} no se pudo validar: {e}")
     else:
-        messages.info(request, f"Descuento validado: {s.codigo_cupon.cupon.titulo}.")
+        messages.info(request, f"Cupón validado: {s.codigo_cupon.cupon.titulo}.")
 
 
 @login_required
@@ -129,11 +129,11 @@ def solicitud_descuento(request, pk):
         messages.error(request, str(e))
         return redirect(volver)
     if codigo.visitas.exclude(pk=s.pk).filter(estado__in=ABIERTAS).exists():
-        messages.error(request, "Ese descuento ya está anotado en otra visita.")
+        messages.error(request, "Ese cupón ya está anotado en otra visita.")
         return redirect(volver)
     s.codigo_cupon = codigo
     s.save(update_fields=["codigo_cupon"])
-    messages.success(request, f"Anotamos el descuento «{codigo.cupon.titulo}»: se usa al marcar la visita atendida.")
+    messages.success(request, f"Anotamos el cupón «{codigo.cupon.titulo}»: se usa al marcar la visita atendida.")
     return redirect(volver)
 
 

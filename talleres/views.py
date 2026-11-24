@@ -358,6 +358,11 @@ def detalle(request, slug):
                 form.add_error("hora" if "hora" in form.fields else None, str(e))
             else:
                 _contar_publicacion(request, taller, accion)
+                if accion == "cita":
+                    request.session["sugerir_push"] = True  # la ficha ofrece activar avisos tras pedir la cita
+                    _avisar(taller.usuario, f"cita-nueva:{obj.pk}", f"{obj.nombre} pidió una cita",
+                            f"{obj.fecha_preferida:%d/%m}" + (f" a las {_hora_texto(obj.hora)}" if obj.hora else ""),
+                            reverse("talleres:citas_taller"))
                 messages.success(request, msg)
                 return redirect(taller)
 
@@ -379,7 +384,7 @@ def detalle(request, slug):
     marcas = [] if taller.multimarca else list(taller.marcas.all())
     compromisos = perfil.compromisos_lista(taller)
     # Numeración de las secciones según las que existan, para que siempre sea 01, 02, 03…
-    nombres = (["equipo"] if equipo else []) + (["trabajo"] if especialidades or marcas or taller.multimarca or compromisos else [])         + (["cupones"] if cupones else []) + ["resenas", "ubicacion"]
+    nombres = ["ubicacion"] + (["equipo"] if equipo else []) + (["trabajo"] if especialidades or marcas or taller.multimarca or compromisos else [])         + (["cupones"] if cupones else []) + ["resenas"]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
     lugar = f"{taller.barrio.nombre}, {taller.barrio.ciudad}"
     servicios_txt = ", ".join(x.nombre.lower() for x in list(taller.servicios.all())[:4])
@@ -454,6 +459,8 @@ def editar_perfil(request):
             taller = form.save(commit=False)
             if equipo.is_bound:
                 taller.equipo = equipo_de(equipo)
+            if not taller.activo and taller.motivo_rechazo:  # corrigió: vuelve a la fila de revisión
+                taller.motivo_rechazo = ""
             taller.save()
             form.save_m2m()
             for i, f in enumerate(nuevas):
@@ -610,15 +617,29 @@ def panel(request):
     from cuentas.models import Perfil
     from garaje.servicio_taller import resumen_taller
     from . import precios as _precios
+    from .panel_cifras import faltan_cortos, franja
+    resumen = resumen_taller(taller, hoy)
+    canjes_mes = CodigoCupon.objects.filter(canjeado_taller=taller, canjeado_en__date__gte=hoy.replace(day=1)).count()
     return render(request, "talleres/panel.html", {
         "taller": taller,
+        "franja": franja([
+            ("Citas esta semana", resumen["citas_semana"], resumen["citas_semana_ant"], "semana pasada", "",
+             reverse("talleres:citas_taller") + "?estado=proximas", "lava", "Comparte tu página para recibir citas."),
+            ("Servicios registrados", resumen["servicios_mes"], resumen["servicios_mes_ant"], "mes pasado", "",
+             reverse("talleres:servicios_taller"), "verde", "Registra tus servicios: arman el historial de cada moto."),
+            ("Calificación", f"{nota['prom']:.1f}".replace(".", ",") if nota["n"] else "", None, "",
+             f"{nota['n']} reseña{'s' if nota['n'] != 1 else ''}", "#resenas", "mostaza", "Pídeles a tus clientes que te califiquen en tu página."),
+            ("Cupones canjeados", canjes_mes, None, "", "este mes", "#cupones", "verde", "Crea un cupón para atraer moteros."),
+            ("Te guardaron", taller.favoritos.count(), None, "", "moteros", "", "rosa", ""),
+        ]),
         "precios_por_confirmar": _precios.necesita_confirmar(taller),
         "sin_ubicacion": not (taller.latitud and taller.ubicacion_exacta),
         "n_precios": taller.precios.count(),
-        "resumen": resumen_taller(taller, hoy),
+        "resumen": resumen,
         "perfil": Perfil.de(request.user),
         "avatares": [(clave, datos[0], svg_predisenado(clave, 52)) for clave, datos in PREDISENADOS.items()],
         "completitud": _completitud(taller),
+        "faltan_cortos": faltan_cortos(_completitud(taller)["faltan"]),
         "citas": abiertas[:CITAS_PANEL],
         "n_abiertas": len(abiertas),
         "n_pendientes": sum(c.estado == SolicitudCita.Estado.PENDIENTE for c in citas),
@@ -628,7 +649,8 @@ def panel(request):
         "sin_responder": resenas.filter(respuesta="").count(),
         "nota": nota,
         "favoritos": taller.favoritos.count(),
-        "canjes_mes": CodigoCupon.objects.filter(canjeado_taller=taller, canjeado_en__date__gte=hoy.replace(day=1)).count(),
+        "canjes_mes": canjes_mes,
+        "cupones_activos": taller.cupones.vigentes().count(),
         "cupones": taller.cupones.annotate(entregados=Count("codigos", distinct=True),
                                            canjeados=Count("codigos", filter=Q(codigos__canjeado_en__isnull=False), distinct=True),
                                            num_emitidos=F("entregados"))  # Cupon.restantes lo reutiliza sin consultar

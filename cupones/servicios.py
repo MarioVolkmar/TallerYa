@@ -149,7 +149,7 @@ def canjear(codigo_texto, pin=None, taller=None, *, taller_elegido=None, usuario
             raise ErrorCanje("Este cupón ya venció o fue desactivado.")
         if not codigo.valido_en(taller):
             if codigo.cupon.mecanico_id:
-                raise ErrorCanje(f"Este descuento es del mecánico a domicilio {codigo.cupon.mecanico}: no vale en talleres.")
+                raise ErrorCanje(f"Este cupón es del mecánico a domicilio {codigo.cupon.mecanico}: no vale en talleres.")
             raise ErrorCanje(f"Este cupón es de otro taller ({codigo.cupon.taller}).")
         # Actualización condicional: aunque dos talleres (o dos clics) lleguen a la vez, solo uno la gana
         ahora = timezone.now()
@@ -177,11 +177,11 @@ def revisar_para_mecanico(codigo_texto, mecanico):
     if not codigo:
         raise ErrorCanje(NO_VALIDO)
     if not codigo.valido_con_mecanico(mecanico):
-        raise ErrorCanje("Ese código no es de tus descuentos.")
+        raise ErrorCanje("Ese código no es de tus cupones.")
     if codigo.canjeado:
-        raise ErrorCanje("Ese descuento ya se usó.")
+        raise ErrorCanje("Ese cupón ya se usó.")
     if not codigo.cupon.vigente:
-        raise ErrorCanje("Ese descuento ya venció o lo pausaste.")
+        raise ErrorCanje("Ese cupón ya venció o lo pausaste.")
     return codigo
 
 
@@ -189,7 +189,7 @@ def canjear_con_mecanico(codigo_texto, mecanico, *, via="codigo", usuario=None, 
     """El mecánico a domicilio canjea un descuento suyo, con su sesión (no hay PIN): al marcar la visita «Atendida»
     (via="visita") o escribiendo el código que le muestra el motero (via="codigo")."""
     if mecanico.estado != mecanico.Estado.APROBADO:
-        raise ErrorCanje("Tu perfil aún no está publicado: todavía no puedes validar descuentos.")
+        raise ErrorCanje("Tu perfil aún no está publicado: todavía no puedes validar cupones.")
     with transaction.atomic():
         codigo = revisar_para_mecanico(codigo_texto, mecanico)
         ahora = timezone.now()
@@ -197,7 +197,7 @@ def canjear_con_mecanico(codigo_texto, mecanico, *, via="codigo", usuario=None, 
         ganado = CodigoCupon.objects.filter(pk=codigo.pk, canjeado_en__isnull=True).update(
             canjeado_en=ahora, canjeado_mecanico=mecanico, canje_via=via, canje_ip=ip, canjeado_por=por)
         if not ganado:
-            raise ErrorCanje("Ese descuento se acaba de usar.")
+            raise ErrorCanje("Ese cupón se acaba de usar.")
         codigo.canjeado_en, codigo.canjeado_mecanico, codigo.canje_via, codigo.canje_ip, codigo.canjeado_por = (
             ahora, mecanico, via, ip, por)
         codigo.save(update_fields=["canjeado_en", "canjeado_mecanico", "canje_via", "canje_ip", "canjeado_por"])
@@ -214,7 +214,7 @@ def _avisar_canje(codigo):
     if usuario:
         cuando = timezone.localtime(codigo.canjeado_en).strftime("%d/%m %I:%M %p").lower()
         titulo = (f"Usaste tu cupón en {codigo.canjeado_taller}" if codigo.canjeado_taller_id
-                  else f"Usaste tu descuento con {codigo.canjeado_mecanico}")
+                  else f"Usaste tu cupón con {codigo.canjeado_mecanico}")
         notificar(usuario, f"canje:{codigo.pk}", titulo,
                   f"{codigo.cupon.titulo} · {cuando}. ¿No fuiste tú? Escríbenos desde Mi cuenta.",
                   reverse("cuentas:mi_cuenta") + "#cupones")

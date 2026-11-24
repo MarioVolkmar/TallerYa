@@ -13,7 +13,7 @@
   <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
 </form>
 {% if pagina.object_list %}
-<div class="cs-tabla-caja"><table class="cs-tabla">
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-tarjetas">
   <caption class="sr-only">Citas</caption>
   <thead><tr><th scope="col">Cita</th><th scope="col">Taller</th><th scope="col">Estado</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
   <tbody>
@@ -21,7 +21,7 @@
   <tr>
     <td><span class="cs-cuenta-nombre">{{ c.fecha_preferida|date:"j M Y" }}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %}</span> <span class="cs-id">#{{ c.pk }}</span>
       <span class="cs-cuenta-correo">{{ c.nombre }} · {{ c.moto }}{% if c.servicio %} · {{ c.servicio }}{% endif %}{% if c.usuario %} · <a href="?seccion=usuarios&amp;id={{ c.usuario_id }}">cuenta</a>{% endif %}</span></td>
-    <td>{{ c.taller.nombre }}</td>
+    <td data-etq="Taller">{{ c.taller.nombre }}</td>
     <td><span class="cs-estado cs-cita-{{ c.estado }}">{{ c.get_estado_display }}</span>{% if c.motivo_cancelacion %}<span class="cs-cuenta-correo">{{ c.motivo_cancelacion|truncatechars:60 }}</span>{% endif %}</td>
     <td class="cs-col-acc">{% if c.estado in abiertas %}{% include "consola/_menu_ini.html" %}
       <form method="post" action="{% url 'consola:accion' 'citas.cancelar' c.pk %}" data-accion data-confirmar="¿Cancelar la cita #{{ c.pk }} en {{ c.taller.nombre }}?" class="cs-menu-cancelar">

@@ -870,6 +870,24 @@ class PanelMecanicoTests(Base):
                       "Perfil", "Reporte", "aún no has cargado precios", "Armar mi tabla"):
             self.assertContains(r, texto)
 
+    def test_mis_servicios_vacio_con_boton_y_visita_sin_registrar(self):
+        from .models import SolicitudVisita
+        r = self.client.get(reverse("domicilio:servicios"))
+        self.assertContains(r, "Aún no has registrado servicios")
+        self.assertContains(r, reverse("garaje:servicio_mecanico"))
+        v = SolicitudVisita.objects.create(mecanico=self.aprobado, nombre="Luis", telefono="573001112233", moto="NMAX",
+                                           servicio=self.frenos, estado="atendida")
+        r = self.client.get(reverse("domicilio:servicios"))
+        self.assertContains(r, "Visitas atendidas sin registrar")
+        self.assertContains(r, reverse("garaje:servicio_visita", args=[v.pk]))
+
+    def test_mis_servicios_pide_perfil_y_barra_apunta_a_la_vista(self):
+        self.client.logout()
+        self.assertEqual(self.client.get(reverse("domicilio:servicios")).status_code, 302)
+        self.client.force_login(self.dueno)
+        r = self.client.get(reverse("domicilio:panel"))
+        self.assertContains(r, f'href="{reverse("domicilio:servicios")}" class="bi-item"')
+
     def test_interruptor_de_precios(self):
         from .models import PrecioMecanico
         PrecioMecanico.objects.create(mecanico=self.aprobado, servicio=self.frenos, cilindraje="baja", desde=35000, hasta=60000)

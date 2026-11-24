@@ -1,0 +1,9 @@
+<section class="pt-franja" aria-label="Resumen"{% if id_franja %} id="{{ id_franja }}"{% endif %}>
+  {% if franja.items %}<ul class="pt-franja-lista">
+    {% for c in franja.items %}<li>{% if c.url %}<a href="{{ c.url }}"{% else %}<div{% endif %} class="pt-fr pt-{{ c.color }}">
+      <strong>{{ c.valor }}</strong><span>{{ c.etiqueta }}</span>
+      {% if c.tend %}<small class="pt-tend {{ c.tend.sentido }}">{{ c.tend.texto }}</small>{% elif c.nota %}<small>{{ c.nota }}</small>{% endif %}
+    {% if c.url %}</a>{% else %}</div>{% endif %}</li>{% endfor %}
+  </ul>{% endif %}
+  {% if franja.consejo %}<p class="pt-consejo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.500 10.900c.7.600 1 1.300 1 2.100h5c0-.8.300-1.500 1-2.100A6 6 0 0 0 12 3Z"/></svg>{{ franja.consejo }}</p>{% endif %}
+</section>

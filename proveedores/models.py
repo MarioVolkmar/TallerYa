@@ -77,6 +77,7 @@ class Proveedor(models.Model):
         POR_REVISAR = "por_revisar", "Por revisar"
         PUBLICADO = "publicado", "Publicado"
         PAUSADO = "pausado", "Pausado"
+        RECHAZADO = "rechazado", "Rechazado"
 
     class Alta(models.TextChoices):
         EQUIPO = "equipo", "Cargado por el equipo"
@@ -107,6 +108,7 @@ class Proveedor(models.Model):
     latitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     estado = models.CharField(max_length=12, choices=Estado.choices, default=Estado.POR_REVISAR)
+    motivo_rechazo = models.CharField("motivo del rechazo", max_length=200, blank=True)
     verificado = models.BooleanField(default=False)
     origen_alta = models.CharField("cómo se dio de alta", max_length=12, choices=Alta.choices, default=Alta.ASISTIDO)
     token_revision = models.CharField(max_length=40, unique=True, null=True, blank=True, editable=False)

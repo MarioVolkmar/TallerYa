@@ -78,6 +78,9 @@ def activar(request):
         nuevo = form.save(commit=False)
         nuevo.motociclista = motociclista
         nuevo.save()
+        if not perfil:
+            from notificaciones.servicios import avisar_admins
+            avisar_admins(f"registro-domiciliario:{nuevo.pk}", "Domiciliario nuevo", motociclista.usuario.get_full_name() or motociclista.usuario.email)
         messages.success(request, "Listo: ya tienes tu plan de uso intensivo." if not perfil else "Datos actualizados.")
         return redirect("domiciliarios:panel")
     return render(request, "domiciliarios/activar.html", {"form": form, "perfil": perfil})

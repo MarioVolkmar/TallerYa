@@ -7,7 +7,7 @@
       <div class="dom-chapas">
         {% if m.verificado %}<span class="tc-chapa tc-chapa-verif" title="Verificado por TallerYa"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Verificado</span>{% endif %}
         {% if m.urgencias %}<span class="tc-chapa tc-chapa-lava">Urgencias</span>{% endif %}
-        {% if m.tiene_descuento %}<span class="tc-chapa dom-chapa-descuento">Descuento</span>{% endif %}
+        {% if m.tiene_descuento %}<span class="tc-chapa dom-chapa-descuento">Cupón</span>{% endif %}
       </div>
       <h3 class="tc-nombre">{{ m.nombre }}</h3>
       <p class="tc-ubic"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg><span>Va a {{ m.zonas_vista|join:", " }}{% if m.zonas_mas %} y {{ m.zonas_mas }} más{% endif %}</span></p>

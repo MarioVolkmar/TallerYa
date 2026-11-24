@@ -1,0 +1,30 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <p class="cs-sub"><a href="?seccion=aprobaciones" class="cs-volver">&larr; Volver a Por aprobar</a></p>
+  <h1 class="cs-h1" id="cs-titulo">{{ nombre }}</h1>
+  <p class="cs-sub">{{ etiqueta }} · solicitud #{{ obj.pk }}{% if faltan %} · <strong>{{ faltan }} dato{{ faltan|pluralize }} sin llenar</strong>{% endif %}</p>
+</header>
+{% if fotos %}<div class="cs-rev-fotos">{% for f in fotos %}<a href="{{ f }}" target="_blank" rel="noopener"><img src="{{ f }}" alt="Foto {{ forloop.counter }} de {{ nombre }}" loading="lazy"></a>{% endfor %}</div>
+{% else %}<p class="cs-vacio">No cargó fotos. <span class="cs-estado cs-pend">Falta</span></p>{% endif %}
+<dl class="cs-rev-datos">
+  {% for etq, valor in datos %}<div><dt>{{ etq }}</dt><dd>{% if valor %}{{ valor }}{% else %}<span class="cs-estado cs-pend">Falta</span>{% endif %}</dd></div>{% endfor %}
+</dl>
+<section class="cs-rev-lista" aria-labelledby="cs-rev-t"><h2 class="cs-h3" id="cs-rev-t">Qué revisar antes de aprobar</h2>
+  <ul>{% for c in checklist %}<li>{{ c }}</li>{% endfor %}</ul></section>
+{% if identidad %}
+<section class="cs-rev-lista cs-rev-identidad" aria-labelledby="cs-ident-t"><h2 class="cs-h3" id="cs-ident-t">Identidad: foto de la cédula</h2>
+  <p class="cs-cuenta-correo">{{ nombre }}{% if identidad.numero %} · cédula {{ identidad.numero }}{% endif %}: compara el nombre y los últimos dígitos con las fotos. Se borran al decidir.</p>
+  <div class="cs-rev-fotos">{% for etq, url in identidad.fotos %}<a href="{{ url }}" target="_blank" rel="noopener"><img src="{{ url }}" alt="{{ etq }} de {{ nombre }}" loading="lazy"></a>{% endfor %}</div>
+  <div class="cs-decidir">
+    {% include "consola/_boton_accion.html" with url=identidad.aprobar texto="Aprobar identidad" clase="cs-btn-ok" confirmar="¿Aprobar la identidad de "|add:nombre|add:"? Recibe la insignia Verificado y se borran las fotos." %}
+    {% include "consola/_boton_accion.html" with url=identidad.rechazar texto="Rechazar con motivo" motivo="Rechazar la identidad de "|add:nombre %}
+  </div>
+</section>
+{% endif %}
+{% if item and not item.solo_identidad %}
+<div class="cs-decidir cs-rev-decidir">
+  {% if item.aprobar %}{% include "consola/_boton_accion.html" with url=item.aprobar valor=item.valor texto="Aprobar" clase="cs-btn-ok" confirmar="¿Aprobar a "|add:nombre|add:"? Se publica y se le avisa." %}
+  {% else %}<span class="cs-cuenta-correo">{{ item.nota }}</span>{% endif %}
+  {% include "consola/_boton_accion.html" with url=item.rechazar texto="Rechazar" motivo="Rechazar a "|add:nombre %}
+</div>
+{% elif not item %}<p class="cs-vacio">Esta solicitud ya no está pendiente. <a href="?seccion=aprobaciones">Volver a la bandeja</a></p>{% endif %}

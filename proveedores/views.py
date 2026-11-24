@@ -52,6 +52,8 @@ def autoregistro(request):
             obj.generar_token()
             obj.save()
             limites.sumar(f"alta-proveedor:{ip}", 3600)
+            from notificaciones.servicios import avisar_admins
+            avisar_admins(f"registro-proveedor:{obj.pk}", "Proveedor nuevo por revisar", str(obj))
             return redirect("proveedores:enviada", token=obj.token_revision)
     return _sin_indexar(render(request, "proveedores/autoregistro.html", {
         "form": form, "campos_por_categoria": _campos_por_categoria()}))

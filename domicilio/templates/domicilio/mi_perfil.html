@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static push %}
 {% block title %}Mi perfil de mecánico · TallerYa{% endblock %}
 
 {% block content %}
@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="{% static 'domicilio/css/registro.css' %}">
 {% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" clase="mt-8" %}
 <div class="max-w-3xl mx-auto mt-4">
+{% tarjeta_push "mecanico" %}
   <p class="etiqueta">Mecánico a domicilio</p>
   <div class="flex flex-wrap items-end justify-between gap-3 mt-3">
     <h1 class="titulo text-4xl md:text-5xl">Tu <span class="text-lava">perfil</span></h1>
@@ -16,10 +17,11 @@
   <p class="mt-2"><a href="{% url 'domicilio:resenas' %}" class="pt-enlace">Mis reseñas ({{ n_resenas }})</a></p>
   <p class="text-suave mt-2">Un perfil completo, con foto, zonas claras y trabajos terminados, genera más confianza y más solicitudes.</p>
   <div class="dom-estado-caja dom-estado-{{ m.estado }} mt-5">
-    <p class="dom-estado-titulo">{% if m.estado == "pendiente" %}⏳ En revisión{% elif m.estado == "suspendido" %}⛔ Suspendido{% else %}✔ Publicado{% endif %}</p>
+    <p class="dom-estado-titulo">{% if m.estado == "pendiente" %}⏳ En revisión{% elif m.estado == "suspendido" %}⛔ Suspendido{% elif m.estado == "rechazado" %}✖ Rechazado{% else %}✔ Publicado{% endif %}</p>
     <p class="text-sm mt-1">
       {% if m.estado == "pendiente" %}Todavía no sales en el listado. El equipo revisa los perfiles en 1 o 2 días hábiles{% if faltan_obligatorios %}, pero antes te falta: <strong>{{ faltan_obligatorios|join:", " }}</strong>{% endif %}. Te avisamos cuando quede publicado.
-      {% elif m.estado == "suspendido" %}No apareces en el listado. Escríbenos si crees que es un error.{% else %}Apareces en el listado de Mecánicos a domicilio{% if m.verificado %} con el sello de verificado{% endif %}.{% endif %}
+      {% elif m.estado == "suspendido" %}No apareces en el listado. Escríbenos si crees que es un error.
+      {% elif m.estado == "rechazado" %}Tu perfil no fue aprobado. <strong>Motivo: {{ m.motivo_rechazo }}.</strong> Corrígelo abajo y guarda: se vuelve a revisar.{% else %}Apareces en el listado de Mecánicos a domicilio{% if m.verificado %} con el sello de verificado{% endif %}.{% endif %}
     </p>
     {% if m.nota_al_mecanico %}<p class="dom-nota-equipo mt-3"><strong>Mensaje del equipo:</strong> {{ m.nota_al_mecanico }}</p>{% endif %}
   </div>

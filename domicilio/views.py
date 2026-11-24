@@ -32,6 +32,7 @@ from talleres import perfil as perfil_taller
 from talleres import precios as perfil_precios
 
 from talleres.models import Resena
+from .identidad import estado_para_panel as estado_identidad
 from .forms import PASO_OPCIONAL, PASO_TRABAJO, PASO_VERIFICACION, EdicionMecanicoForm, PerfilMecanicoForm, ResenaMecanicoForm, TallerDomicilioForm, foto_trabajo
 from .models import FotoTrabajo, MecanicoDomicilio, MecanicoFavorito, ResenaMecanico, TallerDomicilio, TipoServicio, Zona
 
@@ -143,7 +144,7 @@ def listado(request):
     if tipo in ("independientes", "talleres"):
         activos.append({"nombre": "Solo independientes" if tipo == "independientes" else "Solo talleres",
                         "quitar": "?" + sin("tipo")})
-    for clave, nombre in (("urgencias", "Atiende urgencias"), ("verificados", "Solo verificados"), ("descuento", "Con descuento")):
+    for clave, nombre in (("urgencias", "Atiende urgencias"), ("verificados", "Solo verificados"), ("descuento", "Con cupón")):
         if f.get(clave):
             activos.append({"nombre": nombre, "quitar": "?" + sin(clave)})
 
@@ -287,7 +288,7 @@ def visita(request, slug):
             descuento = solicitud.codigo_cupon
             lineas.append(f"Mi solicitud en TallerYa: {request.build_absolute_uri(solicitud.get_absolute_url())}")
     if descuento:
-        lineas.append(f"Tengo tu descuento de TallerYa: {descuento.cupon.titulo} (código {descuento.codigo})")
+        lineas.append(f"Tengo tu cupón de TallerYa: {descuento.cupon.titulo} (código {descuento.codigo})")
     return redirect(f"https://wa.me/{mecanico.whatsapp}?text={quote(chr(10).join(lineas))}")
 
 
@@ -345,6 +346,8 @@ def registro(request):
             mecanico.save()
             perfil.save_m2m()
             rechazadas = _guardar_trabajos(mecanico, trabajos)
+        from notificaciones.servicios import avisar_admins
+        avisar_admins(f"registro-mecanico:{mecanico.pk}", "Mecánico nuevo por revisar", mecanico.nombre)
         if nueva_cuenta:
             login(request, usuario, backend="cuentas.backends.Backend")
             Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
@@ -399,8 +402,27 @@ def panel(request):
     resenas = mecanico.resenas.filter(visible=True)
     pasos = mecanico.pasos()
     hechos = sum(h for _, h, _ in pasos)
+    from talleres.panel_cifras import faltan_cortos, franja, mes_anterior
+    ini_ant, fin_ant = mes_anterior(hoy)
+    n_mes = solicitudes.filter(creado__date__gte=inicio_mes).count()
+    n_atendidas = solicitudes.filter(estado="atendida", creado__date__gte=inicio_mes).count()
+    nota = resenas.aggregate(prom=Avg("estrellas"), n=Count("id"))
+    url_sol = reverse("domicilio:solicitudes") + "?ver=todas"
     return render(request, "domicilio/panel.html", {
         "m": mecanico,
+        "identidad_estado": estado_identidad(mecanico),
+        "n_descuentos_vencidos": mecanico.cupones.filter(activo=True).exclude(pk__in=mecanico.cupones.vigentes()).count(),
+        "franja": franja([
+            ("Solicitudes del mes", n_mes, solicitudes.filter(creado__date__range=(ini_ant, fin_ant)).count(), "mes pasado",
+             "", url_sol, "lava", "Comparte tu ficha para recibir solicitudes de visita."),
+            ("Visitas atendidas", n_atendidas, solicitudes.filter(estado="atendida", creado__date__range=(ini_ant, fin_ant)).count(),
+             "mes pasado", "", url_sol, "verde", "Cierra tus visitas para que cuenten aquí."),
+            ("Calificación", f"{nota['prom']:.1f}".replace(".", ",") if nota["n"] else "", None, "",
+             f"{nota['n']} reseña{'s' if nota['n'] != 1 else ''}", reverse("domicilio:resenas"), "mostaza",
+             "Pídeles a tus clientes que te califiquen en tu ficha."),
+            ("Te guardaron", mecanico.favoritos.count(), None, "", "moteros", "", "rosa", ""),
+        ]),
+        "precios_ocultos": bool(mecanico.precios.exists() and not mecanico.mostrar_precios),
         "n_por_cotizar": solicitudes.filter(estado="pendiente").count(),
         "n_por_cerrar": solicitudes.filter(estado="confirmada", fecha_propuesta__lte=hoy).count(),
         "n_abiertas": solicitudes.filter(estado__in=["pendiente", "cotizada", "confirmada"]).count(),
@@ -408,6 +430,7 @@ def panel(request):
         "nota": resenas.aggregate(prom=Avg("estrellas"), n=Count("id")),
         "pct": round(100 * hechos / len(pasos)),
         "faltan": [t for t, hecho, _ in pasos if not hecho][:3],
+        "faltan_cortos": faltan_cortos([t for t, hecho, _ in pasos if not hecho]),
         "faltan_obligatorios": [t for t, hecho, obligatorio in pasos if obligatorio and not hecho],
         "n_precios": mecanico.precios.count(),
         "precios_por_confirmar": perfil_precios.necesita_confirmar(mecanico),
@@ -467,7 +490,12 @@ def mi_perfil(request):
         form.save()
         if rechazadas := _guardar_trabajos(mecanico, request.FILES.getlist("trabajos")):
             messages.error(request, f"{rechazadas} foto(s) de trabajos no se subieron: usa JPG, PNG o WEBP de máximo 5 MB.")
-        messages.success(request, "Guardamos los cambios de tu perfil.")
+        if mecanico.estado == MecanicoDomicilio.Estado.RECHAZADO:  # corrigió: vuelve a la fila de revisión
+            mecanico.estado, mecanico.motivo_rechazo = MecanicoDomicilio.Estado.PENDIENTE, ""
+            mecanico.save(update_fields=["estado", "motivo_rechazo", "actualizado"])
+            messages.success(request, "Guardamos los cambios y enviamos tu perfil a revisión otra vez.")
+        else:
+            messages.success(request, "Guardamos los cambios de tu perfil.")
         return redirect("domicilio:mi_perfil")
     pasos = mecanico.pasos()
     return render(request, "domicilio/mi_perfil.html", {
@@ -535,12 +563,19 @@ def resenas(request):
         return redirect("domicilio:registro")
     todas = mecanico.resenas.filter(visible=True)
     sin_responder = todas.filter(respuesta="").count()
-    solo_sin = request.GET.get("ver") == "sin_responder"
+    filtro = request.GET.get("ver", "todas")
+    lista = todas.filter(respuesta="") if filtro == "sin_responder" else todas
+    estrellas = request.GET.get("estrellas", "")
+    if estrellas in {"1", "2", "3", "4", "5"}:
+        lista = lista.filter(estrellas=int(estrellas))
+    por_estrella = {r["estrellas"]: r["n"] for r in todas.values("estrellas").annotate(n=Count("id"))}
     nota = todas.aggregate(prom=Avg("estrellas"), n=Count("id"))
     nota["pct"] = round((nota["prom"] or 0) * 20)
     return render(request, "domicilio/resenas.html", {
-        "m": mecanico, "nota": nota, "sin_responder": sin_responder, "solo_sin": solo_sin,
-        "lista": todas.filter(respuesta="") if solo_sin else todas})
+        "m": mecanico, "nota": nota, "sin_responder": sin_responder, "filtro": filtro, "estrellas": estrellas,
+        "reparto": [(e, por_estrella.get(e, 0), round(por_estrella.get(e, 0) * 100 / nota["n"]) if nota["n"] else 0)
+                    for e in (5, 4, 3, 2, 1)],
+        "lista": lista.order_by("-creado")})
 
 
 @login_required

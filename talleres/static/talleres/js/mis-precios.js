@@ -70,6 +70,18 @@
     var card = existente || crearCard(sel.value, sel.options[sel.selectedIndex].text);
     agregarFila(card); sel.value = "";
   });
+  // Servicios comunes a un toque (los mismos del select): aceite, frenos, kit de arrastre, batería...
+  var rap = raiz.querySelector("[data-rapidos]");
+  if (sel && rap) {
+    var lista = rap.querySelector("[data-rapidos-lista]"), comun = /aceite|freno|arrastre|bater|llanta|afina|sincron|cadena/i;
+    Array.prototype.filter.call(sel.options, function (o) { return o.value && comun.test(o.text); }).slice(0, 6).forEach(function (o) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "mp-chip"; b.textContent = "+ " + o.text;
+      b.addEventListener("click", function () { sel.value = o.value; sel.dispatchEvent(new Event("change")); b.remove(); if (!lista.children.length) rap.hidden = true; });
+      lista.appendChild(b);
+    });
+    rap.hidden = !lista.children.length;
+  }
   form.addEventListener("submit", function (ev) {
     // Las filas nuevas sin cifras se descartan; a las demás se les quitan los puntos de los miles
     raiz.querySelectorAll("[data-fila]").forEach(function (f) {

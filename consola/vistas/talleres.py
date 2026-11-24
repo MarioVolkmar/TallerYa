@@ -6,20 +6,32 @@ from talleres.precios import DIAS_RECORDATORIO, limite_vencimiento
 
 from django.urls import reverse
 
-from ..acciones import ErrorAccion, accion, eliminador, interruptor
+from ..acciones import ErrorAccion, accion, eliminador, interruptor, motivo_de
 from ..eliminacion import Dependencia, analizar
 from ..forms import FiltroTalleres
 from ..paginacion import paginar
 
 
-def _avisar_publicado(request, taller, valor):
-    """Al publicar un taller con cuenta, se le avisa (igual que la aprobación de /cuenta/administracion/)."""
-    if valor and taller.usuario_id:
+def _avisar(taller, clave, titulo, texto):
+    """Aviso al dueño del taller (si tiene cuenta). La clave lleva la hora: cada cambio avisa."""
+    if taller.usuario_id:
+        from django.utils import timezone
         from notificaciones.models import Notificacion
         from notificaciones.servicios import notificar
-        notificar(taller.usuario, f"taller-aprobado:{taller.pk}", "¡Tu taller ya está publicado!",
-                  f"{taller.nombre} aparece en el directorio de TallerYa.", taller.get_absolute_url(),
-                  Notificacion.Tipo.TALLER)
+        notificar(taller.usuario, f"{clave}:{taller.pk}:{timezone.now():%Y%m%d%H%M%S%f}", titulo, texto,
+                  taller.get_absolute_url(), Notificacion.Tipo.TALLER)
+
+
+def _avisar_publicado(request, taller, valor):
+    """Publicar o pausar un taller con cuenta le avisa (igual que la aprobación de /cuenta/administracion/)."""
+    if valor:
+        if taller.motivo_rechazo:
+            taller.motivo_rechazo = ""
+            taller.save(update_fields=["motivo_rechazo"])
+        _avisar(taller, "taller-aprobado", "¡Tu taller ya está publicado!", f"{taller.nombre} aparece en el directorio de TallerYa.")
+    else:
+        _avisar(taller, "taller-pausado", "Tu taller quedó pausado",
+                f"{taller.nombre} ya no aparece en el directorio. Escríbenos si crees que es un error.")
 
 
 def _exigir_aprobacion(request, taller, valor):
@@ -31,6 +43,18 @@ def _exigir_aprobacion(request, taller, valor):
 interruptor("talleres.publicar", modelo=Taller, campo="activo", etiqueta="Publicado en el directorio",
             nombre="Pausar o reactivar taller", si="Reactivó", no="Pausó",
             describe="el taller #{pk} ({obj.nombre})", antes_de=_exigir_aprobacion, despues_de=_avisar_publicado)
+@accion("talleres.rechazar", modelo=Taller, nombre="Rechazar taller",
+        campos={"motivo_rechazo": ("Motivo del rechazo", lambda o: o.motivo_rechazo)},
+        frase="Rechazó al taller #{obj.pk} ({obj.nombre}). Motivo: {obj.motivo_rechazo}",
+        exito="Listo: {obj.nombre} quedó rechazado y se le avisó (si tiene cuenta).")
+def _rechazar(request, obj):
+    if obj.activo:
+        raise ErrorAccion("Ese taller está publicado: pausa el taller en vez de rechazarlo.")
+    obj.motivo_rechazo = motivo_de(request)
+    obj.save(update_fields=["motivo_rechazo"])
+    _avisar(obj, "taller-rechazado", "Tu taller no fue aprobado", f"Motivo: {obj.motivo_rechazo}. Corrige los datos y escríbenos para revisarlo de nuevo.")
+
+
 interruptor("talleres.verificar", modelo=Taller, campo="verificado", etiqueta="Verificado",
             nombre="Verificar taller", si="Verificó", no="Quitó la verificación",
             describe="al taller #{pk} ({obj.nombre})")
@@ -83,7 +107,9 @@ def seccion(request):
     if estado == "publicados":
         qs = qs.filter(activo=True)
     elif estado == "por_aprobar":
-        qs = qs.filter(activo=False)
+        qs = qs.filter(activo=False, motivo_rechazo="")
+    elif estado == "rechazados":
+        qs = qs.filter(activo=False).exclude(motivo_rechazo="")
     elif estado == "verificados":
         qs = qs.filter(verificado=True)
     datos_pagina = paginar(request, qs, "talleres")

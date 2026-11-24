@@ -1,0 +1,9 @@
+{# Resumen de «Mis reseñas» (taller y mecánico): nota, reparto por estrellas y filtro. Espera nota, reparto, estrellas, filtro #}
+<aside class="papel pt-caja lr-resumen">
+  {% if nota.n %}{% include "talleres/_calificacion.html" %}
+  <ul class="lr-reparto">
+    {% for e, n, pct in reparto %}<li><a href="?estrellas={{ e }}{% if filtro == 'sin_responder' %}&amp;ver=sin_responder{% endif %}"{% if estrellas == e|stringformat:"s" %} class="activo"{% endif %}><span>{{ e }} ★</span><span class="lr-barra"><span style="width: {{ pct }}%"></span></span><small>{{ n }}</small></a></li>{% endfor %}
+  </ul>
+  {% if estrellas %}<a href="?{% if filtro == 'sin_responder' %}ver=sin_responder{% endif %}" class="pt-enlace">Quitar filtro de estrellas</a>{% endif %}
+  {% else %}<p class="pt-vacio-chico">Aún no tienes reseñas.</p>{% endif %}
+</aside>

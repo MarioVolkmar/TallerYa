@@ -40,10 +40,12 @@
       {% csrf_token %}<input type="hidden" name="volver" value="{{ request.get_full_path }}">
       <label class="cs-filtro"><span class="cs-etq">Rol</span>
         <select name="rol" class="cs-campo campo" data-rol>
+          {% if rol_u != "admin" and rol_u != "taller" and rol_u != "motero" %}<option value="" selected>{{ nombres_rol|get_item:rol_u }} (actual)</option>{% endif %}
           <option value="admin" {% if rol_u == "admin" %}selected{% endif %}>Administrador</option>
           <option value="taller" {% if rol_u == "taller" %}selected{% endif %}>Taller</option>
-          <option value="motero" {% if rol_u == "motero" or rol_u == "sin_perfil" %}selected{% endif %}>Motero</option>
+          <option value="motero" {% if rol_u == "motero" %}selected{% endif %}>Motero</option>
         </select></label>
+      <label class="cs-filtro" data-solo-admin hidden><span class="cs-etq"><input type="checkbox" name="confirmar_admin" value="1"> Sí, darle acceso de administrador</span></label>
       {% if not taller_u %}
       <label class="cs-filtro" data-solo-taller {% if rol_u != "taller" %}hidden{% endif %}><span class="cs-etq">Taller sin cuenta para vincular</span>
         <select name="taller" class="cs-campo campo">

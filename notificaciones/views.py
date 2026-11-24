@@ -1,6 +1,6 @@
 """Vistas de notificaciones: lista, panel en JSON, abrir (marca como leída y redirige) y marcar todas."""
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
@@ -140,3 +140,18 @@ def push_desactivar(request):
         qs = qs.filter(endpoint=endpoint)
     qs.delete()
     return JsonResponse({"ok": True})
+
+
+def baja_correo(request, token):
+    """Darse de baja (o volver) de los correos de avisos urgentes, desde el enlace del correo, sin iniciar sesión."""
+    from cuentas.models import Perfil
+    from .correo import usuario_de_token
+    usuario = usuario_de_token(token)
+    if not usuario:
+        raise Http404
+    perfil = Perfil.de(usuario)
+    if request.method == "POST":
+        perfil.correos_avisos = request.POST.get("accion") == "activar"
+        perfil.save(update_fields=["correos_avisos"])
+        return redirect("notificaciones:baja_correo", token=token)
+    return render(request, "notificaciones/baja_correo.html", {"activos": perfil.correos_avisos})

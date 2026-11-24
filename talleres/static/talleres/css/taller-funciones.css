@@ -263,3 +263,10 @@
 .ag-enlace { background: none; border: 0; padding: 0 .2rem; min-height: 2.75rem; font-weight: 700; font-size: .8rem; color: var(--mostaza); cursor: pointer; }
 .sv-gana { display: grid; gap: .2rem; padding-left: 1.1rem; list-style: disc; color: var(--crema-2); }
 .sv-gana li::marker { color: var(--lava); }
+/* Servicios comunes a un toque en «Mis precios» */
+.mp-rapidos { display: grid; gap: .5rem; }
+.mp-rapidos[hidden] { display: none; }
+.mp-rapidos-t { font-size: .74rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8d9496; }
+.mp-rapidos-lista { display: flex; flex-wrap: wrap; gap: .5rem; }
+.mp-chip { min-height: 44px; padding: 0 1rem; border-radius: 999px; border: 1px solid var(--borde); background: transparent; color: var(--crema); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
+.mp-chip:hover, .mp-chip:focus-visible { border-color: var(--mostaza); color: var(--mostaza); outline: none; }

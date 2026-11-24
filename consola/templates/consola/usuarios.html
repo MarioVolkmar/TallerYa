@@ -18,7 +18,7 @@
 
 {% if filas %}
 <div class="cs-tabla-caja">
-<table class="cs-tabla">
+<table class="cs-tabla cs-tabla-tarjetas">
   <caption class="sr-only">Cuentas de TallerYa</caption>
   <thead><tr><th scope="col">Cuenta</th><th scope="col">Rol</th><th scope="col">Estado</th><th scope="col">Desde</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
   <tbody>
@@ -36,7 +36,7 @@
       {% else %}{% with clase="cs-rol-dom-no" texto="Domiciliario sin verificar" %}{% include "consola/_rol_dom.html" %}{% endwith %}{% endif %}{% endif %}
       {% if r != "motero" or not u.es_domiciliario %}<span class="cs-rol cs-rol-{{ r }}">{{ nombres_rol|get_item:r }}</span>{% endif %}</span></td>
     <td>{% if u.is_active %}<span class="cs-estado cs-ok">Activa</span>{% else %}<span class="cs-estado cs-off">Inactiva</span>{% endif %}</td>
-    <td class="cs-fecha">{{ u.date_joined|date:"j M Y" }}</td>
+    <td class="cs-fecha" data-etq="Desde">{{ u.date_joined|date:"j M Y" }}</td>
     <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
       <a class="cs-menu-item" href="?seccion=usuarios&amp;id={{ u.pk }}">{% icono "ficha" 16 %} Ver ficha</a>
       {% if u.dom_pendiente %}<a class="cs-menu-item" href="?seccion=usuarios&amp;id={{ u.pk }}#t-ruta">{% icono "reloj" 16 %} Revisar verificación</a>{% endif %}

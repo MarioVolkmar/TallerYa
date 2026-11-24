@@ -31,7 +31,7 @@ def _aprobar(request, obj):
         frase="Rechazó la verificación de domiciliario #{obj.pk}", exito="Listo: rechazada. Fotos borradas y usuario avisado.")
 def _rechazar(request, obj):
     _solo_pendiente(obj)
-    motivo = request.POST.get("valor", "").strip()
+    motivo = (request.POST.get("motivo") or request.POST.get("valor", "")).strip()
     if len(motivo) < 4:
         raise ErrorAccion("Escribe el motivo del rechazo (se le muestra al usuario).")
     verif.rechazar(obj, request.user, motivo)

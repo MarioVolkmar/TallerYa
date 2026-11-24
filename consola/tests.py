@@ -101,13 +101,51 @@ class UsuariosTests(Base):
         self.assertContains(r, "Citas")
 
     def test_cambiar_rol_registra_frase_y_detalle(self):
-        r = self.post("usuarios.cambiar_rol", self.motero.pk, rol="admin")
+        User.objects.filter(pk=self.admin.pk).update(is_superuser=True)
+        self.client.force_login(User.objects.get(pk=self.admin.pk))
+        r = self.post("usuarios.cambiar_rol", self.motero.pk, rol="admin", confirmar_admin="1")
         self.assertEqual(r.status_code, 200)
         self.assertTrue(r.json()["ok"])
         b = Bitacora.objects.get()
         self.assertEqual(b.frase, f"Cambió el rol del usuario #{self.motero.pk} a Administrador")
         self.assertEqual(b.actor, self.admin)
         self.assertEqual(b.cambios, [{"campo": "rol", "etiqueta": "Rol", "antes": "Motero", "despues": "Administrador"}])
+
+    def test_selector_trae_el_rol_actual(self):
+        def opcion_marcada(u):
+            html = self.client.get(INICIO, {"seccion": "usuarios", "id": u.pk}).content.decode()
+            sel = html.split('name="rol"')[1].split("</select>")[0]
+            return [o for o in sel.split("<option")[1:] if "selected" in o.split(">")[0]]
+        marcadas = opcion_marcada(self.motero)
+        self.assertEqual(len(marcadas), 1)
+        self.assertIn('value="motero"', marcadas[0])
+        # un mecánico (sin rol en el selector) no cae en Administrador
+        from domicilio.models import MecanicoDomicilio
+        mec = User.objects.create_user("mec@t.co", "mec@t.co", "clave-segura-123")
+        MecanicoDomicilio.objects.create(usuario=mec, nombre="Mec", whatsapp="573009998877")
+        marcadas = opcion_marcada(mec)
+        self.assertEqual(len(marcadas), 1)
+        self.assertNotIn('value="admin"', marcadas[0])
+
+    def test_mismo_rol_no_hace_nada(self):
+        User.objects.filter(pk=self.admin.pk).update(is_superuser=True)
+        self.client.force_login(User.objects.get(pk=self.admin.pk))
+        r = self.post("usuarios.cambiar_rol", self.motero.pk, rol="motero")
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("Ya tiene ese rol", r.json()["error"])
+        self.assertFalse(Bitacora.objects.exists())
+
+    def test_admin_exige_superusuario_y_confirmacion(self):
+        # staff no superusuario: no puede
+        r = self.post("usuarios.cambiar_rol", self.motero.pk, rol="admin", confirmar_admin="1")
+        self.assertEqual(r.status_code, 400)
+        # superusuario sin confirmar: tampoco
+        User.objects.filter(pk=self.admin.pk).update(is_superuser=True)
+        self.client.force_login(User.objects.get(pk=self.admin.pk))
+        r = self.post("usuarios.cambiar_rol", self.motero.pk, rol="admin")
+        self.assertEqual(r.status_code, 400)
+        self.motero.refresh_from_db()
+        self.assertFalse(self.motero.is_staff)
 
     def test_rol_taller_vincula_el_taller(self):
         self.post("usuarios.cambiar_rol", self.motero.pk, rol="taller", taller=self.taller.pk)
@@ -212,8 +250,10 @@ class EliminacionSeguraTests(Base):
 
 class BitacoraTests(Base):
     def test_filtros_y_detalle(self):
+        User.objects.filter(pk=self.admin.pk).update(is_superuser=True)
+        self.client.force_login(User.objects.get(pk=self.admin.pk))
         self.post("usuarios.estado", self.motero.pk, activa="0")
-        self.post("usuarios.cambiar_rol", self.motero.pk, rol="admin")
+        self.post("usuarios.cambiar_rol", self.motero.pk, rol="admin", confirmar_admin="1")
         r = self.client.get(INICIO, {"seccion": "bitacora", "accion": "usuarios.estado"})
         self.assertContains(r, "Desactivó la cuenta")
         self.assertNotContains(r, "Cambió el rol del usuario")

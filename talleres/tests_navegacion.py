@@ -59,11 +59,26 @@ class MenuPorRolTests(Base):
         for texto in (">Servicios<", ">Reseñas<", "Agenda y horario", "Precios de mano de obra", "Estadísticas", "Ver mi ficha pública"):
             self.assertIn(texto, c)
         b = self.barra()
-        for texto in ("Panel", "Citas", "Registrar", "Servicios", "Validar"):
+        for texto in ("Panel", "Citas", "Registrar", "Servicios", "Mi ficha"):
             self.assertIn(f"<span>{texto}</span>", b)
+        self.assertNotIn("<span>Validar</span>", b)  # Validar cupón pasó a «Más»
+        self.assertIn("Validar cupón", self.cabecera())
         self.assertNotIn("<span>Agenda</span>", b)
         self.assertEqual(b.count('class="bi-item'), 5)
         self.assertIn("bi-accion", b)  # registrar servicio, destacado
+
+    def test_barra_inferior_mecanico(self):
+        from domicilio.models import MecanicoDomicilio
+        mec = User.objects.create_user("mec@x.com", "mec@x.com", "x")
+        MecanicoDomicilio.objects.create(usuario=mec, nombre="Beto", whatsapp="573000000222")
+        self.client.force_login(mec)
+        b = self.barra(reverse("domicilio:panel"))
+        for texto in ("Mi panel", "Solicitudes", "Registrar", "Servicios", "Mi ficha"):
+            self.assertIn(f"<span>{texto}</span>", b)
+        self.assertEqual(b.count('class="bi-item'), 5)
+        self.assertIn("bi-accion", b)
+        for texto in ("Precios", "Mi perfil"):
+            self.assertNotIn(f"<span>{texto}</span>", b)
 
     def test_visitante(self):
         c = self.cabecera()
@@ -74,10 +89,12 @@ class MenuPorRolTests(Base):
         for texto in ("sub-garaje", "sub-cuenta", ">Cupones<", 'id="campana"'):
             self.assertNotIn(texto, c)
         b = self.barra()
-        for texto in ("Inicio", "Talleres", "Diagnóstico", "Comunidad", "Emergencia"):
+        for texto in ("Inicio", "Talleres", "Diagnóstico", "Trámites", "Emergencia"):
             self.assertIn(f"<span>{texto}</span>", b)
         self.assertEqual(b.count('class="bi-item'), 5)
         self.assertNotIn("Mi garaje", b)
+        self.assertNotIn("<span>Comunidad</span>", b)
+        self.assertIn('href="/soat/" class="bi-item" aria-current="page"', self.barra(reverse("tramites:tecnomecanica")))
         self.assertIn('href="/diagnostico/" class="bi-item" aria-current="page"', self.barra(reverse("garaje:diagnostico")))
 
     def test_staff_conserva_la_consola(self):
@@ -93,10 +110,10 @@ class MenuPorRolTests(Base):
         for texto in ("Resumen", "Aprobar", "Usuarios", "Moderación", "Métricas"):
             self.assertIn(f"<span>{texto}</span>", b)
         self.assertEqual(b.count('class="bi-item'), 5)
-        # sin pendientes, Aprobaciones lleva a talleres y queda activa en esa sección
-        self.assertIn('?seccion=talleres" class="bi-item" aria-current="page"', b)
+        # Aprobaciones lleva a la bandeja «Por aprobar» y queda activa en esa sección
+        self.assertIn('?seccion=aprobaciones" class="bi-item" aria-current="page"', b)
 
-    def test_aprobaciones_suma_pendientes_y_lleva_a_la_mayor(self):
+    def test_aprobaciones_suma_pendientes_y_lleva_a_la_bandeja(self):
         from talleres.models import Barrio, Taller
         barrio = Barrio.objects.first() or Barrio.objects.create(nombre="Laureles")
         for i in range(2):
@@ -104,13 +121,13 @@ class MenuPorRolTests(Base):
                                   direccion="Cra 1", barrio=barrio, activo=False)
         self.client.force_login(self.admin)
         b = self.barra(reverse("consola:inicio") + "?seccion=resumen")
-        self.assertIn('?seccion=talleres" class="bi-item"', b)
+        self.assertIn('?seccion=aprobaciones" class="bi-item"', b)
         self.assertIn(f'aria-label="{Taller.objects.filter(activo=False).count()} pendientes"', b)
 
     def test_barra_inferior_motociclista(self):
         self.client.force_login(self.motero)
         b = self.barra(reverse("garaje:garaje"))
-        for texto in ("Inicio", "Talleres", "Mi garaje", "Comunidad", "Emergencia"):
+        for texto in ("Inicio", "Talleres", "Mi garaje", "Trámites", "Emergencia"):
             self.assertIn(f"<span>{texto}</span>", b)
         self.assertEqual(b.count('class="bi-item'), 5)
         self.assertIn('href="/garaje/" class="bi-item" aria-current="page"', b)

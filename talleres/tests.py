@@ -42,6 +42,26 @@ class TalleresTests(TestCase):
         self.assertEqual(r.status_code, 302)
         self.assertEqual(SolicitudCita.objects.count(), 1)
 
+    def test_cita_nueva_avisa_al_taller(self):
+        from django.contrib.auth import get_user_model
+        U = get_user_model()
+        self.taller.usuario = U.objects.create_user("dueno@t.co", "dueno@t.co", "x")
+        self.taller.save()
+        self.client.post(self.taller.get_absolute_url(), {
+            "accion": "cita", "nombre": "Juan", "telefono": "3001112233", "moto": "NKD 125",
+            "servicio": self.servicio.id, "fecha_preferida": date.today() + timedelta(days=1)})
+        self.assertEqual(self.taller.usuario.notificaciones.filter(clave__startswith="cita-nueva:").count(), 1)
+
+    def test_registro_de_taller_avisa_a_los_admins(self):
+        from django.contrib.auth import get_user_model
+        admin_ = get_user_model().objects.create_user("adm@t.co", "adm@t.co", "x", is_staff=True)
+        self.client.post(reverse("cuentas:registro") + "?tipo=taller", {
+            "email": "otro@taller.com", "password1": "ClaveSegura-2026", "password2": "ClaveSegura-2026", "acepto": "on",
+            "nombre": "Otro Taller", "responsable": "Luis", "whatsapp": "300 123 4567",
+            "direccion": "Cll 2", "ciudad": "Medellín", "barrio": self.barrio.id, "servicios": [self.servicio.id]})
+        n = admin_.notificaciones.get(clave__startswith="registro-taller:")
+        self.assertEqual(n.url, "/consola/")
+
     def test_resena_y_calificacion(self):
         self.client.post(self.taller.get_absolute_url(),
                          {"accion": "resena", "nombre": "Pedro", "estrellas": 4, "comentario": "Bien"})
@@ -71,6 +91,19 @@ class PaginasLegalesTests(TestCase):
         self.assertEqual(self.client.get("/legal/inventada/").status_code, 404)
         r = self.client.get(reverse("talleres:inicio"))
         self.assertContains(r, reverse("talleres:legal", args=["privacidad"]))
+
+    def test_pie_reportar_un_problema_solo_con_correo_configurado(self):
+        from django.test import override_settings
+        r = self.client.get(reverse("talleres:inicio"))
+        self.assertNotContains(r, "Reportar un problema")
+        with override_settings(CONTACTO={"correo": "ayuda@tallerya.test"}):
+            r = self.client.get(reverse("talleres:inicio"))
+        self.assertContains(r, "mailto:ayuda@tallerya.test?subject=Reportar")
+
+    def test_privacidad_cubre_los_datos_guardados(self):
+        r = self.client.get(reverse("talleres:legal", args=["privacidad"]))
+        for frase in ("Ley 1581", "cédula", "notificaciones", "foro", "Superintendencia"):
+            self.assertContains(r, frase)
 
 
 class PerfilTallerTests(TestCase):

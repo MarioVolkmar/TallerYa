@@ -75,6 +75,8 @@ class Perfil(models.Model):
                                   help_text="Identificador de la cuenta de Google vinculada (no es el correo)")
     terminos_aceptados = models.DateTimeField("aceptó términos y privacidad", null=True, blank=True)
     correo_verificado = models.BooleanField(default=False, help_text="Abrió el enlace de verificación, entró con Google o recuperó su contraseña")
+    correos_avisos = models.BooleanField("correos de avisos urgentes", default=True,
+                                         help_text="Citas y visitas por correo cuando no tiene avisos push activos")
     guia_terminada = models.DateTimeField("terminó o saltó la guía de bienvenida", null=True, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
 

@@ -278,3 +278,30 @@ class TallerDomicilioForm(ZonasAtajoMixin, EstiloMixin, forms.ModelForm):
             if not datos.get("servicios"):
                 self.add_error("servicios", "Elige al menos un servicio.")
         return datos
+
+
+class IdentidadForm(forms.Form):
+    """Fotos de la cédula: frente y respaldo obligatorios, selfie con la cédula opcional. Imagen real, menos de 5 MB,
+    re-codificada sin metadatos y reducida (mismo tratamiento que las fotos de verificación de domiciliarios)."""
+    frente = forms.FileField(label="Cédula, frente", widget=forms.FileInput(attrs={"accept": "image/*", "class": "campo"}),
+                             error_messages={"required": "Falta la foto del frente de tu cédula."})
+    respaldo = forms.FileField(label="Cédula, respaldo", widget=forms.FileInput(attrs={"accept": "image/*", "class": "campo"}),
+                               error_messages={"required": "Falta la foto del respaldo de tu cédula."})
+    selfie = forms.FileField(label="Selfie con la cédula (opcional)", required=False,
+                             widget=forms.FileInput(attrs={"accept": "image/*", "capture": "user", "class": "campo"}))
+    autorizo = forms.BooleanField(
+        label="Autorizo a TallerYa a usar estas fotos solo para verificar mi identidad",
+        error_messages={"required": "Marca la autorización para poder enviar las fotos."})
+
+    def _foto(self, campo):
+        from domiciliarios.forms import _imagen
+        return _imagen(self.cleaned_data.get(campo))
+
+    def clean_frente(self):
+        return self._foto("frente")
+
+    def clean_respaldo(self):
+        return self._foto("respaldo")
+
+    def clean_selfie(self):
+        return self._foto("selfie")

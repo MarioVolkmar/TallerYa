@@ -92,33 +92,53 @@ def correr(regla, request, obj, ip=None):
 
 
 # ---------- Fábricas para los casos repetidos (una línea por acción en cada sección) ----------
-def interruptor(clave, *, modelo, campo, etiqueta, nombre, si, no, describe, antes_de=None, despues_de=None):
+def motivo_de(request, campo="motivo", minimo=4):
+    """Motivo escrito por el admin (POST). Lanza ErrorAccion si es más corto que `minimo`."""
+    motivo = " ".join(request.POST.get(campo, "").split())[:200]
+    if len(motivo) < minimo:
+        raise ErrorAccion("Escribe el motivo (se le muestra a la persona y queda en la bitácora).")
+    return motivo
+
+
+def _nota(motivo):
+    return f". Motivo: {motivo}" if motivo else ""
+
+
+def interruptor(clave, *, modelo, campo, etiqueta, nombre, si, no, describe, antes_de=None, despues_de=None,
+                motivo_al_apagar=False):
     """Acción que prende o apaga un campo booleano (POST valor=1/0).
-    si/no: verbos para la frase ("Reactivó"/"Pausó"); describe: "el taller #{pk} ({obj.nombre})"."""
+    si/no: verbos para la frase ("Reactivó"/"Pausó"); describe: "el taller #{pk} ({obj.nombre})".
+    motivo_al_apagar: al apagar exige un motivo (POST motivo), que va a la bitácora y a los ganchos (request.motivo).
+    despues_de puede devolver una lista de cambios extra para la bitácora."""
     @accion(clave, modelo=modelo, nombre=nombre, campos={campo: (etiqueta, lambda o: getattr(o, campo))},
-            frase="{verbo} " + describe, exito="{verbo} " + describe + ".")
+            frase="{verbo} " + describe + "{nota}", exito="{verbo} " + describe + ".")
     def _interruptor(request, obj):
         valor = request.POST.get("valor") == "1"
+        motivo = motivo_de(request) if motivo_al_apagar and not valor else ""
+        request.motivo = motivo
         if antes_de:
             antes_de(request, obj, valor)
         setattr(obj, campo, valor)
         obj.save(update_fields=[campo])
-        if despues_de:
-            despues_de(request, obj, valor)
-        return {"ctx": {"verbo": si if valor else no}}
+        extra = despues_de(request, obj, valor) if despues_de else None
+        return {"ctx": {"verbo": si if valor else no, "nota": _nota(motivo)}, "cambios_extra": extra or []}
     return _interruptor
 
 
-def eliminador(clave, *, modelo, reglas, describe, nombre="Eliminar", extra=None):
-    """Acción de eliminación segura: revisa las reglas (consola.eliminacion) y solo borra si nada lo impide."""
+def eliminador(clave, *, modelo, reglas, describe, nombre="Eliminar", extra=None, avisar=None):
+    """Acción de eliminación segura: revisa las reglas (consola.eliminacion) y solo borra si nada lo impide.
+    avisar(request, obj, motivo): si se da, exige un motivo (POST motivo) y avisa antes de borrar; va a la bitácora."""
     from .eliminacion import analizar
 
     @accion(clave, modelo=modelo, nombre=nombre, campos={"registro": ("Registro", str)},
-            frase="Eliminó " + describe, exito="Eliminado.")
+            frase="Eliminó " + describe + "{nota}", exito="Eliminado.")
     def _eliminar(request, obj):
         analisis = analizar(obj, reglas, extra(obj) if extra else ())
         if not analisis.se_puede:
             raise ErrorAccion("No se puede eliminar. " + " ".join(analisis.bloqueos))
+        motivo = motivo_de(request) if avisar else ""
+        if avisar:
+            avisar(request, obj, motivo)
         obj.delete()
-        return {"eliminado": True}
+        return {"eliminado": True, "ctx": {"nota": _nota(motivo)}}
     return _eliminar

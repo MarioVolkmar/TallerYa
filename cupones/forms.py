@@ -74,6 +74,6 @@ class DescuentoMecanicoForm(CuponTallerForm):
 
 class ValidarCodigoForm(EstiloMixin, forms.Form):
     codigo = forms.CharField(
-        label="Código del descuento", max_length=12,
+        label="Código del cupón", max_length=12,
         widget=forms.TextInput(attrs={"placeholder": "TY-XXXXXX", "autocapitalize": "characters", "autocomplete": "off"}),
     )

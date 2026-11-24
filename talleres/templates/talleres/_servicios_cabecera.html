@@ -1,0 +1,8 @@
+{# Cabecera común de «Servicios registrados» (taller y mecánico): cifras, botón principal y nota. Espera resumen {servicios_mes, por_confirmar, servicios_total}, url_registrar y nota #}
+<section class="sv-resumen" aria-label="Resumen">
+  <div class="pt-cifra pt-verde"><span>Este mes</span><strong>{{ resumen.servicios_mes }}</strong></div>
+  <div class="pt-cifra pt-mostaza"><span>Por confirmar</span><strong>{{ resumen.por_confirmar }}</strong></div>
+  <div class="pt-cifra pt-lava"><span>En total</span><strong>{{ resumen.servicios_total }}</strong></div>
+</section>
+<a href="{{ url_registrar }}" class="btn btn-lava sv-enviar">+ Registrar servicio</a>
+<p class="text-xs text-suave text-center">{{ nota }}</p>

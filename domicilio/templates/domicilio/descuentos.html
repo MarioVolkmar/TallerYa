@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}Mis descuentos · Mecánico a domicilio · TallerYa{% endblock %}
+{% block title %}Mis cupones · Mecánico a domicilio · TallerYa{% endblock %}
 {# Por dentro son cupones (cupones.Cupon con mecanico); para el motero y el mecánico se llaman «descuentos». Misma lista que «Mis cupones» del panel del taller #}
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
@@ -12,11 +12,11 @@
       <header class="pt-caja-cabeza">
         <div>
           <p class="etiqueta">Atrae moteros nuevos</p>
-          <h1 class="titulo text-3xl mt-1">Mis descuentos</h1>
+          <h1 class="titulo text-3xl mt-1">Mis cupones</h1>
         </div>
       </header>
-      <p class="text-sm text-suave mt-2">El motero lo toma gratis en tu ficha y en la página de descuentos de TallerYa. Si te pide la visita por TallerYa, el descuento queda anotado en la solicitud y se valida solo cuando la marcas como atendida.</p>
-      {% if not publicado %}<p class="text-sm mt-3"><strong>Ojo:</strong> tus descuentos se verán cuando aprobemos tu perfil.</p>{% endif %}
+      <p class="text-sm text-suave mt-2">El motero lo toma gratis en tu ficha y en la página de cupones de TallerYa. Si te pide la visita por TallerYa, el cupón queda anotado en la solicitud y se valida solo cuando la marcas como atendida.</p>
+      {% if not publicado %}<p class="text-sm mt-3"><strong>Ojo:</strong> tus cupones se verán cuando aprobemos tu perfil.</p>{% endif %}
       <ul class="pt-cupones mt-4">
         {% for cu in cupones %}
         <li class="pt-cupon{% if not cu.activo %} pausado{% endif %}">
@@ -32,9 +32,9 @@
             <form method="post" action="{% url 'domicilio:descuento_pausar' cu.pk %}">{% csrf_token %}<button class="pt-boton">{% if cu.activo %}Pausar{% else %}Activar{% endif %}</button></form>
           </div>
         </li>
-        {% empty %}<li class="pt-vacio-chico">Aún no tienes descuentos. Ej: «10% en cambio de aceite si lo pides por TallerYa». Sale en tu ficha y en la página de descuentos.</li>{% endfor %}
+        {% empty %}<li class="pt-vacio-chico">Aún no tienes cupones. Ej: «10% en cambio de aceite si lo pides por TallerYa». Sale en tu ficha y en la página de cupones.</li>{% endfor %}
       </ul>
-      <a href="{% url 'domicilio:descuento_nuevo' %}" class="pt-nuevo-cupon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Crear descuento</a>
+      <a href="{% url 'domicilio:descuento_nuevo' %}" class="pt-nuevo-cupon"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Crear cupón</a>
     </section>
 
     <div class="pt-lado">
@@ -51,7 +51,7 @@
         <ul class="pt-cupones mt-3">
           {% for c in canjes %}
           <li><span><strong>{{ c.motociclista.nombre }}</strong> · {{ c.cupon.titulo }}<small>{{ c.canjeado_en|date:"j M, g:i a"|lower }} · {% if c.canje_via == "visita" %}en una visita{% else %}con el código{% endif %}</small></span></li>
-          {% empty %}<li class="pt-vacio-chico">Aquí verás cada descuento que uses.</li>{% endfor %}
+          {% empty %}<li class="pt-vacio-chico">Aquí verás cada cupón que uses.</li>{% endfor %}
         </ul>
       </section>
     </div>

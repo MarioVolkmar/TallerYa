@@ -21,6 +21,18 @@ def notificar(usuario, clave, titulo, texto="", url="", tipo=Notificacion.Tipo.G
     return notif if creada else None
 
 
+def avisar_admins(clave, titulo, texto=""):
+    """Avisa a los admins activos de un registro nuevo, con enlace a la consola. Nunca rompe el registro."""
+    try:
+        from django.contrib.auth import get_user_model
+        from django.urls import reverse
+        url = reverse("consola:inicio")
+        for admin_ in get_user_model().objects.filter(is_staff=True, is_active=True):
+            notificar(admin_, clave, titulo, texto, url)
+    except Exception:
+        logger.exception("No se pudo avisar a los admins (%s)", clave)
+
+
 def _lista_corta(nombres, maximo=3):
     if len(nombres) <= maximo:
         return ", ".join(nombres)

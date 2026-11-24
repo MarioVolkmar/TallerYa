@@ -1,0 +1,9 @@
+{# Tarjeta «Tus cupones» de los paneles de aliados (taller y mecánico). Variables: activos, canjes_mes, url_validar, url_ver, url_nuevo #}
+<div class="pt-fila pt-fila-cupones {% if activos %}ok{% else %}falta{% endif %}">
+  <span class="pt-fila-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 0 0 5V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a2.5 2.5 0 0 0 0-5Z"/></svg></span>
+  <div class="pt-fila-texto">
+    <h3 class="pt-fila-titulo">Tus cupones</h3>
+    <p class="pt-fila-estado">{% if not activos %}Pendiente: aún no ofreces cupones, atraen moteros nuevos{% else %}{{ activos }} activo{{ activos|pluralize }}{% if canjes_mes %} · {{ canjes_mes }} usado{{ canjes_mes|pluralize }} este mes{% endif %}{% endif %}{% if activos %} · <a href="{{ url_ver }}" class="pt-fila-mini" aria-label="Ver mis cupones">Ver</a>{% endif %}</p>
+  </div>
+  <div class="pt-fila-acciones">{% if activos %}<a href="{{ url_validar }}" class="pt-fila-principal">Validar código</a>{% else %}<a href="{{ url_nuevo }}" class="pt-fila-principal">Crear cupón</a>{% endif %}</div>
+</div>

@@ -162,9 +162,14 @@ def resumen_taller(taller, hoy=None):
     lunes = hoy - timedelta(days=hoy.weekday())
     nota = taller.resenas.filter(visible=True).aggregate(prom=Avg("estrellas"), n=Count("id"))
     servicios = taller.servicios_taller.exclude(estado=ServicioTaller.Estado.RECHAZADO)
+    from talleres.panel_cifras import mes_anterior
+    ini_ant, fin_ant = mes_anterior(hoy)
     return {
         "citas_semana": taller.solicitudes.filter(fecha_preferida__range=(lunes, lunes + timedelta(days=6)))
                               .exclude(estado="cancelada").count(),
+        "citas_semana_ant": taller.solicitudes.filter(fecha_preferida__range=(lunes - timedelta(days=7), lunes - timedelta(days=1)))
+                                  .exclude(estado="cancelada").count(),
+        "servicios_mes_ant": servicios.filter(fecha__range=(ini_ant, fin_ant)).count(),
         "servicios_mes": servicios.filter(fecha__gte=hoy.replace(day=1)).count(),
         "servicios_total": servicios.count(),
         "por_confirmar": servicios.filter(estado=ServicioTaller.Estado.POR_CONFIRMAR).count(),

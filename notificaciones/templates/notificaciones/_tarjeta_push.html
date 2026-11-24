@@ -1,0 +1,14 @@
+{% if mostrar %}
+<aside class="push-tarjeta papel" data-push-tarjeta hidden role="region" aria-label="Avisos en tu celular"
+       data-estado="{% url 'notificaciones:push_estado' %}" data-suscribir="{% url 'notificaciones:push_suscribir' %}" data-desactivar="{% url 'notificaciones:push_desactivar' %}">
+  <svg class="push-tarjeta-icono" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg>
+  <div class="push-tarjeta-texto">
+    <strong>{{ titulo }}</strong>
+    <span data-push-texto>{{ texto }}</span>
+  </div>
+  <div class="push-tarjeta-acciones">
+    <button type="button" class="btn btn-lava push-tarjeta-boton" data-push-activar>Activar avisos</button>
+    <button type="button" class="push-tarjeta-no" data-push-descartar>Ahora no</button>
+  </div>
+</aside>
+{% endif %}

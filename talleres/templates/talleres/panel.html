@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load avatares %}
+{% load avatares push %}
 {% block title %}Mi taller · TallerYa{% endblock %}
 {% block content %}
 <div class="pt mt-8 md:mt-10">
@@ -12,7 +12,7 @@
     <div class="pt-quien">
       <p class="etiqueta">Mi taller</p>
       <h1 class="titulo text-3xl md:text-4xl mt-1">{{ taller.nombre }}</h1>
-      <p class="pt-estado">{{ taller.barrio }} · {% if taller.activo %}<span class="pt-ok"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Publicado{% if taller.verificado %} y verificado{% endif %}</span>{% else %}<span class="pt-revision">En revisión: lo publicaremos pronto</span>{% endif %}</p>
+      <p class="pt-estado">{{ taller.barrio }} · {% if taller.activo %}<span class="pt-ok"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Publicado{% if taller.verificado %} y verificado{% endif %}</span>{% elif taller.motivo_rechazo %}<span class="pt-revision pt-rechazado">Rechazado: {{ taller.motivo_rechazo }}. Corrige tu perfil y se revisa otra vez</span>{% else %}<span class="pt-revision">En revisión: lo publicaremos pronto</span>{% endif %}</p>
     </div>
     <div class="pt-principal">
       <a href="{% url 'talleres:servicio_rapido' %}" class="btn btn-lava pt-registrar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Registrar servicio</a>
@@ -23,6 +23,7 @@
       </form>{% endwith %}{% endif %}
     </div>
   </section>
+  {% tarjeta_push "taller" %}
 
   <nav class="pt-accesos" aria-label="Accesos del taller">
     <a href="{{ taller.get_absolute_url }}" class="pt-acceso"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Mi página</a>
@@ -40,7 +41,7 @@
       {% if precios_por_confirmar %}<li class="pt-tarea urgente"><span>Tus precios de mano de obra llevan más de 2 meses sin confirmarse</span><a href="{% url 'talleres:precios' %}" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
       {% if sin_ubicacion %}<li class="pt-tarea"><span>Confirma la ubicación exacta de tu taller</span><a href="{% url 'talleres:editar_perfil' %}#ubicacion" class="pt-tarea-btn">Confirmar</a></li>{% endif %}
       {% if sin_responder %}<li class="pt-tarea"><span><strong>{{ sin_responder }} reseña{{ sin_responder|pluralize }}</strong> sin responder</span><a href="#resenas" class="pt-tarea-btn">Responder</a></li>{% endif %}
-      {% if completitud.pct < 100 %}<li class="pt-tarea"><span>Perfil al {{ completitud.pct }}%{% if completitud.faltan %}: te falta {{ completitud.faltan|join:", "|lower }}{% endif %}</span><a href="{% url 'talleres:editar_perfil' %}" class="pt-tarea-btn">Completar</a></li>{% endif %}
+      {% if completitud.pct < 100 %}{% url 'talleres:editar_perfil' as u_perfil %}{% include "talleres/_fila_perfil.html" with pct=completitud.pct faltan=faltan_cortos url=u_perfil %}{% endif %}
       {% if not n_pendientes and not precios_por_confirmar and not sin_ubicacion and not sin_responder and completitud.pct == 100 %}<li class="pt-tarea listo"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Todo al día: citas, precios, reseñas y perfil.</li>{% endif %}
     </ul>
     <form method="post" action="{% url 'talleres:alternar_precios' %}" class="pt-precios">{% csrf_token %}
@@ -51,15 +52,11 @@
         <a href="{% url 'talleres:precios' %}" class="pt-tarea-btn">{% if n_precios %}Editar precios{% else %}Armar mi tabla{% endif %}</a>
       </div>
     </form>
+    {% url 'talleres:cupon_nuevo' as u_nuevo %}{% url 'cupones:canjear' as u_validar %}
+    {% include "talleres/_fila_cupones.html" with activos=cupones_activos url_validar=u_validar url_ver="#cupones" url_nuevo=u_nuevo %}
   </section>
 
-  <section class="pt-cifras" aria-label="Resumen">
-    <a href="{% url 'talleres:citas_taller' %}?estado=proximas" class="pt-cifra pt-lava"><span>Citas esta semana</span><strong>{{ resumen.citas_semana }}</strong><small>{{ n_pendientes }} por confirmar</small></a>
-    <a href="{% url 'talleres:servicios_taller' %}" class="pt-cifra pt-verde"><span>Servicios registrados</span><strong>{{ resumen.servicios_mes }}</strong><small>este mes{% if resumen.por_confirmar %} · {{ resumen.por_confirmar }} por confirmar{% endif %}</small></a>
-    <a href="#resenas" class="pt-cifra pt-mostaza"><span>Calificación</span><strong>{% if nota.n %}{{ nota.prom|floatformat:1 }}{% else %}—{% endif %}</strong><small>{{ nota.n }} reseña{{ nota.n|pluralize }}</small></a>
-    <div class="pt-cifra pt-rosa"><span>Te guardaron</span><strong>{{ favoritos }}</strong><small>motero{{ favoritos|pluralize }}</small></div>
-    <a href="#cupones" class="pt-cifra pt-verde"><span>Cupones canjeados</span><strong>{{ canjes_mes }}</strong><small>este mes</small></a>
-  </section>
+  {% include "talleres/_franja_cifras.html" %}
 
   <div class="pt-rejilla">
     <section class="papel pt-caja scroll-mt-24" id="citas">

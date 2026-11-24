@@ -1,7 +1,7 @@
-{# Eliminación segura dentro de un menú «⋯» (va al final, separada). Parámetros: url, analisis, que ("el taller X"). #}
+{# Eliminación segura dentro de un menú «⋯» (va al final, separada). Parámetros: url, analisis, que ("el taller X"), motivo (opcional: pide el motivo antes de borrar). #}
 <hr class="cs-menu-sep">
 {% if analisis.se_puede %}
-  {% include "consola/_boton_accion.html" with url=url texto="Eliminar" icono="basura" clase="cs-btn-peligro" confirmar="¿Eliminar "|add:que|add:" para siempre? "|add:analisis.resumen|add:"Esto no se puede deshacer." %}
+  {% include "consola/_boton_accion.html" with url=url texto="Eliminar" icono="basura" clase="cs-btn-peligro" motivo=motivo confirmar="¿Eliminar "|add:que|add:" para siempre? "|add:analisis.resumen|add:"Esto no se puede deshacer." %}
 {% else %}
   <span class="cs-no-borra" tabindex="0" title="{% for b in analisis.bloqueos %}{{ b }} {% endfor %}">No se puede eliminar<span class="sr-only">: {% for b in analisis.bloqueos %}{{ b }} {% endfor %}</span></span>
 {% endif %}

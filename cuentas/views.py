@@ -129,6 +129,8 @@ def _registro_taller(request):
             taller.activo = False
             taller.save()
             negocio.save_m2m()
+        from notificaciones.servicios import avisar_admins
+        avisar_admins(f"registro-taller:{taller.pk}", "Taller nuevo por revisar", taller.nombre)
         login(request, usuario, backend="cuentas.backends.Backend")
         registrar_evento(request, "registro", metodo="correo", tipo="taller")
         Perfil.objects.update_or_create(usuario=usuario, defaults={"terminos_aceptados": timezone.now()})
@@ -158,7 +160,7 @@ def historial_servicios(moto_perfil, limite=200):
               .order_by("-canjeado_en")[:limite]):
         donde = c.canjeado_taller or c.canjeado_mecanico
         eventos.append({"fecha": timezone.localtime(c.canjeado_en).date(), "tipo": "cupon", "titulo": c.cupon.titulo, "moto": "",
-                        "detalle": "Descuento a domicilio usado" if c.canjeado_mecanico_id else "Cupón canjeado",
+                        "detalle": "Cupón a domicilio usado" if c.canjeado_mecanico_id else "Cupón canjeado",
                         "lugar": str(donde or ""), "url": donde.get_absolute_url() if donde else "", "taller": c.canjeado_taller})
     # Solo las citas pedidas con la sesión abierta. Antes también las anónimas con el mismo celular, pero el celular no
     # se verifica: quien registrara el número de otra persona veía sus citas (revisión de seguridad 17-nov-2026).
@@ -350,7 +352,7 @@ def administracion(request):
     conteos = {r: todos.count(r) for r in (roles.MOTERO, roles.TALLER, roles.ADMIN)}
     return render(request, "cuentas/administracion.html", {
         "filas": filas, "q": q, "filtro": filtro, "conteos": conteos, "nombres": roles.NOMBRES,
-        "pendientes": Taller.objects.filter(activo=False).select_related("barrio", "usuario").order_by("creado"),
+        "pendientes": Taller.objects.filter(activo=False, motivo_rechazo="").select_related("barrio", "usuario").order_by("creado"),
     })
 
 
@@ -361,8 +363,8 @@ def aprobar_taller(request, pk):
     if taller.falta_aprobacion:
         messages.error(request, "El taller aún no aprobó su ficha (Ley 1581). Envíale el enlace de revisión desde la consola.")
         return redirect("cuentas:administracion")
-    taller.activo = True
-    taller.save(update_fields=["activo"])
+    taller.activo, taller.motivo_rechazo = True, ""
+    taller.save(update_fields=["activo", "motivo_rechazo"])
     if taller.usuario:
         from notificaciones.models import Notificacion
         from notificaciones.servicios import notificar

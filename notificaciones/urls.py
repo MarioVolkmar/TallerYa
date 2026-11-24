@@ -13,6 +13,7 @@ urlpatterns = [
     path("manifest.webmanifest", views.manifiesto, name="manifiesto"),
     path("sw.js", views.service_worker, name="sw"),
     path("sin-conexion/", views.sin_conexion, name="sin_conexion"),
+    path("avisos-correo/<str:token>/", views.baja_correo, name="baja_correo"),
     path("push/estado/", views.push_estado, name="push_estado"),
     path("push/suscribir/", views.push_suscribir, name="push_suscribir"),
     path("push/desactivar/", views.push_desactivar, name="push_desactivar"),

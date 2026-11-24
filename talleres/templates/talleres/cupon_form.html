@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {# También lo usa el mecánico a domicilio (domicilio/vista_descuentos.py) con descuento=True: «descuento» en vez de «cupón» #}
-{% block title %}{% if cupon %}Editar{% else %}Nuevo{% endif %} {% if descuento %}descuento{% else %}cupón{% endif %} · TallerYa{% endblock %}
+{% block title %}{% if cupon %}Editar{% else %}Nuevo{% endif %} {% if descuento %}cupón{% else %}cupón{% endif %} · TallerYa{% endblock %}
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 md:mt-10">
   {% if descuento %}{% url 'domicilio:descuentos' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mis descuentos" %}{% else %}{% url 'talleres:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi taller" %}{% endif %}
-  <h1 class="titulo text-4xl md:text-5xl mt-4">{% if cupon %}Editar{% else %}Nuevo{% endif %} <span class="text-lava">{% if descuento %}descuento{% else %}cupón{% endif %}</span></h1>
+  <h1 class="titulo text-4xl md:text-5xl mt-4">{% if cupon %}Editar{% else %}Nuevo{% endif %} <span class="text-lava">{% if descuento %}cupón{% else %}cupón{% endif %}</span></h1>
   <p class="text-suave mt-2">{% if descuento %}Los moteros lo toman gratis en tu ficha. Al pedirte la visita por TallerYa queda anotado y se valida solo cuando marcas la visita como atendida.{% else %}Los moteros lo obtienen gratis en tu página. Cuando vengan, te muestran su QR y tú lo validas.{% endif %}</p>
   <div class="cf mt-6">
     <form method="post" class="papel cf-form" novalidate>
@@ -15,15 +15,15 @@
         {% include "cuentas/_campo_registro.html" with campo=form.titulo clase="rc-ancho" icono="ninguno" %}
         {% include "cuentas/_campo_registro.html" with campo=form.valido_hasta icono="ninguno" %}
         {% include "cuentas/_campo_registro.html" with campo=form.cupo icono="ninguno" %}
-        <p class="rc-ayuda rc-ancho cf-ayuda">Si dejas la fecha vacía, el {% if descuento %}descuento{% else %}cupón{% endif %} no vence. Si dejas la cantidad vacía, no tiene límite.</p>
+        <p class="rc-ayuda rc-ancho cf-ayuda">Si dejas la fecha vacía, el {% if descuento %}cupón{% else %}cupón{% endif %} no vence. Si dejas la cantidad vacía, no tiene límite.</p>
         {% include "cuentas/_campo_registro.html" with campo=form.condiciones clase="rc-ancho" icono="ninguno" %}
         {% if form.solo_plus %}<label class="cf-plus rc-ancho">
           <input type="checkbox" name="{{ form.solo_plus.html_name }}" id="{{ form.solo_plus.id_for_label }}"{% if form.solo_plus.value %} checked{% endif %}>
           <span class="cf-plus-caja" aria-hidden="true"></span>
-          <span><strong>Solo para suscriptores Plus <span class="insignia insignia-plus">Plus</span></strong><small>Solo los moteros con TallerYa Plus podrán obtenerlo. Úsalo para tus mejores descuentos.</small></span>
+          <span><strong>Solo para suscriptores Plus <span class="insignia insignia-plus">Plus</span></strong><small>Solo los moteros con TallerYa Plus podrán obtenerlo. Úsalo para tus mejores cupones.</small></span>
         </label>{% endif %}
       </div>
-      <button class="btn btn-lava w-full py-3.5 text-sm">{% if cupon %}Guardar cambios{% elif descuento %}Publicar descuento{% else %}Publicar cupón{% endif %}</button>
+      <button class="btn btn-lava w-full py-3.5 text-sm">{% if cupon %}Guardar cambios{% elif descuento %}Publicar cupón{% else %}Publicar cupón{% endif %}</button>
     </form>
     <aside class="cf-vista" aria-label="Así se verá">
       <p class="cf-vista-etiqueta">Así se verá</p>
@@ -39,7 +39,7 @@
           </div>
           <div class="cf-ticket-qr" id="cf-qr" aria-hidden="true"></div>
         </div>
-        <p class="cf-ticket-nota">{% if descuento %}Cada motero recibe su propio código al tomar el descuento.{% else %}Cada motero recibe su propio QR al obtener el cupón.{% endif %}</p>
+        <p class="cf-ticket-nota">{% if descuento %}Cada motero recibe su propio código al tomar el cupón.{% else %}Cada motero recibe su propio QR al obtener el cupón.{% endif %}</p>
       </div>
     </aside>
   </div>

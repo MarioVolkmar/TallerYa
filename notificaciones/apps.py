@@ -18,7 +18,9 @@ class NotificacionesConfig(AppConfig):
             # Cada aviso nuevo del sitio sale también como push (si hay claves y la persona lo activó).
             if created:
                 try:
-                    enviar_notificacion(instance)
+                    if not enviar_notificacion(instance):
+                        from .correo import enviar_respaldo
+                        enviar_respaldo(instance)  # sin push activo: correo, solo para lo urgente
                 except Exception:
                     logging.getLogger(__name__).exception("No se pudo enviar el push")
 

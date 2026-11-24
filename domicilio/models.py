@@ -57,6 +57,7 @@ class MecanicoDomicilio(models.Model):
         PENDIENTE = "pendiente", "Pendiente de revisión"
         APROBADO = "aprobado", "Aprobado (publicado)"
         SUSPENDIDO = "suspendido", "Suspendido"
+        RECHAZADO = "rechazado", "Rechazado"
 
     usuario = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                    related_name="mecanico_domicilio", help_text="Cuenta del mecánico (la única que lo edita)")
@@ -86,6 +87,7 @@ class MecanicoDomicilio(models.Model):
     herramientas = models.CharField("herramientas y equipo que lleva", max_length=200, blank=True,
                                     help_text="Separadas por comas. Ej: escáner, multímetro, compresor, gato de moto")
     estado = models.CharField(max_length=12, choices=Estado.choices, default=Estado.PENDIENTE, db_index=True)
+    motivo_rechazo = models.CharField("motivo del rechazo", max_length=200, blank=True)
     verificado = models.BooleanField(default=False, help_text="TallerYa revisó su identidad y experiencia")
     mostrar_precios = models.BooleanField(
         "mostrar precios de referencia", default=False,
@@ -366,3 +368,57 @@ class SolicitudVisita(models.Model):
         p = lambda n: "$" + f"{n:,}".replace(",", ".")
         d, h = self.cotizacion_desde, self.cotizacion_hasta
         return p(h) if d == h else f"{p(d)} – {p(h)}"
+
+
+def ruta_identidad(instancia, nombre):
+    # Nombre aleatorio y extensión fija (la imagen ya se re-codificó como JPEG): no revela nada del documento.
+    return f"identidad_mecanicos/{uuid4().hex}.jpg"
+
+
+def _almacen_privado():
+    # Fuera de MEDIA_ROOT (PRIVADO_ROOT): /media/ nunca las sirve; solo la vista identidad_foto, y solo a admins.
+    from garaje.models import AlmacenPrivado
+    return AlmacenPrivado()
+
+
+class IdentidadMecanico(models.Model):
+    """Verificación de identidad con foto de la cédula (frente y respaldo; selfie opcional). Sin fila = pendiente de enviar.
+    Las fotos se borran al aprobar o rechazar (Ley 1581): queda el resultado, la fecha y quién revisó.
+    La insignia «Verificado» (MecanicoDomicilio.verificado) solo se otorga al aprobar. `heredada`: mecánicos que ya tenían
+    la insignia antes de este flujo; conservan la insignia y se les invita a respaldarla con la foto."""
+
+    class Estado(models.TextChoices):
+        ENVIADA = "enviada", "En revisión"
+        APROBADA = "aprobada", "Aprobada"
+        RECHAZADA = "rechazada", "Rechazada"
+
+    mecanico = models.OneToOneField(MecanicoDomicilio, on_delete=models.CASCADE, related_name="identidad")
+    frente = models.FileField("cédula, frente", storage=_almacen_privado, upload_to=ruta_identidad, blank=True)
+    respaldo = models.FileField("cédula, respaldo", storage=_almacen_privado, upload_to=ruta_identidad, blank=True)
+    selfie = models.FileField("selfie con la cédula", storage=_almacen_privado, upload_to=ruta_identidad, blank=True)
+    estado = models.CharField(max_length=10, choices=Estado.choices, default=Estado.ENVIADA, db_index=True)
+    motivo = models.CharField("motivo del rechazo", max_length=200, blank=True)
+    heredada = models.BooleanField(default=False)
+    autorizacion = models.DateTimeField("autorizó el tratamiento de datos", null=True, blank=True)
+    revisado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
+    revisado_en = models.DateTimeField(null=True, blank=True)
+    enviado = models.DateTimeField(null=True, blank=True)
+
+    CAMPOS_FOTO = ("frente", "respaldo", "selfie")
+
+    class Meta:
+        verbose_name = "identidad de mecánico"
+        verbose_name_plural = "identidades de mecánicos"
+
+    def __str__(self):
+        return f"Identidad de {self.mecanico} ({self.get_estado_display()})"
+
+    @property
+    def tiene_fotos(self):
+        return any(getattr(self, c) for c in self.CAMPOS_FOTO)
+
+    def borrar_fotos(self):
+        for campo in self.CAMPOS_FOTO:
+            archivo = getattr(self, campo)
+            if archivo:
+                archivo.delete(save=False)

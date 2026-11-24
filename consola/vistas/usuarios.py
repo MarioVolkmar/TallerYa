@@ -146,8 +146,14 @@ def cambiar_rol(request, u):
     nuevo = request.POST.get("rol", "")
     if nuevo not in (roles.ADMIN, roles.TALLER, roles.MOTERO):
         raise ErrorAccion("Elige un rol válido.")
+    if nuevo == rol_actual(u):
+        raise ErrorAccion("Ya tiene ese rol.")
     if nuevo == roles.ADMIN:
         _solo_superusuario(request, u)
+        if not request.user.is_superuser:
+            raise ErrorAccion("Solo un superusuario puede dar el rol de administrador.")
+        if request.POST.get("confirmar_admin") != "1":
+            raise ErrorAccion("Marca «Sí, darle acceso de administrador» para confirmar.")
         u.is_staff = True
     else:
         if u.is_staff:

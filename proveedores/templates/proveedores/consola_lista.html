@@ -17,24 +17,26 @@
   <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
 </form>
 {% if filas %}
-<div class="cs-tabla-caja"><table class="cs-tabla">
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-tarjetas">
   <caption class="sr-only">Proveedores</caption>
   <thead><tr><th scope="col">Proveedor</th><th scope="col">Categoría</th><th scope="col">Estado</th><th scope="col" class="cs-col-acc">Acciones</th></tr></thead>
   <tbody>
-  {% for p, analisis in filas %}{% url 'consola:accion' 'proveedores.estado' p.pk as a_est %}{% url 'consola:accion' 'proveedores.verificar' p.pk as a_ver %}{% url 'consola:accion' 'proveedores.eliminar' p.pk as a_eli %}
+  {% for p, analisis in filas %}{% url 'consola:accion' 'proveedores.estado' p.pk as a_est %}{% url 'consola:accion' 'proveedores.verificar' p.pk as a_ver %}{% url 'consola:accion' 'proveedores.eliminar' p.pk as a_eli %}{% url 'consola:accion' 'proveedores.rechazar' p.pk as a_rec %}
   <tr>
     <td><a href="{% url 'proveedores:editar' p.pk %}" class="cs-cuenta-nombre">{{ p.nombre }}</a> <span class="cs-id">#{{ p.pk }}</span>{% if p.aliado %} <span class="cs-id">Aliado</span>{% endif %}{% if p.demo %} <span class="cs-id">Demo</span>{% endif %}
       <span class="cs-cuenta-correo">{% if p.wa_numero %}WhatsApp {{ p.whatsapp }}{% elif p.telefono %}Tel. {{ p.telefono }}{% else %}Sin contacto{% endif %}{% if p.municipio %} · {{ p.municipio }}{% elif p.zonas %} · {{ p.zonas|join:", " }}{% endif %}</span>
       {% if p.origen_alta != "equipo" %}<span class="cs-cuenta-correo">{{ p.get_origen_alta_display }} · {% if p.aprobado_por_proveedor %}aprobó su ficha el {{ p.aprobado_por_proveedor|date:"d/m H:i" }}{% else %}esperando que apruebe{% if p.enlace_vencido %} · <strong>enlace vencido</strong>{% endif %}{% endif %}</span>{% endif %}</td>
     <td>{{ p.categoria.icono }} {{ p.categoria.singular }}</td>
-    <td>{% if p.estado == "publicado" %}<span class="cs-estado cs-ok">Publicado</span>{% elif p.estado == "por_revisar" %}<span class="cs-estado cs-pend">Por revisar</span>{% else %}<span class="cs-estado">Pausado</span>{% endif %}{% if p.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}
-      {% if p.estado == "por_revisar" and not p.falta_aprobacion %}{% include "consola/_boton_accion.html" with url=a_est valor="publicado" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" %}{% endif %}</td>
+    <td>{% if p.estado == "publicado" %}<span class="cs-estado cs-ok">Publicado</span>{% elif p.estado == "por_revisar" %}<span class="cs-estado cs-pend">Por revisar</span>{% elif p.estado == "rechazado" %}<span class="cs-estado cs-off">Rechazado</span><span class="cs-cuenta-correo">{{ p.motivo_rechazo }}</span>{% else %}<span class="cs-estado">Pausado</span>{% endif %}{% if p.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}
+      {% if p.estado == "por_revisar" and not p.falta_aprobacion %}{% include "consola/_boton_accion.html" with url=a_est valor="publicado" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" confirmar="¿Aprobar a "|add:p.nombre|add:"? Se publica y los moteros ya lo ven." %}{% endif %}</td>
     <td class="cs-col-acc">{% include "consola/_menu_ini.html" %}
       <a class="cs-menu-item" href="{% url 'proveedores:editar' p.pk %}">{% icono "lapiz" 16 %} Editar</a>
       {% if p.origen_alta != "equipo" and not p.aprobado_por_proveedor %}<a class="cs-menu-item" href="{% url 'proveedores:enlace' p.pk %}">{% icono "enlace" 16 %} Reenviar enlace</a>{% endif %}
       {% if p.estado == "publicado" %}{% include "consola/_boton_accion.html" with url=a_est valor="pausado" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el proveedor? Deja de verse hasta que lo reactives." %}
       {% elif p.estado == "pausado" %}{% include "consola/_boton_accion.html" with url=a_est valor="publicado" texto="Reactivar" icono="ojo" %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_est valor="pausado" texto="Pausar" icono="ojo_no" %}{% endif %}
+      {% elif p.estado == "rechazado" and not p.falta_aprobacion %}{% include "consola/_boton_accion.html" with url=a_est valor="publicado" texto="Aprobar de todos modos" icono="check" confirmar="¿Aprobar a "|add:p.nombre|add:"? Se publica y los moteros ya lo ven." %}
+      {% elif p.estado == "por_revisar" %}{% include "consola/_boton_accion.html" with url=a_est valor="pausado" texto="Pausar" icono="ojo_no" %}{% endif %}
+      {% if p.estado != "rechazado" and p.estado != "publicado" %}{% include "consola/_boton_accion.html" with url=a_rec texto="Rechazar" icono="cerrar" motivo="Rechazar a "|add:p.nombre %}{% endif %}
       {% if p.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" icono="cerrar" %}
       {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" icono="sello" %}{% endif %}
       <a class="cs-menu-item" href="?seccion=proveedores&amp;reporte={{ p.pk }}">{% icono "grafica" 16 %} Ver reporte</a>

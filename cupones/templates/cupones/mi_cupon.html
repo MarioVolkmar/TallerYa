@@ -66,7 +66,7 @@
         {% elif codigo.cupon.mecanico %}
           {% with mec=codigo.cupon.mecanico %}
           <div class="cupon-lugar"><a href="{{ mec.get_absolute_url }}" class="servicio-taller">{{ mec }}</a></div>
-          <p class="text-suave text-sm mt-1">Es un mecánico a domicilio: pídele la visita desde su perfil en TallerYa y el descuento queda anotado solo. Si le escribes por WhatsApp, dale este código.</p>
+          <p class="text-suave text-sm mt-1">Es un mecánico a domicilio: pídele la visita desde su perfil en TallerYa y el cupón queda anotado solo. Si le escribes por WhatsApp, dale este código.</p>
           <div class="flex flex-wrap gap-2 mt-4">
             <a href="{{ mec.get_absolute_url }}" class="btn btn-lava text-xs px-5 py-2.5">Pedir la visita</a>
             <a href="https://wa.me/{{ mec.whatsapp }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">WhatsApp</a>

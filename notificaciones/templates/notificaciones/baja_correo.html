@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Correos de avisos · TallerYa{% endblock %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-10">
+  <p class="etiqueta">Correos de avisos</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{% if activos %}Recibes los correos{% else %}Ya no te escribimos{% endif %}</h1>
+  <section class="papel p-6 mt-6">
+    <p class="text-suave">{% if activos %}Te escribimos cuando pasa algo urgente con tus citas y visitas y no tienes los avisos activos en el celular.{% else %}No recibirás más correos de citas y visitas. Los avisos siguen apareciendo en la campanita de TallerYa.{% endif %}</p>
+    <form method="post" class="mt-5">{% csrf_token %}
+      <input type="hidden" name="accion" value="{% if activos %}desactivar{% else %}activar{% endif %}">
+      <button class="btn {% if activos %}btn-borde{% else %}btn-lava{% endif %}">{% if activos %}Dejar de recibir estos correos{% else %}Volver a recibirlos{% endif %}</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

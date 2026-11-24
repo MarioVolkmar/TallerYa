@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 {% block title %}Solicitudes de visita · {{ m.nombre }} · TallerYa{% endblock %}
 {% block content %}
-{% url 'domicilio:mi_perfil' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi perfil" clase="mt-8" %}
-<div class="max-w-3xl mx-auto mt-6">
-  <p class="etiqueta">Mecánico a domicilio</p>
-  <h1 class="titulo text-4xl md:text-5xl mt-3">Solicitudes de <span class="text-lava">visita</span></h1>
-  <p class="text-suave mt-2">Las que te piden desde tu perfil. Cotízalas aquí: el motero acepta con un toque y la visita queda confirmada.</p>
-  {% if puede_registrar %}<p class="mt-4"><a href="{% url 'garaje:servicio_mecanico' %}" class="boton-seccion">+ Registrar servicio</a></p>{% endif %}
-  <nav class="vd-filtros" aria-label="Ver solicitudes">
-    <a href="?" class="vd-filtro{% if not todas %} activa{% endif %}"{% if not todas %} aria-current="page"{% endif %}>Por atender</a>
-    <a href="?ver=todas" class="vd-filtro{% if todas %} activa{% endif %}"{% if todas %} aria-current="page"{% endif %}>Todas</a>
-  </nav>
-
+<div class="mt-8 md:mt-10">
+  {% url 'domicilio:panel' as url_panel %}{% include "parciales/volver.html" with url=url_panel texto="Mi panel" %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">Solicitudes de <span class="text-lava">visita</span></h1>
+  <div class="lt-barra">
+    <nav class="lt-filtros" aria-label="Ver solicitudes">
+      <a href="?"{% if not todas %} class="activo" aria-current="page"{% endif %}>Por atender</a>
+      <a href="?ver=todas"{% if todas %} class="activo" aria-current="page"{% endif %}>Todas</a>
+    </nav>
+  </div>
+  <section class="papel pt-caja mt-4">
   {% if lista %}
   <ul class="vd-lista">
     {% for s in lista %}
-    <li class="papel vd-item" id="visita-{{ s.pk }}">
+    <li class="vd-item" id="visita-{{ s.pk }}">
       <div class="vd-cabeza">
         <p class="vd-quien">{{ s.nombre }}{% if s.moto %} <span>· {{ s.moto }}</span>{% endif %}</p>
         <span class="vd-chip vd-{{ s.estado }}">{{ s.get_estado_display }}</span>
@@ -23,9 +22,9 @@
       <p class="vd-que">{% if s.servicio %}{{ s.servicio }}{% else %}Diagnóstico{% endif %}{% if s.zona %} · {{ s.zona }}{% endif %}{% if s.cuando_texto %} · {{ s.cuando_texto }}{% endif %} · <span class="text-suave">{{ s.creado|timesince }}</span></p>
       {% if s.detalle %}<p class="vd-detalle">“{{ s.detalle }}”</p>{% endif %}
       {% if s.precio_texto %}<p class="vd-precio">{% if s.estado == "cotizada" %}Cotizaste{% else %}Precio{% endif %} <strong>{{ s.precio_texto }}</strong>{% if s.fecha_propuesta %} · {{ s.fecha_propuesta|date:"D j M"|lower }}{% if s.hora_propuesta %} {{ s.hora_propuesta|time:"g:i a" }}{% endif %}{% endif %}{% if s.estado == "cotizada" and s.cotizacion_vencida %} · <span class="vd-rechazo">venció</span>{% endif %}</p>{% endif %}
-      {% if s.codigo_cupon %}<p class="vd-descuento"><span class="vd-chip vd-confirmada">{% if s.codigo_cupon.canjeado %}Descuento usado{% else %}Trae descuento{% endif %}</span> {{ s.codigo_cupon.cupon.titulo }} <span class="text-suave">· {{ s.codigo_cupon.codigo }}</span></p>
-      {% elif s.estado == "pendiente" or s.estado == "cotizada" or s.estado == "confirmada" %}<details class="vd-codigo"><summary>¿Trae un código de descuento?</summary>
-        <form method="post" action="{% url 'domicilio:solicitud_descuento' s.pk %}">{% csrf_token %}<label class="sr-only" for="codigo-{{ s.pk }}">Código del descuento</label><input id="codigo-{{ s.pk }}" type="text" name="codigo" class="campo" maxlength="12" placeholder="TY-XXXXXX" autocapitalize="characters" autocomplete="off"><button class="boton-seccion">Anotar</button></form>
+      {% if s.codigo_cupon %}<p class="vd-descuento"><span class="vd-chip vd-confirmada">{% if s.codigo_cupon.canjeado %}Cupón usado{% else %}Trae cupón{% endif %}</span> {{ s.codigo_cupon.cupon.titulo }} <span class="text-suave">· {{ s.codigo_cupon.codigo }}</span></p>
+      {% elif s.estado == "pendiente" or s.estado == "cotizada" or s.estado == "confirmada" %}<details class="vd-codigo"><summary>¿Trae un código de cupón?</summary>
+        <form method="post" action="{% url 'domicilio:solicitud_descuento' s.pk %}">{% csrf_token %}<label class="sr-only" for="codigo-{{ s.pk }}">Código del cupón</label><input id="codigo-{{ s.pk }}" type="text" name="codigo" class="campo" maxlength="12" placeholder="TY-XXXXXX" autocapitalize="characters" autocomplete="off"><button class="boton-seccion">Anotar</button></form>
         <p class="text-suave">Se usa al marcar la visita como atendida.</p></details>{% endif %}
       {% if s.rechazada and s.estado == "pendiente" %}<p class="vd-rechazo">No aceptó tu cotización: escríbele para acordar otra opción.</p>{% endif %}
       <div class="vd-botones">
@@ -47,8 +46,9 @@
     {% endfor %}
   </ul>
   {% else %}
-  <p class="papel vd-vacio">{% if todas %}Aún no te han pedido visitas desde TallerYa.{% else %}No tienes solicitudes por atender.{% endif %} Cuando un motero te pida una visita desde tu perfil, aparece aquí y te llega un aviso.</p>
+  <ul class="vd-lista"><li class="pt-vacio"><p>{% if todas %}Aún no te han pedido visitas desde TallerYa.{% else %}No tienes solicitudes por atender.{% endif %}</p><small>Cuando un motero te pida una visita desde tu perfil, aparece aquí y te llega un aviso.</small></li></ul>
   {% endif %}
+  </section>
 </div>
 {% include "talleres/_dialogo_cotizar.html" %}
 {% endblock %}

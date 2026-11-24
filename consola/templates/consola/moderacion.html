@@ -6,7 +6,8 @@
 <form method="get" class="cs-filtros" role="search">
   {% include "consola/_filtros_inicio.html" with clave="moderacion" placeholder="Texto, título o correo" %}
   <label class="cs-filtro"><span class="cs-etq">Qué revisar</span>{{ form.tipo }}</label>
-  {% if tipo != "reportes" %}<label class="cs-filtro"><span class="cs-etq">Visibilidad</span>{{ form.estado }}</label>{% endif %}
+  {% if tipo != "reportes" %}<label class="cs-filtro"><span class="cs-etq">Visibilidad</span>{{ form.estado }}</label>
+  {% else %}<label class="cs-filtro"><span class="cs-etq">Reportes</span>{{ form.reporte }}</label>{% endif %}
   <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
 </form>
 {% if filas %}
@@ -21,9 +22,10 @@
         {% else %}una respuesta en <a href="{{ o.respuesta.pregunta.get_absolute_url }}">«{{ o.respuesta.pregunta.titulo|truncatechars:70 }}»</a>{% endif %}</p>
       <p class="cs-bit-meta">{{ o.motivo|default:"Sin motivo" }} · {{ o.usuario.email }} · {{ o.creado|date:"j M Y" }}</p>
       {% if o.respuesta %}<blockquote class="cs-cita">{{ o.respuesta.cuerpo|truncatechars:220 }}</blockquote>{% endif %}
+      {% if o.revisado %}<p class="cs-bit-meta"><span class="cs-estado">Revisado</span></p>{% endif %}
       {% include "consola/_menu_ini.html" %}
-        {% if o.pregunta.visible or o.respuesta.visible %}{% include "consola/_boton_accion.html" with url=a_vis valor="0" texto="Ocultar contenido" icono="ojo_no" confirmar="¿Ocultar este contenido del foro? No se borra." %}{% else %}<span class="cs-estado cs-off">Ya está oculto</span>{% endif %}
-        {% include "consola/_boton_accion.html" with url=a_rev texto="Marcar revisado" icono="check" %}
+        {% if o.pregunta.visible or o.respuesta.visible %}{% include "consola/_boton_accion.html" with url=a_vis valor="0" texto="Ocultar contenido" icono="ojo_no" motivo="Ocultar este contenido" confirmar="No se borra, y se cierra el reporte. Se le avisa al autor con el motivo." %}{% else %}<span class="cs-estado cs-off">Ya está oculto</span>{% endif %}
+        {% if not o.revisado %}{% include "consola/_boton_accion.html" with url=a_rev texto="Marcar revisado" icono="check" %}{% endif %}
       {% include "consola/_menu_fin.html" %}
     {% else %}
       {% if tipo == "preguntas" %}{% url 'consola:accion' 'foro.pregunta_visible' o.pk as a_vis %}{% url 'consola:accion' 'foro.pregunta_eliminar' o.pk as a_eli %}
@@ -38,13 +40,13 @@
         <p class="cs-bit-meta">{{ o.nombre }}{% if o.usuario %} · {{ o.usuario.email }}{% endif %} · {{ o.creado|date:"j M Y" }}</p>
       {% endif %}
       {% include "consola/_menu_ini.html" %}
-        {% if o.visible %}{% include "consola/_boton_accion.html" with url=a_vis valor="0" texto="Ocultar" icono="ojo_no" confirmar="¿Ocultarlo? Deja de verse en el sitio, pero no se borra." %}
+        {% if o.visible %}{% include "consola/_boton_accion.html" with url=a_vis valor="0" texto="Ocultar" icono="ojo_no" motivo="Ocultar este contenido" confirmar="Deja de verse en el sitio, pero no se borra. Se le avisa al autor con el motivo." %}
         {% else %}<span class="cs-estado cs-off">Oculto</span>{% include "consola/_boton_accion.html" with url=a_vis valor="1" texto="Mostrar" icono="ojo" %}{% endif %}
-        {% include "consola/_eliminar_fila.html" with url=a_eli que="este contenido" %}
+        {% include "consola/_eliminar_fila.html" with url=a_eli que="este contenido" motivo="Eliminar este contenido" %}
       {% include "consola/_menu_fin.html" %}
     {% endif %}
   </li>
   {% endfor %}
 </ol>
 {% include "consola/_paginacion.html" %}
-{% else %}<p class="cs-vacio">{% if tipo == "reportes" %}No hay reportes sin revisar.{% else %}Nada con esos filtros.{% endif %}</p>{% endif %}
+{% else %}<p class="cs-vacio">{% if tipo == "reportes" %}{% if ver_revisados %}Todavía no hay reportes revisados.{% else %}No hay reportes sin revisar.{% endif %}{% else %}Nada con esos filtros.{% endif %}</p>{% endif %}

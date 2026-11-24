@@ -32,3 +32,4 @@ modelos_3d_local/
 
 # Fotos de referencia para Tripo (solo local)
 FOTOS_MODELADO_TRIPO/
+db.sqlite3.respaldo-*

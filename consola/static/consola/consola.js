@@ -37,6 +37,33 @@
     return esperarCierre(d).then((valor) => valor === "si");
   }
 
+  // Pide un motivo (rechazar, ocultar, eliminar): resuelve con el texto, o null si cancela.
+  function pedirMotivo(titulo, aviso) {
+    const d = document.getElementById("cs-motivo");
+    if (!d || !d.showModal) { const t = window.prompt(titulo); return Promise.resolve(t && t.trim().length >= 4 ? t.trim() : null); }
+    const campo = d.querySelector("input"), error = d.querySelector("[data-error]"), texto = d.querySelector("[data-texto]");
+    d.querySelector("h2").textContent = titulo;
+    texto.hidden = !aviso; texto.textContent = aviso || "";
+    campo.value = ""; error.hidden = true; d.returnValue = "";
+    const si = d.querySelector("[data-si]");
+    return new Promise((ok) => {
+      const alClic = (ev) => {
+        const b = ev.target.closest("button[value]");
+        if (!b) return;
+        ev.preventDefault();
+        if (b.value === "si" && campo.value.trim().length < 4) { error.hidden = false; campo.focus(); return; }
+        d.removeEventListener("click", alClic);
+        const valor = b.value === "si" ? campo.value.trim() : null;
+        if (d.open) d.close();
+        ok(valor);
+      };
+      d.addEventListener("click", alClic);
+      campo.onkeydown = (ev) => { if (ev.key === "Enter") { ev.preventDefault(); si.click(); } };
+      d.addEventListener("cancel", () => { d.removeEventListener("click", alClic); ok(null); }, { once: true });
+      d.showModal(); campo.focus();
+    });
+  }
+
   // Resuelve con el valor del botón pulsado (o "" con Escape). No depende solo del evento "close",
   // que algunos navegadores retrasan cuando la pestaña no está visible.
   function esperarCierre(d) {
@@ -81,7 +108,13 @@
     if (!form.matches("form[data-accion]")) return;
     ev.preventDefault();
     if (!form.reportValidity()) return;
-    if (form.dataset.confirmar && !(await confirmar(form.dataset.confirmar))) return;
+    if (form.dataset.motivo) {
+      const motivo = await pedirMotivo(form.dataset.motivo, form.dataset.confirmar);
+      if (motivo === null) return;
+      let campo = form.querySelector("input[name=motivo]");
+      if (!campo) { campo = document.createElement("input"); campo.type = "hidden"; campo.name = "motivo"; form.appendChild(campo); }
+      campo.value = motivo;
+    } else if (form.dataset.confirmar && !(await confirmar(form.dataset.confirmar))) return;
     const boton = form.querySelector("button:not([type=button])");
     ocupado(boton, true);
     try {
@@ -111,6 +144,11 @@
     } else if (el.matches("[data-rol]")) {
       const soloTaller = raiz.querySelector("[data-solo-taller]");
       if (soloTaller) soloTaller.hidden = el.value !== "taller";
+      const soloAdmin = raiz.querySelector("[data-solo-admin]");
+      if (soloAdmin) {
+        soloAdmin.hidden = el.value !== "admin";
+        const c = soloAdmin.querySelector("input"); if (c && soloAdmin.hidden) c.checked = false;
+      }
     }
   });
   // Filtros por GET: URL limpia (los campos vacíos no viajan) y sin recargar la página
@@ -150,10 +188,12 @@
       if (window.TallerYaControles) window.TallerYaControles.mejorarTodo(principal); // desplegables propios en el contenido nuevo
       const nav = raiz.querySelector(".cs-nav"), navN = doc.querySelector(".cs-nav");
       if (nav && navN) nav.innerHTML = navN.innerHTML;
-      const sel = raiz.querySelector("[data-navegar]"), selN = doc.querySelector("[data-navegar]");
-      if (sel && selN) sel.innerHTML = selN.innerHTML;
-      const et = raiz.querySelector(".cs-movil-label"), etN = doc.querySelector(".cs-movil-label");
-      if (et && etN) et.innerHTML = etN.innerHTML;
+      for (const q of [".cs-movil", ".cs-hoja-lista"]) {  // «Estás en» y la hoja de secciones del celular
+        const viejo = raiz.querySelector(q), nuevoQ = doc.querySelector(q);
+        if (viejo && nuevoQ) viejo.innerHTML = nuevoQ.innerHTML;
+      }
+      const hoja = document.getElementById("cs-secciones");
+      if (hoja && hoja.open) hoja.close();
       document.title = doc.title;
       if (empujar) history.pushState({ consola: true }, "", final.pathname + final.search + url.hash);
       const ancla = url.hash && document.getElementById(url.hash.slice(1));
@@ -168,6 +208,15 @@
       principal.removeAttribute("aria-busy");
     }
   }
+  // Hoja de secciones (celular)
+  raiz.addEventListener("click", (ev) => {
+    const hoja = document.getElementById("cs-secciones");
+    if (!hoja) return;
+    if (ev.target.closest("[data-abrir-secciones]")) { if (hoja.showModal) hoja.showModal(); }
+    else if (ev.target.closest("[data-cerrar-secciones]") || ev.target === hoja) hoja.close();
+    else if (ev.target.closest(".cs-hoja-item") && !ev.target.closest(".cs-hoja-item[aria-current=page]")) { /* navegar() la cierra */ }
+    else if (ev.target.closest(".cs-hoja-item")) hoja.close();
+  });
   raiz.addEventListener("click", (ev) => {
     if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
     const a = ev.target.closest("a[href]");
@@ -186,11 +235,12 @@
   history.replaceState({ consola: true }, "", location.href);
 
   // Tema: hay un botón en la barra lateral y otro en el desplegable del celular; el texto visible dice a qué tema pasa
-  raiz.querySelectorAll("[data-tema]").forEach((b) => b.addEventListener("click", () => {
+  raiz.addEventListener("click", (ev) => {  // delegado: el botón del celular se vuelve a pintar al navegar
+    if (!ev.target.closest("[data-tema]")) return;
     const nuevo = document.documentElement.dataset.consolaTema === "claro" ? "oscuro" : "claro";
     document.documentElement.dataset.consolaTema = nuevo;
     try { localStorage.setItem("consola-tema", nuevo); } catch (e) { /* */ }
-  }));
+  });
 
   // ---------- Menú «⋯» de acciones por fila ----------
   function cerrarMenus(salvo, devolverFoco) {

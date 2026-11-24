@@ -12,25 +12,27 @@
   <button class="cs-btn">{% icono "lupa" 16 %} Filtrar</button>
 </form>
 {% if pagina.object_list %}
-<div class="cs-tabla-caja"><table class="cs-tabla">
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-tarjetas">
   <caption class="sr-only">Mecánicos a domicilio</caption>
   <thead><tr><th scope="col">Mecánico</th><th scope="col">Estado</th><th scope="col">Reseñas</th><th scope="col">Acciones</th></tr></thead>
   <tbody>
-  {% for m in pagina %}{% url 'consola:accion' 'mecanicos.estado' m.pk as a_est %}{% url 'consola:accion' 'mecanicos.verificar' m.pk as a_ver %}
+  {% for m in pagina %}{% url 'consola:accion' 'mecanicos.estado' m.pk as a_est %}{% url 'consola:accion' 'mecanicos.verificar' m.pk as a_ver %}{% url 'consola:accion' 'mecanicos.rechazar' m.pk as a_rec %}
   <tr>
     <td><a href="{{ m.get_absolute_url }}" class="cs-cuenta-nombre">{{ m.nombre }}</a> <span class="cs-id">#{{ m.pk }}</span>
       <span class="cs-cuenta-correo">{{ m.whatsapp }}{% if m.usuario %} · <a href="?seccion=usuarios&amp;id={{ m.usuario_id }}">{{ m.usuario.email }}</a>{% else %} · sin cuenta{% endif %}</span>
       <span class="cs-cuenta-correo">{% if m.cedula_ultimos %}Cédula …{{ m.cedula_ultimos }}{% else %}Sin cédula{% endif %} · {{ m.n_fotos }} foto{{ m.n_fotos|pluralize }} de trabajos{% if m.referencias %} · con referencias{% endif %}</span></td>
     <td>{% if m.estado == "aprobado" %}<span class="cs-estado cs-ok">Publicado</span>{% if m.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}{% elif m.estado == "pendiente" %}<span class="cs-estado cs-pend">Por revisar</span>{% if m.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}
-      {% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" %}{% else %}<span class="cs-estado">Pausado</span>{% if m.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}{% endif %}</td>
-    <td>{{ m.n_resenas }}</td>
+      {% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Aprobar" icono="check" clase="cs-pildora-aprobar" confirmar="¿Aprobar a "|add:m.nombre|add:"? Su perfil se publica en Mecánicos a domicilio y se le avisa." %}
+      {% elif m.estado == "rechazado" %}<span class="cs-estado cs-off">Rechazado</span><span class="cs-cuenta-correo">{{ m.motivo_rechazo }}</span>{% else %}<span class="cs-estado">Pausado</span>{% if m.verificado %}<span class="cs-sello-chico" role="img" title="Verificado" aria-label="Verificado">{% icono "sello" 16 %}</span>{% endif %}{% endif %}</td>
+    <td data-etq="Reseñas">{{ m.n_resenas }}</td>
     <td class="cs-col-acc">
       {% include "consola/_menu_ini.html" %}
-      {% if m.estado == "pendiente" %}{% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Aprobar" icono="check" %}{% endif %}
+      {% if m.estado == "pendiente" %}{% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Aprobar" icono="check" confirmar="¿Aprobar a "|add:m.nombre|add:"? Su perfil se publica y se le avisa." %}{% endif %}
+      {% if m.estado != "rechazado" %}{% include "consola/_boton_accion.html" with url=a_rec texto="Rechazar" icono="cerrar" motivo="Rechazar a "|add:m.nombre %}{% endif %}
       <a class="cs-menu-item" href="?seccion=reportes&amp;mecanico={{ m.pk }}">{% icono "grafica" 16 %} Ver reporte</a>
       {% if m.estado == "aprobado" %}{% include "consola/_boton_accion.html" with url=a_est valor="suspendido" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el perfil? Deja de salir en el listado hasta que lo reactives." %}
       {% elif m.estado == "suspendido" %}{% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Reactivar" icono="ojo" %}
-      {% else %}{% include "consola/_boton_accion.html" with url=a_est valor="suspendido" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el perfil? No saldrá en el listado." %}{% endif %}
+      {% elif m.estado == "rechazado" %}{% include "consola/_boton_accion.html" with url=a_est valor="aprobado" texto="Aprobar de todos modos" icono="check" confirmar="¿Aprobar a "|add:m.nombre|add:"? Su perfil se publica y se le avisa." %}{% else %}{% include "consola/_boton_accion.html" with url=a_est valor="suspendido" texto="Pausar" icono="ojo_no" confirmar="¿Pausar el perfil? No saldrá en el listado." %}{% endif %}
       {% if m.verificado %}{% include "consola/_boton_accion.html" with url=a_ver valor="0" texto="Quitar verificación" icono="cerrar" %}
       {% else %}{% include "consola/_boton_accion.html" with url=a_ver valor="1" texto="Verificar" icono="sello" %}{% endif %}
       {% include "consola/_menu_fin.html" %}</td>

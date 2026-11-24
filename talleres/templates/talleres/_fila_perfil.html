@@ -1,0 +1,4 @@
+{# «Perfil al N %» con barra discreta y faltantes cortos. Variables: pct, faltan, url #}
+<li class="pt-tarea pt-perfil"><div class="pt-perfil-texto"><span>Perfil al <strong>{{ pct }}%</strong>{% if faltan %} · <small>Faltan: {{ faltan }}</small>{% endif %}</span>
+  <div class="pt-barra pt-barra-fina" role="progressbar" aria-valuenow="{{ pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Perfil completo al {{ pct }}%"><span style="width: {{ pct }}%"></span></div></div>
+  <a href="{{ url }}" class="pt-tarea-btn">Completar</a></li>

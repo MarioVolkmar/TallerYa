@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %}Editar mi perfil · TallerYa{% endblock %}
 {% block content %}
-{% url 'cuentas:mi_cuenta' as url_cuenta %}{% include "parciales/volver.html" with url=url_cuenta texto="Mi cuenta" clase="mt-8" %}
+{% url 'talleres:panel' as url_cuenta %}{% include "parciales/volver.html" with url=url_cuenta texto="Mi taller" clase="mt-8" %}
 <div class="max-w-3xl mx-auto mt-4">
   <p class="etiqueta">Mi taller</p>
   <div class="flex flex-wrap items-end justify-between gap-3 mt-3">

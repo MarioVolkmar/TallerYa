@@ -73,6 +73,7 @@ class Taller(models.Model):
     foto = models.ImageField(upload_to="talleres/", blank=True)
     verificado = models.BooleanField(default=False)
     activo = models.BooleanField(default=False, help_text="Visible en el directorio")
+    motivo_rechazo = models.CharField("motivo del rechazo", max_length=200, blank=True, help_text="Si hay motivo y no está publicado, la solicitud fue rechazada")
     destacado = models.BooleanField(default=False, help_text="Plan pro: aparece primero")
     nivel_precio = models.PositiveSmallIntegerField(
         "rango de precios", choices=NIVELES_PRECIO, null=True, blank=True,

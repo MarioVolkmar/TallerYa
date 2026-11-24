@@ -36,8 +36,9 @@ class DetalleRediseñoTests(TestCase):
         taller = demo_talleres.cargar()[0]
         Taller.objects.filter(pk=taller.pk).update(mostrar_precios=True)
         html = self.client.get(taller.get_absolute_url()).content.decode()
-        claves = ["Mano de obra desde", "Fotos del taller", "Quiénes te atienden", "Cómo trabajamos", "id=\"resenas\"",
-                  "Ubicación"]
+        # La ubicación va justo después de los precios (pedido del usuario, 23-nov)
+        claves = ["Mano de obra desde", "Ubicación", "Fotos del taller", "Quiénes te atienden", "Cómo trabajamos",
+                  "id=\"resenas\""]
         posiciones = [html.index(k) for k in claves]
         self.assertEqual(posiciones, sorted(posiciones))
         self.assertIn("Ver las 5 fotos", html)

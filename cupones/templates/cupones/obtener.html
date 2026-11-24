@@ -5,7 +5,7 @@
 {% url 'cupones:lista' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Todos los cupones" clase="mt-8" %}
 <div class="grid grid-cols-1 gap-8 md:grid-cols-2 mt-6 items-start">
   <div>
-    <p class="etiqueta">{% if cupon.mecanico_id %}Tu descuento{% else %}Tu cupón{% endif %}</p>
+    <p class="etiqueta">{% if cupon.mecanico_id %}Tu cupón{% else %}Tu cupón{% endif %}</p>
     <h1 class="titulo text-4xl md:text-5xl mt-3">Obtén tu <span class="text-lava">código</span></h1>
     <div class="mt-6">{% include "cupones/_ticket.html" %}</div>
     {% if cupon.taller %}

@@ -10,12 +10,7 @@ from typing import Callable, Optional
 
 def _talleres_pendientes():
     from talleres.models import Taller
-    return Taller.objects.filter(activo=False).count()
-
-
-def _plus_solicitadas():
-    from cuentas.models import Suscripcion
-    return Suscripcion.objects.filter(estado=Suscripcion.Estado.SOLICITADA).count()
+    return Taller.objects.filter(activo=False, motivo_rechazo="").count()
 
 
 def _reportes_foro():
@@ -43,6 +38,10 @@ def _mecanicos_pendientes():
     return pendientes()
 
 
+# Secciones cuyos pendientes ya cuenta «Por aprobar»: no se suman dos veces al total
+AGRUPADAS = {"usuarios", "talleres", "mecanicos", "proveedores"}
+
+
 @dataclass
 class Seccion:
     key: str
@@ -65,6 +64,8 @@ class Seccion:
 
 SECCIONES = [
     Seccion("resumen", "Resumen", "tablero", descripcion="KPI, actividad reciente y lo que requiere atención."),
+    Seccion("aprobaciones", "Por aprobar", "check", "consola.vistas.aprobaciones.seccion", 
+            descripcion="Mecánicos, talleres, proveedores y domiciliarios que esperan una decisión, la más antigua primero."),
     Seccion("usuarios", "Usuarios", "personas", "consola.vistas.usuarios.seccion", badge=_domiciliarios_pendientes,
             descripcion="Cuentas y domiciliarios (TallerYa Ruta): las verificaciones por revisar se aprueban desde la ficha."),
     Seccion("talleres", "Talleres", "taller", "consola.vistas.talleres.seccion", badge=_talleres_pendientes,
@@ -75,7 +76,7 @@ SECCIONES = [
             descripcion="Grúas, CDA, SOAT y demás proveedores de servicios: alta asistida, inscripciones y verificación."),
     Seccion("citas", "Citas y servicios", "calendario", "consola.vistas.citas.seccion", badge=_citas_pendientes,
             descripcion="Citas pedidas a los talleres y servicios registrados en la hoja de vida."),
-    Seccion("plus", "Pagos y Plus", "estrella", badge=_plus_solicitadas,
+    Seccion("plus", "Pagos y Plus", "estrella",  # sin vista ni insignia: las solicitudes Plus se resuelven en el admin técnico
             descripcion="Solicitudes de TallerYa Plus por Nequi/transferencia: activar, renovar, cancelar."),
     Seccion("cupones", "Cupones", "cupon", "consola.vistas.cupones.seccion", descripcion="Cupones de los talleres, códigos entregados y canjes."),
     Seccion("moderacion", "Moderación", "bandera", "consola.vistas.moderacion.seccion", badge=_reportes_foro,
@@ -96,4 +97,6 @@ PREDETERMINADA = "usuarios"
 def con_pendientes():
     """[(seccion, pendientes)] y el total. Cada badge cuesta una consulta COUNT."""
     filas = [(s, (s.badge() if s.badge else 0)) for s in SECCIONES]
-    return filas, sum(n for _, n in filas)
+    por_aprobar = sum(n for s, n in filas if s.key in AGRUPADAS)  # la bandeja suma las cuatro, sin consultas nuevas
+    filas = [(s, por_aprobar if s.key == "aprobaciones" else n) for s, n in filas]
+    return filas, sum(n for s, n in filas if s.key not in AGRUPADAS)

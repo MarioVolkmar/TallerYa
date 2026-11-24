@@ -1,11 +1,14 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Soy proveedor: inscribe tu negocio · TallerYa{% endblock %}
 {% block content %}
-<section class="papel max-w-2xl mx-auto mt-8 md:mt-12 p-5 md:p-8">
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/cuentas.css' %}">
+<section class="papel max-w-2xl mx-auto mt-6 md:mt-12 p-5 md:p-8">
   <p class="etiqueta">Para proveedores</p>
   <h1 class="titulo text-3xl md:text-4xl mt-1">Inscribe tu negocio <span class="text-lava">gratis</span></h1>
-  <p class="text-suave mt-2">Grúas, CDA, puntos de SOAT y otros servicios para motos en el Valle de Aburrá. Pocos datos, desde tu celular y sin cuenta: revisamos tu ficha y te avisamos por WhatsApp antes de publicarla.</p>
-  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-6">
+  <p class="text-suave mt-2 rt-corto">Sin cuenta: revisamos tu ficha y te avisamos por WhatsApp.</p>
+  <p class="text-suave mt-2 rt-lead">Grúas, CDA, puntos de SOAT y otros servicios para motos en el Valle de Aburrá. Pocos datos, desde tu celular y sin cuenta: revisamos tu ficha y te avisamos por WhatsApp antes de publicarla.</p>
+  <form method="post" enctype="multipart/form-data" class="grid grid-cols-1 gap-5 sm:grid-cols-2 mt-4 md:mt-6">
     {% csrf_token %}
     {% include "proveedores/_campos.html" %}
     <button class="btn btn-lava sm:col-span-2 py-3.5 text-sm">Enviar mi negocio</button>

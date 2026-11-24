@@ -1,0 +1,29 @@
+{% load consola %}
+<header class="cs-cabeza">
+  <h1 class="cs-h1" id="cs-titulo">Por aprobar</h1>
+  <p class="cs-sub">{{ total_bandeja }} solicitud{{ total_bandeja|pluralize:"es" }} esperando{% if total_bandeja %} · la más antigua primero{% endif %}</p>
+</header>
+<nav class="cs-pestanas" aria-label="Tipo de solicitud">
+  <a href="?seccion=aprobaciones" class="cs-pestana"{% if not tipo %} aria-current="page"{% endif %}>Todas <span class="cs-id">{{ total_bandeja }}</span></a>
+  {% for clave, nombre, n in pestanas %}<a href="?seccion=aprobaciones&amp;tipo={{ clave }}" class="cs-pestana"{% if tipo == clave %} aria-current="page"{% endif %}>{{ nombre }} <span class="cs-id">{{ n }}</span></a>{% endfor %}
+</nav>
+{% if items %}
+<div class="cs-tabla-caja"><table class="cs-tabla cs-tabla-tarjetas">
+  <caption class="sr-only">Solicitudes por aprobar</caption>
+  <thead><tr><th scope="col">Solicitante y decisión</th><th scope="col">Esperando</th></tr></thead>
+  <tbody>
+  {% for i in items %}
+  <tr>
+    <td><span class="cs-estado cs-pend">{{ etiquetas|get_item:i.tipo }}</span>
+      <a href="{{ i.ver }}" class="cs-cuenta-nombre">{{ i.nombre }}</a> <span class="cs-id">#{{ i.pk }}</span>
+      <span class="cs-cuenta-correo">{{ i.detalle }}</span>
+      {% if i.nota %}<span class="cs-cuenta-correo">{{ i.nota }}</span>{% endif %}
+      <div class="cs-decidir">
+      <a class="cs-btn cs-btn-chico cs-btn-ok" href="{{ i.ver }}">Revisar y aprobar</a>
+      {% include "consola/_boton_accion.html" with url=i.rechazar texto="Rechazar" motivo="Rechazar a "|add:i.nombre %}
+      </div></td>
+    <td>{% if i.dias >= 2 %}<strong>{{ i.creado|timesince }}</strong>{% else %}{{ i.creado|timesince }}{% endif %}<span class="cs-cuenta-correo">{{ i.creado|date:"j M, H:i" }}</span></td>
+  </tr>
+  {% endfor %}
+  </tbody></table></div>
+{% else %}<p class="cs-vacio">No hay solicitudes por aprobar.</p>{% endif %}

@@ -143,6 +143,24 @@ select.campo {
   background-repeat: no-repeat;
   background-position: right .9rem center;
   padding-right: 2.2rem;
+  min-height: 2.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+select.campo:hover:not(:disabled) { border-color: #4a5559; }
+select.campo:focus { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 7l5-5 5 5' fill='none' stroke='%23f2611d' stroke-width='2'/%3E%3C/svg%3E"); }
+select.campo:disabled, .campo:disabled { opacity: .5; cursor: not-allowed; }
+select.campo option { background: var(--carbon-2); color: var(--crema); }
+select.campo.campo-invalido, select.campo[aria-invalid="true"] { border-color: var(--vencido); box-shadow: 0 0 0 3px rgba(255, 90, 60, .18); }
+/* Selects sueltos (sin .campo): mismo aspecto que el resto */
+select.et3d-sel, select.diag-combo-respaldo {
+  appearance: none; -webkit-appearance: none; min-height: 2.75rem; padding: .5rem 2.2rem .5rem .85rem; border-radius: 12px; cursor: pointer;
+  background-color: var(--carbon-2); border: 1px solid var(--borde); color: var(--crema);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23e3a72f' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right .9rem center;
 }
 .campo-label { font-size: .85rem; font-weight: 600; color: var(--crema-2); display: block; }
 input[type="checkbox"] { accent-color: var(--lava); width: 1rem; height: 1rem; }
@@ -3721,6 +3739,8 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 .vd-confirmada, .vd-atendida { background: rgba(134, 219, 166, .12); color: #86dba6; }
 .vd-botones { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .3rem; }
 .vd-form { display: contents; }
+.pt-caja .vd-lista { margin: 0; }
+.pt-caja .vd-item { background: rgba(0, 0, 0, .18); border-radius: 14px; }
 .vd-vacio { padding: 1.2rem; margin-top: 1.2rem; color: var(--crema-2); }
 
 /* Paneles de aliados (taller y mecánico a domicilio): cabecera, accesos, «Por hacer», precios y cifras */
@@ -3728,6 +3748,7 @@ button.perfil-franja-foto:hover img, button.perfil-franja-foto:hover video { tra
 .pt-estado { margin-top: .35rem; font-size: .85rem; color: #9ba2a4; }
 .pt-ok { display: inline-flex; align-items: center; gap: .3rem; color: #86dba6; font-weight: 600; }
 .pt-revision { color: var(--mostaza); font-weight: 600; }
+.pt-revision.pt-rechazado { color: #ff8a70; }
 .pt-completo-fila { display: flex; justify-content: space-between; font-size: .78rem; color: #9ba2a4; }
 .pt-barra { height: 7px; border-radius: 999px; background: #2b3437; overflow: hidden; }
 .pt-faltan { font-size: .74rem; color: #8d9496; line-height: 1.4; }
@@ -3828,3 +3849,66 @@ a.pt-cifra:hover { border-color: color-mix(in srgb, var(--c) 50%, transparent); 
 .cf-ticket-qr { width: 3.6rem; height: 3.6rem; flex-shrink: 0; padding: .2rem; border-radius: 8px; background: #fff; }
 .cf-ticket-qr svg { display: block; width: 100%; height: 100%; }
 .cf-ticket-nota { margin-top: .7rem; font-size: .7rem; color: #8d9496; }
+
+/* Filas de configuración del panel del mecánico (precios, descuentos) */
+.pt-fila { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .6rem .9rem; margin-top: .6rem; padding: .8rem; border-radius: 12px; background: #1c2326; border: 1px solid var(--borde); }
+.pt-fila.falta { border-color: rgba(242, 97, 29, .45); }
+.pt-fila-ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(63, 191, 107, .14); color: #86dba6; }
+.pt-fila.falta .pt-fila-ico { background: rgba(242, 97, 29, .14); color: var(--lava-2); }
+.pt-fila-titulo { font-size: 1rem; font-weight: 700; color: var(--crema); }
+.pt-fila-estado { font-size: .85rem; text-transform: none; color: #86dba6; }
+.pt-fila.falta .pt-fila-estado { color: var(--lava-2); }
+.pt-fila-acciones { display: flex; flex-direction: column; align-items: stretch; gap: .1rem; text-align: center; }
+.pt-fila-principal { display: grid; place-items: center; min-height: 44px; padding: 0 1.1rem; border-radius: 999px; background: var(--mostaza); color: #1a1204; font-size: .85rem; font-weight: 700; }
+.pt-fila-principal.suave { background: transparent; border: 1px solid var(--borde); color: var(--crema); }
+.pt-fila-principal:hover { filter: brightness(1.1); }
+.pt-fila-enlace { display: grid; place-items: center; min-height: 44px; font-size: .82rem; color: var(--crema); text-decoration: underline; }
+@media (max-width: 640px) { .pt-fila { grid-template-columns: auto 1fr; } .pt-fila-acciones { grid-column: 1 / -1; } }
+.pt-fila-estado::first-letter { text-transform: uppercase; }
+
+/* Tarjeta para activar los avisos push (se muestra solo cuando hace falta) */
+.push-tarjeta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin:16px 0}
+.push-tarjeta[hidden]{display:none}
+.push-tarjeta-icono{flex:none;color:#f2a33a}
+.push-tarjeta-texto{flex:1 1 14rem;min-width:0;display:flex;flex-direction:column;font-size:.88rem;line-height:1.35}
+.push-tarjeta-texto span{color:#b9b3a3}
+.push-tarjeta-acciones{display:flex;align-items:center;gap:6px}
+.push-tarjeta-boton{min-height:44px;padding:0 18px;font-size:.85rem}
+.push-tarjeta-no{min-height:44px;padding:0 12px;background:transparent;border:0;color:#b9b3a3;font-size:.82rem;text-decoration:underline}
+@media (max-width:480px){.push-tarjeta-acciones{width:100%}.push-tarjeta-boton{flex:1}}
+
+/* Móvil: toques de 44 px (revisión celular 375/360). Botones y chips crecen; los enlaces de texto en línea amplían
+   su zona de toque con ::after (sin mover el diseño). */
+@media (max-width: 640px) {
+  .volver, .boton-seccion, .moto-acceso, .vd-filtro, .lt-filtros a, .seguridad-accion, .seguridad-estado,
+  .aviso-correo-boton, .doc-abrir, .ib-emergencia, .ticket-taller, .pt-boton, .rb-btn, .instalar-boton { min-height: 44px; }
+  .volver, .lt-filtros a, .seguridad-estado, .aviso-correo-boton, .doc-abrir, .pt-boton, .rb-btn, .instalar-boton { display: inline-flex; align-items: center; justify-content: center; }
+  .lt-filtros a { padding-block: .5rem; }
+  .filtro-chico, select.campo { min-height: 44px; }
+  .pt-wa, .tc-fav, .tc-wa, .rc-ver, .hz-dia { min-width: 44px; min-height: 44px; width: 44px; height: 44px; }
+  .hz-dias { flex-wrap: wrap; }
+  .instalar-cerrar { min-width: 44px; min-height: 44px; }
+  .lr-reparto a { min-height: 44px; }
+  header.sticky > div > a:first-child { min-height: 44px; }
+  .pt-enlace, .pt-domicilio-zonas, .perfil-nota, .boton-texto, .insignia-dom, .dm-link, .dom-cta-mecanico { position: relative; }
+  .pt-enlace::after, .pt-domicilio-zonas::after, .perfil-nota::after, .boton-texto::after, .insignia-dom::after,
+  .dm-link::after, .dom-cta-mecanico::after { content: ""; position: absolute; inset: -.6rem -.3rem; }
+}
+@media (max-width: 640px) {
+  .btn, .visor-modo button, .visor-boton, .ib-rapidos a, .paginar-boton, .rc-tipo a, button.perfil-chip, .tr-cc input { min-height: 44px; }
+  .perfil-chip { display: inline-flex; align-items: center; line-height: 1.25; }
+  .pt-responder summary, .mc-anteriores summary { padding-block: .7rem; }
+  .doc-agendar, .hv-notas, .tr-cda-datos a { position: relative; }
+  .doc-agendar::after, .hv-notas::after, .tr-cda-datos a::after { content: ""; position: absolute; inset: -.6rem -.3rem; }
+}
+@media (max-width: 640px) {
+  .inicio-ver-todos, .hz-hora { min-height: 44px; }
+  .hz-agregar { min-height: 44px; display: inline-flex; align-items: center; }
+}
+/* Ficha pública (taller y mecánico): el hero reusa .portada-garaje, que en celular deja 93 vw de alto para la escena de la
+   portada; aquí no hay escena, así que el hueco sobra. El contenido sube solo lo justo (-mt en las plantillas). */
+.perfil-hero.portada-garaje > .contenido { padding-bottom: 3rem; }
+@media (min-width: 768px) { .perfil-hero.portada-garaje > .contenido { padding-bottom: 4rem; } }
+.perfil-chip { display: inline-flex; align-items: center; line-height: 1.25; }
+/* Páginas con hero que sube el contenido (-mt): si antes hay un aviso o mensaje, el contenido ya no se monta encima */
+main > .aviso-correo ~ div.relative.z-10, main > .mensaje ~ div.relative.z-10 { margin-top: 1.5rem; }

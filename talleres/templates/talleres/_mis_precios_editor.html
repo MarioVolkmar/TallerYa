@@ -10,7 +10,8 @@
     </section>
     {% endfor %}
   </div>
-  <p class="mp-vacio" data-vacio{% if grupos %} hidden{% endif %}>Aún no tienes precios. Agrega tu primer servicio.</p>
+  <p class="mp-vacio" data-vacio{% if grupos %} hidden{% endif %}>Aún no tienes precios. Toca un servicio común para empezar.</p>
+  <div class="mp-rapidos" data-rapidos hidden><span class="mp-rapidos-t">Agrega con un toque</span><div class="mp-rapidos-lista" data-rapidos-lista></div></div>
   {% if servicios %}
   <label class="mp-agregar"><span class="sr-only">Agregar servicio</span>
     <select data-nuevo-servicio class="campo"><option value="">+ Agregar servicio</option>{% for s in servicios %}<option value="{{ s.pk }}">{{ s.nombre }}</option>{% endfor %}</select>

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load avatares static seo %}
+{% load avatares static seo push %}
 {% block title %}{{ taller.nombre }} · Taller de motos en {{ taller.barrio.nombre }} · TallerYa{% endblock %}
 {% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc imagen=seo_img %}{% json_ld_taller taller %}{% endblock %}
 
@@ -40,7 +40,8 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'talleres/css/taller-funciones.css' %}">
-<div class="relative z-10 -mt-24 md:-mt-32 space-y-10">
+<div class="relative z-10 -mt-8 md:-mt-10 space-y-10">
+{% tarjeta_push "motero" una_vez=True %}
 
   <!-- Precios desde -->
   <section class="papel p-5 md:p-7 perfil-precios" id="precios" aria-labelledby="precios-titulo">
@@ -77,6 +78,19 @@
       <a href="{% url 'talleres:ir_whatsapp' taller.slug %}" target="_blank" rel="noopener nofollow" class="btn btn-whatsapp text-sm px-6 py-3 mt-3">Cotizar por WhatsApp</a>
     </div>
     {% endif %}
+  </section>
+
+  <!-- Ubicación -->
+  <section>
+    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.ubicacion }}</span>Ubicación</h2>
+    <div class="separador mt-4 mb-6"></div>
+    <div class="papel p-6 md:p-8">
+      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 text-suave">
+        <p class="flex gap-2.5"><span aria-hidden="true">📍</span><span>{{ taller.direccion }}, {{ taller.barrio }}</span></p>
+        {% if taller.horario %}<p class="flex gap-2.5"><span aria-hidden="true">🕒</span><span>{{ taller.horario }}</span></p>{% endif %}
+      </div>
+      {% include "parciales/mapa_taller.html" %}
+    </div>
   </section>
 
   {% if fotos or taller.foto %}
@@ -186,18 +200,6 @@
     </div>
   </section>
 
-  <!-- Ubicación -->
-  <section>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numeros.ubicacion }}</span>Ubicación</h2>
-    <div class="separador mt-4 mb-6"></div>
-    <div class="papel p-6 md:p-8">
-      <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 text-suave">
-        <p class="flex gap-2.5"><span aria-hidden="true">📍</span><span>{{ taller.direccion }}, {{ taller.barrio }}</span></p>
-        {% if taller.horario %}<p class="flex gap-2.5"><span aria-hidden="true">🕒</span><span>{{ taller.horario }}</span></p>{% endif %}
-      </div>
-      {% include "parciales/mapa_taller.html" %}
-    </div>
-  </section>
 </div>
 
 <!-- Ventana: pedir cita -->

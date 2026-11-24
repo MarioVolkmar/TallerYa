@@ -66,7 +66,7 @@ def _opciones(*pares):
 
 class FiltroTalleres(forms.Form):
     q = _texto("busqueda", "Buscar", requerido=False)
-    estado = _opciones(("", "Todos"), ("por_aprobar", "Por aprobar"), ("publicados", "Publicados"),
+    estado = _opciones(("", "Todos"), ("por_aprobar", "Por aprobar"), ("rechazados", "Rechazados"), ("publicados", "Publicados"),
                        ("verificados", "Verificados"))
 
 
@@ -89,3 +89,4 @@ class FiltroModeracion(forms.Form):
     tipo = _opciones(("reportes", "Reportes pendientes"), ("preguntas", "Preguntas del foro"),
                      ("respuestas", "Respuestas del foro"), ("resenas", "Reseñas de talleres"))
     estado = _opciones(("", "Visibles y ocultas"), ("visibles", "Visibles"), ("ocultas", "Ocultas"))
+    reporte = _opciones(("", "Sin revisar"), ("revisados", "Ya revisados"), ("todos", "Todos"))

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Verifica tu identidad · Mecánico a domicilio · TallerYa{% endblock %}
+{% block seo %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'talleres/css/secciones/talleres.css' %}">
+<link rel="stylesheet" href="{% static 'domicilio/css/domicilio.css' %}">
+<div class="pt mt-8 md:mt-10">
+  {% url 'domicilio:panel' as url_volver %}{% include "parciales/volver.html" with url=url_volver texto="Mi panel" %}
+  <section class="papel pt-caja di-caja">
+    <div>
+      <p class="etiqueta">Insignia «Verificado»</p>
+      <h1 class="titulo text-3xl mt-1">Verifica tu identidad</h1>
+    </div>
+
+    {% if estado == "aprobada" %}
+    <p class="di-estado di-ok" role="status"><strong>Identidad verificada.</strong> Tu perfil lleva la insignia «Verificado». Tus fotos ya se borraron.</p>
+    {% elif estado == "enviada" %}
+    <p class="di-estado di-espera" role="status"><strong>En revisión.</strong> Las enviaste el {{ ident.enviado|date:"j M" }}. Te avisamos en la campana apenas las revisemos.</p>
+    {% elif estado == "rechazada" %}
+    <p class="di-estado di-mal" role="status"><strong>No pudimos verificarte.</strong> Motivo: {{ ident.motivo }}. Corrige eso y envía las fotos otra vez.</p>
+    {% elif estado == "aprobada_heredada" %}
+    <p class="di-estado di-ok" role="status"><strong>Ya tienes la insignia.</strong> La conservas; si quieres respaldarla con la foto de tu cédula, envíala abajo.</p>
+    {% else %}
+    <p class="text-sm text-suave">Con la foto de tu cédula tu perfil gana la insignia «Verificado» y los clientes confían más. Solo la ve el equipo de TallerYa y se borra apenas la revisamos.</p>
+    {% endif %}
+
+    {% if form %}
+    <form method="post" enctype="multipart/form-data" class="di-form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}<p class="error">{{ form.non_field_errors|join:" " }}</p>{% endif %}
+      {% for campo in form %}{% if campo.name != "autorizo" %}
+      <label class="campo-label">{{ campo.label }}{{ campo }}{% for e in campo.errors %}<span class="error">{{ e }}</span>{% endfor %}</label>
+      {% endif %}{% endfor %}
+      <p class="text-xs text-suave">Fotos nítidas, con buena luz y con los 4 bordes de la cédula a la vista. Máximo 5 MB cada una.</p>
+      <label class="di-autorizo"><input type="checkbox" name="autorizo" {% if form.autorizo.value %}checked{% endif %}> <span>{{ form.autorizo.label }}</span></label>
+      {% for e in form.autorizo.errors %}<span class="error">{{ e }}</span>{% endfor %}
+      <button class="btn btn-lava di-enviar">Enviar para revisión</button>
+    </form>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}
