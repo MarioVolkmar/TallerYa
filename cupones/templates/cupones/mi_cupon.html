@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
+{% load static pleg %}
 {% block title %}Tu cupón {{ codigo.codigo }} · TallerYa{% endblock %}
 
 {% block content %}
@@ -102,8 +102,7 @@
     {% include "parciales/invita.html" %}
 
     {% if premios %}
-    <section class="papel p-6 md:p-7">
-      <h2 class="titulo text-xl"><span class="numero">★</span>Tus premios y regalos</h2>
+    {% pleg "cupon-premios" numero="★" titulo="Tus premios y regalos" dato=premios|length|cuenta:"premio,premios" clase="papel p-6 md:p-7" tam="text-xl" cerrada_movil=True %}
       <ul class="mt-3 divide-y divide-white/5">
         {% for p in premios %}
           <li class="py-3 flex items-center justify-between gap-3">
@@ -115,7 +114,7 @@
           </li>
         {% endfor %}
       </ul>
-    </section>
+    {% endpleg %}
     {% endif %}
   </aside>
 </div>

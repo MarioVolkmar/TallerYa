@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load humanize avatares static %}
+{% load humanize avatares static pleg %}
 {% block title %}Revisión técnico-mecánica · TallerYa{% endblock %}
 {% block content %}
 <div class="mt-10 max-w-3xl">
@@ -27,9 +27,9 @@
 </section>
 {% endif %}
 
-<div class="flex flex-wrap items-end justify-between gap-3 mt-10">
+{% pleg "tramite-cda" id="cda" numero="01" titulo="CDA" dato=cdas|length|cuenta:"centro,centros" clase="mt-10" %}
+<div class="flex flex-wrap items-end justify-between gap-3">
   <div>
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">01</span>CDA</h2>
     <p class="text-suave text-sm mt-1">{{ cdas|length }} centro{{ cdas|length|pluralize }}{% if municipio %} en {{ municipio }}{% else %} en el Valle de Aburrá{% endif %}</p>
   </div>
   <form method="get" class="tr-filtro">
@@ -89,9 +89,10 @@
   <p class="text-suave text-sm mt-2">Muy pronto verás aquí centros de revisión con precio para motos y beneficio por venir de TallerYa.{% if talleres %} Mientras tanto, estos talleres te ayudan con la revisión.{% endif %}</p>
 </div>
 {% endif %}
+{% endpleg %}
 
 {% if talleres %}
-<h2 class="titulo text-2xl md:text-3xl mt-12"><span class="numero">02</span>Talleres que te ayudan</h2>
+{% pleg "tramite-talleres" id="talleres-ayuda" numero="02" titulo="Talleres que te ayudan" dato=talleres|length|cuenta:"taller,talleres" clase="mt-12" cerrada_movil=True %}
 <p class="text-suave text-sm mt-1">Revisan la moto antes para que pase a la primera, o la llevan por ti.</p>
 <ul class="tr-talleres mt-5">
   {% for t in talleres %}
@@ -111,6 +112,7 @@
   </li>
   {% endfor %}
 </ul>
+{% endpleg %}
 {% endif %}
 
 {# Siguiente trámite: banda con acento a la izquierda (mismo estilo que en soat.html) #}

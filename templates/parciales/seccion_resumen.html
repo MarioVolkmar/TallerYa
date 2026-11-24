@@ -1,1 +1,1 @@
-<summary class="seccion-resumen"><h2 class="titulo text-2xl md:text-3xl"><span class="numero">{{ numero }}</span>{{ titulo }}</h2>{% if dato %}<span class="seccion-dato">{{ dato }}</span>{% endif %}<span class="seccion-chevron" aria-hidden="true"></span></summary>
+<summary class="seccion-resumen"><h2 class="titulo {{ tam|default:'text-2xl md:text-3xl' }}"><span class="numero">{{ numero }}</span>{{ titulo }}</h2>{% if dato %}<span class="seccion-dato">{{ dato }}</span>{% endif %}<span class="seccion-chevron" aria-hidden="true"></span></summary>

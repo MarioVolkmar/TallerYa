@@ -1,7 +1,6 @@
-{% load avatares %}{# Mi cuenta: citas con talleres. Variables: citas_proximas, citas_anteriores #}
-<section class="papel p-6 md:p-7" id="citas">
-  <div class="flex items-center justify-between gap-3">
-    <h2 class="titulo text-2xl"><span class="numero">01</span>Mis citas</h2>
+{% load avatares pleg %}{# Mi cuenta: citas con talleres. Variables: citas_proximas, citas_anteriores #}
+{% pleg "cuenta-citas" id="citas" numero="01" titulo="Mis citas" dato=citas_proximas|length|cuenta:"próxima,próximas" clase="papel p-6 md:p-7" tam="text-2xl" %}
+  <div class="flex items-center justify-end gap-3">
     <a href="{% url 'talleres:directorio' %}" class="boton-seccion">Agendar otra</a>
   </div>
   {% if citas_proximas %}
@@ -19,4 +18,4 @@
     </ul>
   </details>
   {% endif %}
-</section>
+{% endpleg %}

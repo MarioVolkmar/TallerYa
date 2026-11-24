@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load avatares %}
+{% load avatares pleg %}
 {% block title %}Administración · TallerYa{% endblock %}
 {% block content %}
 <div class="flex flex-wrap items-end justify-between gap-4 mt-10">
@@ -20,9 +20,7 @@
   {% endfor %}
 </div>
 
-<section class="mt-10">
-  <h2 class="titulo text-2xl md:text-3xl"><span class="numero">01</span>Talleres por aprobar</h2>
-  <div class="separador mt-4 mb-6"></div>
+{% pleg "admin-aprobar" numero="01" titulo="Talleres por aprobar" dato=pendientes|length|cuenta:"pendiente,pendientes" clase="mt-10" %}
   {% if pendientes %}
   <div class="papel overflow-hidden">
     {% for t in pendientes %}
@@ -41,11 +39,10 @@
   {% else %}
   <p class="text-suave">No hay talleres esperando aprobación.</p>
   {% endif %}
-</section>
+{% endpleg %}
 
-<section class="mt-10">
+{% pleg "admin-usuarios" numero="02" titulo="Usuarios" dato=filas|length|cuenta:"usuario,usuarios" clase="mt-10" %}
   <div class="flex flex-wrap items-end justify-between gap-3">
-    <h2 class="titulo text-2xl md:text-3xl"><span class="numero">02</span>Usuarios</h2>
     <form method="get" class="flex flex-wrap gap-2 items-center">
       <div class="buscador">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -58,8 +55,7 @@
       <button class="btn btn-borde text-xs px-4 py-2.5">Buscar</button>
     </form>
   </div>
-  <div class="separador mt-4 mb-6"></div>
-  <div class="papel overflow-hidden">
+  <div class="papel overflow-hidden mt-4">
     {% for u, r, nombre_rol in filas %}
     <div class="admin-fila">
       <div class="min-w-0 flex items-center gap-3">
@@ -75,5 +71,5 @@
     <p class="p-5 text-suave">No hay usuarios con esos filtros.</p>
     {% endfor %}
   </div>
-</section>
+{% endpleg %}
 {% endblock %}

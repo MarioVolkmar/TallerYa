@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load avatares humanize logros foro_extras %}
+{% load pleg avatares humanize logros foro_extras %}
 {% block title %}Mi cuenta · TallerYa{% endblock %}
 {% block content %}
 <div class="flex flex-wrap items-end justify-between gap-4 mt-10">
@@ -54,9 +54,8 @@
 <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 mt-8">
   <div class="lg:col-span-2 space-y-6">
     {% if moto %}
-    <section class="papel p-6 md:p-7">
-      <div class="flex items-center justify-between gap-2">
-        <h2 class="titulo text-xl sm:text-2xl whitespace-nowrap"><span class="numero">00</span>Mi garaje</h2>
+    {% pleg "cuenta-garaje" numero="00" titulo="Mi garaje" dato=motos|length|cuenta:"moto,motos" clase="papel p-6 md:p-7" tam="text-xl sm:text-2xl" %}
+      <div class="flex items-center justify-end gap-2">
         <div class="flex flex-nowrap items-center gap-2">
           {% if motos %}<button type="button" class="boton-seccion boton-editar" data-editar="cuenta-motos" aria-pressed="false" aria-label="Editar motos" title="Editar"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg><span class="solo-ancho">Editar</span></button>{% endif %}
           <a href="{% url 'garaje:agregar' %}" class="boton-seccion"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar<span class="solo-ancho">&nbsp;moto</span></a>
@@ -86,13 +85,12 @@
         <p class="text-suave text-sm mt-3">Agrega tu moto y te avisamos cuándo le toca aceite, cadena, frenos y más.</p>
         <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-5 py-2.5 mt-4">Agregar mi moto</a>
       {% endif %}
-    </section>
+    {% endpleg %}
 
     {% include "cuentas/_mis_citas.html" %}
 
-    <section class="papel p-6 md:p-7">
-      <div class="flex items-center justify-between gap-3">
-        <h2 class="titulo text-2xl"><span class="numero">02</span>Mis cupones</h2>
+    {% pleg "cuenta-cupones" numero="02" titulo="Mis cupones" dato=disponibles|length|cuenta:"disponible,disponibles" clase="papel p-6 md:p-7" tam="text-2xl" cerrada_movil=True %}
+      <div class="flex items-center justify-end gap-3">
         <a href="{% url 'cupones:lista' %}" class="boton-seccion">Ver cupones<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       {% if disponibles or usados %}
@@ -126,7 +124,7 @@
       {% else %}
         <p class="text-suave text-sm mt-3">No tienes cupones disponibles.</p>
       {% endif %}
-    </section>
+    {% endpleg %}
 
     <section class="papel p-6 md:p-7" data-instalar-app hidden>
       <h2 class="titulo text-2xl">Instalar app</h2>
@@ -134,16 +132,14 @@
       <a href="#" class="btn btn-borde text-xs px-4 py-2 mt-3 inline-block">Instalar TallerYa</a>
     </section>
 
-    <section class="papel p-6 md:p-7">
-      <h2 class="titulo text-2xl"><span class="numero">03</span>Mis insignias</h2>
+    {% pleg "cuenta-insignias" numero="03" titulo="Mis insignias" clase="papel p-6 md:p-7" tam="text-2xl" cerrada_movil=True %}
       <div class="mt-4">{% insignias request.user enlace=True %}</div>
-    </section>
+    {% endpleg %}
     {% endif %}
 
 {% if foro_activo %}
-    <section class="papel p-6 md:p-7">
-      <div class="flex items-center justify-between gap-3">
-        <h2 class="titulo text-2xl"><span class="numero">04</span>Mis preguntas</h2>
+    {% pleg "cuenta-preguntas" numero="04" titulo="Mis preguntas" dato=preguntas|length|cuenta:"pregunta,preguntas" clase="papel p-6 md:p-7" tam="text-2xl" cerrada_movil=True %}
+      <div class="flex items-center justify-end gap-3">
         <a href="{% url 'foro:preguntar' %}" class="boton-seccion"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Hacer una pregunta</a>
       </div>
       {% if preguntas %}
@@ -188,13 +184,13 @@
       {% else %}
         <div class="vacio-izq mt-3">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-foro" %}<p class="text-suave text-sm">Aún no has preguntado nada en el foro. Ahí hay moteros que ya pasaron por lo mismo.</p></div>
       {% endif %}
-    </section>
+    {% endpleg %}
 {% endif %}
 
     {% if moto %}
     <!-- Mi actividad con talleres: tu relación con cada taller (lo que hiciste tú queda en la bitácora de cada moto) -->
-    <section class="papel p-6 md:p-7 scroll-mt-24" id="actividad">
-      <h2 class="titulo text-2xl"><span class="numero">{% if foro_activo %}05{% else %}04{% endif %}</span>Mi actividad con talleres</h2>
+    {% if foro_activo %}{% firstof "05" as num_act %}{% else %}{% firstof "04" as num_act %}{% endif %}
+    {% pleg "cuenta-actividad" id="actividad" numero=num_act titulo="Mi actividad con talleres" dato=actividad.talleres|length|cuenta:"taller,talleres" clase="papel p-6 md:p-7 scroll-mt-24" tam="text-2xl" cerrada_movil=True %}
       {% with a=actividad %}
       {% if a.talleres %}
       <ul class="actividad-resumen" aria-label="Resumen">
@@ -318,7 +314,7 @@
       <p class="text-suave text-sm mt-3">Aquí verás los talleres donde has hecho mantenimientos, usado cupones o pedido citas. Lo que hagas tú mismo queda en la bitácora de cada moto.</p>
       {% endif %}
       {% endwith %}
-    </section>
+    {% endpleg %}
     {% endif %}
   </div>
 
