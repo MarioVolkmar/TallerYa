@@ -1,0 +1,22 @@
+{# Camino del motero (talleres/ciclo.py): pasos del pedido y el siguiente botón. Variable: ciclo. Opcional: sin_boton=True #}
+{% if ciclo and not ciclo.cancelada %}
+<div class="ciclo" aria-label="En qué va tu {% if ciclo.es_taller %}cita{% else %}visita{% endif %}">
+  <ol class="ciclo-pasos">
+    {% for p in ciclo.pasos %}
+    <li class="ciclo-paso{% if p.hecho %} hecho{% elif p.actual %} actual{% endif %}"{% if p.actual %} aria-current="step"{% endif %}>
+      <span class="ciclo-punto" aria-hidden="true">{% if p.hecho %}✓{% else %}{{ forloop.counter }}{% endif %}</span>
+      <span class="ciclo-texto"><strong>{{ p.titulo }}</strong>{% if p.actual and p.detalle %}<small>{{ p.detalle }}</small>{% endif %}</span>
+    </li>
+    {% endfor %}
+  </ol>
+  {% if ciclo.siguiente or ciclo.url_hoja %}
+  <div class="ciclo-siguiente">
+    {% if ciclo.siguiente.nota %}<p>{{ ciclo.siguiente.nota }}</p>{% endif %}
+    <div class="ciclo-botones">
+      {% if ciclo.siguiente.url and not sin_boton %}<a href="{{ ciclo.siguiente.url }}" class="btn btn-lava text-xs px-5 py-2.5">{{ ciclo.siguiente.texto }}</a>{% endif %}
+      {% if ciclo.url_hoja %}<a href="{{ ciclo.url_hoja }}" class="btn btn-borde text-xs px-5 py-2.5">Ver mi hoja de vida</a>{% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endif %}

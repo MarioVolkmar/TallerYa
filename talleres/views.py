@@ -326,7 +326,8 @@ def detalle(request, slug):
         inicial_cita["servicio"] = request.GET["servicio"]
     cita_form = SolicitudCitaForm(taller=taller, initial=inicial_cita)
     resena_form = ResenaForm(initial={"nombre": request.user.first_name} if request.user.is_authenticated else None)
-    abrir = "resena" if request.GET.get("calificar") else ""  # desde el aviso "califica al taller"
+    # desde el aviso "califica al taller" o el recordatorio de mantenimiento del taller (?agendar=1)
+    abrir = "resena" if request.GET.get("calificar") else "cita" if request.GET.get("agendar") else ""
 
     if request.method == "POST":
         accion = request.POST.get("accion")
@@ -628,6 +629,8 @@ def panel(request):
     if not (taller.latitud and taller.ubicacion_exacta):
         tareas.insert(len(tareas) - bool(sin_responder), negocio.tarea("Confirma la ubicación exacta de tu taller",
                                                                      reverse("talleres:editar_perfil") + "#ubicacion", "Confirmar"))
+    from .herramientas import tareas_panel
+    tareas[:0] = tareas_panel(taller)  # «Mi día»: motos listas para entregar y en el taller
     return render(request, "talleres/panel.html", {
         "taller": taller,
         # «Por hacer» (talleres/_por_hacer.html, igual que el del mecánico)
@@ -672,6 +675,7 @@ def panel(request):
 @login_required
 @require_POST
 def cambiar_estado_cita(request, pk):
+    from .ciclo import url_calificar, url_pedido
     taller = _taller_de(request)
     cita = get_object_or_404(SolicitudCita, pk=pk, taller=taller)
     estado = request.POST.get("estado")
@@ -681,7 +685,7 @@ def cambiar_estado_cita(request, pk):
         cita.save(update_fields=["estado", "motivo_cancelacion"])
         canales = _avisar_motero(
             cita, f"cita-cancelada:{cita.pk}", f"{taller.nombre} canceló tu cita",
-            cita.motivo_cancelacion or f"Tu cita del {cita.fecha_preferida:%d/%m} fue cancelada.", taller.get_absolute_url(),
+            cita.motivo_cancelacion or f"Tu cita del {cita.fecha_preferida:%d/%m} fue cancelada.", url_pedido(cita),
             settings.WHATSAPP_PLANTILLA_CANCELAR,
             [cita.nombre, taller.nombre, cita.fecha_preferida.strftime("%d/%m"), cita.motivo_cancelacion or "sin motivo"])
         messages.success(request, f"Cancelaste la cita de {cita.nombre}." + (f" Le avisamos por {' y '.join(canales)}." if canales else ""))
@@ -691,12 +695,16 @@ def cambiar_estado_cita(request, pk):
         cuando = f"{cita.fecha_preferida:%d/%m}" + (f" a las {_hora_texto(cita.hora)}" if cita.hora else "")
         canales = _avisar_motero(
             cita, f"cita-confirmada:{cita.pk}:{cita.fecha_preferida}", f"{taller.nombre} confirmó tu cita",
-            f"Te esperan el {cuando}.", taller.get_absolute_url(),
+            f"Te esperan el {cuando}.", url_pedido(cita),
             settings.WHATSAPP_PLANTILLA_CONFIRMAR, [cita.nombre, taller.nombre, cuando])
         messages.success(request, f"Confirmaste la cita de {cita.nombre}." + (f" Le avisamos por {' y '.join(canales)}." if canales else ""))
     elif estado in SolicitudCita.Estado.values:
         cita.estado = estado
         cita.save(update_fields=["estado"])
+        if estado == SolicitudCita.Estado.ATENDIDA and not cita.servicios_hechos.exists():
+            # Sin servicio registrado no llega el aviso con «Califica»: se pide la reseña aquí (una vez)
+            _avisar_motero(cita, f"cita-atendida:{cita.pk}", f"¿Cómo te fue en {taller.nombre}?",
+                           "Tu reseña ayuda a otros moteros a elegir taller.", url_calificar(cita), "", [])
         messages.success(request, f"Cita de {cita.nombre}: {cita.get_estado_display().lower()}.")
     return redirect(_volver(request, reverse("talleres:panel") + "#citas"))
 
@@ -822,7 +830,7 @@ def _avisar_motero(cita, clave, titulo, texto, url, plantilla, parametros):
     if usuario:
         _avisar(usuario, clave, titulo, texto, url)
         canales.append("TallerYa")
-    if enviar_plantilla(numero, plantilla, parametros):
+    if plantilla and enviar_plantilla(numero, plantilla, parametros):  # sin plantilla: solo el aviso en TallerYa
         canales.append("WhatsApp")
     return canales
 
@@ -862,7 +870,7 @@ def reprogramar_cita(request, pk):
     enlace = request.build_absolute_uri(reverse("talleres:cita_publica", args=[cita.token]))
     canales = _avisar_motero(
         cita, f"cita-reprogramada:{cita.pk}:{cita.fecha_propuesta}:{cita.hora_propuesta}",
-        f"{taller.nombre} te propone otra fecha", f"Para tu cita: {fecha:%d/%m} · {_hora_texto(hora)}. Acéptala o recházala.",
+        f"{taller.nombre} te propone otra fecha", f"Para tu cita: {fecha:%d/%m} · {_hora_texto(hora)} · Acéptala o recházala.",
         reverse("talleres:cita_publica", args=[cita.token]),
         settings.WHATSAPP_PLANTILLA_REPROGRAMAR, [cita.nombre, taller.nombre, fecha.strftime("%d/%m"), _hora_texto(hora), enlace])
     via = f" por {' y '.join(canales)}" if canales else ""
@@ -917,7 +925,7 @@ def cotizar_cita(request, pk):
     enlace = request.build_absolute_uri(reverse("talleres:cita_publica", args=[cita.token]))
     canales = _avisar_motero(
         cita, f"cita-cotizada:{cita.pk}:{desde}:{hasta}:{fecha}:{hora}", f"{taller.nombre} te cotizó",
-        f"{precio} · {fecha:%d/%m} · {_hora_texto(hora)}. Acéptala o recházala.",
+        f"{precio} · {fecha:%d/%m} · {_hora_texto(hora)} · Acéptala o recházala.",
         reverse("talleres:cita_publica", args=[cita.token]),
         getattr(settings, "WHATSAPP_PLANTILLA_COTIZACION", "cita_cotizada"),
         [cita.nombre, taller.nombre, precio, fecha.strftime("%d/%m"), _hora_texto(hora), enlace])
@@ -956,7 +964,11 @@ def cita_publica(request, token):
     if cotizada:
         desde, hasta = cita.cotizacion_desde, cita.cotizacion_hasta
         precio = _pesos(hasta) if desde == hasta else f"{_pesos(desde)} – {_pesos(hasta)}"
+    from .ciclo import estado as estado_ciclo
+    usuario = request.user if request.user.is_authenticated else None
     return render(request, "talleres/cita_publica.html", {"cita": cita, "pendiente": pendiente, "precio": precio,
+                                                          "ciclo": estado_ciclo(cita, usuario),
+                                                          "es_suya": bool(usuario and cita.usuario_id == usuario.pk),
                                                           "hora_propuesta": _hora_texto(cita.hora_propuesta),
                                                           "hora": _hora_texto(cita.hora)})
 

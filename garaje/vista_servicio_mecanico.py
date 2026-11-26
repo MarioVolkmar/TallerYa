@@ -88,7 +88,8 @@ def servicio_visita(request, pk):
     moto = next((m for m in motos if str(m.pk) == elegida), None)
     if not moto:
         texto = solicitud.moto.lower()
-        moto = next((m for m in motos if m.linea and m.linea.nombre.lower() in texto), motos[0])
+        moto = (next((m for m in motos if texto in (m.nombre_completo.lower(), str(m).lower())), None)  # el formulario guarda nombre_completo
+                or next((m for m in motos if m.linea and m.linea.nombre.lower() in texto), motos[0]))
     return _formulario(request, mecanico, moto, ServicioTaller.Origen.VISITA, solicitud=solicitud, motos=motos)
 
 

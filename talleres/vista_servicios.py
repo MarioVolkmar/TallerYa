@@ -84,7 +84,8 @@ def servicio_cita(request, pk):
     moto = next((m for m in motos if str(m.pk) == elegida), None)
     if not moto:  # la que escribió en la cita (p. ej. "Yamaha NMAX") o la más reciente
         texto = cita.moto.lower()
-        moto = next((m for m in motos if (m.linea and m.linea.nombre.lower() in texto)), motos[0])
+        moto = (next((m for m in motos if texto in (m.nombre_completo.lower(), str(m).lower())), None)  # la cita guarda nombre_completo
+                or next((m for m in motos if (m.linea and m.linea.nombre.lower() in texto)), motos[0]))
     from garaje.models import ServicioTaller
     return _formulario(request, taller, moto, ServicioTaller.Origen.CITA, cita=cita, motos=motos)
 

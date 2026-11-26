@@ -3901,3 +3901,32 @@ main > .aviso-correo ~ div.relative.z-10, main > .mensaje ~ div.relative.z-10 { 
 .seccion-acciones { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
 @media (max-width: 480px) { .seccion-dato { max-width: 8.5rem; white-space: normal; text-align: right; line-height: 1.2; } }
 @media (prefers-reduced-motion: reduce) { .seccion-chevron { transition: none; } }
+
+/* Camino del motero (templates/parciales/ciclo.html): pasos de la cita o visita y el siguiente botón */
+.ciclo { display: grid; gap: .9rem; }
+.ciclo-pasos { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .35rem; list-style: none; margin: 0; padding: 0; counter-reset: paso; }
+.ciclo-paso { position: relative; display: grid; justify-items: center; gap: .35rem; text-align: center; color: var(--crema-2); font-size: .74rem; line-height: 1.2; }
+.ciclo-paso + .ciclo-paso::before { content: ""; position: absolute; top: 14px; right: calc(50% + 16px); width: calc(100% - 32px + .35rem); height: 2px; background: var(--borde); }
+.ciclo-paso.hecho + .ciclo-paso::before { background: var(--ok); }
+.ciclo-punto { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--borde); background: var(--carbon-2); font-weight: 700; font-size: .78rem; }
+.ciclo-paso.hecho .ciclo-punto { border-color: var(--ok); background: var(--ok); color: var(--carbon); }
+.ciclo-paso.actual .ciclo-punto { border-color: var(--lava); color: var(--lava-2); box-shadow: 0 0 0 4px rgba(242, 97, 29, .18); }
+.ciclo-paso.actual { color: var(--crema); }
+.ciclo-texto { display: grid; gap: .15rem; }
+.ciclo-texto strong { font-weight: 700; }
+.ciclo-texto small { color: var(--lava-2); font-size: .7rem; }
+.ciclo-siguiente { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .7rem; padding: .8rem 1rem; border-radius: 14px; background: rgba(242, 97, 29, .08); border: 1px solid rgba(242, 97, 29, .28); font-size: .88rem; color: var(--crema); }
+.ciclo-siguiente p { margin: 0; flex: 1 1 14rem; }
+.ciclo-botones { display: flex; flex-wrap: wrap; gap: .5rem; }
+@media (max-width: 640px) {
+  .ciclo-pasos { grid-template-columns: 1fr; gap: .1rem; }
+  .ciclo-paso { grid-template-columns: 28px 1fr; justify-items: start; align-items: center; text-align: left; gap: .6rem; padding: .2rem 0; font-size: .82rem; }
+  .ciclo-paso + .ciclo-paso::before { display: none; }
+  .ciclo-texto { grid-auto-flow: column; justify-content: start; gap: .5rem; align-items: baseline; }
+  .ciclo-botones, .ciclo-botones .btn { width: 100%; justify-content: center; }
+}
+/* Garaje y Mi cuenta: moto que un negocio tiene entre manos */
+.en-curso { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem 1rem; padding: .8rem 1rem; border-radius: 14px; background: rgba(242, 97, 29, .08); border: 1px solid rgba(242, 97, 29, .28); color: var(--crema); font-size: .9rem; }
+.en-curso.lista { background: rgba(63, 191, 107, .1); border-color: rgba(63, 191, 107, .35); }
+.en-curso p { margin: 0; flex: 1 1 16rem; }
+.ciclo-volver { justify-self: start; }

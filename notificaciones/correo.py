@@ -8,9 +8,9 @@ from django.urls import reverse
 
 logger = logging.getLogger(__name__)
 
-# Cita nueva al taller, solicitud nueva al mecánico y su aceptación o rechazo al motero.
+# Cita nueva al taller, solicitud nueva al mecánico, su aceptación o rechazo al motero y «tu moto está lista».
 PREFIJOS_URGENTES = ("cita-nueva:", "visita-nueva:", "cita-confirmada:", "cita-cancelada:",
-                     "visita-confirmada:", "visita-cancelada:")
+                     "visita-confirmada:", "visita-cancelada:", "trabajo-listo:")
 SAL = "baja-correo-avisos"
 
 

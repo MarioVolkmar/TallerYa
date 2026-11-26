@@ -1,0 +1,107 @@
+{% extends "base.html" %}{% load pleg %}
+{% block title %}Mi día · {{ negocio.nombre }} · TallerYa{% endblock %}
+{% block content %}
+{# Herramientas del día a día (taller y mecánico a domicilio): talleres/vista_herramientas.py + talleres/herramientas.py #}
+<svg width="0" height="0" class="hidden" aria-hidden="true"><symbol id="md-ico-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5 0-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.2Z"/></symbol></svg>
+<div class="mt-8 md:mt-10 md">
+  {% include "parciales/volver.html" with url=url_panel texto="Mi panel" %}
+  <h1 class="titulo text-4xl md:text-5xl mt-4">Mi <span class="text-lava">día</span></h1>
+  <p class="md-fecha">{{ hoy|date:"l j \d\e F"|lower|capfirst }} · {{ negocio.nombre }}</p>
+  <div class="md-acciones">
+    <button type="button" class="btn btn-lava text-sm" data-md-abrir="md-dialogo-cita">+ Anotar {{ palabra }}</button>
+    <button type="button" class="btn btn-borde text-sm" data-md-abrir="md-dialogo-recibir">+ Recibir moto</button>
+  </div>
+
+  {# ---------- 01 · Agenda ---------- #}
+  {% pleg "md-agenda" numero="01" titulo="Agenda" dato=dato_agenda id="agenda" clase="papel p-5 md:p-7 mt-6 scroll-mt-24" tam="text-2xl" %}
+    <nav class="md-semana" aria-label="Días de la semana">
+      {% for d in agenda.dias %}<a href="#dia-{{ forloop.counter0 }}" class="md-dia{% if d.hoy %} hoy{% endif %}{% if not d.n %} vacio{% endif %}"><span>{% if d.hoy %}Hoy{% else %}{{ d.corto }}{% endif %}</span><strong>{{ d.fecha|date:"j" }}</strong><small>{% if d.n %}{{ d.n }}<span class="sr-only"> {{ palabra }}{{ d.n|pluralize }}</span>{% else %}Libre{% endif %}</small></a>{% endfor %}
+    </nav>
+    {% for d in agenda.dias %}{% if d.items or d.hoy %}
+    <h3 class="md-dia-titulo scroll-mt-24" id="dia-{{ forloop.counter0 }}">{{ d.titulo }} <span>{{ d.fecha|date:"j M"|lower }}</span></h3>
+    <ul class="pt-citas">
+      {% for it in d.items %}{% include "talleres/negocio/_item_agenda.html" %}
+      {% empty %}<li class="pt-vacio"><p>Hoy no tienes {{ palabra }}s.</p><small>Anota las que te llegan por teléfono o WhatsApp con «+ Anotar {{ palabra }}»: quedan aquí y, si el cliente tiene cuenta en TallerYa, le avisamos.</small></li>{% endfor %}
+    </ul>
+    {% endif %}{% endfor %}
+    {% if agenda.sin_fecha %}
+    <h3 class="md-dia-titulo">Por acordar fecha <span>{{ agenda.sin_fecha|length }}</span></h3>
+    <ul class="pt-citas">{% for it in agenda.sin_fecha %}{% include "talleres/negocio/_item_agenda.html" %}{% endfor %}</ul>
+    {% endif %}
+    <p class="md-nota">Para cotizar, reprogramar o cancelar, entra a <a href="{% if es_taller %}{% url 'talleres:citas_taller' %}{% else %}{% url 'domicilio:solicitudes' %}{% endif %}">{% if es_taller %}Mis citas{% else %}Solicitudes{% endif %}</a>.</p>
+  {% endpleg %}
+
+  {# ---------- 02 · Motos en el taller ---------- #}
+  {% if es_taller %}{% pleg "md-motos" numero="02" titulo="Motos en el taller" dato=dato_tablero id="motos" clase="papel p-5 md:p-7 mt-6 scroll-mt-24" tam="text-2xl" %}{% include "talleres/negocio/_tablero.html" %}{% endpleg %}
+  {% else %}{% pleg "md-motos" numero="02" titulo="Trabajos en curso" dato=dato_tablero id="motos" clase="papel p-5 md:p-7 mt-6 scroll-mt-24" tam="text-2xl" %}{% include "talleres/negocio/_tablero.html" %}{% endpleg %}{% endif %}
+
+  {# ---------- 03 · Recordatorios ---------- #}
+  {% pleg "md-recordatorios" numero="03" titulo="Recordatorios a tus clientes" dato=dato_clientes id="recordatorios" clase="papel p-5 md:p-7 mt-6 scroll-mt-24" tam="text-2xl" %}
+    <p class="md-nota md-nota-arriba">Clientes cuyo último servicio registrado lo hiciste tú y a los que, según el plan de su moto, ya les toca mantenimiento. Les llega un aviso para agendar contigo (una vez por cada mantenimiento).</p>
+    {% if por_avisar %}<form method="post" action="{% url 'talleres:mi_dia_recordar_todos' %}" class="md-todos">{% csrf_token %}<button class="pt-boton pt-boton-ok">Avisar a los {{ por_avisar }}</button></form>{% endif %}
+    <ul class="pt-citas">
+      {% for c in clientes %}
+      <li class="pt-cita md-cliente {% if c.urgente %}estado-pendiente{% else %}estado-confirmada{% endif %}">
+        <div class="pt-cita-fecha md-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="17" r="3"/><circle cx="18.5" cy="17" r="3"/><path d="M8.5 17h7l-3-7h-3M15 6h2l1.5 4"/></svg></div>
+        <div class="pt-cita-datos">
+          <p class="pt-cita-quien">{{ c.nombre }} <span>· {{ c.moto }}</span></p>
+          <p class="pt-cita-estado"><span class="pt-chip {% if c.urgente %}chip-pendiente{% else %}chip-atendida{% endif %}">{% if c.urgente %}Toca ya{% else %}Se acerca{% endif %}</span></p>
+          <p class="pt-cita-que">{% for t in c.tareas|slice:":3" %}{{ t.tarea.nombre }}{% if not forloop.last %}, {% endif %}{% endfor %}{% if c.tareas|length > 3 %} y {{ c.tareas|length|add:"-3" }} más{% endif %}</p>
+        </div>
+        <div class="pt-cita-lado"><div class="pt-cita-botones">
+          {% if c.avisado %}<span class="md-avisado">Avisado {{ c.avisado|date:"j M"|lower }}</span>
+          {% else %}<form method="post" action="{% url 'talleres:mi_dia_recordar' c.moto.pk %}">{% csrf_token %}<button class="pt-boton pt-boton-ok pt-b1">Recordarle</button></form>{% endif %}
+        </div></div>
+      </li>
+      {% empty %}
+      <li class="pt-vacio"><p>Por ahora a ningún cliente le toca mantenimiento.</p><small>Registra cada servicio que hagas (al entregar la moto o desde «Servicios»): así la moto queda a tu nombre y aquí te avisamos cuando le toque volver.</small></li>
+      {% endfor %}
+    </ul>
+  {% endpleg %}
+</div>
+
+{# ---------- Diálogos ---------- #}
+<dialog class="papel rp-dialogo" id="md-dialogo-cita" aria-labelledby="md-cita-titulo">
+  <form method="post" action="{% url 'talleres:mi_dia_cita' %}" class="rp-form">{% csrf_token %}
+    <div class="rp-cabeza"><p class="titulo text-2xl" id="md-cita-titulo">Anotar {{ palabra }}</p><button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
+    <p class="rp-sub">Para la que te pidieron por teléfono o WhatsApp. Queda confirmada en tu agenda.</p>
+    {% with f=form_cita %}
+    <div class="md-dos">
+      <label class="campo-label">{{ f.nombre.label }}<input type="text" name="nombre" class="campo" maxlength="80" required autocomplete="off"></label>
+      <label class="campo-label">{{ f.telefono.label }}<input type="tel" name="telefono" class="campo" inputmode="numeric" maxlength="15" placeholder="3001234567" required></label>
+    </div>
+    <label class="campo-label">{{ f.moto.label }}<input type="text" name="moto" class="campo" maxlength="60" placeholder="Ej: Yamaha NMAX" required></label>
+    <label class="campo-label">{{ f.servicio.label }}<select name="servicio" class="campo">{% for v, t in f.fields.servicio.choices %}<option value="{{ v }}">{{ t }}</option>{% endfor %}</select></label>
+    <div class="md-dos">
+      <label class="campo-label">{{ f.fecha.label }}<input type="date" name="fecha" class="campo" value="{{ hoy|date:'Y-m-d' }}" min="{{ hoy|date:'Y-m-d' }}" required></label>
+      <label class="campo-label">{{ f.hora.label }} <span class="rc-opcional">(opcional)</span><input type="time" name="hora" class="campo" step="900"></label>
+    </div>
+    <label class="campo-label">{{ f.detalle.label }} <span class="rc-opcional">(opcional)</span><input type="text" name="detalle" class="campo" maxlength="200" placeholder="Ej: suena el freno de atrás"></label>
+    {% endwith %}
+    <button class="btn btn-lava py-3 text-sm">Anotar {{ palabra }}</button>
+  </form>
+</dialog>
+<dialog class="papel rp-dialogo" id="md-dialogo-recibir" aria-labelledby="md-recibir-titulo">
+  <form method="post" action="{% url 'talleres:mi_dia_recibir' %}" class="rp-form">{% csrf_token %}
+    <div class="rp-cabeza"><p class="titulo text-2xl" id="md-recibir-titulo">Recibir moto</p><button type="button" class="cajon-cerrar" data-cerrar aria-label="Cerrar">×</button></div>
+    <p class="rp-sub">Para el cliente que llegó sin cita. Si vino con {{ palabra }}, recíbela desde la agenda.</p>
+    <div class="md-dos">
+      <label class="campo-label">Cliente<input type="text" name="nombre" class="campo" maxlength="120" required autocomplete="off"></label>
+      <label class="campo-label">Celular <span class="rc-opcional">(para avisarle)</span><input type="tel" name="telefono" class="campo" inputmode="numeric" maxlength="15" placeholder="3001234567"></label>
+    </div>
+    <label class="campo-label">Moto<input type="text" name="moto" class="campo" maxlength="80" placeholder="Ej: Honda CB 125F" required></label>
+    <label class="campo-label">Qué se le hace <span class="rc-opcional">(opcional)</span><input type="text" name="que" class="campo" maxlength="160" placeholder="Ej: cambio de aceite y frenos"></label>
+    <button class="btn btn-lava py-3 text-sm">Recibir moto</button>
+  </form>
+</dialog>
+<script>
+  (function () {
+    document.querySelectorAll("[data-md-abrir]").forEach(function (b) {
+      b.addEventListener("click", function () { var d = document.getElementById(b.dataset.mdAbrir); if (d) d.showModal(); });
+    });
+    document.querySelectorAll(".rp-dialogo[id^='md-'] [data-cerrar]").forEach(function (b) {
+      b.addEventListener("click", function () { b.closest("dialog").close(); });
+    });
+  })();
+</script>
+{% endblock %}

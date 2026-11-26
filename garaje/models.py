@@ -897,6 +897,51 @@ class ServicioTaller(models.Model):
         return ", ".join(partes)
 
 
+
+class TrabajoEnCurso(models.Model):
+    """Moto que un negocio (taller o mecánico a domicilio) tiene entre manos: recibida → en reparación → lista → entregada.
+    Herramienta del día a día (módulo «herramientas_activo»). Al marcarla «lista» se avisa al dueño si tiene cuenta
+    (talleres/herramientas.py). Puede venir de una cita, de una visita o de un cliente que llegó sin cita."""
+
+    class Estado(models.TextChoices):
+        RECIBIDA = "recibida", "Recibida"
+        EN_REPARACION = "reparacion", "En reparación"
+        LISTA = "lista", "Lista para entregar"
+        ENTREGADA = "entregada", "Entregada"
+
+    taller = models.ForeignKey(Taller, on_delete=models.CASCADE, null=True, blank=True, related_name="trabajos")
+    mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", on_delete=models.CASCADE, null=True, blank=True,
+                                 related_name="trabajos", verbose_name="mecánico a domicilio")
+    cita = models.ForeignKey("talleres.SolicitudCita", on_delete=models.SET_NULL, null=True, blank=True, related_name="trabajos")
+    visita = models.ForeignKey("domicilio.SolicitudVisita", on_delete=models.SET_NULL, null=True, blank=True, related_name="trabajos")
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                related_name="trabajos_en_curso", help_text="El dueño, si tiene cuenta: a él le llega el aviso")
+    nombre = models.CharField("cliente", max_length=120)
+    telefono = models.CharField("celular", max_length=20, blank=True)
+    moto = models.CharField(max_length=80)
+    que = models.CharField("qué se le hace", max_length=160, blank=True)
+    nota = models.CharField("nota para el cliente", max_length=200, blank=True)
+    estado = models.CharField(max_length=10, choices=Estado.choices, default=Estado.RECIBIDA, db_index=True)
+    recibida = models.DateTimeField(auto_now_add=True)
+    lista_en = models.DateTimeField(null=True, blank=True)
+    entregada_en = models.DateTimeField(null=True, blank=True)
+    avisado_en = models.DateTimeField("aviso de «lista» enviado", null=True, blank=True, editable=False)
+
+    class Meta:
+        ordering = ["-recibida"]
+        verbose_name = "trabajo en curso"
+        verbose_name_plural = "trabajos en curso"
+        constraints = [models.CheckConstraint(
+            condition=(Q(taller__isnull=False) & Q(mecanico__isnull=True)) | (Q(taller__isnull=True) & Q(mecanico__isnull=False)),
+            name="trabajo_de_taller_o_mecanico")]
+
+    def __str__(self):
+        return f"{self.moto} · {self.nombre} ({self.get_estado_display()})"
+
+    @property
+    def negocio(self):
+        return self.taller or self.mecanico
+
 def token_enlace():
     return secrets.token_urlsafe(24)
 

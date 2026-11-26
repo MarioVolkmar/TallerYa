@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import despiece_publico as dp, views
+from . import despiece_publico as dp, motos_publico as mp, views
 from .vista_diagnostico import despiece_publico, diagnostico
 from .vista_bienvenida import bienvenida, bienvenida_listo, bienvenida_plan, bienvenida_saltar
 from .vista_gastos import gastos_moto
@@ -31,6 +31,7 @@ urlpatterns = [
     path("diagnostico/despiece/<int:pk>.json", despiece_publico, name="diagnostico_despiece"),
     path("garaje/<int:pk>/", views.detalle, name="moto"),
     path("garaje/<int:pk>/editar/", views.editar, name="editar"),
+    path("garaje/<int:pk>/uso/", views.cambiar_uso, name="cambiar_uso"),
     path("garaje/<int:pk>/eliminar/", views.eliminar, name="eliminar"),
     path("garaje/<int:pk>/documento/<slug:clave>/", views.documento, name="documento"),
     path("garaje/<int:pk>/documento/<slug:clave>/subir/", views.subir_documento, name="subir_documento"),
@@ -57,7 +58,12 @@ urlpatterns = [
     path("garaje/traspaso/<str:token>/", traspaso, name="traspaso"),
     path("despiece/", dp.indice, name="despiece_indice"),  # públicas, para Google (despiece_publico.py)
     path("despiece/<slug:moto>/", dp.moto, name="despiece_moto"),
+    path("despiece/<slug:moto>/pieza/<slug:pieza>/", dp.pieza, name="despiece_pieza"),
     path("despiece/<slug:moto>/<slug:sistema>/", dp.sistema, name="despiece_sistema"),
+    path("motos/", mp.indice, name="motos_publicas"),  # públicas, para Google (motos_publico.py)
+    path("motos/<slug:moto>/", mp.moto, name="moto_publica"),
+    path("motos/<slug:moto>/fallas/<slug:clave>/", mp.falla, name="moto_falla"),
+    path("motos/<slug:moto>/mantenimiento/<slug:clave>/", mp.mantenimiento, name="moto_mantenimiento"),
     path("garaje/diagrama/<slug:clave>.svg", views.diagrama_svg, name="diagrama"),
     path("garaje/diagrama/<slug:clave>/<slug:puesto>.svg", views.pieza_svg, name="pieza_svg"),
 ]

@@ -6,6 +6,6 @@
       <strong>{{ c.taller.nombre }}</strong>
       <small>{{ c.fecha_preferida|date:"l"|lower }}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %} · {{ c.moto }}{% if c.servicio %} · {{ c.servicio }}{% endif %}</small>
     </span>
-    <span class="pt-chip chip-{{ c.estado }}">{{ c.get_estado_display }}</span>
+    <span class="pt-chip chip-{{ c.estado }}">{% if c.estado == "reprogramada" %}Falta tu respuesta{% else %}{{ c.get_estado_display }}{% endif %}</span>
   </a>
 </li>

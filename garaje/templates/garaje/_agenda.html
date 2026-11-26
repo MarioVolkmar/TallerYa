@@ -18,6 +18,17 @@
   <div class="seccion-cuerpo space-y-6" id="plan-cuerpo">
   {% load domiciliarios_tags %}{% ruta_moto moto plan %}{# TallerYa Ruta: franja de la moto de trabajo o interruptor; nada con la bandera apagada #}
 
+  {# Uso de la moto: el plan (km/día y, con «Trabajo o domicilios», plan intensivo) se calcula con esto #}
+  <form method="post" action="{% url 'garaje:cambiar_uso' moto.pk %}" class="agenda-uso" id="uso-moto">{% csrf_token %}
+    <label for="campo-uso" class="agenda-uso-label">¿Cómo la usas?</label>
+    <select name="perfil_uso" id="campo-uso" class="campo agenda-uso-campo">
+      {% if not moto.perfil_uso %}<option value="" selected disabled>Elige una opción</option>{% endif %}
+      {% for valor, nombre in usos_moto %}<option value="{{ valor }}"{% if valor == moto.perfil_uso %} selected{% endif %}>{{ nombre }}</option>{% endfor %}
+    </select>
+    <button type="submit" class="boton-seccion agenda-uso-boton">Cambiar</button>
+    <p class="agenda-uso-ayuda">Con esto ajustamos cada cuánto te toca cada cambio.</p>
+  </form>
+
   {% if agenda.visita %}
   <!-- Una sola visita resuelve varias cosas de las que tocan -->
   <div class="papel agenda-visita">

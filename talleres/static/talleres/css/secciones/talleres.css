@@ -412,3 +412,56 @@ a.pt-fr:hover, a.pt-fr:focus-visible { border-color: color-mix(in srgb, var(--c,
 .pt-cita-cupon-anotar form { display: flex; gap: .5rem; margin-top: .2rem; max-width: 22rem; }
 .pt-cita-cupon-anotar .campo { flex: 1; min-width: 0; text-transform: uppercase; }
 .pt-cita-cupon-anotar p { margin-top: .3rem; font-size: .74rem; }
+
+/* ---- Mi día (herramientas del negocio: talleres/negocio/mi_dia.html) ---- */
+.md-fecha { margin-top: .4rem; font-size: .85rem; color: #9ba2a4; }
+.md-acciones { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1.1rem; }
+.md-acciones .btn { min-height: 44px; padding: 0 1.3rem; flex: 1 1 auto; }
+@media (min-width: 640px) { .md-acciones .btn { flex: none; } }
+.md-semana { display: grid; grid-template-columns: repeat(7, minmax(44px, 1fr)); gap: .3rem; margin: .4rem 0 1rem; overflow-x: auto; scrollbar-width: none; }
+.md-dia { display: flex; flex-direction: column; align-items: center; gap: .1rem; min-height: 64px; padding: .45rem .2rem; border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, .08); background: rgba(0, 0, 0, .18); color: var(--crema-2); }
+.md-dia span { font-size: .64rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9ba2a4; }
+.md-dia strong { font-family: "Oswald", sans-serif; font-size: 1.25rem; line-height: 1; color: var(--crema); }
+.md-dia small { font-size: .72rem; font-weight: 700; color: var(--mostaza); }
+.md-dia.vacio small { font-weight: 600; color: #9ba2a4; }
+.md-dia.hoy { border-color: var(--lava); }
+.md-dia:hover, .md-dia:focus-visible { border-color: var(--crema-2); outline: none; }
+.md-dia-titulo { margin: 1.1rem 0 .5rem; font-family: "Oswald", sans-serif; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .04em; color: var(--crema); }
+.md-dia-titulo span { margin-left: .3rem; font-family: inherit; font-size: .78rem; text-transform: none; letter-spacing: 0; color: #9ba2a4; }
+.md .pt-citas { display: grid; gap: .55rem; }
+.md-hora { min-width: 3.2rem; text-align: center; }
+.md-hora strong { font-size: 1.15rem; }
+.md-sin-hora { display: block; padding-top: .2rem; font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9ba2a4; }
+.md-ico { display: grid; place-items: center; width: 3.2rem; color: #9ba2a4; }
+.md-nota { margin-top: 1rem; font-size: .8rem; color: #9ba2a4; }
+.md-nota a { color: var(--lava-2); text-decoration: underline; text-underline-offset: 2px; }
+.md-nota-arriba { margin: 0 0 .8rem; }
+.md-todos { margin-bottom: .8rem; }
+.md-todos .pt-boton { min-height: 44px; }
+.md-avisado { font-size: .74rem; font-weight: 600; color: #86dba6; }
+.md-dos { display: grid; gap: 1rem; }
+@media (min-width: 480px) { .md-dos { grid-template-columns: 1fr 1fr; } }
+/* Tablero de trabajos: una columna por estado (en el celular, una debajo de otra) */
+.md-tablero { display: grid; gap: .8rem; margin-top: .4rem; }
+@media (min-width: 900px) { .md-tablero { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.md-col { padding: .7rem; border-radius: 14px; background: rgba(0, 0, 0, .18); border: 1px solid rgba(255, 255, 255, .06); border-top: 3px solid rgba(255, 255, 255, .15); }
+.md-col-recibida { border-top-color: var(--mostaza); }
+.md-col-reparacion { border-top-color: var(--lava); }
+.md-col-lista { border-top-color: #86dba6; }
+.md-col-titulo { display: flex; justify-content: space-between; align-items: center; font-size: .74rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--crema-2); }
+.md-col-titulo span { padding: .1rem .5rem; border-radius: 999px; background: rgba(255, 255, 255, .08); }
+.md-trabajos { display: grid; gap: .5rem; margin-top: .6rem; }
+.md-trabajo { padding: .7rem; border-radius: 12px; background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .06); }
+.md-trabajo-moto { font-weight: 700; color: var(--crema); }
+.md-trabajo-quien { font-size: .8rem; color: var(--crema-2); overflow-wrap: anywhere; }
+.md-trabajo-cuando { margin-top: .15rem; font-size: .72rem; color: #8d9496; }
+.md-trabajo-botones { display: flex; flex-wrap: wrap; align-items: flex-start; gap: .4rem; margin-top: .6rem; }
+.md-trabajo-botones form { flex: 1 1 auto; }
+.md-trabajo-botones .pt-boton { min-height: 44px; width: 100%; display: inline-flex; align-items: center; justify-content: center; }
+.md-trabajo-botones .pt-wa { width: 44px; height: 44px; flex: none; }
+.md-nota-lista summary { list-style: none; cursor: pointer; }
+.md-nota-lista summary::-webkit-details-marker { display: none; }
+.md-nota-lista[open] summary { display: none; }
+.md-nota-lista label { display: block; margin-bottom: .5rem; font-size: .78rem; }
+.md-trabajo-vacio { font-size: .76rem; color: #8d9496; padding: .3rem .1rem; }

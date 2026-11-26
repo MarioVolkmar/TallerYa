@@ -67,6 +67,8 @@ def crear(taller, moto, *, origen, fecha, km, tareas, otros="", costo=None, nota
             if pedido is not None:
                 pedido.estado = pedido.Estado.ATENDIDA
                 pedido.save(update_fields=["estado"])
+                # La moto sale del tablero de «Mi día» si el servicio se registró sin pasar por «Entregada»
+                pedido.trabajos.exclude(estado="entregada").update(estado="entregada", entregada_en=timezone.now())
     que = s.resumen()
     quien = s.prestador.nombre
     if s.estado == ServicioTaller.Estado.VERIFICADO:

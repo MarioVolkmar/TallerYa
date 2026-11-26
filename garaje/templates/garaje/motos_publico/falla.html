@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}{{ seo_titulo }}{% endblock %}
+{% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc tipo="article" %}{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=linea.url_publica texto=moto clase="mt-8" %}
+<article class="dp max-w-5xl mx-auto mt-6">
+  <p class="etiqueta">Falla común · {{ f.gravedad_texto }}</p>
+  <h1 class="titulo text-3xl md:text-5xl mt-3">{{ f.titulo }}: <span class="text-lava">{{ moto }}</span></h1>
+  <p class="dp-texto">{% if f.alcance == "modelo" %}Reportado por dueños de este modelo.{% else %}Pasa en muchas motos de este tipo.{% endif %} Son reportes de dueños y mecánicos, no un defecto de fábrica.</p>
+
+  <section class="dp-sistema"><h2 class="dp-marca-titulo">Cómo lo notas</h2><p class="dp-texto">{{ f.sintoma }}</p></section>
+  <section class="dp-sistema"><h2 class="dp-marca-titulo">Causa usual</h2><p class="dp-texto">{{ f.causa }}</p></section>
+  <section class="dp-sistema"><h2 class="dp-marca-titulo">Qué hacer</h2><p class="dp-texto">{{ f.que_hacer }}</p>
+    {% if f.costo %}<p class="dp-texto"><strong>Cuánto cuesta:</strong> {{ f.costo }}</p>{% endif %}</section>
+
+  <aside class="dp-cta">
+    <p><strong>¿Te está pasando?</strong> Encuentra quién lo revise en Medellín.</p>
+    {% if url_diagnostico %}<a href="{{ url_diagnostico }}" class="btn btn-lava text-xs px-6 py-3">Hacer el diagnóstico</a>{% endif %}
+    <a class="dp-moto" href="{% url 'talleres:directorio' %}?marca={{ linea.marca_id }}">Talleres que trabajan {{ linea.marca }}</a>
+  </aside>
+
+  {% if tareas or despiece %}
+  <section class="dp-sistema" aria-labelledby="mp-relacionado">
+    <h2 class="dp-marca-titulo" id="mp-relacionado">Relacionado</h2>
+    <ul class="dp-lista">
+      {% for t in tareas %}<li><a href="{{ t.url }}">Cada cuánto {{ t.verbo }} {{ t.objeto }}<small>{{ t.texto }}</small></a></li>{% endfor %}
+      {% if despiece %}<li><a href="{{ despiece.url_publica }}">Despiece de la {{ moto }}<small>Qué hace cada pieza</small></a></li>{% endif %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if otras %}
+  <nav class="dp-sistema" aria-labelledby="mp-otras">
+    <h2 class="dp-marca-titulo" id="mp-otras">Otras fallas de la {{ moto }}</h2>
+    <ul class="dp-lista">{% for o in otras %}<li><a href="{{ o.url }}">{{ o.titulo }}<small>{{ o.gravedad_texto }}</small></a></li>{% endfor %}</ul>
+  </nav>
+  {% endif %}
+
+  {% if fuentes %}
+  <section class="dp-sistema mb-12" aria-labelledby="mp-fuentes">
+    <h2 class="dp-marca-titulo" id="mp-fuentes">Fuentes{% if revisado %} · revisado el {{ revisado }}{% endif %}</h2>
+    <ul>{% for x in fuentes %}<li>{% if x.url %}<a class="dp-moto" href="{{ x.url }}" rel="nofollow noopener" target="_blank">{{ x.nombre }}</a>{% else %}<span class="dp-texto">{{ x.nombre }}</span>{% endif %}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+</article>
+{{ ld }}
+{% endblock %}

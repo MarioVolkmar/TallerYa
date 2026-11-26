@@ -7,6 +7,11 @@ from . import servicio_taller as st
 from .models import ServicioTaller
 
 
+def _ya_califico(prestador, usuario, desde):
+    from talleres.ciclo import _ya_califico as calificado  # al taller, una reseña por visita
+    return calificado(prestador, usuario, desde)
+
+
 @login_required
 def servicio_taller(request, pk):
     s = get_object_or_404(ServicioTaller.objects.select_related("taller", "taller__barrio", "mecanico", "moto", "moto__linea",
@@ -21,5 +26,5 @@ def servicio_taller(request, pk):
         return redirect(s)
     return render(request, "garaje/servicio_taller.html", {
         "s": s, "estados": ServicioTaller.Estado,
-        "ya_califico": s.prestador.resenas.filter(usuario=request.user).exists(),
+        "ya_califico": _ya_califico(s.prestador, request.user, (s.cita or s.solicitud or s).creado),
     })

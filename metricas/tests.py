@@ -8,7 +8,10 @@ from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from . import agregacion, nucleo
+from cupones.models import Motociclista
+from foro.models import Pregunta
+
+from . import agregacion, nucleo, semanas
 from .models import ActividadSemanal, Evento, ResumenDiario, SalDiaria
 
 User = get_user_model()
@@ -210,3 +213,49 @@ class PanelTests(TestCase):
         csv = self.client.get(reverse("metricas:exportar") + "?periodo=90")
         self.assertEqual(csv["Content-Type"], "text/csv; charset=utf-8")
         self.assertIn("talleres:inicio", csv.content.decode("utf-8-sig"))
+
+class SemanasTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.hoy = timezone.localdate()
+        cls.lunes = agregacion.lunes(cls.hoy)
+        antes = cls.lunes - timedelta(days=3)  # semana pasada
+        ResumenDiario.objects.bulk_create([
+            ResumenDiario(dia=antes, clave="vista", valor="garaje:moto", total=4),
+            ResumenDiario(dia=antes, clave="vista", valor="foro:lista", total=2),
+            ResumenDiario(dia=antes, clave="evento", valor="visor_3d", total=5),
+        ])
+        cls.motero = User.objects.create_user("m@t.co", "m@t.co", "x")
+        Motociclista.objects.create(nombre="M", celular="573001112233", usuario=cls.motero)
+        cls.sin = User.objects.create_user("s@t.co", "s@t.co", "x")
+        equipo = User.objects.create_user("e@t.co", "e@t.co", "x", is_staff=True)
+        Pregunta.objects.create(autor=cls.motero, titulo="¿Aceite?", cuerpo="Cuál uso")
+        Pregunta.objects.create(autor=equipo, titulo="Prueba", cuerpo="Del equipo")
+
+    def tabla(self):
+        filas = list(ResumenDiario.objects.all())
+        datos = semanas.grupos(filas, self.hoy)
+        return datos["semanas"], {(g, n): c for g, renglones in datos["grupos"] for n, c in renglones}
+
+    def test_cifras_por_semana_seccion_y_rol(self):
+        lista, t = self.tabla()
+        self.assertEqual((len(lista), lista[0]), (semanas.SEMANAS, self.lunes))
+        self.assertEqual(t["Visitas por sección", "Garaje"][:2], [0, 4])
+        self.assertEqual(t["Visitas por sección", "Foro"][:2], [0, 2])
+        self.assertEqual(t["Visitas por sección", "Trámites"][:2], [0, 0])
+        self.assertNotIn(("Visitas por sección", "Ayuda"), t)
+        self.assertEqual(t["Garaje", "3D abierto"][1], 5)
+        self.assertEqual(t["Usuarios nuevos por rol", "Moteros"][0], 1)
+        self.assertEqual(t["Usuarios nuevos por rol", "Sin terminar el registro"][0], 1)
+        self.assertEqual(t["Foro", "Preguntas"][0], 1)  # la del equipo no cuenta
+
+    def test_no_cuesta_una_consulta_por_semana(self):
+        with self.assertNumQueries(14):  # una por renglón de la base más la de cuentas nuevas
+            semanas.grupos([], self.hoy)
+
+    def test_el_panel_la_muestra_aunque_el_periodo_sea_corto(self):
+        self.client.force_login(User.objects.get(email="e@t.co"))
+        r = self.client.get(reverse("consola:inicio") + "?seccion=metricas&periodo=7")
+        self.assertContains(r, "Por semana")
+        self.assertContains(r, "Esta semana")
+        self.assertContains(r, "Inscripciones a rodadas")

@@ -159,6 +159,22 @@ def editar(request, pk):
 
 @con_motociclista
 @require_POST
+def cambiar_uso(request, pk):
+    """Cambia «¿Cómo la usas?» desde la agenda de la ficha. El plan se calcula al vuelo con el uso: no hay que recalcular nada."""
+    moto = _moto_de(request, pk)   # solo sus motos (sin IDOR)
+    valor = request.POST.get("perfil_uso", "")
+    opciones = dict(Moto._meta.get_field("perfil_uso").choices)
+    if valor not in opciones:
+        messages.error(request, "Elige cómo usas la moto.")
+    elif valor != moto.perfil_uso:
+        moto.perfil_uso = valor
+        moto.save(update_fields=["perfil_uso"])
+        messages.success(request, f"Listo: tu plan ahora es para «{opciones[valor].lower()}».")
+    return redirect(f"{moto.get_absolute_url()}#plan")
+
+
+@con_motociclista
+@require_POST
 def subir_documento(request, pk, clave):
     """Sube la foto o el PDF del SOAT o la técnico-mecánica desde la ficha, sin pasar por "Datos de la moto"."""
     if clave not in DOCUMENTOS:
@@ -602,6 +618,11 @@ def resumen_plan(plan):
     return todo_al_dia, lo_urgente
 
 
+def _en_curso(usuario):
+    from talleres.ciclo import en_curso
+    return en_curso(usuario)
+
+
 @con_motociclista
 def detalle(request, pk):
     # ajustes: los usan el plan y la agenda (una consulta para los dos)
@@ -647,6 +668,7 @@ def detalle(request, pk):
         "todo_al_dia": todo_al_dia,
         "lo_urgente": lo_urgente,
         "moto": moto,
+        "usos_moto": Moto._meta.get_field("perfil_uso").choices,
         "plan": plan,
         "datos_3d": {"specs": moto.specs(), "color": moto.color, "piezas": _acciones_piezas(moto, plan),
                      "linea": moto.nombre_completo, "placa": moto.placa,
@@ -671,6 +693,7 @@ def detalle(request, pk):
         "hv_resumen": moto.hoja_vida.aggregate(total=Count("id"), verificados=Count("id", filter=Q(verificado=True))),
         "gastos": resumen_gastos(moto),
         "agenda": _agenda(moto, plan, despiece),
+        "en_curso": _en_curso(request.user),  # moto en un taller o con un mecánico ahora (talleres/ciclo.py)
         "leyenda": [("atencion", "Requiere atención", "Toca ya o le falta muy poco", "--vencido"),
                     ("proximos", "Próximos", "Le toca en las próximas semanas", "--pronto"),
                     ("al_dia", "Al día", "No necesita nada por ahora", "--ok"),

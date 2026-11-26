@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}{{ seo_titulo }}{% endblock %}
+{% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc %}{% endblock %}
+{% block content %}
+{% url 'garaje:motos_publicas' as url_motos %}{% include "parciales/volver.html" with url=url_motos texto="Todas las motos" clase="mt-8" %}
+<div class="dp max-w-5xl mx-auto mt-6">
+  <p class="etiqueta">{{ linea.marca }} · {{ linea.cilindraje }} cc</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">{{ moto }}: <span class="text-lava">fallas y mantenimiento</span></h1>
+  <p class="dp-texto">Lo que conviene saber de la {{ moto }}: sus fallas más reportadas y cada cuánto hacerle cada mantenimiento.</p>
+  {% if despiece %}<p class="mt-4"><a class="dp-moto" href="{{ despiece.url_publica }}">Despiece pieza por pieza</a></p>{% endif %}
+
+  {% if fallas %}
+  <section class="dp-sistema" aria-labelledby="mp-fallas">
+    <h2 class="dp-marca-titulo" id="mp-fallas">Fallas comunes de la {{ moto }}</h2>
+    <ul class="dp-lista">
+      {% for f in fallas %}<li><a href="{{ f.url }}">{{ f.titulo }}<small>{{ f.gravedad_texto }}</small></a></li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if tareas %}
+  <section class="dp-sistema" aria-labelledby="mp-plan">
+    <h2 class="dp-marca-titulo" id="mp-plan">Cada cuánto hacerle mantenimiento</h2>
+    <ul class="dp-lista">
+      {% for t in tareas %}<li><a href="{{ t.url }}">Cada cuánto {{ t.verbo }} {{ t.objeto }}<small>{{ t.texto }}{% if t.aproximado %} (aproximado){% endif %}</small></a></li>{% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if tips %}
+  <section class="dp-sistema" aria-labelledby="mp-tips">
+    <h2 class="dp-marca-titulo" id="mp-tips">Consejos para la {{ moto }}</h2>
+    {% for tip in tips %}<p class="dp-texto"><strong>{{ tip.titulo }}.</strong> {{ tip.texto }}</p>{% endfor %}
+  </section>
+  {% endif %}
+
+  <aside class="dp-cta mb-12">
+    <p><strong>¿Tienes una {{ linea.nombre }}?</strong> Agrégala a tu garaje y te avisamos qué toca según los kilómetros.</p>
+    <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-6 py-3">Agregar mi moto</a>
+    <a class="dp-moto" href="{% url 'talleres:directorio' %}?marca={{ linea.marca_id }}">Talleres que trabajan {{ linea.marca }}</a>
+  </aside>
+</div>
+{{ ld }}
+{% endblock %}

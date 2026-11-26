@@ -88,3 +88,29 @@ Medición propia en Django (app `metricas`), sin Google Analytics ni servicios e
 - Medir el tiempo de carga real en el navegador (`PerformanceNavigationTiming`) con el mismo endpoint, agregado por
   página.
 - Panel de «tracción» para Ruta N / Capital Semilla: PDF de una página con MAU, crecimiento semanal y retención S4.
+
+## 25-nov: resumen «Por semana» (rama `piloto`, sin commit)
+**La rama `claude/metricas-uso-a4d267` ya estaba unida** desde el 18-nov (commit 276baa4): está en `piloto` y en
+`main`, y `C:\dev\TallerYa-produccion` tiene los archivos de `metricas/`. No hubo cherry-pick ni migraciones nuevas.
+Faltaba ver las cifras por semana; se agregó arriba de Consola › Métricas:
+
+- Tabla de 6 semanas (lunes a domingo, la actual primero), sin depender del período: visitas por sección, usuarios
+  nuevos por rol (motero, domiciliario, taller, mecánico, sin terminar), garaje, foro, cupones y trámites.
+- Visitas, planes, despieces y 3D salen de la medición (cuentan desde el 18-nov o desde que esté encendida); lo demás
+  se cuenta en la base y trae historia. No cuenta al equipo administrador (las fichas de diagnóstico anónimas sí se
+  cuentan todas). Los datos de demostración cargados en la base también cuentan.
+- «Proveedores» no aparece en usuarios nuevos: no tienen cuenta. «SOAT pagados» hoy es pago simulado.
+- Solo conteos: no se guarda ningún dato nuevo. 14 consultas.
+- Archivos: `metricas/semanas.py` (nuevo), `metricas/panel.py`, `metricas/templates/metricas/panel.html`,
+  `metricas/static/metricas/panel.css`, `metricas/tests.py`.
+
+### Verificación
+- `manage.py test metricas`: 20 OK. Suite rápida: 1088 OK.
+- `revisar-ux` **sobre una página de muestra** (cabecera y tabla reales, cifras inventadas), no sobre la consola:
+  entrar como administrador dio 403 y se detuvo (una consulta para diagnosticarlo fue denegada por el modo
+  automático). A 1280 y 375 px: sin scroll horizontal; en celular la tabla se desplaza de lado con el nombre fijo
+  (el «desborde» del script es esa tabla dentro de su caja). Previo, sin tocar: botones de período de 42 px de alto
+  y radio 9 px.
+- Pendiente: mirarla en la consola real; anotar en `anexo-guia.md` la tabla con primera columna fija (otra sesión
+  tiene ese archivo sin commit). Quedó en la base local una sesión de administrador creada con
+  `revisar-ux/entrar.py` (la cookie del navegador se borró).

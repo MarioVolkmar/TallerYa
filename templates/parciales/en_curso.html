@@ -1,0 +1,5 @@
+{# Moto que un negocio tiene entre manos (talleres/ciclo.en_curso). Variable: t (TrabajoEnCurso con .url) #}
+<div class="en-curso mt-4{% if t.estado == 'lista' %} lista{% endif %}">
+  <p>{% if t.estado == "lista" %}<strong>Tu moto {{ t.moto }} está lista.</strong> {{ t.negocio.nombre }} terminó{% if t.taller_id %}: pasa a recogerla{% endif %}.{% else %}<strong>Tu moto {{ t.moto }} está {% if t.taller_id %}en {{ t.negocio.nombre }}{% else %}con {{ t.negocio.nombre }}{% endif %}</strong> · {{ t.get_estado_display|lower }}.{% endif %}{% if t.nota %} “{{ t.nota }}”{% endif %}</p>
+  <a href="{{ t.url }}" class="boton-seccion">Ver en qué va</a>
+</div>

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}{{ seo_titulo }}{% endblock %}
+{% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc tipo="article" %}{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=linea.url_publica texto=moto clase="mt-8" %}
+<article class="dp max-w-5xl mx-auto mt-6">
+  <p class="etiqueta">Mantenimiento según el manual</p>
+  <h1 class="titulo text-3xl md:text-5xl mt-3">{{ pregunta }}</h1>
+
+  <div class="dp-respuesta">
+    <strong>{{ respuesta }}</strong>
+    {% if t.generales %}<p>El manual no fija {{ t.generales }}: esa medida es la del plan general de TallerYa.</p>{% endif %}
+    {% if t.fuente %}<p>Fuente: {{ t.fuente }}.</p>{% endif %}
+  </div>
+
+  {% if t.versiones %}
+  <section class="dp-sistema"><h2 class="dp-marca-titulo">Según el año del modelo</h2>
+    {% for v in t.versiones %}<p class="dp-texto"><strong>{{ v.nombre }} ({{ v.desde }}{% if v.hasta %} a {{ v.hasta }}{% else %} en adelante{% endif %}):</strong> {{ v.texto }}</p>{% endfor %}
+  </section>
+  {% endif %}
+  {% if t.especificacion %}<section class="dp-sistema"><h2 class="dp-marca-titulo">Qué usar</h2><p class="dp-texto">{{ t.especificacion }}</p></section>{% endif %}
+  {% if t.notas or t.descripcion %}<section class="dp-sistema"><h2 class="dp-marca-titulo">Ten en cuenta</h2>
+    {% if t.notas %}<p class="dp-texto">{{ t.notas }}</p>{% endif %}
+    {% if t.descripcion %}<p class="dp-texto">{{ t.descripcion }}</p>{% endif %}
+  </section>{% endif %}
+
+  <aside class="dp-cta">
+    <p><strong>¿No sabes cuándo lo hiciste?</strong> Agrega tu {{ linea.nombre }} al garaje y te avisamos cuando toque.</p>
+    <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-6 py-3">Agregar mi moto</a>
+    <a class="dp-moto" href="{% url 'talleres:directorio' %}?marca={{ linea.marca_id }}">Talleres que trabajan {{ linea.marca }}</a>
+  </aside>
+
+  {% if fallas or despiece %}
+  <section class="dp-sistema" aria-labelledby="mp-relacionado">
+    <h2 class="dp-marca-titulo" id="mp-relacionado">Relacionado</h2>
+    <ul class="dp-lista">
+      {% for f in fallas %}<li><a href="{{ f.url }}">{{ f.titulo }}<small>Falla común · {{ f.gravedad_texto }}</small></a></li>{% endfor %}
+      {% if despiece %}<li><a href="{{ despiece.url_publica }}">Despiece de la {{ moto }}<small>Qué hace cada pieza</small></a></li>{% endif %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if otras %}
+  <nav class="dp-sistema mb-12" aria-labelledby="mp-otros">
+    <h2 class="dp-marca-titulo" id="mp-otros">Otros mantenimientos de la {{ moto }}</h2>
+    <ul class="dp-lista">{% for o in otras %}<li><a href="{{ o.url }}">Cada cuánto {{ o.verbo }} {{ o.objeto }}<small>{{ o.texto }}</small></a></li>{% endfor %}</ul>
+  </nav>
+  {% endif %}
+</article>
+{{ ld }}
+{% endblock %}

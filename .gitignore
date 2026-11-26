@@ -33,3 +33,6 @@ modelos_3d_local/
 # Fotos de referencia para Tripo (solo local)
 FOTOS_MODELADO_TRIPO/
 db.sqlite3.respaldo-*
+informes_noche/video-demo/*.mp4
+informes_noche/video-demo/clips/
+herramientas/video_demo/voces/

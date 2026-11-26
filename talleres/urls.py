@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import seo, views, vista_alta, vista_servicios
+from . import seo, views, vista_alta, vista_herramientas as vh, vista_servicios
 
 app_name = "talleres"
 
@@ -27,6 +27,13 @@ urlpatterns = [
     path("mi-taller/agenda/", views.agenda_taller, name="agenda"),
     path("mi-taller/estadisticas/", views.estadisticas_taller, name="estadisticas"),
     path("mi-taller/", views.panel, name="panel"),
+    # Herramientas del día a día (taller y mecánico a domicilio; módulo «herramientas_activo»)
+    path("mi-negocio/", vh.mi_dia, name="mi_dia"),
+    path("mi-negocio/cita/", vh.anotar_cita, name="mi_dia_cita"),
+    path("mi-negocio/recibir/", vh.recibir_moto, name="mi_dia_recibir"),
+    path("mi-negocio/trabajo/<int:pk>/estado/", vh.trabajo_estado, name="mi_dia_trabajo"),
+    path("mi-negocio/recordar/<int:moto_id>/", vh.recordar, name="mi_dia_recordar"),
+    path("mi-negocio/recordar-todos/", vh.recordar_todos, name="mi_dia_recordar_todos"),
     path("mi-taller/pin/", views.pin_canje, name="pin_canje"),
     path("mi-taller/citas/", views.citas_taller, name="citas_taller"),
     path("mi-taller/resenas/", views.resenas_taller, name="resenas_taller"),

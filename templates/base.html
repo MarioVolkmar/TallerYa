@@ -50,6 +50,7 @@
         {% elif rol == "taller" %}
         {# Taller: lo del día a día arriba; lo de vez en cuando en «Más» #}
         <a href="{% url 'talleres:panel' %}" class="nav-link {% if sec == 'taller_panel' %}activo{% endif %}"{% if sec == 'taller_panel' %} aria-current="page"{% endif %}>Panel</a>
+        {% if herramientas_activo %}<a href="{% url 'talleres:mi_dia' %}" class="nav-link {% if request.path == '/mi-negocio/' %}activo{% endif %}"{% if request.path == '/mi-negocio/' %} aria-current="page"{% endif %}>Mi día</a>{% endif %}
         <a href="{% url 'talleres:citas_taller' %}" class="nav-link {% if sec == 'taller_citas' %}activo{% endif %}"{% if sec == 'taller_citas' %} aria-current="page"{% endif %}>Citas{% if pend.citas %}<span class="nav-contador" aria-label="{{ pend.citas }} pendiente{{ pend.citas|pluralize }}">{{ pend.citas }}</span>{% endif %}</a>
         <a href="{% url 'talleres:servicios_taller' %}" class="nav-link {% if sec == 'taller_servicios' or sec == 'taller_registrar' %}activo{% endif %}"{% if sec == 'taller_servicios' or sec == 'taller_registrar' %} aria-current="page"{% endif %}>Servicios</a>
         <a href="{% url 'talleres:resenas_taller' %}" class="nav-link {% if sec == 'taller_resenas' %}activo{% endif %}"{% if sec == 'taller_resenas' %} aria-current="page"{% endif %}>Reseñas</a>
@@ -87,6 +88,7 @@
         {% elif rol == "mecanico" %}
         {# Mecánico a domicilio: su trabajo diario #}
         <a href="{% url 'domicilio:panel' %}" class="nav-link {% if sec == 'mecanico_panel' %}activo{% endif %}"{% if sec == 'mecanico_panel' %} aria-current="page"{% endif %}>Mi panel</a>
+        {% if herramientas_activo %}<a href="{% url 'talleres:mi_dia' %}" class="nav-link {% if request.path == '/mi-negocio/' %}activo{% endif %}"{% if request.path == '/mi-negocio/' %} aria-current="page"{% endif %}>Mi día</a>{% endif %}
         <a href="{% url 'domicilio:solicitudes' %}" class="nav-link {% if sec == 'mecanico_solicitudes' %}activo{% endif %}"{% if sec == 'mecanico_solicitudes' %} aria-current="page"{% endif %}>Solicitudes{% if pend.solicitudes %}<span class="nav-contador" aria-label="{{ pend.solicitudes }} pendiente{{ pend.solicitudes|pluralize }}">{{ pend.solicitudes }}</span>{% endif %}</a>
         <a href="{% url 'domicilio:mis_precios' %}" class="nav-link {% if sec == 'mecanico_precios' %}activo{% endif %}"{% if sec == 'mecanico_precios' %} aria-current="page"{% endif %}>Precios</a>
         <a href="{% url 'domicilio:mi_perfil' %}" class="nav-link {% if sec == 'mecanico_perfil' %}activo{% endif %}"{% if sec == 'mecanico_perfil' %} aria-current="page"{% endif %}>Mi perfil</a>
@@ -205,6 +207,7 @@
             </div>
             {% elif rol == "taller" %}
             <a href="{% url 'talleres:panel' %}" class="av-item"{% if sec == 'taller_panel' %} aria-current="page"{% endif %}>Panel del taller</a>
+            {% if herramientas_activo %}<a href="{% url 'talleres:mi_dia' %}" class="av-item"{% if request.path == '/mi-negocio/' %} aria-current="page"{% endif %}>Mi día</a>{% endif %}
             <a href="{% url 'talleres:editar_perfil' %}" class="av-item"{% if sec == 'taller_perfil' %} aria-current="page"{% endif %}>Mi perfil</a>
             {% if user.taller.slug %}<a href="{% url 'talleres:detalle' user.taller.slug %}" class="av-item">Ver mi ficha pública</a>{% endif %}
             <a href="{% url 'cuentas:mi_cuenta' %}" class="av-item"{% if request.path == '/cuenta/' %} aria-current="page"{% endif %}>Mi cuenta</a>
@@ -218,6 +221,7 @@
             </div>
             {% elif rol == "mecanico" %}
             <a href="{% url 'domicilio:panel' %}" class="av-item"{% if sec == 'mecanico_panel' %} aria-current="page"{% endif %}>Mi panel</a>
+            {% if herramientas_activo %}<a href="{% url 'talleres:mi_dia' %}" class="av-item"{% if request.path == '/mi-negocio/' %} aria-current="page"{% endif %}>Mi día</a>{% endif %}
             <a href="{% url 'domicilio:mi_perfil' %}" class="av-item"{% if sec == 'mecanico_perfil' %} aria-current="page"{% endif %}>Mi perfil</a>
             <a href="{% url 'domicilio:solicitudes' %}" class="av-item"{% if sec == 'mecanico_solicitudes' %} aria-current="page"{% endif %}>Solicitudes</a>
             <a href="{% url 'domicilio:mis_precios' %}" class="av-item"{% if sec == 'mecanico_precios' %} aria-current="page"{% endif %}>Servicios y precios</a>
@@ -357,6 +361,7 @@
               <li><a href="{% url 'talleres:emergencias' %}">Emergencias</a></li>
               <li><a href="{% url 'garaje:diagnostico' %}">Diagnóstico</a></li>
               <li><a href="{% url 'garaje:despiece_indice' %}">Despiece de motos</a></li>
+              <li><a href="{% url 'garaje:motos_publicas' %}">Fallas y mantenimiento por moto</a></li>
               {% if user.is_authenticated and rol == "motero" %}<li><a href="{% url 'garaje:garaje' %}">Mi garaje</a></li>{% endif %}
             </ul>
           </nav>

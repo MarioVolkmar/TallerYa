@@ -13,21 +13,22 @@
         <h1 class="titulo text-3xl md:text-4xl mt-1">{{ cita.fecha_preferida|date:"l j \d\e F"|lower|capfirst }}</h1>
         <p class="text-suave mt-1">{% if cita.hora %}A las {{ cita.hora|time:"g:i a" }}{% else %}El taller te confirma la hora{% endif %}</p>
       </div>
-      <span class="pt-chip chip-{{ cita.estado }} mc-detalle-chip">{{ cita.get_estado_display }}</span>
+      <span class="pt-chip chip-{{ cita.estado }} mc-detalle-chip">{% if cita.estado == "reprogramada" %}Falta tu respuesta{% else %}{{ cita.get_estado_display }}{% endif %}</span>
     </div>
 
     {% if cita.estado == "reprogramada" %}
     <div class="mc-aviso mc-aviso-azul">
-      <p><strong>{{ cita.taller.nombre }} te propone otra fecha:</strong> {{ cita.fecha_propuesta|date:"l j \d\e F"|lower }}{% if cita.hora_propuesta %} a las {{ cita.hora_propuesta|time:"g:i a" }}{% endif %}{% if cita.nota_taller %} — “{{ cita.nota_taller }}”{% endif %}.</p>
-      {% if responder_url %}<a href="{{ responder_url }}" class="btn btn-lava text-xs px-5 py-2.5">Responder propuesta</a>{% endif %}
+      <p>{% if precio %}<strong>{{ cita.taller.nombre }} te cotizó {{ precio }}</strong>{% if cita.cotizacion_incluye %} ({{ cita.cotizacion_incluye }}){% endif %} para el{% else %}<strong>{{ cita.taller.nombre }} te propone otra fecha:</strong>{% endif %} {{ cita.fecha_propuesta|date:"l j \d\e F"|lower }}{% if cita.hora_propuesta %} a las {{ cita.hora_propuesta|time:"g:i a" }}{% endif %}{% if cita.nota_taller %}: “{{ cita.nota_taller }}”{% endif %}</p>
     </div>
     {% elif cita.estado == "cancelada" and cita.motivo_cancelacion %}
     <div class="mc-aviso"><p><strong>Cancelada.</strong> {{ cita.motivo_cancelacion }}</p></div>
     {% endif %}
+    {% include "parciales/ciclo.html" %}
 
     <dl class="mc-datos">
       <div><dt>Moto</dt><dd>{{ cita.moto }}</dd></div>
       <div><dt>Servicio</dt><dd>{% if cita.servicio %}{{ cita.servicio }}{% else %}Por definir con el taller{% endif %}</dd></div>
+      {% if precio and cita.estado != "reprogramada" %}<div><dt>Precio cotizado</dt><dd>{{ precio }}{% if cita.cotizacion_incluye %} · {{ cita.cotizacion_incluye }}{% endif %}</dd></div>{% endif %}
       <div><dt>Pedida el</dt><dd>{{ cita.creado|date:"j M Y, g:i a"|lower }}</dd></div>
       <div><dt>A nombre de</dt><dd>{{ cita.nombre }}</dd></div>
       {% if cita.detalle %}<div class="mc-ancho"><dt>Tu nota</dt><dd class="mc-nota">“{{ cita.detalle }}”</dd></div>{% endif %}

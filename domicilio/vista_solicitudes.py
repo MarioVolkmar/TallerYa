@@ -79,6 +79,11 @@ def solicitud_estado(request, pk):
         s.save(update_fields=["estado"])
         if nuevo == SolicitudVisita.Estado.ATENDIDA:
             _canjear_descuento(request, s)
+            if not s.servicios_hechos.exists():
+                # Sin servicio registrado no llega el aviso con «Califica»: se pide la reseña aquí (una vez)
+                from talleres.ciclo import url_calificar
+                _notificar(s.usuario, f"visita-atendida:{s.pk}", f"¿Cómo te fue con {s.mecanico.nombre}?",
+                           "Tu reseña ayuda a otros moteros a elegir mecánico.", url_calificar(s))
         elif nuevo == SolicitudVisita.Estado.CANCELADA and s.codigo_cupon_id and not s.codigo_cupon.canjeado:
             s.codigo_cupon = None  # el código vuelve a quedar libre para otra visita
             s.save(update_fields=["codigo_cupon"])
@@ -159,7 +164,7 @@ def solicitud_cotizar(request, pk):
     s.estado, s.rechazada = SolicitudVisita.Estado.COTIZADA, False
     s.save()
     _notificar(s.usuario, f"visita-cotizada:{s.pk}:{desde}:{hasta}:{fecha}:{hora}", f"{mecanico.nombre} te cotizó la visita",
-               f"{s.precio_texto} · {fecha:%d/%m} · {_hora_texto(hora)}. Acéptala o recházala.", s.get_absolute_url())
+               f"{s.precio_texto} · {fecha:%d/%m} · {_hora_texto(hora)} · Acéptala o recházala.", s.get_absolute_url())
     from garaje.whatsapp import enviar_plantilla
     enviar_plantilla(s.telefono, getattr(settings, "WHATSAPP_PLANTILLA_VISITA_COTIZADA", "visita_cotizada"),
                      [s.nombre, mecanico.nombre, s.precio_texto, fecha.strftime("%d/%m"), _hora_texto(hora),
@@ -190,5 +195,10 @@ def visita_publica(request, token):
                        "Escríbele para acordar otra opción", reverse("domicilio:solicitudes"))
             messages.info(request, "Le avisamos al mecánico. Te escribirá si tiene otra opción.")
         return redirect(s.get_absolute_url())
+    from talleres.ciclo import estado as estado_ciclo
+    usuario = request.user if request.user.is_authenticated else None
     return render(request, "domicilio/visita_publica.html", {"s": s, "pendiente": pendiente,
+                                                             "ciclo": estado_ciclo(s, usuario),
+                                                             "es_suya": bool(usuario and s.usuario_id == usuario.pk),
+                                                             "wa_recien": request.session.pop(f"visita-wa:{s.token}", ""),
                                                              "hora": _hora_texto(s.hora_propuesta)})

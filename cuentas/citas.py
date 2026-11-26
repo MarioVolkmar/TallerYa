@@ -38,15 +38,41 @@ def _preparar(citas):
     return citas
 
 
+def _visitas(usuario):
+    """Visitas a domicilio que el motero pidió con su cuenta (van en la misma lista que las citas)."""
+    from domicilio.models import SolicitudVisita
+    from talleres.negocio import estado_texto
+    visitas = list(SolicitudVisita.objects.filter(usuario=usuario).select_related("mecanico", "servicio"))
+    for v in visitas:
+        v.es_visita = True
+        v.fecha_orden = v.fecha_propuesta or timezone.localtime(v.creado).date()
+        v.hora = v.hora_propuesta
+        v.estado_texto = estado_texto(v)
+        v.mecanico.tono = (v.mecanico.pk * 47 + 180) % 360
+    return visitas
+
+
 def citas_de(usuario):
-    """Para Mi cuenta: próximas (de la más cercana a la más lejana) y anteriores (atendidas, canceladas o pasadas)."""
+    """Para Mi cuenta: próximas (de la más cercana a la más lejana) y anteriores (atendidas, canceladas o pasadas).
+    Incluye las visitas a domicilio: es el mismo camino (pedir → confirmar → atender → calificar)."""
+    from domicilio.models import SolicitudVisita
     hoy = timezone.localdate()
-    citas = list(_base(usuario))
-    proximas = sorted((c for c in citas if c.estado in ACTIVAS and c.fecha_preferida >= hoy),
-                      key=lambda c: (c.fecha_preferida, c.hora or time.min))
-    anteriores = sorted((c for c in citas if c not in proximas),
-                        key=lambda c: (c.fecha_preferida, c.hora or time.min), reverse=True)[:20]
-    return {"citas_proximas": _preparar(proximas), "citas_anteriores": _preparar(anteriores)}
+    citas = _preparar(list(_base(usuario)))
+    for c in citas:
+        c.fecha_orden = c.fecha_preferida
+    abiertas_visita = (SolicitudVisita.Estado.PENDIENTE, SolicitudVisita.Estado.COTIZADA, SolicitudVisita.Estado.CONFIRMADA)
+    todas = citas + _visitas(usuario)
+
+    def activa(c):
+        if getattr(c, "es_visita", False):
+            return c.estado in abiertas_visita and c.fecha_orden >= hoy - timedelta(days=0 if c.fecha_propuesta else 30)
+        return c.estado in ACTIVAS and c.fecha_preferida >= hoy
+
+    clave = lambda c: (c.fecha_orden, c.hora or time.min)  # noqa: E731
+    proximas = sorted((c for c in todas if activa(c)), key=clave)
+    anteriores = sorted((c for c in todas if not activa(c)), key=clave, reverse=True)[:20]
+    from talleres.ciclo import en_curso
+    return {"citas_proximas": proximas, "citas_anteriores": anteriores, "en_curso": en_curso(usuario)}
 
 
 def _whatsapp(cita):
@@ -65,14 +91,18 @@ def detalle(request, pk):
     t = cita.taller
     lugar = quote(f"{t.nombre}, {t.direccion}, {t.barrio}, Antioquia, Colombia")
     destino = f"{t.latitud},{t.longitud}" if t.latitud and t.longitud else lugar
+    from talleres.ciclo import estado as estado_ciclo
+    from talleres.views import _pesos
+    precio = ""
+    if cita.cotizacion_hasta:
+        d, h = cita.cotizacion_desde, cita.cotizacion_hasta
+        precio = _pesos(h) if d == h else f"{_pesos(d)} a {_pesos(h)}"
     return render(request, "cuentas/cita_detalle.html", {
-        "cita": cita,
+        "cita": cita, "ciclo": estado_ciclo(cita, request.user), "precio": precio,
         "cancelable": cita.estado in CANCELABLES,
         "whatsapp": _whatsapp(cita),
         "mapa_url": f"https://www.google.com/maps?q={destino}&output=embed",
         "como_llegar": f"https://www.google.com/maps/dir/?api=1&destination={destino}",
-        "responder_url": reverse("talleres:cita_publica", args=[cita.token])
-        if cita.estado == SolicitudCita.Estado.REPROGRAMADA and cita.token else "",
     })
 
 

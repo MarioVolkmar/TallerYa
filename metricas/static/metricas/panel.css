@@ -33,3 +33,10 @@
 .mt-ret td, .mt-ret th { text-align: center; white-space: nowrap; }
 .mt-celda { background: color-mix(in srgb, var(--cs-acento) calc(var(--p, 0) * 1%), transparent); }
 .mt-pie { margin-top: 1rem; }
+/* Tabla por semana: el nombre queda fijo y las semanas se desplazan de lado en celular */
+.mt-sem th, .mt-sem td { padding: .45rem .6rem; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.mt-sem tr > th:first-child { position: sticky; left: 0; background: var(--cs-papel); text-align: left; white-space: normal; min-width: 8.5rem; font-weight: 600; }
+.mt-sem thead tr > th:first-child { z-index: 1; }
+.mt-sem .mt-grupo > th:first-child { background: var(--cs-papel-2); font-weight: 700; }
+.mt-sem .mt-grupo span { position: sticky; left: .6rem; }
+.mt-sin { color: var(--cs-suave); }

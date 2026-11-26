@@ -49,6 +49,7 @@ Texto oscuro sobre lava/mostaza/crema: `#1a0d05` (no negro puro). WhatsApp: `#1f
 | Aviso legal / letra menuda | párrafo `text-xs text-suave` al final; `.aviso-suave` para notas bajo un campo | recuadro, color o ícono que compita con el contenido |
 | Formulario | `label.campo-label` + `.campo` (radio 12 px, foco lava con halo); errores `.error`; opciones `.opcion` (marcada = borde lava) | placeholder como única etiqueta |
 | Sí/no | `label.interruptor` (input + `span[aria-hidden]` + `.sr-only` con el texto) **dentro** de la fila de su tarjeta (`.cajon-fila`) | checkbox suelto fuera de la tarjeta |
+| Ajuste rápido de un dato dentro de una sección (uso de la moto en la agenda) | `.agenda-uso`: etiqueta Oswald pequeña + `select.campo` (44 px) + `.boton-seccion` «Cambiar» en la misma fila y una línea de ayuda `text-suave`; en celular la etiqueta va arriba | mandar a «Datos de la moto» para cambiar un solo dato que afecta la sección |
 | Vacío | `{% include "parciales/vacio.html" with tam="chico" %}` (Chispa) + una frase de tú + **un botón** para salir del vacío (`.vacio-izq` en listas) | «—», «No hay datos», bloque vacío |
 | Dato que falta en una ficha | botón secundario o chip con la acción («Agrega la placa») | «—» o «Sin información» |
 | Número decorativo grande | `.numero-fantasma` (solo decoración, `pointer-events:none`) | — |
@@ -68,3 +69,7 @@ plantilla se escribe «Cerrar jornada», no «CERRAR JORNADA»). Botones = verbo
 instrucciones obvias ni «Haz clic aquí». Nombre de sección = su contenido.
 - **Registro de mecánico** (`domicilio/css/registro.css`, nov-2026): opción tipo tarjeta con radio (`.rm-op`, atajos «Toda Medellín / Todo el Valle / Elegir»), interruptor en línea (`.rm-sw` + `.rm-tog`, casilla real escondida), bloque plegado opcional (`details.rm-opcional`) y barra fija de avance con «Seguir» (`.rm-barra`, sube sobre la barra inferior y empuja a Chispa). Reutilizar estos antes de inventar otros en formularios largos.
 - **Descuentos de mecánicos** (nov-2026): por dentro son cupones; en lo nuevo se dice «descuento». Chapa del ticket `.insignia.ticket-domicilio` y chapa de tarjeta `.dom-chapa-descuento`, mismos colores que `.dom-chapa-taller` (fondo oscuro, mostaza, borde sólido). Lista y formulario reutilizan `.pt-cupon*` y `.cf-*` (ya en la base). Filtros de `/cupones/` = `.dir-chip` a 44 px + `select.campo`.
+
+### Camino del motero (25-nov)
+- `.ciclo` (`templates/parciales/ciclo.html`, datos de `talleres/ciclo.py`): pasos Pedida → Confirmada → En el taller/Trabajando → Lista → En tu hoja de vida → Calificada; hecho = punto `--ok` con ✓, actual = borde lava con su detalle; debajo `.ciclo-siguiente` con el único botón lava. A 375 px los pasos van en columna. Se usa en el detalle de la cita (Mis citas), `cita_publica` y `visita_publica`.
+- `.en-curso` (`templates/parciales/en_curso.html`): franja «Tu moto … está en X · en reparación» con `boton-seccion`; verde (`.lista`) cuando está lista. En Mis citas y la página de la moto.

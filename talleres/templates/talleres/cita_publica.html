@@ -40,13 +40,17 @@
       <button name="accion" value="rechazar" class="btn btn-borde py-3 text-sm">No me sirve</button>
     </form>
     {% elif cita.estado == "confirmada" %}
-    <p class="cp-estado cp-ok">✓ Cita confirmada para el {{ cita.fecha_preferida|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% endif %}.</p>
+    <p class="cp-estado cp-ok">✓ Cita confirmada para el {{ cita.fecha_preferida|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% else %}.{% endif %}</p>
     {% if precio %}<p class="cp-nota">Precio acordado: <strong>{{ precio }}</strong>{% if cita.cotizacion_incluye %} · {{ cita.cotizacion_incluye }}{% endif %}</p>{% endif %}
     {% elif cita.estado == "cancelada" %}
     <p class="cp-estado cp-malo">Esta cita fue cancelada.</p>
+    {% elif cita.estado == "atendida" %}
+    <p class="cp-estado cp-ok">✓ Cita atendida.</p>
     {% else %}
     <p class="cp-estado">{% if cita.propuesta_rechazada %}Le avisamos al taller que la fecha propuesta no te sirve. Te escribirán para acordar otra.{% else %}Tu solicitud está {{ cita.get_estado_display|lower }}.{% endif %}</p>
     {% endif %}
+    {% include "parciales/ciclo.html" with sin_boton=pendiente %}
+    {% if es_suya %}<a href="{% url 'cuentas:cita' cita.pk %}" class="boton-seccion ciclo-volver">Ver en Mis citas</a>{% endif %}
     <a href="{{ cita.taller.whatsapp_url }}" target="_blank" rel="noopener" class="cp-wa">Escribir al taller por WhatsApp</a>
   </section>
 </div>

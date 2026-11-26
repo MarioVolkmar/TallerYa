@@ -1,0 +1,11 @@
+<li>{# Visita a domicilio en «Mis citas»: lleva a su página (la del enlace de los avisos) #}
+  <a href="{{ c.get_absolute_url }}" class="mc-cita estado-{{ c.estado }}">
+    <span class="mc-fecha">{% if c.fecha_propuesta %}<strong>{{ c.fecha_propuesta|date:"j" }}</strong><small>{{ c.fecha_propuesta|date:"M"|lower }}</small>{% else %}<strong>{{ c.creado|date:"j" }}</strong><small>pedida</small>{% endif %}</span>
+    <span class="mc-logo" style="--tono: {{ c.mecanico.tono }}" aria-hidden="true">{{ c.mecanico.iniciales }}</span>
+    <span class="mc-texto">
+      <strong>{{ c.mecanico.nombre }}</strong>
+      <small>A domicilio{% if c.fecha_propuesta %} · {{ c.fecha_propuesta|date:"l"|lower }}{% else %} · fecha por acordar{% endif %}{% if c.hora %} · {{ c.hora|time:"g:i a" }}{% endif %}{% if c.moto %} · {{ c.moto }}{% endif %}{% if c.servicio %} · {{ c.servicio }}{% endif %}</small>
+    </span>
+    <span class="pt-chip chip-{{ c.estado }}">{% if c.estado == "cotizada" %}Falta tu respuesta{% else %}{{ c.estado_texto }}{% endif %}</span>
+  </a>
+</li>

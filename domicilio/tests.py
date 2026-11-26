@@ -809,8 +809,12 @@ class SolicitudVisitaTests(Base):
         r = self.pedir()
         s = SolicitudVisita.objects.get()
         self.assertEqual((s.mecanico, s.telefono, s.estado), (self.aprobado, "573005551234", "pendiente"))
-        self.assertTrue(r["Location"].startswith("https://wa.me/"))
-        self.assertIn(s.token, r["Location"])
+        # Queda en TallerYa, en la página de su visita, con el botón de WhatsApp (que lleva el enlace) a un toque
+        self.assertEqual(r["Location"], s.get_absolute_url())
+        pagina = self.client.get(r["Location"])
+        self.assertContains(pagina, "Avisarle también por WhatsApp")
+        self.assertContains(pagina, s.token)
+        self.assertNotContains(self.client.get(r["Location"]), "Avisarle también por WhatsApp")  # solo la primera vez
 
     def test_sin_celular_no_guarda_pero_abre_whatsapp(self):
         from .models import SolicitudVisita

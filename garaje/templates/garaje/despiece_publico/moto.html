@@ -9,6 +9,8 @@
   <h1 class="titulo text-4xl md:text-5xl mt-3">Despiece de la <span class="text-lava">{{ moto }}</span></h1>
   <p class="dp-intro">{{ n_laminas }} dibujos con {{ n_piezas }} piezas, agrupados por sistema. Toca uno para ver qué hace cada pieza, cómo se nota cuando falla y cada cuánto revisarla.</p>
 
+  {% if ficha_moto %}<p class="mt-4"><a class="dp-moto" href="{{ ficha_moto.url_publica }}">Fallas y mantenimiento</a></p>{% endif %}
+
   {% for sistema, laminas in sistemas %}
   <section class="dp-sistema" aria-labelledby="dp-s-{{ forloop.counter }}">
     <h2 class="dp-marca-titulo" id="dp-s-{{ forloop.counter }}">{{ sistema }}</h2>

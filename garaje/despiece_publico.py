@@ -1,5 +1,5 @@
-"""Páginas públicas del despiece, para que Google las encuentre: /despiece/, /despiece/<moto>/ y
-/despiece/<moto>/<sistema>/.
+"""Páginas públicas del despiece, para que Google las encuentre: /despiece/, /despiece/<moto>/,
+/despiece/<moto>/<sistema>/ y /despiece/<moto>/pieza/<pieza>/.
 
 Solo contenido propio de TallerYa: dibujos propios, nombres en español y guías de las piezas. Sin códigos
 de repuesto de los catálogos de las marcas (decisión del usuario, 19-nov-2026) ni planos originales.
@@ -73,6 +73,23 @@ def laminas_de(d):
     return datos
 
 
+def piezas_de(laminas):
+    """{slug: pieza} de las que tienen guía: una por nombre, con las láminas donde aparece. Sin la tornillería ni los
+    empaques: su página no diría nada propio."""
+    from .views import _TORNILLERIA
+    salida = {}
+    for lam in laminas:
+        for g in lam["guias"]:
+            slug = slugify(g["nombre"])
+            if slug and not _TORNILLERIA.search(g["nombre"]):
+                salida.setdefault(slug, {"slug": slug, "nombre": g["nombre"], "guia": g, "laminas": []})
+    for lam in laminas:
+        for slug in dict.fromkeys(slugify(p["nombre"]) for p in lam["partes"]):
+            if slug in salida:
+                salida[slug]["laminas"].append(lam)
+    return salida
+
+
 def indice(request):
     lista = despieces()
     marcas = [(marca, list(ds)) for marca, ds in groupby(lista, key=lambda d: d.linea.marca)]
@@ -89,11 +106,43 @@ def moto(request, moto):
     if not laminas:
         raise Http404("Esta moto aún no tiene dibujos propios")
     sistemas = [(s, list(ls)) for s, ls in groupby(sorted(laminas, key=lambda l: l["sistema"]), key=lambda l: l["sistema"])]
+    from .motos_publico import lineas
     return render(request, "garaje/despiece_publico/moto.html", {
+        "ficha_moto": next((x for x in lineas() if x.pk == d.linea_id), None),
         "d": d, "moto": str(d.linea), "sistemas": sistemas, "n_laminas": len(laminas),
         "n_piezas": sum(len(l["partes"]) for l in laminas),
         "seo_desc": f"Despiece de la {d.linea}: {len(laminas)} dibujos por sistema (motor, frenos, suspensión, "
                     "eléctrico…) con qué hace cada pieza y cuándo revisarla.",
+    })
+
+
+def pieza(request, moto, pieza):
+    from .motos_publico import json_ld, lineas, migas, resumir
+    d = _por_slug(moto)
+    todas = piezas_de(laminas_de(d))
+    p = todas.get(pieza)
+    if p is None:
+        raise Http404("Esa pieza no está en el despiece")
+    linea = str(d.linea)
+    h1 = f"{p['nombre']} de la {linea}"
+    desc = resumir(f"{h1}. {p['guia']['que_hace']}")
+    url = request.build_absolute_uri(reverse("garaje:despiece_pieza", args=[d.slug, p["slug"]]))
+    vecinas = {}
+    for lam in p["laminas"]:
+        for g in lam["guias"]:
+            s = slugify(g["nombre"])
+            if s != p["slug"] and s in todas:
+                vecinas[s] = todas[s]
+    return render(request, "garaje/despiece_publico/pieza.html", {
+        "d": d, "moto": linea, "p": p, "g": p["guia"], "h1": h1, "vecinas": list(vecinas.values())[:10],
+        "imagen": p["laminas"][0] if p["laminas"] else None,
+        "ficha_moto": next((x for x in lineas() if x.pk == d.linea_id), None),
+        "seo_titulo": f"{h1}: para qué sirve y cuándo revisarla · TallerYa", "seo_desc": desc,
+        "ld": json_ld(
+            migas(request, [("Despiece", reverse("garaje:despiece_indice")), (linea, d.url_publica), (p["nombre"], None)]),
+            {"@type": "Article", "headline": h1[:110], "description": desc, "inLanguage": "es-CO", "url": url,
+             "about": {"@type": "Vehicle", "name": linea, "brand": {"@type": "Brand", "name": d.linea.marca.nombre}},
+             "publisher": {"@type": "Organization", "name": "TallerYa", "url": request.build_absolute_uri("/")}}),
     })
 
 
@@ -105,8 +154,10 @@ def sistema(request, moto, sistema):
         raise Http404("Ese sistema no está en el despiece")
     lam = laminas[i]
     vecinas = [l for l in laminas if l["sistema"] == lam["sistema"] and l["slug"] != lam["slug"]][:6]
+    con_pagina = piezas_de(laminas)
     return render(request, "garaje/despiece_publico/sistema.html", {
-        "d": d, "moto": str(d.linea), "lam": lam, "vecinas": vecinas,
+        "d": d, "moto": str(d.linea), "vecinas": vecinas,
+        "lam": {**lam, "guias": [{**g, "slug": s if (s := slugify(g["nombre"])) in con_pagina else ""} for g in lam["guias"]]},
         "anterior": laminas[i - 1] if i > 0 else None, "siguiente": laminas[i + 1] if i + 1 < len(laminas) else None,
         "seo_desc": f"{lam['nombre']} de la {d.linea}: dibujo del despiece con sus {len(lam['partes'])} piezas, "
                     "qué hace cada una, señales de falla y cada cuánto revisarla.",

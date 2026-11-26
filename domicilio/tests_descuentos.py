@@ -153,7 +153,7 @@ class VisitaConDescuentoTests(DescuentosBase):
         self.client.force_login(self.motero)
         self.assertContains(self.client.get(self.aprobado.get_absolute_url()), "Tu cupón")
         r = self.pedir()
-        self.assertIn(codigo.codigo, r["Location"])  # va en el mensaje de WhatsApp
+        self.assertIn(codigo.codigo, self.client.get(r["Location"]).content.decode())  # va en el botón de WhatsApp
         s = SolicitudVisita.objects.get()
         self.assertEqual(s.codigo_cupon, codigo)
         self.assertContains(self.client.get(s.get_absolute_url()), "Tu cupón")

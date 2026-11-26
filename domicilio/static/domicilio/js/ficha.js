@@ -20,9 +20,7 @@
     if (e.target.tagName === "DIALOG" && Date.now() - (e.target.abiertoEn || 0) > 500) e.target.close();
   });
 
-  // La solicitud de visita abre WhatsApp en otra pestaña: aquí se cierra la ventana
-  var visita = document.getElementById("dialogo-visita");
-  if (visita) visita.querySelector("form").addEventListener("submit", function () { setTimeout(function () { visita.close(); }, 0); });
+  // La solicitud de visita lleva a la página de la visita (con el botón de WhatsApp): no hace falta cerrar nada
 
   // Si la reseña volvió con errores, la ventana se abre otra vez
   var datos = document.getElementById("dom-ficha");

@@ -7,6 +7,7 @@
   <p class="etiqueta">Despiece</p>
   <h1 class="titulo text-4xl md:text-5xl mt-3">Conoce tu moto <span class="text-lava">pieza por pieza</span></h1>
   <p class="dp-intro">Dibujos propios de TallerYa de {{ total }} motos que ruedan en Medellín: qué hace cada pieza, cómo se da cuenta uno de que está fallando y cada cuánto revisarla.</p>
+  <p class="mt-4"><a class="dp-moto" href="{% url 'garaje:motos_publicas' %}">Fallas comunes y mantenimiento por moto</a></p>
 
   {% for marca, lista in marcas %}
   <section class="dp-marca" aria-labelledby="dp-marca-{{ forloop.counter }}">

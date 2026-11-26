@@ -1,20 +1,21 @@
-{% load avatares pleg %}{# Mi cuenta: citas con talleres. Variables: citas_proximas, citas_anteriores #}
+{% load avatares pleg %}{# Mi cuenta: citas con talleres y visitas a domicilio. Variables: citas_proximas, citas_anteriores, en_curso #}
 {% pleg "cuenta-citas" id="citas" numero="01" titulo="Mis citas" dato=citas_proximas|length|cuenta:"próxima,próximas" clase="papel p-6 md:p-7" tam="text-2xl" %}
   <div class="flex items-center justify-end gap-3">
     <a href="{% url 'talleres:directorio' %}" class="boton-seccion">Agendar otra</a>
   </div>
+  {% for t in en_curso %}{% include "parciales/en_curso.html" %}{% endfor %}
   {% if citas_proximas %}
   <ul class="mc-lista mt-4">
-    {% for c in citas_proximas %}{% include "cuentas/_cita_fila.html" %}{% endfor %}
+    {% for c in citas_proximas %}{% if c.es_visita %}{% include "cuentas/_visita_fila.html" %}{% else %}{% include "cuentas/_cita_fila.html" %}{% endif %}{% endfor %}
   </ul>
   {% else %}
-  <a href="{% url 'talleres:directorio' %}" class="mc-vacio mt-4">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-citas" %}<strong>No tienes citas programadas</strong><small>Busca un taller de confianza y agenda por TallerYa →</small></a>
+  <a href="{% url 'talleres:directorio' %}" class="mc-vacio mt-4">{% include "parciales/vacio.html" with tam="chico" id="chispa-vacio-citas" %}<strong>No tienes citas ni visitas programadas</strong><small>Busca un taller de confianza y agenda por TallerYa →</small></a>
   {% endif %}
   {% if citas_anteriores %}
   <details class="mc-anteriores mt-4">
     <summary>Ver anteriores ({{ citas_anteriores|length }})</summary>
     <ul class="mc-lista mt-3">
-      {% for c in citas_anteriores %}{% include "cuentas/_cita_fila.html" %}{% endfor %}
+      {% for c in citas_anteriores %}{% if c.es_visita %}{% include "cuentas/_visita_fila.html" %}{% else %}{% include "cuentas/_cita_fila.html" %}{% endif %}{% endfor %}
     </ul>
   </details>
   {% endif %}

@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
-from . import nucleo
+from . import nucleo, semanas
 from .agregacion import agregar_pendientes, lunes, resumir
 from .models import ActividadSemanal, Evento, ResumenDiario
 
@@ -149,7 +149,10 @@ def seccion(request):
     dias = periodo_de(request)
     hoy = timezone.localdate()
     desde = hoy - timedelta(days=dias - 1)
-    filas = _filas(desde, hoy)
+    # La tabla semanal siempre mira las mismas semanas, aunque el período elegido sea más corto
+    desde_semanal = lunes(hoy) - timedelta(weeks=semanas.SEMANAS - 1)
+    todas = _filas(min(desde, desde_semanal), hoy)
+    filas = [f for f in todas if f.dia >= desde]
 
     por_dia = defaultdict(lambda: {"vistas": 0, "visitantes": 0, "usuarios": 0})
     for f in filas:
@@ -175,6 +178,7 @@ def seccion(request):
     return "metricas/panel.html", {
         "periodos": PERIODOS, "dias": dias, "desde": desde, "hoy": hoy,
         "activas": nucleo.activas(),
+        "semanal": semanas.grupos(todas, hoy),
         "tarjetas": [
             ("Páginas vistas", sum(vistas.values())),
             ("Visitantes (suma diaria)", visitantes_dia),

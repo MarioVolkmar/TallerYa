@@ -1,0 +1,30 @@
+{% load humanize %}{# Motos en el taller / trabajos en curso por estado. Variable: tablero (talleres/herramientas.py) #}
+<div class="md-tablero">
+  {% for col in tablero.columnas %}
+  <section class="md-col md-col-{{ col.clave }}" aria-labelledby="md-col-{{ col.clave }}">
+    <h3 class="md-col-titulo" id="md-col-{{ col.clave }}">{{ col.titulo }} <span>{{ col.trabajos|length }}</span></h3>
+    <ul class="md-trabajos">
+      {% for t in col.trabajos %}
+      <li class="md-trabajo">
+        <p class="md-trabajo-moto">{{ t.moto }}</p>
+        <p class="md-trabajo-quien">{{ t.nombre }}{% if t.que %} · {{ t.que }}{% endif %}</p>
+        <p class="md-trabajo-cuando">{% if t.estado == "entregada" %}Entregada {{ t.entregada_en|naturaltime }}{% elif t.estado == "lista" %}Lista {{ t.lista_en|naturaltime }}{% if t.avisado_en %} · avisado en la app{% endif %}{% else %}Recibida {{ t.recibida|naturaltime }}{% endif %}</p>
+        {% if t.siguiente %}
+        <div class="md-trabajo-botones">
+          <form method="post" action="{% url 'talleres:mi_dia_trabajo' t.pk %}">{% csrf_token %}
+            {% if t.siguiente == "lista" %}<details class="md-nota-lista"><summary class="pt-boton pt-boton-ok">{{ t.boton }}</summary>
+              <label class="campo-label">Nota para el cliente <span class="rc-opcional">(opcional)</span><input type="text" name="nota" class="campo" maxlength="200" placeholder="Ej: le cambiamos también las pastillas"></label>
+              <button name="estado" value="lista" class="pt-boton pt-boton-ok">{% if t.usuario_id %}Marcar lista y avisarle{% else %}Marcar lista{% endif %}</button>
+            </details>
+            {% else %}<button name="estado" value="{{ t.siguiente }}" class="pt-boton {% if t.siguiente == 'entregada' %}pt-boton-ok{% endif %}">{{ t.boton }}</button>{% endif %}
+          </form>
+          {% if t.telefono %}<a href="{{ t.wa_lista }}" target="_blank" rel="noopener" class="pt-wa" aria-label="{% if t.estado == 'lista' %}Avisarle a {{ t.nombre }} por WhatsApp que está lista{% else %}Escribir a {{ t.nombre }} por WhatsApp{% endif %}"><svg width="16" height="16" aria-hidden="true"><use href="#md-ico-wa"/></svg></a>{% endif %}
+        </div>
+        {% endif %}
+      </li>
+      {% empty %}<li class="md-trabajo-vacio">{% if col.clave == "recibida" %}Ninguna. Toca «+ Recibir moto» o «Llegó» en la agenda.{% elif col.clave == "entregada" %}Ninguna esta semana.{% else %}Ninguna.{% endif %}</li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+</div>

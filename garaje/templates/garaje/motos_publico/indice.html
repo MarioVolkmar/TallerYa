@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}{{ seo_titulo }}{% endblock %}
+{% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc %}{% endblock %}
+{% block content %}
+<div class="dp max-w-5xl mx-auto mt-8">
+  <p class="etiqueta">Por moto</p>
+  <h1 class="titulo text-4xl md:text-5xl mt-3">Fallas y mantenimiento <span class="text-lava">de tu moto</span></h1>
+  <p class="dp-texto">Qué es lo que más le pasa a cada una de estas {{ total }} motos y cada cuánto hay que hacerle cada mantenimiento.</p>
+
+  {% for marca, lista in marcas %}
+  <section class="dp-marca" aria-labelledby="mp-marca-{{ forloop.counter }}">
+    <h2 class="dp-marca-titulo" id="mp-marca-{{ forloop.counter }}">{{ marca }}</h2>
+    <ul class="dp-motos">
+      {% for l in lista %}<li><a href="{{ l.url_publica }}" class="dp-moto">{{ l.nombre }}<small>{{ l.cilindraje }} cc</small></a></li>{% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+
+  <aside class="dp-cta mb-12">
+    <p><strong>¿Quieres que te avisemos?</strong> Agrega tu moto al garaje y te decimos qué toca según los kilómetros.</p>
+    <a href="{% url 'garaje:agregar' %}" class="btn btn-lava text-xs px-6 py-3">Agregar mi moto</a>
+  </aside>
+</div>
+{{ ld }}
+{% endblock %}

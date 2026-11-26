@@ -1,6 +1,5 @@
 """SEO: páginas por barrio y servicio, sitemap.xml, robots.txt y reglas de indexación."""
 import re
-from xml.sax.saxutils import escape
 
 from django.http import Http404, HttpResponse
 from django.urls import reverse
@@ -11,7 +10,7 @@ from .models import Barrio, Servicio, Taller
 # Rutas públicas que sí se indexan. Todo lo demás (cuenta, garaje, mi-taller, admin, tareas…) lleva noindex.
 _PUBLICAS = re.compile(
     r"^/($|talleres/|taller/[^/]+/$|foro/$|foro/\d+/|foro/rodadas/$|foro/rodadas/\d+/$|cupones/$|cupones/\d+/$"
-    r"|emergencias/$|despiece/|noticias/|registra-tu-taller/$|legal/|diagnostico/$|soat/$|tecnomecanica/$"
+    r"|emergencias/$|despiece/|motos/|noticias/|registra-tu-taller/$|legal/|diagnostico/$|soat/$|tecnomecanica/$"
     r"|mecanicos/$|mecanicos/(?!registro/|mi-perfil/)[^/]+/$)"
 )
 
@@ -100,46 +99,9 @@ def robots_txt(request):
     return HttpResponse("\n".join(lineas), content_type="text/plain; charset=utf-8")
 
 
-def _url(base, ruta, fecha=None):
-    lm = f"<lastmod>{fecha:%Y-%m-%d}</lastmod>" if fecha else ""
-    return f"<url><loc>{escape(base + ruta)}</loc>{lm}</url>"
-
-
 def sitemap_xml(request):
-    from consola.ajustes import ajuste
-    from foro.models import Pregunta, Rodada
-    base = request.build_absolute_uri("/").rstrip("/")
-    u = [_url(base, reverse(n)) for n in (
-        "talleres:inicio", "talleres:directorio", "talleres:emergencias", "cupones:lista")]
-    if ajuste("foro_activo"):
-        u += [_url(base, reverse(n)) for n in ("foro:lista", "foro:rodadas")]
-    from domicilio.models import MecanicoDomicilio
-    if ajuste("mecanicos_activo"):
-        u.append(_url(base, reverse("domicilio:listado")))
-        u += [_url(base, m.get_absolute_url()) for m in MecanicoDomicilio.objects.publicados().only("slug")]
-    talleres = list(Taller.objects.filter(activo=True).select_related("barrio").prefetch_related("servicios"))
-    barrios, servicios, combos = set(), set(), set()
-    for t in talleres:
-        u.append(_url(base, t.get_absolute_url()))
-        barrios.add(slug_barrio(t.barrio))
-        for s in t.servicios.all():
-            servicios.add(slug_servicio(s))
-            combos.add((slug_servicio(s), slug_barrio(t.barrio)))
-    u += [_url(base, reverse("talleres:barrio", args=[x])) for x in sorted(barrios)]
-    u += [_url(base, reverse("talleres:servicio", args=[x])) for x in sorted(servicios)]
-    u += [_url(base, reverse("talleres:servicio_barrio", args=[a, b])) for a, b in sorted(combos)]
-    if ajuste("foro_activo"):
-        for p in Pregunta.objects.filter(visible=True).only("id", "titulo", "ultima_actividad"):
-            u.append(_url(base, p.get_absolute_url(), p.ultima_actividad))
-        for r in Rodada.objects.filter(pregunta__visible=True).select_related("pregunta"):
-            u.append(_url(base, r.get_absolute_url()))
-    from garaje import despiece_publico as dp  # despiece público: índice, cada moto y cada sistema
-    u.append(_url(base, reverse("garaje:despiece_indice")))
-    for d in dp.despieces():
-        laminas = dp.laminas_de(d)
-        if laminas:
-            u.append(_url(base, d.url_publica))
-            u += [_url(base, reverse("garaje:despiece_sistema", args=[d.slug, l["slug"]])) for l in laminas]
-    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-           + "".join(u) + "</urlset>")
-    return HttpResponse(xml, content_type="application/xml")
+    """El mapa se arma con django.contrib.sitemaps; las secciones están en config/sitemaps.py."""
+    from django.contrib.sitemaps.views import sitemap
+
+    from config.sitemaps import secciones
+    return sitemap(request, sitemaps=secciones())

@@ -231,10 +231,17 @@ def ficha(request, slug):
                                 ("descuentos", descuentos), ("resenas", True), ("cobertura", True)) if hay]
     numeros = {n: f"{i:02d}" for i, n in enumerate(nombres, start=1)}
     medellin = [z for z in zonas if z.ciudad == "Medellín"]
+    # Como en la cita del taller: el formulario de visita llega con el celular y la moto del motero conectado
+    motero = getattr(request.user, "motociclista", None) if request.user.is_authenticated else None
+    primera = motero.motos.select_related("linea", "linea__marca").first() if motero else None
     return render(request, "domicilio/ficha.html", {
+        "celular_usuario": motero.celular if motero else "", "moto_usuario": primera.nombre_completo if primera else "",
         "m": mecanico, "es_dueno": es_dueno, "resenas": resenas, "nota": nota,
         "reparto": [(n, c, round(c * 100 / len(resenas)) if resenas else 0) for n, c in reparto.items()],
-        "form": form, "mi_resena": mi_resena, "abrir_resena": request.method == "POST",
+        "form": form, "mi_resena": mi_resena,
+        # Con errores al enviar, o desde «Calificar» (aviso del servicio o de la visita atendida: ?calificar=1)
+        "abrir_resena": bool(form.errors) if request.method == "POST" else bool(
+            request.GET.get("calificar") and request.user.is_authenticated and not es_dueno and mecanico.publicado),
         "fotos": fotos, "zonas": zonas, "zonas_medellin": medellin,
         "zonas_municipios": [z for z in zonas if z.ciudad != "Medellín"],
         "especialidades": especialidades, "compromisos": compromisos, "marcas": marcas, "herramientas": herramientas,
@@ -287,12 +294,19 @@ def visita(request, slug):
     descuento = codigo_disponible(request.user, mecanico)
     if request.method == "POST":
         from .vista_solicitudes import guardar_solicitud
-        if solicitud := guardar_solicitud(request, mecanico, servicio, zona, g.get("cuando", ""), moto, detalle):
+        solicitud = guardar_solicitud(request, mecanico, servicio, zona, g.get("cuando", ""), moto, detalle)
+        if solicitud:
             descuento = solicitud.codigo_cupon
             lineas.append(f"Mi solicitud en TallerYa: {request.build_absolute_uri(solicitud.get_absolute_url())}")
     if descuento:
         lineas.append(f"Tengo tu cupón de TallerYa: {descuento.cupon.titulo} (código {descuento.codigo})")
-    return redirect(f"https://wa.me/{mecanico.whatsapp}?text={quote(chr(10).join(lineas))}")
+    wa = f"https://wa.me/{mecanico.whatsapp}?text={quote(chr(10).join(lineas))}"
+    if request.method == "POST" and solicitud:
+        # Queda en TallerYa, en la página de su visita (pasos y siguiente botón); WhatsApp es un botón más
+        request.session[f"visita-wa:{solicitud.token}"] = wa
+        messages.success(request, f"¡Solicitud enviada! {mecanico.nombre} te enviará la cotización y te avisaremos aquí.")
+        return redirect(solicitud.get_absolute_url())
+    return redirect(wa)
 
 
 @require_POST
@@ -426,7 +440,8 @@ def _tareas_panel(m, pasos, hoy, resenas):
         s = "s" if por_cerrar != 1 else ""
         comunes.insert(1 if comunes and comunes[0]["boton"] == "Cotizar" else 0,
                        tarea(format_html("<strong>{} visita{}</strong> confirmada{} por cerrar", por_cerrar, s, s), u_sol, "Ver", True))
-    t += comunes
+    from talleres.herramientas import tareas_panel
+    t += tareas_panel(m) + comunes  # «Mi día»: trabajos listos para entregar y en curso
     vencidos = m.cupones.filter(activo=True).exclude(pk__in=m.cupones.vigentes()).count()
     if vencidos:
         t.append(tarea(format_html("<strong>{} {}</strong> vencido{}", vencidos, "cupón" if vencidos == 1 else "cupones",

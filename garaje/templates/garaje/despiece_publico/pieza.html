@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load seo %}
+{% block title %}{{ seo_titulo }}{% endblock %}
+{% block seo %}{% seo titulo=seo_titulo descripcion=seo_desc tipo="article" %}{% endblock %}
+{% block content %}
+{% include "parciales/volver.html" with url=d.url_publica texto=moto clase="mt-8" %}
+<article class="dp max-w-5xl mx-auto mt-6">
+  <p class="etiqueta">Pieza · {{ moto }}</p>
+  <h1 class="titulo text-3xl md:text-5xl mt-3">{{ p.nombre }} <span class="text-lava">de la {{ moto }}</span></h1>
+
+  <div class="dp-ficha">
+    <div>
+      <h2 class="dp-marca-titulo">Para qué sirve</h2>
+      <p class="dp-texto">{{ g.que_hace }}</p>
+      {% if g.cada_cuanto %}<h2 class="dp-marca-titulo mt-6">Cada cuánto revisarla</h2><p class="dp-texto">{{ g.cada_cuanto }}</p>{% endif %}
+      {% if g.senales %}<h2 class="dp-marca-titulo mt-6">Señales de que está fallando</h2><ul class="dp-texto list-disc pl-5">{% for s in g.senales %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+      {% if g.tips %}<h2 class="dp-marca-titulo mt-6">Consejos</h2><ul class="dp-texto list-disc pl-5">{% for s in g.tips %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+    </div>
+    {% if imagen %}
+    <figure class="dp-dibujo">
+      <img src="{{ imagen.imagen }}" alt="Dibujo del despiece: {{ imagen.nombre|lower }} de la {{ moto }}" width="640" height="640">
+      <figcaption>Dibujo propio de TallerYa: {{ imagen.nombre }}.</figcaption>
+    </figure>
+    {% endif %}
+  </div>
+
+  <aside class="dp-cta">
+    <p><strong>¿Necesitas revisarla?</strong> Encuentra talleres en Medellín que trabajan {{ d.linea.marca }}.</p>
+    <a href="{% url 'talleres:directorio' %}?marca={{ d.linea.marca_id }}" class="btn btn-lava text-xs px-6 py-3">Ver talleres {{ d.linea.marca }}</a>
+  </aside>
+
+  <section class="dp-sistema" aria-labelledby="dp-donde">
+    <h2 class="dp-marca-titulo" id="dp-donde">Dónde va en la moto</h2>
+    <ul class="dp-lista">
+      {% for l in p.laminas %}<li><a href="{% url 'garaje:despiece_sistema' d.slug l.slug %}">{{ l.nombre }}<small>{{ l.sistema }}</small></a></li>{% endfor %}
+      {% if ficha_moto %}<li><a href="{{ ficha_moto.url_publica }}">Fallas y mantenimiento de la {{ moto }}<small>Cada cuánto revisar todo</small></a></li>{% endif %}
+    </ul>
+  </section>
+
+  {% if vecinas %}
+  <nav class="dp-vecinas mb-12" aria-labelledby="dp-cerca">
+    <h2 class="dp-marca-titulo" id="dp-cerca">Piezas que van cerca</h2>
+    <ul class="dp-motos">{% for v in vecinas %}<li><a href="{% url 'garaje:despiece_pieza' d.slug v.slug %}" class="dp-moto">{{ v.nombre }}</a></li>{% endfor %}</ul>
+  </nav>
+  {% endif %}
+</article>
+{{ ld }}
+{% endblock %}

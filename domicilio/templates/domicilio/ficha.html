@@ -186,7 +186,7 @@
 {% if m.publicado %}
 <!-- Ventana: solicitar visita (arma el mensaje de WhatsApp; TallerYa no guarda nada) -->
 <dialog id="dialogo-visita" class="dialogo-eliminar dialogo-registrar" aria-labelledby="dialogo-visita-titulo">
-  <form method="post" action="{% url 'domicilio:visita' m.slug %}" target="_blank" class="space-y-4">{% csrf_token %}
+  <form method="post" action="{% url 'domicilio:visita' m.slug %}" class="space-y-4">{% csrf_token %}
     {% if mi_descuento %}<p class="ficha-mi-descuento"><span class="insignia ticket-domicilio">Tu cupón</span> {{ mi_descuento.cupon.titulo }}: queda anotado en tu solicitud ({{ mi_descuento.codigo }}).</p>{% endif %}
     <div class="flex items-start justify-between gap-3 dialogo-cabeza">
       <p class="titulo text-2xl" id="dialogo-visita-titulo">Solicitar visita de <span class="text-lava">{{ m.nombre }}</span></p>
@@ -198,7 +198,7 @@
       <label class="campo-label">Tu celular<input type="tel" name="telefono" maxlength="15" class="campo" required inputmode="tel" autocomplete="tel" placeholder="300 123 4567" value="{{ celular_usuario|default:'' }}"></label>
       <label class="campo-label">Servicio<select name="servicio" class="campo"><option value="">Aún no sé (diagnóstico)</option>{% for s in servicios %}<option value="{{ s.pk }}">{{ s }}</option>{% endfor %}</select></label>
       <label class="campo-label">¿Dónde está la moto?<select name="zona" class="campo"><option value="">Otra zona</option>{% for z in zonas %}<option value="{{ z.pk }}">{{ z }}</option>{% endfor %}</select></label>
-      <label class="campo-label">Moto<input type="text" name="moto" maxlength="60" class="campo" placeholder="Ej: Yamaha NMAX 2022"></label>
+      <label class="campo-label">Moto<input type="text" name="moto" maxlength="60" class="campo" placeholder="Ej: Yamaha NMAX 2022" value="{{ moto_usuario }}"></label>
       <label class="campo-label">¿Cuándo?<select name="cuando" class="campo">{% for clave, texto in cuando %}{% if clave != "ahora" or m.urgencias %}<option value="{{ clave }}"{% if clave == "hoy" %} selected{% endif %}>{{ texto }}</option>{% endif %}{% endfor %}</select></label>
       <label class="campo-label sm:col-span-2">¿Qué le pasa? (opcional)<textarea name="detalle" rows="2" maxlength="300" class="campo" placeholder="Ej: no prende, hace ruido al frenar…"></textarea></label>
     </div>
@@ -243,7 +243,7 @@
   <button type="button" class="visor-fotos-flecha der" data-paso="1" aria-label="Siguiente">›</button>
 </dialog>
 {% endif %}
-<div id="dom-ficha" data-abrir-resena="{% if abrir_resena and form.errors %}1{% endif %}" hidden></div>
+<div id="dom-ficha" data-abrir-resena="{% if abrir_resena %}1{% endif %}" hidden></div>
 <script src="{% static 'domicilio/js/ficha.js' %}" defer></script>
 <script src="{% static 'talleres/js/favoritos.js' %}" defer></script>
 {% endblock %}

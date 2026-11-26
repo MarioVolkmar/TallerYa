@@ -11,6 +11,19 @@
   </nav>
 </header>
 
+<section class="mt-caja" aria-labelledby="mt-t-sem">
+  <h2 class="cs-h3" id="mt-t-sem">Por semana</h2>
+  <p class="mt-nota">De lunes a domingo; la semana en curso va primero y aún no termina. No depende del período elegido y no cuenta al equipo administrador.</p>
+  <div class="cs-tabla-caja mt-sem-caja" tabindex="0" role="region" aria-labelledby="mt-t-sem"><table class="cs-tabla mt-sem">
+    <thead><tr><th scope="col">Qué se usó</th>{% for s in semanal.semanas %}<th scope="col">{% if forloop.first %}Esta semana{% else %}{{ s|date:"j M" }}{% endif %}</th>{% endfor %}</tr></thead>
+    {% for titulo, renglones in semanal.grupos %}<tbody>
+      <tr class="mt-grupo"><th scope="rowgroup" colspan="{{ semanal.semanas|length|add:1 }}"><span>{{ titulo }}</span></th></tr>
+      {% for nombre, cifras in renglones %}<tr><th scope="row">{{ nombre }}</th>{% for n in cifras %}<td{% if not n %} class="mt-sin"{% endif %}>{{ n|intcomma }}</td>{% endfor %}</tr>
+      {% endfor %}
+    </tbody>{% endfor %}
+  </table></div>
+</section>
+
 <div class="mt-tarjetas">
   {% for nombre, valor in tarjetas %}<div class="mt-tarjeta"><p class="mt-num">{{ valor|intcomma }}</p><p class="mt-etq">{{ nombre }}</p></div>{% endfor %}
 </div>

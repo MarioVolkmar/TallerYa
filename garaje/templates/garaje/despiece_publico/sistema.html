@@ -31,6 +31,7 @@
       {% if g.cada_cuanto %}<p><strong>Cada cuánto:</strong> {{ g.cada_cuanto }}</p>{% endif %}
       {% if g.senales %}<p class="dp-sub">Señales de que está fallando</p><ul>{% for s in g.senales %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
       {% if g.tips %}<p class="dp-sub">Consejos</p><ul>{% for s in g.tips %}<li>{{ s }}</li>{% endfor %}</ul>{% endif %}
+      {% if g.slug %}<p class="mt-4"><a class="dp-moto" href="{% url 'garaje:despiece_pieza' d.slug g.slug %}">Abrir la página de esta pieza</a></p>{% endif %}
     </details>
     {% endfor %}
   </section>

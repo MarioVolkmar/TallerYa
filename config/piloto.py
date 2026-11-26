@@ -1,6 +1,6 @@
 """Módulos apagables desde /consola/ (Configuración): foro, Plus, referidos, mecánicos a domicilio, TallerYa Ruta…
 Apagado un módulo, sus URLs responden 404 y las plantillas no pintan enlaces ni avisos (variables `foro_activo`,
-`plus_activo`, `referidos_activo`, `mecanicos_activo`). El valor inicial sale del .env (consola/ajustes.py)."""
+`plus_activo`, `referidos_activo`, `mecanicos_activo`, `herramientas_activo`). El valor inicial sale del .env (consola/ajustes.py)."""
 from django.http import Http404
 
 from consola.ajustes import ajuste, modulos_prefijos
@@ -13,6 +13,7 @@ def contexto(request):
         "referidos_activo": ajuste("referidos_activo"),
         "mecanicos_activo": ajuste("mecanicos_activo"),
         "proveedores_registro": ajuste("proveedores_registro"),
+        "herramientas_activo": ajuste("herramientas_activo"),
     }
 
 

@@ -29,7 +29,7 @@
     </form>
     {% endif %}
     {% elif s.estado == "confirmada" %}
-    <p class="cp-estado cp-ok">✓ Visita confirmada{% if s.fecha_propuesta %} para el {{ s.fecha_propuesta|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% endif %}{% endif %}.</p>
+    <p class="cp-estado cp-ok">✓ Visita confirmada{% if s.fecha_propuesta %} para el {{ s.fecha_propuesta|date:"l j \d\e F"|lower }}{% if hora %} a las {{ hora }}{% else %}.{% endif %}{% else %}.{% endif %}</p>
     {% if s.precio_texto %}<p class="cp-nota">Precio acordado: <strong>{{ s.precio_texto }}</strong>{% if s.cotizacion_incluye %} · {{ s.cotizacion_incluye }}{% endif %}</p>{% endif %}
     {% elif s.estado == "cancelada" %}
     <p class="cp-estado cp-malo">Esta visita fue cancelada.</p>
@@ -39,6 +39,9 @@
     <p class="cp-estado">{% if s.rechazada %}Le avisamos al mecánico que no aceptaste la cotización. Te escribirá si tiene otra opción.{% else %}Tu solicitud está pendiente: el mecánico te enviará la cotización.{% endif %}</p>
     {% endif %}
     {% if s.codigo_cupon %}<p class="cp-nota">Tu cupón: <strong>{{ s.codigo_cupon.cupon.titulo }}</strong> · {{ s.codigo_cupon.codigo }}{% if s.codigo_cupon.canjeado %} (ya usado){% else %}. Queda aplicado cuando el mecánico termine la visita.{% endif %}</p>{% endif %}
+    {% if wa_recien %}<a href="{{ wa_recien }}" target="_blank" rel="noopener" class="btn btn-whatsapp text-xs px-5 py-2.5">Avisarle también por WhatsApp</a>{% endif %}
+    {% include "parciales/ciclo.html" with sin_boton=pendiente %}
+    {% if es_suya %}{% url 'cuentas:mi_cuenta' as url_cuenta %}<a href="{{ url_cuenta }}#citas" class="boton-seccion ciclo-volver">Ver en Mis citas</a>{% endif %}
     <a href="https://wa.me/{{ s.mecanico.whatsapp }}" target="_blank" rel="noopener" class="cp-wa">Escribir al mecánico por WhatsApp</a>
   </section>
 </div>

@@ -1,0 +1,15 @@
+{# Una cita o visita en la agenda de «Mi día». Variable: it (talleres/herramientas.py: agenda) #}
+<li class="pt-cita estado-{{ it.chip }}">
+  <div class="pt-cita-fecha md-hora">{% if it.hora %}<strong>{{ it.hora|time:"g:i" }}</strong><span>{{ it.hora|time:"a"|cut:"." }}</span>{% else %}<span class="md-sin-hora">Sin hora</span>{% endif %}</div>
+  <div class="pt-cita-datos">
+    <p class="pt-cita-quien">{{ it.nombre }} <span>· {{ it.moto }}</span></p>
+    <p class="pt-cita-estado"><span class="pt-chip chip-{{ it.chip }}">{{ it.estado_texto }}</span>{% if it.trabajo %} <span class="pt-chip chip-atendida">{{ it.trabajo.get_estado_display }}</span>{% endif %}</p>
+    <p class="pt-cita-que">{{ it.que }}</p>
+    {% if it.detalle %}<p class="pt-cita-detalle">“{{ it.detalle }}”</p>{% endif %}
+  </div>
+  <div class="pt-cita-lado"><div class="pt-cita-botones">
+    {% if it.confirmada and not it.trabajo %}<form method="post" action="{% url 'talleres:mi_dia_recibir' %}">{% csrf_token %}<input type="hidden" name="{{ it.origen }}" value="{{ it.pk }}"><button class="pt-boton pt-boton-ok pt-b1">{% if it.origen == "cita" %}Llegó: recibir moto{% else %}Empezar trabajo{% endif %}</button></form>
+    {% elif not it.confirmada %}<a href="{{ it.url }}" class="pt-boton pt-b1">Responder</a>{% endif %}
+    {% if it.whatsapp %}<a href="{{ it.whatsapp }}" target="_blank" rel="noopener" class="pt-wa" aria-label="Escribir a {{ it.nombre }} por WhatsApp"><svg width="16" height="16" aria-hidden="true"><use href="#md-ico-wa"/></svg></a>{% endif %}
+  </div></div>
+</li>

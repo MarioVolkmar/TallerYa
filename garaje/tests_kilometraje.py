@@ -90,3 +90,46 @@ class ConfirmarKmVistaTests(TestCase):
         otra = crear_moto("z@x.com", "573001110009")
         self.client.force_login(otra.motociclista.usuario)
         self.assertEqual(self.client.post(self.url, {"accion": "si", "km": "8400"}).status_code, 404)
+
+
+class CambiarUsoTests(TestCase):
+    """El uso de la moto se cambia desde la agenda de la ficha; solo el dueño, y el plan cambia con él."""
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.moto = crear_moto(km_inicial=8000, km_actual=8000, perfil_uso="fines_semana", modelo=2025)
+        cls.otra = crear_moto("b@x.com", "573001110001")
+        cls.url = reverse("garaje:cambiar_uso", args=[cls.moto.pk])
+
+    def test_el_dueño_lo_cambia_y_el_plan_se_ajusta(self):
+        from .plan import calcular_plan
+        self.client.force_login(self.moto.motociclista.usuario)
+        r = self.client.get(self.moto.get_absolute_url())
+        self.assertContains(r, 'action="%s"' % self.url)
+        self.assertFalse(getattr(calcular_plan(self.moto), "por_uso_trabajo", False))
+        r = self.client.post(self.url, {"perfil_uso": "trabajo"})
+        self.assertRedirects(r, f"{self.moto.get_absolute_url()}#plan", fetch_redirect_response=False)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.perfil_uso, "trabajo")
+        self.assertTrue(calcular_plan(self.moto).por_uso_trabajo)  # plan intensivo
+        self.client.post(self.url, {"perfil_uso": "ciudad"})     # y se puede devolver
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.perfil_uso, "ciudad")
+        self.assertFalse(getattr(calcular_plan(self.moto), "por_uso_trabajo", False))
+
+    def test_valor_invalido_no_cambia_nada(self):
+        self.client.force_login(self.moto.motociclista.usuario)
+        self.client.post(self.url, {"perfil_uso": "cohete"})
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.perfil_uso, "fines_semana")
+
+    def test_otro_usuario_no_puede(self):
+        self.client.force_login(self.otra.motociclista.usuario)
+        r = self.client.post(self.url, {"perfil_uso": "trabajo"})
+        self.assertEqual(r.status_code, 404)
+        self.moto.refresh_from_db()
+        self.assertEqual(self.moto.perfil_uso, "fines_semana")
+
+    def test_solo_post(self):
+        self.client.force_login(self.moto.motociclista.usuario)
+        self.assertEqual(self.client.get(self.url).status_code, 405)
