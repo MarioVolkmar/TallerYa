@@ -13,8 +13,8 @@ class FuenteNoticias(models.Model):
     solo_motos = models.BooleanField(default=True, help_text="Medio general: solo guarda notas de motos, tránsito o trámites")
     internacional = models.BooleanField(default=False, help_text="Medio de otro país: sus notas de tránsito o trámites no aplican en Colombia")
     activa = models.BooleanField(default=True)
-    ultima_lectura = models.DateTimeField(null=True, blank=True)
-    ultimo_error = models.CharField(max_length=200, blank=True)
+    ultima_lectura = models.DateTimeField("última lectura", null=True, blank=True)
+    ultimo_error = models.CharField("último error", max_length=200, blank=True)
 
     class Meta:
         ordering = ["nombre"]
@@ -37,7 +37,7 @@ class Articulo(models.Model):
 
     titulo = models.CharField(max_length=160)
     slug = models.SlugField(max_length=180, unique=True, blank=True)
-    categoria = models.CharField(max_length=12, choices=Categoria.choices, default=Categoria.ACTUALIDAD)
+    categoria = models.CharField("categoría", max_length=12, choices=Categoria.choices, default=Categoria.ACTUALIDAD)
     resumen = models.CharField(max_length=300, help_text="Una o dos frases: se ven en la tarjeta")
     cuerpo = models.TextField(blank=True, help_text="Vacío = la noticia abre en su fuente. Separa los párrafos con una línea en blanco.")
     imagen = models.ImageField(upload_to="noticias/", blank=True)

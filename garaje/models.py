@@ -464,11 +464,11 @@ class TareaMantenimiento(models.Model):
 
     clave = models.SlugField(unique=True)
     nombre = models.CharField(max_length=80)
-    descripcion = models.CharField(max_length=240, blank=True)
+    descripcion = models.CharField("descripción", max_length=240, blank=True)
     pieza = models.CharField(max_length=20, choices=Pieza.choices)
     aplica = models.CharField(max_length=12, choices=Aplica.choices, default=Aplica.TODAS)
     intervalo_km = models.PositiveIntegerField(null=True, blank=True)
-    intervalo_dias = models.PositiveIntegerField(null=True, blank=True)
+    intervalo_dias = models.PositiveIntegerField("intervalo en días", null=True, blank=True)
     servicio = models.ForeignKey(
         Servicio, on_delete=models.SET_NULL, null=True, blank=True,
         help_text="Para sugerir talleres que ofrecen este servicio",
@@ -666,7 +666,7 @@ class ParteDespiece(models.Model):
     lamina = models.ForeignKey(Lamina, on_delete=models.CASCADE, related_name="partes")
     ref = models.PositiveSmallIntegerField("ref.", help_text="Número de la pieza en el dibujo")
     codigo = models.CharField("código de repuesto", max_length=30)
-    descripcion = models.CharField(max_length=120, help_text="Descripción original del catálogo")
+    descripcion = models.CharField("descripción", max_length=120, help_text="Descripción original del catálogo")
     nombre_es = models.CharField("nombre en español", max_length=120, blank=True)
     ayuda = models.CharField("explicación", max_length=240, blank=True,
                              help_text="Qué es y cuándo revisarla, en palabras sencillas")
@@ -796,7 +796,7 @@ class RegistroServicio(models.Model):
 class CodigoServicio(models.Model):
     """Código corto de un solo uso que el dueño le muestra al taller para que registre un servicio verificado."""
     moto = models.ForeignKey(Moto, on_delete=models.CASCADE, related_name="codigos_servicio")
-    codigo = models.CharField(max_length=8, unique=True)
+    codigo = models.CharField("código", max_length=8, unique=True)
     vence = models.DateTimeField()
     usado = models.DateTimeField(null=True, blank=True)
     # Registro pendiente que este código va a verificar (el motero lo anotó con ese taller): el taller lo verifica
@@ -1065,7 +1065,7 @@ class FichaDiagnostico(models.Model):
     nota = models.CharField("explicación del motero", max_length=500, blank=True)
     destino = models.CharField(max_length=10, choices=Destino.choices)
     taller = models.ForeignKey(Taller, on_delete=models.SET_NULL, null=True, blank=True, related_name="fichas_diagnostico")
-    mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", on_delete=models.SET_NULL, null=True, blank=True,
+    mecanico = models.ForeignKey("domicilio.MecanicoDomicilio", verbose_name="mecánico", on_delete=models.SET_NULL, null=True, blank=True,
                                  related_name="fichas_diagnostico")
     creado = models.DateTimeField(auto_now_add=True)
     vence = models.DateTimeField()

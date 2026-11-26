@@ -63,8 +63,8 @@ class Taller(models.Model):
     garantia_meses = models.PositiveSmallIntegerField("garantía en mano de obra (meses)", null=True, blank=True)
     compromisos = models.JSONField("cómo trabajamos", default=list, blank=True, help_text="Claves de perfil.COMPROMISOS")
     responsable = models.CharField(max_length=120)
-    whatsapp = models.CharField(max_length=20, help_text="Con indicativo, solo números. Ej: 573001234567")
-    direccion = models.CharField(max_length=200)
+    whatsapp = models.CharField("WhatsApp", max_length=20, help_text="Con indicativo, solo números. Ej: 573001234567")
+    direccion = models.CharField("dirección", max_length=200)
     barrio = models.ForeignKey(Barrio, on_delete=models.PROTECT, related_name="talleres")
     horario = models.CharField(max_length=120, blank=True, help_text="Ej: Lun-Sáb 8am-6pm")
     servicios = models.ManyToManyField(Servicio, related_name="talleres")
@@ -120,7 +120,7 @@ class Taller(models.Model):
     latitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitud = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     # True si las coordenadas son del local (GPS tomado allí o dirección encontrada); False si son del barrio o no hay
-    ubicacion_exacta = models.BooleanField(default=False)
+    ubicacion_exacta = models.BooleanField("ubicación exacta", default=False)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -250,7 +250,7 @@ class SolicitudCita(models.Model):
 
     taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="solicitudes")
     nombre = models.CharField(max_length=120)
-    telefono = models.CharField(max_length=20)
+    telefono = models.CharField("teléfono", max_length=20)
     moto = models.CharField(max_length=80, help_text="Marca y modelo. Ej: Yamaha NMAX")
     servicio = models.ForeignKey(Servicio, on_delete=models.SET_NULL, null=True)
     fecha_preferida = models.DateField()
@@ -300,7 +300,7 @@ class FotoTaller(models.Model):
     imagen = models.ImageField(upload_to="talleres/galeria/", blank=True)
     video = models.FileField(upload_to="talleres/videos/", blank=True,
                              help_text="MP4 o WEBM corto (máx. 20 MB). La imagen hace de póster.")
-    descripcion = models.CharField(max_length=120, blank=True)
+    descripcion = models.CharField("descripción", max_length=120, blank=True)
     orden = models.PositiveSmallIntegerField(default=0)
     creado = models.DateTimeField(auto_now_add=True)
 
@@ -382,7 +382,7 @@ DIAS_SEMANA = [(0, "Lunes"), (1, "Martes"), (2, "Miércoles"), (3, "Jueves"), (4
 class HorarioTaller(models.Model):
     """Un turno de atención (un día puede tener dos: mañana y tarde). Sirve para la agenda y para "abierto ahora"."""
     taller = models.ForeignKey(Taller, on_delete=models.CASCADE, related_name="horarios")
-    dia = models.PositiveSmallIntegerField(choices=DIAS_SEMANA)
+    dia = models.PositiveSmallIntegerField("día", choices=DIAS_SEMANA)
     abre = models.TimeField()
     cierra = models.TimeField()
 

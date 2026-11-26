@@ -15,7 +15,7 @@ class Evento(models.Model):
     DISPOSITIVOS = [("c", "Celular"), ("t", "Tableta"), ("e", "Escritorio")]
 
     creado = models.DateTimeField(default=timezone.now)
-    dia = models.DateField(db_index=True)
+    dia = models.DateField("día", db_index=True)
     tipo = models.CharField(max_length=1, choices=TIPOS)
     nombre = models.CharField(max_length=60)
     visitante = models.CharField(max_length=20)
@@ -35,7 +35,7 @@ class Evento(models.Model):
 
 class ResumenDiario(models.Model):
     """clave: vista | evento | dispositivo | referente | busqueda | activos | _hecho."""
-    dia = models.DateField()
+    dia = models.DateField("día")
     clave = models.CharField(max_length=20)
     valor = models.CharField(max_length=80, blank=True)
     total = models.PositiveIntegerField(default=0)
@@ -57,5 +57,5 @@ class ActividadSemanal(models.Model):
 
 class SalDiaria(models.Model):
     """Sal aleatoria del día para el hash del visitante anónimo. Se borra al empezar el día siguiente."""
-    dia = models.DateField(unique=True)
+    dia = models.DateField("día", unique=True)
     valor = models.CharField(max_length=64)

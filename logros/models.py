@@ -25,7 +25,7 @@ class Logro(models.Model):
 
 class Canje(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="canjes_logros")
-    codigo = models.OneToOneField("cupones.CodigoCupon", on_delete=models.PROTECT, related_name="canje_logros")
+    codigo = models.OneToOneField("cupones.CodigoCupon", verbose_name="código", on_delete=models.PROTECT, related_name="canje_logros")
     puntos = models.PositiveIntegerField()
     creado = models.DateTimeField(auto_now_add=True)
 

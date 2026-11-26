@@ -97,7 +97,7 @@ class MecanicoDomicilio(models.Model):
                                         help_text="Lo ve el mecánico en «Mi perfil» (p. ej. qué le falta para aprobarlo)")
     # Verificación: la cédula nunca se guarda en claro. Solo una huella HMAC (detecta la misma cédula en dos
     # perfiles) y los 4 últimos dígitos (para que el equipo la coteje cuando el mecánico la muestre por video o en persona).
-    cedula_huella = models.CharField(max_length=64, blank=True, editable=False, db_index=True)
+    cedula_huella = models.CharField("huella de la cédula", max_length=64, blank=True, editable=False, db_index=True)
     cedula_ultimos = models.CharField("cédula (4 últimos dígitos)", max_length=4, blank=True, editable=False)
     referencias = models.TextField("referencias", max_length=400, blank=True,
                                    help_text="Nombre y celular de 1 o 2 clientes o talleres que lo recomienden. "
@@ -184,7 +184,7 @@ def ruta_trabajo(instancia, nombre):
 class FotoTrabajo(models.Model):
     """Fotos de trabajos del mecánico (prueba de experiencia). Se re-codifican como JPEG sin EXIF al subirlas."""
     MAXIMO = 4
-    mecanico = models.ForeignKey(MecanicoDomicilio, on_delete=models.CASCADE, related_name="fotos_trabajo")
+    mecanico = models.ForeignKey(MecanicoDomicilio, verbose_name="mecánico", on_delete=models.CASCADE, related_name="fotos_trabajo")
     imagen = models.ImageField(upload_to=ruta_trabajo)
     creado = models.DateTimeField(auto_now_add=True)
 
@@ -248,7 +248,7 @@ class TallerDomicilio(models.Model):
 class PrecioMecanico(models.Model):
     """Rango «desde–hasta» que el mecánico publica por servicio y cilindraje, como talleres.PrecioServicio
     (mismos campos y nombres, así la ficha usa la misma tabla «Precios desde» del taller). Orientativo."""
-    mecanico = models.ForeignKey(MecanicoDomicilio, on_delete=models.CASCADE, related_name="precios")
+    mecanico = models.ForeignKey(MecanicoDomicilio, verbose_name="mecánico", on_delete=models.CASCADE, related_name="precios")
     servicio = models.ForeignKey(TipoServicio, on_delete=models.CASCADE, related_name="precios_mecanicos")
     cilindraje = models.CharField(max_length=8, choices=[("", "Cualquier cilindraje"), ("baja", "Hasta 150 cc"),
                                                          ("media", "150 a 400 cc"), ("alta", "Más de 400 cc")], blank=True)
@@ -272,7 +272,7 @@ class PrecioMecanico(models.Model):
 class MecanicoFavorito(models.Model):
     """Mecánicos guardados por una cuenta (como talleres.TallerFavorito)."""
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="mecanicos_favoritos")
-    mecanico = models.ForeignKey(MecanicoDomicilio, on_delete=models.CASCADE, related_name="favoritos")
+    mecanico = models.ForeignKey(MecanicoDomicilio, verbose_name="mecánico", on_delete=models.CASCADE, related_name="favoritos")
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -281,7 +281,7 @@ class MecanicoFavorito(models.Model):
 
 class ResenaMecanico(models.Model):
     """Como talleres.Resena, pero solo con cuenta: una por cuenta y mecánico (si vuelve a calificar, se actualiza)."""
-    mecanico = models.ForeignKey(MecanicoDomicilio, on_delete=models.CASCADE, related_name="resenas")
+    mecanico = models.ForeignKey(MecanicoDomicilio, verbose_name="mecánico", on_delete=models.CASCADE, related_name="resenas")
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="resenas_mecanicos")
     nombre = models.CharField(max_length=80)
     estrellas = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
@@ -313,11 +313,11 @@ class SolicitudVisita(models.Model):
         ATENDIDA = "atendida", "Atendida"
         CANCELADA = "cancelada", "Cancelada"
 
-    mecanico = models.ForeignKey(MecanicoDomicilio, on_delete=models.CASCADE, related_name="solicitudes")
+    mecanico = models.ForeignKey(MecanicoDomicilio, verbose_name="mecánico", on_delete=models.CASCADE, related_name="solicitudes")
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                 related_name="visitas_pedidas")
     nombre = models.CharField(max_length=80)
-    telefono = models.CharField(max_length=15)
+    telefono = models.CharField("teléfono", max_length=15)
     moto = models.CharField(max_length=60, blank=True)
     servicio = models.ForeignKey(TipoServicio, on_delete=models.SET_NULL, null=True, blank=True)
     zona = models.ForeignKey(Zona, on_delete=models.SET_NULL, null=True, blank=True)
@@ -392,7 +392,7 @@ class IdentidadMecanico(models.Model):
         APROBADA = "aprobada", "Aprobada"
         RECHAZADA = "rechazada", "Rechazada"
 
-    mecanico = models.OneToOneField(MecanicoDomicilio, on_delete=models.CASCADE, related_name="identidad")
+    mecanico = models.OneToOneField(MecanicoDomicilio, verbose_name="mecánico", on_delete=models.CASCADE, related_name="identidad")
     frente = models.FileField("cédula, frente", storage=_almacen_privado, upload_to=ruta_identidad, blank=True)
     respaldo = models.FileField("cédula, respaldo", storage=_almacen_privado, upload_to=ruta_identidad, blank=True)
     selfie = models.FileField("selfie con la cédula", storage=_almacen_privado, upload_to=ruta_identidad, blank=True)

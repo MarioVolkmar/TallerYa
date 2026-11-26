@@ -27,7 +27,7 @@ class Pregunta(models.Model):
     marca = models.ForeignKey(Marca, on_delete=models.SET_NULL, null=True, blank=True, related_name="preguntas")
     linea = models.ForeignKey("garaje.LineaMoto", on_delete=models.SET_NULL, null=True, blank=True, related_name="preguntas",
                               verbose_name="línea de moto")
-    categoria = models.CharField(max_length=15, choices=Categoria.choices, default=Categoria.GENERAL, db_index=True)
+    categoria = models.CharField("categoría", max_length=15, choices=Categoria.choices, default=Categoria.GENERAL, db_index=True)
     vistas = models.PositiveIntegerField(default=0)
     mejor_respuesta = models.OneToOneField(
         "Respuesta", on_delete=models.SET_NULL, null=True, blank=True, related_name="+",

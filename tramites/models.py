@@ -15,7 +15,7 @@ class TarifaSoat(models.Model):
         MAS_200 = "moto_200", "Motos de más de 200 cc"
 
     anio = models.PositiveSmallIntegerField("año")
-    categoria = models.CharField(max_length=16, choices=Categoria.choices)
+    categoria = models.CharField("categoría", max_length=16, choices=Categoria.choices)
     valor = models.PositiveIntegerField("valor total a pagar (COP)")
     fuente = models.URLField(help_text="De dónde sale el valor (Fasecolda, Superfinanciera, aseguradora)")
     nota = models.CharField(max_length=200, blank=True, help_text="Ej.: incluye el descuento para motos de bajo cilindraje")
@@ -77,7 +77,7 @@ class PedidoSoat(models.Model):
     placa = models.CharField(max_length=8)
     linea = models.CharField("línea", max_length=120)
     cilindraje = models.PositiveSmallIntegerField()
-    categoria = models.CharField(max_length=16, choices=TarifaSoat.Categoria.choices)
+    categoria = models.CharField("categoría", max_length=16, choices=TarifaSoat.Categoria.choices)
     valor = models.PositiveIntegerField("valor (tarifa de ley)", null=True, blank=True)
     # Tomador / propietario
     tipo_documento = models.CharField(max_length=4, choices=TipoDocumento.choices, default=TipoDocumento.CC)

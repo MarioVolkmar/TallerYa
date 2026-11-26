@@ -10,7 +10,7 @@ class Bitacora(models.Model):
     actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                               related_name="+")
     actor_nombre = models.CharField("quién", max_length=200, help_text="Se guarda aparte por si borran la cuenta")
-    accion = models.CharField(max_length=60, db_index=True, help_text="Clave de la regla, ej. usuarios.cambiar_rol")
+    accion = models.CharField("acción", max_length=60, db_index=True, help_text="Clave de la regla, ej. usuarios.cambiar_rol")
     frase = models.CharField(max_length=300)
     objeto_tipo = models.CharField(max_length=60, db_index=True)
     objeto_id = models.PositiveIntegerField(null=True, db_index=True)

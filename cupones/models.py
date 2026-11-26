@@ -16,7 +16,7 @@ class Motociclista(models.Model):
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name="motociclista",
     )
-    codigo_referido = models.CharField(max_length=8, unique=True, editable=False)
+    codigo_referido = models.CharField("código de referido", max_length=8, unique=True, editable=False)
     referido_por = models.ForeignKey(
         "self", on_delete=models.SET_NULL, null=True, blank=True, related_name="referidos",
     )
@@ -95,10 +95,10 @@ class Cupon(models.Model):
     )
     titulo = models.CharField(max_length=120, help_text="Ej: 15% de descuento en cambio de aceite")
     condiciones = models.TextField(blank=True, help_text="Ej: No acumulable. Válido de lunes a viernes.")
-    valido_hasta = models.DateField(null=True, blank=True, help_text="Vacío = sin vencimiento")
+    valido_hasta = models.DateField("válido hasta", null=True, blank=True, help_text="Vacío = sin vencimiento")
     cupo = models.PositiveIntegerField(null=True, blank=True, help_text="Máximo de códigos a entregar. Vacío = sin límite")
     activo = models.BooleanField(default=True)
-    publico = models.BooleanField(
+    publico = models.BooleanField("público",
         default=True, help_text="Aparece en la lista de cupones. Desmárcalo para cupones que solo se dan como premio.",
     )
     premio_referido = models.BooleanField(
@@ -194,7 +194,7 @@ class CodigoCupon(models.Model):
 
     cupon = models.ForeignKey(Cupon, on_delete=models.PROTECT, related_name="codigos")
     motociclista = models.ForeignKey(Motociclista, on_delete=models.CASCADE, related_name="codigos")
-    codigo = models.CharField(max_length=9, unique=True, editable=False)
+    codigo = models.CharField("código", max_length=9, unique=True, editable=False)
     origen = models.CharField(max_length=10, choices=Origen.choices, default=Origen.OBTENIDO)
     referido = models.ForeignKey(
         Motociclista, on_delete=models.SET_NULL, null=True, blank=True, related_name="+",
@@ -209,9 +209,9 @@ class CodigoCupon(models.Model):
     canjeado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                      related_name="+", editable=False)
     canjeado_mecanico = models.ForeignKey(
-        "domicilio.MecanicoDomicilio", on_delete=models.SET_NULL, null=True, blank=True, related_name="canjes",
+        "domicilio.MecanicoDomicilio", verbose_name="canjeado por mecánico", on_delete=models.SET_NULL, null=True, blank=True, related_name="canjes",
     )
-    canje_via = models.CharField(max_length=8, blank=True, editable=False,
+    canje_via = models.CharField("canje vía", max_length=8, blank=True, editable=False,
                                  choices=[("cuenta", "Cuenta del taller"), ("pin", "PIN del taller"),
                                           ("visita", "Visita a domicilio"), ("codigo", "Código del mecánico")])
     canje_ip = models.GenericIPAddressField(null=True, blank=True, editable=False)

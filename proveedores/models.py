@@ -87,7 +87,7 @@ class Proveedor(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT, related_name="proveedores", verbose_name="categoría")
     nombre = models.CharField(max_length=120)
     responsable = models.CharField("persona de contacto", max_length=80, blank=True)
-    whatsapp = models.CharField(max_length=15, blank=True, help_text="Celular con WhatsApp. Ej: 3001234567")
+    whatsapp = models.CharField("WhatsApp", max_length=15, blank=True, help_text="Celular con WhatsApp. Ej: 3001234567")
     telefono = models.CharField("teléfono", max_length=20, blank=True, help_text="Si es distinto del WhatsApp")
     municipio = models.CharField("municipio de la sede", max_length=40, blank=True, choices=[(c, c) for c in CIUDADES])
     zonas = models.JSONField("municipios que atiende", default=list, blank=True)
