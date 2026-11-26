@@ -280,13 +280,13 @@ CACHES = {
         {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}
     ),
     # Lo pesado del despiece (~200 KB por catálogo): en la base de datos, para que sobreviva a reinicios y a que Render
-    # duerma el servicio (su disco se borra). 100 entradas ≈ 4 versiones del código × 25 catálogos (≈ 20 MB como máximo).
+    # duerma el servicio (su disco se borra). 300 entradas ≈ las versiones del código de una semana × 33 catálogos, más un índice chico por catálogo.
     # Tabla propia: `manage.py createcachetable` (lo corre build.sh).
     "despiece": (
         {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": "despiece"}
         if sys.argv[1:2] == ["test"] else
         {"BACKEND": "django.core.cache.backends.db.DatabaseCache", "LOCATION": "cache_despiece",
-         "OPTIONS": {"MAX_ENTRIES": 100, "CULL_FREQUENCY": 3}}
+         "OPTIONS": {"MAX_ENTRIES": 300, "CULL_FREQUENCY": 3}}
     ),
     # Dibujos SVG de láminas y piezas: muchos (miles) y baratos de volver a dibujar; en disco, sin ocupar la base.
     "despiece_svg": (

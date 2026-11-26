@@ -7,7 +7,7 @@ de repuesto de los catálogos de las marcas (decisión del usuario, 19-nov-2026)
 from itertools import groupby
 from types import SimpleNamespace
 
-from django.core.cache import cache
+from django.core.cache import cache, caches
 from django.http import Http404
 from django.shortcuts import render
 from django.urls import reverse
@@ -70,7 +70,27 @@ def laminas_de(d):
         crudo = datos_despiece(d, SimpleNamespace(moto=sin_moto, tareas=[], piezas=lambda: {}))
         datos = _publicable(crudo["laminas"])
         cache.set(clave, datos, 60 * 60 * 24)
+        indexar(d, datos)
     return datos
+
+
+# Índice de direcciones públicas de cada despiece, para el sitemap: armar un despiece toma de 10 a 30 s, así que el
+# sitemap nunca lo hace. Se guarda sin vencimiento y sin la versión del código (una dirección rara vez cambia); lo
+# escriben `precalentar_despiece` y la primera visita a cada moto. El prefijo "zz_" lo deja de último en el
+# descarte de la caché en base de datos, que borra por orden de clave.
+def _clave_indice(pk):
+    return f"zz_publico_indice:{pk}"
+
+
+def indexar(d, laminas):
+    caches["despiece"].set(_clave_indice(d.pk),
+                           {"laminas": [lam["slug"] for lam in laminas], "piezas": list(piezas_de(laminas))}, None)
+
+
+def indices(lista):
+    """{pk: {"laminas": [slug], "piezas": [slug]}} de los despieces ya indexados, en una sola consulta."""
+    claves = {_clave_indice(d.pk): d.pk for d in lista}
+    return {claves[k]: v for k, v in caches["despiece"].get_many(claves).items()}
 
 
 def piezas_de(laminas):

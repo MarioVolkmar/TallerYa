@@ -78,13 +78,14 @@ def _motos():
 def _despiece():
     from garaje import despiece_publico as dp
     salida = [(reverse("garaje:despiece_indice"), None)]
-    for d in dp.despieces():
-        laminas = dp.laminas_de(d)
-        if not laminas:
-            continue
+    lista = dp.despieces()
+    indices = dp.indices(lista)
+    for d in lista:
         salida.append((d.url_publica, None))
-        salida += [(reverse("garaje:despiece_sistema", args=[d.slug, lam["slug"]]), None) for lam in laminas]
-        salida += [(reverse("garaje:despiece_pieza", args=[d.slug, s]), None) for s in dp.piezas_de(laminas)]
+        # Sin índice (falta correr precalentar_despiece): solo la moto; aquí nunca se arma un despiece
+        indice = indices.get(d.pk, {"laminas": [], "piezas": []})
+        salida += [(reverse("garaje:despiece_sistema", args=[d.slug, s]), None) for s in indice["laminas"]]
+        salida += [(reverse("garaje:despiece_pieza", args=[d.slug, s]), None) for s in indice["piezas"]]
     return salida
 
 

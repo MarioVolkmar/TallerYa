@@ -2,10 +2,15 @@
 nada de los usuarios."""
 import json
 import re
+from io import StringIO
+from unittest import mock
 
 from django.contrib.auth import get_user_model
-from django.core.cache import cache
+from django.core.cache import cache, caches
+from django.core.management import call_command
+from django.db import connection
 from django.test import TestCase
+from django.test.utils import CaptureQueriesContext
 from django.urls import reverse
 
 from cupones.models import Motociclista
@@ -26,6 +31,7 @@ class MotosPublicasTests(TestCase):
 
     def setUp(self):
         cache.clear()
+        caches["despiece"].clear()
         self.moto = reverse("garaje:moto_publica", args=["yamaha-nmax-155"])
         self.falla = reverse("garaje:moto_falla", args=["yamaha-nmax-155", "cvt-tiembla"])
         self.correa = reverse("garaje:moto_mantenimiento", args=["yamaha-nmax-155", "correa-cvt"])
@@ -68,7 +74,23 @@ class MotosPublicasTests(TestCase):
                              ("despiece_pieza", ["yamaha-nmax-155", "no-existe"])):
             self.assertEqual(self.client.get(reverse(f"garaje:{nombre}", args=args)).status_code, 404, nombre)
 
+    def test_sitemap_no_arma_despieces_y_acota_consultas(self):
+        with mock.patch("garaje.views._laminas_base", side_effect=AssertionError("el sitemap armó un despiece")):
+            self.client.get("/sitemap.xml")              # calienta las cachés de ajustes
+            with CaptureQueriesContext(connection) as consultas:
+                xml = self.client.get("/sitemap.xml").content.decode()
+            self.assertIn(reverse("garaje:despiece_moto", args=["yamaha-nmax-155"]), xml)
+            self.assertNotIn(self.pieza, xml)             # sin índice: solo la moto
+            self.assertLessEqual(len(consultas), 20)
+            # Un despiece más no suma consultas
+            otro = Despiece.objects.create(linea=LineaMoto.objects.get(nombre="Aerox 155"), version="X", anio=2024)
+            Lamina.objects.create(despiece=otro, figura=1, titulo="T", pieza="freno_del", diagrama="freno_disco")
+            with CaptureQueriesContext(connection) as despues:
+                self.client.get("/sitemap.xml")
+            self.assertEqual(len(despues), len(consultas))
+
     def test_sitemap_y_robots(self):
+        call_command("precalentar_despiece", "--max-segundos", "0", verbosity=0, stdout=StringIO())
         r = self.client.get("/sitemap.xml")
         self.assertEqual(r["Content-Type"], "application/xml")
         xml = r.content.decode()

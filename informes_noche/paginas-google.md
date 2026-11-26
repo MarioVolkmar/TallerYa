@@ -33,8 +33,8 @@ completo trae notas internas como «copia entregada por el usuario»).
 
 ## Lo que debes hacer
 1. **Pedir el despliegue** (llevar los cambios a producción, `collectstatic`, reiniciar).
-2. En producción, **correr una vez** (y tras cada despliegue). Sin esto, la primera lectura del sitemap arma todos los
-   despieces y tarda varios minutos; Google se cansa de esperar:
+2. En producción, **correr tras cada despliegue** (unos 5 min). El sitemap ya no arma despieces: sin este paso responde
+   rápido pero solo trae las motos del despiece, sin sus sistemas ni piezas:
    `venv\Scripts\python.exe manage.py precalentar_despiece --max-segundos 900`
 3. Abrir https://tallerya.co/sitemap.xml y comprobar que carga en pocos segundos.
 4. **Google Search Console** (gratis), https://search.google.com/search-console :
@@ -57,3 +57,10 @@ Opcional: repetir el alta en Bing Webmaster Tools (importa desde Search Console)
 - Las páginas de pieza repiten la misma guía entre motos; Google puede indexar solo una parte. Se dejó fuera la
   tornillería y los empaques. Mejora: texto propio por moto en las piezas que más se buscan.
 - Las páginas de mantenimiento solo existen donde hay dato del manual.
+
+## Arreglo del sitemap (25-nov, tras desplegar cb25c0c)
+Causa: el sitemap armaba los 33 despieces dentro de la petición (4 a 22 s cada uno). Ahora lee un índice de direcciones
+guardado en la caché `despiece` (lo escriben `precalentar_despiece` y la primera visita a cada moto; no vence).
+Medido con copia de la base de producción: sin índice 0,43 s (428 URL); precalentado, en proceso nuevo, 0,71 s y
+luego 0,39 s (7.138 URL, 7 consultas). `MAX_ENTRIES` de esa caché pasó de 100 a 300.
+Pendiente aparte: el despiece armado vence a los 7 días y la primera visita a una página de despiece tarda de nuevo.
